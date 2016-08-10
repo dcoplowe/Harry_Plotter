@@ -99,7 +99,17 @@ void MomentumDists()
             MnvH1D * true_h = new MnvH1D( tmp_h_true_name.c_str() , tmp_h_true_title.c_str(), 30, tmp_lx, tmp_hx);
             intree->Draw(Form("%s_%s_%s >> %s", flag.c_str(), part_snam[i].c_str(), true_var[j].c_str() , tmp_h_true_name.c_str()), "");
             
+            TCanvas * can = new TCanvas("", "", 2400, 800);
+            can->Divide(3);
+            can->cd(1);
+            rec_h->Draw();
+            can->cd(2);
+            true_h->Draw();
+            can->Print(Form("%s_%s_dists.eps",part_name[i].c_str(), rec_var[i].c_str()));
             
+            delete rec_h;
+            delete true_h;
+            delete can;
         }
     }
     
