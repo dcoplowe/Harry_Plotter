@@ -102,13 +102,14 @@ void MomentumDists()
             MnvH1D * true_h = new MnvH1D( tmp_h_true_name.c_str() , tmp_h_true_title.c_str(), 30, tmp_lx, tmp_hx);
             intree->Draw(Form("%s_%s_%s >> %s", flag.c_str(), part_snam[i].c_str(), true_var[j].c_str() , tmp_h_true_name.c_str()), "");
             
-            string twoDPlot = Form("%s_%s_%s", part_snam[i].c_str(), rec_var[j].c_str(), true_var[j].c_str());
+            string twoDPlot_name = Form("%s_%s_%s", part_snam[i].c_str(), rec_var[j].c_str(), true_var[j].c_str());
+            string twoDPlot_title = Form("Reco. vs. True %s; Reco. %s %s; True %s %s",var_symb[j].c_str(), var_symb[j].c_str(), var_unit[j], var_symb[j].c_str(), var_unit[j]);
             
-            MnvH2D * rectrue = new MnvH2D(twoDPlot.c_str() , Form("Reco. vs. True %s; Reco. %s %s; True %s %s",var_symb[j].c_str(), var_symb[j].c_str(), var_unit[j], var_symb[j].c_str(), var_unit[j]), 30, tmp_lx, tmp_hx, 30, tmp_lx, tmp_hx);
+            MnvH2D * rectrue = new MnvH2D(twoDPlot_name.c_str(), twoDPlot_title.c_str(), 30, tmp_lx, tmp_hx, 30, tmp_lx, tmp_hx);
             
-            intree->Draw(Form("%s_%s_%s:%s_%s_%s >> %s", flag.c_str(), part_snam[i].c_str(), true_var[j].c_str(), flag.c_str(), part_snam[i].c_str(), rec_var[j].c_str(),twoDPlot.c_str()));
+            intree->Draw(Form("%s_%s_%s:%s_%s_%s >> %s", flag.c_str(), part_snam[i].c_str(), true_var[j].c_str(), flag.c_str(), part_snam[i].c_str(), rec_var[j].c_str(), twoDPlot.c_str()));
             
-            TCanvas * can = new TCanvas("", "", 2400, 800);
+            TCanvas * can = new TCanvas("", "", 2400, 1000);
             can->Divide(3);
             can->cd(1);
             rec_h->Draw("HIST");
