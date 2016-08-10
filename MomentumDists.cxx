@@ -54,8 +54,9 @@ void MomentumDists()
     string part_symb[3] = {"#mu^{-}", "p", "#pi^{+}"};
     
     string var_unit[3] = {" (MeV/#it{c})", " (MeV/#it{c})", " (MeV)" };
-    string var_symb[3] = {"#it{p}", " |#it{p}_{T}|", " E" };
-
+    string var_symb[3] = {" #it{p}", " |#it{p}_{T}|", " E" };
+    
+    double var_range[6] = {0., 4000., 0., 4000., 0., 4000.,};
     
     string rec_var[3] = {"mom", "pTMag", "E"};
     string rec_name[3] = {"Momentum", "|#it{p}_{T}|", "Energy"};
@@ -72,21 +73,28 @@ void MomentumDists()
         cout << " Making Plots for " << part_name[i] << "." << endl;
         
         for(int j = 0; j < 3; j++){
+            
+            double tmp_lx = var_range[ 2*j ];
+            double tmp_hx = var_range[ 2*j + 1 ];
+            
             string tmp_h_rec_name = part_snam[i] + "_" + rec_var[j];
             string tmp_h_rec_title = part_name[i] + " " + rec_name[j] + "; Reco." + var_symb[j] + var_unit[j] + "; Counts";
             
-            cout << "Hist Name: " << tmp_h_rec_name << endl;
-            cout << "    Title: " << tmp_h_rec_title << endl;
+            printf("%s_%s_%s >> %s", flag, part_snam[i], rec_var[j]);
+            //intree->Draw(Form("%s_%s_%s >> %s", flag, part_snam[i], ));
             
-            MnvH1D * rec_h = new MnvH1D( tmp_h_rec_name.c_str() , tmp_h_rec_title.c_str(), 30, 0., 4000.);
+            //cout << "Hist Name: " << tmp_h_rec_name << endl;
+            //cout << "    Title: " << tmp_h_rec_title << endl;
+            
+            MnvH1D * rec_h = new MnvH1D( tmp_h_rec_name.c_str() , tmp_h_rec_title.c_str(), 30, tmp_lx, tmp_hx);
             
             string tmp_h_true_name = part_snam[i] + "_" + true_var[j];
             string tmp_h_true_title = part_name[i] + " " + true_name[j] + "; True" + var_symb[j] + var_unit[j] + "; Counts";
             
-            cout << "Hist Name: " << tmp_h_true_name << endl;
-            cout << "    Title: " << tmp_h_true_title << endl;
+            //cout << "Hist Name: " << tmp_h_true_name << endl;
+            //cout << "    Title: " << tmp_h_true_title << endl;
             
-            MnvH1D * true_h = new MnvH1D( tmp_h_true_name.c_str() , tmp_h_true_title.c_str(), 30, 0., 4000.);
+            MnvH1D * true_h = new MnvH1D( tmp_h_true_name.c_str() , tmp_h_true_title.c_str(), 30, tmp_lx, tmp_hx);
             
         }
     }
