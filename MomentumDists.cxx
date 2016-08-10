@@ -80,7 +80,7 @@ void MomentumDists()
             string tmp_h_rec_name = part_snam[i] + "_" + rec_var[j];
             string tmp_h_rec_title = part_name[i] + " " + rec_name[j] + "; Reco." + var_symb[j] + var_unit[j] + "; Counts";
             
-            printf("%s_%s_%s >> %s", flag, part_snam[i], rec_var[j]);
+            printf("%s_%s_%s >> %s", flag.c_str(), part_snam[i].c_str(), rec_var[j].c_str());
             //intree->Draw(Form("%s_%s_%s >> %s", flag, part_snam[i], ));
             
             //cout << "Hist Name: " << tmp_h_rec_name << endl;
