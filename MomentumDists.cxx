@@ -21,13 +21,13 @@
 #include <PlotUtils/MnvPlotter.h>
 #include "Cintex/Cintex.h"
 
-#include <TStyle.h>
+//#include <TStyle.h>
 
 using namespace std;
 using namespace PlotUtils;
 
 //These are the tuples used for this exercise
-const string testing_mc("/pnfs/minerva/persistent/users/dcoplowe/CC1P1Pi_PL13C_080816/grid/central_value/minerva/ana/v10r8p9/00/01/32/00/SIM_minerva_00013200_Subruns_0001-0002-0003-0004_CC1P1PiAnalysis_Ana_Tuple_v10r8p9-dcoplowe.root");
+const string testing_mc("/pnfs/minerva/persistent/users/dcoplowe/CC1P1Pi_PL13C_080816/grid/central_value/minerva/ana/v10r8p9/00/01/32/ana00.root");
 
 const string flag("CC1P1Pi");
 
@@ -36,8 +36,8 @@ const double total_mc_pot = 1.79e19;
 
 void MomentumDists()
 {
-    TStyle * gStyle = new TStyle();
-    gStyle->SetOptStat(0);
+    //TStyle * gStyle = new TStyle();
+    //gStyle->SetOptStat(0);
     //gStyle->SetOptFit(0);
     
     ROOT::Cintex::Cintex::Enable();
@@ -46,7 +46,7 @@ void MomentumDists()
     
     TFile * infile = new TFile(testing_mc.c_str(), "READ");
 
-    TFile * outfile = new TFile("MomentumDists.root","RECREATE");
+    //TFile * outfile = new TFile("MomentumDists.root","RECREATE");
     
     TTree * intree;
     infile->GetObject("CC1P1Pi",intree);
@@ -102,16 +102,24 @@ void MomentumDists()
             MnvH1D * true_h = new MnvH1D( tmp_h_true_name.c_str() , tmp_h_true_title.c_str(), 30, tmp_lx, tmp_hx);
             intree->Draw(Form("%s_%s_%s >> %s", flag.c_str(), part_snam[i].c_str(), true_var[j].c_str() , tmp_h_true_name.c_str()), "");
             
+            string twoDPlot = Form("%s_%s_%s", part_snam[i].c_str(), rec_var[j].c_str(), true_var[j].c_str());
+            
+            MnvH2D rectrue = new MnvH2D(twoDPlot.c_str() , Form("Reco. vs. True %s; Reco. %s %s; True %s %s",var_symb[j].c_str(), var_symb[j].c_str(), var_unit.c_str(), var_symb[j].c_str() var_unit.c_str()), 30, tmp_lx, tmp_hx, 30, tmp_lx, tmp_hx);
+            
+            intree->Draw(Form("%s_%s_%s:%s_%s_%s >> %s", flag.c_str(), part_snam[i].c_str(), true_var[j].c_str(), flag.c_str(), part_snam[i].c_str(), rec_var[j].c_str(),twoDPlot.c_str()));
+            
             TCanvas * can = new TCanvas("", "", 2400, 800);
             can->Divide(3);
             can->cd(1);
             rec_h->Draw("HIST");
             can->cd(2);
+            rectrue->Draw();
+            can->cd(3);
             true_h->Draw("HIST");
             can->Print(Form("%s_%s_dists.eps",part_name[i].c_str(), rec_var[i].c_str()));
             
-            outfile->cd();
-            can->Write();
+            //outfile->cd();
+            //can->Write();
             
             delete rec_h;
             delete true_h;
