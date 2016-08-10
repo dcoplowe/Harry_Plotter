@@ -103,7 +103,9 @@ void MomentumDists()
             intree->Draw(Form("%s_%s_%s >> %s", flag.c_str(), part_snam[i].c_str(), true_var[j].c_str() , tmp_h_true_name.c_str()), "");
             
             string twoDPlot_name = Form("%s_%s_%s", part_snam[i].c_str(), rec_var[j].c_str(), true_var[j].c_str());
-            string twoDPlot_title = Form("Reco. vs. True %s; Reco. %s %s; True %s %s",var_symb[j].c_str(), var_symb[j].c_str(), var_unit[j], var_symb[j].c_str(), var_unit[j]);
+            string twoDPlot_title = Form("Reco. vs. True %s; Reco. %s %s; True %s %s", var_symb[j].c_str(), var_symb[j].c_str(), var_unit[j].c_str(), var_symb[j].c_str(), var_unit[j].c_str());
+            
+            cout << twoDPlot_title << endl;
             
             MnvH2D * rectrue = new MnvH2D(twoDPlot_name.c_str(), twoDPlot_title.c_str(), 30, tmp_lx, tmp_hx, 30, tmp_lx, tmp_hx);
             
