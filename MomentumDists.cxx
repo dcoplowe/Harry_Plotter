@@ -84,7 +84,7 @@ void MomentumDists()
             string tmp_h_rec_name = part_snam[i] + "_" + rec_var[j];
             string tmp_h_rec_title = part_name[i] + " " + rec_name[j] + "; Reco." + var_symb[j] + var_unit[j] + "; Counts";
             
-            printf("%s_%s_%s >> %s \n", flag.c_str(), part_snam[i].c_str(), rec_var[j].c_str() , tmp_h_rec_name.c_str());
+            //printf("%s_%s_%s >> %s \n", flag.c_str(), part_snam[i].c_str(), rec_var[j].c_str() , tmp_h_rec_name.c_str());
             
             //cout << "Hist Name: " << tmp_h_rec_name << endl;
             //cout << "    Title: " << tmp_h_rec_title << endl;
@@ -98,7 +98,7 @@ void MomentumDists()
             //cout << "Hist Name: " << tmp_h_true_name << endl;
             //cout << "    Title: " << tmp_h_true_title << endl;
             
-            printf("%s_%s_%s >> %s \n", flag.c_str(), part_snam[i].c_str(), true_var[j].c_str() , tmp_h_rec_name.c_str());
+            //printf("%s_%s_%s >> %s \n", flag.c_str(), part_snam[i].c_str(), true_var[j].c_str() , tmp_h_rec_name.c_str());
             MnvH1D * true_h = new MnvH1D( tmp_h_true_name.c_str() , tmp_h_true_title.c_str(), 30, tmp_lx, tmp_hx);
             intree->Draw(Form("%s_%s_%s >> %s", flag.c_str(), part_snam[i].c_str(), true_var[j].c_str() , tmp_h_true_name.c_str()), "");
             
@@ -119,7 +119,7 @@ void MomentumDists()
             rectrue->Draw();
             can->cd(3);
             true_h->Draw("HIST");
-            can->Print(Form("%s_%s_dists.eps",part_name[i].c_str(), rec_var[i].c_str()));
+            can->Print(Form("%s_%s_dists.eps",part_name[i].c_str(), rec_var[j].c_str()));
             
             //outfile->cd();
             //can->Write();
