@@ -92,6 +92,8 @@ void MomentumDists()
             MnvH1D * rec_h = new MnvH1D( tmp_h_rec_name.c_str() , tmp_h_rec_title.c_str(), 30, tmp_lx, tmp_hx);
             rec_h->SetStats(kFALSE);
             rec_h->GetYaxis()->SetTitleOffset(1.4);
+            rec_h->SetLineColor(kOrange+2);
+            rec_h->SetLineWidth(2);
             intree->Draw(Form("%s_%s_%s >> %s", flag.c_str(), part_snam[i].c_str(), rec_var[j].c_str() , tmp_h_rec_name.c_str()), "");
 
             string tmp_h_true_name = part_snam[i] + "_" + true_var[j];
@@ -104,6 +106,9 @@ void MomentumDists()
             MnvH1D * true_h = new MnvH1D( tmp_h_true_name.c_str() , tmp_h_true_title.c_str(), 30, tmp_lx, tmp_hx);
             true_h->SetStats(kFALSE);
             true_h->GetYaxis()->SetTitleOffset(1.4);
+            true_h->SetLineColor(kOrange+2);
+            true_h->SetLineWidth(2);
+            
             intree->Draw(Form("%s_%s_%s >> %s", flag.c_str(), part_snam[i].c_str(), true_var[j].c_str() , tmp_h_true_name.c_str()), "");
             
             string twoDPlot_name = Form("%s_%s_%s", part_snam[i].c_str(), rec_var[j].c_str(), true_var[j].c_str());
@@ -135,6 +140,8 @@ void MomentumDists()
             delete can;
         }
     }
+    
+    
     
     
 }
