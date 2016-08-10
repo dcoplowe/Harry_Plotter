@@ -70,8 +70,10 @@ void MomentumDists()
         cout << " Making Plots for " << part_name[i] << "." << endl;
         
         for(int j = 0; j < 3; j++){
-         
-            MnvH1D * rec_h = new MnvH1D( (part_snam[i] + "_" + rec_var[j]).c_str() , (part_name[i] + rec_name[j] + ";" + var_unit[j] + "; Counts").c_str(), 30, 0, 4000);
+            string tmp_h_name = part_snam[i] + "_" + rec_var[j];
+            cout << "Hist Name: " << tmp_h_name << endl;
+            
+            //MnvH1D * rec_h = new MnvH1D( tmp_h_name.c_str() , (part_name[i] + rec_name[j] + ";" + var_unit[j] + "; Counts").c_str(), 30, 0., 4000.);
             
         }
         
