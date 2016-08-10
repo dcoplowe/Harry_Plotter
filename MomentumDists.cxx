@@ -54,6 +54,8 @@ void MomentumDists()
     string part_symb[3] = {"#mu^{-}", "p", "#pi^{+}"};
     
     string var_unit[3] = {" (MeV/#it{c})", " (MeV/#it{c})", " (MeV)" };
+    string var_symb[3] = {"#it{p}", " |#it{p}_{T}|", " E" };
+
     
     string rec_var[3] = {"mom", "pTMag", "E"};
     string rec_name[3] = {"Momentum", "|#it{p}_{T}|", "Energy"};
@@ -71,7 +73,7 @@ void MomentumDists()
         
         for(int j = 0; j < 3; j++){
             string tmp_h_name = part_snam[i] + "_" + rec_var[j];
-            string tmp_h_title = part_name[i] + rec_name[j] + ";" + var_unit[j] + "; Counts";
+            string tmp_h_title = part_name[i] + " " rec_name[j] + ";" + "Reco. " + var_symb[j] + var_unit[j] + "; Counts";
             
             cout << "Hist Name: " << tmp_h_name << endl;
             cout << "    Title: " << tmp_h_title << endl;
