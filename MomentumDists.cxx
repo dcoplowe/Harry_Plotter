@@ -116,7 +116,7 @@ void MomentumDists()
             can->cd(1);
             rec_h->Draw("HIST");
             can->cd(2);
-            rectrue->Draw();
+            rectrue->Draw("COLZ");
             can->cd(3);
             true_h->Draw("HIST");
             can->Print(Form("%s_%s_dists.eps",part_name[i].c_str(), rec_var[j].c_str()));
