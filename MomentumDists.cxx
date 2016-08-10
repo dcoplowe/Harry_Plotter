@@ -71,9 +71,12 @@ void MomentumDists()
         
         for(int j = 0; j < 3; j++){
             string tmp_h_name = part_snam[i] + "_" + rec_var[j];
-            cout << "Hist Name: " << tmp_h_name << endl;
+            string tmp_h_title = part_name[i] + rec_name[j] + ";" + var_unit[j] + "; Counts";
             
-            MnvH1D * rec_h = new MnvH1D( tmp_h_name.c_str() , "", 30, 0., 4000.);
+            cout << "Hist Name: " << tmp_h_name << endl;
+            cout << "    Title: " << tmp_h_title << endl;
+            
+            MnvH1D * rec_h = new MnvH1D( tmp_h_name.c_str() , tmp_h_title.c_str(), 30, 0., 4000.);
             
         }
         
