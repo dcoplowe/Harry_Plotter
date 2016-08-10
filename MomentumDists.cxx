@@ -21,6 +21,8 @@
 #include <PlotUtils/MnvPlotter.h>
 #include "Cintex/Cintex.h"
 
+gStyle->SetOptStat(0);
+gStyle->SetOptFit(0);
 
 using namespace std;
 using namespace PlotUtils;
@@ -88,7 +90,6 @@ void MomentumDists()
             MnvH1D * rec_h = new MnvH1D( tmp_h_rec_name.c_str() , tmp_h_rec_title.c_str(), 30, tmp_lx, tmp_hx);
             intree->Draw(Form("%s_%s_%s >> %s", flag.c_str(), part_snam[i].c_str(), rec_var[j].c_str() , tmp_h_rec_name.c_str()), "");
 
-            
             string tmp_h_true_name = part_snam[i] + "_" + true_var[j];
             string tmp_h_true_title = part_name[i] + " " + true_name[j] + "; True" + var_symb[j] + var_unit[j] + "; Counts";
             
@@ -102,10 +103,13 @@ void MomentumDists()
             TCanvas * can = new TCanvas("", "", 2400, 800);
             can->Divide(3);
             can->cd(1);
-            rec_h->Draw();
+            rec_h->Draw("HIST");
             can->cd(2);
-            true_h->Draw();
+            true_h->Draw("HIST");
             can->Print(Form("%s_%s_dists.eps",part_name[i].c_str(), rec_var[i].c_str()));
+            
+            outfile->cd();
+            can->Write();
             
             delete rec_h;
             delete true_h;
