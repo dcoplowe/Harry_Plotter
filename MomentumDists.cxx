@@ -61,7 +61,7 @@ void MomentumDists()
     string true_var[3];// = {"turemom", "truepTMag", };
     string true_name[3];// = {"Momentum", "|p_{T}|", "Energy"};
     
-    for(int i = 0; i < n; i++){
+    for(int i = 0; i < 3; i++){
         true_var[i] = "true" + rec_var[i];
         true_name[i] = "True " + rec_name[i];
     }
