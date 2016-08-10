@@ -83,8 +83,8 @@ void MomentumDists()
             string tmp_h_true_name = part_snam[i] + "_" + true_var[j];
             string tmp_h_true_title = part_name[i] + " " + true_name[j] + "; True" + var_symb[j] + var_unit[j] + "; Counts";
             
-            cout << "Hist Name: " << tmp_h_name << endl;
-            cout << "    Title: " << tmp_h_title << endl;
+            cout << "Hist Name: " << tmp_h_true_name << endl;
+            cout << "    Title: " << tmp_h_true_title << endl;
             
             MnvH1D * true_h = new MnvH1D( tmp_h_true_name.c_str() , tmp_h_true_title.c_str(), 30, 0., 4000.);
             
