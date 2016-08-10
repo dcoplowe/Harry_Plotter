@@ -109,7 +109,7 @@ void MomentumDists()
             
             MnvH2D * rectrue = new MnvH2D(twoDPlot_name.c_str(), twoDPlot_title.c_str(), 30, tmp_lx, tmp_hx, 30, tmp_lx, tmp_hx);
             
-            intree->Draw(Form("%s_%s_%s:%s_%s_%s >> %s", flag.c_str(), part_snam[i].c_str(), true_var[j].c_str(), flag.c_str(), part_snam[i].c_str(), rec_var[j].c_str(), twoDPlot.c_str()));
+            intree->Draw(Form("%s_%s_%s:%s_%s_%s >> %s", flag.c_str(), part_snam[i].c_str(), true_var[j].c_str(), flag.c_str(), part_snam[i].c_str(), rec_var[j].c_str(), twoDPlot_name.c_str()));
             
             TCanvas * can = new TCanvas("", "", 2400, 1000);
             can->Divide(3);
