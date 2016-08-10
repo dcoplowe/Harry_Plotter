@@ -21,9 +21,6 @@
 #include <PlotUtils/MnvPlotter.h>
 #include "Cintex/Cintex.h"
 
-gStyle->SetOptStat(0);
-gStyle->SetOptFit(0);
-
 using namespace std;
 using namespace PlotUtils;
 
@@ -37,6 +34,9 @@ const double total_mc_pot = 1.79e19;
 
 void MomentumDists()
 {
+    
+    gStyle->SetOptStat(0);
+    gStyle->SetOptFit(0);
     
     ROOT::Cintex::Cintex::Enable();
     
