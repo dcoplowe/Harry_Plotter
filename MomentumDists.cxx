@@ -34,9 +34,8 @@ const double total_mc_pot = 1.79e19;
 
 void MomentumDists()
 {
-    
-    gStyle->SetOptStat(0);
-    gStyle->SetOptFit(0);
+    TStyle::SetOptStat(0);
+    //gStyle->SetOptFit(0);
     
     ROOT::Cintex::Cintex::Enable();
     
