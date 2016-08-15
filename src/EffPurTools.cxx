@@ -1,5 +1,7 @@
 #include "EffPurTools.h"
 
+<iostream>
+
 //using namespace std;
 
 EffPurTools::EffPurTools(){
