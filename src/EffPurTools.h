@@ -1,6 +1,8 @@
 #ifndef EFFPURTOOLS_H
 #define EFFPURTOOLS_H
 
+using namespace std;
+
 class EffPurTools {
 public:
     

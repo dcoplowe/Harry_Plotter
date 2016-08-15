@@ -1,6 +1,6 @@
 #include "EffPurTools.h"
 
-using namespace std;
+//using namespace std;
 
 EffPurTools::EffPurTools(){
     cout << "EffPurTools::EffPurTools" << endl;
