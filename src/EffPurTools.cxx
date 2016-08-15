@@ -3,20 +3,20 @@
 //using namespace std;
 
 EffPurTools::EffPurTools(){
-    cout << "EffPurTools::EffPurTools" << endl;
+    std::cout << "EffPurTools::EffPurTools" << std::endl;
 }
 
 //These may not be void functions:
 void EffPurTools::EffVSCuts(){
-    cout << "EffPurTools::EffVSCuts" << endl;
+    std::cout << "EffPurTools::EffVSCuts" << std::endl;
 }
 
 void EffPurTools::EffVSVar(){
-    cout << "EffPurTools::EffVSVar" << endl;
+    std::cout << "EffPurTools::EffVSVar" << std::endl;
 }
 
 void EffPurTools::PurVSCuts(){
-    cout << "EffPurTools::PurVSCuts" << endl;
+    std::cout << "EffPurTools::PurVSCuts" << std::endl;
 }
 
 
