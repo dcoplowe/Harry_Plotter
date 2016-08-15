@@ -2,23 +2,23 @@
 
 #include <iostream>
 
-//using namespace std;
+using namespace std;
 
 EffPurTools::EffPurTools(){
-    std::cout << "EffPurTools::EffPurTools" << std::endl;
+    cout << "EffPurTools::EffPurTools" << endl;
 }
 
 //These may not be void functions:
 void EffPurTools::EffVSCuts(){
-    std::cout << "EffPurTools::EffVSCuts" << std::endl;
+    cout << "EffPurTools::EffVSCuts" << endl;
 }
 
 void EffPurTools::EffVSVar(){
-    std::cout << "EffPurTools::EffVSVar" << std::endl;
+    cout << "EffPurTools::EffVSVar" << endl;
 }
 
 void EffPurTools::PurVSCuts(){
-    std::cout << "EffPurTools::PurVSCuts" << std::endl;
+    cout << "EffPurTools::PurVSCuts" << endl;
 }
 
 
