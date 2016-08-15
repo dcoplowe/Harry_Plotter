@@ -4,6 +4,10 @@ ROOTFLAGS = `root-config --cflags --glibs`
 INCLUDE += -I$(PLOTUTILSROOT)/
 LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
 
+#DC Added:
+#SRC_DIR = src
+#SRCES := $(wildcard $(SRC_DIR)/*.c)
+
 # make a binary for every .cxx file
 all : $(patsubst %.cxx, %.o, $(wildcard *.cxx))
 
