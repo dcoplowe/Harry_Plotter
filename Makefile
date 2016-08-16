@@ -6,7 +6,7 @@ LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
 
 #DC Added:
 #SRC_DIR = src
-SRCS = MomentumDists.cxx src/EffPurTools.cxx
+SRCS = MomentumDists.cxx EffPurTools.cxx
 OBJS = $(SRCS:.c=.o)
 
 MAIN = MomentumDists
