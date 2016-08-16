@@ -75,9 +75,9 @@ void MomentumDists()
         true_name[i] = "True " + rec_name[i];
     }
     
-    EffPurTools * test = new EffPurTools();
+    EffPurTools * test = new EffPurTools(testing_mc);
     
-    test->EffVSCuts();
+    test->EffVSCuts("accum_level>5");
     
     for(int i = 0; i < 3; i++){
         cout << " Making Plots for " << part_name[i] << "." << endl;
