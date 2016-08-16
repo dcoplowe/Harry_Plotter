@@ -4,8 +4,6 @@
 #include <cstdio>
 #include <cstdlib>
 
-#include "TString.h"
-
 using namespace std;
 
 EffPurTools::EffPurTools(TString filename, TString truename, TString reconame){

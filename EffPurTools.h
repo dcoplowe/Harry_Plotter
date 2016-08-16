@@ -4,7 +4,8 @@
 //#include <PlotUtils/MnvH1D.h>
 
 //Forward declarations here:
-class TString;
+#include "TString.h"
+//class TString;
 
 using namespace std;
 
@@ -18,7 +19,7 @@ public:
     
     //For now have assume a file is read in.
     
-    EffPurTools(TString filename, TString truename = "Truth", TString TString reconame = "CC1P1Pi");
+    EffPurTools(TString filename, TString truename = "Truth", TString reconame = "CC1P1Pi");
     EffPurTools();
     
     ~EffPurTools(){};
