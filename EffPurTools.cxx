@@ -33,7 +33,6 @@ void EffPurTools::EffVSCuts(TString signal, TString cuts){
     cout << "    Signal: " << signal.Data() << endl;
     cout << "    Cut(s): " << cuts.Data() << endl;
 
-
 }
 
 void EffPurTools::EffVSVar(TString var, TString signal, TString cuts){

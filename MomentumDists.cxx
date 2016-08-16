@@ -75,7 +75,7 @@ void MomentumDists()
         true_name[i] = "True " + rec_name[i];
     }
     
-    EffPurTools * test = new EffPurTools(testing_mc);
+    EffPurTools * test = new EffPurTools();
     
     test->EffVSCuts("accum_level>5");
     
