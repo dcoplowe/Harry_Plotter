@@ -12,7 +12,7 @@ OBJS = $(SRCS:.c=.o)
 MAIN = MomentumDists
 
 all:    $(MAIN)
-        @echo  Simple compiler named MomentumDists has been compiled
+	@echo  Simple compiler named MomentumDists has been compiled
 
 $(MAIN): $(OBJS)
 	$(CXX) $(INCLUDE) $(CXXFLAGS) -o $(MAIN) $(OBJS) $(LDLIBS)
