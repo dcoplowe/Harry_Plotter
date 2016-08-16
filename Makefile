@@ -8,7 +8,7 @@ LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
 SRCES := $(wildcard src/*.h)
 DEPS=$(SRCES)
 
-
+%.o : %.cxx
 
 # make a binary for every .cxx file
 #all : $(patsubst %.cxx, %.o, $(wildcard *.cxx))
