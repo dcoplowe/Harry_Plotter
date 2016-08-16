@@ -15,7 +15,7 @@ all:    $(MAIN)
 	@echo  Simple compiler named MomentumDists has been compiled
 
 $(MAIN): $(OBJS)
-	$(CXX) $(INCLUDE) $(CXXFLAGS) -o $(MAIN) $(OBJS) $(LDLIBS)
+	$(CXX) $(INCLUDE) $(CXXFLAGS) $(ROOTFLAGS) -o $(MAIN) $(OBJS) $(LDLIBS)
 
 #all: MomentumDists
 
