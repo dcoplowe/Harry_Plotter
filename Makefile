@@ -9,6 +9,8 @@ SRCES := $(wildcard src/*.h)
 DEPS=$(SRCES)
 
 %.o : %.cxx
+    $(CXX) $(INCLUDE) $(CXXFLAGS) $(ROOTFLAGS) -o $*.o $(LDLIBS) -c $*.cxx
+    $(CXX) $(INCLUDE) $(CXXFLAGS) $(ROOTFLAGS) $(LDLIBS) -o $* $*.o
 
 # make a binary for every .cxx file
 #all : $(patsubst %.cxx, %.o, $(wildcard *.cxx))
