@@ -8,7 +8,7 @@ LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
 #SRC_DIR = src
 #SRCES := $(wildcard $(SRC_DIR)/*.c)
 
-MomentumDists : MomentumDists.o EffPurTools.o
+MomentumDists: MomentumDists.o EffPurTools.o
     $(CXX) $(INCLUDE) $(CXXFLAGS) $(ROOTFLAGS) -o $*.o $(LDLIBS) -c $*.cxx
 
 
