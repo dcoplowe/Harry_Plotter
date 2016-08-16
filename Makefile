@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -g -Wall -fPIC
 ROOTFLAGS = `root-config --cflags --glibs`
-INCLUDE += -I$(PLOTUTILSROOT)/
+INCLUDE += -I$(PLOTUTILSROOT) /
 LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
 
 #DC Added:
