@@ -8,6 +8,8 @@ LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
 SRCES := $(wildcard src/*.h)
 DEPS=$(SRCES)
 
+all : $(patsubst %.cxx, %.o, $(wildcard *.cxx))
+
 %.o : %.cxx
     $(CXX) $(INCLUDE) $(CXXFLAGS) $(ROOTFLAGS) -o $*.o $(LDLIBS) -c $*.cxx
     $(CXX) $(INCLUDE) $(CXXFLAGS) $(ROOTFLAGS) $(LDLIBS) -o $* $*.o
