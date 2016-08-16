@@ -6,13 +6,13 @@ LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
 
 #DC Added:
 #SRC_DIR = src
-SRCS = MomentumDists.cxx EffPurTools.cxx
+SRCS = MomentumDists.cxx src/EffPurTools.cxx
 OBJS = $(SRCS:.c=.o)
 
 MAIN = MomentumDists
 
 all:    $(MAIN)
-	@echo  Simple compiler named MomentumDists has been compiled
+	@echo  MomentumDists has compiled successfully.
 
 $(MAIN): $(OBJS)
 	$(CXX) $(INCLUDE) $(CXXFLAGS) $(ROOTFLAGS) -o $(MAIN) $(OBJS) $(LDLIBS)
