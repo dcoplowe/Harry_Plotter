@@ -19,9 +19,9 @@ EffPurTools::EffPurTools(TString filename, TString truename, TString reconame){
     
 }
 
-EffPurTools::EffPurTools(){
+EffPurTools::EffPurTools() : EffPurTools("UNKNOWN"){
     cout << "EffPurTools::EffPurTools()" << endl;
-    this->EffPurTools("UNKNOWN");
+    //EffPurTools("UNKNOWN");
     //SetRecoBranch("CC1P1Pi");
     //SetTrueBranch("Truth");
 }
