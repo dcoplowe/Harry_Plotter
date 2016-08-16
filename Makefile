@@ -1,15 +1,17 @@
 CXX = g++
 CXXFLAGS = -g -Wall -fPIC
 ROOTFLAGS = `root-config --cflags --glibs`
-INCLUDE += -I$(PLOTUTILSROOT)/
+INCLUDE += -I$(PLOTUTILSROOT)/ -Isrc/
 LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
 
 #DC Added:
 #SRC_DIR = src
 #SRCES := $(wildcard $(SRC_DIR)/*.c)
 
-MomentumDists: MomentumDists.cxx EffPurTools.cxx
-	$(CXX) $(INCLUDE) $(CXXFLAGS) $(ROOTFLAGS) -o $*.o $(LDLIBS) -c $*.cxx
+all: MomentumDists
+
+MomentumDists: MomentumDists.o EffPurTools.o
+	$(CXX) $(INCLUDE) $(CXXFLAGS) $(ROOTFLAGS) -o MomentumDists MomentumDists.o $(LDLIBS) -c MomenumtDists.cxx 
 
 
 # make a binary for every .cxx file
