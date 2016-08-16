@@ -12,7 +12,7 @@ EffPurTools::EffPurTools(){
 
 //These may not be void functions:
 void EffPurTools::EffVSCuts(){
-    cout << "EffPurTools::EffVSCuts" << endl;
+    cout << "YEAHHH::EffPurTools::EffVSCuts" << endl;
 }
 
 void EffPurTools::EffVSVar(){
