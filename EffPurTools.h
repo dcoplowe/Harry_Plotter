@@ -4,11 +4,13 @@
 //#include <PlotUtils/MnvH1D.h>
 
 #include "TString.h"
+#include "PlotUtils/MnvH1D.h"
+
 
 //Forward declarations here:
 class TFile;
-class MnvH1D;
 
+using namespace PlotUtils;
 using namespace std;
 
 class EffPurTools {

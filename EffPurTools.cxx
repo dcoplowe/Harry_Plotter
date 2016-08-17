@@ -10,10 +10,8 @@
 
 //Forward declarations;
 #include "TFile.h"
-#include "PlotUtils/MnvH1D.h"
 
 using namespace std;
-using namespace PlotUtils;
 
 
 EffPurTools::EffPurTools(TString filename, TString truename, TString reconame){
