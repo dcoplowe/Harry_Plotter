@@ -169,7 +169,7 @@ MnvH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, const int
     MnvH1D * h_evntcuts = new MnvH1D(name.Data(),"", ncuts, 0., (double)ncuts);
     
     for(int i = 0; i < ncuts; i++){
-        MnvH1D * h_tmp = new MnvH1D("h_tmp","", 1, 0, 1);
+        MnvH1D * h_tmp = new MnvH1D("h_tmp","", 1, 0., 1.);
         TString tmp_cuts = Form("accum_level > %d%s%s ", (i - 1), ampersand.Data(), cuts.Data());
         intree->Project("h_tmp","0.5",tmp_cuts);
         double intergal = (double)h_tmp->Integral();
