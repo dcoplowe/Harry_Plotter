@@ -182,7 +182,7 @@ MnvH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, const int
     return h_evntcuts;
 }
 
-void SetCutName(TString var){
+void EffPurTools::SetCutName(TString var){
     _cutnames.push_back(var);
 }
 
