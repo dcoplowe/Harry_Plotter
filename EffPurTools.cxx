@@ -155,7 +155,7 @@ MnvH1D * EffPurTools::Ratio(TString tree_name, TString var, int nbins, double x_
     intree->Draw(var + ">> den", signal + " && " + cuts);
     intree->Draw(var + ">> den", signal + " && " + cuts);
     
-}
+}*/
 
 void EffPurTools::SetFile(){
     _file = new TFile(_filename, "RECREATE");
