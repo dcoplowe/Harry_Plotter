@@ -36,7 +36,7 @@ public:
     void SetGlobalSignal(TString var){ _glob_signal = var; }
     
     //These may not be void functions:
-    void EffVSCuts(const TString signal, const TString cuts = "");
+    MnvH1D * EffVSCuts(const TString signal, const TString cuts = "");
     void EffVSVar(TString var, TString signal, TString cuts = "");
     
     void PurVSCuts(TString signal, TString cuts = "");
