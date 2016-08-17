@@ -166,7 +166,7 @@ MnvH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, const int
     TString ampersand;
     if(!cuts.EqualTo("", TString::kExact)) ampersand = " && ";
     
-    MnvH1D * h_evntcuts = new MnvH1D(name.Data(),"", ncuts, 0, ncuts);
+    MnvH1D * h_evntcuts = new MnvH1D(name.Data(),"", ncuts, 0., (double)ncuts);
     
     for(int i = 0; i < ncuts; i++){
         MnvH1D h_tmp = new MnvH1D("h_tmp","", 1, 0, 1);
