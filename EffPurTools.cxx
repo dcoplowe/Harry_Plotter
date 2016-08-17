@@ -10,6 +10,7 @@
 
 //Forward declarations;
 #include "TFile.h"
+#include "TH1I.h"
 
 using namespace std;
 
@@ -50,7 +51,7 @@ MnvH1D * EffPurTools::EffVSCuts(const TString signal, const TString cuts){
     
     TTree * intree = (TTree*)_file->Get(_truename);
     
-    MnvH1D * h_ncuts = new MnvH1D("h_ncuts", "",10, 0., 10.);
+    TH1I * h_ncuts = new TH1I("h_ncuts", "",10, 0, 10);
     
     TString ncuts_name = "ncuts";
     intree->Draw(ncuts_name + ">> h_ncuts");
