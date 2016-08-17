@@ -59,7 +59,7 @@ MnvH1D * EffPurTools::EffVSCuts(const TString signal, const TString cuts){
     cout << "Number of cuts found to be " << ncuts << endl;
     
     MnvH1D * num = EventsVSCuts(intree, full_signal, ncuts);
-    MnvH1D * den = new MnvH1D("den", "", ncuts, 0, ncuts);
+    MnvH1D * den = new MnvH1D("den", "", ncuts, 0., (double)ncuts);
 
     for(int i = 0; i < num->GetNbinsX(); i++){
         den->SetBinContent(i+1,num->GetBinContent(1));
