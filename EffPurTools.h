@@ -10,6 +10,7 @@
 
 //Forward declarations here:
 class TFile;
+class TTree;
 
 using namespace PlotUtils;
 using namespace std;
