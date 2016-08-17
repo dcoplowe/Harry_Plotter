@@ -159,7 +159,7 @@ MnvH1D * EffPurTools::Ratio(TString tree_name, TString var, int nbins, double x_
 
 void EffPurTools::SetFile(){
     _file = new TFile(_filename, "RECREATE");
-}*/
+}
 
 MnvH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, const int ncuts, TString name){
     
