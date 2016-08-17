@@ -5,6 +5,7 @@
 
 #include "TString.h"
 #include "PlotUtils/MnvH1D.h"
+#include "PlotUtils/MnvH1I.h"
 
 
 //Forward declarations here:
@@ -54,6 +55,7 @@ private:
     //Global signal information
     TString _glob_signal;
     std::vector<TString> _cutnames;
+    
     
     MnvH1D * EventsVSCuts(TTree * intree, const TString cuts, const int ncuts, TString name = "h_evntcuts");
     
