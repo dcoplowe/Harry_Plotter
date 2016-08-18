@@ -133,6 +133,8 @@ MnvH1D * EffPurTools::PurVSCuts(TString signal, TString cuts){
     _file->ls();
     _file->Print();
     
+    cout << "File printed " << endl;
+    
     TTree * intree = (TTree*)_file->Get(_reconame.Data());
     
     cout << "Opened Tree " << endl;
