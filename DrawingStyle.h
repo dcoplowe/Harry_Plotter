@@ -17,7 +17,7 @@ public:
         enum DSColors {
             DSYellow = kOrange-2,
             DSBlue = kAzure+2
-        }
+        };
         
         gROOT->SetStyle("myStyle");
         gStyle->SetOptStat(0);
