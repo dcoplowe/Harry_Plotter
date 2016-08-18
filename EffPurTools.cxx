@@ -31,17 +31,17 @@ EffPurTools::EffPurTools(TString filename, std::vector<TString> cut_names, TStri
     
     cout << "EffPurTools::EffPurTools(TString filename, std::vector<TString> cut_names, TString reconame, TString truename)" << endl;
     
-    EffPurTools( filename, reconame, truename);
+    //EffPurTools(filename, reconame, truename);
     
-    //SetFileName(filename);
-    //SetRecoBranch(reconame);
-    //SetTrueBranch(truename);
-    //SetFile();
+    SetFileName(filename);
+    SetRecoBranch(reconame);
+    SetTrueBranch(truename);
+    SetFile();
     SetCutNames(cut_names);
     
-   // cout << "    Filename: " << _filename.Data() << endl;
-   // cout << "Truth branch: " << _truename.Data() << endl;
-   // cout << "Recon branch: " << _reconame.Data() << endl;
+    cout << "    Filename: " << _filename.Data() << endl;
+    cout << "Truth branch: " << _truename.Data() << endl;
+    cout << "Recon branch: " << _reconame.Data() << endl;
 }
 
 EffPurTools::EffPurTools() {
