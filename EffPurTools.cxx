@@ -127,8 +127,8 @@ MnvH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t * xb
     
     TTree * intree = (TTree*)_file->Get(_truename.Data());
     
-    MnvH1D * num = GetHisto(intree, var, nbins, xbins, full_signal, "effvarnum");
-    MnvH1D * den = GetHisto(intree, var, nbins, xbins, cuts, "effvarden");
+    MnvH1D * num = GetHisto(intree, var, nbins, xbins, full_signal);
+    MnvH1D * den = GetHisto(intree, var, nbins, xbins, cuts);
     
     MnvH1D * effvar = new MnvH1D(Form("eff_%s", var.Data()), Form(";%s;Efficieny",x_title.Data()), nbins, xbins);
     effvar->Divide(num, den);
@@ -277,14 +277,14 @@ MnvH1D * EffPurTools::DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_titl
 MnvH1D * EffPurTools::GetHisto(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString cuts){
     _ghcounter++;
     
-    TString host_name = Form("var_%s%.2f", var.Data(), _ghcounter);
+    TString host_name = Form("var_%s%.2d", var.Data(), _ghcounter);
     
     MnvH1D * hist = new MnvH1D(host_name.Data(), "", nbins, xbins);
     
-    std::string tmp_cuts = cuts.Data();
-    tmp_cuts += " && (" + var.Data() + " != -999)";
+    TString tmp_cuts = cuts.Data();
+    tmp_cuts.Append(" && (%s != -999)", var.Data());
     
-    intree->Project(host_name.Data(), var.Data(), tmp_cuts.c_str());
+    intree->Project(host_name.Data(), var.Data(), tmp_cuts.Data());
     
     return hist;
 }
