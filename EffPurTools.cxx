@@ -137,12 +137,15 @@ MnvH1D * EffPurTools::PurVSCuts(TString signal, TString cuts){
     
     cout << "Read tree " << intree->GetName() << endl;
 
-    
     TH1I * h_ncuts = new TH1I("h_ncuts", "",10, 0, 10);
     
     TString ncuts_name = "ncuts";
     intree->Draw(ncuts_name + ">> h_ncuts");
+    
     int ncuts = (int)h_ncuts->GetBinCenter(h_ncuts->GetMaximumBin());
+    
+    cout << "Number of cuts found to be " << ncuts << endl;
+
     
     MnvH1D * num = EventsVSCuts(intree, full_signal, ncuts, "pur_num");
     MnvH1D * den = EventsVSCuts(intree, cuts, ncuts, "pur_den");
