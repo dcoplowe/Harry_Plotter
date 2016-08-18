@@ -156,7 +156,7 @@ MnvH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t x_lo
     TTree * intree = (TTree*)_file->Get(_truename.Data());
     
     MnvH1D * num = new MnvH1D("test", "; Resd; ddd",10, 0., 10.);
-    num->FillRandom("GAUS",100000);// GetHisto(intree, var, nbins, x_low, x_high, full_signal);
+    num->FillRandom("gaus",100000);// GetHisto(intree, var, nbins, x_low, x_high, full_signal);
     return num;
    // MnvH1D * den = GetHisto(intree, var, nbins, x_low, x_high, cuts);
     
