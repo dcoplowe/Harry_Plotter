@@ -77,7 +77,7 @@ void MomentumDists()
     
     EffPurTools * m_ep = new EffPurTools(testing_mc);
     
-    MnvH1D * purcut = m_ep->PurVSCuts("mc_intType == 2");
+    MnvH1D * purcut = m_ep->PurVSCuts("mc_intType == 2 && mc_current == 1 && mc_resID == 0");
     
     if(purcut){
         TCanvas * pur_can = new TCanvas("pur_can", "", 500,500);
