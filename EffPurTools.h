@@ -15,7 +15,7 @@ class TTree;
 using namespace PlotUtils;
 using namespace std;
 
-class EffPurTools :  {
+class EffPurTools {
 public:
     
     //Given that all eff. is based on truth info. and pur.
