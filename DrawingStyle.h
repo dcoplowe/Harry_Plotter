@@ -5,8 +5,9 @@
 #include <cstdio>
 #include <cstdlib>
 
-//#include <TROOT.h>
-//#include <TStyle.h>
+#include <TROOT.h>
+#include <TStyle.h>
+
 using namespace std;
 
 class DrawingStyle {
