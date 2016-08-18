@@ -61,10 +61,6 @@ private:
     
     MnvH1D * EventsVSCuts(TTree * intree, const TString cuts, const int ncuts, TString name = "h_evntcuts");
     MnvH1D * DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_title = "", TString h_name = "h_ratio");
-    
-//    MnvH1D * CutsRatio(TString tree_name, TString var, TString, int nbins, double x_low, double x_high, TString signal, TString cuts, int min_x = 0);
-//    MnvH1D * Ratio(TString tree_name, TString var, int nbins, double x_low, double x_high, TString signal, TString cuts);
-
 };
 
 #endif
