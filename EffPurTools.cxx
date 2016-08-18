@@ -144,8 +144,8 @@ MnvH1D * EffPurTools::PurVSCuts(TString signal, TString cuts){
     intree->Draw(ncuts_name + ">> h_ncuts");
     int ncuts = (int)h_ncuts->GetBinCenter(h_ncuts->GetMaximumBin());
     
-    MnvH1D * num = EventsVSCuts(intree, full_signal, ncuts);
-    MnvH1D * den = EventsVSCuts(intree, cuts, ncuts);
+    MnvH1D * num = EventsVSCuts(intree, full_signal, ncuts, "pur_num");
+    MnvH1D * den = EventsVSCuts(intree, cuts, ncuts, "pur_den");
     
     MnvH1D * purcuts = DrawRatioVSCuts(num, den, "Purity", "h_purity");
 

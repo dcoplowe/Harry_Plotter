@@ -29,7 +29,7 @@ using namespace std;
 using namespace PlotUtils;
 
 //These are the tuples used for this exercise
-const string testing_mc("/pnfs/minerva/persistent/users/dcoplowe/CC1P1Pi_PL13C_080816/grid/central_value/minerva/ana/v10r8p9/00/01/32/ana01.root");
+const string testing_mc("/pnfs/minerva/scratch/users/dcoplowe/CC1P1PiAnalysis08/nogrid/central_value/minerva/ana/v10r8p9/00/01/32/03/SIM_minerva_00013203_Subruns_0001_CC1P1PiAnalysis_Ana_Tuple_v10r8p9-dcoplowe.root");
 
 const string flag("CC1P1Pi");
 
