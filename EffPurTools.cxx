@@ -130,6 +130,7 @@ MnvH1D * EffPurTools::PurVSCuts(TString signal, TString cuts){
     
     cout << "Starting to read tree " << endl;
     
+    cout << "1_File printed " << endl;
     _file->ls();
     _file->Print();
     
