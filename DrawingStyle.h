@@ -6,6 +6,7 @@
 
 class DrawingStyle {
 
+public:
     DrawingStyle(){
         gStyle->SetLegendBorderSize(0);
     }
