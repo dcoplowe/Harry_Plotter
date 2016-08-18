@@ -1,7 +1,7 @@
 #ifndef EFFPURTOOLS_H
 #define EFFPURTOOLS_H
 
-//#include "DrawingStyle.h" : public DrawingStyle
+#include "DrawingStyle.h"
 //public DrawingStyle
 #include "TString.h"
 #include "PlotUtils/MnvH1D.h"
@@ -13,7 +13,7 @@ class TTree;
 using namespace PlotUtils;
 using namespace std;
 
-class EffPurTools {
+class EffPurTools : public DrawingStyle {
 public:
     
     //Given that all eff. is based on truth info. and pur.

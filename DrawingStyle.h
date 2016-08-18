@@ -3,9 +3,6 @@
 
 #include <TROOT.h>
 #include <TStyle.h>
-//#include <TROOT.h>
-//#include <TStyle.h>
-//gStyle->SetOptStat(0);
 
 class DrawingStyle {
 
