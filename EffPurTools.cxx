@@ -13,7 +13,7 @@
 
 using namespace std;
 
-EffPurTools::EffPurTools(TString filename, TString reconame, TString truename) : DrawingStyle() {
+EffPurTools::EffPurTools(TString filename, TString reconame, TString truename) {
     
     cout << "EffPurTools::EffPurTools(TString filename, TString reconame, TString truename)" << endl;
     
