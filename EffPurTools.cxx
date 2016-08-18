@@ -53,7 +53,7 @@ EffPurTools::EffPurTools() {
 MnvH1D * EffPurTools::EffVSCuts(const TString signal, const TString cuts){
     cout << "EffPurTools::EffVSCuts(TString, TString)" << endl;
     
-    if(signal.Contains("",TString::kExact)){
+    if(signal.EqualTo("",TString::kExact)){
         cout << "No signal defined -- Need for efficiency calculations" << endl;
         return 0x0;
     }
@@ -103,7 +103,7 @@ void EffPurTools::EffVSVar(TString var, const TString signal, const TString cuts
 MnvH1D * EffPurTools::PurVSCuts(TString signal, TString cuts){
     cout << "EffPurTools::PurVSCuts(TString, TString)" << endl;
     
-    if(signal.Contains("",TString::kExact)){
+    if(signal.EqualTo("",TString::kExact)){
         cout << "No signal defined -- Need for purity calculations" << endl;
         return 0x0;
     }
@@ -170,22 +170,6 @@ MnvH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, const int
     return h_evntcuts;
 }
 
-void EffPurTools::SetCutName(TString var){
-    _cutnames.push_back(var);
-}
-
-void EffPurTools::ResetCutNames(){
-    _cutnames.clear();
-}
-
-void EffPurTools::SetCutNames(std::vector<TString> var){
-    ResetCutNames();
-    for(int i=0; i < (int)var.size(); i++){
-        TString tmp_string = var[i];
-        SetCutName(tmp_string);
-    }
-}
-
 MnvH1D * EffPurTools::DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_title, TString h_name){
     
     MnvH1D * ratio = new MnvH1D(Form("%s",h_name.Data()),Form("; ;%s", y_title.Data()),den->GetNbinsX(),den->GetXaxis()->GetXmin(),den->GetXaxis()->GetXmax());
@@ -209,5 +193,24 @@ MnvH1D * EffPurTools::DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_titl
 
     return ratio;
 }
+
+
+//-------------- Set cut names of x-axis: --------------//
+void EffPurTools::SetCutName(TString var){
+    _cutnames.push_back(var);
+}
+
+void EffPurTools::ResetCutNames(){
+    _cutnames.clear();
+}
+
+void EffPurTools::SetCutNames(std::vector<TString> var){
+    ResetCutNames();
+    for(int i=0; i < (int)var.size(); i++){
+        TString tmp_string = var[i];
+        SetCutName(tmp_string);
+    }
+}
+//------------------------------------------------------//
 
 
