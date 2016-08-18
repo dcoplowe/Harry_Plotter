@@ -19,9 +19,12 @@ public:
         gStyle->SetHistLineWidth(2.5);
         gStyle->SetHistLineColor(kOrange+2);
         gStyle->SetMarkerStyle(20);
+        gStyle->SetPadTickX(1);
+        gStyle->SetPadTickY(1);
+        gStyle->SetLegendBorderSize(0);
+        gStyle->SetLegendFillColor(0);
+        
         gROOT->cd(0);
-        //gStyle->SetLegendBorderSize(0);
-        //gStyle->SetLegendFillColor(0);
     }
     
     ~DrawingStyle(){;}
