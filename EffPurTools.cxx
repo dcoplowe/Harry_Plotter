@@ -199,7 +199,7 @@ MnvH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, const int
 }
 
 MnvH1D * EffPurTools::DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_title, TString h_name){
-    
+    cout << "EffPurTools::DrawRatioVSCuts" << endl;
     MnvH1D * ratio = new MnvH1D(Form("%s",h_name.Data()),Form("; ;%s", y_title.Data()),den->GetNbinsX(),den->GetXaxis()->GetXmin(),den->GetXaxis()->GetXmax());
     ratio->Divide(num, den);
     ratio->GetYaxis()->SetRangeUser(0,1.1);
