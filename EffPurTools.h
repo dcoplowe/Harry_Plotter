@@ -38,6 +38,7 @@ public:
     //These may not be void functions:
     MnvH1D * EffVSCuts(const TString signal, const TString cuts = "");
     MnvH1D * EffVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title = "", const TString cuts = "");
+    MnvH1D * EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title, const TString cuts = "");
     
     MnvH1D * PurVSCuts(const TString signal, const TString cuts = "");
     
@@ -60,6 +61,7 @@ private:
     MnvH1D * EventsVSCuts(TTree * intree, const TString cuts, const int ncuts, TString name = "h_evntcuts");
     MnvH1D * DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_title = "", TString h_name = "h_ratio");
     MnvH1D * GetHisto(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString cuts);
+    MnvH1D * GetHisto(TTree * intree, const TString var, int nbins, const double x_low, const double x_high, const TString cuts);
     
     int _effhcounter;
     int _purhcounter;

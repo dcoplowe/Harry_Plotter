@@ -139,6 +139,34 @@ MnvH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t * xb
     return effvar;
 }
 
+MnvH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title, const TString cuts){
+    cout << "EffPurTools::EffVSVar(TString, TString, TString)" << endl;
+    cout << "    Signal: " << signal.Data() << endl;
+    cout << "    Cut(s): " << cuts.Data() << endl;
+    
+    TString full_signal = signal;
+    
+    if(!cuts.EqualTo("",TString::kExact)){
+        full_signal.Append(" && ");
+        full_signal.Append(cuts);
+        cout << "    Cut(s): " << cuts.Data() << endl;
+    }
+    else cout << "    Cut(s): None" << endl;
+    
+    TTree * intree = (TTree*)_file->Get(_truename.Data());
+    
+    MnvH1D * num = GetHisto(intree, var, nbins, x_low, x_high, full_signal);
+    MnvH1D * den = GetHisto(intree, var, nbins, x_low, x_high, cuts);
+    
+    MnvH1D * effvar = new MnvH1D(Form("eff_%s", var.Data()), Form(";%s;Efficieny",x_title.Data()), nbins, x_low, x_high);
+    effvar->Divide(num, den);
+    
+    delete num;
+    delete den;
+    
+    return effvar;
+}
+
 MnvH1D * EffPurTools::PurVSCuts(const TString signal, const TString cuts){
     cout << "EffPurTools::PurVSCuts(TString, TString)" << endl;
     
@@ -272,6 +300,22 @@ MnvH1D * EffPurTools::DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_titl
     }
     
     return ratio;
+}
+
+MnvH1D * EffPurTools::GetHisto(TTree * intree, const TString var, int nbins, const double x_low, const double x_high, const TString cuts){
+    
+    Double_t * xbins = new Double_t[ nbins + 1 ];
+    
+    Double_t range = x_high - x_low;
+    Double_t binwidth = range/(Double_t)nbins;
+    
+    for (int i=0; i < nbins + 1; i++) {
+        xbins[i] = x_low + binwidth*i;
+        cout << "Array Element: " << i << " : " << xbins[i] << endl;
+    }
+    
+    return GetHisto(intree, var, nbins, xbins, cuts);
+    
 }
 
 MnvH1D * EffPurTools::GetHisto(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString cuts){
