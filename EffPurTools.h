@@ -3,6 +3,8 @@
 
 //#include <PlotUtils/MnvH1D.h>
 
+#include "DrawingStyle.h"
+
 #include "TString.h"
 #include "PlotUtils/MnvH1D.h"
 
@@ -13,7 +15,7 @@ class TTree;
 using namespace PlotUtils;
 using namespace std;
 
-class EffPurTools {
+class EffPurTools : DrawingStyle {
 public:
     
     //Given that all eff. is based on truth info. and pur.

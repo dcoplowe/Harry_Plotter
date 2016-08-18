@@ -5,12 +5,11 @@
 #include <cstdlib>
 
 //ROOT Includes:
-#include "TTree.h"
-
 
 //Forward declarations;
 #include "TFile.h"
 #include "TH1I.h"
+#include "TTree.h"
 
 using namespace std;
 
@@ -223,7 +222,6 @@ MnvH1D * EffPurTools::DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_titl
 
     return ratio;
 }
-
 
 //-------------- Set cut names of x-axis: --------------//
 void EffPurTools::SetCutName(TString var){
