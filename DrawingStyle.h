@@ -16,7 +16,8 @@ public:
     DrawingStyle(){
         gROOT->SetStyle("myStyle");
         gStyle->SetOptStat(0);
-        gStyle->SetHistLineWidth(kOrange+2);
+        gStyle->SetHistLineWidth(2);
+        gStyle->SetHistLineColor(kOrange+2);
         gROOT->cd(0);
         //gStyle->SetLegendBorderSize(0);
         //gStyle->SetLegendFillColor(0);
