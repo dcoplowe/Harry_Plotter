@@ -311,7 +311,7 @@ MnvH1D * EffPurTools::GetHisto(TTree * intree, const TString var, int nbins, con
     
     for (int i=0; i < nbins + 1; i++) {
         xbins[i] = x_low + binwidth*i;
-        cout << "Array Element: " << i << " : " << xbins[i] << endl;
+        //cout << "Array Element: " << i << " : " << xbins[i] << endl;
     }
     
     return GetHisto(intree, var, nbins, xbins, cuts);
@@ -327,6 +327,8 @@ MnvH1D * EffPurTools::GetHisto(TTree * intree, const TString var, int nbins, con
     
     TString tmp_cuts = cuts.Data();
     tmp_cuts.Append(Form(" && (%s != -999)", var.Data()));
+    
+    cout << tmp_cuts.Data() << endl;
     
     intree->Project(host_name.Data(), var.Data(), tmp_cuts.Data());
     
