@@ -169,7 +169,7 @@ MnvH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, const int
     TString tmp_cuts = "accum_level >";
     TString tree_name = intree->GetName();
     
-    cout << "Reading tree named " << tree_name.Data() << endl;
+    //cout << "Reading tree named " << tree_name.Data() << endl;
     
     if(tree_name.EqualTo("Truth",TString::kExact)){
         tmp_cuts.Prepend("truth");
@@ -213,6 +213,7 @@ MnvH1D * EffPurTools::DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_titl
         max_bins = (int)_cutnames.size();
         cout << "Not all cuts have names. Running up to " << max_bins << endl;
     }
+    else cout << "Writing label names" << endl;
     
     for(int i = 0; i < max_bins; i++){
         TString tmp_label = _cutnames[i];

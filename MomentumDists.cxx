@@ -75,6 +75,9 @@ void MomentumDists()
         true_name[i] = "True " + rec_name[i];
     }
     
+    std::vector<TString> cut_names;
+    cut_names.push_back("");
+    
     EffPurTools * m_ep = new EffPurTools(testing_mc);
     
     MnvH1D * purcut = m_ep->PurVSCuts("mc_intType == 2 && mc_current == 1 && mc_resID == 0");
