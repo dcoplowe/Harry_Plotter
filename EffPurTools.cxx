@@ -247,6 +247,7 @@ MnvH1D * EffPurTools::DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_titl
         ratio->GetXaxis()->SetBinLabel(i+1, tmp_label.Data());
     }
 
+    cout << ratio->GetName() << endl;
     return ratio;
 }
 
