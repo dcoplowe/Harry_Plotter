@@ -169,10 +169,10 @@ MnvH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, const int
     TString tmp_cuts = "accum_level >";
     TString tree_name = intree->GetName();
     
-    //cout << "Reading tree named " << tree_name.Data() << endl;
+    cout << "Reading tree named " << tree_name.Data() << endl;
     
     if(tree_name.EqualTo("Truth",TString::kExact)){
-        tmp_cuts.Prepend("truth");
+        tmp_cuts.Prepend("truth_");
     }
     
     if(!cuts.EqualTo("", TString::kExact)){
