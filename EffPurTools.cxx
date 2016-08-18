@@ -21,23 +21,25 @@ EffPurTools::EffPurTools(TString filename, TString reconame, TString truename) {
     cout << "    Filename: " << _filename.Data() << endl;
     cout << "Truth branch: " << _truename.Data() << endl;
     cout << "Recon branch: " << _reconame.Data() << endl;
+    
+    //Include counter to make sure hists have unique names:
+    _purhcounter = -1;
+    _effhcounter = -1;
 }
 
 EffPurTools::EffPurTools(TString filename, std::vector<TString> cut_names, TString reconame, TString truename){
     
     cout << "EffPurTools::EffPurTools(TString filename, std::vector<TString> cut_names, TString reconame, TString truename)" << endl;
     
-    //EffPurTools(filename, reconame, truename);
-    
-    SetFileName(filename);
-    SetRecoBranch(reconame);
-    SetTrueBranch(truename);
-    SetFile();
+    EffPurTools(filename, reconame, truename);
     SetCutNames(cut_names);
-    
-    cout << "    Filename: " << _filename.Data() << endl;
-    cout << "Truth branch: " << _truename.Data() << endl;
-    cout << "Recon branch: " << _reconame.Data() << endl;
+    //SetFileName(filename);
+    //SetRecoBranch(reconame);
+    //SetTrueBranch(truename);
+    //SetFile();
+    //cout << "    Filename: " << _filename.Data() << endl;
+    //cout << "Truth branch: " << _truename.Data() << endl;
+    //cout << "Recon branch: " << _reconame.Data() << endl;
 }
 
 EffPurTools::EffPurTools() {
@@ -91,7 +93,8 @@ MnvH1D * EffPurTools::EffVSCuts(const TString signal, const TString cuts){
         den->SetBinError(i+1,num->GetBinError(1));
     }
     
-    MnvH1D * effcuts = DrawRatioVSCuts(num, den, "Efficiency", "h_effic");
+    _effhcounter++;
+    MnvH1D * effcuts = DrawRatioVSCuts(num, den, "Efficiency", Form("h_effic%.2d", _effhcounter));
     effcuts->SetLineColor(DSBlue);
     
     delete num;
@@ -149,7 +152,8 @@ MnvH1D * EffPurTools::PurVSCuts(TString signal, TString cuts){
     MnvH1D * num = EventsVSCuts(intree, full_signal, ncuts, "pur_num");
     MnvH1D * den = EventsVSCuts(intree, cuts, ncuts, "pur_den");
     
-    MnvH1D * purcuts = DrawRatioVSCuts(num, den, "Purity", "h_purity");
+    _purhcounter++;
+    MnvH1D * purcuts = DrawRatioVSCuts(num, den, "Purity", Form("h_purity%.2d", _purhcounter));
 
     delete num;
     delete den;

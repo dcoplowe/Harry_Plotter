@@ -30,7 +30,7 @@ public:
     
     ~DrawingStyle(){;}
     
-    enum DSColors {
+    enum DSColors {//Add nice colors here:
         DSYellow = kOrange-2,
         DSBlue = kAzure+2
     };
