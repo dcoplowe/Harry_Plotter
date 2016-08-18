@@ -206,7 +206,7 @@ MnvH1D * EffPurTools::DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_titl
     
     if(!((int)_cutnames.size() > 0)){
         for(int i = 0; i < ratio->GetNbinsX(); i++){
-            ratio->GetXaxis()->SetBinLabel(i+1, Form("%d.2.",(i+1)));
+            ratio->GetXaxis()->SetBinLabel(i+1, Form("%.2d.",(i+1)));
         }
         ratio->GetXaxis()->SetTitle("Cuts");
         return ratio;

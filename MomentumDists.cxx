@@ -76,7 +76,11 @@ void MomentumDists()
     }
     
     std::vector<TString> cut_names;
-    cut_names.push_back("");
+    cut_names.push_back("Vertex");
+    cut_names.push_back("3 Tracks");
+    cut_names.push_back("Muon Track");
+    cut_names.push_back("Contained Vtx");
+    cut_names.push_back("PID: p/#pi^{+}");
     
     EffPurTools * m_ep = new EffPurTools(testing_mc);
     
