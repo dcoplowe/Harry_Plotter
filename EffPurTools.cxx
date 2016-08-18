@@ -128,6 +128,8 @@ MnvH1D * EffPurTools::PurVSCuts(TString signal, TString cuts){
     
     cout << "Starting to read tree " << endl;
     
+    _file->ls();
+    
     TTree * intree = (TTree*)_file->Get(_reconame.Data());
     
     cout << "Read tree " << intree->GetName() << endl;
