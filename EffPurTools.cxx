@@ -154,7 +154,7 @@ MnvH1D * EffPurTools::PurVSCuts(TString signal, TString cuts){
 }
 
 void EffPurTools::SetFile(){
-    _file = new TFile(_filename, "RECREATE");
+    _file = new TFile(_filename, "READ");
 }
 
 MnvH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, const int ncuts, TString name){
