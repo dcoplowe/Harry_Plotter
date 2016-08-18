@@ -1,9 +1,7 @@
 #ifndef EFFPURTOOLS_H
 #define EFFPURTOOLS_H
 
-//#include <PlotUtils/MnvH1D.h>
-
-//#include "DrawingStyle.h"
+#include "DrawingStyle.h"
 //public DrawingStyle
 #include "TString.h"
 #include "PlotUtils/MnvH1D.h"
