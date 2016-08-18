@@ -68,8 +68,9 @@ MnvH1D * EffPurTools::EffVSCuts(const TString signal, const TString cuts){
     }
     else cout << "    Cut(s): None" << endl;
     
+    cout << "Starting to read tree " << endl;
     
-    TTree * intree = (TTree*)_file->Get(_truename);
+    TTree * intree = (TTree*)_file->Get(_truename.Data());
     
     cout << "Read tree " << intree->GetName() << endl;
     
