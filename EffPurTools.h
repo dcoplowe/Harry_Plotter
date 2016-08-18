@@ -23,7 +23,8 @@ public:
     
     //For now have assume a file is read in.
     
-    EffPurTools(TString filename, TString truename = "Truth", TString reconame = "CC1P1Pi");
+    EffPurTools(TString filename, std::vector<TString> cut_names, TString reconame = "CC1P1Pi", TString truename = "Truth");
+    EffPurTools(TString filename, TString reconame = "CC1P1Pi", TString truename = "Truth");
     EffPurTools();
     
     ~EffPurTools(){};
@@ -41,7 +42,9 @@ public:
     
     void PurVSCuts(TString signal, TString cuts = "");
     
-    void SetCutName(TString var);
+    void SetCutNames(std::vector<TString> var);
+    void SetCutName(TString var);//This must be written in order;
+    void ResetCutNames();
     
 private:
     //File and directory info:
@@ -56,6 +59,7 @@ private:
     std::vector<TString> _cutnames;
     
     MnvH1D * EventsVSCuts(TTree * intree, const TString cuts, const int ncuts, TString name = "h_evntcuts");
+    MnvH1D * DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_title = "", TString h_name = "h_ratio");
     
 //    MnvH1D * CutsRatio(TString tree_name, TString var, TString, int nbins, double x_low, double x_high, TString signal, TString cuts, int min_x = 0);
 //    MnvH1D * Ratio(TString tree_name, TString var, int nbins, double x_low, double x_high, TString signal, TString cuts);

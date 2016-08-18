@@ -15,7 +15,21 @@
 using namespace std;
 
 
-EffPurTools::EffPurTools(TString filename, TString truename, TString reconame){
+EffPurTools::EffPurTools(TString filename, std::vector<TString> cut_names, TString reconame, TString truename){
+    
+    cout << "EffPurTools::EffPurTools(TString, TString, TString)" << endl;
+    SetFileName(filename);
+    SetRecoBranch(reconame);
+    SetTrueBranch(truename);
+    SetFile();
+    SetCutNames(cut_names);
+    
+    cout << "    Filename: " << _filename.Data() << endl;
+    cout << "Truth branch: " << _truename.Data() << endl;
+    cout << "Recon branch: " << _reconame.Data() << endl;
+}
+
+EffPurTools::EffPurTools(TString filename, TString reconame, TString truename){
     
     cout << "EffPurTools::EffPurTools(TString, TString, TString)" << endl;
     SetFileName(filename);
@@ -26,7 +40,6 @@ EffPurTools::EffPurTools(TString filename, TString truename, TString reconame){
     cout << "    Filename: " << _filename.Data() << endl;
     cout << "Truth branch: " << _truename.Data() << endl;
     cout << "Recon branch: " << _reconame.Data() << endl;
-    
 }
 
 EffPurTools::EffPurTools() {
@@ -39,15 +52,21 @@ EffPurTools::EffPurTools() {
 //These may not be void functions:
 MnvH1D * EffPurTools::EffVSCuts(const TString signal, const TString cuts){
     cout << "EffPurTools::EffVSCuts(TString, TString)" << endl;
-    cout << "    Signal: " << signal.Data() << endl;
-    cout << "    Cut(s): " << cuts.Data() << endl;
     
+    if(signal.Contains("",TString::kExact)){
+        cout << "No signal defined -- Need for efficiency calculations" << endl;
+        return 0x0;
+    }
+    else cout << "    Signal: " << signal.Data() << endl;
+
     TString full_signal = signal;
     
     if(!cuts.EqualTo("",TString::kExact)){
         full_signal.Append(" && ");
         full_signal.Append(cuts);
+        cout << "    Cut(s): " << cuts.Data() << endl;
     }
+    else cout << "    Cut(s): None" << endl;
     
     TTree * intree = (TTree*)_file->Get(_truename);
     
@@ -67,16 +86,10 @@ MnvH1D * EffPurTools::EffVSCuts(const TString signal, const TString cuts){
         den->SetBinError(i+1,num->GetBinError(1));
     }
     
-    MnvH1D * effcuts = new MnvH1D("effcuts","; ;Efficiency",den->GetNbinsX(),den->GetXaxis()->GetXmin(),den->GetXaxis()->GetXmax());
-    effcuts->Divide(num, den);
-    effcuts->GetYaxis()->SetRangeUser(0,1.1);
+    MnvH1D * effcuts = DrawRatioVSCuts(num, den, "Efficiency", "h_effic");
     
-    for(int i = 0; i < effcuts->GetNbinsX(); i++){
-        if(i < (int)_cutnames.size()){
-            TString tmp_label = _cutnames[i];
-            effcuts->GetXaxis()->SetBinLabel(i+1, tmp_label.Data());
-        }
-    }
+    delete num;
+    delete den;
     
     return effcuts;
 }
@@ -87,76 +100,42 @@ void EffPurTools::EffVSVar(TString var, const TString signal, const TString cuts
     cout << "    Cut(s): " << cuts.Data() << endl;
 }
 
-/*MnvH1D * EffPurTools::PurVSCuts(TString signal, TString cuts){
+MnvH1D * EffPurTools::PurVSCuts(TString signal, TString cuts){
     cout << "EffPurTools::PurVSCuts(TString, TString)" << endl;
-    cout << "    Signal: " << signal.Data() << endl;
-    cout << "    Cut(s): " << cuts.Data() << endl;
     
-    TString tmp_cuts = cuts;
-    TString tmp_signal = signal;
-    if(!cuts.EqualTo(" ", TString::kExact)) tmp_cuts.Prepend(" && ");
-
+    if(signal.Contains("",TString::kExact)){
+        cout << "No signal defined -- Need for purity calculations" << endl;
+        return 0x0;
+    }
+    else cout << "    Signal: " << signal.Data() << endl;
+    
+    TString full_signal = signal;
+    
+    if(!cuts.EqualTo("",TString::kExact)){
+        full_signal.Append(" && ");
+        full_signal.Append(cuts);
+        cout << "    Cut(s): " << cuts.Data() << endl;
+    }
+    else cout << "    Cut(s): None" << endl;
+    
     TTree * intree = (TTree*)_file->Get(_reconame);
     
-    MnvH1D * h_ncuts = new MnvH1D("h_ncuts", "",10, 0, 10);
+    TH1I * h_ncuts = new TH1I("h_ncuts", "",10, 0, 10);
     
     TString ncuts_name = "ncuts";
     intree->Draw(ncuts_name + ">> h_ncuts");
     int ncuts = (int)h_ncuts->GetBinCenter(h_ncuts->GetMaximumBin());
     
-    std::vector<MnvH1D*> num_bin;
+    MnvH1D * num = EventsVSCuts(intree, full_signal, ncuts);
+    MnvH1D * den = EventsVSCuts(intree, cuts, ncuts);
     
-    MnvH1D * num = EventsVSCuts(intree, cuts, ncuts);
-    
-    TString den_signal = "";
-    TString num_signal = "";
-    
-    MnvH1D * den = new MnvH1D("den", "", nbins, x_low, x_high);
-    
-    //intree->Draw(var + ">> den", signal + " && " + tmp_cuts);
+    MnvH1D * purcuts = DrawRatioVSCuts(num, den, "Purity", "h_purity");
 
+    delete num;
+    delete den;
     
-    
-}*/
-
-/*MnvH1D * EffPurTools::CutsRatio(TString tree_name, TString signal, TString cuts, int min_x){
-    
-    cout << "EffPurTools::CutsRatio(...)" << endl;
-    //Will want to improve this to work with variable binning.
-    TTree * intree = (TTree*)_file->Get(tree_name);
-    
-    //This is currently hard coded to have no more than 10 cuts, may change for the future.
-    MnvH1D * h_ncuts = new MnvH1D("h_ncuts", "",10, 0, 10);
-    
-    TString ncuts_name = "ncuts";
-    if(tree_name.Contains("truth", TString::kIgnoreCase)) ncuts_name.Prepend("truth");
-    
-    intree->Draw(ncuts_name + ">> h_ncuts");
-    
-    int ncuts = (int)h_ncuts->GetBinCenter(h_ncuts->GetMaximumBin());
-    
-    cout << "Number of cuts found to be " << ncuts << endl;
-    
-    TString den_signal = "";
-    TString num_signal = ;
-    
-    MnvH1D * cutratio = Ratio(tree_name, ncuts_name, ncuts, min_x, ncuts, den_signal, num_signal, cuts);
-    
-    
+    return purcuts;
 }
-
-
-MnvH1D * EffPurTools::Ratio(TString tree_name, TString var, int nbins, double x_low, double x_high, TString signal, TString cuts){
-    //Will want to improve this to work with variable binning.
-    TTree * intree = (TTree*)_file->Get(tree_name);
-    
-    MnvH1D * den = new MnvH1D("den", "", nbins, x_low, x_high);
-    MnvH1D * num = new MnvH1D("num", "", nbins, x_low, x_high);
-    
-    intree->Draw(var + ">> den", signal + " && " + cuts);
-    intree->Draw(var + ">> den", signal + " && " + cuts);
-    
-}*/
 
 void EffPurTools::SetFile(){
     _file = new TFile(_filename, "RECREATE");
@@ -164,14 +143,23 @@ void EffPurTools::SetFile(){
 
 MnvH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, const int ncuts, TString name){
     
-    TString ampersand;
-    if(!cuts.EqualTo("", TString::kExact)) ampersand = " && ";
+    TString tmp_cuts = "accum_level >";
     
+    if(intree->GetName() == "Truth"){
+        tmp_cuts.Prepend("truth");
+    }
+    
+    if(!cuts.EqualTo("", TString::kExact)){
+        tmp_cuts.Prepend(" && ");
+        tmp_cuts.Prepend(cuts);
+    }
+    
+    //This will complain: delete outside of function.
     MnvH1D * h_evntcuts = new MnvH1D(name.Data(),"", ncuts, 0., (double)ncuts);
     
     for(int i = 0; i < ncuts; i++){
         MnvH1D * h_tmp = new MnvH1D("h_tmp","", 1, 0., 1.);
-        TString tmp_cuts = Form("accum_level > %d%s%s ", (i - 1), ampersand.Data(), cuts.Data());
+        TString tmp_cuts = Form("%s %d", tmp_cuts.Data(), (i - 1));
         intree->Project("h_tmp","0.5",tmp_cuts);
         double intergal = (double)h_tmp->Integral();
         h_evntcuts->SetBinContent(i+1, intergal);
@@ -183,6 +171,43 @@ MnvH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, const int
 
 void EffPurTools::SetCutName(TString var){
     _cutnames.push_back(var);
+}
+
+void EffPurTools::ResetCutNames(){
+    _cutnames.clear();
+}
+
+void EffPurTools::SetCutNames(std::vector<TString> var){
+    ResetCutNames();
+    for(int i=0; i < (int)var.size(); i++){
+        tmp_string = var[i];
+        SetCutName(tmp_string);
+    }
+}
+
+MnvH1D * EffPurTools::DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_title, TString h_name){
+    
+    MnvH1D * ratio = new MnvH1D(Form("%s",h_name.Data()),Form("; ;%s", y_title.Data()),den->GetNbinsX(),den->GetXaxis()->GetXmin(),den->GetXaxis()->GetXmax());
+    ratio->Divide(num, den);
+    ratio->GetYaxis()->SetRangeUser(0,1.1);
+    
+    if(!((int)_cutnames.size() > 0)) return effcuts;
+    
+    int max_bins = ratio->GetNbinsX();
+    
+    //Stop trying to run over array size:
+    if(max_bins > (int)_cutnames.size()){
+        max_bins = (int)_cutnames.size();
+        cout << "Not all cuts have names. Running up to " << max_bins << endl;
+    }
+    
+    for(int i = 0; i < max_bins; i++){
+            TString tmp_label = _cutnames[i];
+            ratio->GetXaxis()->SetBinLabel(i+1, tmp_label.Data());
+        }
+    }
+
+    return ratio;
 }
 
 
