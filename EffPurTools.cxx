@@ -13,8 +13,8 @@
 
 using namespace std;
 
-//#include <TROOT.h>
-//#include <TStyle.h>
+#include <TROOT.h>
+#include <TStyle.h>
 
 
 EffPurTools::EffPurTools(TString filename, TString reconame, TString truename){
