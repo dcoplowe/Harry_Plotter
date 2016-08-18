@@ -84,7 +84,7 @@ void MomentumDists()
     
     EffPurTools * m_ep = new EffPurTools(testing_mc, cut_names);
     
-    MnvH1D * purcut = m_ep->PurVSCuts("mc_intType == 2 && mc_current == 1 && mc_resID == 0");
+    MnvH1D * purcut = m_ep->PurVSCuts("mc_intType == 2 && mc_current == 1 && mc_resID == 0 && mc_targetZ == 1");
     
     if(purcut){
         TCanvas * pur_can = new TCanvas("pur_can", "", 500,500);
@@ -93,7 +93,7 @@ void MomentumDists()
         pur_can->Print("first_pur_plot.eps");
     }
     
-    MnvH1D * effcut = m_ep->EffVSCuts("mc_intType == 2 && mc_current == 1 && mc_resID == 0");
+    MnvH1D * effcut = m_ep->EffVSCuts("mc_intType == 2 && mc_current == 1 && mc_resID == 0 && mc_targetZ == 1");
     //MnvH1D * effcut = m_ep->EffVSCuts("mc_intType == 2");
     
     if(effcut){
