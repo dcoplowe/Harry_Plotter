@@ -14,7 +14,8 @@ using namespace std;
 #include "DrawingStyle.h"
 
 
-class EffPurTools : public DrawingStyle {
+class EffPurTools : public DrawingStyle
+{
 public:
     
     //Given that all eff. is based on truth info. and pur.
@@ -61,6 +62,7 @@ private:
     
     MnvH1D * EventsVSCuts(TTree * intree, const TString cuts, const int ncuts, TString name = "h_evntcuts");
     MnvH1D * DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_title = "", TString h_name = "h_ratio");
+
 };
 
 #endif
