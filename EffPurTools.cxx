@@ -1,9 +1,5 @@
 #include "EffPurTools.h"
 
-#include <iostream>
-#include <cstdio>
-#include <cstdlib>
-
 //ROOT Includes:
 
 //Forward declarations;

@@ -14,13 +14,11 @@ class DrawingStyle {
 
 public:
     DrawingStyle(){
-        cout << "DrawingStyle()" << endl;
         gROOT->SetStyle("myStyle");
         gStyle->SetOptStat(0);
         gROOT->cd(0);
         //gStyle->SetLegendBorderSize(0);
         //gStyle->SetLegendFillColor(0);
-        //gStyle->SetOptStat(0);
     }
     
     ~DrawingStyle(){;}
