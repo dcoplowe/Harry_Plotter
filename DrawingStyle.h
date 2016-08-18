@@ -12,7 +12,7 @@ public:
         
         //gStyle->SetLegendBorderSize(0);
         //gStyle->SetLegendFillColor(0);
-        gStyle->SetOptStat(0);
+        //gStyle->SetOptStat(0);
         
     }
     
