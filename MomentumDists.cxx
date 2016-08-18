@@ -85,6 +85,8 @@ void MomentumDists()
         purcut->Draw();
         pur_can->Print("first_pur_plot.eps");
     }
+    
+    /*
         
     for(int i = 0; i < 3; i++){
         cout << " Making Plots for " << part_name[i] << "." << endl;
@@ -153,6 +155,8 @@ void MomentumDists()
             delete can;
         }
     }
+     
+     */
 }
 
 
