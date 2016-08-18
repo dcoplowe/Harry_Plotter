@@ -74,7 +74,7 @@ MnvH1D * EffPurTools::EffVSCuts(const TString signal, const TString cuts){
     
     TH1I * h_ncuts = new TH1I("h_ncuts", "",10, 0, 10);
     
-    TString ncuts_name = "ncuts";
+    TString ncuts_name = "truth_ncuts";
     intree->Draw(ncuts_name + ">> h_ncuts");
     
     cout << "Found and Filled ncuts histogram " << endl;
@@ -220,7 +220,7 @@ MnvH1D * EffPurTools::DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_titl
     }
     else cout << "Writing label names" << endl;
     
-    cout << "Size of _cutnames array " << _cutnames.size() << endl;
+    //cout << "Size of _cutnames array " << _cutnames.size() << endl;
     
     for(int i = 0; i < ratio->GetNbinsX(); i++){
         TString tmp_label;
