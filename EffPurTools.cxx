@@ -19,11 +19,12 @@ using namespace std;
 EffPurTools::EffPurTools(TString filename, TString reconame, TString truename){
     
     cout << "EffPurTools::EffPurTools(TString filename, TString reconame, TString truename)" << endl;
-    /*
+    
     gROOT->SetStyle("myStyle");
     gStyle->SetOptStat(0);
     gROOT->cd(0);
-    */
+    
+    
     SetFileName(filename);
     SetRecoBranch(reconame);
     SetTrueBranch(truename);
