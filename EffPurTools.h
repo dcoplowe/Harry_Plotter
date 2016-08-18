@@ -40,7 +40,7 @@ public:
     MnvH1D * EffVSCuts(const TString signal, const TString cuts = "");
     void EffVSVar(TString var, TString signal, TString cuts = "");
     
-    void PurVSCuts(TString signal, TString cuts = "");
+    MnvH1D * PurVSCuts(TString signal, TString cuts = "");
     
     void SetCutNames(std::vector<TString> var);
     void SetCutName(TString var);//This must be written in order;

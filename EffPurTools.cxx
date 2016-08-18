@@ -180,7 +180,7 @@ void EffPurTools::ResetCutNames(){
 void EffPurTools::SetCutNames(std::vector<TString> var){
     ResetCutNames();
     for(int i=0; i < (int)var.size(); i++){
-        tmp_string = var[i];
+        TString tmp_string = var[i];
         SetCutName(tmp_string);
     }
 }
@@ -191,7 +191,7 @@ MnvH1D * EffPurTools::DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_titl
     ratio->Divide(num, den);
     ratio->GetYaxis()->SetRangeUser(0,1.1);
     
-    if(!((int)_cutnames.size() > 0)) return effcuts;
+    if(!((int)_cutnames.size() > 0)) return ratio;
     
     int max_bins = ratio->GetNbinsX();
     
