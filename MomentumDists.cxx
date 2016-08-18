@@ -83,7 +83,7 @@ void MomentumDists()
     cut_names.push_back("PID: p/#pi^{+}");
     
     EffPurTools * m_ep = new EffPurTools(testing_mc, cut_names);
-    
+   /*
     MnvH1D * purcut = m_ep->PurVSCuts("mc_intType == 2 && mc_current == 1 && mc_resID == 0");
     
     if(purcut){
@@ -96,10 +96,21 @@ void MomentumDists()
     MnvH1D * effcut = m_ep->EffVSCuts("mc_intType == 2 && mc_current == 1 && mc_resID == 0");
     
     if(effcut){
-        TCanvas * eff_can = new TCanvas("pur_can", "", 500,500);
+        TCanvas * eff_can = new TCanvas("eff_can", "", 500,500);
         eff_can->cd();
         effcut->Draw();
         eff_can->Print("first_eff_plot.eps");
+    }
+    
+    */
+    
+    MnvH1D * effvar = m_ep->EffVSVar("mc_w", 10, 0, 2000, "mc_current == 1 && mc_resID == 0","W^{2} (MeV^{2})");
+    
+    if(effvar){
+        TCanvas * eff_vac_can = new TCanvas("eff_vac_can", "", 500,500);
+        eff_vac_can->cd();
+        eff_vac_can->Draw();
+        eff_vac_can->Print("first_eff_var_plot.eps");
     }
     
     /*

@@ -38,7 +38,7 @@ public:
     //These may not be void functions:
     MnvH1D * EffVSCuts(const TString signal, const TString cuts = "");
     MnvH1D * EffVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title = "", const TString cuts = "");
-    MnvH1D * EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title, const TString cuts = "");
+    MnvH1D * EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title = "", const TString cuts = "");
     
     MnvH1D * PurVSCuts(const TString signal, const TString cuts = "");
     
