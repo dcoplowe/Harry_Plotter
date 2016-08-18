@@ -22,7 +22,7 @@ public:
         gROOT->SetStyle("myStyle");
         gStyle->SetOptStat(0);
         gStyle->SetHistLineWidth(2.5);
-        gStyle->SetHistLineColor(kOrange+2);
+        gStyle->SetHistLineColor(DSYellow);
         gStyle->SetMarkerStyle(20);
         gStyle->SetPadTickX(1);
         gStyle->SetPadTickY(1);
