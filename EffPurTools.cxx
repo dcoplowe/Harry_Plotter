@@ -127,10 +127,10 @@ MnvH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t * xb
     
     TTree * intree = (TTree*)_file->Get(_truename.Data());
     
-    MnvH1D num = GetHisto(intree, var, nbins, xbins, full_signal, "effvarnum");
-    MnvH1D den = GetHisto(intree, var, nbins, xbins, cuts, "effvarden");
+    MnvH1D * num = GetHisto(intree, var, nbins, xbins, full_signal, "effvarnum");
+    MnvH1D * den = GetHisto(intree, var, nbins, xbins, cuts, "effvarden");
     
-    MnvH1D effvar = new MnvH1D(Form("eff_%s", var.Data()), Form(";%s;Efficieny",x_title.Data()), nbins, xbins);
+    MnvH1D * effvar = new MnvH1D(Form("eff_%s", var.Data()), Form(";%s;Efficieny",x_title.Data()), nbins, xbins);
     effvar->Divide(num, den);
     
     delete num;
