@@ -155,19 +155,17 @@ MnvH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t x_lo
     
     TTree * intree = (TTree*)_file->Get(_truename.Data());
     
-    MnvH1D * num = new MnvH1D("test", "; Resd; ddd",10, 0., 10.);
-    num->FillRandom("gaus",100000);// GetHisto(intree, var, nbins, x_low, x_high, full_signal);
-    return num;
-   // MnvH1D * den = GetHisto(intree, var, nbins, x_low, x_high, cuts);
+    MnvH1D * num = GetHisto(intree, var, nbins, x_low, x_high, full_signal);
+    MnvH1D * den = GetHisto(intree, var, nbins, x_low, x_high, cuts);
     
-   // MnvH1D * effvar = new MnvH1D(Form("eff_%s", var.Data()), Form(";%s;Efficieny",x_title.Data()), nbins, x_low, x_high);
-   // effvar->Divide(num, den);
-   // effvar->GetYaxis()->SetRangeUser(0., 1.1);
+    MnvH1D * effvar = new MnvH1D(Form("eff_%s", var.Data()), Form(";%s;Efficieny",x_title.Data()), nbins, x_low, x_high);
+    effvar->Divide(num, den);
+    effvar->GetYaxis()->SetRangeUser(0., 1.1);
     
-   // delete num;
-   // delete den;
+    delete num;
+    delete den;
     
-   // return effvar;
+    return effvar;
 }
 
 MnvH1D * EffPurTools::PurVSCuts(const TString signal, const TString cuts){
