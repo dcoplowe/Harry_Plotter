@@ -187,7 +187,7 @@ MnvH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, const int
     
     for(int i = 0; i < ncuts; i++){
         MnvH1D * h_tmp = new MnvH1D("h_tmp","", 1, 0., 1.);
-        TString loop_cuts = Form("%s %d", tmp_cuts.Data(), (i));
+        TString loop_cuts = Form("%s %d", tmp_cuts.Data(), (i-1));
         cout << "Loop cut: " << loop_cuts.Data() << endl;
         intree->Project("h_tmp","0.5",loop_cuts);
         double intergal = (double)h_tmp->Integral();
