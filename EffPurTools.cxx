@@ -16,7 +16,6 @@ using namespace std;
 #include <TROOT.h>
 #include <TStyle.h>
 
-
 EffPurTools::EffPurTools(TString filename, TString reconame, TString truename){
     
     cout << "EffPurTools::EffPurTools(TString filename, TString reconame, TString truename)" << endl;
