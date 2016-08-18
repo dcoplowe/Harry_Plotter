@@ -92,7 +92,7 @@ MnvH1D * EffPurTools::EffVSCuts(const TString signal, const TString cuts){
     }
     
     MnvH1D * effcuts = DrawRatioVSCuts(num, den, "Efficiency", "h_effic");
-    effcuts->SetLineColor(DrawingStyle::DSColors::DSBlue);
+    effcuts->SetLineColor(DSBlue);
     
     delete num;
     delete den;
