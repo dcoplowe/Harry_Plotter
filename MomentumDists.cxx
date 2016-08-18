@@ -79,10 +79,10 @@ void MomentumDists()
     cut_names.push_back("Vertex");
     cut_names.push_back("3 Tracks");
     cut_names.push_back("Muon Track");
-    cut_names.push_back("Contained Vtx");
-    cut_names.push_back("PID: p/#pi^{+}");
+   // cut_names.push_back("Contained Vtx");
+   // cut_names.push_back("PID: p/#pi^{+}");
     
-    EffPurTools * m_ep = new EffPurTools(testing_mc);
+    EffPurTools * m_ep = new EffPurTools(testing_mc, cut_names);
     
     MnvH1D * purcut = m_ep->PurVSCuts("mc_intType == 2 && mc_current == 1 && mc_resID == 0");
     

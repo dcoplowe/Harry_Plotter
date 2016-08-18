@@ -206,7 +206,7 @@ MnvH1D * EffPurTools::DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_titl
     
     if(!((int)_cutnames.size() > 0)){
         for(int i = 0; i < ratio->GetNbinsX(); i++){
-            ratio->GetXaxis()->SetBinLabel(i+1, Form("%.2d.",(i+1)));
+            ratio->GetXaxis()->SetBinLabel(i+1, Form("%d.",(i+1)));
         }
         ratio->GetXaxis()->SetTitle("Cuts");
         return ratio;
@@ -222,8 +222,10 @@ MnvH1D * EffPurTools::DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_titl
     
     cout << "Size of _cutnames array " << _cutnames.size() << endl;
     
-    for(int i = 0; i < max_bins; i++){
-        TString tmp_label = _cutnames[i];
+    for(int i = 0; i < ratio->GetNbinsX(); i++){
+        TString tmp_label;
+        if(max_bins > i ) tmp_label.Form("%d) %s", (i+1), _cutnames[i]);
+        else tmp_label.Form("%d)", (i+1));
         ratio->GetXaxis()->SetBinLabel(i+1, tmp_label.Data());
     }
 
