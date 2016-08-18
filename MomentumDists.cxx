@@ -77,10 +77,12 @@ void MomentumDists()
     
     EffPurTools * m_ep = new EffPurTools(testing_mc);
     
-    MnvH1D * effcut = m_ep->EffVSCuts("mc_nuInts == 2");
+    MnvH1D * purcut = m_ep->PurVSCuts("mc_nuInts == 2");
     
-    
-    
+    TCanvas * pur_can = new TCanvas("pur_can", "", 500,500);
+    pur_can->cd();
+    purcut->Draw();
+    pur_can->Print("first_pur_plot.eps");
     
     for(int i = 0; i < 3; i++){
         cout << " Making Plots for " << part_name[i] << "." << endl;
