@@ -167,6 +167,7 @@ MnvH1D * EffPurTools::PurVSCuts(TString signal, TString cuts){
 }
 
 void EffPurTools::SetFile(){
+    cout << "EffPurTools::SetFile()" << endl;
     _file = new TFile(_filename, "READ");
     
     if(!_file) exit(0);
