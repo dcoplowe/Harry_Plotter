@@ -104,7 +104,7 @@ void MomentumDists()
     
     */
     
-    MnvH1D * effvar = m_ep->EffVSVar("mc_w", 10, 0, 2000, "mc_current == 1 && mc_resID == 0","W^{2} (MeV^{2})");
+    MnvH1D * effvar = m_ep->EffVSVar("mc_w", 10, 0, 2000, "mc_current == 1","W^{2} (MeV^{2})");
     
     if(effvar){
         TCanvas * eff_vac_can = new TCanvas("eff_vac_can", "", 500,500);
