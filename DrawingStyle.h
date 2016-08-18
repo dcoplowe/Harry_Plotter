@@ -23,6 +23,6 @@ public:
     }
     
     ~DrawingStyle(){;}
-}
+};
 
 #endif
