@@ -1,9 +1,6 @@
 #ifndef EFFPURTOOLS_H
 #define EFFPURTOOLS_H
 
-#include "DrawingStyle.h"
-
-
 #include "TString.h"
 #include "PlotUtils/MnvH1D.h"
 
@@ -13,6 +10,9 @@ class TTree;
 
 using namespace PlotUtils;
 using namespace std;
+
+#include "DrawingStyle.h"
+
 
 class EffPurTools : public DrawingStyle {
 public:
