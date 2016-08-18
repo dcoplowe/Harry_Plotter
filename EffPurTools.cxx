@@ -126,7 +126,12 @@ MnvH1D * EffPurTools::PurVSCuts(TString signal, TString cuts){
     }
     else cout << "    Cut(s): None" << endl;
     
-    TTree * intree = (TTree*)_file->Get(_reconame);
+    cout << "Starting to read tree " << endl;
+    
+    TTree * intree = (TTree*)_file->Get(_reconame.Data());
+    
+    cout << "Read tree " << intree->GetName() << endl;
+
     
     TH1I * h_ncuts = new TH1I("h_ncuts", "",10, 0, 10);
     
