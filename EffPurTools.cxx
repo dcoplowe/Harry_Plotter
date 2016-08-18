@@ -68,12 +68,18 @@ MnvH1D * EffPurTools::EffVSCuts(const TString signal, const TString cuts){
     }
     else cout << "    Cut(s): None" << endl;
     
+    
     TTree * intree = (TTree*)_file->Get(_truename);
+    
+    cout << "Read tree " << intree->GetName() << endl;
     
     TH1I * h_ncuts = new TH1I("h_ncuts", "",10, 0, 10);
     
     TString ncuts_name = "ncuts";
     intree->Draw(ncuts_name + ">> h_ncuts");
+    
+    cout << "Found and Filled ncuts histogram " << endl;
+    
     int ncuts = (int)h_ncuts->GetBinCenter(h_ncuts->GetMaximumBin());
     
     cout << "Number of cuts found to be " << ncuts << endl;
@@ -90,6 +96,7 @@ MnvH1D * EffPurTools::EffVSCuts(const TString signal, const TString cuts){
     
     delete num;
     delete den;
+    delete h_ncuts;
     
     return effcuts;
 }
