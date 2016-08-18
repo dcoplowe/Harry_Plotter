@@ -166,8 +166,12 @@ void EffPurTools::SetFile(){
 
 MnvH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, const int ncuts, TString name){
     
+    cout << "EffPurTools::EventsVSCuts" << endl;
+    
     TString tmp_cuts = "accum_level >";
     TString tree_name = intree->GetName();
+    
+    cout << "Reading tree named " << tree_name.Data() << endl;
     
     if(tree_name.EqualTo("Truth",TString::kExact)){
         tmp_cuts.Prepend("truth");
@@ -178,16 +182,19 @@ MnvH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, const int
         tmp_cuts.Prepend(cuts);
     }
     
+    cout << "Cut set as: " << tmp_cuts.Data() << endl;
+    
     //This will complain: delete outside of function.
     MnvH1D * h_evntcuts = new MnvH1D(name.Data(),"", ncuts, 0., (double)ncuts);
     
     for(int i = 0; i < ncuts; i++){
         MnvH1D * h_tmp = new MnvH1D("h_tmp","", 1, 0., 1.);
         TString tmp_cuts = Form("%s %d", tmp_cuts.Data(), (i - 1));
+        cout << "Loop cut: " << tmp_cuts.Data() << endl;
         intree->Project("h_tmp","0.5",tmp_cuts);
         double intergal = (double)h_tmp->Integral();
         h_evntcuts->SetBinContent(i+1, intergal);
-        cout << "Cut " << (i+1) << "Events after cut " << intergal << endl;
+        cout << "Cut " << (i+1) << ": Events after cut " << intergal << endl;
         delete h_tmp;
     }
     return h_evntcuts;
