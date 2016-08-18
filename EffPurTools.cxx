@@ -144,8 +144,9 @@ void EffPurTools::SetFile(){
 MnvH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, const int ncuts, TString name){
     
     TString tmp_cuts = "accum_level >";
+    TString tree_name = intree->GetName();
     
-    if(intree->GetName() == "Truth"){
+    if(tree_name.EqualTo("Truth",TString::kExact)){
         tmp_cuts.Prepend("truth");
     }
     
@@ -202,9 +203,8 @@ MnvH1D * EffPurTools::DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_titl
     }
     
     for(int i = 0; i < max_bins; i++){
-            TString tmp_label = _cutnames[i];
-            ratio->GetXaxis()->SetBinLabel(i+1, tmp_label.Data());
-        }
+        TString tmp_label = _cutnames[i];
+        ratio->GetXaxis()->SetBinLabel(i+1, tmp_label.Data());
     }
 
     return ratio;
