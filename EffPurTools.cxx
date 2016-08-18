@@ -336,6 +336,8 @@ MnvH1D * EffPurTools::GetHisto(TTree * intree, const TString var, int nbins, con
     
     intree->Project(host_name.Data(), var.Data(), tmp_cuts.Data());
     
+    cout << "Histo: " << hist->GetName() << " : Entries = " << hist->Integral() << endl;
+    
     return hist;
 }
 
