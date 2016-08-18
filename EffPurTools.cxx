@@ -25,6 +25,7 @@ EffPurTools::EffPurTools(TString filename, TString reconame, TString truename) {
     //Include counter to make sure hists have unique names:
     _purhcounter = -1;
     _effhcounter = -1;
+    _ghcounter = -1;
 }
 
 EffPurTools::EffPurTools(TString filename, std::vector<TString> cut_names, TString reconame, TString truename){
@@ -40,12 +41,14 @@ EffPurTools::EffPurTools(TString filename, std::vector<TString> cut_names, TStri
     
     _purhcounter = -1;
     _effhcounter = -1;
-    
+    _ghcounter = -1;
+
     cout << "    Filename: " << _filename.Data() << endl;
     cout << "Truth branch: " << _truename.Data() << endl;
     cout << "Recon branch: " << _reconame.Data() << endl;
 }
 
+//This initialisation probably wont work:
 EffPurTools::EffPurTools() {
     cout << "EffPurTools::EffPurTools()" << endl;
     EffPurTools("UNKNOWN");
@@ -108,13 +111,35 @@ MnvH1D * EffPurTools::EffVSCuts(const TString signal, const TString cuts){
     return effcuts;
 }
 
-void EffPurTools::EffVSVar(TString var, const TString signal, const TString cuts){
+MnvH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title, const TString cuts){
     cout << "EffPurTools::EffVSVar(TString, TString, TString)" << endl;
     cout << "    Signal: " << signal.Data() << endl;
     cout << "    Cut(s): " << cuts.Data() << endl;
+    
+    TString full_signal = signal;
+    
+    if(!cuts.EqualTo("",TString::kExact)){
+        full_signal.Append(" && ");
+        full_signal.Append(cuts);
+        cout << "    Cut(s): " << cuts.Data() << endl;
+    }
+    else cout << "    Cut(s): None" << endl;
+    
+    TTree * intree = (TTree*)_file->Get(_truename.Data());
+    
+    MnvH1D num = GetHisto(intree, var, nbins, xbins, full_signal, "effvarnum");
+    MnvH1D den = GetHisto(intree, var, nbins, xbins, cuts, "effvarden");
+    
+    MnvH1D effvar = new MnvH1D(Form("eff_%s", var.Data()), Form(";%s;Efficieny",x_title.Data()), nbins, xbins);
+    effvar->Divide(num, den);
+    
+    delete num;
+    delete den;
+    
+    return effvar;
 }
 
-MnvH1D * EffPurTools::PurVSCuts(TString signal, TString cuts){
+MnvH1D * EffPurTools::PurVSCuts(const TString signal, const TString cuts){
     cout << "EffPurTools::PurVSCuts(TString, TString)" << endl;
     
     if(signal.EqualTo("",TString::kExact)){
@@ -157,7 +182,6 @@ MnvH1D * EffPurTools::PurVSCuts(TString signal, TString cuts){
     
     cout << "Number of cuts found to be " << ncuts << endl;
 
-    
     MnvH1D * num = EventsVSCuts(intree, full_signal, ncuts, "pur_num");
     MnvH1D * den = EventsVSCuts(intree, cuts, ncuts, "pur_den");
     
@@ -246,9 +270,23 @@ MnvH1D * EffPurTools::DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_titl
         
         ratio->GetXaxis()->SetBinLabel(i+1, tmp_label.Data());
     }
-
-    cout << ratio->GetName() << endl;
+    
     return ratio;
+}
+
+MnvH1D * EffPurTools::GetHisto(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString cuts){
+    _ghcounter++;
+    
+    TString host_name = Form("var_%s%.2f", var.Data(), _ghcounter);
+    
+    MnvH1D * hist = new MnvH1D(host_name.Data(), "", nbins, xbins);
+    
+    std::string tmp_cuts = cuts.Data();
+    tmp_cuts += " && (" + var.Data() + " != -999)";
+    
+    intree->Project(host_name.Data(), var.Data(), tmp_cuts.c_str());
+    
+    return hist;
 }
 
 //-------------- Set cut names of x-axis: --------------//

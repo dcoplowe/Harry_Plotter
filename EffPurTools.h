@@ -37,9 +37,9 @@ public:
     
     //These may not be void functions:
     MnvH1D * EffVSCuts(const TString signal, const TString cuts = "");
-    void EffVSVar(TString var, TString signal, TString cuts = "");
+    MnvH1D * EffVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title = "", const TString cuts = "");
     
-    MnvH1D * PurVSCuts(TString signal, TString cuts = "");
+    MnvH1D * PurVSCuts(const TString signal, const TString cuts = "");
     
     void SetCutNames(std::vector<TString> var);
     void SetCutName(TString var);//This must be written in order;
@@ -59,9 +59,11 @@ private:
     
     MnvH1D * EventsVSCuts(TTree * intree, const TString cuts, const int ncuts, TString name = "h_evntcuts");
     MnvH1D * DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_title = "", TString h_name = "h_ratio");
+    MnvH1D * GetHisto(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString cuts);
     
     int _effhcounter;
     int _purhcounter;
+    int _ghcounter;
 
 };
 
