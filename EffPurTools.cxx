@@ -224,7 +224,7 @@ MnvH1D * EffPurTools::DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_titl
     
     for(int i = 0; i < ratio->GetNbinsX(); i++){
         TString tmp_label;
-        if(max_bins > i ) tmp_label.Form("%d) %s", (i+1), _cutnames[i]);
+        if(max_bins > i ) tmp_label.Form("%d) %s", (i+1), _cutnames[i].Data());
         else tmp_label.Form("%d)", (i+1));
         
         cout << tmp_label.Data() << endl;
