@@ -160,6 +160,7 @@ MnvH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t x_lo
     
     MnvH1D * effvar = new MnvH1D(Form("eff_%s", var.Data()), Form(";%s;Efficieny",x_title.Data()), nbins, x_low, x_high);
     effvar->Divide(num, den);
+    effvar->GetYaxis()->SetRangeUser(0., 1.1);
     
     delete num;
     delete den;
