@@ -133,6 +133,8 @@ MnvH1D * EffPurTools::PurVSCuts(TString signal, TString cuts){
     
     TTree * intree = (TTree*)_file->Get(_reconame.Data());
     
+    if(!intree) return 0x0;
+    
     cout << "Read tree " << intree->GetName() << endl;
 
     
@@ -155,6 +157,8 @@ MnvH1D * EffPurTools::PurVSCuts(TString signal, TString cuts){
 
 void EffPurTools::SetFile(){
     _file = new TFile(_filename, "READ");
+    
+    if(!_file) exit(0);
 }
 
 MnvH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, const int ncuts, TString name){
