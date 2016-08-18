@@ -282,7 +282,7 @@ MnvH1D * EffPurTools::GetHisto(TTree * intree, const TString var, int nbins, con
     MnvH1D * hist = new MnvH1D(host_name.Data(), "", nbins, xbins);
     
     TString tmp_cuts = cuts.Data();
-    tmp_cuts.Append(" && (%s != -999)", var.Data());
+    tmp_cuts.Append(Form(" && (%s != -999)", var.Data()));
     
     intree->Project(host_name.Data(), var.Data(), tmp_cuts.Data());
     
