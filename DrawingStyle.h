@@ -16,7 +16,7 @@ public:
     DrawingStyle(){
         enum DSColors {
             DSYellow = kOrange-2,
-            DSBlue = kAzure+2,
+            DSBlue = kAzure+2
         }
         
         gROOT->SetStyle("myStyle");
