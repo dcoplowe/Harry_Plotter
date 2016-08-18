@@ -15,11 +15,6 @@ class DrawingStyle {
 
 public:
     DrawingStyle(){
-        enum DSColors {
-            DSYellow = kOrange-2,
-            DSBlue = kAzure+2
-        };
-        
         gROOT->SetStyle("myStyle");
         gStyle->SetOptStat(0);
         gStyle->SetHistLineWidth(2.5);
@@ -34,6 +29,11 @@ public:
     }
     
     ~DrawingStyle(){;}
+    
+    enum DSColors {
+        DSYellow = kOrange-2,
+        DSBlue = kAzure+2
+    };
 };
 
 #endif
