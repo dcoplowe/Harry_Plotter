@@ -5,6 +5,7 @@
 //Forward declarations;
 #include "TFile.h"
 #include "TTree.h"
+#include "TLegend.h"
 
 using namespace std;
 
@@ -32,10 +33,12 @@ DrawingTools::DrawingTools(){
 }
 
 void DrawingTools::SetFile(){
-    cout << "DrawingTools::SetFile()" << endl;
     _file = new TFile(_filename, "READ");
     
-    if(!_file) exit(0);
+    if(_file->IsZombie()){
+        cout << "DrawingTools::SetFile() : Couldn't set file." << endl;
+        exit(0);
+    }
 }
 
 MnvH1D * DrawingTools::GetHisto(TTree * intree, const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts){
@@ -170,6 +173,35 @@ MnvH2D * DrawingTools::SmearMatrix(const TString vars_yx, int nbins, const doubl
 MnvH2D * DrawingTools::SmearMatrix(const TString vars_yx, int nbins, const Double_t * bins, const TString xy_title, const TString cuts){
     TTree * intree = (TTree*)_file->Get(_reconame.Data());
     return SmearMatrix(intree, vars_yx, nbins, bins, xy_title, cuts);
+}
+
+TLegend * DrawingTools::DrawPOT(double x_pos, double y_pos, TString filename){
+    
+    TFile * tmp_file;
+    if(!filename.EqualTo("",TString::kExact)){
+        tmp_title = new TFile(filename);
+    }
+    else tmp_file = _file;
+    
+    if(tmp_file->IsZombie()){
+        cout << "DrawingTools::DrawPOT : Could not read file." << endl;
+    }
+    
+    TTree * meta_tree = (TTree*)tmp_file->Get("Meta");
+    
+    double x_size = 0.2;
+    double y_size = 0.2;
+    TLegend * pot = new TLegend(x_pos, y_pos, x_pos + x_size, y_pos + y_size);
+    
+    if(!meta_tree){
+        cout << "DrawingTools::DrawPOT : Meta tree not found." << endl;
+        pot->AddEntry((TObject*)0, "No POT Found","");
+    }
+    else{
+        pot->AddEntry((TObject*)0, "POT","");
+    }
+    
+    return pot;
 }
 
 

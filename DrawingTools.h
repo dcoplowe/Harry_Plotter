@@ -10,6 +10,7 @@
 //Forward declarations here:
 class TFile;
 class TTree;
+class TLegend;
 
 using namespace PlotUtils;
 
@@ -39,11 +40,12 @@ public:
     MnvH2D * SmearMatrix(const TString vars_yx, int nbins, const double low, const double high, const TString xy_title = "", const TString cuts = "");
     MnvH2D * SmearMatrix(const TString vars_yx, int nbins, const Double_t * bins, const TString xy_title = "", const TString cuts = "");
     
+    TLegend * DrawPOT(double x_pos, double y_pos, TString filename = "");
+
+    
     void SetFileName(TString var){ _filename = var; }
     void SetRecoBranch(TString var){ _reconame = var; }
     void SetTrueBranch(TString var){ _truename = var; }
-    
-    
     void SetFile();
     
 private:
