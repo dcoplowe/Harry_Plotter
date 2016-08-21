@@ -200,7 +200,7 @@ TLegend * DrawingTools::DrawPOT(double x_pos, double y_pos, TString filename){
     }
     else{
         double POT_Used = 0;
-        assert(t->GetEntries()==1);
+        assert(meta_tree->GetEntries()==1);
         meta_tree->GetEntry(0);
         TLeaf * lpot= meta_tree->GetLeaf("POT_Used");
         if(lpot) POT_Used = lpot->GetValue();
