@@ -154,12 +154,12 @@ MnvH2D * DrawingTools::SmearMatrix(TTree * intree, const TString vars_yx, int nb
 
 MnvH1D * DrawingTools::GetTruthHisto(const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts){
     TTree * intree = (TTree*)_file->Get(_truename.Data());
-    return GetHisto(var, nbins, x_low, x_high, xy_title, cuts);
+    return GetHisto(intree, var, nbins, x_low, x_high, xy_title, cuts);
 }
 
 MnvH1D * DrawingTools::GetRecoHisto(const TString var, int nbins, const Double_t * xbins, const TString xy_title, const TString cuts){
     TTree * intree = (TTree*)_file->Get(_reconame.Data());
-    return GetHisto(var, nbins, xbins, xy_title, cuts);
+    return GetHisto(intree, var, nbins, xbins, xy_title, cuts);
 }
 
 MnvH2D * DrawingTools::SmearMatrix(const TString vars_yx, int nbins, const double low, const double high, const TString xy_title, const TString cuts){
