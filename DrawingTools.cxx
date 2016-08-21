@@ -123,7 +123,7 @@ MnvH2D * DrawingTools::GetHisto(TTree * intree, const TString vars_yx, int x_nbi
     //tmp_cuts.Append(Form("(%s != -999)", var.Data()));
     //cout << tmp_cuts.Data() << endl;
     
-    intree->Project(host_name.Data(), var.Data(), tmp_cuts.Data());
+    intree->Project(host_name.Data(), vars_yx.Data(), tmp_cuts.Data());
     
     //cout << "Histo: " << hist->GetName() << " : Entries = " << hist->Integral() << endl;
     return hist;
@@ -138,7 +138,7 @@ MnvH2D * DrawingTools::SmearMatrix(TTree * intree, const TString vars_yx, int nb
     for (int i=0; i < nbins + 1; i++){
         
         cout << "Array Element: " << i;
-        if(i < x_nbins + 1 ){
+        if(i < nbins + 1 ){
             bins[i] = low + binwidth*i;
             cout << " X[" << i << "] = "<< bins[i];
         }
