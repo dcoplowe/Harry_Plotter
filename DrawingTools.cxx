@@ -6,6 +6,7 @@
 #include "TFile.h"
 #include "TTree.h"
 #include "TLegend.h"
+#include "TLeaf.h"
 
 using namespace std;
 
@@ -198,7 +199,13 @@ TLegend * DrawingTools::DrawPOT(double x_pos, double y_pos, TString filename){
         pot->AddEntry((TObject*)0, "No POT Found","");
     }
     else{
-        pot->AddEntry((TObject*)0, "POT","");
+        double POT_Used = 0;
+        assert(t->GetEntries()==1);
+        meta_tree->GetEntry(0);
+        TLeaf * lpot= meta_tree->GetLeaf("POT_Used");
+        if(lpot) POT_Used = lpot->GetValue();
+        pot->AddEntry((TObject*)0, Form(" %.4f POT", POT_Used),"");
+        delete lpot;
     }
     
     delete meta_tree;
