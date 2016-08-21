@@ -191,7 +191,7 @@ MnvH1D * EffPurTools::PurVSCuts(const TString signal, const TString cuts){
 }
 
 
-MnvH1D * EffPurTools::PurVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title = "", const TString cuts = ""){
+MnvH1D * EffPurTools::PurVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title, const TString cuts){
     cout << "EffPurTools::PurVSVar()" << endl;
     TTree * intree = (TTree*)_file->Get(_reconame.Data());
     MnvH1D * purvar = RatioVSVar(intree, var, nbins, xbins, signal, x_title, cuts);
@@ -201,7 +201,7 @@ MnvH1D * EffPurTools::PurVSVar(const TString var, int nbins, const Double_t * xb
     return purvar;
 }
 
-MnvH1D * EffPurTools::PurVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title = "", const TString cuts = ""){
+MnvH1D * EffPurTools::PurVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title, const TString cuts){
     cout << "EffPurTools::PurVSVar()" << endl;
     TTree * intree = (TTree*)_file->Get(_reconame.Data());
     MnvH1D * purvar = RatioVSVar(intree, var, nbins, x_low, x_high, signal, x_title, cuts);
