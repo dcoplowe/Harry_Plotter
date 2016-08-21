@@ -2,11 +2,11 @@ CXX = g++
 CXXFLAGS = -g -Wall -fPIC
 ROOTFLAGS = `root-config --cflags --glibs`
 INCLUDE += -I$(PLOTUTILSROOT)/ #-Isrc/
-LDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
+LcDLIBS += -L$(PLOTUTILSROOT)/$(CMTCONFIG) -lplotutils
 
 #DC Added:
 #SRC_DIR = src
-SRCS = MomentumDists.cxx EffPurTools.cxx #DrawingTools.cxx
+SRCS = MomentumDists.cxx EffPurTools.cxx DrawingTools.cxx
 OBJS = $(SRCS:.c=.o)
 
 MAIN = MomentumDists
