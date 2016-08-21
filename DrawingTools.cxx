@@ -179,7 +179,7 @@ TLegend * DrawingTools::DrawPOT(double x_pos, double y_pos, TString filename){
     
     TFile * tmp_file;
     if(!filename.EqualTo("",TString::kExact)){
-        tmp_title = new TFile(filename);
+        tmp_file = new TFile(filename.Data());
     }
     else tmp_file = _file;
     
@@ -200,6 +200,9 @@ TLegend * DrawingTools::DrawPOT(double x_pos, double y_pos, TString filename){
     else{
         pot->AddEntry((TObject*)0, "POT","");
     }
+    
+    delete meta_tree;
+    delete tmp_file;
     
     return pot;
 }
