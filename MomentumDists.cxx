@@ -22,6 +22,7 @@
 #include "Cintex/Cintex.h"
 
 #include "EffPurTools.h"
+#include "DrawingTools.h"
 
 //#include <TStyle.h>
 

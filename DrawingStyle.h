@@ -15,7 +15,7 @@ class DrawingStyle {
 
 public:
     DrawingStyle(){
-        gROOT->SetStyle("myStyle");
+        //gROOT->SetStyle("myStyle");
         gStyle->SetOptStat(0);
         gStyle->SetHistLineWidth(2.5);
         gStyle->SetHistLineColor(DSYellow);
