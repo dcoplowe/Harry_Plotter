@@ -207,7 +207,6 @@ MnvH1D * DrawingTools::GetTruthHisto(const TString var, int nbins, const Double_
 
 MnvH1D * DrawingTools::GetRecoHisto(const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts){
     //cout << "DrawingTools::GetRecoHisto(const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts)" << endl;
-    TTree * test = (TTree*)_file->Get(:::)
     return GetHisto(_recotree, var, nbins, x_low, x_high, xy_title, cuts);
 }
 
