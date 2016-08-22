@@ -88,9 +88,7 @@ void MomentumDists()
         TCanvas * c_bare = new TCanvas(Form("%s_mom",tmp_part_name.Data()), "", 500, 500);
         c_bare->cd();
         s_h_mom_p0->Draw("HIST");
-        cout << "Get POT" << endl;
         TLegend * pot_bare = plot->GetPOT(0.7,0.8);
-        cout << "Draw POT" << endl;
         pot_bare->Draw();
         outfile->cd();
         c_bare->Write();
@@ -117,11 +115,24 @@ void MomentumDists()
         hs_part->Add(s_h_mom_p3);
         hs_part->Add(s_h_mom_p4);
         
+        double leg_ints_x = 0.2;
+        double leg_ints_y = 0.2;
+        double leg_ints_size_x = 0.2;
+        double leg_ints_size_y = 0.4;
+        
+        TLegend * leg_ints = new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
+        leg_ints->AddEntry(s_h_mom_p1, Form("Proton"), "lf");
+        /*leg_ints->AddEntry(s_h_mom_p2);
+        leg_ints->AddEntry(s_h_mom_p3);
+        leg_ints->AddEntry(s_h_mom_p4);
+           */
+                     
         TCanvas * c_parts = new TCanvas(Form("%s_mom_part_breakdown",tmp_part_name.Data()), "", 500, 500);
         c_parts->cd();
         hs_part->Draw();
         TLegend * pot_parts = plot->GetPOT(0.7,0.8);
         pot_parts->Draw();
+        leg_ints->Draw();
         c_parts->Write();
         //c_parts->Print(Form("%s_mom_part_breakdown.eps", tmp_part_name.Data()));
      
@@ -142,6 +153,7 @@ void MomentumDists()
         plot->ColFill(s_h_mom_i2, DrawingStyle::DSRes);
         plot->ColFill(s_h_mom_i3, DrawingStyle::DSDis);
         plot->ColFill(s_h_mom_i4, DrawingStyle::DSOther);
+        
         
         THStack * hs_ints = new THStack(Form("hs%s_ints", tmp_part_snam.Data()), Form(";#it{p}_{%s} (MeV/#it{c});Counts", tmp_part_symb.Data()));
         hs_ints->Add(s_h_mom_i1);
