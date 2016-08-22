@@ -83,7 +83,7 @@ void MomentumDists()
         TString tmp_part_snam = part_snam[i];
         TString tmp_part_symb = part_symb[i];
         
-        TH1D * h_mom_p0 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s",common_cuts_p.Data()));
+        TH1D * h_mom_p0 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s",common_cuts_p.Data()));
         
         int color = part_colo[i];
         plot->ColFill(h_mom_p0, color);
@@ -114,7 +114,7 @@ void MomentumDists()
         plot->ColFill(h_mom_p3, DrawingStyle::DSMuon);
         plot->ColFill(h_mom_p4, DrawingStyle::DSOther);
         
-        THStack * hs_part = new THStack(Form("hs%s_part", tmp_part_snam.Data()),Form(";#it{p}_{%s} (MeV/#it{c});Counts", tmp_part_symb.Data()));
+        THStack * hs_part = new THStack(Form("hs%s_part", tmp_part_snam.Data()),Form(";#it{p}_{%s} (GeV/#it{c});Counts", tmp_part_symb.Data()));
         hs_part->Add(h_mom_p1);
         hs_part->Add(h_mom_p2);
         hs_part->Add(h_mom_p3);
@@ -162,7 +162,7 @@ void MomentumDists()
         plot->ColFill(h_mom_i3, DrawingStyle::DSDis);
         plot->ColFill(h_mom_i4, DrawingStyle::DSOther);
         
-        THStack * hs_ints = new THStack(Form("hs%s_ints", tmp_part_snam.Data()), Form(";#it{p}_{%s} (MeV/#it{c});Counts", tmp_part_symb.Data()));
+        THStack * hs_ints = new THStack(Form("hs%s_ints", tmp_part_snam.Data()), Form(";#it{p}_{%s} (GeV/#it{c});Counts", tmp_part_symb.Data()));
         hs_ints->Add(h_mom_i1);
         hs_ints->Add(h_mom_i2);
         hs_ints->Add(h_mom_i3);
@@ -224,8 +224,6 @@ void MomentumDists()
         
     }
     
-    outfile->Close();
-    
     //delete plot;
     
     
@@ -239,15 +237,16 @@ void MomentumDists()
     cut_names.push_back("Contained Vtx");
     cut_names.push_back("PID: p/#pi^{+}");
     
-   // EffPurTools * m_ep = new EffPurTools(testing_mc, cut_names);
-   /*
+    EffPurTools * m_ep = new EffPurTools(testing_mc, cut_names);
+   
     MnvH1D * purcut = m_ep->PurVSCuts("mc_intType == 2 && mc_current == 1 && mc_resID == 0");
     
     if(purcut){
         TCanvas * pur_can = new TCanvas("pur_can", "", 500,500);
         pur_can->cd();
         purcut->Draw();
-        pur_can->Print("first_pur_plot.eps");
+        pur_can->Write();
+        //pur_can->Print("first_pur_plot.eps");
     }
     
     MnvH1D * effcut = m_ep->EffVSCuts("mc_intType == 2 && mc_current == 1 && mc_resID == 0");
@@ -256,19 +255,23 @@ void MomentumDists()
         TCanvas * eff_can = new TCanvas("eff_can", "", 500,500);
         eff_can->cd();
         effcut->Draw();
-        eff_can->Print("first_eff_plot.eps");
+        eff_can->Write();
+        //eff_can->Print("first_eff_plot.eps");
     }
-    */
     
     
-  /*  MnvH1D * effvar = m_ep->EffVSVar("mc_w", 10, 0, 2000, "mc_current == 1","W^{2} (MeV^{2})");
+    
+    MnvH1D * effvar = m_ep->PurVSVar("CC1P1Pi_mu_mom/1000", 20, 0, 30., "mc_current == 1","#it{p}_{#mu} (GeV/#it{c})");
     
     if(effvar){
         TCanvas * eff_vac_can = new TCanvas("eff_vac_can", "", 500,500);
         eff_vac_can->cd();
         effvar->Draw();
-        eff_vac_can->Print("first_eff_var_plot.eps");
-    }*/
+        eff_vac_can->Write();
+        //eff_vac_can->Print("first_eff_var_plot.eps");
+    }
+    outfile->Close();
+
 }
 
 

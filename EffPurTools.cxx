@@ -5,6 +5,7 @@
 //Forward declarations;
 #include "TFile.h"
 #include "TH1I.h"
+#include "TH1D.h"
 #include "TTree.h"
 
 using namespace std;
@@ -61,7 +62,7 @@ EffPurTools::EffPurTools() {
 }
 
 //These may not be void functions:
-MnvH1D * EffPurTools::EffVSCuts(const TString signal, const TString cuts){
+TH1D * EffPurTools::EffVSCuts(const TString signal, const TString cuts){
     cout << "EffPurTools::EffVSCuts(TString, TString)" << endl;
     
     if(signal.EqualTo("",TString::kExact)){
@@ -96,8 +97,8 @@ MnvH1D * EffPurTools::EffVSCuts(const TString signal, const TString cuts){
     
     cout << "Number of cuts found to be " << ncuts << endl;
     
-    MnvH1D * num = EventsVSCuts(intree, full_signal, ncuts);
-    MnvH1D * den = new MnvH1D("den", "", ncuts, 0., (double)ncuts);
+    TH1D * num = EventsVSCuts(intree, full_signal, ncuts);
+    TH1D * den = new TH1D("den", "", ncuts, 0., (double)ncuts);
 
     for(int i = 0; i < num->GetNbinsX(); i++){
         den->SetBinContent(i+1,num->GetBinContent(1));
@@ -105,7 +106,7 @@ MnvH1D * EffPurTools::EffVSCuts(const TString signal, const TString cuts){
     }
     
     _effhcounter++;
-    MnvH1D * effcuts = DrawRatioVSCuts(num, den, "Efficiency", Form("h_effic%.3d", _effhcounter));
+    TH1D * effcuts = DrawRatioVSCuts(num, den, "Efficiency", Form("h_effic%.3d", _effhcounter));
     effcuts->SetLineColor(DSBlue);
     
     delete num;
@@ -115,27 +116,27 @@ MnvH1D * EffPurTools::EffVSCuts(const TString signal, const TString cuts){
     return effcuts;
 }
 
-MnvH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title, const TString cuts){
+TH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title, const TString cuts){
     cout << "EffPurTools::EffVSVar()" << endl;
     TTree * intree = (TTree*)_file->Get(_truename.Data());
-    MnvH1D * effvar = RatioVSVar(intree, var, nbins, xbins, signal, x_title, cuts);
+    TH1D * effvar = RatioVSVar(intree, var, nbins, xbins, signal, x_title, cuts);
     _effvarcounter++;
     effvar->SetName(Form("effvar%.3d", _effvarcounter));
     effvar->GetYaxis()->SetTitle("Efficiency");
     return effvar;
 }
 
-MnvH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title, const TString cuts){
+TH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title, const TString cuts){
     cout << "EffPurTools::EffVSVar(TString, TString, TString)" << endl;
     TTree * intree = (TTree*)_file->Get(_truename.Data());
-    MnvH1D * effvar = RatioVSVar(intree, var, nbins, x_low, x_high, signal, x_title, cuts);
+    TH1D * effvar = RatioVSVar(intree, var, nbins, x_low, x_high, signal, x_title, cuts);
     _effvarcounter++;
     effvar->SetName(Form("effvar%.3d", _effvarcounter));
     effvar->GetYaxis()->SetTitle("Efficiency");
     return effvar;
 }
 
-MnvH1D * EffPurTools::PurVSCuts(const TString signal, const TString cuts){
+TH1D * EffPurTools::PurVSCuts(const TString signal, const TString cuts){
     cout << "EffPurTools::PurVSCuts(TString, TString)" << endl;
     
     if(signal.EqualTo("",TString::kExact)){
@@ -178,11 +179,11 @@ MnvH1D * EffPurTools::PurVSCuts(const TString signal, const TString cuts){
     
     cout << "Number of cuts found to be " << ncuts << endl;
 
-    MnvH1D * num = EventsVSCuts(intree, full_signal, ncuts, "pur_num");
-    MnvH1D * den = EventsVSCuts(intree, cuts, ncuts, "pur_den");
+    TH1D * num = EventsVSCuts(intree, full_signal, ncuts, "pur_num");
+    TH1D * den = EventsVSCuts(intree, cuts, ncuts, "pur_den");
     
     _purhcounter++;
-    MnvH1D * purcuts = DrawRatioVSCuts(num, den, "Purity", Form("h_purity%.3d", _purhcounter));
+    TH1D * purcuts = DrawRatioVSCuts(num, den, "Purity", Form("h_purity%.3d", _purhcounter));
 
     delete num;
     delete den;
@@ -191,20 +192,20 @@ MnvH1D * EffPurTools::PurVSCuts(const TString signal, const TString cuts){
 }
 
 
-MnvH1D * EffPurTools::PurVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title, const TString cuts){
+TH1D * EffPurTools::PurVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title, const TString cuts){
     cout << "EffPurTools::PurVSVar()" << endl;
     TTree * intree = (TTree*)_file->Get(_reconame.Data());
-    MnvH1D * purvar = RatioVSVar(intree, var, nbins, xbins, signal, x_title, cuts);
+    TH1D * purvar = RatioVSVar(intree, var, nbins, xbins, signal, x_title, cuts);
     _purvarcounter++;
     purvar->SetName(Form("effvar%.3d", _purvarcounter));
     purvar->GetYaxis()->SetTitle("Purity");
     return purvar;
 }
 
-MnvH1D * EffPurTools::PurVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title, const TString cuts){
+TH1D * EffPurTools::PurVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title, const TString cuts){
     cout << "EffPurTools::PurVSVar()" << endl;
     TTree * intree = (TTree*)_file->Get(_reconame.Data());
-    MnvH1D * purvar = RatioVSVar(intree, var, nbins, x_low, x_high, signal, x_title, cuts);
+    TH1D * purvar = RatioVSVar(intree, var, nbins, x_low, x_high, signal, x_title, cuts);
     _purvarcounter++;
     purvar->SetName(Form("effvar%.3d", _purvarcounter));
     purvar->GetYaxis()->SetTitle("Purity");
@@ -218,7 +219,7 @@ void EffPurTools::SetFile(){
     if(!_file) exit(0);
 }
 
-MnvH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, const int ncuts, TString name){
+TH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, const int ncuts, TString name){
     
     cout << "EffPurTools::EventsVSCuts" << endl;
     
@@ -239,10 +240,10 @@ MnvH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, const int
     cout << "Cut set as: " << tmp_cuts.Data() << endl;
     
     //This will complain: delete outside of function.
-    MnvH1D * h_evntcuts = new MnvH1D(name.Data(),"", ncuts, 0., (double)ncuts);
+    TH1D * h_evntcuts = new TH1D(name.Data(),"", ncuts, 0., (double)ncuts);
     
     for(int i = 0; i < ncuts; i++){
-        MnvH1D * h_tmp = new MnvH1D("h_tmp","", 1, 0., 1.);
+        TH1D * h_tmp = new TH1D("h_tmp","", 1, 0., 1.);
         TString loop_cuts = Form("%s %d", tmp_cuts.Data(), (i-1));
         cout << "Loop cut: " << loop_cuts.Data() << endl;
         intree->Project("h_tmp","0.5",loop_cuts);
@@ -254,9 +255,9 @@ MnvH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, const int
     return h_evntcuts;
 }
 
-MnvH1D * EffPurTools::DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_title, TString h_name){
+TH1D * EffPurTools::DrawRatioVSCuts(TH1D * num, TH1D * den, TString y_title, TString h_name){
     cout << "EffPurTools::DrawRatioVSCuts" << endl;
-    MnvH1D * ratio = new MnvH1D(Form("%s",h_name.Data()),Form("; ;%s", y_title.Data()),den->GetNbinsX(),den->GetXaxis()->GetXmin(),den->GetXaxis()->GetXmax());
+    TH1D * ratio = new TH1D(Form("%s",h_name.Data()),Form("; ;%s", y_title.Data()),den->GetNbinsX(),den->GetXaxis()->GetXmin(),den->GetXaxis()->GetXmax());
     ratio->Divide(num, den);
     ratio->GetYaxis()->SetRangeUser(0,1.1);
     
@@ -291,7 +292,7 @@ MnvH1D * EffPurTools::DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_titl
     return ratio;
 }
 
-MnvH1D * EffPurTools::GetHisto(TTree * intree, const TString var, int nbins, const double x_low, const double x_high, const TString cuts){
+TH1D * EffPurTools::GetHisto(TTree * intree, const TString var, int nbins, const double x_low, const double x_high, const TString cuts){
     
     Double_t * xbins = new Double_t[ nbins + 1 ];
     
@@ -307,12 +308,12 @@ MnvH1D * EffPurTools::GetHisto(TTree * intree, const TString var, int nbins, con
     
 }
 
-MnvH1D * EffPurTools::GetHisto(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString cuts){
+TH1D * EffPurTools::GetHisto(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString cuts){
     _ghcounter++;
     
     TString host_name = Form("var_%s%.3d", var.Data(), _ghcounter);
     
-    MnvH1D * hist = new MnvH1D(host_name.Data(), "", nbins, xbins);
+    TH1D * hist = new TH1D(host_name.Data(), "", nbins, xbins);
     
     TString tmp_cuts = cuts.Data();
     if(!tmp_cuts.EqualTo("", TString::kExact)) tmp_cuts.Append(" && ");
@@ -346,7 +347,7 @@ void EffPurTools::SetCutNames(std::vector<TString> var){
 }
 //------------------------------------------------------//
 
-MnvH1D * EffPurTools::RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title, const TString cuts){
+TH1D * EffPurTools::RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title, const TString cuts){
     
     cout << "    Signal: " << signal.Data() << endl;
     cout << "    Cut(s): " << cuts.Data() << endl;
@@ -360,10 +361,10 @@ MnvH1D * EffPurTools::RatioVSVar(TTree * intree, const TString var, int nbins, c
     }
     else cout << "    Cut(s): None" << endl;
     
-    MnvH1D * num = GetHisto(intree, var, nbins, xbins, full_signal);
-    MnvH1D * den = GetHisto(intree, var, nbins, xbins, cuts);
+    TH1D * num = GetHisto(intree, var, nbins, xbins, full_signal);
+    TH1D * den = GetHisto(intree, var, nbins, xbins, cuts);
     
-    MnvH1D * ratio = new MnvH1D(Form("ratio_%s", var.Data()), Form(";%s;Ratio",x_title.Data()), nbins, xbins);
+    TH1D * ratio = new TH1D(Form("ratio_%s", var.Data()), Form(";%s;Ratio",x_title.Data()), nbins, xbins);
     ratio->Divide(num, den);
     
     delete num;
@@ -372,7 +373,7 @@ MnvH1D * EffPurTools::RatioVSVar(TTree * intree, const TString var, int nbins, c
     return ratio;
 }
 
-MnvH1D * EffPurTools::RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title, const TString cuts){
+TH1D * EffPurTools::RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title, const TString cuts){
     
     cout << "    Signal: " << signal.Data() << endl;
     cout << "    Cut(s): " << cuts.Data() << endl;
@@ -386,10 +387,10 @@ MnvH1D * EffPurTools::RatioVSVar(TTree * intree, const TString var, int nbins, c
     }
     else cout << "    Cut(s): None" << endl;
     
-    MnvH1D * num = GetHisto(intree, var, nbins, x_low, x_high, full_signal);
-    MnvH1D * den = GetHisto(intree, var, nbins, x_low, x_high, cuts);
+    TH1D * num = GetHisto(intree, var, nbins, x_low, x_high, full_signal);
+    TH1D * den = GetHisto(intree, var, nbins, x_low, x_high, cuts);
     
-    MnvH1D * ratio = new MnvH1D(Form("ratio_%s", var.Data()), Form(";%s;Ratio",x_title.Data()), nbins, x_low, x_high);
+    TH1D * ratio = new TH1D(Form("ratio_%s", var.Data()), Form(";%s;Ratio",x_title.Data()), nbins, x_low, x_high);
     ratio->Divide(num, den);
     ratio->GetYaxis()->SetRangeUser(0., 1.1);
     

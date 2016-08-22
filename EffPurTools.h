@@ -4,13 +4,14 @@
 #include "DrawingStyle.h"
 
 #include "TString.h"
-#include "PlotUtils/MnvH1D.h"
+//#include "PlotUtils/MnvH1D.h"
 
 //Forward declarations here:
 class TFile;
 class TTree;
+class TH1D;
 
-using namespace PlotUtils;
+//using namespace PlotUtils;
 
 class EffPurTools : public DrawingStyle {
 public:
@@ -36,13 +37,13 @@ public:
     void SetGlobalSignal(TString var){ _glob_signal = var; }
     
     //These may not be void functions:
-    MnvH1D * EffVSCuts(const TString signal, const TString cuts = "");
-    MnvH1D * EffVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title = "", const TString cuts = "");
-    MnvH1D * EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title = "", const TString cuts = "");
+    TH1D * EffVSCuts(const TString signal, const TString cuts = "");
+    TH1D * EffVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title = "", const TString cuts = "");
+    TH1D * EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title = "", const TString cuts = "");
     
-    MnvH1D * PurVSCuts(const TString signal, const TString cuts = "");
-    MnvH1D * PurVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title = "", const TString cuts = "");
-    MnvH1D * PurVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title = "", const TString cuts = "");
+    TH1D * PurVSCuts(const TString signal, const TString cuts = "");
+    TH1D * PurVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title = "", const TString cuts = "");
+    TH1D * PurVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title = "", const TString cuts = "");
 
     
     void SetCutNames(std::vector<TString> var);
@@ -61,14 +62,14 @@ private:
     TString _glob_signal;
     std::vector<TString> _cutnames;
     
-    MnvH1D * EventsVSCuts(TTree * intree, const TString cuts, const int ncuts, TString name = "h_evntcuts");
-    MnvH1D * DrawRatioVSCuts(MnvH1D * num, MnvH1D * den, TString y_title = "", TString h_name = "h_ratio");
+    TH1D * EventsVSCuts(TTree * intree, const TString cuts, const int ncuts, TString name = "h_evntcuts");
+    TH1D * DrawRatioVSCuts(TH1D * num, TH1D * den, TString y_title = "", TString h_name = "h_ratio");
     
-    MnvH1D * RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title, const TString cuts);
-    MnvH1D * RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title, const TString cuts);
+    TH1D * RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title, const TString cuts);
+    TH1D * RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title, const TString cuts);
     
-    MnvH1D * GetHisto(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString cuts);
-    MnvH1D * GetHisto(TTree * intree, const TString var, int nbins, const double x_low, const double x_high, const TString cuts);
+    TH1D * GetHisto(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString cuts);
+    TH1D * GetHisto(TTree * intree, const TString var, int nbins, const double x_low, const double x_high, const TString cuts);
     
     int _effhcounter;
     int _purhcounter;
