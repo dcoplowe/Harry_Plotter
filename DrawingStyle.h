@@ -24,7 +24,7 @@ public:
         gStyle->SetLegendBorderSize(0);
         gStyle->SetLegendFillColor(0);
         gStyle->SetLegendFont(62);
-        gStyle->SetLegendTextSize(0.15);
+        //gStyle->SetLegendTextSize(0.15);
         gROOT->cd(0);
     }
     
