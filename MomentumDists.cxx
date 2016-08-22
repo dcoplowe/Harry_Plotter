@@ -128,6 +128,8 @@ void MomentumDists()
         double s_h_mom_p4_i = h_mom_p4->Integral();
         double s_h_mom_p_tot = s_h_mom_p1_i +s_h_mom_p2_i + s_h_mom_p3_i + s_h_mom_p4_i;
         
+        cout << " s_h_mom_p_tot = " << s_h_mom_p_tot << endl;
+        
         s_h_mom_p1_i *= 100/s_h_mom_p_tot;
         s_h_mom_p2_i *= 100/s_h_mom_p_tot;
         s_h_mom_p3_i *= 100/s_h_mom_p_tot;
