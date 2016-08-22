@@ -152,20 +152,23 @@ TH2D * DrawingTools::GetHisto(TTree * intree, const TString vars_yx, int x_nbins
     
     for (int i=0; i < loop + 1; i++){
         
-        cout << "Array Element: " << i;
+        if(_DEBUG_) cout << "Array Element: " << i;
         if(i < x_nbins + 1 ){
             xbins[i] = x_low + x_binwidth*i;
-            cout << " X[" << i << "] = "<< xbins[i];
+            if(_DEBUG_) cout << " X[" << i << "] = "<< xbins[i];
         }
-        else cout << " X[" << i << "] = NULL";
+        else{
+            if(_DEBUG_) cout << " X[" << i << "] = NULL";
+        }
         
         if(i < y_nbins + 1 ){
             ybins[i] = y_low + y_binwidth*i;
-            cout << " Y[" << i << "] = " << ybins[i];
+            if(_DEBUG_)cout << " Y[" << i << "] = " << ybins[i];
         }
-        else cout << " Y[" << i << "] = NULL";
-        
-        cout << endl;
+        else{
+            if(_DEBUG_) cout << " Y[" << i << "] = NULL";
+        }
+        if(_DEBUG_) cout << endl;
     }
     
     return GetHisto(intree, vars_yx, x_nbins, xbins, y_nbins, ybins, xy_title, cuts);
@@ -199,12 +202,12 @@ TH2D * DrawingTools::SmearMatrix(TTree * intree, const TString vars_yx, int nbin
 
     for (int i=0; i < nbins + 1; i++){
         
-        cout << "Array Element: " << i;
+        if(_DEBUG_)cout << "Array Element: " << i;
         if(i < nbins + 1 ){
             bins[i] = low + binwidth*i;
-            cout << " X[" << i << "] = "<< bins[i];
+            if(_DEBUG_) cout << " X[" << i << "] = "<< bins[i];
         }
-        cout << endl;
+        if(_DEBUG_) cout << endl;
     }
     
     return SmearMatrix(intree, vars_yx, nbins, bins, xy_title, cuts);

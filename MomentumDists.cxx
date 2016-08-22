@@ -34,7 +34,7 @@ const string flag("CC1P1Pi");
 //This is the POT for Data and Monte Carlo for the tuples that we use in this exercise.
 //const double total_mc_pot = 1.79e19;
 
-void MomentumDists()
+void MomentumDists(const string file)
 {
     ROOT::Cintex::Cintex::Enable();
     
@@ -70,7 +70,7 @@ void MomentumDists()
     TFile * outfile = new TFile(Form("plots_%s_.root", savename.Data()),"RECREATE");
     outfile->cd();
     
-    DrawingTools * plot = new DrawingTools(testing_mc);
+    DrawingTools * plot = new DrawingTools(file);
     
     for(int i=0; i<3; i++){
     
@@ -256,7 +256,7 @@ void MomentumDists()
     cut_names.push_back("Contained Vtx");
     cut_names.push_back("PID: p/#pi^{+}");
     
-    EffPurTools * m_ep = new EffPurTools(testing_mc, cut_names);
+    EffPurTools * m_ep = new EffPurTools(file, cut_names);
    
     TH1D * purcut = m_ep->PurVSCuts("mc_intType == 2 && mc_current == 1");
     
@@ -297,8 +297,19 @@ void MomentumDists()
 }
 
 
-int main()
+int main(int argc, char *argv[])
 {
-    MomentumDists();
-    return 0;
+    string filename = testing_mc;
+    
+    char cc;
+    while((cc = getopt(argc, argv, "i:")) != -1){
+        switch (cc){
+            case 'i': filename = optarg; break;
+            default: return 1;
+        }
+    }
+    
+    MomentumDists(filename);
+    
+        return 0;
 }
