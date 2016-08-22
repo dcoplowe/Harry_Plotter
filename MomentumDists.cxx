@@ -66,8 +66,8 @@ void MomentumDists()
     
     DrawingTools * plot = new DrawingTools(testing_mc);
     
-    TFile * outfile = new TFile(Form("plots_%s_.root", savename.Data()),"RECREATE");
-    outfile->cd();
+    //TFile * outfile = new TFile(Form("plots_%s_.root", savename.Data()),"RECREATE");
+    //outfile->cd();
     
     for(int i=0; i<3; i++){
     
@@ -91,9 +91,8 @@ void MomentumDists()
         h_mom_p0->Draw("HIST");
         TLegend * pot_bare = plot->GetPOT(0.7,0.8);
         pot_bare->Draw();
-        c_bare->Write();
+        //c_bare->Write();
         c_bare->Print(Form("%s_mom.eps", tmp_part_name.Data()));
-        
         
         cout << "Working 4" << endl;
         //delete h_mom_p0;
@@ -178,7 +177,7 @@ void MomentumDists()
         
     }
     
-    outfile->Close();
+    //outfile->Close();
     
     //delete plot;
     
