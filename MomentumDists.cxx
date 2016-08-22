@@ -85,7 +85,7 @@ void MomentumDists()
         
         TH1D * s_h_mom_p0 = new TH1D(h_mom_p0->GetStatError());
         
-        double h_mom_p0_i = s_h_mom_p0->Integral();
+        double h_mom_p0_i = h_mom_p0->Integral();
         cout << " h_mom_p0_i = " << h_mom_p0_i << endl;
         
         TLegend * mom_bare = plot->Legend(0.2,0.1);
@@ -122,10 +122,10 @@ void MomentumDists()
         hs_part->Add(s_h_mom_p3);
         hs_part->Add(s_h_mom_p4);
         
-        double s_h_mom_p1_i = s_h_mom_p1->Integral();
-        double s_h_mom_p2_i = s_h_mom_p2->Integral();
-        double s_h_mom_p3_i = s_h_mom_p3->Integral();
-        double s_h_mom_p4_i = s_h_mom_p4->Integral();
+        double s_h_mom_p1_i = h_mom_p1->Integral();
+        double s_h_mom_p2_i = h_mom_p2->Integral();
+        double s_h_mom_p3_i = h_mom_p3->Integral();
+        double s_h_mom_p4_i = h_mom_p4->Integral();
         double s_h_mom_p_tot = s_h_mom_p1_i +s_h_mom_p2_i + s_h_mom_p3_i + s_h_mom_p4_i;
         
         s_h_mom_p1_i *= 100/s_h_mom_p_tot;
@@ -173,10 +173,10 @@ void MomentumDists()
         hs_ints->Add(s_h_mom_i3);
         hs_ints->Add(s_h_mom_i4);
         
-        double s_h_mom_i1_i = s_h_mom_i1->Integral();
-        double s_h_mom_i2_i = s_h_mom_i2->Integral();
-        double s_h_mom_i3_i = s_h_mom_i3->Integral();
-        double s_h_mom_i4_i = s_h_mom_i4->Integral();
+        double s_h_mom_i1_i = h_mom_i1->Integral();
+        double s_h_mom_i2_i = h_mom_i2->Integral();
+        double s_h_mom_i3_i = h_mom_i3->Integral();
+        double s_h_mom_i4_i = h_mom_i4->Integral();
         double s_h_mom_i_tot = s_h_mom_i1_i +s_h_mom_i2_i + s_h_mom_i3_i + s_h_mom_i4_i;
         
         s_h_mom_i1_i *= 100/s_h_mom_i_tot;
