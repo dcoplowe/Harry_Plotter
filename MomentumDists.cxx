@@ -130,7 +130,7 @@ void MomentumDists()
         leg_ints->AddEntry(s_h_mom_p1, Form("Proton (%.2f%%)",s_h_mom_p1_i), "f");
         leg_ints->AddEntry(s_h_mom_p2, Form("#pi^{#pm} (%.2f%%)",s_h_mom_p2_i), "f");
         leg_ints->AddEntry(s_h_mom_p3, Form("#mu^{-} (%.2f%%)",s_h_mom_p3_i), "f");
-        leg_ints->AddEntry(s_h_mom_p4, Form("Other (%.2f%%)",s_h_mom_p3_i), "f");
+        leg_ints->AddEntry(s_h_mom_p4, Form("Other (%.2f%%)",s_h_mom_p4_i), "f");
                      
         TCanvas * c_parts = new TCanvas(Form("%s_mom_part_breakdown",tmp_part_name.Data()), "", 600, 600);
         c_parts->cd();
