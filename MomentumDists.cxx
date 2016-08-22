@@ -67,9 +67,11 @@ void MomentumDists()
     //TFile * outfile = new TFile(Form("plots_%s_.root", savename.Data()),"RECREATE");
     //outfile->cd();
     
+    DrawingTools * plot = new DrawingTools(testing_mc);
+    
     for(int i=0; i<3; i++){
     
-        DrawingTools * plot = new DrawingTools(testing_mc);
+        //DrawingTools * plot = new DrawingTools(testing_mc);
         
         cout << "Working 1" << endl;
         TString common_cuts_p = "accum_level > 4";
