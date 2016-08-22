@@ -85,11 +85,18 @@ void MomentumDists()
         
         TH1D * s_h_mom_p0 = new TH1D(h_mom_p0->GetStatError());
         
-        TCanvas * c_bare = new TCanvas(Form("%s_mom",tmp_part_name.Data()), "", 500, 500);
+        double h_mom_p0_i = h_mom_p0->Integral();
+        cout << " h_mom_p0_i = " << h_mom_p0_i << endl;
+        
+        TLegend * mom_bare = plot->Legend(0.2,0.1);
+        mom_bare->AddEntry((TObject*)0, Form("Total Counts %d", (int)h_mom_p0_i),"");
+        
+        TCanvas * c_bare = new TCanvas(Form("%s_mom",tmp_part_name.Data()), "", 700, 700);
         c_bare->cd();
         s_h_mom_p0->Draw("HIST");
         TLegend * pot_bare = plot->GetPOT(0.7,0.8);
         pot_bare->Draw();
+        mom_bare->Draw();
         outfile->cd();
         c_bare->Write();
         //c_bare->Print(Form("%s_mom.eps", tmp_part_name.Data()));
