@@ -173,7 +173,7 @@ void MomentumDists()
         
     }
     
-    //outfile->Close();
+    outfile->Close();
     
     //delete plot;
     
