@@ -119,20 +119,20 @@ void MomentumDists()
         double s_h_mom_p2_i = s_h_mom_p2->Integral();
         double s_h_mom_p3_i = s_h_mom_p3->Integral();
         double s_h_mom_p4_i = s_h_mom_p4->Integral();
-        double s_h_mom_p_tot = s_h_mom_p1_i +s_h_mom_p3_i + s_h_mom_p3_i + s_h_mom_p4_i;
+        double s_h_mom_p_tot = s_h_mom_p1_i +s_h_mom_p2_i + s_h_mom_p3_i + s_h_mom_p4_i;
         
         s_h_mom_p1_i *= 100/s_h_mom_p_tot;
         s_h_mom_p2_i *= 100/s_h_mom_p_tot;
         s_h_mom_p3_i *= 100/s_h_mom_p_tot;
         s_h_mom_p4_i *= 100/s_h_mom_p_tot;
         
-        TLegend * leg_ints = plot->Legend(0.2, 0.4); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
+        TLegend * leg_ints = plot->Legend(0.25, 0.4); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
         leg_ints->AddEntry(s_h_mom_p1, Form("Proton (%.2f%%)",s_h_mom_p1_i), "f");
         leg_ints->AddEntry(s_h_mom_p2, Form("#pi^{#pm} (%.2f%%)",s_h_mom_p2_i), "f");
         leg_ints->AddEntry(s_h_mom_p3, Form("#mu^{-} (%.2f%%)",s_h_mom_p3_i), "f");
         leg_ints->AddEntry(s_h_mom_p4, Form("Other (%.2f%%)",s_h_mom_p3_i), "f");
                      
-        TCanvas * c_parts = new TCanvas(Form("%s_mom_part_breakdown",tmp_part_name.Data()), "", 500, 500);
+        TCanvas * c_parts = new TCanvas(Form("%s_mom_part_breakdown",tmp_part_name.Data()), "", 600, 600);
         c_parts->cd();
         hs_part->Draw();
         TLegend * pot_parts = plot->GetPOT(0.7,0.8);
