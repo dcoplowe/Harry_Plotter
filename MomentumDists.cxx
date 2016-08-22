@@ -138,6 +138,11 @@ void MomentumDists()
         TH1D * s_h_mom_i3 = new TH1D(h_mom_i3->GetStatError());
         TH1D * s_h_mom_i4 = new TH1D(h_mom_i4->GetStatError());
         
+        plot->ColFill(s_h_mom_i1, DrawingStyle::DSQes);
+        plot->ColFill(s_h_mom_i2, DrawingStyle::DSRes);
+        plot->ColFill(s_h_mom_i3, DrawingStyle::DSDis);
+        plot->ColFill(s_h_mom_i4, DrawingStyle::DSOther);
+        
         THStack * hs_ints = new THStack(Form("hs%s_ints", tmp_part_snam.Data()), Form(";#it{p}_{%s} (MeV/#it{c});Counts", tmp_part_symb.Data()));
         hs_ints->Add(s_h_mom_i1);
         hs_ints->Add(s_h_mom_i2);

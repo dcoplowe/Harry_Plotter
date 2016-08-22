@@ -36,10 +36,10 @@ public:
         DSProton = kOrange-2,
         DSPion = kAzure+2,
         DSMuon = kCyan+2,
-        DSQES = kOrange-2,
+        DSQes = kOrange-2,
         DSRes = kAzure+2,
-        DSDIS = kCyan+2,
-        DSOther = kGray+2
+        DSDis = kCyan+2,
+        DSOther = kGray
     };
 };
 
