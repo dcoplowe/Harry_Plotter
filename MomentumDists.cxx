@@ -154,7 +154,7 @@ void MomentumDists()
         
         delete hs_part;
         
-      /*  delete h_mom_i1;
+        delete h_mom_i1;
         delete h_mom_i2;
         delete h_mom_i3;
         delete h_mom_i4;
@@ -213,10 +213,6 @@ void MomentumDists()
         effvar->Draw();
         eff_vac_can->Print("first_eff_var_plot.eps");
     }*/
-    
-    /*
-        
-    
 }
 
 
