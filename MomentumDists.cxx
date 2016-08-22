@@ -95,9 +95,6 @@ void MomentumDists()
         outfile->cd();
         c_bare->Write();
         c_bare->Print(Form("%s_mom.eps", tmp_part_name.Data()));
-        
-        //delete pot_bare;
-        //delete h_mom_p0;
 
         MnvH1D * h_mom_p1 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 2212", common_cuts_p.Data(), tmp_part_snam.Data()));
         MnvH1D * h_mom_p2 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s && TMath::Abs(CC1P1Pi_%s_PDG == 211)", common_cuts_p.Data(), tmp_part_snam.Data()));
@@ -114,7 +111,7 @@ void MomentumDists()
         plot->ColFill(s_h_mom_p3, DrawingStyle::DSMuon);
         plot->ColFill(s_h_mom_p4, DrawingStyle::DSOther);
         
-        THStack * hs_part = new THStack();
+        THStack * hs_part = new THStack(";Test x; Counts");
         hs_part->Add(s_h_mom_p1);
         hs_part->Add(s_h_mom_p2);
         hs_part->Add(s_h_mom_p3);
