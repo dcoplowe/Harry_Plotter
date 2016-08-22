@@ -25,6 +25,11 @@ public:
         gStyle->SetLegendBorderSize(0);
         gStyle->SetLegendFillColor(0);
         gStyle->SetLegendFont(62);
+        
+        gStyle->SetPadTopMargin(0.10);
+        gStyle->SetPadRightMargin(0.10);
+        gStyle->SetPadBottomMargin(0.15);
+        gStyle->SetPadLeftMargin(0.15);
         //gStyle->SetLegendTextSize(0.15);
         //TGaxis::SetMaxDigits(2);
         gROOT->cd(0);

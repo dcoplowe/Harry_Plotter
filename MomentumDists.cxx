@@ -145,11 +145,11 @@ void MomentumDists()
         //c_parts->Print(Form("%s_mom_part_breakdown.eps", tmp_part_name.Data()));
      
         TString common_cuts_i = "accum_level > 4 && mc_current == 1 && mc_intType";
-        TH1D * h_mom_i1 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()),20, 0., 4., Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i.Data(), " == 1"));//QE
-        TH1D * h_mom_i2 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()),20, 0., 4., Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i.Data(), " == 2"));//Res
-        TH1D * h_mom_i3 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()),20, 0., 4., Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i.Data(), " == 3"));//Dis
-        TH1D * h_mom_i4 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()),20, 0., 4., Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i.Data(), " >= 4"));//Other
-        TH1D * h_mom_i5 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()),20, 0., 4., Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && mc_current != 1", common_cuts_p.Data()));//NC/no current
+        TH1D * h_mom_i1 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()), 20, 0., 4., Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i.Data(), " == 1"));//QE
+        TH1D * h_mom_i2 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()), 20, 0., 4., Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i.Data(), " == 2"));//Res
+        TH1D * h_mom_i3 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()), 20, 0., 4., Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i.Data(), " == 3"));//Dis
+        TH1D * h_mom_i4 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()), 20, 0., 4., Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i.Data(), " >= 4"));//Other
+        TH1D * h_mom_i5 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()), 20, 0., 4., Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && mc_current != 1", common_cuts_p.Data()));//NC/no current
         h_mom_i4->Add(h_mom_i5);//Add NC ints to other.
         
         plot->ColFill(h_mom_i1, DrawingStyle::DSQes);
