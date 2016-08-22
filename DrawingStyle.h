@@ -7,6 +7,7 @@
 
 #include <TROOT.h>
 #include <TStyle.h>
+#include <TGaxis.h>
 //#include <TColor.h> TColor
 
 using namespace std;
@@ -25,6 +26,7 @@ public:
         gStyle->SetLegendFillColor(0);
         gStyle->SetLegendFont(62);
         //gStyle->SetLegendTextSize(0.15);
+        TGaxis::SetMaxDigits(4);
         gROOT->cd(0);
     }
     
