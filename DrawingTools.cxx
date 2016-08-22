@@ -237,6 +237,7 @@ TLegend * DrawingTools::GetPOT(double x_pos, double y_pos, TString filename){
     TLegend * pot = new TLegend(x_pos, y_pos, x_pos + x_size, y_pos + y_size);
     pot->AddEntry((TObject*)0, Form(" %.2e POT", _POT),"");
     pot->SetFillStyle(0);
+    pot->SetTextSize(1.2);
     return pot;
 }
 
