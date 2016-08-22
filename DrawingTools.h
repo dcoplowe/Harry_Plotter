@@ -14,7 +14,7 @@ class TLegend;
 class TH1D;
 class TH2D;
 
-using namespace PlotUtils;
+//using namespace PlotUtils;
 
 class DrawingTools : public DrawingStyle {
 public:
