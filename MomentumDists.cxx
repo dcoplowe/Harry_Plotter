@@ -67,13 +67,12 @@ void MomentumDists()
     //TFile * outfile = new TFile(Form("plots_%s_.root", savename.Data()),"RECREATE");
     //outfile->cd();
     
-    DrawingTools * plot = new DrawingTools(testing_mc);
+    //DrawingTools * plot = new DrawingTools(testing_mc);
     
     for(int i=0; i<3; i++){
     
-        //DrawingTools * plot = new DrawingTools(testing_mc);
+        DrawingTools * plot = new DrawingTools(testing_mc);
         
-        cout << "Working 1" << endl;
         TString common_cuts_p = "accum_level > 4";
         TString tmp_part_name = part_name[i];
         TString tmp_part_snam = part_snam[i];
@@ -81,12 +80,8 @@ void MomentumDists()
         
         MnvH1D * h_mom_p0 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s",common_cuts_p.Data()));
         
-        cout << "Working 2" << endl;
-
         int color = part_colo[i];
         plot->ColFill(h_mom_p0, color);
-        
-        cout << "Working 3" << endl;
         
         TCanvas * c_bare = new TCanvas(Form("%s_mom",tmp_part_name.Data()), "", 450, 450);
         c_bare->cd();
@@ -96,7 +91,6 @@ void MomentumDists()
         //c_bare->Write();
         c_bare->Print(Form("%s_mom.eps", tmp_part_name.Data()));
         
-        cout << "Working 4" << endl;
         //delete h_mom_p0;
 
        /* MnvH1D * h_mom_p1 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 2212", common_cuts_p.Data(), tmp_part_snam.Data()));
