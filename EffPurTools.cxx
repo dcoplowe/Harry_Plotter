@@ -286,7 +286,7 @@ TH1D * EffPurTools::DrawRatioVSCuts(TH1D * num, TH1D * den, TString y_title, TSt
             tmp_label.Form("No Cuts");
         }
         else{
-            if(max_bins > i ) tmp_label.Form("%d) %s", i, _cutnames[i].Data());
+            if(max_bins > i ) tmp_label.Form("%d) %s", i, _cutnames[i-1].Data());
             else tmp_label.Form("%d)", i);
         }
         
