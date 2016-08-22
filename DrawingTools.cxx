@@ -57,9 +57,7 @@ void DrawingTools::SetTrees(){
         if(_recotree){
             cout << "Probably do something here" << endl;
         }
-        
         _recotree = (TTree*)_file->Get(_reconame.Data());
-        
     }
     
     if(_truename.EqualTo("",TString::kExact)){
