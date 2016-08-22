@@ -193,7 +193,23 @@ void MomentumDists()
         pot_ints->Draw();
         leg_ints->Draw();
         c_ints->Write();
-
+        
+        TH2D * h_smear_nc = plot->SmearMatrix(Form("CC1P1Pi_%s_truemom/1000:CC1P1Pi_%s_mom/1000", tmp_part_snam.Data(), tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("Reco #it{p}_{%s} (GeV/#it{c}); True #it{p}_{%s} (GeV/#it{c})", tmp_part_symb.Data(), tmp_part_symb.Data()), "accum_level > 4");
+                                //SmearMatrix(const TString vars_yx, int nbins, const double low, const double high, const TString xy_title = "", const TString cuts = "");
+        
+        TCanvas * c_smear_nc = new TCanvas(Form("%s_mom_smear_nocuts",tmp_part_name.Data()), "", 1000, 1000);
+        c_smear_nc->cd();
+        h_smear_nc->Draw("COLZ");
+        c_smear_nc->Write();
+        
+        TH2D * h_smear_nc = plot->SmearMatrix(Form("CC1P1Pi_%s_truemom/1000:CC1P1Pi_%s_mom/1000", tmp_part_snam.Data(), tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("Reco #it{p}_{%s} (GeV/#it{c}); True #it{p}_{%s} (GeV/#it{c})", tmp_part_symb.Data(), tmp_part_symb.Data()), "accum_level > 4");
+        //SmearMatrix(const TString vars_yx, int nbins, const double low, const double high, const TString xy_title = "", const TString cuts = "");
+  /*
+        TCanvas * c_smear_nc = new TCanvas(Form("%s_mom_smear_nocuts",tmp_part_name.Data()), "", 1000, 1000);
+        c_smear_nc->cd();
+        h_smear_nc->Draw("COLZ");
+        c_smear_nc->Write();
+*/
         
         /*delete h_mom_p0;
         delete h_mom_p1;
@@ -223,12 +239,6 @@ void MomentumDists()
         delete hs_ints;*/
         
     }
-    
-    //delete plot;
-    
-    
-    
-    
     
     std::vector<TString> cut_names;
     cut_names.push_back("Vertex");
