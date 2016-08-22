@@ -72,6 +72,8 @@ void DrawingTools::SetTrees(){
         _truetree = (TTree*)_file->Get(_truename.Data());
     }
     
+    _metatree = (TTree*)_file->Get("Meta");
+    
     if(should_exit){
         cout << "Missing Tree names... Exiting" << endl;
         exit(0);
@@ -224,21 +226,19 @@ MnvH2D * DrawingTools::SmearMatrix(const TString vars_yx, int nbins, const Doubl
 
 TLegend * DrawingTools::GetPOT(double x_pos, double y_pos, TString filename){
     
-    TFile * tmp_file;
+    TTree * meta_tree;
+    
     if(!filename.EqualTo("",TString::kExact)){
-        tmp_file = new TFile(filename.Data());
+        TFile * tmp_file = new TFile(filename.Data());
+        
+        if(tmp_file->IsZombie()){
+            cout << "DrawingTools::DrawPOT : Could not read file." << endl;
+            exit(0);
+        }
+        meta_tree = (TTree*)tmp_file->Get("Meta");
     }
-    else tmp_file = _file;
-    
-    if(tmp_file->IsZombie()){
-        cout << "DrawingTools::DrawPOT : Could not read file." << endl;
-    }
-    
-    cout << "Getting meta tree" << endl;
-    TTree * meta_tree = (TTree*)tmp_file->Get("Meta");
-    cout << "Found meta tree" << endl;
+    else meta_tree = _metatree;
 
-    
     double x_size = 0.2;
     double y_size = 0.2;
     TLegend * pot = new TLegend(x_pos, y_pos, x_pos + x_size, y_pos + y_size);
@@ -253,7 +253,7 @@ TLegend * DrawingTools::GetPOT(double x_pos, double y_pos, TString filename){
         meta_tree->GetEntry(0);
         TLeaf * lpot= meta_tree->GetLeaf("POT_Used");
         if(lpot) POT_Used = lpot->GetValue();
-        pot->AddEntry((TObject*)0, Form(" %.4f POT", POT_Used),"");
+        pot->AddEntry((TObject*)0, Form(" %.4e POT", POT_Used),"");
         delete lpot;
     }
     

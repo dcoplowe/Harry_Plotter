@@ -66,6 +66,7 @@ private:
     
     TTree * _truetree;
     TTree * _recotree;
+    TTree * _metatree;
     
     int _1Dcounter;
     int _2Dcounter;
