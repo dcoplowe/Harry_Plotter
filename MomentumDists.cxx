@@ -64,13 +64,13 @@ void MomentumDists()
         true_name[i] = "True " + rec_name[i];
     }
     
-    DrawingTools * plot = new DrawingTools(testing_mc);
-    
     //TFile * outfile = new TFile(Form("plots_%s_.root", savename.Data()),"RECREATE");
     //outfile->cd();
     
     for(int i=0; i<3; i++){
     
+        DrawingTools * plot = new DrawingTools(testing_mc);
+        
         cout << "Working 1" << endl;
         TString common_cuts_p = "accum_level > 4";
         TString tmp_part_name = part_name[i];
