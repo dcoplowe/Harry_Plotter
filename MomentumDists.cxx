@@ -85,7 +85,7 @@ void MomentumDists()
         
         TH1D * s_h_mom_p0 = new TH1D(h_mom_p0->GetStatError());
         
-        TCanvas * c_bare = new TCanvas(Form("%s_mom",tmp_part_name.Data()), "", 450, 450);
+        TCanvas * c_bare = new TCanvas(Form("%s_mom",tmp_part_name.Data()), "", 500, 500);
         c_bare->cd();
         s_h_mom_p0->Draw("HIST");
         cout << "Get POT" << endl;
@@ -111,13 +111,13 @@ void MomentumDists()
         plot->ColFill(s_h_mom_p3, DrawingStyle::DSMuon);
         plot->ColFill(s_h_mom_p4, DrawingStyle::DSOther);
         
-        THStack * hs_part = new THStack("hs_part",";Test x; Counts");
+        THStack * hs_part = new THStack("hs_part",Form(";#it{p}_{%s} (MeV/#it{c});Counts", tmp_part_symb.Data()));
         hs_part->Add(s_h_mom_p1);
         hs_part->Add(s_h_mom_p2);
         hs_part->Add(s_h_mom_p3);
         hs_part->Add(s_h_mom_p4);
         
-        TCanvas * c_parts = new TCanvas(Form("%s_mom_part_breakdown",tmp_part_name.Data()), "", 450, 450);
+        TCanvas * c_parts = new TCanvas(Form("%s_mom_part_breakdown",tmp_part_name.Data()), "", 500, 500);
         c_parts->cd();
         hs_part->Draw();
         TLegend * pot_parts = plot->GetPOT(0.7,0.8);
