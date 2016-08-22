@@ -82,17 +82,17 @@ void MomentumDists()
         int color = part_colo[i];
         plot->ColFill(h_mom_p0, color);
         
-        TCanvas c_bare = new TCanvas(Form("%s_mom",part_name[i]), "", 450, 450);
+        TCanvas * c_bare = new TCanvas(Form("%s_mom",part_name[i]), "", 450, 450);
         c_bare->cd();
         h_mom_p0->Draw();
-        TLegend * pot_bare = plot->GetPot(0.7,0.8);
+        TLegend * pot_bare = plot->GetPOT(0.7,0.8);
         pot_bare->Draw();
         c_bare->Write();
-        c_bare->Print(Form("%s_mom.eps", part_name[i]));
+        c_bare->Print(Form("%s_mom.eps", tmp_part_name.Data()));
         
-        MnvH1D * h_mom_p1 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 2212", common_cuts_p.Data(), part_snam[i]));
-        MnvH1D * h_mom_p2 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s && TMath::Abs(CC1P1Pi_%s_PDG == 211)", common_cuts_p.Data(), part_snam[i]));
-        MnvH1D * h_mom_p3 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 13", common_cuts_p.Data(), part_snam[i]));
+        MnvH1D * h_mom_p1 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 2212", common_cuts_p.Data(), tmp_part_snam.Data()));
+        MnvH1D * h_mom_p2 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s && TMath::Abs(CC1P1Pi_%s_PDG == 211)", common_cuts_p.Data(), tmp_part_snam.Data()));
+        MnvH1D * h_mom_p3 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 13", common_cuts_p.Data(), tmp_part_snam.Data()));
         MnvH1D * h_mom_p4 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG != 13 && TMath::Abs(CC1P1Pi_%s_PDG) != 211 && CC1P1Pi_%s_PDG != 2212", common_cuts_p.Data(), tmp_part_snam.Data(), tmp_part_snam.Data(), tmp_part_snam.Data()));
         
         TH1D * s_h_mom_p1 = new TH1D(h_mom_p1->GetStatError());
@@ -111,10 +111,10 @@ void MomentumDists()
         hs_part->Add(s_h_mom_p3);
         hs_part->Add(s_h_mom_p4);
         
-        TCanvas c_parts = new TCanvas(Form("%s_mom_part_breakdown",tmp_part_name.Data()), "", 450, 450);
+        TCanvas * c_parts = new TCanvas(Form("%s_mom_part_breakdown",tmp_part_name.Data()), "", 450, 450);
         c_parts->cd();
         hs_part->Draw();
-        TLegend * pot_parts = plot->GetPot(0.7,0.8);
+        TLegend * pot_parts = plot->GetPOT(0.7,0.8);
         pot_parts->Draw();
         c_parts->Write();
         c_parts->Print(Form("%s_mom_part_breakdown.eps", tmp_part_name.Data()));
