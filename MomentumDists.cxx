@@ -150,10 +150,10 @@ void MomentumDists()
         MnvH1D * h_mom_i5 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s && mc_current != 1", common_cuts_p.Data()));//NC/no current
         h_mom_i4->Add(h_mom_i5);//Add NC ints to other.
         
-        TH1D * s_h_mom_i1 = new TH1D(h_mom_i1->GetStatError());
-        TH1D * s_h_mom_i2 = new TH1D(h_mom_i2->GetStatError());
-        TH1D * s_h_mom_i3 = new TH1D(h_mom_i3->GetStatError());
-        TH1D * s_h_mom_i4 = new TH1D(h_mom_i4->GetStatError());
+        TH1D * s_h_mom_i1 = new TH1D(h_mom_i1->GetStatError(true));
+        TH1D * s_h_mom_i2 = new TH1D(h_mom_i2->GetStatError(true));
+        TH1D * s_h_mom_i3 = new TH1D(h_mom_i3->GetStatError(true));
+        TH1D * s_h_mom_i4 = new TH1D(h_mom_i4->GetStatError(true));
         
         plot->ColFill(s_h_mom_i1, DrawingStyle::DSQes);
         plot->ColFill(s_h_mom_i2, DrawingStyle::DSRes);
