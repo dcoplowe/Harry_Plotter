@@ -64,8 +64,8 @@ void MomentumDists()
         true_name[i] = "True " + rec_name[i];
     }
     
-    TFile * outfile = new TFile(Form("plots_%s_.root", savename.Data()),"RECREATE");
-    outfile->cd();
+    //TFile * outfile = new TFile(Form("plots_%s_.root", savename.Data()),"RECREATE");
+    //outfile->cd();
     
     DrawingTools * plot = new DrawingTools(testing_mc);
     
@@ -173,7 +173,7 @@ void MomentumDists()
         
     }
     
-    outfile->Close();
+    //outfile->Close();
     
     //delete plot;
     
