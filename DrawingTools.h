@@ -74,6 +74,8 @@ private:
     void SetPOT(TString filename = "");
     double _POT;
     
+    bool _DEBUG_;
+    
 };
 
 #endif

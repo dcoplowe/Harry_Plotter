@@ -32,12 +32,15 @@ DrawingTools::DrawingTools(TString filename, TString reconame, TString truename)
     //Include counter to make sure hists have unique names:
     _1Dcounter = -1;
     _2Dcounter = -1;
+    
+    _DEBUG_ = false;
 }
 
 DrawingTools::DrawingTools(){
     _1Dcounter = -1;
     _2Dcounter = -1;
     _POT = -999.;
+    _DEBUG_ = false;
 }
 
 void DrawingTools::SetFile(){
@@ -86,7 +89,7 @@ void DrawingTools::SetTrees(){
 }
 
 MnvH1D * DrawingTools::GetHisto(TTree * intree, const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts){
-    cout << "DrawingTools::GetHisto(TTree * intree, const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts)" << endl;
+    if(_DEBUG_) cout << "DrawingTools::GetHisto(TTree * intree, const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts)" << endl;
 
     Double_t * xbins = new Double_t[ nbins + 1 ];
     
@@ -102,7 +105,7 @@ MnvH1D * DrawingTools::GetHisto(TTree * intree, const TString var, int nbins, co
 }
 
 MnvH1D * DrawingTools::GetHisto(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString xy_title, const TString cuts){
-    cout << "DrawingTools::GetHisto(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString xy_title, const TString cuts)" << endl;
+    if(_DEBUG_) cout << "DrawingTools::GetHisto(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString xy_title, const TString cuts)" << endl;
     
     _1Dcounter++;
     TString host_name = Form("h1Dvar%.3d", _1Dcounter);
@@ -212,7 +215,7 @@ MnvH1D * DrawingTools::GetTruthHisto(const TString var, int nbins, const Double_
 }
 
 MnvH1D * DrawingTools::GetRecoHisto(const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts){
-    //cout << "DrawingTools::GetRecoHisto(const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts)" << endl;
+    if(_DEBUG_) cout << "DrawingTools::GetRecoHisto(const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts)" << endl;
     return GetHisto(_recotree, var, nbins, x_low, x_high, xy_title, cuts);
 }
 
@@ -267,7 +270,7 @@ void DrawingTools::SetPOT(TString filename){
             }
         }
         else{
-            cout << "POT already set " << _POT << endl;
+            if(_DEBUG_) cout << "POT already set " << _POT << endl;
         }
     }
     else{
@@ -280,7 +283,7 @@ void DrawingTools::SetPOT(TString filename){
             _POT = POT_Used;
         }
         else{
-            cout << "POT already set as " << _POT << endl;
+            if(_DEBUG_) cout << "POT already set as " << _POT << endl;
         }
     }
 }
