@@ -15,7 +15,6 @@ class DrawingStyle {
 
 public:
     DrawingStyle(){
-        //gROOT->SetStyle("myStyle");
         gStyle->SetOptStat(0);
         gStyle->SetHistLineWidth(2.5);
         gStyle->SetHistLineColor(DSYellow);
@@ -23,9 +22,7 @@ public:
         gStyle->SetPadTickX(1);
         gStyle->SetPadTickY(1);
         gStyle->SetLegendBorderSize(0);
-        gStyle->SetLegendFillColor(-1);
-        
-        
+        gStyle->SetLegendFillColor(0);
         gROOT->cd(0);
     }
     
