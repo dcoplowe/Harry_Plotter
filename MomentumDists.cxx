@@ -121,7 +121,7 @@ void MomentumDists()
         double leg_ints_size_y = 0.4;
         
         TLegend * leg_ints = new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
-        leg_ints->AddEntry(s_h_mom_p1, Form("Proton"), "lf");
+        leg_ints->AddEntry(s_h_mom_p1, Form("Proton"), "f");
         /*leg_ints->AddEntry(s_h_mom_p2);
         leg_ints->AddEntry(s_h_mom_p3);
         leg_ints->AddEntry(s_h_mom_p4);
