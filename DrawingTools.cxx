@@ -237,9 +237,10 @@ TLegend * DrawingTools::GetPOT(double x_pos, double y_pos, TString filename){
     
     double x_size = 0.3;
     double y_size = 0.1;
-    TLegend * pot = new TLegend(x_pos, y_pos, x_pos + x_size, y_pos + y_size);
+    //Legend(double x_size, double y_size, double x_start, double y_start)
+    TLegend * pot = Legend(x_size, y_size, x_pos, y_pos);
     pot->AddEntry((TObject*)0, Form(" %.2e POT", _POT),"");
-    pot->SetFillStyle(0);
+    //pot->SetFillStyle(0);
     pot->SetTextSize(0.042);
     return pot;
 }
@@ -286,6 +287,13 @@ void DrawingTools::SetPOT(TString filename){
             if(_DEBUG_) cout << "POT already set as " << _POT << endl;
         }
     }
+}
+
+TLegend * DrawingTools::Legend(double x_size, double y_size, double x_start, double y_start){
+    TLegend leg = new TLegend(x_start, y_start, x_start + x_size, y_start + y_size);
+    leg->SetFillStyle(0);
+    //leg->SetTextSize(0.042);
+    return leg;
 }
 
 

@@ -49,6 +49,7 @@ public:
     void ColFill(MnvH1D *&h1, int fill_color, int line_color = kBlack);
     void ColFill(TH1D *&h1, int fill_color, int line_color = kBlack);
 
+    TLegend * Legend(double x_size, double y_size, double x_start = 0.1, double y_start = 0.1);
     
     void SetFileName(TString var){ _filename = var; }
     void SetRecoBranch(TString var){ _reconame = var; }
