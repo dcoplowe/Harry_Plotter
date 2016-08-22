@@ -121,10 +121,10 @@ void MomentumDists()
         double s_h_mom_p4_i = s_h_mom_p4->Integral();
         double s_h_mom_p_tot = s_h_mom_p1_i +s_h_mom_p3_i + s_h_mom_p3_i + s_h_mom_p4_i;
         
-        s_h_mom_p1_i *= 1/s_h_mom_p_tot;
-        s_h_mom_p2_i *= 1/s_h_mom_p_tot;
-        s_h_mom_p3_i *= 1/s_h_mom_p_tot;
-        s_h_mom_p4_i *= 1/s_h_mom_p_tot;
+        s_h_mom_p1_i *= 100/s_h_mom_p_tot;
+        s_h_mom_p2_i *= 100/s_h_mom_p_tot;
+        s_h_mom_p3_i *= 100/s_h_mom_p_tot;
+        s_h_mom_p4_i *= 100/s_h_mom_p_tot;
         
         TLegend * leg_ints = plot->Legend(0.2, 0.4); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
         leg_ints->AddEntry(s_h_mom_p1, Form("Proton (%.2f%%)",s_h_mom_p1_i), "f");
