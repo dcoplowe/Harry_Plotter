@@ -121,6 +121,8 @@ TH1D * DrawingTools::GetHisto(TTree * intree, const TString var, int nbins, cons
     else tmp_title = xy_title + ";Counts";
     
     TH1D * hist = new TH1D(host_name.Data(), Form(";%s", tmp_title.Data()), nbins, xbins);
+    hist->GetYaxis()->Setmaxdigits(2);
+    hist->GetXaxis()->Setmaxdigits(2);
     
     TString tmp_cuts = cuts.Data();
     if(!tmp_cuts.EqualTo("", TString::kExact)) tmp_cuts.Append(" && ");
@@ -175,6 +177,8 @@ TH2D * DrawingTools::GetHisto(TTree * intree, const TString vars_yx, int x_nbins
     TString host_name = Form("h2Dvar%.3d", _2Dcounter);
     
     TH2D * hist = new TH2D(host_name.Data(), Form(";%s", xy_title.Data()), x_nbins, xbins, y_nbins, ybins);
+    hist->GetYaxis()->Setmaxdigits(2);
+    hist->GetXaxis()->Setmaxdigits(2);
     
     TString tmp_cuts = cuts.Data();
     //if(!tmp_cuts.EqualTo("", TString::kExact)) tmp_cuts.Append(" && ");
