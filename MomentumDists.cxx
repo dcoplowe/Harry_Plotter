@@ -176,7 +176,7 @@ void MomentumDists()
         s_h_mom_i3_i *= 100/s_h_mom_i_tot;
         s_h_mom_i4_i *= 100/s_h_mom_i_tot;
         
-        Legend * leg_ints = plot->Legend(0.3, 0.4); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
+        TLegend * leg_ints = plot->Legend(0.3, 0.4); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
         leg_ints->AddEntry(s_h_mom_i1, Form("CC Quasi El. (%.2f%%)",s_h_mom_i1_i), "f");
         leg_ints->AddEntry(s_h_mom_i2, Form("CC Resonance (%.2f%%)",s_h_mom_i2_i), "f");
         leg_ints->AddEntry(s_h_mom_i3, Form("CC DIS (%.2f%%)",s_h_mom_i3_i), "f");
