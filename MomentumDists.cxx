@@ -245,6 +245,7 @@ void MomentumDists()
         TCanvas * pur_can = new TCanvas("pur_can", "", 500,500);
         pur_can->cd();
         purcut->Draw();
+        outfile->cd();
         pur_can->Write();
         //pur_can->Print("first_pur_plot.eps");
     }
@@ -255,6 +256,7 @@ void MomentumDists()
         TCanvas * eff_can = new TCanvas("eff_can", "", 500,500);
         eff_can->cd();
         effcut->Draw();
+        outfile->cd();
         eff_can->Write();
         //eff_can->Print("first_eff_plot.eps");
     }
@@ -267,6 +269,7 @@ void MomentumDists()
         TCanvas * eff_vac_can = new TCanvas("eff_vac_can", "", 500,500);
         eff_vac_can->cd();
         effvar->Draw();
+        outfile->cd();
         eff_vac_can->Write();
         //eff_vac_can->Print("first_eff_var_plot.eps");
     }

@@ -311,7 +311,7 @@ TH1D * EffPurTools::GetHisto(TTree * intree, const TString var, int nbins, const
 TH1D * EffPurTools::GetHisto(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString cuts){
     _ghcounter++;
     
-    TString host_name = Form("var_%s%.3d", var.Data(), _ghcounter);
+    TString host_name = Form("var%.3d", _ghcounter);
     
     TH1D * hist = new TH1D(host_name.Data(), "", nbins, xbins);
     
