@@ -71,6 +71,9 @@ private:
     int _1Dcounter;
     int _2Dcounter;
     
+    void SetPOT(TString filename = "");
+    double _POT;
+    
 };
 
 #endif

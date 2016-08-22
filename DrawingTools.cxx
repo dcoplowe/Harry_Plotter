@@ -26,6 +26,9 @@ DrawingTools::DrawingTools(TString filename, TString reconame, TString truename)
     
     SetTrees();
     
+    _POT = -999.;
+    SetPOT();
+    
     //Include counter to make sure hists have unique names:
     _1Dcounter = -1;
     _2Dcounter = -1;
@@ -34,6 +37,7 @@ DrawingTools::DrawingTools(TString filename, TString reconame, TString truename)
 DrawingTools::DrawingTools(){
     _1Dcounter = -1;
     _2Dcounter = -1;
+    _POT = -999.;
 }
 
 void DrawingTools::SetFile(){
@@ -226,39 +230,12 @@ MnvH2D * DrawingTools::SmearMatrix(const TString vars_yx, int nbins, const Doubl
 
 TLegend * DrawingTools::GetPOT(double x_pos, double y_pos, TString filename){
     
-    TTree * meta_tree;
+    SetPOT(filename);
     
-    if(!filename.EqualTo("",TString::kExact)){
-        TFile * tmp_file = new TFile(filename.Data());
-        
-        if(tmp_file->IsZombie()){
-            cout << "DrawingTools::DrawPOT : Could not read file." << endl;
-            exit(0);
-        }
-        meta_tree = (TTree*)tmp_file->Get("Meta");
-    }
-    else meta_tree = _metatree;
-
     double x_size = 0.2;
     double y_size = 0.2;
     TLegend * pot = new TLegend(x_pos, y_pos, x_pos + x_size, y_pos + y_size);
-    
-    if(!meta_tree){
-        cout << "DrawingTools::DrawPOT : Meta tree not found." << endl;
-        pot->AddEntry((TObject*)0, "No POT Found","");
-    }
-    else{
-        double POT_Used = 0;
-        assert(meta_tree->GetEntries()==1);
-        meta_tree->GetEntry(0);
-        TLeaf * lpot= meta_tree->GetLeaf("POT_Used");
-        if(lpot) POT_Used = lpot->GetValue();
-        pot->AddEntry((TObject*)0, Form(" %.4e POT", POT_Used),"");
-        delete lpot;
-    }
-    
-    //delete meta_tree;
-    
+    pot->AddEntry((TObject*)0, Form(" %.4e POT", _POT),"");
     return pot;
 }
 
@@ -272,5 +249,38 @@ void DrawingTools::ColFill(TH1D *&h1, int fill_color, int line_color){
     h1->SetLineColor(line_color);
 }
 
+void DrawingTools::SetPOT(TString filename){
+    
+    if(!filename.EqualTo("",TString::kExact)){
+        if(_POT == -999.0){
+            TFile * tmp_file = new TFile(filename.Data(), "READ");
+            if(!tmp_file->IsZombie()){
+                TTree * tmp_meta_tree = (TTree*)tmp_file->Get("Meta");
+                double POT_Used = 0;
+                assert(tmp_meta_tree->GetEntries()==1);
+                tmp_meta_tree->GetEntry(0);
+                TLeaf * lpot= tmp_meta_tree->GetLeaf("POT_Used");
+                if(lpot) POT_Used = lpot->GetValue();
+                _POT = POT_Used;
+            }
+        }
+        else{
+            cout << "POT already set " << _POT << endl;
+        }
+    }
+    else{
+        if(_POT == -999.0){
+            double POT_Used = 0;
+            assert(_metatree->GetEntries()==1);
+            _metatree->GetEntry(0);
+            TLeaf * lpot= _metatree->GetLeaf("POT_Used");
+            if(lpot) POT_Used = lpot->GetValue();
+            _POT = POT_Used;
+        }
+        else{
+            cout << "POT already set as " << _POT << endl;
+        }
+    }
+}
 
 
