@@ -69,7 +69,7 @@ void MomentumDists()
     TFile * outfile = new TFile(Form("plots_%s_.root", savename.Data()),"RECREATE");
     outfile->cd();
     
-    for(int i=0; i<1; i++){
+    for(int i=0; i<3; i++){
     
         
         TString common_cuts_p = "accum_level > 4";
@@ -84,7 +84,7 @@ void MomentumDists()
         
         TCanvas * c_bare = new TCanvas(Form("%s_mom",tmp_part_name.Data()), "", 450, 450);
         c_bare->cd();
-        h_mom_p0->Draw();
+        h_mom_p0->Draw("HIST");
         TLegend * pot_bare = plot->GetPOT(0.7,0.8);
         pot_bare->Draw();
         c_bare->Write();
@@ -169,6 +169,8 @@ void MomentumDists()
         delete hs_ints;*/
         
     }
+    
+    outfile->Close();
     
     delete plot;
     
