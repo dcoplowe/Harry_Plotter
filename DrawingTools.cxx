@@ -176,7 +176,7 @@ MnvH2D * DrawingTools::SmearMatrix(const TString vars_yx, int nbins, const Doubl
     return SmearMatrix(intree, vars_yx, nbins, bins, xy_title, cuts);
 }
 
-TLegend * DrawingTools::DrawPOT(double x_pos, double y_pos, TString filename){
+TLegend * DrawingTools::GetPOT(double x_pos, double y_pos, TString filename){
     
     TFile * tmp_file;
     if(!filename.EqualTo("",TString::kExact)){
@@ -213,5 +213,16 @@ TLegend * DrawingTools::DrawPOT(double x_pos, double y_pos, TString filename){
     
     return pot;
 }
+
+void DrawingTools::ColFill(MnvH1D *&h1, int fill_color, int line_color){
+    h1->SetFillColor(fill_color);
+    h1->SetLineColor(line_color);
+}
+
+void DrawingTools::ColFill(TH1D *&h1, int fill_color, int line_color){
+    h1->SetFillColor(fill_color);
+    h1->SetLineColor(line_color);
+}
+
 
 

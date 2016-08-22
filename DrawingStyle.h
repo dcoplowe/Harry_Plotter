@@ -30,9 +30,16 @@ public:
     
     ~DrawingStyle(){;}
     
-    enum DSColors {//Add nice colors here:
+    enum DSColors {//Add nice colors here and ones for ints/particle types
         DSYellow = kOrange-2,
-        DSBlue = kAzure+2
+        DSBlue = kAzure+2,
+        DSProton = kOrange-2,
+        DSPion = kAzure+2,
+        DSMuon = kCyan+2,
+        DSQES = kOrange-2,
+        DSRes = kAzure+2,
+        DSDIS = kCyan+2,
+        DSOther = kGrey+2
     };
 };
 

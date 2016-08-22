@@ -1,16 +1,9 @@
-#include "TTree.h"
-#include "TBranch.h"
-#include "TFile.h"
-#include "TRandom3.h"
 #include "TCanvas.h"
-#include "TH1.h"
-#include "TH2.h"
 #include "TObject.h"
-#include "TDirectory.h"
-#include "TROOT.h"
+
+//#include "TDirectory.h"
+//#include "TROOT.h"
 #include "TClass.h"
-#include "TColor.h"
-#include "TPad.h"
 #include <TCanvas.h>
 #include <iostream>
 #include <fstream>
@@ -23,6 +16,10 @@
 
 #include "EffPurTools.h"
 #include "DrawingTools.h"
+#include "TH1D.h"
+#include "THStack.h"
+#include "TLegend.h"
+#include "TFile.h"
 
 //#include <TStyle.h>
 
@@ -30,35 +27,26 @@ using namespace std;
 using namespace PlotUtils;
 
 //These are the tuples used for this exercise
-const string testing_mc("/pnfs/minerva/scratch/users/dcoplowe/CC1P1PiAnalysis13/nogrid/central_value/minerva/ana/v10r8p9/00/01/32/03/SIM_minerva_00013203_Subruns_0001_CC1P1PiAnalysis_Ana_Tuple_v10r8p9-dcoplowe.root");
+const string testing_mc("/pnfs/minerva/persistent/users/dcoplowe/CC1P1Pi_PL13C_180816/merged_CC1P1Pi_CC1P1Pi_run00013200.root");
 
 const string flag("CC1P1Pi");
 
 //This is the POT for Data and Monte Carlo for the tuples that we use in this exercise.
-const double total_mc_pot = 1.79e19;
+//const double total_mc_pot = 1.79e19;
 
 void MomentumDists()
 {
-    //TStyle * gStyle = new TStyle();
-    //gStyle->SetOptStat(0);
-    //gStyle->SetOptFit(0);
-    
     ROOT::Cintex::Cintex::Enable();
     
     cout<<"Producing Momentum Distributions for MC files."<<endl;
     
-    TFile * infile = new TFile(testing_mc.c_str(), "READ");
-
-    //TFile * outfile = new TFile("MomentumDists.root","RECREATE");
-    
-    TTree * intree;
-    infile->GetObject("CC1P1Pi",intree);
+    TString savename = "CC1P1Pi_TEST";
     
     //Produce independent particles vars hists:
-    
     string part_snam[3] = {"mu","pr","pi"};
     string part_name[3] = {"Muon", "Proton", "Pion"};
-    string part_symb[3] = {"#mu^{-}", "p", "#pi^{+}"};
+    string part_symb[3] = {"#mu^{-}", "p", "#pi^{#pm}"};
+    int    part_colo[3] = {DrawingStyle::DSProton, DrawingStyle::DSPion, DrawingStyle::DSMuon};
     
     string var_unit[3] = {" (MeV/#it{c})", " (MeV/#it{c})", " (MeV)" };
     string var_symb[3] = {" #it{p}", " |#it{p}_{T}|", " E" };
@@ -68,13 +56,120 @@ void MomentumDists()
     string rec_var[3] = {"mom", "pTMag", "E"};
     string rec_name[3] = {"Momentum", "|#it{p}_{T}|", "Energy"};
     
-    string true_var[3];// = {"turemom", "truepTMag", };
-    string true_name[3];// = {"Momentum", "|p_{T}|", "Energy"};
+    string true_var[3];
+    string true_name[3];
     
     for(int i = 0; i < 3; i++){
         true_var[i] = "true" + rec_var[i];
         true_name[i] = "True " + rec_name[i];
     }
+    
+    DrawingTools * plot = new DrawingTools(testing_mc);
+    
+    TFile * outfile = new TFile(Form("plots_%s_.root", savename.Data()),"RECREATE");
+    outfile->cd();
+    
+    for(int i=0; i<1; i++){
+    
+        TString common_cuts_p = "accum_level > 4";
+        MnvH1D * h_mom_p0 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",part_snam[i]),20, 0, 4000, Form("#it{p}_{%s} (MeV/#it{c})",part_symb[i]), Form("%s",common_cuts_p.Data()));
+        
+        int color = part_colo[i];
+        plot->ColFill(h_mom_p0, color);
+        
+        TCanvas c_bare = new TCanvas(Form("%s_mom",part_name[i]), "", 450, 450);
+        c_bare->cd();
+        h_mom_p0->Draw();
+        TLegend * pot_bare = plot->GetPot(0.7,0.8);
+        pot_bare->Draw();
+        c_bare->Write();
+        c_bare->Print(Form("%s_mom.eps", part_name[i]));
+        
+        MnvH1D * h_mom_p1 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",part_snam[i]),20, 0, 4000, Form("#it{p}_{%s} (MeV/#it{c})",part_symb[i]), Form("%s && CC1P1Pi_%s_PDG == 2212", common_cuts_p.Data(), part_snam[i]));
+        MnvH1D * h_mom_p2 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",part_snam[i]),20, 0, 4000, Form("#it{p}_{%s} (MeV/#it{c})",part_symb[i]), Form("%s && TMath::Abs(CC1P1Pi_%s_PDG == 211)", common_cuts_p.Data(), part_snam[i]));
+        MnvH1D * h_mom_p3 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",part_snam[i]),20, 0, 4000, Form("#it{p}_{%s} (MeV/#it{c})",part_symb[i]), Form("%s && CC1P1Pi_%s_PDG == 13", common_cuts_p.Data(), part_snam[i]));
+        MnvH1D * h_mom_p4 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",part_snam[i]),20, 0, 4000, Form("#it{p}_{%s} (MeV/#it{c})",part_symb[i]), Form("%s && CC1P1Pi_%s_PDG != 13 && TMath::Abs(CC1P1Pi_%s_PDG) != 211 && CC1P1Pi_%s_PDG != 2212", common_cuts_p.Data(), part_snam[i], part_snam[i], part_snam[i]));
+        
+        TH1D * s_h_mom_p1 = new TH1D(h_mom_p1->GetStatError());
+        TH1D * s_h_mom_p2 = new TH1D(h_mom_p2->GetStatError());
+        TH1D * s_h_mom_p3 = new TH1D(h_mom_p3->GetStatError());
+        TH1D * s_h_mom_p4 = new TH1D(h_mom_p4->GetStatError());
+        
+        plot->ColFill(s_h_mom_p1, DrawingStyle::DSProton);
+        plot->ColFill(s_h_mom_p2, DrawingStyle::DSPion);
+        plot->ColFill(s_h_mom_p3, DrawingStyle::DSMuon);
+        plot->ColFill(s_h_mom_p4, DrawingStyle::DSOther);
+        
+        THStack * hs_part = new THStack();
+        hs_part->Add(s_h_mom_p1);
+        hs_part->Add(s_h_mom_p2);
+        hs_part->Add(s_h_mom_p3);
+        hs_part->Add(s_h_mom_p4);
+        
+        TCanvas c_parts = new TCanvas(Form("%s_mom_part_breakdown",part_name[i]), "", 450, 450);
+        c_parts->cd();
+        hs_part->Draw();
+        TLegend * pot_parts = plot->GetPot(0.7,0.8);
+        pot_parts->Draw();
+        c_parts->Write();
+        c_parts->Print(Form("%s_mom_part_breakdown.eps", part_name[i]));
+        
+     
+        /*TString common_cuts_i = "accum_level > 4 && mc_current == 1 && mc_intType"
+        MnvH1D * h_mom_i1 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",part_snam[i]),20, 0, 4000, Form("#it{p}_{%s} (MeV/#it{c})",part_symb[i]), Form("%s%s", common_cuts_i.Data(), " == 1"));//QE
+        MnvH1D * h_mom_i2 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",part_snam[i]),20, 0, 4000, Form("#it{p}_{%s} (MeV/#it{c})",part_symb[i]), Form("%s%s", common_cuts_i.Data(), " == 2"));//Res
+        MnvH1D * h_mom_i3 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",part_snam[i]),20, 0, 4000, Form("#it{p}_{%s} (MeV/#it{c})",part_symb[i]), Form("%s%s", common_cuts_i.Data(), " == 3"));//Dis
+        MnvH1D * h_mom_i4 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",part_snam[i]),20, 0, 4000, Form("#it{p}_{%s} (MeV/#it{c})",part_symb[i]), Form("%s%s", common_cuts_i.Data(), " >= 4"));//Other
+        MnvH1D * h_mom_i5 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",part_snam[i]),20, 0, 4000, Form("#it{p}_{%s} (MeV/#it{c})",part_symb[i]), Form("%s && mc_current != 1", common_cuts_p.Data()));//NC/no current
+        h_mom_i4->Add(h_mom_i5);//Add NC ints to other.
+        
+        TH1D * s_h_mom_i1 = new TH1D(h_mom_i1->GetStatError());
+        TH1D * s_h_mom_i2 = new TH1D(h_mom_i2->GetStatError());
+        TH1D * s_h_mom_i3 = new TH1D(h_mom_i3->GetStatError());
+        TH1D * s_h_mom_i4 = new TH1D(h_mom_i4->GetStatError());
+        
+        
+        THStack * hs_ints = new THStack();
+        hs_ints->Add(s_h_mom_i1);
+        hs_ints->Add(s_h_mom_i2);
+        hs_ints->Add(s_h_mom_i3);
+        hs_ints->Add(s_h_mom_i4);
+        hs_ints->Add(s_h_mom_i5);*/
+        
+        delete h_mom_p0;
+        delete h_mom_p1;
+        delete h_mom_p2;
+        delete h_mom_p3;
+        delete h_mom_p4;
+        
+        delete s_h_mom_p1;
+        delete s_h_mom_p2;
+        delete s_h_mom_p3;
+        delete s_h_mom_p4;
+        
+        delete hs_part;
+        
+      /*  delete h_mom_i1;
+        delete h_mom_i2;
+        delete h_mom_i3;
+        delete h_mom_i4;
+        delete h_mom_i5;
+        
+        delete s_h_mom_i1;
+        delete s_h_mom_i2;
+        delete s_h_mom_i3;
+        delete s_h_mom_i4;
+        delete s_h_mom_i5;
+        
+        delete hs_ints;*/
+        
+    }
+    
+    delete plot;
+    
+    
+    
+    
     
     std::vector<TString> cut_names;
     cut_names.push_back("Vertex");
@@ -116,75 +211,7 @@ void MomentumDists()
     
     /*
         
-    for(int i = 0; i < 3; i++){
-        cout << " Making Plots for " << part_name[i] << "." << endl;
-        
-        for(int j = 0; j < 3; j++){
-            
-            double tmp_lx = var_range[ 2*j ];
-            double tmp_hx = var_range[ 2*j + 1 ];
-            
-            string tmp_h_rec_name = part_snam[i] + "_" + rec_var[j];
-            string tmp_h_rec_title = part_name[i] + " " + rec_name[j] + "; Reco." + var_symb[j] + var_unit[j] + "; Counts";
-            
-            //printf("%s_%s_%s >> %s \n", flag.c_str(), part_snam[i].c_str(), rec_var[j].c_str() , tmp_h_rec_name.c_str());
-            
-            //cout << "Hist Name: " << tmp_h_rec_name << endl;
-            //cout << "    Title: " << tmp_h_rec_title << endl;
-            
-            MnvH1D * rec_h = new MnvH1D( tmp_h_rec_name.c_str() , tmp_h_rec_title.c_str(), 30, tmp_lx, tmp_hx);
-            rec_h->SetStats(kFALSE);
-            rec_h->GetYaxis()->SetTitleOffset(1.4);
-            rec_h->SetLineColor(kOrange+2);
-            rec_h->SetLineWidth(2);
-            intree->Draw(Form("%s_%s_%s >> %s", flag.c_str(), part_snam[i].c_str(), rec_var[j].c_str() , tmp_h_rec_name.c_str()), "");
-
-            string tmp_h_true_name = part_snam[i] + "_" + true_var[j];
-            string tmp_h_true_title = part_name[i] + " " + true_name[j] + "; True" + var_symb[j] + var_unit[j] + "; Counts";
-            
-            //cout << "Hist Name: " << tmp_h_true_name << endl;
-            //cout << "    Title: " << tmp_h_true_title << endl;
-            
-            //printf("%s_%s_%s >> %s \n", flag.c_str(), part_snam[i].c_str(), true_var[j].c_str() , tmp_h_rec_name.c_str());
-            MnvH1D * true_h = new MnvH1D( tmp_h_true_name.c_str() , tmp_h_true_title.c_str(), 30, tmp_lx, tmp_hx);
-            true_h->SetStats(kFALSE);
-            true_h->GetYaxis()->SetTitleOffset(1.4);
-            true_h->SetLineColor(kOrange+2);
-            true_h->SetLineWidth(2);
-            
-            intree->Draw(Form("%s_%s_%s >> %s", flag.c_str(), part_snam[i].c_str(), true_var[j].c_str() , tmp_h_true_name.c_str()), "");
-            
-            string twoDPlot_name = Form("%s_%s_%s", part_snam[i].c_str(), rec_var[j].c_str(), true_var[j].c_str());
-            string twoDPlot_title = Form("Reco. vs. True %s; Reco. %s %s; True %s %s", var_symb[j].c_str(), var_symb[j].c_str(), var_unit[j].c_str(), var_symb[j].c_str(), var_unit[j].c_str());
-            
-            cout << twoDPlot_title << endl;
-            
-            MnvH2D * rectrue = new MnvH2D(twoDPlot_name.c_str(), twoDPlot_title.c_str(), 30, tmp_lx, tmp_hx, 30, tmp_lx, tmp_hx);
-            rectrue->SetStats(kFALSE);
-            rectrue->GetYaxis()->SetTitleOffset(1.4);
-            
-            intree->Draw(Form("%s_%s_%s:%s_%s_%s >> %s", flag.c_str(), part_snam[i].c_str(), true_var[j].c_str(), flag.c_str(), part_snam[i].c_str(), rec_var[j].c_str(), twoDPlot_name.c_str()));
-            
-            TCanvas * can = new TCanvas("", "", 2400, 1000);
-            can->Divide(3);
-            can->cd(1);
-            rec_h->Draw("HIST");
-            can->cd(2);
-            rectrue->Draw("COLZ");
-            can->cd(3);
-            true_h->Draw("HIST");
-            can->Print(Form("%s_%s_dists.eps",part_name[i].c_str(), rec_var[j].c_str()));
-            
-            //outfile->cd();
-            //can->Write();
-            
-            delete rec_h;
-            delete true_h;
-            delete can;
-        }
-    }
-     
-     */
+    
 }
 
 

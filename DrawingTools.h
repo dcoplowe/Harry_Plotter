@@ -11,6 +11,7 @@
 class TFile;
 class TTree;
 class TLegend;
+class TH1D;
 
 using namespace PlotUtils;
 
@@ -40,7 +41,10 @@ public:
     MnvH2D * SmearMatrix(const TString vars_yx, int nbins, const double low, const double high, const TString xy_title = "", const TString cuts = "");
     MnvH2D * SmearMatrix(const TString vars_yx, int nbins, const Double_t * bins, const TString xy_title = "", const TString cuts = "");
     
-    TLegend * DrawPOT(double x_pos, double y_pos, TString filename = "");
+    TLegend * GetPOT(double x_pos, double y_pos, TString filename = "");
+    
+    void ColFill(MnvH1D *&h1, int fill_color, int line_color = kBlack);
+    void ColFill(TH1D *&h1, int fill_color, int line_color = kBlack);
 
     
     void SetFileName(TString var){ _filename = var; }
