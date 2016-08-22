@@ -194,6 +194,8 @@ MnvH1D * DrawingTools::GetRecoHisto(const TString var, int nbins, const double x
         cout << "[ERROR] :: DrawingTools::GetRecoHisto :: No tree named " << _reconame.Data() << endl;
     }
     
+    delete intree;
+    
     return tmp_hist;
 }
 
