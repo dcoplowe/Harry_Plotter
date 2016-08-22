@@ -64,8 +64,8 @@ void MomentumDists()
         true_name[i] = "True " + rec_name[i];
     }
     
-    //TFile * outfile = new TFile(Form("plots_%s_.root", savename.Data()),"RECREATE");
-    //outfile->cd();
+    TFile * outfile = new TFile(Form("plots_%s_.root", savename.Data()),"RECREATE");
+    outfile->cd();
     
     DrawingTools * plot = new DrawingTools(testing_mc);
     
@@ -86,14 +86,14 @@ void MomentumDists()
         TCanvas * c_bare = new TCanvas(Form("%s_mom",tmp_part_name.Data()), "", 450, 450);
         c_bare->cd();
         h_mom_p0->Draw("HIST");
-       // TLegend * pot_bare = plot->GetPOT(0.7,0.8);
-       // pot_bare->Draw();
-        //c_bare->Write();
+        TLegend * pot_bare = plot->GetPOT(0.7,0.8);
+        pot_bare->Draw();
+        c_bare->Write();
         c_bare->Print(Form("%s_mom.eps", tmp_part_name.Data()));
         
         //delete h_mom_p0;
 
-       /* MnvH1D * h_mom_p1 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 2212", common_cuts_p.Data(), tmp_part_snam.Data()));
+        MnvH1D * h_mom_p1 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 2212", common_cuts_p.Data(), tmp_part_snam.Data()));
         MnvH1D * h_mom_p2 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s && TMath::Abs(CC1P1Pi_%s_PDG == 211)", common_cuts_p.Data(), tmp_part_snam.Data()));
         MnvH1D * h_mom_p3 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 13", common_cuts_p.Data(), tmp_part_snam.Data()));
         MnvH1D * h_mom_p4 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG != 13 && TMath::Abs(CC1P1Pi_%s_PDG) != 211 && CC1P1Pi_%s_PDG != 2212", common_cuts_p.Data(), tmp_part_snam.Data(), tmp_part_snam.Data(), tmp_part_snam.Data()));
@@ -173,7 +173,7 @@ void MomentumDists()
         
     }
     
-    //outfile->Close();
+    outfile->Close();
     
     //delete plot;
     
