@@ -64,8 +64,8 @@ void MomentumDists()
         true_name[i] = "True " + rec_name[i];
     }
     
-    //TFile * outfile = new TFile(Form("plots_%s_.root", savename.Data()),"RECREATE");
-    //outfile->cd();
+    TFile * outfile = new TFile(Form("plots_%s_.root", savename.Data()),"RECREATE");
+    outfile->cd();
     
     DrawingTools * plot = new DrawingTools(testing_mc);
     
@@ -88,7 +88,7 @@ void MomentumDists()
         h_mom_p0->Draw("HIST");
        // TLegend * pot_bare = plot->GetPOT(0.7,0.8);
         //pot_bare->Draw();
-        //c_bare->Write();
+        c_bare->Write();
         c_bare->Print(Form("%s_mom.eps", tmp_part_name.Data()));
         
         //delete h_mom_p0;
