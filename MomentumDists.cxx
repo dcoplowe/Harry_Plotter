@@ -31,6 +31,17 @@ const string testing_mc("/pnfs/minerva/persistent/users/dcoplowe/CC1P1Pi_PL13C_1
 
 const string flag("CC1P1Pi");
 
+/*class AnalysisPlots {
+public:
+    
+    AnalysisPlots();
+    ~AnalysisPlots();
+    
+    TCanvas * VarVsInts();
+    TCanvas * VarVsParticles();
+    
+};*/
+
 //This is the POT for Data and Monte Carlo for the tuples that we use in this exercise.
 //const double total_mc_pot = 1.79e19;
 
@@ -86,6 +97,8 @@ void MomentumDists(const string file)
         TString tmp_part_symb = part_symb[i];
         TString tmp_pdg_cut = pdg_cut[i];
         
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
+        
         TH1D * h_mom_p0 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s",common_cuts_p.Data()));
         
         int color = part_colo[i];
@@ -105,8 +118,9 @@ void MomentumDists(const string file)
         mom_bare->Draw();
         outfile->cd();
         c_bare->Write();
-        //c_bare->Print(Form("%s_mom.eps", tmp_part_name.Data()));
 
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
+        
         TH1D * h_mom_p1 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 2212", common_cuts_p.Data(), tmp_part_snam.Data()));
         TH1D * h_mom_p2 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && TMath::Abs(CC1P1Pi_%s_PDG) == 211", common_cuts_p.Data(), tmp_part_snam.Data()));
         TH1D * h_mom_p3 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 13", common_cuts_p.Data(), tmp_part_snam.Data()));
@@ -150,7 +164,8 @@ void MomentumDists(const string file)
         pot_parts->Draw();
         leg_part->Draw();
         c_parts->Write();
-        //c_parts->Print(Form("%s_mom_part_breakdown.eps", tmp_part_name.Data()));
+        
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
      
         TString common_cuts_i = "accum_level > 4 && mc_current == 1 && mc_intType";
         TH1D * h_mom_i1 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i.Data(), " == 1"));//QE
@@ -197,6 +212,9 @@ void MomentumDists(const string file)
         leg_ints->Draw();
         c_ints->Write();
         
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+        
         TH2D * h_smear_nc = plot->SmearMatrix(Form("CC1P1Pi_%s_truemom/1000:CC1P1Pi_%s_mom/1000", tmp_part_snam.Data(), tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("Reco #it{p}_{%s} (GeV/#it{c}); True #it{p}_{%s} (GeV/#it{c})", tmp_part_symb.Data(), tmp_part_symb.Data()), "accum_level > 4");
                                 //SmearMatrix(const TString vars_yx, int nbins, const double low, const double high, const TString xy_title = "", const TString cuts = "");
         
@@ -204,6 +222,8 @@ void MomentumDists(const string file)
         c_smear_nc->cd();
         h_smear_nc->Draw("COLZ");
         c_smear_nc->Write();
+        
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
         
         TH2D * h_smear_pdgc = plot->SmearMatrix(Form("CC1P1Pi_%s_truemom/1000:CC1P1Pi_%s_mom/1000", tmp_part_snam.Data(), tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("Reco #it{p}_{%s} (GeV/#it{c}); True #it{p}_{%s} (GeV/#it{c})", tmp_part_symb.Data(), tmp_part_symb.Data()), Form("accum_level > 4 && %s", tmp_pdg_cut.Data()));
         TCanvas * c_smear_pdgc = new TCanvas(Form("%s_mom_smear_PDGcuts",tmp_part_name.Data()), "", 1000, 1000);
@@ -220,33 +240,100 @@ void MomentumDists(const string file)
             c_smear_xyzc->Write();
         }
         
-        /*delete h_mom_p0;
-        delete h_mom_p1;
-        delete h_mom_p2;
-        delete h_mom_p3;
-        delete h_mom_p4;
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
         
-        delete s_h_mom_p1;
-        delete s_h_mom_p2;
-        delete s_h_mom_p3;
-        delete s_h_mom_p4;
+        TString common_cuts_i_true = "accum_level > 4 && mc_current == 1 && mc_intType";
+        TH1D * h_mom_i1_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i_true.Data(), " == 1"));//QE
+        TH1D * h_mom_i2_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i_true.Data(), " == 2"));//Res
+        TH1D * h_mom_i3_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i_true.Data(), " == 3"));//Dis
+        TH1D * h_mom_i4_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i_true.Data(), " >= 4"));//Other
+        TH1D * h_mom_i5_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && mc_current != 1", common_cuts_p.Data()));//NC/no current
+        h_mom_i4_true->Add(h_mom_i5_true);//Add NC ints to other.
         
-        delete hs_part;
+        plot->ColFill(h_mom_i1_true, DrawingStyle::DSQes);
+        plot->ColFill(h_mom_i2_true, DrawingStyle::DSRes);
+        plot->ColFill(h_mom_i3_true, DrawingStyle::DSDis);
+        plot->ColFill(h_mom_i4_true, DrawingStyle::DSOther);
         
-        delete h_mom_i1;
-        delete h_mom_i2;
-        delete h_mom_i3;
-        delete h_mom_i4;
-        delete h_mom_i5;
+        THStack * hs_ints_true = new THStack(Form("hs%s_ints_true", tmp_part_snam.Data()), Form(";#it{p}_{%s} (GeV/#it{c});Counts", tmp_part_symb.Data()));
+        hs_ints_true->Add(h_mom_i1_true);
+        hs_ints_true->Add(h_mom_i2_true);
+        hs_ints_true->Add(h_mom_i3_true);
+        hs_ints_true->Add(h_mom_i4_true);
         
-        delete s_h_mom_i1;
-        delete s_h_mom_i2;
-        delete s_h_mom_i3;
-        delete s_h_mom_i4;
-        delete s_h_mom_i5;
+        double h_mom_i1_i_true = h_mom_i1_true->Integral();
+        double h_mom_i2_i_true = h_mom_i2_true->Integral();
+        double h_mom_i3_i_true = h_mom_i3_true->Integral();
+        double h_mom_i4_i_true = h_mom_i4_true->Integral();
+        double h_mom_i_tot_true = h_mom_i1_i_true + h_mom_i2_i_true + h_mom_i3_i_true + h_mom_i4_i_true;
         
-        delete hs_ints;*/
+        h_mom_i1_i_true *= 100/h_mom_i_tot_true;
+        h_mom_i2_i_true *= 100/h_mom_i_tot_true;
+        h_mom_i3_i_true *= 100/h_mom_i_tot_true;
+        h_mom_i4_i_true *= 100/h_mom_i_tot_true;
         
+        TLegend * leg_ints_true = plot->Legend(0.3, 0.45); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
+        leg_ints_true->AddEntry((TObject*)0, Form("Total Counts %d",(int)h_mom_i_tot_true), "");
+        leg_ints_true->AddEntry(h_mom_i1_true, Form("CC Quasi El. (%.2f %%)",h_mom_i1_i_true), "f");
+        leg_ints_true->AddEntry(h_mom_i2_true, Form("CC Resonance (%.2f %%)",h_mom_i2_i_true), "f");
+        leg_ints_true->AddEntry(h_mom_i3_true, Form("CC DIS (%.2f%%)",h_mom_i3_i_true), "f");
+        leg_ints_true->AddEntry(h_mom_i4_true, Form("Other (inc. NC) (%.2f %%)",h_mom_i4_i_true), "f");
+        
+        TCanvas * c_ints_true = new TCanvas(Form("%s_truemom_ints_breakdown",tmp_part_name.Data()), "", 1000, 1000);
+        c_ints_true->cd();
+        hs_ints_true->Draw();
+        TLegend * pot_ints_true = plot->GetPOT(0.7,0.8);
+        pot_ints_true->Draw();
+        leg_ints_true->Draw();
+        c_ints_true->Write();
+        
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
+        
+        TH1D * h_mom_p1_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 2212", common_cuts_p.Data(), tmp_part_snam.Data()));
+        TH1D * h_mom_p2_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && TMath::Abs(CC1P1Pi_%s_PDG) == 211", common_cuts_p.Data(), tmp_part_snam.Data()));
+        TH1D * h_mom_p3_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 13", common_cuts_p.Data(), tmp_part_snam.Data()));
+        TH1D * h_mom_p4_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG != 13 && TMath::Abs(CC1P1Pi_%s_PDG) != 211 && CC1P1Pi_%s_PDG != 2212", common_cuts_p.Data(), tmp_part_snam.Data(), tmp_part_snam.Data(), tmp_part_snam.Data()));
+        
+        plot->ColFill(h_mom_p1_true, DrawingStyle::DSProton);
+        plot->ColFill(h_mom_p2_true, DrawingStyle::DSPion);
+        plot->ColFill(h_mom_p3_true, DrawingStyle::DSMuon);
+        plot->ColFill(h_mom_p4_true, DrawingStyle::DSOther);
+        
+        THStack * hs_part_true = new THStack(Form("hs%s_part_true", tmp_part_snam.Data()),Form(";#it{p}_{%s} (GeV/#it{c});Counts", tmp_part_symb.Data()));
+        hs_part_true->Add(h_mom_p1_true);
+        hs_part_true->Add(h_mom_p2_true);
+        hs_part_true->Add(h_mom_p3_true);
+        hs_part_true->Add(h_mom_p4_true);
+        
+        double h_mom_p1_i_true = h_mom_p1_true->Integral();
+        double h_mom_p2_i_true = h_mom_p2_true->Integral();
+        double h_mom_p3_i_true = h_mom_p3_true->Integral();
+        double h_mom_p4_i_true = h_mom_p4_true->Integral();
+        double h_mom_p_tot_true = h_mom_p1_i_true + h_mom_p2_i_true + h_mom_p3_i_true + h_mom_p4_i_true;
+        
+        cout << " s_h_mom_p_tot_true = " << h_mom_p_tot_true << endl;
+        
+        h_mom_p1_i_true *= 100/h_mom_p_tot_true;
+        h_mom_p2_i_true *= 100/h_mom_p_tot_true;
+        h_mom_p3_i_true *= 100/h_mom_p_tot_true;
+        h_mom_p4_i_true *= 100/h_mom_p_tot_true;
+        
+        TLegend * leg_part_true = plot->Legend(0.25, 0.4); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
+        leg_part_true->AddEntry((TObject*)0, Form("Total Counts %d",(int)h_mom_p_tot_true), "");
+        leg_part_true->AddEntry(h_mom_p1_true, Form("Proton (%.2f%%)",h_mom_p1_i_true), "f");
+        leg_part_true->AddEntry(h_mom_p2_true, Form("#pi^{#pm} (%.2f%%)",h_mom_p2_i_true), "f");
+        leg_part_true->AddEntry(h_mom_p3_true, Form("#mu^{-} (%.2f%%)",h_mom_p3_i_true), "f");
+        leg_part_true->AddEntry(h_mom_p4_true, Form("Other (%.2f%%)",h_mom_p4_i_true), "f");
+        
+        TCanvas * c_parts_true = new TCanvas(Form("%s_truemom_part_breakdown",tmp_part_name.Data()), "", 1000, 1000);
+        c_parts_true->cd();
+        hs_part_true->Draw();
+        TLegend * pot_parts_true = plot->GetPOT(0.7,0.8);
+        pot_parts_true->Draw();
+        leg_part_true->Draw();
+        c_parts_true->Write();
+        
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
     }
     
     std::vector<TString> cut_names;
@@ -295,6 +382,57 @@ void MomentumDists(const string file)
     outfile->Close();
 
 }
+
+/*TCanvas * AnalysisPlots::VarVsInts(){
+    
+}
+
+TCanvas * AnalysisPlots:: VarVsParticles(TString var, int nbins, double x_low, double x_high, TString particle, TString part_symb){
+    
+    TH1D * h_mom_p1 = plot->GetRecoHisto(Form("CC1P1Pi_%s_%s/1000",particle.Data(), var.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 2212", common_cuts_p.Data(), tmp_part_snam.Data()));
+    TH1D * h_mom_p2 = plot->GetRecoHisto(Form("CC1P1Pi_%s_%s/1000",particle.Data(), var.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && TMath::Abs(CC1P1Pi_%s_PDG) == 211", common_cuts_p.Data(), tmp_part_snam.Data()));
+    TH1D * h_mom_p3 = plot->GetRecoHisto(Form("CC1P1Pi_%s_%s/1000",particle.Data(), var.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 13", common_cuts_p.Data(), tmp_part_snam.Data()));
+    TH1D * h_mom_p4 = plot->GetRecoHisto(Form("CC1P1Pi_%s_%s/1000",particle.Data(), var.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG != 13 && TMath::Abs(CC1P1Pi_%s_PDG) != 211 && CC1P1Pi_%s_PDG != 2212", common_cuts_p.Data(), tmp_part_snam.Data(), tmp_part_snam.Data(), tmp_part_snam.Data()));
+    
+    plot->ColFill(h_mom_p1, DrawingStyle::DSProton);
+    plot->ColFill(h_mom_p2, DrawingStyle::DSPion);
+    plot->ColFill(h_mom_p3, DrawingStyle::DSMuon);
+    plot->ColFill(h_mom_p4, DrawingStyle::DSOther);
+    
+    THStack * hs_part = new THStack(Form("hs%s_part", tmp_part_snam.Data()),Form(";#it{p}_{%s} (GeV/#it{c});Counts", tmp_part_symb.Data()));
+    hs_part->Add(h_mom_p1);
+    hs_part->Add(h_mom_p2);
+    hs_part->Add(h_mom_p3);
+    hs_part->Add(h_mom_p4);
+    
+    double h_mom_p1_i = h_mom_p1->Integral();
+    double h_mom_p2_i = h_mom_p2->Integral();
+    double h_mom_p3_i = h_mom_p3->Integral();
+    double h_mom_p4_i = h_mom_p4->Integral();
+    double h_mom_p_tot = h_mom_p1_i + h_mom_p2_i + h_mom_p3_i + h_mom_p4_i;
+    
+    cout << " s_h_mom_p_tot = " << h_mom_p_tot << endl;
+    
+    h_mom_p1_i *= 100/h_mom_p_tot;
+    h_mom_p2_i *= 100/h_mom_p_tot;
+    h_mom_p3_i *= 100/h_mom_p_tot;
+    h_mom_p4_i *= 100/h_mom_p_tot;
+    
+    TLegend * leg_part = plot->Legend(0.25, 0.4); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
+    leg_part->AddEntry((TObject*)0, Form("Total Counts %d",(int)h_mom_p_tot), "");
+    leg_part->AddEntry(h_mom_p1, Form("Proton (%.2f%%)",h_mom_p1_i), "f");
+    leg_part->AddEntry(h_mom_p2, Form("#pi^{#pm} (%.2f%%)",h_mom_p2_i), "f");
+    leg_part->AddEntry(h_mom_p3, Form("#mu^{-} (%.2f%%)",h_mom_p3_i), "f");
+    leg_part->AddEntry(h_mom_p4, Form("Other (%.2f%%)",h_mom_p4_i), "f");
+    
+    TCanvas * c_parts = new TCanvas(Form("%s_mom_part_breakdown",tmp_part_name.Data()), "", 1000, 1000);
+    c_parts->cd();
+    hs_part->Draw();
+    TLegend * pot_parts = plot->GetPOT(0.7,0.8);
+    pot_parts->Draw();
+    leg_part->Draw();
+    return c_parts;
+}*/
 
 
 int main(int argc, char *argv[])
