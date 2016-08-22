@@ -126,18 +126,18 @@ void MomentumDists()
         s_h_mom_p3_i *= 100/s_h_mom_p_tot;
         s_h_mom_p4_i *= 100/s_h_mom_p_tot;
         
-        TLegend * leg_ints = plot->Legend(0.25, 0.4); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
-        leg_ints->AddEntry(s_h_mom_p1, Form("Proton (%.2f%%)",s_h_mom_p1_i), "f");
-        leg_ints->AddEntry(s_h_mom_p2, Form("#pi^{#pm} (%.2f%%)",s_h_mom_p2_i), "f");
-        leg_ints->AddEntry(s_h_mom_p3, Form("#mu^{-} (%.2f%%)",s_h_mom_p3_i), "f");
-        leg_ints->AddEntry(s_h_mom_p4, Form("Other (%.2f%%)",s_h_mom_p4_i), "f");
+        TLegend * leg_part = plot->Legend(0.25, 0.4); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
+        leg_part->AddEntry(s_h_mom_p1, Form("Proton (%.2f%%)",s_h_mom_p1_i), "f");
+        leg_part->AddEntry(s_h_mom_p2, Form("#pi^{#pm} (%.2f%%)",s_h_mom_p2_i), "f");
+        leg_part->AddEntry(s_h_mom_p3, Form("#mu^{-} (%.2f%%)",s_h_mom_p3_i), "f");
+        leg_part->AddEntry(s_h_mom_p4, Form("Other (%.2f%%)",s_h_mom_p4_i), "f");
                      
         TCanvas * c_parts = new TCanvas(Form("%s_mom_part_breakdown",tmp_part_name.Data()), "", 600, 600);
         c_parts->cd();
         hs_part->Draw();
         TLegend * pot_parts = plot->GetPOT(0.7,0.8);
         pot_parts->Draw();
-        leg_ints->Draw();
+        leg_part->Draw();
         c_parts->Write();
         //c_parts->Print(Form("%s_mom_part_breakdown.eps", tmp_part_name.Data()));
      
@@ -159,18 +159,35 @@ void MomentumDists()
         plot->ColFill(s_h_mom_i3, DrawingStyle::DSDis);
         plot->ColFill(s_h_mom_i4, DrawingStyle::DSOther);
         
-        
         THStack * hs_ints = new THStack(Form("hs%s_ints", tmp_part_snam.Data()), Form(";#it{p}_{%s} (MeV/#it{c});Counts", tmp_part_symb.Data()));
         hs_ints->Add(s_h_mom_i1);
         hs_ints->Add(s_h_mom_i2);
         hs_ints->Add(s_h_mom_i3);
         hs_ints->Add(s_h_mom_i4);
         
+        double s_h_mom_i1_i = s_h_mom_i1->Integral();
+        double s_h_mom_i2_i = s_h_mom_i2->Integral();
+        double s_h_mom_i3_i = s_h_mom_i3->Integral();
+        double s_h_mom_i4_i = s_h_mom_i4->Integral();
+        double s_h_mom_i_tot = s_h_mom_i1_i +s_h_mom_i2_i + s_h_mom_i3_i + s_h_mom_i4_i;
+        
+        s_h_mom_i1_i *= 100/s_h_mom_i_tot;
+        s_h_mom_i2_i *= 100/s_h_mom_i_tot;
+        s_h_mom_i3_i *= 100/s_h_mom_i_tot;
+        s_h_mom_i4_i *= 100/s_h_mom_i_tot;
+        
+        Legend * leg_ints = plot->Legend(0.3, 0.4); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
+        leg_ints->AddEntry(s_h_mom_i1, Form("CC Quasi El. (%.2f%%)",s_h_mom_i1_i), "f");
+        leg_ints->AddEntry(s_h_mom_i2, Form("CC Resonance (%.2f%%)",s_h_mom_i2_i), "f");
+        leg_ints->AddEntry(s_h_mom_i3, Form("CC DIS (%.2f%%)",s_h_mom_i3_i), "f");
+        leg_ints->AddEntry(s_h_mom_i4, Form("Other (inc. NC) (%.2f%%)",s_h_mom_i4_i), "f");
+        
         TCanvas * c_ints = new TCanvas(Form("%s_mom_ints_breakdown",tmp_part_name.Data()), "", 500, 500);
         c_ints->cd();
         hs_ints->Draw();
         TLegend * pot_ints = plot->GetPOT(0.7,0.8);
         pot_ints->Draw();
+        leg_ints->Draw();
         c_ints->Write();
         //c_ints->Print(Form("%s_mom_part_breakdown.eps", tmp_part_name.Data()));
 
