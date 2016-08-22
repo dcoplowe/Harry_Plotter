@@ -43,6 +43,8 @@ void DrawingTools::SetFile(){
 }
 
 MnvH1D * DrawingTools::GetHisto(TTree * intree, const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts){
+    cout << "DrawingTools::GetHisto(TTree * intree, const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts)" << endl;
+
     
     Double_t * xbins = new Double_t[ nbins + 1 ];
     
@@ -58,6 +60,8 @@ MnvH1D * DrawingTools::GetHisto(TTree * intree, const TString var, int nbins, co
 }
 
 MnvH1D * DrawingTools::GetHisto(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString xy_title, const TString cuts){
+    cout << "DrawingTools::GetHisto(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString xy_title, const TString cuts)" << endl;
+    
     _1Dcounter++;
     TString host_name = Form("h1Dvar%.3d", _1Dcounter);
     
@@ -117,6 +121,7 @@ MnvH2D * DrawingTools::GetHisto(TTree * intree, const TString vars_yx, int x_nbi
 }
 
 MnvH2D * DrawingTools::GetHisto(TTree * intree, const TString vars_yx, int x_nbins, const Double_t * xbins, int y_nbins, const Double_t * ybins, const TString xy_title, const TString cuts){
+    
     _2Dcounter++;
     TString host_name = Form("h2Dvar%.3d", _2Dcounter);
     
@@ -168,6 +173,7 @@ MnvH1D * DrawingTools::GetTruthHisto(const TString var, int nbins, const Double_
 
 MnvH1D * DrawingTools::GetRecoHisto(const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts){
     TTree * intree = (TTree*)_file->Get(_reconame.Data());
+    cout << "DrawingTools::GetRecoHisto" << endl;
     return GetHisto(intree, var, nbins, x_low, x_high, xy_title, cuts);
 }
 
