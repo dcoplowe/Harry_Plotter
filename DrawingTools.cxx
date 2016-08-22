@@ -45,11 +45,6 @@ void DrawingTools::SetFile(){
     }
 }
 
-void DrawingTools::SetRecoBranch(TString var){
-    _reconame = var;
-
-}
-
 void DrawingTools::SetTrees(){
     
     bool should_exit = false;
