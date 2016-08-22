@@ -26,7 +26,7 @@ public:
         gStyle->SetLegendFillColor(0);
         gStyle->SetLegendFont(62);
         //gStyle->SetLegendTextSize(0.15);
-        TGaxis::SetMaxDigits(4);
+        TGaxis::SetMaxDigits(2);
         gROOT->cd(0);
     }
     
