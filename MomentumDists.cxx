@@ -117,9 +117,9 @@ void MomentumDists()
         TCanvas * c_parts = new TCanvas(Form("%s_mom_part_breakdown",tmp_part_name.Data()), "", 450, 450);
         c_parts->cd();
         hs_part->Draw();
-        TLegend * pot_parts = plot->GetPOT(0.7,0.8);
-        pot_parts->Draw();
-        c_parts->Write();
+        //TLegend * pot_parts = plot->GetPOT(0.7,0.8);
+        //pot_parts->Draw();
+        //c_parts->Write();
         c_parts->Print(Form("%s_mom_part_breakdown.eps", tmp_part_name.Data()));
         
      
