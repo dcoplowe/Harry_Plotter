@@ -104,7 +104,7 @@ void MomentumDists()
         MnvH1D * h_mom_p3 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 13", common_cuts_p.Data(), tmp_part_snam.Data()));
         MnvH1D * h_mom_p4 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG != 13 && TMath::Abs(CC1P1Pi_%s_PDG) != 211 && CC1P1Pi_%s_PDG != 2212", common_cuts_p.Data(), tmp_part_snam.Data(), tmp_part_snam.Data(), tmp_part_snam.Data()));
         
-        /*TH1D * s_h_mom_p1 = new TH1D(h_mom_p1->GetStatError());
+        TH1D * s_h_mom_p1 = new TH1D(h_mom_p1->GetStatError());
         TH1D * s_h_mom_p2 = new TH1D(h_mom_p2->GetStatError());
         TH1D * s_h_mom_p3 = new TH1D(h_mom_p3->GetStatError());
         TH1D * s_h_mom_p4 = new TH1D(h_mom_p4->GetStatError());
@@ -119,7 +119,7 @@ void MomentumDists()
         hs_part->Add(s_h_mom_p2);
         hs_part->Add(s_h_mom_p3);
         hs_part->Add(s_h_mom_p4);
-        
+        /*
         TCanvas * c_parts = new TCanvas(Form("%s_mom_part_breakdown",tmp_part_name.Data()), "", 450, 450);
         c_parts->cd();
         hs_part->Draw();
