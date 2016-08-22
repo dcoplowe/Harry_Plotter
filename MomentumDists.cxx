@@ -77,7 +77,7 @@ void MomentumDists()
         TString tmp_part_snam = part_snam[i];
         TString tmp_part_symb = part_symb[i];
         
-        MnvH1D * h_mom_p0 = plot->GetRecoHisto(TString::Format("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s",common_cuts_p.Data()));
+        MnvH1D * h_mom_p0 = plot->GetRecoHisto(Format("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s",common_cuts_p.Data()));
         
         int color = part_colo[i];
         plot->ColFill(h_mom_p0, color);

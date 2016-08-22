@@ -36,6 +36,9 @@ public:
     DrawingTools(TString filename, TString reconame = "CC1P1Pi", TString truename = "Truth");
 
     MnvH1D * GetTruthHisto(const TString var, int nbins, const double x_low, const double x_high, const TString xy_title = "", const TString cuts = "");
+    MnvH1D * GetTruthHisto(const TString var, int nbins, const Double_t * xbins, const TString xy_title = "", const TString cuts = "");
+
+    MnvH1D * GetRecoHisto(const TString var, int nbins, const double x_low, const double x_high, const TString xy_title = "", const TString cuts = "");
     MnvH1D * GetRecoHisto(const TString var, int nbins, const Double_t * xbins, const TString xy_title = "", const TString cuts = "");
     
     MnvH2D * SmearMatrix(const TString vars_yx, int nbins, const double low, const double high, const TString xy_title = "", const TString cuts = "");
