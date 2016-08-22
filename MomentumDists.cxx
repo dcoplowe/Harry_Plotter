@@ -127,6 +127,7 @@ void MomentumDists()
         s_h_mom_p4_i *= 100/s_h_mom_p_tot;
         
         TLegend * leg_part = plot->Legend(0.25, 0.4); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
+        leg_part->AddEntry((TObject*)0, Form("Total Counts %d",(int)s_h_mom_p_tot), "");
         leg_part->AddEntry(s_h_mom_p1, Form("Proton (%.2f%%)",s_h_mom_p1_i), "f");
         leg_part->AddEntry(s_h_mom_p2, Form("#pi^{#pm} (%.2f%%)",s_h_mom_p2_i), "f");
         leg_part->AddEntry(s_h_mom_p3, Form("#mu^{-} (%.2f%%)",s_h_mom_p3_i), "f");
@@ -176,11 +177,12 @@ void MomentumDists()
         s_h_mom_i3_i *= 100/s_h_mom_i_tot;
         s_h_mom_i4_i *= 100/s_h_mom_i_tot;
         
-        TLegend * leg_ints = plot->Legend(0.3, 0.4); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
-        leg_ints->AddEntry(s_h_mom_i1, Form("CC Quasi El. (%.2f%%)",s_h_mom_i1_i), "f");
-        leg_ints->AddEntry(s_h_mom_i2, Form("CC Resonance (%.2f%%)",s_h_mom_i2_i), "f");
+        TLegend * leg_ints = plot->Legend(0.3, 0.45); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
+        leg_ints->AddEntry((TObject*)0, Form("Total Counts %d",(int)s_h_mom_i_tot), "");
+        leg_ints->AddEntry(s_h_mom_i1, Form("CC Quasi El. (%.2f %%)",s_h_mom_i1_i), "f");
+        leg_ints->AddEntry(s_h_mom_i2, Form("CC Resonance (%.2f %%)",s_h_mom_i2_i), "f");
         leg_ints->AddEntry(s_h_mom_i3, Form("CC DIS (%.2f%%)",s_h_mom_i3_i), "f");
-        leg_ints->AddEntry(s_h_mom_i4, Form("Other (inc. NC) (%.2f%%)",s_h_mom_i4_i), "f");
+        leg_ints->AddEntry(s_h_mom_i4, Form("Other (inc. NC) (%.2f %%)",s_h_mom_i4_i), "f");
         
         TCanvas * c_ints = new TCanvas(Form("%s_mom_ints_breakdown",tmp_part_name.Data()), "", 500, 500);
         c_ints->cd();
