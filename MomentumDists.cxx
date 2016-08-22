@@ -143,7 +143,6 @@ void MomentumDists()
         hs_ints->Add(s_h_mom_i2);
         hs_ints->Add(s_h_mom_i3);
         hs_ints->Add(s_h_mom_i4);
-        hs_ints->Add(s_h_mom_i5);
         
         TCanvas * c_ints = new TCanvas(Form("%s_mom_ints_breakdown",tmp_part_name.Data()), "", 500, 500);
         c_ints->cd();
