@@ -15,13 +15,16 @@ DrawingTools::DrawingTools(TString filename, TString reconame, TString truename)
     cout << "DrawingTools::DrawingTools(TString filename, TString reconame, TString truename)" << endl;
     
     SetFileName(filename);
+    SetFile();
+
     SetRecoBranch(reconame);
     SetTrueBranch(truename);
-    SetFile();
-    
+
     cout << "    Filename: " << _filename.Data() << endl;
     cout << "Truth branch: " << _truename.Data() << endl;
     cout << "Recon branch: " << _reconame.Data() << endl;
+    
+    SetTrees();
     
     //Include counter to make sure hists have unique names:
     _1Dcounter = -1;
@@ -42,10 +45,50 @@ void DrawingTools::SetFile(){
     }
 }
 
+void DrawingTools::SetRecoBranch(TString var){
+    _reconame = var;
+
+}
+
+void DrawingTools::SetTrees(){
+    
+    bool should_exit = false;
+    
+    if(_reconame.EqualTo("",TString::kExact)){
+        cout << "Reco Tree name not defined" << endl;
+        should_exit = true;
+    }
+    else{
+        if(_recotree){
+            cout << "Probably do something here" << endl;
+        }
+        
+        _recotree = (TTree*)_file->Get(_reconame.Data());
+        
+    }
+    
+    if(_truename.EqualTo("",TString::kExact)){
+        cout << "True Tree name not defined"<< endl;
+        should_exit = true;
+    }
+    else{
+        if(_truetree){
+            cout << "Probably do something here" << endl;
+        }
+        
+        _truetree = (TTree*)_file->Get(_truename.Data());
+    }
+    
+    if(should_exit){
+        cout << "Missing Tree names... Exiting" << endl;
+        exit(0);
+    }
+    
+}
+
 MnvH1D * DrawingTools::GetHisto(TTree * intree, const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts){
     cout << "DrawingTools::GetHisto(TTree * intree, const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts)" << endl;
 
-    
     Double_t * xbins = new Double_t[ nbins + 1 ];
     
     Double_t range = x_high - x_low;
@@ -174,7 +217,7 @@ MnvH1D * DrawingTools::GetTruthHisto(const TString var, int nbins, const Double_
 MnvH1D * DrawingTools::GetRecoHisto(const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts){
     cout << "DrawingTools::GetRecoHisto(const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts)" << endl;
     
-    if(_file->IsZombie()){
+  /*  if(_file->IsZombie()){
         cout << "File is Zombie" << endl;
     }
     
@@ -182,11 +225,11 @@ MnvH1D * DrawingTools::GetRecoHisto(const TString var, int nbins, const double x
     
     TTree * intree = (TTree*)_file->Get(_reconame.Data());
     
-    cout << "Read tree!" << endl;
+    cout << "Read tree!" << endl;*/
     
     MnvH1D * tmp_hist;
-    if(intree){
-        tmp_hist = GetHisto(intree, var, nbins, x_low, x_high, xy_title, cuts);
+    if(_recotree){
+        tmp_hist = GetHisto(_recotree, var, nbins, x_low, x_high, xy_title, cuts);
     }
     else{
         _1Dcounter++;

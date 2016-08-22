@@ -54,6 +54,7 @@ public:
     void SetRecoBranch(TString var){ _reconame = var; }
     void SetTrueBranch(TString var){ _truename = var; }
     void SetFile();
+    void SetTrees();
     
 private:
     //File and directory info:
@@ -62,6 +63,9 @@ private:
     TString _reconame;
     
     TFile * _file;
+    
+    TTree * _truetree;
+    TTree * _recotree;
     
     int _1Dcounter;
     int _2Dcounter;
