@@ -174,7 +174,7 @@ MnvH1D * DrawingTools::GetTruthHisto(const TString var, int nbins, const Double_
 MnvH1D * DrawingTools::GetRecoHisto(const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts){
     cout << "DrawingTools::GetRecoHisto" << endl;
     
-    if(_file.IsZombie()){
+    if(_file->IsZombie()){
         cout << "File is Zombie" << endl;
     }
     
