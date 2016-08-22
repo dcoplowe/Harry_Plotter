@@ -83,9 +83,11 @@ void MomentumDists()
         int color = part_colo[i];
         plot->ColFill(h_mom_p0, color);
         
+        TH1D * s_h_mom_p0 = new TH1D(h_mom_p0->GetStatError());
+        
         TCanvas * c_bare = new TCanvas(Form("%s_mom",tmp_part_name.Data()), "", 450, 450);
         c_bare->cd();
-        h_mom_p0->Draw("HIST");
+        s_h_mom_p0->Draw("HIST");
        // TLegend * pot_bare = plot->GetPOT(0.7,0.8);
         //pot_bare->Draw();
         outfile->cd();
