@@ -156,12 +156,6 @@ TH1D * EffPurTools::PurVSCuts(const TString signal, const TString cuts){
     
     cout << "Starting to read tree " << endl;
     
-    cout << "1_File printed " << endl;
-    _file->ls();
-    _file->Print();
-    
-    cout << "File printed " << endl;
-    
     TTree * intree = (TTree*)_file->Get(_reconame.Data());
     
     cout << "Opened Tree " << endl;
@@ -171,10 +165,7 @@ TH1D * EffPurTools::PurVSCuts(const TString signal, const TString cuts){
     cout << "Read tree " << intree->GetName() << endl;
 
     TH1I * h_ncuts = new TH1I("h_ncuts", "",10, 0, 10);
-    
-    TString ncuts_name = "ncuts";
-    intree->Draw(ncuts_name + ">> h_ncuts");
-    
+    intree->Draw("ncuts>> h_ncuts");
     int ncuts = (int)h_ncuts->GetBinCenter(h_ncuts->GetMaximumBin());
     
     cout << "Number of cuts found to be " << ncuts << endl;
