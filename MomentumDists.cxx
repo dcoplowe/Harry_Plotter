@@ -89,6 +89,7 @@ void MomentumDists()
         c_bare->cd();
         s_h_mom_p0->Draw("HIST");
         TLegend * pot_bare = plot->GetPOT(0.7,0.8);
+        cout << "Draw POT" << endl;
         pot_bare->Draw();
         outfile->cd();
         c_bare->Write();
