@@ -39,7 +39,7 @@ public:
         DSQES = kOrange-2,
         DSRes = kAzure+2,
         DSDIS = kCyan+2,
-        DSOther = kGrey+2
+        DSOther = kGray+2
     };
 };
 
