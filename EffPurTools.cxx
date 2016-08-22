@@ -271,7 +271,7 @@ TH1D * EffPurTools::DrawRatioVSCuts(TH1D * num, TH1D * den, TString y_title, TSt
     
     int max_bins = ratio->GetNbinsX();
     //Stop trying to run over array size:
-    if(max_bins > (int)_cutnames.size()){
+    if(max_bins > (int)(_cutnames.size() + 1)){
         max_bins = (int)_cutnames.size();
         cout << "Not all cuts have names. Running up to " << max_bins << endl;
     }
