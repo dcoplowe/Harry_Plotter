@@ -85,7 +85,7 @@ void MomentumDists()
         
         TH1D * s_h_mom_p0 = new TH1D(h_mom_p0->GetStatError());
         
-        double h_mom_p0_i = h_mom_p0->Integral();
+        double h_mom_p0_i = s_h_mom_p0->Integral();
         cout << " h_mom_p0_i = " << h_mom_p0_i << endl;
         
         TLegend * mom_bare = plot->Legend(0.2,0.1);
