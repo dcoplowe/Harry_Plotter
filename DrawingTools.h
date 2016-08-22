@@ -4,14 +4,15 @@
 #include "DrawingStyle.h"
 
 #include "TString.h"
-#include "PlotUtils/MnvH1D.h"
-#include "PlotUtils/MnvH2D.h"
+//#include "PlotUtils/MnvH1D.h"
+//#include "PlotUtils/MnvH2D_.h"
 
 //Forward declarations here:
 class TFile;
 class TTree;
 class TLegend;
 class TH1D;
+class TH2D;
 
 using namespace PlotUtils;
 
@@ -21,32 +22,32 @@ public:
     //Basic class for drawing plots and doesn't require filename, takes in tree and reads:
     DrawingTools();
     
-    MnvH1D * GetHisto(TTree * intree, const TString var, int nbins, const double x_low, const double x_high, const TString xy_title = "", const TString cuts = "");
-    MnvH1D * GetHisto(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString xy_title = "", const TString cuts = "");
+    TH1D * GetHisto(TTree * intree, const TString var, int nbins, const double x_low, const double x_high, const TString xy_title = "", const TString cuts = "");
+    TH1D * GetHisto(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString xy_title = "", const TString cuts = "");
     
-    MnvH2D * GetHisto(TTree * intree, const TString vars_yx, int x_nbins, const double x_low, const double x_high, int y_nbins, const double y_low, const double y_high, const TString xy_title = "", const TString cuts = "");
-    MnvH2D * GetHisto(TTree * intree, const TString vars_yx, int x_nbins, const Double_t * xbins, int y_nbins, const Double_t * ybins, const TString xy_title = "", const TString cuts = "");
+    TH2D * GetHisto(TTree * intree, const TString vars_yx, int x_nbins, const double x_low, const double x_high, int y_nbins, const double y_low, const double y_high, const TString xy_title = "", const TString cuts = "");
+    TH2D * GetHisto(TTree * intree, const TString vars_yx, int x_nbins, const Double_t * xbins, int y_nbins, const Double_t * ybins, const TString xy_title = "", const TString cuts = "");
     
-    MnvH2D * SmearMatrix(TTree * intree, const TString vars_yx, int nbins, const double low, const double high, const TString xy_title = "", const TString cuts = "");
-    MnvH2D * SmearMatrix(TTree * intree, const TString vars_yx, int nbins, const Double_t * bins, const TString xy_title = "", const TString cuts = "");
+    TH2D * SmearMatrix(TTree * intree, const TString vars_yx, int nbins, const double low, const double high, const TString xy_title = "", const TString cuts = "");
+    TH2D * SmearMatrix(TTree * intree, const TString vars_yx, int nbins, const Double_t * bins, const TString xy_title = "", const TString cuts = "");
     
     ~DrawingTools(){};//This method doesn't require any file;
     
     //This method takes in file, user sets truth and reco. tree names.
     DrawingTools(TString filename, TString reconame = "CC1P1Pi", TString truename = "Truth");
 
-    MnvH1D * GetTruthHisto(const TString var, int nbins, const double x_low, const double x_high, const TString xy_title = "", const TString cuts = "");
-    MnvH1D * GetTruthHisto(const TString var, int nbins, const Double_t * xbins, const TString xy_title = "", const TString cuts = "");
+    TH1D * GetTruthHisto(const TString var, int nbins, const double x_low, const double x_high, const TString xy_title = "", const TString cuts = "");
+    TH1D * GetTruthHisto(const TString var, int nbins, const Double_t * xbins, const TString xy_title = "", const TString cuts = "");
 
-    MnvH1D * GetRecoHisto(const TString var, int nbins, const double x_low, const double x_high, const TString xy_title = "", const TString cuts = "");
-    MnvH1D * GetRecoHisto(const TString var, int nbins, const Double_t * xbins, const TString xy_title = "", const TString cuts = "");
+    TH1D * GetRecoHisto(const TString var, int nbins, const double x_low, const double x_high, const TString xy_title = "", const TString cuts = "");
+    TH1D * GetRecoHisto(const TString var, int nbins, const Double_t * xbins, const TString xy_title = "", const TString cuts = "");
     
-    MnvH2D * SmearMatrix(const TString vars_yx, int nbins, const double low, const double high, const TString xy_title = "", const TString cuts = "");
-    MnvH2D * SmearMatrix(const TString vars_yx, int nbins, const Double_t * bins, const TString xy_title = "", const TString cuts = "");
+    TH2D * SmearMatrix(const TString vars_yx, int nbins, const double low, const double high, const TString xy_title = "", const TString cuts = "");
+    TH2D * SmearMatrix(const TString vars_yx, int nbins, const Double_t * bins, const TString xy_title = "", const TString cuts = "");
     
     TLegend * GetPOT(double x_pos, double y_pos, TString filename = "");
     
-    void ColFill(MnvH1D *&h1, int fill_color, int line_color = kBlack);
+    //void ColFill(MnvH1D_ *&h1, int fill_color, int line_color = kBlack);
     void ColFill(TH1D *&h1, int fill_color, int line_color = kBlack);
 
     TLegend * Legend(double x_size, double y_size, double x_start = 0.1, double y_start = 0.1);
