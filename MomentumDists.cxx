@@ -88,6 +88,7 @@ void MomentumDists()
         h_mom_p0->Draw("HIST");
        // TLegend * pot_bare = plot->GetPOT(0.7,0.8);
         //pot_bare->Draw();
+        outfile->cd();
         c_bare->Write();
         c_bare->Print(Form("%s_mom.eps", tmp_part_name.Data()));
         
