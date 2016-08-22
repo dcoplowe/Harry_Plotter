@@ -111,7 +111,7 @@ void MomentumDists()
         plot->ColFill(s_h_mom_p3, DrawingStyle::DSMuon);
         plot->ColFill(s_h_mom_p4, DrawingStyle::DSOther);
         
-        THStack * hs_part = new THStack(";Test x; Counts");
+        THStack * hs_part = new THStack("hs_part",";Test x; Counts");
         hs_part->Add(s_h_mom_p1);
         hs_part->Add(s_h_mom_p2);
         hs_part->Add(s_h_mom_p3);
