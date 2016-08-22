@@ -118,7 +118,7 @@ MnvH1D * DrawingTools::GetHisto(TTree * intree, const TString var, int nbins, co
     
     intree->Project(host_name.Data(), var.Data(), tmp_cuts.Data());
     
-    cout << "Histo: " << hist->GetName() << " : Entries = " << hist->Integral() << endl;
+    //cout << "Histo: " << hist->GetName() << " : Entries = " << hist->Integral() << endl;
     return hist;
 }
 
@@ -234,7 +234,10 @@ TLegend * DrawingTools::GetPOT(double x_pos, double y_pos, TString filename){
         cout << "DrawingTools::DrawPOT : Could not read file." << endl;
     }
     
+    cout << "Getting meta tree" << endl;
     TTree * meta_tree = (TTree*)tmp_file->Get("Meta");
+    cout << "Found meta tree" << endl;
+
     
     double x_size = 0.2;
     double y_size = 0.2;

@@ -88,6 +88,7 @@ void MomentumDists()
         TCanvas * c_bare = new TCanvas(Form("%s_mom",tmp_part_name.Data()), "", 450, 450);
         c_bare->cd();
         s_h_mom_p0->Draw("HIST");
+        cout << "Get POT" << endl;
         TLegend * pot_bare = plot->GetPOT(0.7,0.8);
         cout << "Draw POT" << endl;
         pot_bare->Draw();
