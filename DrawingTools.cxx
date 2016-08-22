@@ -178,6 +178,8 @@ MnvH1D * DrawingTools::GetRecoHisto(const TString var, int nbins, const double x
         cout << "File is Zombie" << endl;
     }
     
+    cout << "Reco Tree name = " << _reconame.Data() << endl;
+    
     TTree * intree = (TTree*)_file->Get(_reconame.Data());
     
     cout << "Read tree!" << endl;
