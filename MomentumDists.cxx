@@ -78,7 +78,7 @@ void MomentumDists()
         TString tmp_part_snam = part_snam[i];
         TString tmp_part_symb = part_symb[i];
         
-        TH1D * h_mom_p0 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s",common_cuts_p.Data()));
+        TH1D * h_mom_p0 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()),20, 0., 4., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s",common_cuts_p.Data()));
         
         int color = part_colo[i];
         plot->ColFill(h_mom_p0, color);
@@ -86,10 +86,10 @@ void MomentumDists()
         double h_mom_p0_i = h_mom_p0->Integral();
         cout << " h_mom_p0_i = " << h_mom_p0_i << endl;
         
-        TLegend * mom_bare = plot->Legend(0.2,0.1);
+        TLegend * mom_bare = plot->Legend(0.25,0.1);
         mom_bare->AddEntry((TObject*)0, Form("Total Counts %d", (int)h_mom_p0_i),"");
         
-        TCanvas * c_bare = new TCanvas(Form("%s_mom",tmp_part_name.Data()), "", 700, 700);
+        TCanvas * c_bare = new TCanvas(Form("%s_mom",tmp_part_name.Data()), "", 800, 800);
         c_bare->cd();
         h_mom_p0->Draw("HIST");
         TLegend * pot_bare = plot->GetPOT(0.7,0.8);
@@ -135,7 +135,7 @@ void MomentumDists()
         leg_part->AddEntry(h_mom_p3, Form("#mu^{-} (%.2f%%)",h_mom_p3_i), "f");
         leg_part->AddEntry(h_mom_p4, Form("Other (%.2f%%)",h_mom_p4_i), "f");
                      
-        TCanvas * c_parts = new TCanvas(Form("%s_mom_part_breakdown",tmp_part_name.Data()), "", 700, 700);
+        TCanvas * c_parts = new TCanvas(Form("%s_mom_part_breakdown",tmp_part_name.Data()), "", 800, 800);
         c_parts->cd();
         hs_part->Draw();
         TLegend * pot_parts = plot->GetPOT(0.7,0.8);
@@ -181,14 +181,13 @@ void MomentumDists()
         leg_ints->AddEntry(h_mom_i3, Form("CC DIS (%.2f%%)",h_mom_i3_i), "f");
         leg_ints->AddEntry(h_mom_i4, Form("Other (inc. NC) (%.2f %%)",h_mom_i4_i), "f");
         
-        TCanvas * c_ints = new TCanvas(Form("%s_mom_ints_breakdown",tmp_part_name.Data()), "", 700, 700);
+        TCanvas * c_ints = new TCanvas(Form("%s_mom_ints_breakdown",tmp_part_name.Data()), "", 800, 800);
         c_ints->cd();
         hs_ints->Draw();
         TLegend * pot_ints = plot->GetPOT(0.7,0.8);
         pot_ints->Draw();
         leg_ints->Draw();
         c_ints->Write();
-        //c_ints->Print(Form("%s_mom_part_breakdown.eps", tmp_part_name.Data()));
 
         
         /*delete h_mom_p0;
