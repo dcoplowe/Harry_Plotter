@@ -118,7 +118,7 @@ MnvH1D * DrawingTools::GetHisto(TTree * intree, const TString var, int nbins, co
     
     intree->Project(host_name.Data(), var.Data(), tmp_cuts.Data());
     
-    //cout << "Histo: " << hist->GetName() << " : Entries = " << hist->Integral() << endl;
+    cout << "Histo: " << hist->GetName() << " : Entries = " << hist->Integral() << endl;
     return hist;
 }
 
@@ -210,18 +210,9 @@ MnvH1D * DrawingTools::GetTruthHisto(const TString var, int nbins, const Double_
 MnvH1D * DrawingTools::GetRecoHisto(const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts){
     cout << "DrawingTools::GetRecoHisto(const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts)" << endl;
     
-  /*  if(_file->IsZombie()){
-        cout << "File is Zombie" << endl;
-    }
-    
-    cout << "Reco Tree name = " << _reconame.Data() << endl;
-    
-    TTree * intree = (TTree*)_file->Get(_reconame.Data());
-    
-    cout << "Read tree!" << endl;*/
-    
     MnvH1D * tmp_hist;
     if(_recotree){
+        cout << "Reco Tree exists" << endl;
         tmp_hist = GetHisto(_recotree, var, nbins, x_low, x_high, xy_title, cuts);
     }
     else{
@@ -229,9 +220,7 @@ MnvH1D * DrawingTools::GetRecoHisto(const TString var, int nbins, const double x
         tmp_hist = new MnvH1D(Form("emptyhist%.3d",_1Dcounter), "NO TTREE", nbins, x_low, x_high);
         cout << "[ERROR] :: DrawingTools::GetRecoHisto :: No tree named " << _reconame.Data() << endl;
     }
-    
-    //delete intree;
-    
+
     return tmp_hist;
 }
 
