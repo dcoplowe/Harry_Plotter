@@ -114,7 +114,7 @@ MnvH1D * DrawingTools::GetHisto(TTree * intree, const TString var, int nbins, co
     
     tmp_cuts.Append(Form("(%s != -999)", var.Data()));//Might get rid of this.
     
-    cout << tmp_cuts.Data() << endl;
+    //cout << tmp_cuts.Data() << endl;
     
     intree->Project(host_name.Data(), var.Data(), tmp_cuts.Data());
     
