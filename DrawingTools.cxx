@@ -177,7 +177,6 @@ MnvH1D * DrawingTools::GetRecoHisto(const TString var, int nbins, const double x
     TTree * intree = (TTree*)_file->Get(_reconame.Data());
     
     cout << "Read tree!" << endl;
-
     
     MnvH1D * tmp_hist;
     if(intree){
