@@ -198,33 +198,28 @@ MnvH2D * DrawingTools::SmearMatrix(TTree * intree, const TString vars_yx, int nb
 }
 
 MnvH1D * DrawingTools::GetTruthHisto(const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts){
-    TTree * intree = (TTree*)_file->Get(_truename.Data());
-    return GetHisto(intree, var, nbins, x_low, x_high, xy_title, cuts);
+    return GetHisto(_truetree, var, nbins, x_low, x_high, xy_title, cuts);
 }
 
 MnvH1D * DrawingTools::GetTruthHisto(const TString var, int nbins, const Double_t * xbins, const TString xy_title, const TString cuts){
-    TTree * intree = (TTree*)_file->Get(_truename.Data());
-    return GetHisto(intree, var, nbins, xbins, xy_title, cuts);
+    return GetHisto(_truetree, var, nbins, xbins, xy_title, cuts);
 }
 
 MnvH1D * DrawingTools::GetRecoHisto(const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts){
-    cout << "DrawingTools::GetRecoHisto(const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts)" << endl;
+    //cout << "DrawingTools::GetRecoHisto(const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts)" << endl;
     return GetHisto(_recotree, var, nbins, x_low, x_high, xy_title, cuts);
 }
 
 MnvH1D * DrawingTools::GetRecoHisto(const TString var, int nbins, const Double_t * xbins, const TString xy_title, const TString cuts){
-    TTree * intree = (TTree*)_file->Get(_reconame.Data());
-    return GetHisto(intree, var, nbins, xbins, xy_title, cuts);
+    return GetHisto(_recotree, var, nbins, xbins, xy_title, cuts);
 }
 
 MnvH2D * DrawingTools::SmearMatrix(const TString vars_yx, int nbins, const double low, const double high, const TString xy_title, const TString cuts){
-    TTree * intree = (TTree*)_file->Get(_reconame.Data());
-    return SmearMatrix(intree, vars_yx, nbins, low, high, xy_title, cuts);
+    return SmearMatrix(_recotree, vars_yx, nbins, low, high, xy_title, cuts);
 }
 
 MnvH2D * DrawingTools::SmearMatrix(const TString vars_yx, int nbins, const Double_t * bins, const TString xy_title, const TString cuts){
-    TTree * intree = (TTree*)_file->Get(_reconame.Data());
-    return SmearMatrix(intree, vars_yx, nbins, bins, xy_title, cuts);
+    return SmearMatrix(_recotree, vars_yx, nbins, bins, xy_title, cuts);
 }
 
 TLegend * DrawingTools::GetPOT(double x_pos, double y_pos, TString filename){
