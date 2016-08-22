@@ -281,11 +281,16 @@ TH1D * EffPurTools::DrawRatioVSCuts(TH1D * num, TH1D * den, TString y_title, TSt
     
     for(int i = 0; i < ratio->GetNbinsX(); i++){
         TString tmp_label;
-        if(max_bins > i ) tmp_label.Form("%d) %s", (i+1), _cutnames[i].Data());
-        else tmp_label.Form("%d)", (i+1));
+        
+        if(i == 0){
+            tmp_label.Form("No Cuts");
+        }
+        else{
+            if(max_bins > i ) tmp_label.Form("%d) %s", i, _cutnames[i].Data());
+            else tmp_label.Form("%d)", i);
+        }
         
         cout << tmp_label.Data() << endl;
-        
         ratio->GetXaxis()->SetBinLabel(i+1, tmp_label.Data());
     }
     
