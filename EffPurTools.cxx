@@ -240,16 +240,16 @@ TH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, const int n
     cout << "Cut set as: " << tmp_cuts.Data() << endl;
     
     //This will complain: delete outside of function.
-    TH1D * h_evntcuts = new TH1D(name.Data(),"", ncuts, 0., (double)ncuts);
+    TH1D * h_evntcuts = new TH1D(name.Data(),"", ncuts + 1, 0., (double)(ncuts + 1));
     
-    for(int i = 0; i < ncuts; i++){
+    for(int i = 0; i < ncuts + 1; i++){
         TH1D * h_tmp = new TH1D("h_tmp","", 1, 0., 1.);
         TString loop_cuts = Form("%s %d", tmp_cuts.Data(), (i-1));
         cout << "Loop cut: " << loop_cuts.Data() << endl;
         intree->Project("h_tmp","0.5",loop_cuts);
         double intergal = (double)h_tmp->Integral();
         h_evntcuts->SetBinContent(i+1, intergal);
-        cout << "Cut " << (i+1) << ": Events after cut " << intergal << endl;
+        cout << "Cut " << i << ": Events after cut " << intergal << endl;
         delete h_tmp;
     }
     return h_evntcuts;
