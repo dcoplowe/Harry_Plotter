@@ -89,14 +89,14 @@ void MomentumDists()
         c_bare->cd();
         s_h_mom_p0->Draw("HIST");
         cout << "Get POT" << endl;
-        TLegend * pot_bare = plot->GetPOT(0.7,0.8);
+        //TLegend * pot_bare = plot->GetPOT(0.7,0.8);
         cout << "Draw POT" << endl;
-        pot_bare->Draw();
+        //pot_bare->Draw();
         outfile->cd();
         c_bare->Write();
         c_bare->Print(Form("%s_mom.eps", tmp_part_name.Data()));
         
-        delete pot_bare;
+        //delete pot_bare;
         //delete h_mom_p0;
 
       /*  MnvH1D * h_mom_p1 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 2212", common_cuts_p.Data(), tmp_part_snam.Data()));
