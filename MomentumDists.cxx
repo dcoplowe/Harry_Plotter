@@ -66,6 +66,8 @@ void MomentumDists(const string file)
     
     int var_bin[3] = { 20, 20, 20};
     double var_range[6] = {0., 30., 0., 2., 0., 1.2};
+    double truemom_range[6] = {0., 40., 0., 20., 0., 30.};
+
     
     string rec_var[3] = {"mom", "pTMag", "E"};
     string rec_name[3] = {"Momentum", "|#it{p}_{T}|", "Energy"};
@@ -88,6 +90,9 @@ void MomentumDists(const string file)
         double mom_low = var_range[i*2];
         double mom_hig = var_range[i*2 + 1 ];
         int mom_bin = var_bin[i];
+        
+        double truemom_low = truemom_range[i*2];
+        double truemom_hig = truemom_range[i*2 + 1 ];
         
         //DrawingTools * plot = new DrawingTools(testing_mc);
         
@@ -243,11 +248,11 @@ void MomentumDists(const string file)
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
         
         TString common_cuts_i_true = "accum_level > 4 && mc_current == 1 && mc_intType";
-        TH1D * h_mom_i1_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i_true.Data(), " == 1"));//QE
-        TH1D * h_mom_i2_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i_true.Data(), " == 2"));//Res
-        TH1D * h_mom_i3_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i_true.Data(), " == 3"));//Dis
-        TH1D * h_mom_i4_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i_true.Data(), " >= 4"));//Other
-        TH1D * h_mom_i5_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && mc_current != 1", common_cuts_p.Data()));//NC/no current
+        TH1D * h_mom_i1_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()), mom_bin, truemom_low, truemom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i_true.Data(), " == 1"));//QE
+        TH1D * h_mom_i2_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()), mom_bin, truemom_low, truemom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i_true.Data(), " == 2"));//Res
+        TH1D * h_mom_i3_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()), mom_bin, truemom_low, truemom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i_true.Data(), " == 3"));//Dis
+        TH1D * h_mom_i4_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()), mom_bin, truemom_low, truemom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i_true.Data(), " >= 4"));//Other
+        TH1D * h_mom_i5_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()), mom_bin, truemom_low, truemom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && mc_current != 1", common_cuts_p.Data()));//NC/no current
         h_mom_i4_true->Add(h_mom_i5_true);//Add NC ints to other.
         
         plot->ColFill(h_mom_i1_true, DrawingStyle::DSQes);
@@ -289,10 +294,10 @@ void MomentumDists(const string file)
         
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
         
-        TH1D * h_mom_p1_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 2212", common_cuts_p.Data(), tmp_part_snam.Data()));
-        TH1D * h_mom_p2_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && TMath::Abs(CC1P1Pi_%s_PDG) == 211", common_cuts_p.Data(), tmp_part_snam.Data()));
-        TH1D * h_mom_p3_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 13", common_cuts_p.Data(), tmp_part_snam.Data()));
-        TH1D * h_mom_p4_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG != 13 && TMath::Abs(CC1P1Pi_%s_PDG) != 211 && CC1P1Pi_%s_PDG != 2212", common_cuts_p.Data(), tmp_part_snam.Data(), tmp_part_snam.Data(), tmp_part_snam.Data()));
+        TH1D * h_mom_p1_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()),mom_bin, truemom_low, truemom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 2212", common_cuts_p.Data(), tmp_part_snam.Data()));
+        TH1D * h_mom_p2_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()),mom_bin, truemom_low, truemom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && TMath::Abs(CC1P1Pi_%s_PDG) == 211", common_cuts_p.Data(), tmp_part_snam.Data()));
+        TH1D * h_mom_p3_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()),mom_bin, truemom_low, truemom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 13", common_cuts_p.Data(), tmp_part_snam.Data()));
+        TH1D * h_mom_p4_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()),mom_bin, truemom_low, truemom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG != 13 && TMath::Abs(CC1P1Pi_%s_PDG) != 211 && CC1P1Pi_%s_PDG != 2212", common_cuts_p.Data(), tmp_part_snam.Data(), tmp_part_snam.Data(), tmp_part_snam.Data()));
         
         plot->ColFill(h_mom_p1_true, DrawingStyle::DSProton);
         plot->ColFill(h_mom_p2_true, DrawingStyle::DSPion);
