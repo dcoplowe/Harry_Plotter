@@ -257,7 +257,7 @@ TLegend * DrawingTools::GetPOT(double x_pos, double y_pos, TString filename){
         delete lpot;
     }
     
-    delete meta_tree;
+    //delete meta_tree;
     
     return pot;
 }
