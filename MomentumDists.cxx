@@ -125,7 +125,7 @@ void MomentumDists()
         c_parts->Write();
         //c_parts->Print(Form("%s_mom_part_breakdown.eps", tmp_part_name.Data()));
      
-        TString common_cuts_i = "accum_level > 4 && mc_current == 1 && mc_intType"
+        TString common_cuts_i = "accum_level > 4 && mc_current == 1 && mc_intType";
         MnvH1D * h_mom_i1 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i.Data(), " == 1"));//QE
         MnvH1D * h_mom_i2 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i.Data(), " == 2"));//Res
         MnvH1D * h_mom_i3 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom",tmp_part_snam.Data()),20, 0., 4000., Form("#it{p}_{%s} (MeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i.Data(), " == 3"));//Dis
