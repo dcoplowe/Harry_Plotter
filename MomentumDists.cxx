@@ -51,6 +51,8 @@ void MomentumDists()
     string var_unit[3] = {" (MeV/#it{c})", " (MeV/#it{c})", " (MeV)" };
     string var_symb[3] = {" #it{p}", " |#it{p}_{T}|", " E" };
     
+    string pdg_cut[3] = { "CC1P1Pi_mu_PDG == 13", "CC1P1Pi_pr_PDG == 2212", "TMath::Abs(CC1P1Pi_pi_PDG) == 211"};
+    
     int var_bin[3] = { 20, 20, 20};
     double var_range[6] = {0., 30., 0., 2., 0., 1.2};
     
@@ -82,6 +84,7 @@ void MomentumDists()
         TString tmp_part_name = part_name[i];
         TString tmp_part_snam = part_snam[i];
         TString tmp_part_symb = part_symb[i];
+        TString tmp_pdg_cut = pdg_cut[i];
         
         TH1D * h_mom_p0 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s",common_cuts_p.Data()));
         
@@ -202,14 +205,11 @@ void MomentumDists()
         h_smear_nc->Draw("COLZ");
         c_smear_nc->Write();
         
-  /*      TH2D * h_smear_nc = plot->SmearMatrix(Form("CC1P1Pi_%s_truemom/1000:CC1P1Pi_%s_mom/1000", tmp_part_snam.Data(), tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("Reco #it{p}_{%s} (GeV/#it{c}); True #it{p}_{%s} (GeV/#it{c})", tmp_part_symb.Data(), tmp_part_symb.Data()), "accum_level > 4");
-        //SmearMatrix(const TString vars_yx, int nbins, const double low, const double high, const TString xy_title = "", const TString cuts = "");
-  
-        TCanvas * c_smear_nc = new TCanvas(Form("%s_mom_smear_nocuts",tmp_part_name.Data()), "", 1000, 1000);
-        c_smear_nc->cd();
-        h_smear_nc->Draw("COLZ");
-        c_smear_nc->Write();
-*/
+        TH2D * h_smear_pdgc = plot->SmearMatrix(Form("CC1P1Pi_%s_truemom/1000:CC1P1Pi_%s_mom/1000", tmp_part_snam.Data(), tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("Reco #it{p}_{%s} (GeV/#it{c}); True #it{p}_{%s} (GeV/#it{c})", tmp_part_symb.Data(), tmp_part_symb.Data()), Form("accum_level > 4 && %s", tmp_pdg_cut.Data()));
+        TCanvas * c_smear_pdgc = new TCanvas(Form("%s_mom_smear_PDGcuts",tmp_part_name.Data()), "", 1000, 1000);
+        c_smear_pdgc->cd();
+        h_smear_pdgc->Draw("COLZ");
+        c_smear_pdgc->Write();
         
         /*delete h_mom_p0;
         delete h_mom_p1;
