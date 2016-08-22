@@ -23,8 +23,8 @@ public:
         gStyle->SetPadTickY(1);
         gStyle->SetLegendBorderSize(0);
         gStyle->SetLegendFillColor(0);
-        gStyle->SetLegendFont(42);
-        gStyle->SetLegendTextSize(0.1);
+        gStyle->SetLegendFont(62);
+        gStyle->SetLegendTextSize(0.15);
         gROOT->cd(0);
     }
     
