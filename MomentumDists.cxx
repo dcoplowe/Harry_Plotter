@@ -369,7 +369,7 @@ void MomentumDists(const string file, const string savename)
             //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
         }
         
-        TH1D * purcut = m_ep->PurVSCuts("mc_intType == 2 && mc_current == 1");
+        TH1D * purcut = m_ep->PurVSCuts( (target + "&& mc_intType == 2 && mc_current == 1").c_str() );
         
         if(purcut){
             TCanvas * pur_can = new TCanvas( (tar_name + "_pur_vs_cuts").c_str(), "", 500,500);
