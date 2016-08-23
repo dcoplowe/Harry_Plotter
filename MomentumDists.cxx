@@ -154,8 +154,7 @@ void MomentumDists(const string file, const string savename)
             //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
             
             TH1D * h_mom_p0_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s",common_cuts_p.Data()));
-            
-            int color = part_colo[i];
+           
             plot->ColFill(h_mom_p0_true, color);
             
             double h_mom_p0_i_true = h_mom_p0_true->Integral();
