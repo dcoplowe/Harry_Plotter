@@ -372,7 +372,7 @@ void MomentumDists(const string file, const string savename)
         TH1D * purcut = m_ep->PurVSCuts("mc_intType == 2 && mc_current == 1");
         
         if(purcut){
-            TCanvas * pur_can = new TCanvas("pur_can", "", 500,500);
+            TCanvas * pur_can = new TCanvas( (tar_name + "_pur_vs_cuts"), "", 500,500);
             pur_can->cd();
             purcut->Draw();
             outfile->cd();
@@ -383,7 +383,7 @@ void MomentumDists(const string file, const string savename)
         TH1D * effcut = m_ep->EffVSCuts("mc_intType == 2 && mc_current == 1");
         
         if(effcut){
-            TCanvas * eff_can = new TCanvas("eff_can", "", 500,500);
+            TCanvas * eff_can = new TCanvas( (tar_name + "_eff_vs_cuts"), "", 500,500);
             eff_can->cd();
             effcut->Draw();
             outfile->cd();
