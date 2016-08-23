@@ -153,6 +153,29 @@ void MomentumDists(const string file, const string savename)
             //continue;
             //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
             
+            TH1D * h_mom_p0_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s",common_cuts_p.Data()));
+            
+            int color = part_colo[i];
+            plot->ColFill(h_mom_p0_true, color);
+            
+            double h_mom_p0_i_true = h_mom_p0_true->Integral();
+            cout << " h_mom_p0_i_true = " << h_mom_p0_i_true << endl;
+            
+            TLegend * mom_bare_true = plot->Legend(0.25,0.2);
+            mom_bare_true->AddEntry((TObject*)0, Form("Total Counts %d", (int)h_mom_p0_i_true),"");
+            
+            TCanvas * c_bare_true = new TCanvas( ( tar_name + "_" + tmp_part_name + "_truemom"), "", 800, 800);
+            c_bare_true->cd();
+            h_mom_p0_true->Draw("HIST");
+            TLegend * pot_bare_true = plot-> GetPOT(0.7,0.8);
+            pot_bare_true->Draw();
+            mom_bare_true->Draw();
+            outfile->cd();
+            c_bare_true->Write();
+            
+            //continue;
+            //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
+            
             TH1D * h_mom_p1 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 2212", common_cuts_p.Data(), tmp_part_snam.Data()));
             TH1D * h_mom_p2 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && TMath::Abs(CC1P1Pi_%s_PDG) == 211", common_cuts_p.Data(), tmp_part_snam.Data()));
             TH1D * h_mom_p3 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 13", common_cuts_p.Data(), tmp_part_snam.Data()));
@@ -275,7 +298,7 @@ void MomentumDists(const string file, const string savename)
             
             //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
             
-            TString common_cuts_i_true = "accum_level > 4 && mc_current == 1 && mc_intType";
+            TString common_cuts_i_true = common_cuts_p + " && mc_current == 1 && mc_intType";
             TH1D * h_mom_i1_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()), mom_bin, truemom_low, truemom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i_true.Data(), " == 1"));//QE
             TH1D * h_mom_i2_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()), mom_bin, truemom_low, truemom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i_true.Data(), " == 2"));//Res
             TH1D * h_mom_i3_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()), mom_bin, truemom_low, truemom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s%s", common_cuts_i_true.Data(), " == 3"));//Dis
