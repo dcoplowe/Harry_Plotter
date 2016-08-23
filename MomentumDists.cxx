@@ -87,7 +87,7 @@ void MomentumDists(const string file, const string savename)
     
     for(int k = 0; k < 2; k++){
         
-        string target = "mc_target == ";
+        string target = "target_region == ";
         string tar_name;
         if(k == 0){
             target += "1";
@@ -116,6 +116,8 @@ void MomentumDists(const string file, const string savename)
             TString tmp_pdg_cut = pdg_cut[i];
             
             //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
+            
+            cout << common_cuts_p << endl;
             
             TH1D * h_mom_p0 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s",common_cuts_p.Data()));
             
