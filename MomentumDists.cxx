@@ -269,7 +269,6 @@ void MomentumDists(const string file, const string savename)
             
             //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
             
-            
             TH2D * h_smear_nc = plot->SmearMatrix(Form("CC1P1Pi_%s_truemom/1000:CC1P1Pi_%s_mom/1000", tmp_part_snam.Data(), tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, mom_bin, truemom_low, truemom_hig, Form("Reco #it{p}_{%s} (GeV/#it{c}); True #it{p}_{%s} (GeV/#it{c})", tmp_part_symb.Data(), tmp_part_symb.Data()), common_cuts_p);
             //SmearMatrix(const TString vars_yx, int nbins, const double low, const double high, const TString xy_title = "", const TString cuts = "");
             
@@ -286,6 +285,8 @@ void MomentumDists(const string file, const string savename)
             h_smear_pdgc->Draw("COLZ");
             c_smear_pdgc->Write();
             
+            //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
+            
             if(!tmp_part_snam.EqualTo("mu", TString::kExact)){
                 TString xyz_cut = Form("TMath::Abs(CC1P1Pi_%s_endpos_xyz[0]) < 1000 && TMath::Abs(CC1P1Pi_%s_endpos_xyz[1]) < 1000 && CC1P1Pi_%s_endpos_xyz[2] < 9950", tmp_part_snam.Data(), tmp_part_snam.Data(), tmp_part_snam.Data());
                 TH2D * h_smear_xyzc = plot->SmearMatrix(Form("CC1P1Pi_%s_truemom/1000:CC1P1Pi_%s_mom/1000", tmp_part_snam.Data(), tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, mom_bin, truemom_low, truemom_hig, Form("Reco #it{p}_{%s} (GeV/#it{c}); True #it{p}_{%s} (GeV/#it{c})", tmp_part_symb.Data(), tmp_part_symb.Data()), (common_cuts_p + " && " + xyz_cut) );
@@ -293,6 +294,35 @@ void MomentumDists(const string file, const string savename)
                 c_smear_xyzc->cd();
                 h_smear_xyzc->Draw("COLZ");
                 c_smear_xyzc->Write();
+            }
+            
+            //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
+            
+            TH2D * h_smear_nc_sym = plot->SmearMatrix(Form("CC1P1Pi_%s_truemom/1000:CC1P1Pi_%s_mom/1000", tmp_part_snam.Data(), tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("Reco #it{p}_{%s} (GeV/#it{c}); True #it{p}_{%s} (GeV/#it{c})", tmp_part_symb.Data(), tmp_part_symb.Data()), common_cuts_p);
+            //SmearMatrix(const TString vars_yx, int nbins, const double low, const double high, const TString xy_title = "", const TString cuts = "");
+            
+            TCanvas * c_smear_nc_sym = new TCanvas( (tar_name + "_" + tmp_part_name + "_mom_smear_nocuts_sym"), "", 1000, 1000);
+            c_smear_nc_sym->cd();
+            h_smear_nc_sym->Draw("COLZ");
+            c_smear_nc_sym->Write();
+            
+            //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
+            
+            TH2D * h_smear_pdgc_sym = plot->SmearMatrix(Form("CC1P1Pi_%s_truemom/1000:CC1P1Pi_%s_mom/1000", tmp_part_snam.Data(), tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("Reco #it{p}_{%s} (GeV/#it{c}); True #it{p}_{%s} (GeV/#it{c})", tmp_part_symb.Data(), tmp_part_symb.Data()), (common_cuts_p + " && " + tmp_pdg_cut));
+            TCanvas * c_smear_pdgc_sym = new TCanvas( (tar_name + "_" + tmp_part_name + "_mom_smear_PDGcuts_sym"), "", 1000, 1000);
+            c_smear_pdgc_sym->cd();
+            h_smear_pdgc_sym->Draw("COLZ");
+            c_smear_pdgc_sym->Write();
+            
+            //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
+            
+            if(!tmp_part_snam.EqualTo("mu", TString::kExact)){
+                TString xyz_cut_sym = Form("TMath::Abs(CC1P1Pi_%s_endpos_xyz[0]) < 1000 && TMath::Abs(CC1P1Pi_%s_endpos_xyz[1]) < 1000 && CC1P1Pi_%s_endpos_xyz[2] < 9950", tmp_part_snam.Data(), tmp_part_snam.Data(), tmp_part_snam.Data());
+                TH2D * h_smear_xyzc_sym = plot->SmearMatrix(Form("CC1P1Pi_%s_truemom/1000:CC1P1Pi_%s_mom/1000", tmp_part_snam.Data(), tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("Reco #it{p}_{%s} (GeV/#it{c}); True #it{p}_{%s} (GeV/#it{c})", tmp_part_symb.Data(), tmp_part_symb.Data()), (common_cuts_p + " && " + xyz_cut) );
+                TCanvas * c_smear_xyzc_sym = new TCanvas( (tar_name + "_" + tmp_part_name + "_mom_smear_XYZcuts_sym"), "", 1000, 1000);
+                c_smear_xyzc_sym->cd();
+                h_smear_xyzc_sym->Draw("COLZ");
+                c_smear_xyzc_sym->Write();
             }
             
             //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
