@@ -182,7 +182,7 @@ void MomentumDists(const string file, const string savename)
             h_mom_p3_i *= 100/h_mom_p_tot;
             h_mom_p4_i *= 100/h_mom_p_tot;
             
-            TLegend * leg_part = plot->Legend(0.25, 0.4); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
+            TLegend * leg_part = plot->Legend(0.25, 0.4, 0.551,  0.362); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
             leg_part->AddEntry((TObject*)0, Form("Total Counts %d",(int)h_mom_p_tot), "");
             leg_part->AddEntry(h_mom_p1, Form("Proton (%.2f%%)",h_mom_p1_i), "f");
             leg_part->AddEntry(h_mom_p2, Form("#pi^{#pm} (%.2f%%)",h_mom_p2_i), "f");
@@ -192,7 +192,7 @@ void MomentumDists(const string file, const string savename)
             TCanvas * c_parts = new TCanvas( ( tar_name + "_" + tmp_part_name + "_mom_part_breakdown"), "", 1000, 1000);
             c_parts->cd();
             hs_part->Draw();
-            TLegend * pot_parts = plot->GetPOT(0.7,0.8);
+            TLegend * pot_parts = plot->GetPOT(0.521,0.781);
             pot_parts->Draw();
             leg_part->Draw();
             c_parts->Write();
@@ -229,7 +229,7 @@ void MomentumDists(const string file, const string savename)
             h_mom_i3_i *= 100/h_mom_i_tot;
             h_mom_i4_i *= 100/h_mom_i_tot;
             
-            TLegend * leg_ints = plot->Legend(0.3, 0.45); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
+            TLegend * leg_ints = plot->Legend(0.3, 0.45, 0.551,  0.362); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
             leg_ints->AddEntry((TObject*)0, Form("Total Counts %d",(int)h_mom_i_tot), "");
             leg_ints->AddEntry(h_mom_i1, Form("CC Quasi El. (%.2f %%)",h_mom_i1_i), "f");
             leg_ints->AddEntry(h_mom_i2, Form("CC Resonance (%.2f %%)",h_mom_i2_i), "f");
@@ -240,7 +240,7 @@ void MomentumDists(const string file, const string savename)
             TCanvas * c_ints = new TCanvas( ( tar_name + "_" + tmp_part_name + "_mom_ints_breakdown"), "", 1000, 1000);
             c_ints->cd();
             hs_ints->Draw();
-            TLegend * pot_ints = plot->GetPOT(0.7,0.8);
+            TLegend * pot_ints = plot->GetPOT(0.521,0.781);
             pot_ints->Draw();
             leg_ints->Draw();
             c_ints->Write();
@@ -305,7 +305,7 @@ void MomentumDists(const string file, const string savename)
             h_mom_i3_i_true *= 100/h_mom_i_tot_true;
             h_mom_i4_i_true *= 100/h_mom_i_tot_true;
             
-            TLegend * leg_ints_true = plot->Legend(0.3, 0.45); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
+            TLegend * leg_ints_true = plot->Legend(0.3, 0.45, 0.551,  0.362); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
             leg_ints_true->AddEntry((TObject*)0, Form("Total Counts %d",(int)h_mom_i_tot_true), "");
             leg_ints_true->AddEntry(h_mom_i1_true, Form("CC Quasi El. (%.2f %%)",h_mom_i1_i_true), "f");
             leg_ints_true->AddEntry(h_mom_i2_true, Form("CC Resonance (%.2f %%)",h_mom_i2_i_true), "f");
@@ -315,7 +315,7 @@ void MomentumDists(const string file, const string savename)
             TCanvas * c_ints_true = new TCanvas( (tar_name + "_" + tmp_part_name + "truemom_ints_breakdown"), "", 1000, 1000);
             c_ints_true->cd();
             hs_ints_true->Draw();
-            TLegend * pot_ints_true = plot->GetPOT(0.7,0.8);
+            TLegend * pot_ints_true = plot->GetPOT(0.521,0.781);
             pot_ints_true->Draw();
             leg_ints_true->Draw();
             c_ints_true->Write();
@@ -351,7 +351,7 @@ void MomentumDists(const string file, const string savename)
             h_mom_p3_i_true *= 100/h_mom_p_tot_true;
             h_mom_p4_i_true *= 100/h_mom_p_tot_true;
             
-            TLegend * leg_part_true = plot->Legend(0.25, 0.4); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
+            TLegend * leg_part_true = plot->Legend(0.25, 0.4, 0.551,  0.362); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
             leg_part_true->AddEntry((TObject*)0, Form("Total Counts %d",(int)h_mom_p_tot_true), "");
             leg_part_true->AddEntry(h_mom_p1_true, Form("Proton (%.2f%%)",h_mom_p1_i_true), "f");
             leg_part_true->AddEntry(h_mom_p2_true, Form("#pi^{#pm} (%.2f%%)",h_mom_p2_i_true), "f");
@@ -361,7 +361,7 @@ void MomentumDists(const string file, const string savename)
             TCanvas * c_parts_true = new TCanvas( (tar_name + "_" + tmp_part_name + "_truemom_part_breakdown"), "", 1000, 1000);
             c_parts_true->cd();
             hs_part_true->Draw();
-            TLegend * pot_parts_true = plot->GetPOT(0.7,0.8);
+            TLegend * pot_parts_true = plot->GetPOT(0.521,0.781);
             pot_parts_true->Draw();
             leg_part_true->Draw();
             c_parts_true->Write();
@@ -442,7 +442,7 @@ TCanvas * AnalysisPlots:: VarVsParticles(TString var, int nbins, double x_low, d
     h_mom_p3_i *= 100/h_mom_p_tot;
     h_mom_p4_i *= 100/h_mom_p_tot;
     
-    TLegend * leg_part = plot->Legend(0.25, 0.4); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
+    TLegend * leg_part = plot->Legend(0.25, 0.4, 0.551,  0.362); //new TLegend(leg_ints_x, leg_ints_y, leg_ints_x + leg_ints_size_x, leg_ints_y + leg_ints_size_y);
     leg_part->AddEntry((TObject*)0, Form("Total Counts %d",(int)h_mom_p_tot), "");
     leg_part->AddEntry(h_mom_p1, Form("Proton (%.2f%%)",h_mom_p1_i), "f");
     leg_part->AddEntry(h_mom_p2, Form("#pi^{#pm} (%.2f%%)",h_mom_p2_i), "f");
@@ -452,7 +452,7 @@ TCanvas * AnalysisPlots:: VarVsParticles(TString var, int nbins, double x_low, d
     TCanvas * c_parts = new TCanvas(Form("%s_mom_part_breakdown",tmp_part_name.Data()), "", 1000, 1000);
     c_parts->cd();
     hs_part->Draw();
-    TLegend * pot_parts = plot->GetPOT(0.7,0.8);
+    TLegend * pot_parts = plot->GetPOT(0.521,0.781);
     pot_parts->Draw();
     leg_part->Draw();
     return c_parts;
