@@ -153,7 +153,7 @@ void MomentumDists(const string file, const string savename)
             //continue;
             //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
             
-            TH1D * h_mom_p0_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s",common_cuts_p.Data()));
+            TH1D * h_mom_p0_true = plot->GetRecoHisto(Form("CC1P1Pi_%s_truemom/1000",tmp_part_snam.Data()),mom_bin, truemom_low, truemom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s",common_cuts_p.Data()));
            
             plot->ColFill(h_mom_p0_true, color);
             
@@ -334,7 +334,7 @@ void MomentumDists(const string file, const string savename)
             leg_ints_true->AddEntry(h_mom_i3_true, Form("CC DIS (%.2f%%)",h_mom_i3_i_true), "f");
             leg_ints_true->AddEntry(h_mom_i4_true, Form("Other (inc. NC) (%.2f %%)",h_mom_i4_i_true), "f");
             
-            TCanvas * c_ints_true = new TCanvas( (tar_name + "_" + tmp_part_name + "truemom_ints_breakdown"), "", 1000, 1000);
+            TCanvas * c_ints_true = new TCanvas( (tar_name + "_" + tmp_part_name + "_truemom_ints_breakdown"), "", 1000, 1000);
             c_ints_true->cd();
             hs_ints_true->Draw();
             TLegend * pot_ints_true = plot->GetPOT(0.521,0.781);
