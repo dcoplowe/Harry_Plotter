@@ -85,6 +85,15 @@ void MomentumDists(const string file, const string savename)
     
     DrawingTools * plot = new DrawingTools(file);
     
+    std::vector<TString> cut_names;
+    cut_names.push_back("Vertex");
+    cut_names.push_back("3 Tracks");
+    cut_names.push_back("Muon Track");
+    cut_names.push_back("Contained Vtx");
+    cut_names.push_back("PID: p/#pi^{+}");
+    
+    EffPurTools * m_ep = new EffPurTools(file, cut_names);
+    
     for(int k = 0; k < 2; k++){
         
         string target = "target_region == ";
@@ -359,15 +368,6 @@ void MomentumDists(const string file, const string savename)
             
             //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
         }
-        
-        std::vector<TString> cut_names;
-        cut_names.push_back("Vertex");
-        cut_names.push_back("3 Tracks");
-        cut_names.push_back("Muon Track");
-        cut_names.push_back("Contained Vtx");
-        cut_names.push_back("PID: p/#pi^{+}");
-        
-        EffPurTools * m_ep = new EffPurTools(file, cut_names);
         
         TH1D * purcut = m_ep->PurVSCuts("mc_intType == 2 && mc_current == 1");
         
