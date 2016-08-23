@@ -132,7 +132,7 @@ void MomentumDists(const string file, const string savename)
             
             //Form("%s_%s_mom", tar_name.c_str(), tmp_part_name.Data())
             
-            TCanvas * c_bare = new TCanvas( ( tar_name + "_" + tmp_part_name ), "", 800, 800);
+            TCanvas * c_bare = new TCanvas( ( tar_name + "_" + tmp_part_name + "_mom"), "", 800, 800);
             c_bare->cd();
             h_mom_p0->Draw("HIST");
             TLegend * pot_bare = plot-> GetPOT(0.7,0.8);
@@ -141,7 +141,7 @@ void MomentumDists(const string file, const string savename)
             outfile->cd();
             c_bare->Write();
             
-            continue;
+            //continue;
             //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
             
             TH1D * h_mom_p1 = plot->GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 2212", common_cuts_p.Data(), tmp_part_snam.Data()));
@@ -180,7 +180,7 @@ void MomentumDists(const string file, const string savename)
             leg_part->AddEntry(h_mom_p3, Form("#mu^{-} (%.2f%%)",h_mom_p3_i), "f");
             leg_part->AddEntry(h_mom_p4, Form("Other (%.2f%%)",h_mom_p4_i), "f");
             
-            TCanvas * c_parts = new TCanvas(Form("%s_mom_part_breakdown",tmp_part_name.Data()), "", 1000, 1000);
+            TCanvas * c_parts = new TCanvas( ( tar_name + "_" + tmp_part_name + "_mom_part_breakdown"), "", 1000, 1000);
             c_parts->cd();
             hs_part->Draw();
             TLegend * pot_parts = plot->GetPOT(0.7,0.8);
@@ -227,7 +227,8 @@ void MomentumDists(const string file, const string savename)
             leg_ints->AddEntry(h_mom_i3, Form("CC DIS (%.2f%%)",h_mom_i3_i), "f");
             leg_ints->AddEntry(h_mom_i4, Form("Other (inc. NC) (%.2f %%)",h_mom_i4_i), "f");
             
-            TCanvas * c_ints = new TCanvas(Form("%s_mom_ints_breakdown",tmp_part_name.Data()), "", 1000, 1000);
+            
+            TCanvas * c_ints = new TCanvas( ( tar_name + "_" + tmp_part_name + "_mom_ints_breakdown"), "", 1000, 1000);
             c_ints->cd();
             hs_ints->Draw();
             TLegend * pot_ints = plot->GetPOT(0.7,0.8);
@@ -241,7 +242,7 @@ void MomentumDists(const string file, const string savename)
             TH2D * h_smear_nc = plot->SmearMatrix(Form("CC1P1Pi_%s_truemom/1000:CC1P1Pi_%s_mom/1000", tmp_part_snam.Data(), tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("Reco #it{p}_{%s} (GeV/#it{c}); True #it{p}_{%s} (GeV/#it{c})", tmp_part_symb.Data(), tmp_part_symb.Data()), "accum_level > 4");
             //SmearMatrix(const TString vars_yx, int nbins, const double low, const double high, const TString xy_title = "", const TString cuts = "");
             
-            TCanvas * c_smear_nc = new TCanvas(Form("%s_mom_smear_nocuts",tmp_part_name.Data()), "", 1000, 1000);
+            TCanvas * c_smear_nc = new TCanvas( (tar_name + "_" + tmp_part_name + "_mom_smear_nocuts"), "", 1000, 1000);
             c_smear_nc->cd();
             h_smear_nc->Draw("COLZ");
             c_smear_nc->Write();
@@ -249,7 +250,7 @@ void MomentumDists(const string file, const string savename)
             //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
             
             TH2D * h_smear_pdgc = plot->SmearMatrix(Form("CC1P1Pi_%s_truemom/1000:CC1P1Pi_%s_mom/1000", tmp_part_snam.Data(), tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("Reco #it{p}_{%s} (GeV/#it{c}); True #it{p}_{%s} (GeV/#it{c})", tmp_part_symb.Data(), tmp_part_symb.Data()), Form("accum_level > 4 && %s", tmp_pdg_cut.Data()));
-            TCanvas * c_smear_pdgc = new TCanvas(Form("%s_mom_smear_PDGcuts",tmp_part_name.Data()), "", 1000, 1000);
+            TCanvas * c_smear_pdgc = new TCanvas( (tar_name + "_" + tmp_part_name + "_mom_smear_PDGcuts"), "", 1000, 1000);
             c_smear_pdgc->cd();
             h_smear_pdgc->Draw("COLZ");
             c_smear_pdgc->Write();
@@ -257,7 +258,7 @@ void MomentumDists(const string file, const string savename)
             if(!tmp_part_snam.EqualTo("mu", TString::kExact)){
                 TString xyz_cut = Form("TMath::Abs(CC1P1Pi_%s_endpos_xyz[0]) < 1000 && TMath::Abs(CC1P1Pi_%s_endpos_xyz[1]) < 1000 && CC1P1Pi_%s_endpos_xyz[2] < 9950", tmp_part_snam.Data(), tmp_part_snam.Data(), tmp_part_snam.Data());
                 TH2D * h_smear_xyzc = plot->SmearMatrix(Form("CC1P1Pi_%s_truemom/1000:CC1P1Pi_%s_mom/1000", tmp_part_snam.Data(), tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("Reco #it{p}_{%s} (GeV/#it{c}); True #it{p}_{%s} (GeV/#it{c})", tmp_part_symb.Data(), tmp_part_symb.Data()), Form("accum_level > 4 && %s", xyz_cut.Data()));
-                TCanvas * c_smear_xyzc = new TCanvas(Form("%s_mom_smear_XYZcuts",tmp_part_name.Data()), "", 1000, 1000);
+                TCanvas * c_smear_xyzc = new TCanvas( (tar_name + "_" + tmp_part_name + "_mom_smear_XYZcuts"), "", 1000, 1000);
                 c_smear_xyzc->cd();
                 h_smear_xyzc->Draw("COLZ");
                 c_smear_xyzc->Write();
@@ -302,7 +303,7 @@ void MomentumDists(const string file, const string savename)
             leg_ints_true->AddEntry(h_mom_i3_true, Form("CC DIS (%.2f%%)",h_mom_i3_i_true), "f");
             leg_ints_true->AddEntry(h_mom_i4_true, Form("Other (inc. NC) (%.2f %%)",h_mom_i4_i_true), "f");
             
-            TCanvas * c_ints_true = new TCanvas(Form("%s_truemom_ints_breakdown",tmp_part_name.Data()), "", 1000, 1000);
+            TCanvas * c_ints_true = new TCanvas( (tar_name + "_" + tmp_part_name + "truemom_ints_breakdown"), "", 1000, 1000);
             c_ints_true->cd();
             hs_ints_true->Draw();
             TLegend * pot_ints_true = plot->GetPOT(0.7,0.8);
@@ -348,7 +349,7 @@ void MomentumDists(const string file, const string savename)
             leg_part_true->AddEntry(h_mom_p3_true, Form("#mu^{-} (%.2f%%)",h_mom_p3_i_true), "f");
             leg_part_true->AddEntry(h_mom_p4_true, Form("Other (%.2f%%)",h_mom_p4_i_true), "f");
             
-            TCanvas * c_parts_true = new TCanvas(Form("%s_truemom_part_breakdown",tmp_part_name.Data()), "", 1000, 1000);
+            TCanvas * c_parts_true = new TCanvas( (tar_name + "_" + tmp_part_name + "_truemom_part_breakdown"), "", 1000, 1000);
             c_parts_true->cd();
             hs_part_true->Draw();
             TLegend * pot_parts_true = plot->GetPOT(0.7,0.8);
