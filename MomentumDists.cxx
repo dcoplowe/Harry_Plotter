@@ -318,7 +318,7 @@ void MomentumDists(const string file, const string savename)
             
             if(!tmp_part_snam.EqualTo("mu", TString::kExact)){
                 TString xyz_cut_sym = Form("TMath::Abs(CC1P1Pi_%s_endpos_xyz[0]) < 1000 && TMath::Abs(CC1P1Pi_%s_endpos_xyz[1]) < 1000 && CC1P1Pi_%s_endpos_xyz[2] < 9950", tmp_part_snam.Data(), tmp_part_snam.Data(), tmp_part_snam.Data());
-                TH2D * h_smear_xyzc_sym = plot->SmearMatrix(Form("CC1P1Pi_%s_truemom/1000:CC1P1Pi_%s_mom/1000", tmp_part_snam.Data(), tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("Reco #it{p}_{%s} (GeV/#it{c}); True #it{p}_{%s} (GeV/#it{c})", tmp_part_symb.Data(), tmp_part_symb.Data()), (common_cuts_p + " && " + xyz_cut) );
+                TH2D * h_smear_xyzc_sym = plot->SmearMatrix(Form("CC1P1Pi_%s_truemom/1000:CC1P1Pi_%s_mom/1000", tmp_part_snam.Data(), tmp_part_snam.Data()), mom_bin, mom_low, mom_hig, Form("Reco #it{p}_{%s} (GeV/#it{c}); True #it{p}_{%s} (GeV/#it{c})", tmp_part_symb.Data(), tmp_part_symb.Data()), (common_cuts_p + " && " + xyz_cut_sym) );
                 TCanvas * c_smear_xyzc_sym = new TCanvas( (tar_name + "_" + tmp_part_name + "_mom_smear_XYZcuts_sym"), "", 1000, 1000);
                 c_smear_xyzc_sym->cd();
                 h_smear_xyzc_sym->Draw("COLZ");
