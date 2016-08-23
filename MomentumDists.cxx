@@ -80,7 +80,7 @@ void MomentumDists(const string file, const string savename)
         true_name[i] = "True " + rec_name[i];
     }
     
-    TFile * outfile = new TFile(savename, "RECREATE");
+    TFile * outfile = new TFile(savename.c_str(), "RECREATE");
     outfile->cd();
     
     DrawingTools * plot = new DrawingTools(file);
