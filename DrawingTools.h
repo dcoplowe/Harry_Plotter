@@ -31,6 +31,9 @@ public:
     TH2D * SmearMatrix(TTree * intree, const TString vars_yx, int nbins, const double low, const double high, const TString xy_title = "", const TString cuts = "");
     TH2D * SmearMatrix(TTree * intree, const TString vars_yx, int nbins, const Double_t * bins, const TString xy_title = "", const TString cuts = "");
     
+    TH2D * SmearMatrix(TTree * intree, const TString vars_yx, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, const TString xy_title = "", const TString cuts = "");
+    TH2D * SmearMatrix(TTree * intree, const TString vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const TString xy_title = "", const TString cuts = "");
+    
     ~DrawingTools(){};//This method doesn't require any file;
     
     //This method takes in file, user sets truth and reco. tree names.
@@ -44,6 +47,9 @@ public:
     
     TH2D * SmearMatrix(const TString vars_yx, int nbins, const double low, const double high, const TString xy_title = "", const TString cuts = "");
     TH2D * SmearMatrix(const TString vars_yx, int nbins, const Double_t * bins, const TString xy_title = "", const TString cuts = "");
+    
+    TH2D * SmearMatrix(const TString vars_yx, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, const TString xy_title = "", const TString cuts = "");
+    TH2D * SmearMatrix(const TString vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const TString xy_title = "", const TString cuts = "");
     
     TLegend * GetPOT(double x_pos, double y_pos, TString filename = "");
     

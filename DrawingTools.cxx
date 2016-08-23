@@ -242,6 +242,22 @@ TH2D * DrawingTools::SmearMatrix(const TString vars_yx, int nbins, const Double_
     return SmearMatrix(_recotree, vars_yx, nbins, bins, xy_title, cuts);
 }
 
+TH2D * DrawingTools::SmearMatrix(TTree * intree, const TString vars_yx, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, const TString xy_title = "", const TString cuts = ""){
+    return GetHisto(intree, vars_yx, re_nbins, re_low, re_high, tr_nbins, tr_low, tr_high, xy_title, cuts);
+}
+
+TH2D * DrawingTools::SmearMatrix(TTree * intree, const TString vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const TString xy_title = "", const TString cuts = ""){
+    return GetHisto(intree, vars_yx, re_nbins, re_bins, tr_nbins, tr_bins, xy_title, cuts);
+}
+
+TH2D * DrawingTools::SmearMatrix(const TString vars_yx, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, const TString xy_title = "", const TString cuts = ""){
+    return GetHisto(_recotree, vars_yx, re_nbins, re_low, re_high, tr_nbins, tr_low, tr_high, xy_title, cuts);
+}
+
+TH2D * DrawingTools::SmearMatrix(const TString vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const TString xy_title = "", const TString cuts = ""){
+    return GetHisto(_recotree, vars_yx, re_nbins, re_bins, tr_nbins, tr_bins, xy_title, cuts);
+}
+
 TLegend * DrawingTools::GetPOT(double x_pos, double y_pos, TString filename){
     
     SetPOT(filename);
