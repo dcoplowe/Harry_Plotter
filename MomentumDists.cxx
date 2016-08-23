@@ -128,10 +128,12 @@ void MomentumDists(const string file, const string savename)
             TLegend * mom_bare = plot->Legend(0.25,0.2);
             mom_bare->AddEntry((TObject*)0, Form("Total Counts %d", (int)h_mom_p0_i),"");
             
-            TCanvas * c_bare = new TCanvas(Form("%s_%s_mom",tar_name, tmp_part_name.Data()), "", 800, 800);
+            //Form("%s_%s_mom", tar_name.c_str(), tmp_part_name.Data())
+            
+            TCanvas * c_bare = new TCanvas( ( tar_name + "_" + tmp_part_name ), "", 800, 800);
             c_bare->cd();
             h_mom_p0->Draw("HIST");
-            TLegend * pot_bare = plot->GetPOT(0.7,0.8);
+            TLegend * pot_bare = plot-> GetPOT(0.7,0.8);
             pot_bare->Draw();
             mom_bare->Draw();
             outfile->cd();
@@ -457,7 +459,7 @@ TCanvas * AnalysisPlots:: VarVsParticles(TString var, int nbins, double x_low, d
 int main(int argc, char *argv[])
 {
     string filename = testing_mc;
-    savename savename = "CC1P1Pi_Plots.root";
+    string savename = "CC1P1Pi_Plots.root";
     
     char cc;
     while((cc = getopt(argc, argv, "i:o:")) != -1){
