@@ -257,7 +257,7 @@ KinMap DrawingTools::KinArray(TTree * intree, const TString vars_tr, int re_nbin
             if(_DEBUG_) cout << " X[" << i << "] = NULL";
         }
         
-        if(i < y_nbins + 1 ){
+        if(i < tr_nbins + 1 ){
             tr_bins[i] = tr_low + tr_binwidth*i;
             if(_DEBUG_)cout << " Y[" << i << "] = " << tr_bins[i];
         }
@@ -275,7 +275,7 @@ KinMap DrawingTools::KinArray(TTree * intree, const TString vars_tr, int re_nbin
     if(_DEBUG_) cout << "DrawingTools::KinArray(TTree * intree, const TString vars_tr, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const TString xy_title, const TString cuts)" << endl;
     
     KinMap map;
-    map.smear = SmearMatrix(intree, vars_tr, re_nbins, re_bins, tr_nbins, tr_bins, xy_title, cuts);//the xy projections with preserve the entries are required.
+    map.smear = SmearMatrix(intree, vars_tr, re_nbins, re_bins, tr_nbins, tr_bins, rt_title, cuts);//the xy projections with preserve the entries are required.
     
     //Replace : with / in vars_yx Split up the vars. using tstring and then
     TString tmp_cuts = cuts.Data();
@@ -292,6 +292,10 @@ KinMap DrawingTools::KinArray(TTree * intree, const TString vars_tr, int re_nbin
         reco_title = TString( xy_title(0, xy_title.First(";")) );
     }
     
+    //Separate true and rec vars:
+    TString truth_var( vars_tr(0, vars_tr.First(":")) );
+    TString recon_var( vars_tr(vars_tr.First(":") + 1, vars_tr.Length()) );
+    
     if(cor){//Default is to preserve the number of events in each kinematic histo.
         string name = map.smear->GetName();
         map.recon = map.smear->ProjectionX( (name + "_reco").c_str() );
@@ -304,14 +308,10 @@ KinMap DrawingTools::KinArray(TTree * intree, const TString vars_tr, int re_nbin
         map.truth->GetYaxis()->SetTitle("Counts");
         
         if(!tmp_cuts.EqualTo("", TString::kExact)) tmp_cuts.Append(" && ");
-        tmp_cuts.Append(Form("%f < %s && %s < %f && %f < %s && %s < %f ", re_nbins[0], recon_var.Data(), recon_var.Data(), re_nbins[re_nbins + 1], tr_nbins[0],
-                             truth_var.Data(), truth_var.Data(), tr_nbins[tr_nbins + 1]));
+        tmp_cuts.Append(Form("%f < %s && %s < %f && %f < %s && %s < %f ", re_bins[0], recon_var.Data(), recon_var.Data(), re_bins[re_nbins + 1], tr_bins[0],
+                             truth_var.Data(), truth_var.Data(), tr_bins[tr_nbins + 1]));
     }
     else{
-        //Separate true and rec vars:
-        TString truth_var( vars_tr(0, vars_tr.First(":")) );
-        TString recon_var( vars_tr(vars_tr.First(":") + 1, vars_tr.Length()) );
-        
         map.truth = GetHisto(intree, truth_var, tr_nbins, tr_bins, true_title, cuts);
         map.recon = GetHisto(intree, recon_var, re_nbins, re_bins, reco_title, cuts);
     }
@@ -324,7 +324,7 @@ KinMap DrawingTools::KinArray(TTree * intree, const TString vars_tr, int re_nbin
 TH1D * DrawingTools::GetRTRatio(TTree * intree, const TString vars_tr, const TString x_title, const TString cuts){
     if(_DEBUG_) cout << "DrawingTools::GetRTRatio(TTree * intree, const TString vars_tr, int nbins, const Double_t * bins, const TString xy_title, const TString cuts)" << endl;
 
-    if(!vars_yx.Contains(":")){
+    if(!vars_tr.Contains(":")){
         cout << "DrawingTools::GetRTRatio : Error: Could not differentiate between truth and recon." << endl;
         return NULL;
     }
@@ -347,7 +347,7 @@ TH1D * DrawingTools::GetRTRatio(TTree * intree, const TString vars_tr, const TSt
     
     TString var = "1 - (" + recon_var + "/" + truth_var + ")";
     
-    intree->Project(host_name.Data(), var.Data(), tmp_cuts.Data());
+    intree->Project(host_name.Data(), var.Data(), cuts.Data());
     
     return ratio;
 }
