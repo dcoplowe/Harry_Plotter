@@ -283,7 +283,7 @@ KinMap DrawingTools::KinArray(TTree * intree, const TString vars_tr, int re_nbin
     TString true_title;
     TString reco_title;
     
-    if(!xy_title.Contains(";",TString::kExact)){
+    if(!rt_title.Contains(";",TString::kExact)){
         true_title = "true " + xy_title;
         reco_title = "reco " + xy_title;
     }
