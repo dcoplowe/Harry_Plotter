@@ -121,7 +121,7 @@ TH1D * EffPurTools::EffVSCuts(const TString signal, const TString cuts){
 }
 
 TH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title, const TString cuts){
-    cout << "EffPurTools::EffVSVar()" << endl;
+    if(_DEBUG_) cout << "EffPurTools::EffVSVar()" << endl;
     TTree * intree = (TTree*)_file->Get(_truename.Data());
     TH1D * effvar = RatioVSVar(intree, var, nbins, xbins, signal, x_title, cuts);
     _effvarcounter++;
@@ -320,7 +320,7 @@ TH1D * EffPurTools::GetHisto(TTree * intree, const TString var, int nbins, const
     
     tmp_cuts.Append(Form("(%s != -999)", var.Data()));
     
-    cout << tmp_cuts.Data() << endl;
+    if(_DEBUG_) cout << tmp_cuts.Data() << endl;
     
     intree->Project(host_name.Data(), var.Data(), tmp_cuts.Data());
     
