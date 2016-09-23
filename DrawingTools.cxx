@@ -284,12 +284,12 @@ KinMap DrawingTools::KinArray(TTree * intree, const TString vars_tr, int re_nbin
     TString reco_title;
     
     if(!rt_title.Contains(";",TString::kExact)){
-        true_title = "true " + xy_title;
-        reco_title = "reco " + xy_title;
+        true_title = "true " + rt_title;
+        reco_title = "reco " + rt_title;
     }
     else{
-        true_title = TString( xy_title(xy_title.First(";") + 1, xy_title.Length()) );
-        reco_title = TString( xy_title(0, xy_title.First(";")) );
+        true_title = TString( rt_title(rt_title.First(";") + 1, rt_title.Length()) );
+        reco_title = TString( rt_title(0, rt_title.First(";")) );
     }
     
     //Separate true and rec vars:
