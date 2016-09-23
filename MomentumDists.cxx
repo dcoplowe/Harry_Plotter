@@ -15,7 +15,6 @@
 #include <sstream>
 #include <assert.h>
 
-
 //#include <PlotUtils/MnvH1D.h>
 //#include <PlotUtils/MnvH2D.h>
 //#include <PlotUtils/TargetUtils.h>
@@ -54,7 +53,7 @@ public:
 //This is the POT for Data and Monte Carlo for the tuples that we use in this exercise.
 //const double total_mc_pot = 1.79e19;
 
-void MomentumDists(const string file, const string savename)
+void MomentumDists(const string file, const string savename, bool debug)
 {
     //ROOT::Cintex::Cintex::Enable();
     
@@ -92,7 +91,7 @@ void MomentumDists(const string file, const string savename)
     TFile * outfile = new TFile(savename.c_str(), "RECREATE");
     outfile->cd();
     
-    DrawingTools * plot = new DrawingTools(file);
+    DrawingTools * plot = new DrawingTools(file, debug);
     
     std::vector<TString> cut_names;
     cut_names.push_back("Vertex");
@@ -101,7 +100,7 @@ void MomentumDists(const string file, const string savename)
     cut_names.push_back("Contained Vtx");
     cut_names.push_back("PID: p/#pi^{+}");
     
-    EffPurTools * m_ep = new EffPurTools(file, cut_names);
+    EffPurTools * m_ep = new EffPurTools(file, cut_names, debug);
     
     for(int k = 0; k < 2; k++){
         
@@ -525,16 +524,19 @@ int main(int argc, char *argv[])
     string filename = testing_mc;
     string savename = "CC1P1Pi_Plots.root";
     
+    bool debug = false;
+    
     char cc;
-    while((cc = getopt(argc, argv, "i:o:")) != -1){
+    while((cc = getopt(argc, argv, "i:o:d::")) != -1){
         switch (cc){
             case 'i': filename = optarg; break;
             case 'o': savename = optarg; break;
+            case 'd': debug = true; break;
             default: return 1;
         }
     }
     
-    MomentumDists(filename, savename);
+    MomentumDists(filename, savename, debug);
     
-        return 0;
+    return 0;
 }

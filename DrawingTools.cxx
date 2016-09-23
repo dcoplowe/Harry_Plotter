@@ -11,10 +11,9 @@
 #include "TH1D.h"
 #include "TH2D.h"
 
-
 using namespace std;
 
-DrawingTools::DrawingTools(TString filename, TString reconame, TString truename) {
+DrawingTools::DrawingTools(TString filename, bool debug, TString reconame, TString truename) {
     
     cout << "DrawingTools::DrawingTools(TString filename, TString reconame, TString truename)" << endl;
     
@@ -393,22 +392,24 @@ TH2D * DrawingTools::SmearMatrix(const TString vars_yx, int re_nbins, const Doub
     return GetHisto(_recotree, vars_yx, re_nbins, re_bins, tr_nbins, tr_bins, xy_title, cuts);
 }
 
-/*
-KinMap DrawingTools::KinArray(const TString vars_yx, int nbins, const double low, const double high, const TString xy_title = "", const TString cuts = ""){
-    
+TH1D * DrawingTools::GetRTRatio(const TString vars_tr, const TString x_title, const TString cuts){
+    return GetRTRatio(_recotree, vars_tr, x_title, cuts);
 }
 
-KinMap DrawingTools::KinArray(const TString vars_yx, int nbins, const Double_t * bins, const TString xy_title = "", const TString cuts = ""){
-    
+KinMap DrawingTools::KinArray(const TString vars_tr, int nbins, const double low, const double high, const TString rt_title, const TString cuts, bool cor){
+    return KinArray(_recotree, vars_tr, nbins, low, high, rt_title, cuts, cor);
 }
 
-KinMap DrawingTools::KinArray(const TString vars_yx, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, const TString xy_title = "", const TString cuts = ""){
-    
+KinMap DrawingTools::KinArray(const TString vars_tr, int nbins, const Double_t * bins, const TString rt_title, const TString cuts, bool cor){
+    return KinArray(_recotree, vars_tr, nbins, bins, rt_title, cuts, cor);
 }
 
-KinMap DrawingTools::KinArray(const TString vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const TString xy_title = "", const TString cuts = ""){
-    
-}*/
+KinMap DrawingTools::KinArray(const TString vars_tr, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, const TString rt_title, const TString cuts, bool cor){
+    return KinArray(_recotree, vars_tr, re_nbins, re_low, re_high, tr_nbins, tr_low, tr_high, rt_title, cuts, cor);
+}
+KinMap DrawingTools::KinArray(const TString vars_tr, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const TString rt_title, const TString cuts, bool cor){
+    return KinArray(_recotree, vars_tr, re_nbins, re_bins, tr_nbins, tr_bins, rt_title, cuts, cor);
+}
 
 TLegend * DrawingTools::GetPOT(double x_pos, double y_pos, TString filename){
     

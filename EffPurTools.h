@@ -23,8 +23,8 @@ public:
     
     //For now have assume a file is read in.
     
-    EffPurTools(TString filename, std::vector<TString> cut_names, TString reconame = "CC1P1Pi", TString truename = "Truth");
-    EffPurTools(TString filename, TString reconame = "CC1P1Pi", TString truename = "Truth");
+    EffPurTools(TString filename, std::vector<TString> cut_names, bool debug = false, TString reconame = "CC1P1Pi", TString truename = "Truth");
+    EffPurTools(TString filename, bool debug = false, TString reconame = "CC1P1Pi", TString truename = "Truth");
     EffPurTools();
     
     ~EffPurTools(){};
@@ -76,6 +76,8 @@ private:
     int _ghcounter;
     int _effvarcounter;
     int _purvarcounter;
+
+    bool _DEBUG_;
 
 };
 
