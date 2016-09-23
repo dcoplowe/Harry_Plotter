@@ -16,8 +16,13 @@ MAIN = MomentumDists
 all:    $(MAIN)
 	@echo  MomentumDists has compiled successfully.
 
+#Old make script for minerva specific build:
+#$(MAIN): $(OBJS)
+#	$(CXX) $(INCLUDE) $(CXXFLAGS) $(ROOTFLAGS) -o $(MAIN) $(OBJS) $(LDLIBS)
+
+#New main without minerva specific build:
 $(MAIN): $(OBJS)
-	$(CXX) $(INCLUDE) $(CXXFLAGS) $(ROOTFLAGS) -o $(MAIN) $(OBJS) $(LDLIBS)
+	$(CXX) $(CXXFLAGS) $(ROOTFLAGS) -o $(MAIN) $(OBJS)
 
 clean:
 	$(RM) *.o *~ $(MAIN)

@@ -5,18 +5,27 @@
 //#include "TROOT.h"
 #include "TClass.h"
 #include <TCanvas.h>
-#include <iostream>
-#include <fstream>
+
 #include <string>
-#include <PlotUtils/MnvH1D.h>
-#include <PlotUtils/MnvH2D.h>
-#include <PlotUtils/TargetUtils.h>
-#include <PlotUtils/MnvPlotter.h>
-#include "Cintex/Cintex.h"
+#include <iostream>
+#include <iomanip>
+#include <cstdlib>
+#include <unistd.h>
+#include <fstream>
+#include <sstream>
+#include <assert.h>
+
+
+//#include <PlotUtils/MnvH1D.h>
+//#include <PlotUtils/MnvH2D.h>
+//#include <PlotUtils/TargetUtils.h>
+//#include <PlotUtils/MnvPlotter.h>
+//#include "Cintex/Cintex.h"
 
 #include "EffPurTools.h"
 #include "DrawingTools.h"
 #include "TH1D.h"
+#include "TH2D.h"
 #include "THStack.h"
 #include "TLegend.h"
 #include "TFile.h"
@@ -24,7 +33,7 @@
 //#include <TStyle.h>
 
 using namespace std;
-using namespace PlotUtils;
+//using namespace PlotUtils;
 
 //These are the tuples used for this exercise
 const string testing_mc("/pnfs/minerva/persistent/users/dcoplowe/CC1P1Pi_PL13C_180816/merged_CC1P1Pi_CC1P1Pi_run00013200.root");
@@ -47,7 +56,7 @@ public:
 
 void MomentumDists(const string file, const string savename)
 {
-    ROOT::Cintex::Cintex::Enable();
+    //ROOT::Cintex::Cintex::Enable();
     
     cout<<"Producing Momentum Distributions for MC files."<<endl;
     

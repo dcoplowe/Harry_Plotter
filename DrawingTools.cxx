@@ -38,6 +38,9 @@ DrawingTools::DrawingTools(TString filename, TString reconame, TString truename)
     _2Dcounter = -1;
     
     _DEBUG_ = false;
+    
+    _ratiorange = 3.0;
+    _ratiobins = 10;
 }
 
 DrawingTools::DrawingTools(){
@@ -45,6 +48,8 @@ DrawingTools::DrawingTools(){
     _2Dcounter = -1;
     _POT = -999.;
     _DEBUG_ = false;
+    _ratiorange = 3.0;
+    _ratiobins = 10;
 }
 
 void DrawingTools::SetFile(){
@@ -217,6 +222,136 @@ TH2D * DrawingTools::SmearMatrix(TTree * intree, const TString vars_yx, int nbin
     return GetHisto(intree, vars_yx, nbins, bins, nbins, bins, xy_title, cuts);
 }
 
+KinMap DrawingTools::KinArray(TTree * intree, const TString vars_tr, int nbins, const double low, const double high, const TString rt_title, const TString cuts, bool cor){
+    if(_DEBUG_) cout << "DrawingTools::KinArray(TTree * intree, const TString vars_yx, int nbins, const double low, const double high, const TString xy_title, const TString cuts)" << endl;
+    return KinArray(intree, vars_tr, nbins, low, high, nbins, low, high, rt_title, cuts, cor);
+}
+
+KinMap DrawingTools::KinArray(TTree * intree, const TString vars_tr, int nbins, const Double_t * bins, const TString rt_title, const TString cuts, bool cor){
+    if(_DEBUG_) cout << "DrawingTools::KinArray(TTree * intree, const TString vars_tr, int nbins, const Double_t * bins, const TString xy_title, const TString cuts)" << endl;
+    return KinArray(intree, vars_tr, nbins, bins, nbins, bins, rt_title, cuts, cor);
+}
+
+KinMap DrawingTools::KinArray(TTree * intree, const TString vars_tr, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, const TString rt_title, const TString cuts, bool cor){
+    if(_DEBUG_) cout << "DrawingTools::KinArray(TTree * intree, const TString vars_tr, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, const TString rt_title, const TString cuts, bool cor)" << endl;
+    
+    Double_t * re_bins = new Double_t[ re_nbins + 1 ];
+    Double_t re_range = re_high - re_low;
+    Double_t re_binwidth = re_range/(Double_t)re_nbins;
+    
+    Double_t * tr_bins = new Double_t[ tr_nbins + 1 ];
+    Double_t tr_range = tr_high - tr_low;
+    Double_t tr_binwidth = tr_range/(Double_t)tr_nbins;
+    
+    int loop = re_nbins;
+    if(loop < tr_nbins) loop = tr_nbins;
+    
+    for (int i=0; i < loop + 1; i++){
+        
+        if(_DEBUG_) cout << "Array Element: " << i;
+        if(i < re_nbins + 1 ){
+            re_bins[i] = re_low + re_binwidth*i;
+            if(_DEBUG_) cout << " X[" << i << "] = "<< re_bins[i];
+        }
+        else{
+            if(_DEBUG_) cout << " X[" << i << "] = NULL";
+        }
+        
+        if(i < y_nbins + 1 ){
+            tr_bins[i] = tr_low + tr_binwidth*i;
+            if(_DEBUG_)cout << " Y[" << i << "] = " << tr_bins[i];
+        }
+        else{
+            if(_DEBUG_) cout << " Y[" << i << "] = NULL";
+        }
+        if(_DEBUG_) cout << endl;
+    }
+    
+    return KinArray(intree, vars_tr, re_nbins, re_bins, tr_nbins, tr_bins, rt_title, cuts, cor);
+}
+
+KinMap DrawingTools::KinArray(TTree * intree, const TString vars_tr, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const TString rt_title, const TString cuts, bool cor){
+    //In this map we can to keep all the entries preserved from one plot to another, i.e. all integrals are the same. Therefore want a common cut for all plots.
+    if(_DEBUG_) cout << "DrawingTools::KinArray(TTree * intree, const TString vars_tr, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const TString xy_title, const TString cuts)" << endl;
+    
+    KinMap map;
+    map.smear = SmearMatrix(intree, vars_tr, re_nbins, re_bins, tr_nbins, tr_bins, xy_title, cuts);//the xy projections with preserve the entries are required.
+    
+    //Replace : with / in vars_yx Split up the vars. using tstring and then
+    TString tmp_cuts = cuts.Data();
+    
+    TString true_title;
+    TString reco_title;
+    
+    if(!xy_title.Contains(";",TString::kExact)){
+        true_title = "true " + xy_title;
+        reco_title = "reco " + xy_title;
+    }
+    else{
+        true_title = TString( xy_title(xy_title.First(";") + 1, xy_title.Length()) );
+        reco_title = TString( xy_title(0, xy_title.First(";")) );
+    }
+    
+    if(cor){//Default is to preserve the number of events in each kinematic histo.
+        string name = map.smear->GetName();
+        map.recon = map.smear->ProjectionX( (name + "_reco").c_str() );
+        map.truth = map.smear->ProjectionY( (name + "_true").c_str() );
+        
+        map.recon->GetXaxis()->SetTitle(reco_title.Data());
+        map.recon->GetYaxis()->SetTitle("Counts");
+        
+        map.truth->GetXaxis()->SetTitle(true_title.Data());
+        map.truth->GetYaxis()->SetTitle("Counts");
+        
+        if(!tmp_cuts.EqualTo("", TString::kExact)) tmp_cuts.Append(" && ");
+        tmp_cuts.Append(Form("%f < %s && %s < %f && %f < %s && %s < %f ", re_nbins[0], recon_var.Data(), recon_var.Data(), re_nbins[re_nbins + 1], tr_nbins[0],
+                             truth_var.Data(), truth_var.Data(), tr_nbins[tr_nbins + 1]));
+    }
+    else{
+        //Separate true and rec vars:
+        TString truth_var( vars_tr(0, vars_tr.First(":")) );
+        TString recon_var( vars_tr(vars_tr.First(":") + 1, vars_tr.Length()) );
+        
+        map.truth = GetHisto(intree, truth_var, tr_nbins, tr_bins, true_title, cuts);
+        map.recon = GetHisto(intree, recon_var, re_nbins, re_bins, reco_title, cuts);
+    }
+    
+    map.rtratio = GetRTRatio(intree, vars_tr, reco_title, tmp_cuts);
+    
+    return map;
+}
+
+TH1D * DrawingTools::GetRTRatio(TTree * intree, const TString vars_tr, const TString x_title, const TString cuts){
+    if(_DEBUG_) cout << "DrawingTools::GetRTRatio(TTree * intree, const TString vars_tr, int nbins, const Double_t * bins, const TString xy_title, const TString cuts)" << endl;
+
+    if(!vars_yx.Contains(":")){
+        cout << "DrawingTools::GetRTRatio : Error: Could not differentiate between truth and recon." << endl;
+        return NULL;
+    }
+
+    //Separate true and rec vars:
+    TString truth_var( vars_tr(0, vars_tr.First(":")) );
+    TString recon_var( vars_tr(vars_tr.First(":") + 1, vars_tr.Length()) );
+    
+    _1Dcounter++;
+    TString host_name = Form("h1Dvar%.3d", _1Dcounter);
+    
+    TString tmp_title = "1 - reco/true";
+    
+    if(x_title.Contains(";",TString::kExact)){
+            tmp_title += " (" + x_title + ")";
+    }
+    else tmp_title += " (" + x_title + ");Counts";
+    
+    TH1D * ratio = new TH1D(host_name.Data(), Form(";%s", tmp_title.Data()), _ratiobins, -_ratiorange, _ratiorange);
+    
+    TString var = "1 - (" + recon_var + "/" + truth_var + ")";
+    
+    intree->Project(host_name.Data(), var.Data(), tmp_cuts.Data());
+    
+    return ratio;
+}
+
 TH1D * DrawingTools::GetTruthHisto(const TString var, int nbins, const double x_low, const double x_high, const TString xy_title, const TString cuts){
     return GetHisto(_truetree, var, nbins, x_low, x_high, xy_title, cuts);
 }
@@ -257,6 +392,23 @@ TH2D * DrawingTools::SmearMatrix(const TString vars_yx, int re_nbins, const doub
 TH2D * DrawingTools::SmearMatrix(const TString vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const TString xy_title, const TString cuts){
     return GetHisto(_recotree, vars_yx, re_nbins, re_bins, tr_nbins, tr_bins, xy_title, cuts);
 }
+
+/*
+KinMap DrawingTools::KinArray(const TString vars_yx, int nbins, const double low, const double high, const TString xy_title = "", const TString cuts = ""){
+    
+}
+
+KinMap DrawingTools::KinArray(const TString vars_yx, int nbins, const Double_t * bins, const TString xy_title = "", const TString cuts = ""){
+    
+}
+
+KinMap DrawingTools::KinArray(const TString vars_yx, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, const TString xy_title = "", const TString cuts = ""){
+    
+}
+
+KinMap DrawingTools::KinArray(const TString vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const TString xy_title = "", const TString cuts = ""){
+    
+}*/
 
 TLegend * DrawingTools::GetPOT(double x_pos, double y_pos, TString filename){
     
