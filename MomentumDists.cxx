@@ -146,14 +146,14 @@ void MomentumDists(const string file, const string savename, bool debug)
                 std::string mom_title = "Reco " + var_symb[0] + "_{" + part_symb[i] + "} " + var_unit[0] + ";True " + var_symb[0] + "_{" + part_symb[i] + "} " + var_unit[0];//Real;Truth
                 
                 if(debug) cout << "Mom: Working 1" << endl;
-                KinMap mom_pr = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  Form("%s && %s_PDG == 2212", common_cuts_mom.c_str(), part_name_.c_str()));
+                KinMap mom_pr = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && %s_PDG == 2212", common_cuts_mom.c_str(), part_name_.c_str())));
                 if(debug) cout << "Mom: Working 2" << endl;
-                KinMap mom_pi = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  Form("%s && TMath::Abs(%s_PDG) == 211", common_cuts_mom.c_str(), part_name_.c_str()));
+                KinMap mom_pi = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && TMath::Abs(%s_PDG) == 211", common_cuts_mom.c_str(), part_name_.c_str())));
                 if(debug) cout << "Mom: Working 3" << endl;
-                KinMap mom_mu = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  Form("%s && %s_PDG == 13", common_cuts_mom.c_str(), part_name_.c_str()));
+                KinMap mom_mu = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && %s_PDG == 13", common_cuts_mom.c_str(), part_name_.c_str())));
                 if(debug) cout << "Mom: Working 4" << endl;
                 std::string mom_other = part_name_ + "_PDG != 2212 && TMath::Abs(" + part_name_ + "_PDG) != 211 && " + part_name_ + "_PDG != 13 && " + part_name_ + "_PDG != -999" ;
-                KinMap mom_ot = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  Form("%s && %s", common_cuts_mom.c_str(), mom_other.c_str()));
+                KinMap mom_ot = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && %s", common_cuts_mom.c_str(), mom_other.c_str())));
 
                 TH1D * mom_pr_recon   = mom_pr.recon;
                 TH1D * mom_pr_truth   = mom_pr.truth;
@@ -200,8 +200,8 @@ void MomentumDists(const string file, const string savename, bool debug)
                     
                     TCanvas * mom_rec_can = new TCanvas((part_name_ + "_reco").c_str(), "", 500,500);
                     mom_rec_can->cd();
-                    hs_score->Draw();
-                    score_leg->Draw();
+                    st_mom_reco->Draw();
+                    mom_reco_leg->Draw();
                     TLegend * pot_mom_reco = plot->GetPOT(0.521,0.781);
                     pot_score_reco->Draw();
                     outfile->cd();
