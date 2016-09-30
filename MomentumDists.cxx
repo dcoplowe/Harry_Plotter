@@ -137,10 +137,14 @@ void MomentumDists(const string file, const string savename, bool debug)
                         std::string std_score =  std_partvar + hyp[j] + "_score";
                         cout << std_score << endl;
                         std::string AltTit = "";
+                        std::string std_h_score = "hs" + part_name[i] + "_scores";
+                        
                         if(hyp_i>0){
                             std_score += "_altH";
                             AltTit = "Alt. ";
+                            std_h_score += "_altH";
                         }
+                        
                         if(debug) cout << "Working 1" << endl;
                         TH1D * score_pr = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 2212", common_cuts.c_str(), std_partvar.c_str()));
                         
@@ -171,9 +175,39 @@ void MomentumDists(const string file, const string savename, bool debug)
                         plot->ColFill(score_kz, DrawingStyle::DSKa0);
                         plot->ColFill(score_ot, DrawingStyle::DSOther);
 
-                        //THStack * hs_part = new THStack(Form("hs%s_part", tmp_part_snam.Data()),Form(";#it{p}_{%s} (GeV/#it{c});Counts", tmp_part_symb.Data()));
+                        std::vector<TH1D*> score_h;
+                        std::vector<std::string> score_names;
+                        score_h.push_back( score_pr ); score_names.push_back("p");
+                        score_h.push_back( score_pi ); score_names.push_back("#pi^{#pm}");
+                        score_h.push_back( score_mu ); score_names.push_back("#mu^{-}");
+                        score_h.push_back( score_p0 ); score_names.push_back("#pi^{0}");
+                        score_h.push_back( score_ka ); score_names.push_back("K^{#pm}");
+                        score_h.push_back( score_kz ); score_names.push_back("K^{0}");
+                        score_h.push_back( score_ot ); score_names.push_back("Other");
                         
-                        std::vector<double> score_per = plot->GetPercentage(std::vector<TH1D*> histos);
+                        std::vector<double> score_per = plot->GetPercentage(score_h);
+                        
+                        if((int)score_h.size() == (int)score_names.size() && (int)score_names.size() == (int)score_per.size()){
+                            
+                            TLegend * score_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
+                            THStack * hs_score = new THStack(std_h_score,Form(";%s %sScore;Counts", part_name[i].c_str(), AltTit.c_str()));
+                            
+                            int n_scores = (int)score_h.size();
+                            for(int dd = 1; dd < n_scores + 1; dd++){
+                                TH1D * tmp_hist = score_h[ n_scores - dd ];//Loop in opposite order;
+                                hs_score->Add(tmp_hist);
+                                score_leg->AddEntry(tmp_hist,Form("%s (%.2f%%)",score_names[ n_scores - dd ].c_str(), score_per[ n_scores - dd ]) ,"f");
+                            }
+                            
+                            TCanvas score_can = new TCanvas(std_h_score, "", 500,500);
+                            score_can->cd();
+                            hs_score->Draw();
+                            score_leg->Draw();
+                            TLegend * pot_score = plot->GetPOT(0.521,0.781);
+                            pot_score->Draw();
+                            outfile->cd();
+                            score_can->Write();
+                        }
                         
                         //THStack * score_st = ;
                     }
