@@ -126,7 +126,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                 for(int j = 0; j < 2; j++){//LL dEdX loop
                     
                     char buffer[100];
-                    sprintf(buffer,"%d",j);
+                    sprintf(buffer,"%d",0);
                     std::string common_cuts = target + " && accum_level[" + buffer + "] > 4";
 
                     cout << " common_cuts == " << common_cuts << endl;
