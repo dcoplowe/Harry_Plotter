@@ -78,7 +78,7 @@ void MomentumDists(const string file, const string savename, bool debug)
     double var_range[6] = {0., 30., 0., 2., 0., 1.2};
     double truemom_range[6] = {0., 40., 0., 20., 0., 30.};
 
-    std::string hyp[2] = {"_EX_", "_LL_"};
+    std::string hyp[2] = {"_EX", "_LL"};
     
     string rec_var[3] = {"mom", "pTMag", "E"};
     string rec_name[3] = {"Momentum", "|#it{p}_{T}|", "Energy"};
