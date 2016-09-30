@@ -38,14 +38,24 @@ public:
     ~DrawingStyle(){;}
     
     enum DSColors {//Add nice colors here and ones for ints/particle types
+        //Colors:
         DSYellow = kOrange-2,
         DSBlue = kAzure+2,
+        DSRed = kRed+1,
+        DSGray = kGray,
+        DSGreen = kSpring-3,
+        DSLBlue = kBlue-5,
+        //Particles:
         DSProton = kOrange-2,
         DSPion = kAzure+2,
         DSMuon = kCyan+2,
-        DSQes = kOrange-2,
-        DSRes = kAzure+2,
-        DSDis = kCyan+2,
+        DSPi0 = kRed+1,
+        DSKaon = kBlue-5,
+        DSKa0 = kSpring-3,
+        //Topologies:
+        DS2Pr = kOrange-2,
+        DS1P1Pi = kAzure+2,
+        DS2Pi = kCyan+2,
         DSOther = kGray
     };
 };

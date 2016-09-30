@@ -23,8 +23,8 @@ public:
     
     //For now have assume a file is read in.
     
-    EffPurTools(TString filename, std::vector<TString> cut_names, bool debug = false, TString reconame = "CC1P1Pi", TString truename = "Truth");
-    EffPurTools(TString filename, bool debug = false, TString reconame = "CC1P1Pi", TString truename = "Truth");
+    EffPurTools(TString filename, std::vector<TString> cut_names, bool debug = false, TString reconame = "sel", TString truename = "Truth");
+    EffPurTools(TString filename, bool debug = false, TString reconame = "sel", TString truename = "Truth");
     EffPurTools();
     
     ~EffPurTools(){};

@@ -187,10 +187,14 @@ TH2D * DrawingTools::GetHisto(TTree * intree, const TString vars_yx, int x_nbins
     //hist->GetYaxis()->Setmaxdigits(2);
     //hist->GetXaxis()->Setmaxdigits(2);
     
+    //Separate true and rec vars:
+    TString y_var( vars_yx(0, vars_yx.First(":")) );
+    TString x_var( vars_yx(vars_yx.First(":") + 1, vars_yx.Length()) );
+    
     TString tmp_cuts = cuts.Data();
-    //if(!tmp_cuts.EqualTo("", TString::kExact)) tmp_cuts.Append(" && ");
-    //tmp_cuts.Append(Form("(%s != -999)", var.Data()));
-    //cout << tmp_cuts.Data() << endl;
+    if(!tmp_cuts.EqualTo("", TString::kExact)) tmp_cuts.Append(" && ");
+    tmp_cuts.Append(Form("(%s != -999) && (%s != -999)", y_var.Data(), x_var.Data()));
+    cout << tmp_cuts.Data() << endl;
     
     intree->Project(host_name.Data(), vars_yx.Data(), tmp_cuts.Data());
     
@@ -467,6 +471,20 @@ void DrawingTools::SetPOT(TString filename){
             if(_DEBUG_) cout << "POT already set as " << _POT << endl;
         }
     }
+}
+
+std::vector<double> DrawingTools::GetPercentage(std::vector<TH1D*> histos){
+
+    std::vector<double> pers;
+    double norm = 0;
+    for(int i = 0; i < (int)histos.size(), i++){
+        double intergal = histo[i]->GetIntegral();
+        norm += intergal;
+        pers.push_back( intergal );
+    }
+    for(int i = 0; i < (int)pers.size(), i++) pers[i] *= 1/norm;
+    
+    return pers;
 }
 
 TLegend * DrawingTools::Legend(double x_size, double y_size, double x_start, double y_start){

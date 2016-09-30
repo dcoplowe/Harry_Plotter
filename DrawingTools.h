@@ -28,7 +28,7 @@ public:
     //Basic class for drawing plots and doesn't require filename, takes in tree and reads:
     DrawingTools();
     //This method takes in file, user sets truth and reco. tree names.
-    DrawingTools(TString filename, bool debug = false, TString reconame = "CC1P1Pi", TString truename = "Truth");
+    DrawingTools(TString filename, bool debug = false, TString reconame = "sel", TString truename = "Truth");
     ~DrawingTools(){};//This method doesn't require any file;
     
     TH1D * GetHisto(TTree * intree, const TString var, int nbins, const double x_low, const double x_high, const TString xy_title = "", const TString cuts = "");
@@ -70,12 +70,14 @@ public:
     TH2D * SmearMatrix(const TString vars_yx, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, const TString xy_title = "", const TString cuts = "");
     TH2D * SmearMatrix(const TString vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const TString xy_title = "", const TString cuts = "");
     
-    /* KinMap KinArray(const TString vars_yx, int nbins, const double low, const double high, const TString xy_title = "", const TString cuts = "");
-     KinMap KinArray(const TString vars_yx, int nbins, const Double_t * bins, const TString xy_title = "", const TString cuts = "");
+    KinMap KinArray(const TString vars_yx, int nbins, const double low, const double high, const TString xy_title = "", const TString cuts = "");
+    KinMap KinArray(const TString vars_yx, int nbins, const Double_t * bins, const TString xy_title = "", const TString cuts = "");
      
-     KinMap KinArray(const TString vars_yx, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, const TString xy_title = "", const TString cuts = "");
-     KinMap KinArray(const TString vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const TString xy_title = "", const TString cuts = "");
-     */
+    KinMap KinArray(const TString vars_yx, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, const TString xy_title = "", const TString cuts = "");
+    KinMap KinArray(const TString vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const TString xy_title = "", const TString cuts = "");
+    
+    std::vector<double> GetPercentage(std::vector<TH1D*> histos);
+    
     TLegend * GetPOT(double x_pos, double y_pos, TString filename = "");
     
     //void ColFill(MnvH1D_ *&h1, int fill_color, int line_color = kBlack);
