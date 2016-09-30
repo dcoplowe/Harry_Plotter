@@ -137,7 +137,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                         std::string std_score =  std_partvar + hyp[j] + "_score";
                         cout << std_score << endl;
                         std::string AltTit = "";
-                        std::string std_h_score = "hs" + part_name[i] + "_scores";
+                        std::string std_h_score = "hs" + part_name[i] + hyp[j] + "_scores";
                         
                         if(hyp_i>0){
                             std_score += "_altH";

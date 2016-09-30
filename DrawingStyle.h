@@ -43,7 +43,7 @@ public:
         DSBlue = kAzure+2,
         DSRed = kRed+1,
         DSGray = kGray,
-        DSGreen = kSpring-3,
+        DSGreen = kGreen-3,
         DSLBlue = kBlue-5,
         //Particles:
         DSProton = kOrange-2,
@@ -51,7 +51,7 @@ public:
         DSMuon = kCyan+2,
         DSPi0 = kRed+1,
         DSKaon = kBlue-5,
-        DSKa0 = kSpring-3,
+        DSKa0 = kGreen-3,
         //Topologies:
         DS2Pr = kOrange-2,
         DS1P1Pi = kAzure+2,
