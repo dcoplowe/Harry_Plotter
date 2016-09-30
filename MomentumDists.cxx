@@ -123,7 +123,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                 std::string std_partvar = flag + part_snam[i];
                 for(int j = 0; j < 2; j++){//LL dEdX loop
                     
-                    std::string common_cuts = target + " && accum_level[" + j + "] > 4";
+                    std::string common_cuts = target + " && accum_level[" + std::to_string(j) + "] > 4";
 
                     for (int hyp_i = 0; hyp_i < 2; hyp_i++) {//Alt hyp loop
                         
