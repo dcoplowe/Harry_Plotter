@@ -145,12 +145,21 @@ void MomentumDists(const string file, const string savename, bool debug)
                         TH1D * score_pr = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 2212", common_cuts.c_str(), std_partvar.c_str()));
                         
                         cout << "Working 2" << endl;
-
                         TH1D * score_pi = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && TMath::Abs(%s_PDG) == 211", common_cuts.c_str(), std_partvar.c_str()));
+                        
+                        cout << "Working 3" << endl;
                         TH1D * score_mu = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 13", common_cuts.c_str(), std_partvar.c_str()));
+                        
+                        cout << "Working 4" << endl;
                         TH1D * score_p0 = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 111", common_cuts.c_str(), std_partvar.c_str()));
+                        
+                        cout << "Working 5" << endl;
                         TH1D * score_ka = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && TMath::Abs(%s_PDG) == 321", common_cuts.c_str(), std_partvar.c_str()));
+                        
+                        cout << "Working 6" << endl;
                         TH1D * score_kz = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_str(), AltTit), Form("%s && %s_PDG == 311", common_cuts.c_str(), std_partvar.c_str()));
+                        
+                        cout << "Working 7" << endl;
                         std::string std_p_other =  std_partvar + "_PDG != 2212 TMath::Abs(" + std_partvar + "_PDG) != 211 " + std_partvar + "_PDG != 13 && " + std_partvar + "_PDG != 111 && TMath::Abs(" + std_partvar + "_PDG) != 311 && " + std_partvar + "_PDG != 311 && " + std_partvar + "_PDG != -999";
                         TH1D * score_ot = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s", common_cuts.c_str(), std_p_other.c_str()));
                         
