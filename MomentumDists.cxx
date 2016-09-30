@@ -199,7 +199,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                                 score_leg->AddEntry(tmp_hist,Form("%s (%.2f%%)",score_names[ n_scores - dd ].c_str(), score_per[ n_scores - dd ]) ,"f");
                             }
                             
-                            TCanvas score_can = new TCanvas(std_h_score, "", 500,500);
+                            TCanvas * score_can = new TCanvas(std_h_score, "", 500,500);
                             score_can->cd();
                             hs_score->Draw();
                             score_leg->Draw();
