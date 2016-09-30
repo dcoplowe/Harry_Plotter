@@ -127,7 +127,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                     
                     char buffer[100];
                     sprintf(buffer,"%d",j);
-                    std::string common_cuts = target + " && accum_level[" + std::to_string(j) + "] > 4";
+                    std::string common_cuts = target + " && accum_level[" + buffer + "] > 4";
 
                     for (int hyp_i = 0; hyp_i < 2; hyp_i++) {//Alt hyp loop
                         
