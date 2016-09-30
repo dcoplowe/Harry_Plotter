@@ -141,7 +141,11 @@ void MomentumDists(const string file, const string savename, bool debug)
                             std_score += "_altH";
                             AltTit = "Alt. ";
                         }
+                        cout << "Working 1" << endl;
                         TH1D * score_pr = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 2212", common_cuts.c_str(), std_partvar.c_str()));
+                        
+                        cout << "Working 2" << endl;
+
                         TH1D * score_pi = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && TMath::Abs(%s_PDG) == 211", common_cuts.c_str(), std_partvar.c_str()));
                         TH1D * score_mu = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 13", common_cuts.c_str(), std_partvar.c_str()));
                         TH1D * score_p0 = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 111", common_cuts.c_str(), std_partvar.c_str()));
