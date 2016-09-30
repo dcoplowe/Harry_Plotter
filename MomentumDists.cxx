@@ -143,7 +143,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                 double mom_high = mom_range[ 2*i + 1 ];
                 
                 std::string mom_name = part_name_ + "truemom/1000:" + part_name_ + hyp[j] + "mom/1000";
-                std::string mom_title = var_symb[0] + "_{" + part_symb[i] + "} " + var_unit[0];//Real;Truth
+                std::string mom_title = "Reco " + var_symb[0] + "_{" + part_symb[i] + "} " + var_unit[0] + ";True " + var_symb[0] + "_{" + part_symb[i] + "} " + var_unit[0];//Real;Truth
                 
                 if(debug) cout << "Mom: Working 1" << endl;
                 KinMap mom_pr = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  Form("%s && %s_PDG == 2212", common_cuts_score.Data(), part_name_.c_str()));
@@ -155,7 +155,70 @@ void MomentumDists(const string file, const string savename, bool debug)
                 std::string mom_other = part_name_ + "_PDG != 2212 && TMath::Abs(" + part_name_ + "_PDG) != 211 && " + part_name_ + "_PDG != 13 && " + part_name_ + "_PDG != -999" ;
                 KinMap mom_ot = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  Form("%s && %s", common_cuts_score.Data(), mom_other.c_str()));
 
+                TH1D * mom_pr_recon   = mom_pr.recon;
+                TH1D * mom_pr_truth   = mom_pr.truth;
+                //TH2D * mom_pr_smear   = mom_pr.smear;
+                TH1D * mom_pr_rtratio = mom_pr.rtratio;
                 
+                TH1D * mom_pi_recon   = mom_pi.recon;
+                TH1D * mom_pi_truth   = mom_pi.truth;
+                //TH2D * mom_pi_smear   = mom_pi.smear;
+                TH1D * mom_pi_rtratio = mom_pi.rtratio;
+                
+                TH1D * mom_mu_recon   = mom_mu.recon;
+                TH1D * mom_mu_truth   = mom_mu.truth;
+                //TH2D * mom_mu_smear   = mom_mu.smear;
+                TH1D * mom_mu_rtratio = mom_mu.rtratio;
+                
+                TH1D * mom_ot_recon   = mom_ot.recon;
+                TH1D * mom_ot_truth   = mom_ot.truth;
+                //TH2D * mom_ot_smear   = mom_ot.smear;
+                TH1D * mom_ot_rtratio = mom_ot.rtratio;
+                
+                std::vector<TH1D*> mom_reco_list;
+                std::vector<std::string> mom_reco_names;
+                
+                mom_reco_list.push_back( mom_pr_recon ); mom_reco_names.push_back("p");
+                mom_reco_list.push_back( mom_pi_recon ); mom_reco_names.push_back("#pi^{#pm}");
+                mom_reco_list.push_back( mom_mu_recon ); mom_reco_names.push_back("#mu^{-}");
+                mom_reco_list.push_back( mom_ot_recon ); mom_reco_names.push_back("Other");
+                
+                std::vector<double> mom_reco_per = plot->GetPercentage(mom_reco_list);
+                
+                if((int)mom_reco_list.size() == (int)score_names.size() && (int)score_names.size() == (int)mom_per.size()){
+                    
+                    THStack * st_mom_reco = new THStack( (part_name_ + "_reco").c_str() , (";Reco" + std_h_score +";Counts").c_str(), mom_pr_recon->GetXaxis()->GetTitle());
+                    TLegend * mom_reco_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
+
+                    int n_moms = (int)mom_h.size();
+                    for(int dd = 1; dd < n_moms + 1; dd++){
+                        TH1D * tmp_hist = mom_reco_list[ n_moms - dd ];//Loop in opposite order;
+                        hs_mom_reco->Add(tmp_hist);
+                        score_leg->AddEntry(tmp_hist,Form("%s (%.2f%%)",score_names[ n_moms - dd ].c_str(), mom_per[ n_moms - dd ]) ,"f");
+                    }
+                    
+                    TCanvas * mom_rec_can = new TCanvas(std_h_score.c_str(), "", 500,500);
+                    mom_rec_can->cd();
+                    hs_score->Draw();
+                    score_leg->Draw();
+                    TLegend * pot_mom_reco = plot->GetPOT(0.521,0.781);
+                    pot_score_reco->Draw();
+                    outfile->cd();
+                    mom_rec_can->Write();
+                }
+
+                std::vector<TH1D*> mom_true_list;
+                std::vector<std::string> mom_true_names;
+                
+                mom_true_list.push_back( mom_pr_recon ); mom_true_names.push_back("p");
+                mom_true_list.push_back( mom_pi_recon ); mom_true_names.push_back("#pi^{#pm}");
+                mom_true_list.push_back( mom_mu_recon ); mom_true_names.push_back("#mu^{-}");
+                mom_true_list.push_back( mom_ot_recon ); mom_true_names.push_back("Other");
+
+                
+                
+                //TLegend * score_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
+                //THStack * hs_score = new THStack(("h + std_h_score).c_str(),Form(";%s %sScore;Counts", part_name[i].c_str(), AltTit.c_str()));
                 
                 //-------------------------//
             }
