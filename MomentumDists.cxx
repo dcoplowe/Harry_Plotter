@@ -240,9 +240,8 @@ TCanvas * AnalysisPlots:: VarVsParticles(TString var, int nbins, double x_low, d
     TLegend * pot_parts = plot->GetPOT(0.521,0.781);
     pot_parts->Draw();
     leg_part->Draw();
-    return c_parts;
-}*/
-
+    return c_parts;*/
+}
 
 int main(int argc, char *argv[])
 {
