@@ -478,9 +478,9 @@ std::vector<double> DrawingTools::GetPercentage(std::vector<TH1D*> histos){
     std::vector<double> pers;
     double norm = 0;
     for(int i = 0; i < (int)histos.size(); i++){
-        double intergal = histos[i]->GetIntegral();
-        norm += intergal;
-        pers.push_back( intergal );
+        double integral = histos[i]->Integral();
+        norm += integral;
+        pers.push_back( integral );
     }
     for(int i = 0; i < (int)pers.size(); i++) pers[i] *= 1/norm;
     
