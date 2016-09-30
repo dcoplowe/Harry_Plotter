@@ -132,12 +132,12 @@ void MomentumDists(const string file, const string savename, bool debug)
                     cout << " common_cuts == " << common_cuts << endl;
                     
                     double score_low = 0.;
-                    double score_hig = 1.;
+                    double score_high = 1.;
                     int score_nins = 20.;
                     
                     if(j > 0){
                         score_low = -40.;
-                        score_hig = 40.;
+                        score_high = 40.;
                         score_nins = 40.;
                     }
                         
@@ -156,26 +156,26 @@ void MomentumDists(const string file, const string savename, bool debug)
                         }
                         
                         if(debug) cout << "Working 1" << endl;
-                        TH1D * score_pr = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 2212", common_cuts.c_str(), std_partvar.c_str()));
+                        TH1D * score_pr = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 2212", common_cuts.c_str(), std_partvar.c_str()));
                         
                         if(debug) cout << "Working 2" << endl;
-                        TH1D * score_pi = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && TMath::Abs(%s_PDG) == 211", common_cuts.c_str(), std_partvar.c_str()));
+                        TH1D * score_pi = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && TMath::Abs(%s_PDG) == 211", common_cuts.c_str(), std_partvar.c_str()));
                         
                         if(debug) cout << "Working 3" << endl;
-                        TH1D * score_mu = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 13", common_cuts.c_str(), std_partvar.c_str()));
+                        TH1D * score_mu = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 13", common_cuts.c_str(), std_partvar.c_str()));
                         
                         if(debug) cout << "Working 4" << endl;
-                        TH1D * score_p0 = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 111", common_cuts.c_str(), std_partvar.c_str()));
+                        TH1D * score_p0 = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 111", common_cuts.c_str(), std_partvar.c_str()));
                         
                         if(debug) cout << "Working 5" << endl;
-                        TH1D * score_ka = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && TMath::Abs(%s_PDG) == 321", common_cuts.c_str(), std_partvar.c_str()));
+                        TH1D * score_ka = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && TMath::Abs(%s_PDG) == 321", common_cuts.c_str(), std_partvar.c_str()));
                         
                         if(debug) cout << "Working 6" << endl;
-                        TH1D * score_kz = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 311", common_cuts.c_str(), std_partvar.c_str()));
+                        TH1D * score_kz = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 311", common_cuts.c_str(), std_partvar.c_str()));
                         
                         if(debug) cout << "Working 7" << endl;
                         std::string std_p_other =  std_partvar + "_PDG != 2212 && TMath::Abs(" + std_partvar + "_PDG) != 211 && " + std_partvar + "_PDG != 13 && " + std_partvar + "_PDG != 111 && TMath::Abs(" + std_partvar + "_PDG) != 311 && " + std_partvar + "_PDG != 311 && " + std_partvar + "_PDG != -999";
-                        TH1D * score_ot = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s", common_cuts.c_str(), std_p_other.c_str()));
+                        TH1D * score_ot = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s", common_cuts.c_str(), std_p_other.c_str()));
                         
                         plot->ColFill(score_pr, DrawingStyle::DSProton);
                         plot->ColFill(score_pi, DrawingStyle::DSPion);
