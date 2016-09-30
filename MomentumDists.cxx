@@ -15,6 +15,8 @@
 #include <sstream>
 #include <assert.h>
 
+#include <stdio.h>
+
 //#include <PlotUtils/MnvH1D.h>
 //#include <PlotUtils/MnvH2D.h>
 //#include <PlotUtils/TargetUtils.h>
@@ -123,6 +125,8 @@ void MomentumDists(const string file, const string savename, bool debug)
                 std::string std_partvar = flag + part_snam[i];
                 for(int j = 0; j < 2; j++){//LL dEdX loop
                     
+                    char buffer[100];
+                    sprintf(buffer,"%d",j);
                     std::string common_cuts = target + " && accum_level[" + std::to_string(j) + "] > 4";
 
                     for (int hyp_i = 0; hyp_i < 2; hyp_i++) {//Alt hyp loop
@@ -135,14 +139,14 @@ void MomentumDists(const string file, const string savename, bool debug)
                             std_score += "_altH";
                             AltTit = "Alt. ";
                         }
-                        TH1D * score_pr = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i], AltTit), Form("%s && %s_PDG == 2212", common_cuts, std_partvar));
-                        TH1D * score_pi = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i], AltTit), Form("%s && TMath::Abs(%s_PDG) == 211", common_cuts, std_partvar));
-                        TH1D * score_mu = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i], AltTit), Form("%s && %s_PDG == 13", common_cuts, std_partvar));
-                        TH1D * score_p0 = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i], AltTit), Form("%s && %s_PDG == 111", common_cuts, std_partvar));
-                        TH1D * score_ka = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i], AltTit), Form("%s && TMath::Abs(%s_PDG) == 321", common_cuts, std_partvar));
-                        TH1D * score_kz = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i], AltTit), Form("%s && %s_PDG == 311", common_cuts, std_partvar));
+                        TH1D * score_pr = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_st(), AltTit.c_st()), Form("%s && %s_PDG == 2212", common_cuts.c_st(), std_partvar.c_st()));
+                        TH1D * score_pi = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_st(), AltTit.c_st()), Form("%s && TMath::Abs(%s_PDG) == 211", common_cuts.c_st(), std_partvar.c_st()));
+                        TH1D * score_mu = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_st(), AltTit.c_st()), Form("%s && %s_PDG == 13", common_cuts.c_st(), std_partvar.c_st()));
+                        TH1D * score_p0 = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_st(), AltTit.c_st()), Form("%s && %s_PDG == 111", common_cuts.c_st(), std_partvar.c_st()));
+                        TH1D * score_ka = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_st(), AltTit.c_st()), Form("%s && TMath::Abs(%s_PDG) == 321", common_cuts.c_st(), std_partvar.c_st()));
+                        TH1D * score_kz = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_st(), AltTit), Form("%s && %s_PDG == 311", common_cuts.c_st(), std_partvar.c_st()));
                         std::string std_p_other =  std_partvar + "_PDG != 2212 TMath::Abs(" + std_partvar + "_PDG) != 211 " + std_partvar + "_PDG != 13 && " + std_partvar + "_PDG != 111 && TMath::Abs(" + std_partvar + "_PDG) != 311 && " + std_partvar + "_PDG != 311 && " + std_partvar + "_PDG != -999";
-                        TH1D * score_ot = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i], AltTit), Form("%s && %s", common_cuts, std_p_other));
+                        TH1D * score_ot = plot->GetRecoHisto(TString(std_score.c_str()), 20, 0., 1., Form("%s %sScore", part_name[i].c_st(), AltTit.c_st()), Form("%s && %s", common_cuts.c_st(), std_p_other.c_st()));
                         
                         plot->ColFill(score_pr, DrawingStyle::DSProton);
                         plot->ColFill(score_pi, DrawingStyle::DSPion);
@@ -152,7 +156,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                         plot->ColFill(score_kz, DrawingStyle::DSKa0);
                         plot->ColFill(score_ot, DrawingStyle::DSOther);
 
-                        THStack * hs_part = new THStack(Form("hs%s_part", tmp_part_snam.Data()),Form(";#it{p}_{%s} (GeV/#it{c});Counts", tmp_part_symb.Data()));
+                        //THStack * hs_part = new THStack(Form("hs%s_part", tmp_part_snam.Data()),Form(";#it{p}_{%s} (GeV/#it{c});Counts", tmp_part_symb.Data()));
                         
                         //std::vector<double> score_per = plot->GetPercentage(std::vector<TH1D*> histos);
                         
