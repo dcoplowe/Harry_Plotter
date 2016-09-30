@@ -137,7 +137,7 @@ void MomentumDists(const string file, const string savename, bool debug)
             for(int j = 0; j < 2; j++){
             
                 std::string part_name_ = std_partvar + hyp[j];
-                
+               /*
                 const int mom_nbins = mom_bin[ i ];
                 const double mom_low = mom_range[ 2*i ];
                 const double mom_high = mom_range[ 2*i + 1 ];
@@ -220,7 +220,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                 
                 //TLegend * score_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
                 //THStack * hs_score = new THStack(("h + std_h_score).c_str(),Form(";%s %sScore;Counts", part_name[i].c_str(), AltTit.c_str()));
-                
+                */
                 //-------------------------//
             }
             
