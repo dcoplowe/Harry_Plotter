@@ -69,13 +69,13 @@ void MomentumDists(const string file, const string savename, bool debug)
     string part_symb[3] = {"#mu^{-}", "p", "#pi^{#pm}"};
     int    part_colo[3] = {DrawingStyle::DSProton, DrawingStyle::DSPion, DrawingStyle::DSMuon};
     
-    string var_unit[3] = {" (MeV/#it{c})", " (MeV/#it{c})", " (MeV)" };
+    string var_unit[3] = {" (GeV/#it{c})", " (GeV/#it{c})", " (GeV)" };
     string var_symb[3] = {" #it{p}", " |#it{p}_{T}|", " E" };
     
     string pdg_cut[3] = { (flag + "mu_PDG == 13").c_str(), (flag + "pr_PDG == 2212").c_str(), ("TMath::Abs(" + flag + "_pi_PDG) == 211").c_str()};
     
-    int var_bin[3] = { 20, 20, 20};
-    double var_range[6] = {0., 30., 0., 2., 0., 1.2};
+    int mom_bin[3] = { 20, 20, 20};
+    double mom_range[6] = {0., 30., 0., 2., 0., 1.2};
     double truemom_range[6] = {0., 40., 0., 20., 0., 30.};
 
     std::string hyp[2] = {"_EX", "_LL"};
@@ -102,8 +102,11 @@ void MomentumDists(const string file, const string savename, bool debug)
     cut_names.push_back("Muon Track");
     cut_names.push_back("Contained Vtx");
     cut_names.push_back("PID: p/#pi^{+}");
+    cut_names.push_back("Michel Tags");
     
-    EffPurTools * m_ep = new EffPurTools(file, cut_names, debug);
+//    EffPurTools * m_ep = new EffPurTools(file, cut_names, debug);
+//    m_ep->EffVSCuts();
+    
     
     for(int k = 0; k < 1; k++){//Target loop
         
@@ -119,28 +122,67 @@ void MomentumDists(const string file, const string savename, bool debug)
         }
         
         for(int i=0; i<3; i++){//Particle loop
+
+            std::string std_partvar = flag + part_snam[i];
+            
+            char buffer0[100];
+            sprintf(buffer0,"%d",0);
+            std::string common_cuts_mom = target + " && accum_level[" + buffer0 + "] > 4";
+            
+            //Momentum:
+            //int mom_bin[3] = { 20, 20, 20};
+            //double mom_range[6] = {0., 30., 0., 2., 0., 1.2};
+            //double truemom_range[6] = {0., 40., 0., 20., 0., 30.};
+            
+            for(int j = 0; j < 2; j++){
+            
+                std::string part_name_ = std_partvar + hyp[j];
+                
+                int mom_nbins = mom_bin[ i ];
+                double mom_low = mom_range[ 2*i ];
+                double mom_high = mom_range[ 2*i + 1 ];
+                
+                std::string mom_name = part_name_ + "truemom/1000:" + part_name_ + hyp[j] + "mom/1000";
+                std::string mom_title = var_symb[0] + "_{" + part_symb[i] + "} " + var_unit[0];//Real;Truth
+                
+                if(debug) cout << "Mom: Working 1" << endl;
+                KinMap mom_pr = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  Form("%s && %s_PDG == 2212", common_cuts_score.Data(), part_name_.c_str()));
+                if(debug) cout << "Mom: Working 2" << endl;
+                KinMap mom_pi = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  Form("%s && TMath::Abs(%s_PDG) == 211", common_cuts_score.Data(), part_name_.c_str()));
+                if(debug) cout << "Mom: Working 3" << endl;
+                KinMap mom_mu = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  Form("%s && %s_PDG == 13", common_cuts_score.Data(), part_name_.c_str()));
+                if(debug) cout << "Mom: Working 4" << endl;
+                std::string mom_other = part_name_ + "_PDG != 2212 && TMath::Abs(" + part_name_ + "_PDG) != 211 && " + part_name_ + "_PDG != 13 && " + part_name_ + "_PDG != -999" ;
+                KinMap mom_ot = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  Form("%s && %s", common_cuts_score.Data(), mom_other.c_str()));
+
+                
+                
+                //-------------------------//
+            }
+            
             if(i>0){
             //Scores:
-               // GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s",common_cuts_p.Data()))
-                std::string std_partvar = flag + part_snam[i];
+               // GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s",common_cuts_score_p.Data()))
                 for(int j = 0; j < 2; j++){//LL dEdX loop
                     
                     char buffer[100];
                     sprintf(buffer,"%d",0);
-                    std::string common_cuts = target + " && accum_level[" + buffer + "] > 4";
+                    std::string common_cuts_score = target + " && accum_level[" + buffer + "] > 4";
 
-                    cout << " common_cuts == " << common_cuts << endl;
+                    cout << " common_cuts_score == " << common_cuts_score << endl;
+                    
+                    //Only one momentum for now: dEdX...
                     
                     double score_low = 0.;
                     double score_high = 1.;
-                    int score_nins = 20.;
+                    int score_nins = 20;
                     
                     if(j > 0){
-                        score_low = -40.;
-                        score_high = 40.;
-                        score_nins = 40.;
+                        score_low = -100.;
+                        score_high = -100.;
+                        score_nins = 200;
                     }
-                        
+                
                     for (int hyp_i = 0; hyp_i < 2; hyp_i++) {//Alt hyp loop
                         
                         //Score:
@@ -156,26 +198,26 @@ void MomentumDists(const string file, const string savename, bool debug)
                         }
                         
                         if(debug) cout << "Working 1" << endl;
-                        TH1D * score_pr = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 2212", common_cuts.c_str(), std_partvar.c_str()));
+                        TH1D * score_pr = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 2212", common_cuts_score.c_str(), std_partvar.c_str()));
                         
                         if(debug) cout << "Working 2" << endl;
-                        TH1D * score_pi = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && TMath::Abs(%s_PDG) == 211", common_cuts.c_str(), std_partvar.c_str()));
+                        TH1D * score_pi = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && TMath::Abs(%s_PDG) == 211", common_cuts_score.c_str(), std_partvar.c_str()));
                         
                         if(debug) cout << "Working 3" << endl;
-                        TH1D * score_mu = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 13", common_cuts.c_str(), std_partvar.c_str()));
+                        TH1D * score_mu = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 13", common_cuts_score.c_str(), std_partvar.c_str()));
                         
                         if(debug) cout << "Working 4" << endl;
-                        TH1D * score_p0 = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 111", common_cuts.c_str(), std_partvar.c_str()));
+                        TH1D * score_p0 = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 111", common_cuts_score.c_str(), std_partvar.c_str()));
                         
                         if(debug) cout << "Working 5" << endl;
-                        TH1D * score_ka = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && TMath::Abs(%s_PDG) == 321", common_cuts.c_str(), std_partvar.c_str()));
+                        TH1D * score_ka = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && TMath::Abs(%s_PDG) == 321", common_cuts_score.c_str(), std_partvar.c_str()));
                         
                         if(debug) cout << "Working 6" << endl;
-                        TH1D * score_kz = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 311", common_cuts.c_str(), std_partvar.c_str()));
+                        TH1D * score_kz = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 311", common_cuts_score.c_str(), std_partvar.c_str()));
                         
                         if(debug) cout << "Working 7" << endl;
                         std::string std_p_other =  std_partvar + "_PDG != 2212 && TMath::Abs(" + std_partvar + "_PDG) != 211 && " + std_partvar + "_PDG != 13 && " + std_partvar + "_PDG != 111 && TMath::Abs(" + std_partvar + "_PDG) != 311 && " + std_partvar + "_PDG != 311 && " + std_partvar + "_PDG != -999";
-                        TH1D * score_ot = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s", common_cuts.c_str(), std_p_other.c_str()));
+                        TH1D * score_ot = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s", common_cuts_score.c_str(), std_p_other.c_str()));
                         
                         plot->ColFill(score_pr, DrawingStyle::DSProton);
                         plot->ColFill(score_pi, DrawingStyle::DSPion);
@@ -218,8 +260,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                             outfile->cd();
                             score_can->Write();
                         }
-                        
-                        //THStack * score_st = ;
+                
                     }
                 }
             }
@@ -261,10 +302,10 @@ void MomentumDists(const string file, const string savename, bool debug)
 
 TCanvas * AnalysisPlots:: VarVsParticles(TString var, int nbins, double x_low, double x_high, TString particle, TString part_symb){
     
-    TH1D * h_mom_p1 = plot->GetRecoHisto(Form("CC1P1Pi_%s_%s/1000",particle.Data(), var.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 2212", common_cuts_p.Data(), tmp_part_snam.Data()));
-    TH1D * h_mom_p2 = plot->GetRecoHisto(Form("CC1P1Pi_%s_%s/1000",particle.Data(), var.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && TMath::Abs(CC1P1Pi_%s_PDG) == 211", common_cuts_p.Data(), tmp_part_snam.Data()));
-    TH1D * h_mom_p3 = plot->GetRecoHisto(Form("CC1P1Pi_%s_%s/1000",particle.Data(), var.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 13", common_cuts_p.Data(), tmp_part_snam.Data()));
-    TH1D * h_mom_p4 = plot->GetRecoHisto(Form("CC1P1Pi_%s_%s/1000",particle.Data(), var.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG != 13 && TMath::Abs(CC1P1Pi_%s_PDG) != 211 && CC1P1Pi_%s_PDG != 2212", common_cuts_p.Data(), tmp_part_snam.Data(), tmp_part_snam.Data(), tmp_part_snam.Data()));
+    TH1D * h_mom_p1 = plot->GetRecoHisto(Form("CC1P1Pi_%s_%s/1000",particle.Data(), var.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 2212", common_cuts_score_p.Data(), tmp_part_snam.Data()));
+    TH1D * h_mom_p2 = plot->GetRecoHisto(Form("CC1P1Pi_%s_%s/1000",particle.Data(), var.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && TMath::Abs(CC1P1Pi_%s_PDG) == 211", common_cuts_score_p.Data(), tmp_part_snam.Data()));
+    TH1D * h_mom_p3 = plot->GetRecoHisto(Form("CC1P1Pi_%s_%s/1000",particle.Data(), var.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 13", common_cuts_score_p.Data(), tmp_part_snam.Data()));
+    TH1D * h_mom_p4 = plot->GetRecoHisto(Form("CC1P1Pi_%s_%s/1000",particle.Data(), var.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG != 13 && TMath::Abs(CC1P1Pi_%s_PDG) != 211 && CC1P1Pi_%s_PDG != 2212", common_cuts_score_p.Data(), tmp_part_snam.Data(), tmp_part_snam.Data(), tmp_part_snam.Data()));
     
     plot->ColFill(h_mom_p1, DrawingStyle::DSProton);
     plot->ColFill(h_mom_p2, DrawingStyle::DSPion);
