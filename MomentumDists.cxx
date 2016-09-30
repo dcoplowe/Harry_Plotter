@@ -131,6 +131,16 @@ void MomentumDists(const string file, const string savename, bool debug)
 
                     cout << " common_cuts == " << common_cuts << endl;
                     
+                    double score_low = 0.;
+                    double score_hig = 1.;
+                    int score_nins = 20.;
+                    
+                    if(j > 0){
+                        score_low = -40.;
+                        score_hig = 40.;
+                        score_nins = 40.;
+                    }
+                        
                     for (int hyp_i = 0; hyp_i < 2; hyp_i++) {//Alt hyp loop
                         
                         //Score:
