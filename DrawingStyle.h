@@ -49,6 +49,8 @@ public:
         DSProton = kOrange-2,
         DSPion = kAzure+2,
         DSMuon = kCyan+2,
+        DSMuonM = kCyan+2,
+        DSMuonP = kOrange+7,
         DSPi0 = kRed+1,
         DSKaon = kBlue-5,
         DSKa0 = kGreen-3,

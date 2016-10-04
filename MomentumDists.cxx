@@ -244,7 +244,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                     if(j > 0){
                         score_low = -100.;
                         score_high = 100.;
-                        score_nins = 200;
+                        score_nins = 40;
                     }
                 
                     for (int hyp_i = 0; hyp_i < 2; hyp_i++) {//Alt hyp loop
@@ -268,7 +268,10 @@ void MomentumDists(const string file, const string savename, bool debug)
                         TH1D * score_pi = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && TMath::Abs(%s_PDG) == 211", common_cuts_score.c_str(), std_partvar.c_str()));
                         
                         if(debug) cout << "Working 3" << endl;
-                        TH1D * score_mu = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 13", common_cuts_score.c_str(), std_partvar.c_str()));
+                        TH1D * score_mum = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 13", common_cuts_score.c_str(), std_partvar.c_str()));
+                        
+                        if(debug) cout << "Working 3" << endl;
+                        TH1D * score_mup = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == -13", common_cuts_score.c_str(), std_partvar.c_str()));
                         
                         if(debug) cout << "Working 4" << endl;
                         TH1D * score_p0 = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 111", common_cuts_score.c_str(), std_partvar.c_str()));
@@ -280,12 +283,13 @@ void MomentumDists(const string file, const string savename, bool debug)
                         TH1D * score_kz = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 311", common_cuts_score.c_str(), std_partvar.c_str()));
                         
                         if(debug) cout << "Working 7" << endl;
-                        std::string std_p_other =  std_partvar + "_PDG != 2212 && TMath::Abs(" + std_partvar + "_PDG) != 211 && " + std_partvar + "_PDG != 13 && " + std_partvar + "_PDG != 111 && TMath::Abs(" + std_partvar + "_PDG) != 311 && " + std_partvar + "_PDG != 311 && " + std_partvar + "_PDG != -999";
+                        std::string std_p_other =  std_partvar + "_PDG != 2212 && TMath::Abs(" + std_partvar + "_PDG) != 211 && " + std_partvar + "_PDG != 13 && " + std_partvar + "_PDG != 111 && TMath::Abs(" + std_partvar + "_PDG) != 311 && " + std_partvar + "_PDG != 311 && " + std_partvar + "_PDG != -999 && " + std_partvar + " != -13";
                         TH1D * score_ot = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s", common_cuts_score.c_str(), std_p_other.c_str()));
                         
                         plot->ColFill(score_pr, DrawingStyle::DSProton);
                         plot->ColFill(score_pi, DrawingStyle::DSPion);
-                        plot->ColFill(score_mu, DrawingStyle::DSMuon);
+                        plot->ColFill(score_mum, DrawingStyle::DSMuonM);
+                        plot->ColFill(score_mup, DrawingStyle::DSMuonP);
                         plot->ColFill(score_p0, DrawingStyle::DSPi0);
                         plot->ColFill(score_ka, DrawingStyle::DSKaon);
                         plot->ColFill(score_kz, DrawingStyle::DSKa0);
@@ -295,7 +299,8 @@ void MomentumDists(const string file, const string savename, bool debug)
                         std::vector<std::string> score_names;
                         score_h.push_back( score_pr ); score_names.push_back("p");
                         score_h.push_back( score_pi ); score_names.push_back("#pi^{#pm}");
-                        score_h.push_back( score_mu ); score_names.push_back("#mu^{-}");
+                        score_h.push_back( score_mum ); score_names.push_back("#mu^{-}");
+                        score_h.push_back( score_mup ); score_names.push_back("#mu^{+}");
                         score_h.push_back( score_p0 ); score_names.push_back("#pi^{0}");
                         score_h.push_back( score_ka ); score_names.push_back("K^{#pm}");
                         score_h.push_back( score_kz ); score_names.push_back("K^{0}");
