@@ -243,7 +243,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                     
                     if(j > 0){
                         score_low = -100.;
-                        score_high = -100.;
+                        score_high = 100.;
                         score_nins = 200;
                     }
                 
