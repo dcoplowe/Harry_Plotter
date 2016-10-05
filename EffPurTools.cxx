@@ -221,7 +221,7 @@ TH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, int branch,
     std::stringstream sbranch;
     sbranch << branch;
     
-    TString tmp_cuts = "accum_level[" + sbranch + "]>";
+    TString tmp_cuts = "accum_level[" + sbranch.str() + "]>";
     TString tree_name = intree->GetName();
     
     if(_DEBUG_) cout << "Reading tree named " << tree_name.Data() << endl;
