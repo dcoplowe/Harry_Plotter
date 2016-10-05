@@ -40,7 +40,9 @@ using namespace std;
 //const string testing_mc("/pnfs/minerva/persistent/users/dcoplowe/merged_CC1P1Pi_CC1P1Pi_run00013200.root");
 
 //-->
-const string testing_mc("/pnfs/minerva/persistent/users/dcoplowe/CC1P1Pi_PL13C_041016/grid/central_value/minerva/ana/v10r8p9/00/01/32/00/SIM_minerva_00013200_Subruns_0101-0102-0103-0104-0105_CC1P1PiAnalysis_Ana_Tuple_v10r8p9-dcoplowe.root");
+//const string testing_mc("/pnfs/minerva/persistent/users/dcoplowe/CC1P1Pi_PL13C_041016/grid/central_value/minerva/ana/v10r8p9/00/01/32/00/SIM_minerva_00013200_Subruns_0101-0102-0103-0104-0105_CC1P1PiAnalysis_Ana_Tuple_v10r8p9-dcoplowe.root");
+
+const string testing_mc("/pnfs/minerva/persistent/users/dcoplowe/merged_CC1P1Pi_CC1P1Pi_run00013213.root");
 
 const string flag("sel_");
 
@@ -387,7 +389,7 @@ void MomentumDists(const string file, const string savename, bool debug)
         std::vector<string> truedpTT_type;
         std::vector<string> dpTT_type_title;
 
-        dpTT_type.push_back( (flag + "dpTT").c_str() );         truedpTT_type.push_back( (flag + "truedpTT").c_str() );         dpTT_type_title.push_back( "#hat{#nu}#times#hat{#ell}" );
+        dpTT_type.push_back( (flag + "dpTT").c_str() );         truedpTT_type.push_back( (flag + "truedpTT").c_str() );         dpTT_type_title.push_back( "#hat{#nu}#times#hat{#it{l}}" );
         dpTT_type.push_back( (flag + "dpTT_pi").c_str() );      truedpTT_type.push_back( (flag + "truedpTT_pi").c_str() );      dpTT_type_title.push_back( "#hat{#nu}#times#hat{p}_{#pi}" );
         dpTT_type.push_back( (flag + "dpTT_pi_dir").c_str() );  truedpTT_type.push_back( (flag + "truedpTT_pi_dir").c_str() );  dpTT_type_title.push_back( "#hat{#nu}#times#hat{d}_{#pi}" );
         dpTT_type.push_back( (flag + "dpTT_pr").c_str() );      truedpTT_type.push_back( (flag + "truedpTT_pr").c_str() );      dpTT_type_title.push_back( "#hat{#nu}#times#hat{p}_{p}" );
@@ -409,19 +411,21 @@ void MomentumDists(const string file, const string savename, bool debug)
                     string base_cuts = "target_region == 1 && accum_level[" + sj.str() + "] > " + sk.str();
                     
                     //General dpTT title:
-                    string dpTT_top_title = dpTT_type[i];
+                    string dpTT_g_title = dpTT_type[i];
                     
                     if(j == 0){
-                        dpTT_top_title  += "_dEdX";
+                        dpTT_g_title  += "_dEdX";
                     }
-                    else dpTT_top_title  += "_LLR";
+                    else dpTT_g_title  += "_LLR";
                     
-                    dpTT_top_title += "AL";
+                    dpTT_g_title += "_AL";
                     
                     if(k == 4){
-                        dpTT_top_title += "5";
+                        dpTT_g_title += "5";
                     }
-                    else dpTT_top_title += "6";
+                    else dpTT_g_title += "6";
+                    
+                    string dpTT_top_title = "Top_" + dpTT_g_title;
                     
                     //1) topologically  --> CC1P1Pi, CC2P, CC2Pi, CC1Pi01P, CC1Pi01Pi, Other <-- Use only PDG codes to determine these
                     string CC1P1Pi = flag + "mu_PDG == 13 && ((" + flag + "pr_PDG == 2212 && " + flag + "pi_PDG == 211 ) ||  (" + flag + "pr_PDG == 211 && " + flag + "pi_PDG == 2212 ))";
@@ -550,11 +554,79 @@ void MomentumDists(const string file, const string savename, bool debug)
                     outfile->cd();
                     dpTT_top_ratio_can->Write();
                     
+                    //2) nuclear medium --> H, C, Other + signal overlay.
                     
+                    string dpTT_tar_title = "Tar_" + dpTT_g_title;
                     
+                    KinMap dpTT_Htar_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && mc_targetZ == 1", base_cuts.c_str())));
+                    KinMap dpTT_Ctar_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && mc_targetZ == 6", base_cuts.c_str())));
+                    KinMap dpTT_Pbtar_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && mc_targetZ == 82", base_cuts.c_str())));
+                    string tar_other = "mc_targetZ != 1 && mc_targetZ != 6 && mc_targetZ != 82 && mc_targetZ != -999";
+                    KinMap dpTT_Othertar_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), tar_other.c_str())));
                     
-                    //2) nuclear medium --> H, C, Other
+                    std::vector<KinMap> dpTT_tar_map;
+                    std::vector<std::string> dpTT_tar_names;
+                    std::vector<int> dpTT_tar_cols;
                     
+                    dpTT_tar_map.push_back( dpTT_Htar_map );        dpTT_tar_names.push_back( "Hydrogen" ); dpTT_tar_cols.push_back( DrawingStyle::Yellow );
+                    dpTT_tar_map.push_back( dpTT_Ctar_map );        dpTT_tar_names.push_back( "Carbon" );   dpTT_tar_cols.push_back( DrawingStyle::Blue );
+                    dpTT_tar_map.push_back( dpTT_Pbtar_map );       dpTT_tar_names.push_back( "Lead" );     dpTT_tar_cols.push_back( DrawingStyle::Red );
+                    dpTT_tar_map.push_back( dpTT_Othertar_map );    dpTT_tar_names.push_back( "Other" );    dpTT_tar_cols.push_back( DrawingStyle::Gray );
+                    
+                    std::vector<TH1D*> dpTT_tar_recon;
+                    std::vector<TH1D*> dpTT_tar_truth;
+                    
+                    for(int mpc = 0; mpc < (int)dpTT_tar_map.size(); mpc++){
+                        plot->ColFill( dpTT_tar_map[mpc].recon, dpTT_tar_cols[mpc]);
+                        plot->ColFill( dpTT_tar_map[mpc].truth, dpTT_tar_cols[mpc]);
+                
+                        dpTT_tar_recon.push_back( dpTT_tar_map[mpc].recon );
+                        dpTT_tar_truth.push_back( dpTT_tar_map[mpc].truth );
+                    }
+
+                    std::vector<double> dpTT_tar_recon_per = plot->GetPercentage( dpTT_tar_recon );
+                    std::vector<double> dpTT_tar_truth_per = plot->GetPercentage( dpTT_tar_truth );
+                    
+                    string dpTT_tar_recon_title = Form(";%s;%s", dpTT_tar_recon[0]->GetXaxis()->GetTitle(), dpTT_tar_recon[0]->GetYaxis()->GetTitle());
+                    string dpTT_tar_truth_title = Form(";%s;%s", dpTT_tar_truth[0]->GetXaxis()->GetTitle(), dpTT_tar_truth[0]->GetYaxis()->GetTitle());
+                    
+                    THStack * dpTT_tar_recon_tot = new THStack( (dpTT_tar_title + "_recon").c_str() , dpTT_tar_recon_title.c_str());
+                    THStack * dpTT_tar_truth_tot = new THStack( (dpTT_tar_title + "_truth").c_str(), dpTT_tar_truth_title.c_str());
+                    
+                    TLegend * dpTT_tar_recon_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
+                    TLegend * dpTT_tar_truth_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
+                    
+                    for(int mpc = 1; mpc < (int)dpTT_tar_map.size() + 1; mpc++){
+                        
+                        dpTT_tar_recon_tot->Add( dpTT_tar_recon[(int)dpTT_tar_map.size() - mpc] );
+                        dpTT_tar_truth_tot->Add( dpTT_tar_truth[(int)dpTT_tar_map.size() - mpc] );
+                        
+                        if( (mpc - 1) < (int)dpTT_tar_map.size()){
+                            string dpTT_top_name = dpTT_top_names[mpc - 1];
+                            dpTT_tar_recon_leg->AddEntry(dpTT_tar_recon[ mpc - 1 ], Form("%s (%.2f%%)", dpTT_tar_name.c_str(), dpTT_tar_recon_per[ mpc - 1 ]), "f");
+                            dpTT_tar_truth_leg->AddEntry(dpTT_tar_truth[ mpc - 1 ], Form("%s (%.2f%%)", dpTT_tar_name.c_str(), dpTT_tar_truth_per[ mpc - 1 ]), "f");
+                        }
+                    }
+                    //-------------------------//
+                    
+                    TLegend * dpTT_tar_recon_pot = plot->GetPOT(0.521,0.781);
+                    TLegend * dpTT_tar_truth_pot = plot->GetPOT(0.521,0.781);
+                    
+                    TCanvas * dpTT_tar_recon_can = new TCanvas( (dpTT_tar_title + "_recon").c_str(), "", 500, 500);
+                    dpTT_tar_recon_can->cd();
+                    dpTT_tar_recon_tot->Draw();
+                    dpTT_tar_recon_leg->Draw();
+                    dpTT_tar_recon_pot->Draw();
+                    outfile->cd();
+                    dpTT_tar_recon_can->Write();
+                    
+                    TCanvas * dpTT_tar_truth_can = new TCanvas( (dpTT_tar_title+ "_truth").c_str(), "", 500, 500);
+                    dpTT_tar_truth_can->cd();
+                    dpTT_tar_truth_tot->Draw();
+                    dpTT_tar_truth_leg->Draw();
+                    dpTT_tar_truth_pot->Draw();
+                    outfile->cd();
+                    dpTT_tar_truth_can->Write();
                     
                 }
             }
