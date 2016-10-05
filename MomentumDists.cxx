@@ -127,10 +127,6 @@ void MomentumDists(const string file, const string savename, bool debug)
 
             std::string std_partvar = flag + part_snam[i];
             
-            char buffer0[100];
-            sprintf(buffer0,"%d",0);
-            std::string common_cuts_mom = target + " && accum_level[" + buffer0 + "] > 4";
-            
             //Momentum:
             //int mom_bin[3] = { 20, 20, 20};
             //double mom_range[6] = {0., 30., 0., 2., 0., 1.2};
@@ -138,6 +134,11 @@ void MomentumDists(const string file, const string savename, bool debug)
             
             for(int j = 0; j < 2; j++){//PID Method: dEdX or LL.
             
+                char buffer0[100];
+                sprintf(buffer0,"%d",j);
+                std::string common_cuts_mom = target + " && accum_level[" + buffer0 + "] > 4";
+                
+                
                 std::string part_name_ = std_partvar;// + hyp[j];
                
                 const int mom_nbins = mom_bin[ i ];
