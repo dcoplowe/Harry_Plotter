@@ -137,7 +137,7 @@ void MomentumDists(const string file, const string savename, bool debug)
             for(int j = 0; j < 2; j++){
             
                 std::string part_name_ = std_partvar + hyp[j];
-               /*
+               
                 const int mom_nbins = mom_bin[ i ];
                 const double mom_low = mom_range[ 2*i ];
                 const double mom_high = mom_range[ 2*i + 1 ];
@@ -147,7 +147,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                 
                 if(debug) cout << "Mom: Working 1" << endl;
                 KinMap mom_pr = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && %s_PDG == 2212", common_cuts_mom.c_str(), part_name_.c_str())));
-                if(debug) cout << "Mom: Working 2" << endl;
+                /*if(debug) cout << "Mom: Working 2" << endl;
                 KinMap mom_pi = plot->KinArray(TString(mom_name), &mom_nbins, &mom_low, &mom_high, TString(mom_title),  TString(Form("%s && TMath::Abs(%s_PDG) == 211", common_cuts_mom.c_str(), part_name_.c_str())));
                 if(debug) cout << "Mom: Working 3" << endl;
                 KinMap mom_mu = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && %s_PDG == 13", common_cuts_mom.c_str(), part_name_.c_str())));
@@ -224,7 +224,9 @@ void MomentumDists(const string file, const string savename, bool debug)
                 //-------------------------//
             }
             
-            if(i>0){
+            
+            
+         /*   if(i>0){
             //Scores:
                // GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s",common_cuts_score_p.Data()))
                 for(int j = 0; j < 2; j++){//LL dEdX loop
@@ -332,7 +334,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                 
                     }
                 }
-            }
+            } */
             //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
         }
         
