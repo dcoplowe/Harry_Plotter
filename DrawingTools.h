@@ -19,7 +19,7 @@ struct KinMap {
     TH1D * recon;
     TH1D * truth;
     TH2D * smear;
-    TH1D * rtratio;
+    TH1D * ratio;
 };
 
 class DrawingTools : public DrawingStyle {

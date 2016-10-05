@@ -319,7 +319,7 @@ KinMap DrawingTools::KinArray(TTree * intree, const TString vars_tr, int re_nbin
         map.recon = GetHisto(intree, recon_var, re_nbins, re_bins, reco_title, cuts);
     }
     
-    map.rtratio = GetRTRatio(intree, vars_tr, reco_title, tmp_cuts);
+    map.ratio = GetRTRatio(intree, vars_tr, reco_title, tmp_cuts);
     
     return map;
 }
