@@ -409,7 +409,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                     string base_cuts = "target_region == 1 && accum_level[" + sj.str() + "] > " + sk.str();
                     
                     //General dpTT title:
-                    string dpTT_top_title = dpTT_type;
+                    string dpTT_top_title = dpTT_type[i];
                     
                     if(j == 0){
                         dpTT_top_title  += "_dEdX";
@@ -489,9 +489,9 @@ void MomentumDists(const string file, const string savename, bool debug)
                     string dpTT_top_smear_title = Form(";%s;%s", dpTT_top_smear[0]->GetXaxis()->GetTitle(), dpTT_top_smear[0]->GetYaxis()->GetTitle());
                     string dpTT_top_ratio_title = Form(";%s;%s", dpTT_top_ratio[0]->GetXaxis()->GetTitle(), dpTT_top_ratio[0]->GetYaxis()->GetTitle());
                     
-                    THStack * dpTT_top_recon_tot = new THStack( (dpTT_top_title + "_recon").c_str() , mom_recon_title.c_str());
-                    THStack * dpTT_top_truth_tot = new THStack( (dpTT_top_title + "_truth").c_str(), mom_truth_title.c_str());
-                    THStack * dpTT_top_ratio_tot = new THStack( (dpTT_top_title + "_ratio").c_str(),  mom_ratio_title.c_str());
+                    THStack * dpTT_top_recon_tot = new THStack( (dpTT_top_title + "_recon").c_str() , dpTT_top_recon_title.c_str());
+                    THStack * dpTT_top_truth_tot = new THStack( (dpTT_top_title + "_truth").c_str(), dpTT_top_truth_title.c_str());
+                    THStack * dpTT_top_ratio_tot = new THStack( (dpTT_top_title + "_ratio").c_str(),  dpTT_top_ratio_title.c_str());
                     TH2D * dpTT_top_smear_tot = (TH2D*)dpTT_top_smear[0]->Clone( (dpTT_top_title + "_smear").c_str() );//Just add all of these histos.
                     
                     TLegend * dpTT_top_recon_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
@@ -505,10 +505,10 @@ void MomentumDists(const string file, const string savename, bool debug)
                         dpTT_top_ratio_tot->Add( dpTT_top_ratio[(int)dpTT_top_map.size() - mpc] );
                         
                         if( (mpc - 1) < (int)dpTT_top_map.size()){
-                            string dpTT_top_names = dpTT_top_names[mpc - 1];
-                            dpTT_top_recon_leg->AddEntry(mom_recon[ mpc - 1 ], Form("%s (%.2f%%)", dpTT_top_names.c_str(), dpTT_top_recon_per[ mpc - 1 ]), "f");
-                            dpTT_top_truth_leg->AddEntry(mom_truth[ mpc - 1 ], Form("%s (%.2f%%)", dpTT_top_names.c_str(), dpTT_top_truth_per[ mpc - 1 ]), "f");
-                            dpTT_top_ratio_leg->AddEntry(mom_ratio[ mpc - 1 ], Form("%s (%.2f%%)", dpTT_top_names.c_str(), dpTT_top_ratio_per[ mpc - 1 ]), "f");
+                            string dpTT_top_name = dpTT_top_names[mpc - 1];
+                            dpTT_top_recon_leg->AddEntry(dpTT_top_recon[ mpc - 1 ], Form("%s (%.2f%%)", dpTT_top_name.c_str(), dpTT_top_recon_per[ mpc - 1 ]), "f");
+                            dpTT_top_truth_leg->AddEntry(dpTT_top_truth[ mpc - 1 ], Form("%s (%.2f%%)", dpTT_top_name.c_str(), dpTT_top_truth_per[ mpc - 1 ]), "f");
+                            dpTT_top_ratio_leg->AddEntry(dpTT_top_ratio[ mpc - 1 ], Form("%s (%.2f%%)", dpTT_top_name.c_str(), dpTT_top_ratio_per[ mpc - 1 ]), "f");
                         }
                         
                         if(mpc < (int)dpTT_top_map.size()) dpTT_top_smear_tot->Add( dpTT_top_smear[mpc] );
