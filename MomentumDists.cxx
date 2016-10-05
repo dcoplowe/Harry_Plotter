@@ -398,6 +398,8 @@ void MomentumDists(const string file, const string savename, bool debug)
         effcuts->Draw();
         effcuts->GetYaxis()->SetRangeUser(0.,1.);
         effcuts->Draw("SAME");
+        outfile->cd();
+        effpur_can->Write();
         
         /*
         TH1D * purcut = m_ep->PurVSCuts( (target + "&& mc_intType == 2 && mc_current == 1").c_str() );
