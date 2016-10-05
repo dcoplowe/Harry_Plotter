@@ -398,11 +398,11 @@ void MomentumDists(const string file, const string savename, bool debug)
         
         effcuts0->SetLineColor(DrawingStyle::Blue);
         purcuts0->SetLineColor(DrawingStyle::Blue);
-        purcuts0->SetLineStyle();
+        purcuts0->SetLineStyle(2);
         
         effcuts1->SetLineColor(DrawingStyle::Red);
         purcuts1->SetLineColor(DrawingStyle::Red);
-        purcuts1->SetLineStyle();
+        purcuts1->SetLineStyle(2);
         
         TLegend * effpur_leg = plot->Legend(0.3,0.1);
         effpur_leg->AddEntry(effcuts0, "Eff. dEdX PID Method", "l");
