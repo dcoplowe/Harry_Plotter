@@ -136,7 +136,7 @@ void MomentumDists(const string file, const string savename, bool debug)
             //double mom_range[6] = {0., 30., 0., 2., 0., 1.2};
             //double truemom_range[6] = {0., 40., 0., 20., 0., 30.};
             
-            for(int j = 0; j < 2; j++){
+            for(int j = 0; j < 2; j++){//PID Method: dEdX or LL.
             
                 std::string part_name_ = std_partvar;// + hyp[j];
                
@@ -144,7 +144,14 @@ void MomentumDists(const string file, const string savename, bool debug)
                 const double mom_low = mom_range[ 2*i ];
                 const double mom_high = mom_range[ 2*i + 1 ];
                 
-                std::string mom_name = part_name_ + "_truemom/1000:" + part_name_ + hyp[j] + "_mom/1000";
+                string tmp_hyp;
+                if(i != 0){
+                    tmp_hyp = hyp[j];
+                    j++;//Only do one hyp loop.
+                }
+                else tmp_hyp = "";
+                
+                std::string mom_name = part_name_ + "_truemom/1000:" + part_name_ + tmp_hyp + "_mom/1000";
                 std::string mom_title = "Reco " + var_symb[0] + "_{" + part_symb[i] + "} " + var_unit[0] + ";True " + var_symb[0] + "_{" + part_symb[i] + "} " + var_unit[0];//Real;Truth
                 
                 if(debug) cout << "Mom: Working 1" << endl;
@@ -200,7 +207,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                         mom_reco_leg->AddEntry(tmp_hist,Form("%s (%.2f%%)",mom_reco_names[ n_moms_reco - dd ].c_str(), mom_reco_per[ n_moms_reco - dd ]) ,"f");
                     }
                     
-                    TCanvas * mom_rec_can = new TCanvas((part_name_ + "_reco").c_str(), "", 500,500);
+                    TCanvas * mom_rec_can = new TCanvas((part_name_ + tmp_hyp + "_reco").c_str(), "", 500,500);
                     mom_rec_can->cd();
                     st_mom_reco->Draw();
                     mom_reco_leg->Draw();
