@@ -36,9 +36,9 @@ DrawingTools::DrawingTools(TString filename, bool debug, TString reconame, TStri
     _1Dcounter = -1;
     _2Dcounter = -1;
     
-    _DEBUG_ = false;
+    _DEBUG_ = debug;
     
-    _ratiorange = 10000.0;
+    _ratiorange = 3.0;
     _ratiobins = 20;
 }
 
@@ -314,7 +314,7 @@ KinMap DrawingTools::KinArray(TTree * intree, const TString vars_tr, int re_nbin
         tmp_cuts.Append(Form("%f < %s && %s < %f && %f < %s && %s < %f ", re_bins[0], recon_var.Data(), recon_var.Data(), re_bins[re_nbins], tr_bins[0],
                              truth_var.Data(), truth_var.Data(), tr_bins[tr_nbins]));
         
-        cout << tmp_cuts << endl;
+        //cout << tmp_cuts << endl;
     }
     else{
         map.truth = GetHisto(intree, truth_var, tr_nbins, tr_bins, true_title, cuts);
@@ -357,7 +357,7 @@ TH1D * DrawingTools::GetRTRatio(TTree * intree, const TString vars_tr, const TSt
     
     intree->Project(host_name.Data(), var.Data(), cuts.Data());
     
-    cout << "RTRatio : Integral = " << ratio->Integral() << endl;
+    if(_DEBUG_) cout << "RTRatio : Integral = " << ratio->Integral() << endl;
     
     return ratio;
 }
