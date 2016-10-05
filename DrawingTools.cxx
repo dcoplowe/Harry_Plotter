@@ -194,7 +194,7 @@ TH2D * DrawingTools::GetHisto(TTree * intree, const TString vars_yx, int x_nbins
     TString tmp_cuts = cuts.Data();
     if(!tmp_cuts.EqualTo("", TString::kExact)) tmp_cuts.Append(" && ");
     tmp_cuts.Append(Form("(%s != -999) && (%s != -999)", y_var.Data(), x_var.Data()));
-    cout << tmp_cuts.Data() << endl;
+    if(_DEBUG_) cout << tmp_cuts.Data() << endl;
     
     intree->Project(host_name.Data(), vars_yx.Data(), tmp_cuts.Data());
     
@@ -481,12 +481,12 @@ std::vector<double> DrawingTools::GetPercentage(std::vector<TH1D*> histos){
     double norm = 0;
     for(int i = 0; i < (int)histos.size(); i++){
         double integral = histos[i]->Integral();
-        cout << "Histogram: " << histos[i]->GetName() << " Integtral = " << integral << endl;
+        if(_DEBUG_) cout << "Histogram: " << histos[i]->GetName() << " Integtral = " << integral << endl;
         norm += integral;
         pers.push_back( integral );
     }
     
-    cout << "Norm = " << norm << endl;
+    if(_DEBUG_) cout << "Norm = " << norm << endl;
     
     for(int i = 0; i < (int)pers.size(); i++) pers[i] *= 100/norm;
     
