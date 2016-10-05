@@ -18,7 +18,7 @@ public:
     DrawingStyle(){
         gStyle->SetOptStat(0);
         gStyle->SetHistLineWidth(2.5);
-        gStyle->SetHistLineColor(DSYellow);
+        gStyle->SetHistLineColor(Blue);
         gStyle->SetMarkerStyle(20);
         gStyle->SetPadTickX(1);
         gStyle->SetPadTickY(1);
@@ -58,7 +58,7 @@ public:
         T2Pr = kOrange-2,
         T1P1Pi = kAzure+2,
         T2Pi = kCyan+2,
-        TOther = kGray
+        Other = kGray
     };
 };
 
