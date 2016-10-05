@@ -6,6 +6,7 @@
 #include "TString.h"
 //#include "PlotUtils/MnvH1D.h"
 
+#include <sstream>
 //Forward declarations here:
 class TFile;
 class TTree;
