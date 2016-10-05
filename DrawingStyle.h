@@ -57,7 +57,9 @@ public:
         //Topologies:
         T2Pr = kOrange-2,
         T1P1Pi = kAzure+2,
-        T2Pi = kCyan+2,
+        T2Pi = kRed+1,
+        T1P1Pi0 = kCyan+2,
+        T1Pi1Pi0 = kOrange+7,
         Other = kGray
     };
 };

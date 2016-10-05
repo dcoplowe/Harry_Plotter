@@ -126,8 +126,6 @@ void MomentumDists(const string file, const string savename, bool debug)
                 char buffer0[100];
                 sprintf(buffer0,"%d",j);
                 std::string common_cuts_mom = target + " && accum_level[" + buffer0 + "] > 4";
-                
-                
                 std::string part_name_ = std_partvar;// + hyp[j];
                
                 const int mom_nbins = mom_bin[ i ];
@@ -204,7 +202,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                 
                 THStack * mom_recon_tot = new THStack( (part_name_ + tmp_hyp + "_recon").c_str() , mom_recon_title.c_str());
                 THStack * mom_truth_tot = new THStack( (part_name_ + tmp_hyp + "_truth").c_str(), mom_truth_title.c_str());
-                THStack * mom_ratio_tot = new THStack( (part_name_ + tmp_hyp + "_reco").c_str(),  mom_ratio_title.c_str());
+                THStack * mom_ratio_tot = new THStack( (part_name_ + tmp_hyp + "_ratio").c_str(),  mom_ratio_title.c_str());
                 TH2D * mom_smear_tot = (TH2D*)mom_smear[0]->Clone( (part_name_ + tmp_hyp + "_smear").c_str() );//Just add all of these histos.
                 
                 TLegend * mom_recon_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
@@ -264,8 +262,6 @@ void MomentumDists(const string file, const string savename, bool debug)
                 mom_ratio_can->Write();
                 
             }
-            
-            
             
             if(i>0){
             //Scores:
@@ -372,11 +368,196 @@ void MomentumDists(const string file, const string savename, bool debug)
                             outfile->cd();
                             score_can->Write();
                         }
-                
                     }
                 }
             }
             //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
+        }
+        
+        //dpTT Distributions:
+        //We want to understand the following in dpTT, dpTT_pi_dir, dpTT_pi, dpTT_pr and dpTT_pr_dir:
+        //Want to have four sets of the following dists.
+        //What is the make up 1) topologically  --> CC1P1Pi, CC2P, CC2Pi, CC1Pi01P, CC1Pi01Pi, Other <-- Use only PDG codes to determine these
+        //                    2) nuclear medium --> H, C, Other,
+        //                    3) mis-PID effect --> Correct P,Pi : Correct P, Wrong Pi : Correct Pi, Wrong P : Wrong P,Pi, Other <-- Use only PDG codes to determine these
+        //
+        //One for each of the following: dEdX (+ Michel), LLR (+ Michel)
+        
+        std::vector<string> dpTT_type;
+        std::vector<string> truedpTT_type;
+        std::vector<string> dpTT_type_title;
+
+        dpTT_type.push_back( (flag + "dpTT").c_str() );         truedpTT_type.push_back( (flag + "truedpTT").c_str() );         dpTT_type_title.push_back( "#hat{#nu}#times#hat{#ell}" );
+        dpTT_type.push_back( (flag + "dpTT_pi").c_str() );      truedpTT_type.push_back( (flag + "truedpTT_pi").c_str() );      dpTT_type_title.push_back( "#hat{#nu}#times#hat{p}_{#pi}" );
+        dpTT_type.push_back( (flag + "dpTT_pi_dir").c_str() );  truedpTT_type.push_back( (flag + "truedpTT_pi_dir").c_str() );  dpTT_type_title.push_back( "#hat{#nu}#times#hat{d}_{#pi}" );
+        dpTT_type.push_back( (flag + "dpTT_pr").c_str() );      truedpTT_type.push_back( (flag + "truedpTT_pr").c_str() );      dpTT_type_title.push_back( "#hat{#nu}#times#hat{p}_{p}" );
+        dpTT_type.push_back( (flag + "dpTT_pr_dir").c_str() );  truedpTT_type.push_back( (flag + "truedpTT_pr_dir").c_str() );  dpTT_type_title.push_back( "#hat{#nu}#times#hat{d}_{p}" );
+        
+        
+        
+        for(int i = 0; i < (int)dpTT_type.size(); i++){//dpTT distribution.
+            string dpTT_title = dpTT_type_title[i] + " #delta#it{p}^{reco}_{TT} (GeV/#it{c});" + dpTT_type_title[i] + " #delta#it{p}^{true}_{TT} (GeV/#it{c})";
+            string dpTT_var = truedpTT_type[i] + ":" + dpTT_type[i] + "_EX";
+            for(int j = 0; j < 2; j++){//PID method (will actually be accum level[0,1] > cut)
+                for(int k = 4; k < 6; k++){//dEdX (+ Michel), LLR (+ Michel) --> cut 4(5)
+                    
+                    //Base cuts:
+                    stringstream sj;
+                    sj << j;
+                    stringstream sk;
+                    sk << k;
+                    string base_cuts = "target_region == 1 && accum_level[" + sj.str() + "] > " + sk.str();
+                    
+                    //General dpTT title:
+                    string dpTT_top_title = dpTT_type;
+                    
+                    if(j == 0){
+                        dpTT_top_title  += "_dEdX";
+                    }
+                    else dpTT_top_title  += "_LLR";
+                    
+                    dpTT_top_title += "AL";
+                    
+                    if(k == 4){
+                        dpTT_top_title += "5";
+                    }
+                    else dpTT_top_title += "6";
+                    
+                    //1) topologically  --> CC1P1Pi, CC2P, CC2Pi, CC1Pi01P, CC1Pi01Pi, Other <-- Use only PDG codes to determine these
+                    string CC1P1Pi = flag + "mu_PDG == 13 && ((" + flag + "pr_PDG == 2212 && " + flag + "pi_PDG == 211 ) ||  (" + flag + "pr_PDG == 211 && " + flag + "pi_PDG == 2212 ))";
+                    KinMap dpTT_CC1P1Pi_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), CC1P1Pi.c_str())));
+
+                    string CC2P = flag + "mu_PDG == 13 && " + flag + "pr_PDG == 2212 && " + flag + "pi_PDG == 2212 ";
+                    KinMap dpTT_CC2P_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), CC2P.c_str())));
+                    
+                    string CC2Pi = flag + "mu_PDG == 13 && " + flag + "pr_PDG == 211 && " + flag + "pi_PDG == 211 ";
+                    KinMap dpTT_CC2Pi_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), CC2Pi.c_str())));
+                    
+                    string CC1Pi01P = flag + "mu_PDG == 13 && ((" + flag + "pr_PDG == 2212 && " + flag + "pi_PDG == 111 ) ||  (" + flag + "pr_PDG == 111 && " + flag + "pi_PDG == 2212 ))";
+                    KinMap dpTT_CC1Pi01P_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), CC1Pi01P.c_str())));
+                    
+                    string CC1Pi01Pi = flag + "mu_PDG == 13 && ((" + flag + "pr_PDG == 111 && " + flag + "pi_PDG == 211 ) ||  (" + flag + "pr_PDG == 211 && " + flag + "pi_PDG == 111 ))";
+                    KinMap dpTT_CC1Pi01Pi_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), CC1Pi01Pi.c_str())));
+                    
+                    /*string TOther = "(" + flag + "mu_PDG == 13 ||" + flag + "mu_PDG == -13) && !( ((" + flag + "pr_PDG == 111 && " + flag + "pi_PDG == 211 ) ||  (" + flag + "pr_PDG == 211 && " + flag + "pi_PDG == 111 ))";
+                    TOther += "|| ((" + flag + "pr_PDG == 2212 && " + flag + "pi_PDG == 211 ) ||  (" + flag + "pr_PDG == 211 && " + flag + "pi_PDG == 2212 ))";
+                    TOther += "|| "+ flag + "pr_PDG == 2212 && " + flag + "pi_PDG == 2212 ";
+                    TOther += "|| (" + flag + "pr_PDG == 211 && " + flag + "pi_PDG == 211)";
+                    TOther += ")";*/
+                    KinMap dpTT_TOther_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s", base_cuts.c_str())));//No cuts just sum away the other topologies.
+                    
+                    std::vector<KinMap> dpTT_top_map;
+                    std::vector<std::string> dpTT_top_names;
+                    std::vector<int> dpTT_top_cols;
+                    
+                    dpTT_top_map.push_back( dpTT_CC1P1Pi_map );     dpTT_top_names.push_back( "CC1p1#pi^{+}" );         dpTT_top_cols.push_back( DrawingStyle::T1P1Pi );
+                    dpTT_top_map.push_back( dpTT_CC2P_map );        dpTT_top_names.push_back( "CC2p");                  dpTT_top_cols.push_back( DrawingStyle::T2Pr );
+                    dpTT_top_map.push_back( dpTT_CC2Pi_map );       dpTT_top_names.push_back( "CC2#pi^{+}" );           dpTT_top_cols.push_back( DrawingStyle::T2Pi );
+                    dpTT_top_map.push_back( dpTT_CC1Pi01P_map );    dpTT_top_names.push_back( "CC1p1#pi^{0}" );         dpTT_top_cols.push_back( DrawingStyle::T1P1Pi0 );
+                    dpTT_top_map.push_back( dpTT_CC1Pi01Pi_map );   dpTT_top_names.push_back( "CC1#pi^{0}1#pi^{+}" );   dpTT_top_cols.push_back( DrawingStyle::T1Pi1Pi0 );
+                    dpTT_top_map.push_back( dpTT_TOther_map );      dpTT_top_names.push_back( "Other" );                dpTT_top_cols.push_back( DrawingStyle::Other );
+                    
+                    std::vector<TH1D*> dpTT_top_recon;
+                    std::vector<TH1D*> dpTT_top_truth;
+                    std::vector<TH2D*> dpTT_top_smear;
+                    std::vector<TH1D*> dpTT_top_ratio;
+                    
+                    for(int mpc = 0; mpc < (int)dpTT_top_map.size(); mpc++){
+                        plot->ColFill( dpTT_top_map[mpc].recon, dpTT_top_cols[mpc]);
+                        plot->ColFill( dpTT_top_map[mpc].truth, dpTT_top_cols[mpc]);
+                        plot->ColFill( dpTT_top_map[mpc].ratio, dpTT_top_cols[mpc]);
+                        
+                        if(mpc < (int)dpTT_top_map.size() - 1 ){//Remove all the other topologies from other:
+                        dpTT_top_map[ (int)dpTT_top_map.size() - 1 ].recon->Add(dpTT_top_map[mpc].recon, -1.);
+                        dpTT_top_map[ (int)dpTT_top_map.size() - 1 ].truth->Add(dpTT_top_map[mpc].truth, -1.);
+                        dpTT_top_map[ (int)dpTT_top_map.size() - 1 ].smear->Add(dpTT_top_map[mpc].smear, -1.);
+                        dpTT_top_map[ (int)dpTT_top_map.size() - 1 ].ratio->Add(dpTT_top_map[mpc].ratio, -1.);
+                        }
+                        
+                        dpTT_top_recon.push_back( dpTT_top_map[mpc].recon );
+                        dpTT_top_truth.push_back( dpTT_top_map[mpc].truth );
+                        dpTT_top_smear.push_back( dpTT_top_map[mpc].smear );
+                        dpTT_top_ratio.push_back( dpTT_top_map[mpc].ratio );
+                    }
+                    
+                    std::vector<double> dpTT_top_recon_per = plot->GetPercentage( dpTT_top_recon );
+                    std::vector<double> dpTT_top_truth_per = plot->GetPercentage( dpTT_top_truth );
+                    std::vector<double> dpTT_top_ratio_per = plot->GetPercentage( dpTT_top_ratio );
+                    
+                    string dpTT_top_recon_title = Form(";%s;%s", dpTT_top_recon[0]->GetXaxis()->GetTitle(), dpTT_top_recon[0]->GetYaxis()->GetTitle());
+                    string dpTT_top_truth_title = Form(";%s;%s", dpTT_top_truth[0]->GetXaxis()->GetTitle(), dpTT_top_truth[0]->GetYaxis()->GetTitle());
+                    string dpTT_top_smear_title = Form(";%s;%s", dpTT_top_smear[0]->GetXaxis()->GetTitle(), dpTT_top_smear[0]->GetYaxis()->GetTitle());
+                    string dpTT_top_ratio_title = Form(";%s;%s", dpTT_top_ratio[0]->GetXaxis()->GetTitle(), dpTT_top_ratio[0]->GetYaxis()->GetTitle());
+                    
+                    THStack * dpTT_top_recon_tot = new THStack( (dpTT_top_title + "_recon").c_str() , mom_recon_title.c_str());
+                    THStack * dpTT_top_truth_tot = new THStack( (dpTT_top_title + "_truth").c_str(), mom_truth_title.c_str());
+                    THStack * dpTT_top_ratio_tot = new THStack( (dpTT_top_title + "_ratio").c_str(),  mom_ratio_title.c_str());
+                    TH2D * dpTT_top_smear_tot = (TH2D*)dpTT_top_smear[0]->Clone( (dpTT_top_title + "_smear").c_str() );//Just add all of these histos.
+                    
+                    TLegend * dpTT_top_recon_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
+                    TLegend * dpTT_top_truth_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
+                    TLegend * dpTT_top_ratio_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
+                    
+                    for(int mpc = 1; mpc < (int)dpTT_top_map.size() + 1; mpc++){
+                        
+                        dpTT_top_recon_tot->Add( dpTT_top_recon[(int)dpTT_top_map.size() - mpc] );
+                        dpTT_top_truth_tot->Add( dpTT_top_truth[(int)dpTT_top_map.size() - mpc] );
+                        dpTT_top_ratio_tot->Add( dpTT_top_ratio[(int)dpTT_top_map.size() - mpc] );
+                        
+                        if( (mpc - 1) < (int)dpTT_top_map.size()){
+                            string dpTT_top_names = dpTT_top_names[mpc - 1];
+                            dpTT_top_recon_leg->AddEntry(mom_recon[ mpc - 1 ], Form("%s (%.2f%%)", dpTT_top_names.c_str(), dpTT_top_recon_per[ mpc - 1 ]), "f");
+                            dpTT_top_truth_leg->AddEntry(mom_truth[ mpc - 1 ], Form("%s (%.2f%%)", dpTT_top_names.c_str(), dpTT_top_truth_per[ mpc - 1 ]), "f");
+                            dpTT_top_ratio_leg->AddEntry(mom_ratio[ mpc - 1 ], Form("%s (%.2f%%)", dpTT_top_names.c_str(), dpTT_top_ratio_per[ mpc - 1 ]), "f");
+                        }
+                        
+                        if(mpc < (int)dpTT_top_map.size()) dpTT_top_smear_tot->Add( dpTT_top_smear[mpc] );
+                    }
+                    //-------------------------//
+                    
+                    TLegend * dpTT_top_recon_pot = plot->GetPOT(0.521,0.781);
+                    TLegend * dpTT_top_truth_pot = plot->GetPOT(0.521,0.781);
+                    TLegend * dpTT_top_ratio_pot = plot->GetPOT(0.521,0.781);
+                    
+                    TCanvas * dpTT_top_recon_can = new TCanvas( (dpTT_top_title + "_recon").c_str(), "", 500, 500);
+                    dpTT_top_recon_can->cd();
+                    dpTT_top_recon_tot->Draw();
+                    dpTT_top_recon_leg->Draw();
+                    dpTT_top_recon_pot->Draw();
+                    outfile->cd();
+                    dpTT_top_recon_can->Write();
+                    
+                    TCanvas * dpTT_top_truth_can = new TCanvas( (dpTT_top_title+ "_truth").c_str(), "", 500, 500);
+                    dpTT_top_truth_can->cd();
+                    dpTT_top_truth_tot->Draw();
+                    dpTT_top_truth_leg->Draw();
+                    dpTT_top_truth_pot->Draw();
+                    outfile->cd();
+                    dpTT_top_truth_can->Write();
+                    
+                    TCanvas * dpTT_top_smear_can = new TCanvas( (dpTT_top_title + "_smear").c_str(), "", 500, 500);
+                    dpTT_top_smear_can->cd();
+                    dpTT_top_smear_tot->Draw("COLZ");
+                    //mom_smear_pot->Draw();
+                    outfile->cd();
+                    dpTT_top_smear_can->Write();
+                    
+                    TCanvas * dpTT_top_ratio_can = new TCanvas( (dpTT_top_title + "_ratio").c_str(), "", 500, 500);
+                    dpTT_top_ratio_can->cd();
+                    dpTT_top_ratio_tot->Draw();
+                    dpTT_top_ratio_leg->Draw();
+                    dpTT_top_ratio_pot->Draw();
+                    outfile->cd();
+                    dpTT_top_ratio_can->Write();
+                    
+                    
+                    
+                    
+                    //2) nuclear medium --> H, C, Other
+                    
+                    
+                }
+            }
         }
         
         std::vector<TString> cut_names;
@@ -408,7 +589,7 @@ void MomentumDists(const string file, const string savename, bool debug)
         effpur_leg->AddEntry(effcuts0, "Eff. dEdX PID Method", "l");
         effpur_leg->AddEntry(purcuts0, "Pur. dEdX PID Method", "l");
         effpur_leg->AddEntry(effcuts1, "Eff. LLR PID Method", "l");
-        effpur_leg->AddEntry(effcuts1, "Pur. LLR PID Method", "l");
+        effpur_leg->AddEntry(purcuts1, "Pur. LLR PID Method", "l");
         
         TLegend * effpur_pot = plot->GetPOT(0.521,0.781);
         
@@ -421,7 +602,7 @@ void MomentumDists(const string file, const string savename, bool debug)
         outfile->cd();
         effpur_can->Write();
     
-    outfile->Close();
+        outfile->Close();
 
 }
 
