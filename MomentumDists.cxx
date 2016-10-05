@@ -39,6 +39,8 @@ using namespace std;
 //These are the tuples used for this exercise
 const string testing_mc("/pnfs/minerva/persistent/users/dcoplowe/merged_CC1P1Pi_CC1P1Pi_run00013200.root");
 
+//--> /pnfs/minerva/persistent/users/dcoplowe/CC1P1Pi_PL13C_041016/grid/central_value/minerva/ana/v10r8p9/00/01/32/00/SIM_minerva_00013200_Subruns_0101-0102-0103-0104-0105_CC1P1PiAnalysis_Ana_Tuple_v10r8p9-dcoplowe.root
+
 const string flag("sel_");
 
 /*class AnalysisPlots {
@@ -142,7 +144,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                 const double mom_low = mom_range[ 2*i ];
                 const double mom_high = mom_range[ 2*i + 1 ];
                 
-                std::string mom_name = part_name_ + hyp[j] + "_truemom/1000:" + part_name_ + hyp[j] + "_mom/1000";
+                std::string mom_name = part_name_ + hyp[j] + "_truemom/1000:" + part_name_ + "_mom/1000";
                 std::string mom_title = "Reco " + var_symb[0] + "_{" + part_symb[i] + "} " + var_unit[0] + ";True " + var_symb[0] + "_{" + part_symb[i] + "} " + var_unit[0];//Real;Truth
                 
                 if(debug) cout << "Mom: Working 1" << endl;
