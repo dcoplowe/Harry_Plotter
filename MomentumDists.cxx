@@ -401,7 +401,7 @@ void MomentumDists(const string file, const string savename, bool debug)
         TCanvas * effpur_can = new TCanvas("EffPurVSCuts_Branch0","",500,500);
         effpur_can->cd();
         effcuts0->Draw("HIST");
-        effcuts0->Draw("SAMEHIST");
+        purcuts0->Draw("SAMEHIST");
         outfile->cd();
         effpur_can->Write();
         
