@@ -111,7 +111,7 @@ TH1D * EffPurTools::EffVSCuts(const TString signal, int branch, const TString cu
     
     _effhcounter++;
     TH1D * effcuts = DrawRatioVSCuts(num, den, "Efficiency", Form("h_effic%.3d", _effhcounter));
-    effcuts->SetLineColor(DSBlue);
+    effcuts->SetLineColor(Blue);
     
     delete num;
     delete den;
