@@ -38,7 +38,7 @@ DrawingTools::DrawingTools(TString filename, bool debug, TString reconame, TStri
     
     _DEBUG_ = false;
     
-    _ratiorange = 50.0;
+    _ratiorange = 10000.0;
     _ratiobins = 20;
 }
 
