@@ -348,7 +348,7 @@ TH1D * DrawingTools::GetRTRatio(TTree * intree, const TString vars_tr, const TSt
     
     TH1D * ratio = new TH1D(host_name.Data(), Form(";%s", tmp_title.Data()), _ratiobins, -_ratiorange, _ratiorange);
     
-    TString var = "1 - (" + recon_var + "/" + truth_var + ")";
+    TString var = "1 - ( (" + recon_var + ") / (" + truth_var + ") )";
     cout << var.Data() << endl;
     
     intree->Project(host_name.Data(), var.Data(), cuts.Data());
