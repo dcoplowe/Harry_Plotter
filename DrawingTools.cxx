@@ -352,8 +352,8 @@ TH1D * DrawingTools::GetRTRatio(TTree * intree, const TString vars_tr, const TSt
     
     cout << "DrawingTools::GetRTRatio" << endl;
     TString var = "1 - ( (" + recon_var + ") / (" + truth_var + ") )";
-    cout << var.Data() << endl;
-    cout << cuts.Data() << endl;
+    //cout << var.Data() << endl;
+    //cout << cuts.Data() << endl;
     
     intree->Project(host_name.Data(), var.Data(), cuts.Data());
     
