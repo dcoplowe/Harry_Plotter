@@ -301,8 +301,8 @@ KinMap DrawingTools::KinArray(TTree * intree, const TString vars_tr, int re_nbin
     
     if(cor){//Default is to preserve the number of events in each kinematic histo.
         string name = map.smear->GetName();
-        map.recon = map.smear->ProjectionX( (name + "_reco").c_str(), 1, map.smear->GetNbinsX());
-        map.truth = map.smear->ProjectionY( (name + "_true").c_str(), 1, map.smear->GetNbinsY());
+        map.recon = map.smear->ProjectionX( (name + "_reco").c_str(), 1, map.smear->GetNbinsY());
+        map.truth = map.smear->ProjectionY( (name + "_true").c_str(), 1, map.smear->GetNbinsX());
         
         map.recon->GetXaxis()->SetTitle(reco_title.Data());
         map.recon->GetYaxis()->SetTitle("Counts");
@@ -349,6 +349,7 @@ TH1D * DrawingTools::GetRTRatio(TTree * intree, const TString vars_tr, const TSt
     TH1D * ratio = new TH1D(host_name.Data(), Form(";%s", tmp_title.Data()), _ratiobins, -_ratiorange, _ratiorange);
     
     TString var = "1 - (" + recon_var + "/" + truth_var + ")";
+    cout << var.Data() << endl;
     
     intree->Project(host_name.Data(), var.Data(), cuts.Data());
     
