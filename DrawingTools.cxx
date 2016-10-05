@@ -313,6 +313,8 @@ KinMap DrawingTools::KinArray(TTree * intree, const TString vars_tr, int re_nbin
         if(!tmp_cuts.EqualTo("", TString::kExact)) tmp_cuts.Append(" && ");
         tmp_cuts.Append(Form("%f < %s && %s < %f && %f < %s && %s < %f ", re_bins[0], recon_var.Data(), recon_var.Data(), re_bins[re_nbins + 1], tr_bins[0],
                              truth_var.Data(), truth_var.Data(), tr_bins[tr_nbins + 1]));
+        
+        cout << tmp_cuts << endl;
     }
     else{
         map.truth = GetHisto(intree, truth_var, tr_nbins, tr_bins, true_title, cuts);
