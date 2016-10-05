@@ -457,8 +457,8 @@ void MomentumDists(const string file, const string savename, bool debug)
                     std::vector<std::string> dpTT_top_names;
                     std::vector<int> dpTT_top_cols;
                     
-                    dpTT_top_map.push_back( dpTT_CC1P1PiP_map );     dpTT_top_names.push_back( "CC1p1#pi^{+}" );         dpTT_top_cols.push_back( DrawingStyle::T1P1Pi);
-                    dpTT_top_map.push_back( dpTT_CC1P1PiM_map );     dpTT_top_names.push_back( "CC1p1#pi^{-}" );         dpTT_top_cols.push_back( DrawingStyle::T1P1PiM );
+                    dpTT_top_map.push_back( dpTT_CC1P1PiP_map );    dpTT_top_names.push_back( "CC1p1#pi^{+}" );         dpTT_top_cols.push_back( DrawingStyle::T1P1Pi);
+                    dpTT_top_map.push_back( dpTT_CC1P1PiM_map );    dpTT_top_names.push_back( "CC1p1#pi^{-}" );         dpTT_top_cols.push_back( DrawingStyle::T1P1PiM );
                     dpTT_top_map.push_back( dpTT_CC2P_map );        dpTT_top_names.push_back( "CC2p");                  dpTT_top_cols.push_back( DrawingStyle::T2Pr );
                     dpTT_top_map.push_back( dpTT_CC2Pi_map );       dpTT_top_names.push_back( "CC2#pi^{+}" );           dpTT_top_cols.push_back( DrawingStyle::T2Pi );
                     dpTT_top_map.push_back( dpTT_CC1Pi01P_map );    dpTT_top_names.push_back( "CC1p1#pi^{0}" );         dpTT_top_cols.push_back( DrawingStyle::T1P1Pi0 );
