@@ -396,12 +396,12 @@ void MomentumDists(const string file, const string savename, bool debug)
         TH1D * effcuts1 = m_ep->EffVSCuts(TString(signal_def_truth), 1);
         TH1D * purcuts1 = m_ep->PurVSCuts(TString(signal_def_truth), 1);
         
-        effcuts0->GetYaxis()->SetRangeUser(0.,1.);
+        //effcuts0->GetYaxis()->SetRangeUser(0.,1.);
         
         TCanvas * effpur_can = new TCanvas("EffPurVSCuts_Branch0","",500,500);
         effpur_can->cd();
         effcuts0->Draw();
-        effcuts0->Draw("SAME");
+        //effcuts0->Draw("SAME");
         outfile->cd();
         effpur_can->Write();
         
