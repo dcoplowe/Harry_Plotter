@@ -39,7 +39,7 @@ DrawingTools::DrawingTools(TString filename, bool debug, TString reconame, TStri
     _DEBUG_ = debug;
     
     _ratiorange = 3.0;
-    _ratiobins = 20;
+    _ratiobins = 61;
 }
 
 DrawingTools::DrawingTools(){
