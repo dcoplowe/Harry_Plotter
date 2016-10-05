@@ -156,7 +156,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                 
                 if(debug) cout << "Mom: Working 1" << endl;
                 KinMap mom_pr = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && %s_PDG == 2212", common_cuts_mom.c_str(), part_name_.c_str())));
-                /*if(debug) cout << "Mom: Working 2" << endl;
+                if(debug) cout << "Mom: Working 2" << endl;
                 KinMap mom_pi = plot->KinArray(TString(mom_name), &mom_nbins, &mom_low, &mom_high, TString(mom_title),  TString(Form("%s && TMath::Abs(%s_PDG) == 211", common_cuts_mom.c_str(), part_name_.c_str())));
                 if(debug) cout << "Mom: Working 3" << endl;
                 KinMap mom_mu = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && %s_PDG == 13", common_cuts_mom.c_str(), part_name_.c_str())));
@@ -164,6 +164,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                 std::string mom_other = part_name_ + "_PDG != 2212 && TMath::Abs(" + part_name_ + "_PDG) != 211 && " + part_name_ + "_PDG != 13 && " + part_name_ + "_PDG != -999" ;
                 KinMap mom_ot = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && %s", common_cuts_mom.c_str(), mom_other.c_str())));
 
+                /*
                 TH1D * mom_pr_recon   = mom_pr.recon;
                 TH1D * mom_pr_truth   = mom_pr.truth;
                 //TH2D * mom_pr_smear   = mom_pr.smear;
