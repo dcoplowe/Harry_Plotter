@@ -223,7 +223,6 @@ void MomentumDists(const string file, const string savename, bool debug)
                 TLegend * mom_truth_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
                 TLegend * mom_ratio_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
                 
-                
                 for(int mpc = 1; mpc < mom_map_size + 1; mpc++){
                     
                     mom_recon_tot->Add( mom_recon[mom_map_size - mpc] );
@@ -280,7 +279,7 @@ void MomentumDists(const string file, const string savename, bool debug)
             
             
             
-         /*   if(i>0){
+            if(i>0){
             //Scores:
                // GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s",common_cuts_score_p.Data()))
                 for(int j = 0; j < 2; j++){//LL dEdX loop
@@ -388,7 +387,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                 
                     }
                 }
-            } */
+            }
             //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
         }
         
