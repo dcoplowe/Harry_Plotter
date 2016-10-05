@@ -34,7 +34,7 @@ public:
     void SetRecoBranch(TString var){ _reconame = var; }
     void SetTrueBranch(TString var){ _truename = var; }
     
-    void SetGlobalSignal(TString var){ _glob_signal = var; }
+    void SetGlobalSignal(std::string var){ _glob_signal = TString(var); }
     
     //These may not be void functions:
     TH1D * EffVSCuts(const TString signal, const TString cuts = "");

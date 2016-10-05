@@ -99,18 +99,6 @@ void MomentumDists(const string file, const string savename, bool debug)
     
     DrawingTools * plot = new DrawingTools(file, debug);
     
-    std::vector<TString> cut_names;
-    cut_names.push_back("Vertex");
-    cut_names.push_back("3 Tracks");
-    cut_names.push_back("Muon Track");
-    cut_names.push_back("Contained Vtx");
-    cut_names.push_back("PID: p/#pi^{+}");
-    cut_names.push_back("Michel Tags");
-    
-//    EffPurTools * m_ep = new EffPurTools(file, cut_names, debug);
-//    m_ep->EffVSCuts();
-    
-    
     for(int k = 0; k < 1; k++){//Target loop
         
         string target = "target_region == ";
@@ -391,7 +379,27 @@ void MomentumDists(const string file, const string savename, bool debug)
             //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
         }
         
-                                                             /*
+        std::vector<TString> cut_names;
+        cut_names.push_back("Vertex");
+        cut_names.push_back("3 Tracks");
+        cut_names.push_back("Muon Track");
+        cut_names.push_back("Contained Vtx");
+        cut_names.push_back("PID: p/#pi^{+}");
+        cut_names.push_back("Michel Tags");
+        
+        string signal_def_truth = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muon == 1 && mc_nFSPart == 3 && mc_targetZ == 1 && truth_true_target_region == 1";
+        
+        EffPurTools * m_ep = new EffPurTools(file, cut_names, debug);
+        TH1D * effcuts = m_ep->EffVSCuts(TString(signal_def_truth));
+        TH1D * purcuts = m_ep->PurVSCuts(TString(signal_def_truth));
+        
+        TCanvas * effpur_can = new TCanvas("EffPurVSCuts","",500,500);
+        effpur_can->cd();
+        effcuts->Draw();
+        effcuts->GetYaxis()->SetRangeUser(0.,1.);
+        effcuts->Draw("SAME");
+        
+        /*
         TH1D * purcut = m_ep->PurVSCuts( (target + "&& mc_intType == 2 && mc_current == 1").c_str() );
         
         if(purcut){

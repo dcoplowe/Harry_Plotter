@@ -71,17 +71,10 @@ public:
     TH2D * SmearMatrix(const TString vars_yx, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, const TString xy_title = "", const TString cuts = "");
     TH2D * SmearMatrix(const TString vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const TString xy_title = "", const TString cuts = "");
     
-    /*KinMap KinArray(const TString vars_yx, int nbins, const double low, const double high, const TString xy_title = "", const TString cuts = "", bool cor = true);
-    KinMap KinArray(const TString vars_yx, int nbins, const Double_t * bins, const TString xy_title = "", const TString cuts = "", bool cor = true);
-     
-    KinMap KinArray(const TString vars_yx, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, const TString xy_title = "", const TString cuts = "", bool cor = true);
-    KinMap KinArray(const TString vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const TString xy_title = "", const TString cuts = "", bool cor = true);*/
-    
     std::vector<double> GetPercentage(std::vector<TH1D*> histos);
     
     TLegend * GetPOT(double x_pos, double y_pos, TString filename = "");
     
-    //void ColFill(MnvH1D_ *&h1, int fill_color, int line_color = kBlack);
     void ColFill(TH1D *&h1, int fill_color, int line_color = kBlack);
     
     TLegend * Legend(double x_size, double y_size, double x_start = 0.1, double y_start = 0.1);

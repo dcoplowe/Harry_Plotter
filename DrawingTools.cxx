@@ -116,7 +116,7 @@ TH1D * DrawingTools::GetHisto(TTree * intree, const TString var, int nbins, cons
     if(_DEBUG_) cout << "DrawingTools::GetHisto(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString xy_title, const TString cuts)" << endl;
     
     _1Dcounter++;
-    TString host_name = Form("h1Dvar%.3d", _1Dcounter);
+    TString host_name = Form("h1Dvar%.5d", _1Dcounter);
     
     TString tmp_title;
     if(xy_title.Contains(";",TString::kExact)){
@@ -181,7 +181,7 @@ TH2D * DrawingTools::GetHisto(TTree * intree, const TString vars_yx, int x_nbins
 TH2D * DrawingTools::GetHisto(TTree * intree, const TString vars_yx, int x_nbins, const Double_t * xbins, int y_nbins, const Double_t * ybins, const TString xy_title, const TString cuts){
     
     _2Dcounter++;
-    TString host_name = Form("h2Dvar%.3d", _2Dcounter);
+    TString host_name = Form("h2Dvar%.5d", _2Dcounter);
     
     TH2D * hist = new TH2D(host_name.Data(), Form(";%s", xy_title.Data()), x_nbins, xbins, y_nbins, ybins);
     //hist->GetYaxis()->Setmaxdigits(2);
@@ -339,7 +339,7 @@ TH1D * DrawingTools::GetRTRatio(TTree * intree, const TString vars_tr, const TSt
     TString recon_var( vars_tr(vars_tr.First(":") + 1, vars_tr.Length()) );
     
     _1Dcounter++;
-    TString host_name = Form("h1Dvar%.3d", _1Dcounter);
+    TString host_name = Form("h1Dvar%.5d", _1Dcounter);
     
     TString tmp_title = "1 - reco/true";
     
@@ -350,7 +350,6 @@ TH1D * DrawingTools::GetRTRatio(TTree * intree, const TString vars_tr, const TSt
     
     TH1D * ratio = new TH1D(host_name.Data(), Form(";%s", tmp_title.Data()), _ratiobins, -_ratiorange, _ratiorange);
     
-    cout << "DrawingTools::GetRTRatio" << endl;
     TString var = "1 - ( (" + recon_var + ") / (" + truth_var + ") )";
     //cout << var.Data() << endl;
     //cout << cuts.Data() << endl;
