@@ -391,10 +391,10 @@ void MomentumDists(const string file, const string savename, bool debug)
         
         EffPurTools * m_ep = new EffPurTools(file, cut_names, debug);
         TH1D * effcuts0 = m_ep->EffVSCuts(TString(signal_def_truth));
-        TH1D * purcuts0 = m_ep->PurVSCuts(TString(signal_def_truth));
-        
-        TH1D * effcuts1 = m_ep->EffVSCuts(TString(signal_def_truth), 1);
-        TH1D * purcuts1 = m_ep->PurVSCuts(TString(signal_def_truth), 1);
+//        TH1D * purcuts0 = m_ep->PurVSCuts(TString(signal_def_truth));
+//
+//        TH1D * effcuts1 = m_ep->EffVSCuts(TString(signal_def_truth), 1);
+//        TH1D * purcuts1 = m_ep->PurVSCuts(TString(signal_def_truth), 1);
         
         //effcuts0->GetYaxis()->SetRangeUser(0.,1.);
         
