@@ -217,7 +217,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                 THStack * mom_recon_tot = new THStack( (part_name_ + tmp_hyp + "_recon").c_str() , mom_recon_title.c_str());
                 THStack * mom_truth_tot = new THStack( (part_name_ + tmp_hyp + "_truth").c_str(), mom_truth_title.c_str());
                 THStack * mom_ratio_tot = new THStack( (part_name_ + tmp_hyp + "_reco").c_str(),  mom_ratio_title.c_str());
-                TH2D * mom_smear_tot = mom_smear[0]->Clone( (part_name_ + tmp_hyp + "_smear").c_str() );//Just add all of these histos.
+                TH2D * mom_smear_tot = (TH2D*)mom_smear[0]->Clone( (part_name_ + tmp_hyp + "_smear").c_str() );//Just add all of these histos.
                 
                 TLegend * mom_recon_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
                 TLegend * mom_truth_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
@@ -264,7 +264,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                 TCanvas * mom_smear_can = new TCanvas( (part_name_ + tmp_hyp + "_smear").c_str(), "", 500, 500);
                 mom_smear_can->cd();
                 mom_smear_tot->Draw("COLZ");
-                mom_smear_pot->Draw();
+                //mom_smear_pot->Draw();
                 outfile->cd();
                 mom_smear_can->Write();
                 
