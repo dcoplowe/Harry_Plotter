@@ -39,26 +39,26 @@ public:
     
     enum DSColors {//Add nice colors here and ones for ints/particle types
         //Colors:
-        DSYellow = kOrange-2,
-        DSBlue = kAzure+2,
-        DSRed = kRed+1,
-        DSGray = kGray,
-        DSGreen = kGreen-3,
-        DSLBlue = kBlue-5,
+        Yellow = kOrange-2,
+        Blue = kAzure+2,
+        Red = kRed+1,
+        Gray = kGray,
+        Green = kGreen-3,
+        LBlue = kBlue-5,
         //Particles:
-        DSProton = kOrange-2,
-        DSPion = kAzure+2,
-        DSMuon = kCyan+2,
-        DSMuonM = kCyan+2,
-        DSMuonP = kOrange+7,
-        DSPi0 = kRed+1,
-        DSKaon = kBlue-5,
-        DSKa0 = kGreen-3,
+        Proton = kOrange-2,
+        Pion = kAzure+2,
+        Muon = kCyan+2,
+        MuonM = kCyan+2,
+        MuonP = kOrange+7,
+        Pi0 = kRed+1,
+        Kaon = kBlue-5,
+        Ka0 = kGreen-3,
         //Topologies:
-        DS2Pr = kOrange-2,
-        DS1P1Pi = kAzure+2,
-        DS2Pi = kCyan+2,
-        DSOther = kGray
+        T2Pr = kOrange-2,
+        T1P1Pi = kAzure+2,
+        T2Pi = kCyan+2,
+        TOther = kGray
     };
 };
 

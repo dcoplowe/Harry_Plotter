@@ -70,7 +70,7 @@ void MomentumDists(const string file, const string savename, bool debug)
     string part_snam[3] = {"mu","pr","pi"};
     string part_name[3] = {"Muon", "Proton", "Pion"};
     string part_symb[3] = {"#mu^{-}", "p", "#pi^{#pm}"};
-    int    part_colo[3] = {DrawingStyle::DSProton, DrawingStyle::DSPion, DrawingStyle::DSMuon};
+    int    part_colo[3] = {DrawingStyle::Proton, DrawingStyle::Pion, DrawingStyle::Muon};
     
     string var_unit[3] = {" (GeV/#it{c})", " (GeV/#it{c})", " (GeV)" };
     string var_symb[3] = {" #it{p}", " |#it{p}_{T}|", " E" };
@@ -166,14 +166,14 @@ void MomentumDists(const string file, const string savename, bool debug)
                 std::vector<std::string> mom_map_names;
                 std::vector<int> mom_map_cols;
                 
-                mom_map.push_back( mom_pr_map );    mom_map_names.push_back("p");           mom_map_cols.push_back( DrawingStyle::DSProton );
-                mom_map.push_back( mom_pi_map );    mom_map_names.push_back("#pi^{#pm}");   mom_map_cols.push_back( DrawingStyle::DSPion   );
-                mom_map.push_back( mom_mum_map);    mom_map_names.push_back("#mu^{-}");     mom_map_cols.push_back( DrawingStyle::DSMuonM  );
-                mom_map.push_back( mom_mup_map);    mom_map_names.push_back("#mu^{+}");     mom_map_cols.push_back( DrawingStyle::DSMuonP  );
-                mom_map.push_back( mom_p0_map );    mom_map_names.push_back("#pi^{0}");     mom_map_cols.push_back( DrawingStyle::DSPi0    );
-                mom_map.push_back( mom_ka_map );    mom_map_names.push_back("K^{#pm}");     mom_map_cols.push_back( DrawingStyle::DSKaon   );
-                mom_map.push_back( mom_kz_map );    mom_map_names.push_back("K^{0}");       mom_map_cols.push_back( DrawingStyle::DSKa0    );
-                mom_map.push_back( mom_ot_map );    mom_map_names.push_back("Other");       mom_map_cols.push_back( DrawingStyle::DSOther  );
+                mom_map.push_back( mom_pr_map );    mom_map_names.push_back("p");           mom_map_cols.push_back( DrawingStyle::Proton );
+                mom_map.push_back( mom_pi_map );    mom_map_names.push_back("#pi^{#pm}");   mom_map_cols.push_back( DrawingStyle::Pion   );
+                mom_map.push_back( mom_mum_map);    mom_map_names.push_back("#mu^{-}");     mom_map_cols.push_back( DrawingStyle::MuonM  );
+                mom_map.push_back( mom_mup_map);    mom_map_names.push_back("#mu^{+}");     mom_map_cols.push_back( DrawingStyle::MuonP  );
+                mom_map.push_back( mom_p0_map );    mom_map_names.push_back("#pi^{0}");     mom_map_cols.push_back( DrawingStyle::Pi0    );
+                mom_map.push_back( mom_ka_map );    mom_map_names.push_back("K^{#pm}");     mom_map_cols.push_back( DrawingStyle::Kaon   );
+                mom_map.push_back( mom_kz_map );    mom_map_names.push_back("K^{0}");       mom_map_cols.push_back( DrawingStyle::Ka0    );
+                mom_map.push_back( mom_ot_map );    mom_map_names.push_back("Other");       mom_map_cols.push_back( DrawingStyle::Other  );
                 
                 std::vector<TH1D*> mom_recon;
                 std::vector<TH1D*> mom_truth;
@@ -329,14 +329,14 @@ void MomentumDists(const string file, const string savename, bool debug)
                         std::string std_p_other =  std_partvar + "_PDG != 2212 && TMath::Abs(" + std_partvar + "_PDG) != 211 && " + std_partvar + "_PDG != 13 && " + std_partvar + "_PDG != 111 && TMath::Abs(" + std_partvar + "_PDG) != 311 && " + std_partvar + "_PDG != 311 && " + std_partvar + "_PDG != -999 && " + std_partvar + "_PDG != -13";
                         TH1D * score_ot = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s", common_cuts_score.c_str(), std_p_other.c_str()));
                         
-                        plot->ColFill(score_pr, DrawingStyle::DSProton);
-                        plot->ColFill(score_pi, DrawingStyle::DSPion);
-                        plot->ColFill(score_mum, DrawingStyle::DSMuonM);
-                        plot->ColFill(score_mup, DrawingStyle::DSMuonP);
-                        plot->ColFill(score_p0, DrawingStyle::DSPi0);
-                        plot->ColFill(score_ka, DrawingStyle::DSKaon);
-                        plot->ColFill(score_kz, DrawingStyle::DSKa0);
-                        plot->ColFill(score_ot, DrawingStyle::DSOther);
+                        plot->ColFill(score_pr, DrawingStyle::Proton);
+                        plot->ColFill(score_pi, DrawingStyle::Pion);
+                        plot->ColFill(score_mum, DrawingStyle::MuonM);
+                        plot->ColFill(score_mup, DrawingStyle::MuonP);
+                        plot->ColFill(score_p0, DrawingStyle::Pi0);
+                        plot->ColFill(score_ka, DrawingStyle::Kaon);
+                        plot->ColFill(score_kz, DrawingStyle::Ka0);
+                        plot->ColFill(score_ot, DrawingStyle::Other);
 
                         std::vector<TH1D*> score_h;
                         std::vector<std::string> score_names;
@@ -392,43 +392,34 @@ void MomentumDists(const string file, const string savename, bool debug)
         EffPurTools * m_ep = new EffPurTools(file, cut_names, debug);
         TH1D * effcuts0 = m_ep->EffVSCuts(TString(signal_def_truth));
         TH1D * purcuts0 = m_ep->PurVSCuts(TString(signal_def_truth));
-//
-//        TH1D * effcuts1 = m_ep->EffVSCuts(TString(signal_def_truth), 1);
-//        TH1D * purcuts1 = m_ep->PurVSCuts(TString(signal_def_truth), 1);
         
-        //effcuts0->GetYaxis()->SetRangeUser(0.,1.);
+        TH1D * effcuts1 = m_ep->EffVSCuts(TString(signal_def_truth), 1);
+        TH1D * purcuts1 = m_ep->PurVSCuts(TString(signal_def_truth), 1);
+        
+        effcuts0->SetLineColor(DrawingStyle::Blue);
+        purcuts0->SetLineColor(DrawingStyle::Blue);
+        purcuts0->SetLineStyle();
+        
+        effcuts1->SetLineColor(DrawingStyle::Red);
+        purcuts1->SetLineColor(DrawingStyle::Red);
+        purcuts1->SetLineStyle();
+        
+        TLegend * effpur_leg = plot->Legend(0.3,0.1);
+        effpur_leg->AddEntry(effcuts0, "Eff. dEdX PID Method", "l");
+        effpur_leg->AddEntry(purcuts0, "Pur. dEdX PID Method", "l");
+        effpur_leg->AddEntry(effcuts1, "Eff. LLR PID Method", "l");
+        effpur_leg->AddEntry(effcuts1, "Pur. LLR PID Method", "l");
+        
+        TLegend * effpur_pot = plot->GetPOT(0.521,0.781);
         
         TCanvas * effpur_can = new TCanvas("EffPurVSCuts_Branch0","",500,500);
         effpur_can->cd();
         effcuts0->Draw("HIST");
         purcuts0->Draw("SAMEHIST");
+        effpur_leg->Draw();
+        effpur_pot->Draw();
         outfile->cd();
         effpur_can->Write();
-        
-        /*
-        TH1D * purcut = m_ep->PurVSCuts( (target + "&& mc_intType == 2 && mc_current == 1").c_str() );
-        
-        if(purcut){
-            TCanvas * pur_can = new TCanvas( (tar_name + "_pur_vs_cuts").c_str(), "", 500,500);
-            pur_can->cd();
-            purcut->Draw();
-            outfile->cd();
-            pur_can->Write();
-            //pur_can->Print("first_pur_plot.eps");
-        }
-        
-        TH1D * effcut = m_ep->EffVSCuts("mc_intType == 2 && mc_current == 1");
-        
-        if(effcut){
-            TCanvas * eff_can = new TCanvas( (tar_name + "_eff_vs_cuts").c_str(), "", 500,500);
-            eff_can->cd();
-            effcut->Draw();
-            outfile->cd();
-            eff_can->Write();
-            //eff_can->Print("first_eff_plot.eps");
-        }
-    
-    }*/
     
     outfile->Close();
 
@@ -445,10 +436,10 @@ TCanvas * AnalysisPlots:: VarVsParticles(TString var, int nbins, double x_low, d
     TH1D * h_mom_p3 = plot->GetRecoHisto(Form("CC1P1Pi_%s_%s/1000",particle.Data(), var.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 13", common_cuts_score_p.Data(), tmp_part_snam.Data()));
     TH1D * h_mom_p4 = plot->GetRecoHisto(Form("CC1P1Pi_%s_%s/1000",particle.Data(), var.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG != 13 && TMath::Abs(CC1P1Pi_%s_PDG) != 211 && CC1P1Pi_%s_PDG != 2212", common_cuts_score_p.Data(), tmp_part_snam.Data(), tmp_part_snam.Data(), tmp_part_snam.Data()));
     
-    plot->ColFill(h_mom_p1, DrawingStyle::DSProton);
-    plot->ColFill(h_mom_p2, DrawingStyle::DSPion);
-    plot->ColFill(h_mom_p3, DrawingStyle::DSMuon);
-    plot->ColFill(h_mom_p4, DrawingStyle::DSOther);
+    plot->ColFill(h_mom_p1, DrawingStyle::Proton);
+    plot->ColFill(h_mom_p2, DrawingStyle::Pion);
+    plot->ColFill(h_mom_p3, DrawingStyle::Muon);
+    plot->ColFill(h_mom_p4, DrawingStyle::Other);
     
     THStack * hs_part = new THStack(Form("hs%s_part", tmp_part_snam.Data()),Form(";#it{p}_{%s} (GeV/#it{c});Counts", tmp_part_symb.Data()));
     hs_part->Add(h_mom_p1);
