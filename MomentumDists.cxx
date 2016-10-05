@@ -210,9 +210,9 @@ void MomentumDists(const string file, const string savename, bool debug)
                 std::vector<double> mom_ratio_per = plot->GetPercentage( mom_ratio );
 
                 string mom_recon_title = Form(";%s;%s", mom_recon[0]->GetXaxis()->GetTitle(), mom_recon[0]->GetYaxis()->GetTitle());
-                string mom_truth_title = ";" + mom_truth[0]->GetXaxis()->GetTitle() + ";" + mom_truth[0]->GetYaxis()->GetTitle();
-                string mom_smear_title = ";" + mom_smear[0]->GetXaxis()->GetTitle() + ";" + mom_smear[0]->GetYaxis()->GetTitle();
-                string mom_ratio_title = ";" + mom_ratio[0]->GetXaxis()->GetTitle() + ";" + mom_ratio[0]->GetYaxis()->GetTitle();
+                string mom_truth_title = Form(";%s;%s", mom_truth[0]->GetXaxis()->GetTitle(), mom_truth[0]->GetYaxis()->GetTitle());
+                string mom_smear_title = Form(";%s;%s", mom_smear[0]->GetXaxis()->GetTitle(), mom_smear[0]->GetYaxis()->GetTitle());
+                string mom_ratio_title = Form(";%s;%s", mom_ratio[0]->GetXaxis()->GetTitle(), mom_ratio[0]->GetYaxis()->GetTitle());
                 
                 THStack * mom_recon_tot = new THStack( (part_name_ + tmp_hyp + "_recon").c_str() , mom_recon_title.c_str());
                 THStack * mom_truth_tot = new THStack( (part_name_ + tmp_hyp + "_truth").c_str(), mom_truth_title.c_str());
