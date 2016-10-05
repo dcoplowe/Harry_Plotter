@@ -354,6 +354,8 @@ TH1D * DrawingTools::GetRTRatio(TTree * intree, const TString vars_tr, const TSt
     
     intree->Project(host_name.Data(), var.Data(), cuts.Data());
     
+    cout << "RTRatio : Integral = " << ratio->Integral() << endl;
+    
     return ratio;
 }
 
