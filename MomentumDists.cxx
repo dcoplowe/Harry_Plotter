@@ -144,7 +144,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                 const double mom_low = mom_range[ 2*i ];
                 const double mom_high = mom_range[ 2*i + 1 ];
                 
-                std::string mom_name = part_name_ + hyp[j] + "_truemom/1000:" + part_name_ + "_mom/1000";
+                std::string mom_name = part_name_ + "_truemom/1000:" + part_name_ + hyp[j] + "_mom/1000";
                 std::string mom_title = "Reco " + var_symb[0] + "_{" + part_symb[i] + "} " + var_unit[0] + ";True " + var_symb[0] + "_{" + part_symb[i] + "} " + var_unit[0];//Real;Truth
                 
                 if(debug) cout << "Mom: Working 1" << endl;
