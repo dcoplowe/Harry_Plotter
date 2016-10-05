@@ -159,11 +159,28 @@ void MomentumDists(const string file, const string savename, bool debug)
                 if(debug) cout << "Mom: Working 2" << endl;
                 KinMap mom_pi = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && TMath::Abs(%s_PDG) == 211", common_cuts_mom.c_str(), part_name_.c_str())));
                 if(debug) cout << "Mom: Working 3" << endl;
-                KinMap mom_mu = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && %s_PDG == 13", common_cuts_mom.c_str(), part_name_.c_str())));
+                KinMap mom_mum = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && %s_PDG == 13", common_cuts_mom.c_str(), part_name_.c_str())));
                 if(debug) cout << "Mom: Working 4" << endl;
-                std::string mom_other = part_name_ + "_PDG != 2212 && TMath::Abs(" + part_name_ + "_PDG) != 211 && " + part_name_ + "_PDG != 13 && " + part_name_ + "_PDG != -999" ;
+                KinMap mom_mup = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && %s_PDG == -13", common_cuts_mom.c_str(), part_name_.c_str())));
+                if(debug) cout << "Mom: Working 5" << endl;
+                KinMap mom_p0 = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && %s_PDG == 111", common_cuts_mom.c_str(), part_name_.c_str())));
+                if(debug) cout << "Mom: Working 6" << endl;
+                KinMap mom_ka = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && TMath::Abs(%s_PDG) == 321", common_cuts_mom.c_str(), part_name_.c_str())));
+                if(debug) cout << "Mom: Working 7" << endl;
+                KinMap mom_kz = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && %s_PDG == 311", common_cuts_mom.c_str(), part_name_.c_str())));
+                if(debug) cout << "Mom: Working 8" << endl;
+                std::string mom_other = part_name_ + "_PDG != 2212 && TMath::Abs(" + part_name_ + "_PDG) != 211 && TMath::Abs(" + part_name_ + "_PDG) != 13 && " + part_name_ + "_PDG != 111 && TMath::Abs(" + part_name_ + ") != 321 && " part_name_ + " != 311 &&" + part_name_ + "_PDG != -999" ;
                 KinMap mom_ot = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && %s", common_cuts_mom.c_str(), mom_other.c_str())));
 
+/*                score_h.push_back( score_pr ); score_names.push_back("p");
+                score_h.push_back( score_pi ); score_names.push_back("#pi^{#pm}");
+                score_h.push_back( score_mum ); score_names.push_back("#mu^{-}");
+                score_h.push_back( score_mup ); score_names.push_back("#mu^{+}");
+                score_h.push_back( score_p0 ); score_names.push_back("#pi^{0}");
+                score_h.push_back( score_ka ); score_names.push_back("K^{#pm}");
+                score_h.push_back( score_kz ); score_names.push_back("K^{0}");
+                score_h.push_back( score_ot ); score_names.push_back("Other");*/
+                
                 /*
                 TH1D * mom_pr_recon   = mom_pr.recon;
                 TH1D * mom_pr_truth   = mom_pr.truth;
