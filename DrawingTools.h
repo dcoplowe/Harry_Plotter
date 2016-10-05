@@ -53,6 +53,7 @@ public:
     KinMap KinArray(TTree * intree, const TString vars_tr, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const TString rt_title = "", const TString cuts = "", bool cor = true);
     
     TH1D * GetRTRatio(const TString vars_tr, const TString x_title = "", const TString cuts = "");
+    
     KinMap KinArray(const TString vars_tr, int nbins, const double low, const double high, const TString rt_title = "", const TString cuts = "", bool cor = true);
     KinMap KinArray(const TString vars_tr, int nbins, const Double_t * bins, const TString rt_title = "", const TString cuts = "", bool cor = true);
     KinMap KinArray(const TString vars_tr, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, const TString rt_title = "", const TString cuts = "", bool cor = true);
@@ -70,11 +71,11 @@ public:
     TH2D * SmearMatrix(const TString vars_yx, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, const TString xy_title = "", const TString cuts = "");
     TH2D * SmearMatrix(const TString vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const TString xy_title = "", const TString cuts = "");
     
-    KinMap KinArray(const TString vars_yx, int nbins, const double low, const double high, const TString xy_title = "", const TString cuts = "", bool cor = true);
+    /*KinMap KinArray(const TString vars_yx, int nbins, const double low, const double high, const TString xy_title = "", const TString cuts = "", bool cor = true);
     KinMap KinArray(const TString vars_yx, int nbins, const Double_t * bins, const TString xy_title = "", const TString cuts = "", bool cor = true);
      
     KinMap KinArray(const TString vars_yx, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, const TString xy_title = "", const TString cuts = "", bool cor = true);
-    KinMap KinArray(const TString vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const TString xy_title = "", const TString cuts = "", bool cor = true);
+    KinMap KinArray(const TString vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const TString xy_title = "", const TString cuts = "", bool cor = true);*/
     
     std::vector<double> GetPercentage(std::vector<TH1D*> histos);
     
