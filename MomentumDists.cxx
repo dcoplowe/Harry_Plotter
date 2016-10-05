@@ -146,10 +146,10 @@ void MomentumDists(const string file, const string savename, bool debug)
                 
                 string tmp_hyp;
                 if(i != 0){
-                    tmp_hyp = hyp[j];
+                    tmp_hyp = "";
                     j++;//Only do one hyp loop.
                 }
-                else tmp_hyp = "";
+                else tmp_hyp = hyp[j];
                 
                 std::string mom_name = part_name_ + "_truemom/1000:" + part_name_ + tmp_hyp + "_mom/1000";
                 std::string mom_title = "Reco " + var_symb[0] + "_{" + part_symb[i] + "} " + var_unit[0] + ";True " + var_symb[0] + "_{" + part_symb[i] + "} " + var_unit[0];//Real;Truth
