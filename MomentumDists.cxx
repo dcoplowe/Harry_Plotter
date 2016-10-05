@@ -209,7 +209,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                 std::vector<double> mom_truth_per = plot->GetPercentage( mom_truth );
                 std::vector<double> mom_ratio_per = plot->GetPercentage( mom_ratio );
 
-                string mom_recon_title = ";" + mom_recon[0]->GetXaxis()->GetTitle().c_str() + ";" + mom_recon[0]->GetYaxis()->GetTitle().c_str();
+                string mom_recon_title = ";" + (mom_recon[0]->GetXaxis()->GetTitle()).c_str() + ";" + (mom_recon[0]->GetYaxis()->GetTitle()).c_str();
                 string mom_truth_title = ";" + mom_truth[0]->GetXaxis()->GetTitle() + ";" + mom_truth[0]->GetYaxis()->GetTitle();
                 string mom_smear_title = ";" + mom_smear[0]->GetXaxis()->GetTitle() + ";" + mom_smear[0]->GetYaxis()->GetTitle();
                 string mom_ratio_title = ";" + mom_ratio[0]->GetXaxis()->GetTitle() + ";" + mom_ratio[0]->GetYaxis()->GetTitle();
