@@ -387,7 +387,7 @@ void MomentumDists(const string file, const string savename, bool debug)
         cut_names.push_back("PID: p/#pi^{+}");
         cut_names.push_back("Michel Tags");
         
-        string signal_def_truth = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muon == 1 && mc_nFSPart == 3 && mc_targetZ == 1 && truth_true_target_region == 1";
+        string signal_def_truth = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1 && truth_true_target_region == 1";
         
         EffPurTools * m_ep = new EffPurTools(file, cut_names, debug);
         TH1D * effcuts = m_ep->EffVSCuts(TString(signal_def_truth));
