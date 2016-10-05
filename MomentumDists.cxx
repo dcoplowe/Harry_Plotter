@@ -145,7 +145,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                 const double mom_high = mom_range[ 2*i + 1 ];
                 
                 string tmp_hyp;
-                if(i != 0){
+                if(i == 0){
                     tmp_hyp = "";
                     j++;//Only do one hyp loop.
                 }
