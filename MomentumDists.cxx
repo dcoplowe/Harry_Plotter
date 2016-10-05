@@ -66,7 +66,7 @@ void MomentumDists(const string file, const string savename, bool debug)
     
     cout<<"Producing Momentum Distributions for MC files."<<endl;
     
-    //TString savename = "CC1P1Pi_TEST";
+    //TString savename = "CC1P1PiP_TEST";
     
     //Produce independent particles vars hists:
     string part_snam[3] = {"mu","pr","pi"};
@@ -267,7 +267,7 @@ void MomentumDists(const string file, const string savename, bool debug)
             
             if(i>0){
             //Scores:
-               // GetRecoHisto(Form("CC1P1Pi_%s_mom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s",common_cuts_score_p.Data()))
+               // GetRecoHisto(Form("CC1P1PiP_%s_mom/1000",tmp_part_snam.Data()),mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s",common_cuts_score_p.Data()))
                 for(int j = 0; j < 2; j++){//LL dEdX loop
                     
                     char buffer[100];
@@ -379,7 +379,7 @@ void MomentumDists(const string file, const string savename, bool debug)
         //dpTT Distributions:
         //We want to understand the following in dpTT, dpTT_pi_dir, dpTT_pi, dpTT_pr and dpTT_pr_dir:
         //Want to have four sets of the following dists.
-        //What is the make up 1) topologically  --> CC1P1Pi, CC2P, CC2Pi, CC1Pi01P, CC1Pi01Pi, Other <-- Use only PDG codes to determine these
+        //What is the make up 1) topologically  --> CC1P1PiP, CC2P, CC2Pi, CC1Pi01P, CC1Pi01Pi, Other <-- Use only PDG codes to determine these
         //                    2) nuclear medium --> H, C, Other,
         //                    3) mis-PID effect --> Correct P,Pi : Correct P, Wrong Pi : Correct Pi, Wrong P : Wrong P,Pi, Other <-- Use only PDG codes to determine these
         //
@@ -427,10 +427,13 @@ void MomentumDists(const string file, const string savename, bool debug)
                     
                     string dpTT_top_title = "Top_" + dpTT_g_title;
                     
-                    //1) topologically  --> CC1P1Pi, CC2P, CC2Pi, CC1Pi01P, CC1Pi01Pi, Other <-- Use only PDG codes to determine these
-                    string CC1P1Pi = flag + "mu_PDG == 13 && ((" + flag + "pr_PDG == 2212 && " + flag + "pi_PDG == 211 ) ||  (" + flag + "pr_PDG == 211 && " + flag + "pi_PDG == 2212 ))";
-                    KinMap dpTT_CC1P1Pi_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), CC1P1Pi.c_str())));
+                    //1) topologically  --> CC1P1PiP, CC2P, CC2Pi, CC1Pi01P, CC1Pi01Pi, Other <-- Use only PDG codes to determine these
+                    string CC1P1PiP = flag + "mu_PDG == 13 && ((" + flag + "pr_PDG == 2212 && " + flag + "pi_PDG == 211 ) ||  (" + flag + "pr_PDG == 211 && " + flag + "pi_PDG == 2212 ))";
+                    KinMap dpTT_CC1P1PiP_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), CC1P1PiP.c_str())));
 
+                    string CC1P1PiM = flag + "mu_PDG == 13 && ((" + flag + "pr_PDG == 2212 && " + flag + "pi_PDG == -211 ) ||  (" + flag + "pr_PDG == -211 && " + flag + "pi_PDG == 2212 ))";
+                    KinMap dpTT_CC1P1PiM_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), CC1P1PiM.c_str())));
+                    
                     string CC2P = flag + "mu_PDG == 13 && " + flag + "pr_PDG == 2212 && " + flag + "pi_PDG == 2212 ";
                     KinMap dpTT_CC2P_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), CC2P.c_str())));
                     
@@ -454,7 +457,8 @@ void MomentumDists(const string file, const string savename, bool debug)
                     std::vector<std::string> dpTT_top_names;
                     std::vector<int> dpTT_top_cols;
                     
-                    dpTT_top_map.push_back( dpTT_CC1P1Pi_map );     dpTT_top_names.push_back( "CC1p1#pi^{+}" );         dpTT_top_cols.push_back( DrawingStyle::T1P1Pi );
+                    dpTT_top_map.push_back( dpTT_CC1P1PiP_map );     dpTT_top_names.push_back( "CC1p1#pi^{+}" );         dpTT_top_cols.push_back( DrawingStyle::T1P1Pi);
+                    dpTT_top_map.push_back( dpTT_CC1P1PiM_map );     dpTT_top_names.push_back( "CC1p1#pi^{-}" );         dpTT_top_cols.push_back( DrawingStyle::T1P1PiM );
                     dpTT_top_map.push_back( dpTT_CC2P_map );        dpTT_top_names.push_back( "CC2p");                  dpTT_top_cols.push_back( DrawingStyle::T2Pr );
                     dpTT_top_map.push_back( dpTT_CC2Pi_map );       dpTT_top_names.push_back( "CC2#pi^{+}" );           dpTT_top_cols.push_back( DrawingStyle::T2Pi );
                     dpTT_top_map.push_back( dpTT_CC1Pi01P_map );    dpTT_top_names.push_back( "CC1p1#pi^{0}" );         dpTT_top_cols.push_back( DrawingStyle::T1P1Pi0 );
@@ -686,10 +690,10 @@ void MomentumDists(const string file, const string savename, bool debug)
 
 TCanvas * AnalysisPlots:: VarVsParticles(TString var, int nbins, double x_low, double x_high, TString particle, TString part_symb){
     
-    TH1D * h_mom_p1 = plot->GetRecoHisto(Form("CC1P1Pi_%s_%s/1000",particle.Data(), var.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 2212", common_cuts_score_p.Data(), tmp_part_snam.Data()));
-    TH1D * h_mom_p2 = plot->GetRecoHisto(Form("CC1P1Pi_%s_%s/1000",particle.Data(), var.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && TMath::Abs(CC1P1Pi_%s_PDG) == 211", common_cuts_score_p.Data(), tmp_part_snam.Data()));
-    TH1D * h_mom_p3 = plot->GetRecoHisto(Form("CC1P1Pi_%s_%s/1000",particle.Data(), var.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG == 13", common_cuts_score_p.Data(), tmp_part_snam.Data()));
-    TH1D * h_mom_p4 = plot->GetRecoHisto(Form("CC1P1Pi_%s_%s/1000",particle.Data(), var.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1Pi_%s_PDG != 13 && TMath::Abs(CC1P1Pi_%s_PDG) != 211 && CC1P1Pi_%s_PDG != 2212", common_cuts_score_p.Data(), tmp_part_snam.Data(), tmp_part_snam.Data(), tmp_part_snam.Data()));
+    TH1D * h_mom_p1 = plot->GetRecoHisto(Form("CC1P1PiP_%s_%s/1000",particle.Data(), var.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1PiP_%s_PDG == 2212", common_cuts_score_p.Data(), tmp_part_snam.Data()));
+    TH1D * h_mom_p2 = plot->GetRecoHisto(Form("CC1P1PiP_%s_%s/1000",particle.Data(), var.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && TMath::Abs(CC1P1PiP_%s_PDG) == 211", common_cuts_score_p.Data(), tmp_part_snam.Data()));
+    TH1D * h_mom_p3 = plot->GetRecoHisto(Form("CC1P1PiP_%s_%s/1000",particle.Data(), var.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1PiP_%s_PDG == 13", common_cuts_score_p.Data(), tmp_part_snam.Data()));
+    TH1D * h_mom_p4 = plot->GetRecoHisto(Form("CC1P1PiP_%s_%s/1000",particle.Data(), var.Data()), mom_bin, mom_low, mom_hig, Form("#it{p}_{%s} (GeV/#it{c})",tmp_part_symb.Data()), Form("%s && CC1P1PiP_%s_PDG != 13 && TMath::Abs(CC1P1PiP_%s_PDG) != 211 && CC1P1PiP_%s_PDG != 2212", common_cuts_score_p.Data(), tmp_part_snam.Data(), tmp_part_snam.Data(), tmp_part_snam.Data()));
     
     plot->ColFill(h_mom_p1, DrawingStyle::Proton);
     plot->ColFill(h_mom_p2, DrawingStyle::Pion);
@@ -734,7 +738,7 @@ TCanvas * AnalysisPlots:: VarVsParticles(TString var, int nbins, double x_low, d
 int main(int argc, char *argv[])
 {
     string filename = testing_mc;
-    string savename = "CC1P1Pi_Plots_290916.root";
+    string savename = "CC1P1PiP_Plots_290916.root";
     
     bool debug = false;
     
