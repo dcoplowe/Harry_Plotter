@@ -157,7 +157,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                 if(debug) cout << "Mom: Working 1" << endl;
                 KinMap mom_pr = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && %s_PDG == 2212", common_cuts_mom.c_str(), part_name_.c_str())));
                 if(debug) cout << "Mom: Working 2" << endl;
-                KinMap mom_pi = plot->KinArray(TString(mom_name), &mom_nbins, &mom_low, &mom_high, TString(mom_title),  TString(Form("%s && TMath::Abs(%s_PDG) == 211", common_cuts_mom.c_str(), part_name_.c_str())));
+                KinMap mom_pi = plot->KinArray(TString(mom_name), mom_nbins, mom_low, &mom_high, TString(mom_title),  TString(Form("%s && TMath::Abs(%s_PDG) == 211", common_cuts_mom.c_str(), part_name_.c_str())));
                 if(debug) cout << "Mom: Working 3" << endl;
                 KinMap mom_mu = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && %s_PDG == 13", common_cuts_mom.c_str(), part_name_.c_str())));
                 if(debug) cout << "Mom: Working 4" << endl;
