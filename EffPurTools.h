@@ -37,11 +37,11 @@ public:
     void SetGlobalSignal(std::string var){ _glob_signal = TString(var); }
     
     //These may not be void functions:
-    TH1D * EffVSCuts(const TString signal, const TString cuts = "");
+    TH1D * EffVSCuts(const TString signal, int branch = 0, const TString cuts = "");
     TH1D * EffVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title = "", const TString cuts = "");
     TH1D * EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title = "", const TString cuts = "");
     
-    TH1D * PurVSCuts(const TString signal, const TString cuts = "");
+    TH1D * PurVSCuts(const TString signal, int branch = 0, const TString cuts = "");
     TH1D * PurVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title = "", const TString cuts = "");
     TH1D * PurVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title = "", const TString cuts = "");
 
@@ -62,7 +62,7 @@ private:
     TString _glob_signal;
     std::vector<TString> _cutnames;
     
-    TH1D * EventsVSCuts(TTree * intree, const TString cuts, const int ncuts, TString name = "h_evntcuts");
+    TH1D * EventsVSCuts(TTree * intree, const TString cuts, int branch, const int ncuts, TString name = "h_evntcuts");
     TH1D * DrawRatioVSCuts(TH1D * num, TH1D * den, TString y_title = "", TString h_name = "h_ratio");
     
     TH1D * RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title, const TString cuts);

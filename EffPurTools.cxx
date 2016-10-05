@@ -66,7 +66,7 @@ EffPurTools::EffPurTools() {
 }
 
 //These may not be void functions:
-TH1D * EffPurTools::EffVSCuts(const TString signal, const TString cuts){
+TH1D * EffPurTools::EffVSCuts(const TString signal, int branch, const TString cuts){
     if(_DEBUG_) cout << "EffPurTools::EffVSCuts(TString, TString)" << endl;
     
     if(signal.EqualTo("",TString::kExact)){
@@ -101,7 +101,7 @@ TH1D * EffPurTools::EffVSCuts(const TString signal, const TString cuts){
     
     if(_DEBUG_) cout << "Number of cuts found to be " << ncuts << endl;
     
-    TH1D * num = EventsVSCuts(intree, full_signal, ncuts);
+    TH1D * num = EventsVSCuts(intree, full_signal, branch, ncuts);
     TH1D * den = new TH1D("den", "", num->GetNbinsX(), 0., (double)num->GetNbinsX());
 
     for(int i = 0; i < num->GetNbinsX(); i++){
@@ -140,7 +140,7 @@ TH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t x_low,
     return effvar;
 }
 
-TH1D * EffPurTools::PurVSCuts(const TString signal, const TString cuts){
+TH1D * EffPurTools::PurVSCuts(const TString signal, int branch, const TString cuts){
     if(_DEBUG_) cout << "EffPurTools::PurVSCuts(TString, TString)" << endl;
     
     if(signal.EqualTo("",TString::kExact)){
@@ -174,8 +174,8 @@ TH1D * EffPurTools::PurVSCuts(const TString signal, const TString cuts){
     
     if(_DEBUG_) cout << "Number of cuts found to be " << ncuts << endl;
 
-    TH1D * num = EventsVSCuts(intree, full_signal, ncuts, "pur_num");
-    TH1D * den = EventsVSCuts(intree, cuts, ncuts, "pur_den");
+    TH1D * num = EventsVSCuts(intree, full_signal, branch, ncuts, "pur_num");
+    TH1D * den = EventsVSCuts(intree, cuts, branch, ncuts, "pur_den");
     
     _purhcounter++;
     TH1D * purcuts = DrawRatioVSCuts(num, den, "Purity", Form("h_purity%.3d", _purhcounter));
@@ -214,11 +214,14 @@ void EffPurTools::SetFile(){
     if(!_file) exit(0);
 }
 
-TH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, const int ncuts, TString name){
+TH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, int branch, const int ncuts, TString name){
     
     if(_DEBUG_) cout << "EffPurTools::EventsVSCuts" << endl;
     
-    TString tmp_cuts = "accum_level >";
+    std::stringstream sbranch;
+    sbranch << branch;
+    
+    TString tmp_cuts = "accum_level[" + sbranch + "]>";
     TString tree_name = intree->GetName();
     
     if(_DEBUG_) cout << "Reading tree named " << tree_name.Data() << endl;

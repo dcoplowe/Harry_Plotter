@@ -390,14 +390,18 @@ void MomentumDists(const string file, const string savename, bool debug)
         string signal_def_truth = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1 && truth_true_target_region == 1";
         
         EffPurTools * m_ep = new EffPurTools(file, cut_names, debug);
-        TH1D * effcuts = m_ep->EffVSCuts(TString(signal_def_truth));
-        TH1D * purcuts = m_ep->PurVSCuts(TString(signal_def_truth));
+        TH1D * effcuts0 = m_ep->EffVSCuts(TString(signal_def_truth));
+        TH1D * purcuts0 = m_ep->PurVSCuts(TString(signal_def_truth));
         
-        TCanvas * effpur_can = new TCanvas("EffPurVSCuts","",500,500);
+        TH1D * effcuts1 = m_ep->EffVSCuts(TString(signal_def_truth), 1);
+        TH1D * purcuts1 = m_ep->PurVSCuts(TString(signal_def_truth), 1);
+        
+        effcuts0->GetYaxis()->SetRangeUser(0.,1.);
+        
+        TCanvas * effpur_can = new TCanvas("EffPurVSCuts_Branch0","",500,500);
         effpur_can->cd();
-        effcuts->Draw();
-        effcuts->GetYaxis()->SetRangeUser(0.,1.);
-        effcuts->Draw("SAME");
+        effcuts0->Draw();
+        effcuts0->Draw("SAME");
         outfile->cd();
         effpur_can->Write();
         
