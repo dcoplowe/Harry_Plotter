@@ -554,6 +554,8 @@ void MomentumDists(const string file, const string savename, bool debug)
                     outfile->cd();
                     dpTT_top_ratio_can->Write();
                     
+                    //------------------------------------------------------------------------------------------------------------------------------------------------------
+                    //------------------------------------------------------------------------------------------------------------------------------------------------------
                     //2) nuclear medium --> H, C, Other + signal overlay.
                     
                     string dpTT_tar_title = "Tar_" + dpTT_g_title;
@@ -602,7 +604,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                         dpTT_tar_truth_tot->Add( dpTT_tar_truth[(int)dpTT_tar_map.size() - mpc] );
                         
                         if( (mpc - 1) < (int)dpTT_tar_map.size()){
-                            string dpTT_tar_name = dpTT_top_names[mpc - 1];
+                            string dpTT_tar_name = dpTT_tar_names[mpc - 1];
                             dpTT_tar_recon_leg->AddEntry(dpTT_tar_recon[ mpc - 1 ], Form("%s (%.2f%%)", dpTT_tar_name.c_str(), dpTT_tar_recon_per[ mpc - 1 ]), "f");
                             dpTT_tar_truth_leg->AddEntry(dpTT_tar_truth[ mpc - 1 ], Form("%s (%.2f%%)", dpTT_tar_name.c_str(), dpTT_tar_truth_per[ mpc - 1 ]), "f");
                         }
