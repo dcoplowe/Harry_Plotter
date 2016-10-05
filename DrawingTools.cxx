@@ -301,8 +301,8 @@ KinMap DrawingTools::KinArray(TTree * intree, const TString vars_tr, int re_nbin
     
     if(cor){//Default is to preserve the number of events in each kinematic histo.
         string name = map.smear->GetName();
-        map.recon = map.smear->ProjectionX( (name + "_reco").c_str() );
-        map.truth = map.smear->ProjectionY( (name + "_true").c_str() );
+        map.recon = map.smear->ProjectionX( (name + "_reco").c_str(), 1, map.smear->GetNBinsX());
+        map.truth = map.smear->ProjectionY( (name + "_true").c_str(), 1, map.smear->GetNBinsY());
         
         map.recon->GetXaxis()->SetTitle(reco_title.Data());
         map.recon->GetYaxis()->SetTitle("Counts");
