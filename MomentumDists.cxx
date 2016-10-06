@@ -732,6 +732,9 @@ void MomentumDists(const string file, const string savename, bool debug)
                     dpTT_mis_map.push_back( dpTT_misWPWPi_map );   dpTT_mis_names.push_back( "Wrong p, Wrong #pi^{+}" );    dpTT_mis_cols.push_back( DrawingStyle::LBlue );
                     dpTT_mis_map.push_back( dpTT_misOther_map );   dpTT_mis_names.push_back( "Other" );                     dpTT_mis_cols.push_back( DrawingStyle::Other );
                     
+                    if(debug) cout << "dpTT Mis: Working 8" << endl;
+
+                    
                     std::vector<TH1D*> dpTT_mis_recon;
                     std::vector<TH1D*> dpTT_mis_truth;
                     
@@ -742,6 +745,8 @@ void MomentumDists(const string file, const string savename, bool debug)
                         dpTT_mis_recon.push_back( dpTT_mis_map[mpc].recon );
                         dpTT_mis_truth.push_back( dpTT_mis_map[mpc].truth );
                     }
+                    
+                    if(debug) cout << "dpTT Mis: Working 9" << endl;
                     
                     std::vector<double> dpTT_mis_recon_per = plot->GetPercentage( dpTT_mis_recon );
                     std::vector<double> dpTT_mis_truth_per = plot->GetPercentage( dpTT_mis_truth );
@@ -754,6 +759,8 @@ void MomentumDists(const string file, const string savename, bool debug)
                     
                     TLegend * dpTT_mis_recon_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
                     TLegend * dpTT_mis_truth_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
+                    
+                    if(debug) cout << "dpTT Mis: Working 10" << endl;
                     
                     for(int mpc = 1; mpc < (int)dpTT_mis_map.size() + 1; mpc++){
                         
@@ -768,6 +775,8 @@ void MomentumDists(const string file, const string savename, bool debug)
                     }
                     //-------------------------//
                     
+                    if(debug) cout << "dpTT Mis: Working 11" << endl;
+                    
                     TLegend * dpTT_mis_recon_pot = plot->GetPOT(0.521,0.781);
                     TLegend * dpTT_mis_truth_pot = plot->GetPOT(0.521,0.781);
                     
@@ -778,7 +787,8 @@ void MomentumDists(const string file, const string savename, bool debug)
                     dpTT_mis_recon_pot->Draw();
                     outfile->cd();
                     dpTT_mis_recon_can->Write();
-                    
+                    if(debug) cout << "dpTT Mis: Working 12" << endl;
+
                     TCanvas * dpTT_mis_truth_can = new TCanvas( (dpTT_mis_title+ "_truth").c_str(), "", 500, 500);
                     dpTT_mis_truth_can->cd();
                     dpTT_mis_truth_tot->Draw();
