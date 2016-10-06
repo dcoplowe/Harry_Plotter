@@ -760,8 +760,6 @@ void MomentumDists(const string file, const string savename, bool debug)
             
             delete pur_dpTT;
             delete pur_dpTT_can;
-            
-            
         }
         
     

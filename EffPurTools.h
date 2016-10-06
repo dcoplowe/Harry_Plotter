@@ -32,9 +32,9 @@ public:
     ~EffPurTools(){};
     
     void SetFileName(TString var){ _filename = var; }
-    void SetFile();
     void SetRecoBranch(TString var){ _reconame = var; }
     void SetTrueBranch(TString var){ _truename = var; }
+    void SetFile();
     
     void SetGlobalSignal(std::string var){ _glob_signal = TString(var); }
     
@@ -59,6 +59,9 @@ private:
     TString _reconame;
     
     TFile * _file;
+    
+    TTree * _truthtree;
+    TTree * _recontree;
     
     //Global signal information
     TString _glob_signal;
