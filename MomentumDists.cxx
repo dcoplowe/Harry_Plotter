@@ -764,8 +764,8 @@ void MomentumDists(const string file, const string savename, bool debug)
                     
                     for(int mpc = 1; mpc < (int)dpTT_mis_map.size() + 1; mpc++){
                         
-                        dpTT_mis_recon_tot->Add( dpTT_mis_recon[(int)dpTT_top_map.size() - mpc] );
-                        dpTT_mis_truth_tot->Add( dpTT_mis_truth[(int)dpTT_top_map.size() - mpc] );
+                        dpTT_mis_recon_tot->Add( dpTT_mis_recon[(int)dpTT_mis_map.size() - mpc] );
+                        dpTT_mis_truth_tot->Add( dpTT_mis_truth[(int)dpTT_mis_map.size() - mpc] );
                         
                         if( (mpc - 1) < (int)dpTT_mis_map.size()){
                             string dpTT_mis_name = dpTT_mis_names[mpc - 1];
