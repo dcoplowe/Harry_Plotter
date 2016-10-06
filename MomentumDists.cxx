@@ -695,18 +695,31 @@ void MomentumDists(const string file, const string savename, bool debug)
                     
                     string dpTT_mis_title = "mis_" + dpTT_g_title;
                     
+                    if(debug) cout << "dpTT Mis: Working 1" << endl;
                     string misCPCPi = flag + "pr_PDG == 2212 && " + flag + "pi_PDG == 211";
                     KinMap dpTT_misCPCPi_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misCPCPi.c_str())));
+                    
+                    if(debug) cout << "dpTT Mis: Working 2" << endl;
                     string misCPWPi = flag + "pr_PDG == 2212 && " + flag + "pi_PDG != 211";
                     KinMap dpTT_misCPWPi_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misCPWPi.c_str())));
+                    
+                    if(debug) cout << "dpTT Mis: Working 3" << endl;
                     string misSWPPi = flag + "pr_PDG == 211 && " + flag + "pi_PDG != 2212";
                     KinMap dpTT_misSWPPi_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misSWPPi.c_str())));
+                    
+                    if(debug) cout << "dpTT Mis: Working 4" << endl;
                     string misWPCPi = flag + "pr_PDG != 2212 && " + flag + "pi_PDG == 211";
                     KinMap dpTT_misWPCPi_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misWPCPi.c_str())));
+                    
+                    if(debug) cout << "dpTT Mis: Working 5" << endl;
                     string misWPWPi = flag + "pr_PDG != 2212 && " + flag + "pi_PDG != 211";
                     KinMap dpTT_misWPWPi_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misWPWPi.c_str())));
+                    
+                    if(debug) cout << "dpTT Mis: Working 6" << endl;
                     string misOther = "!( (" + misCPCPi + ") || (" + misCPWPi + ") || ("  + misSWPPi + ") || ("  + misWPCPi + ") || ("  + misWPWPi + ") )";
                     KinMap dpTT_misOther_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misOther.c_str())));
+
+                    if(debug) cout << "dpTT Mis: Working 7" << endl;
 
                     std::vector<KinMap> dpTT_mis_map;
                     std::vector<std::string> dpTT_mis_names;
