@@ -254,11 +254,11 @@ void EffPurTools::SetFile(){
     if(!_file) exit(0);
     
     //Set the trees too:
-    if(_truename.Data() != ""){
+    if(!_truename.EqualTo("")){
         _truthtree = (TTree*)_file->Get(_truename.Data());
     }
     
-    if(_reconame.Data() != ""){
+    if(!_reconame.EqualTo("")){
         _recontree = (TTree*)_file->Get(_reconame.Data());
     }
     
