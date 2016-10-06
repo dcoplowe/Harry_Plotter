@@ -147,7 +147,12 @@ void MomentumDists(const string file, const string savename, bool debug)
                 if(debug) cout << "Mom: Working 1" << endl;
                 KinMap mom_pr_map = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && %s_PDG == 2212", common_cuts_mom.c_str(), part_name_.c_str())));
                 if(debug) cout << "Mom: Working 2" << endl;
-                KinMap mom_pi_map = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && TMath::Abs(%s_PDG) == 211", common_cuts_mom.c_str(), part_name_.c_str())));
+                //KinMap mom_pi_map = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && TMath::Abs(%s_PDG) == 211", common_cuts_mom.c_str(), part_name_.c_str())));
+
+                KinMap mom_piP_map = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && %s_PDG == 211", common_cuts_mom.c_str(), part_name_.c_str())));
+                KinMap mom_piM_map = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && %s_PDG == -211", common_cuts_mom.c_str(), part_name_.c_str())));
+
+                
                 if(debug) cout << "Mom: Working 3" << endl;
                 KinMap mom_mum_map = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && %s_PDG == 13", common_cuts_mom.c_str(), part_name_.c_str())));
                 if(debug) cout << "Mom: Working 4" << endl;
@@ -157,7 +162,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                 if(debug) cout << "Mom: Working 6" << endl;
                 KinMap mom_ka_map = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && TMath::Abs(%s_PDG) == 321", common_cuts_mom.c_str(), part_name_.c_str())));
                 if(debug) cout << "Mom: Working 7" << endl;
-                KinMap mom_kz_map = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && %s_PDG == 311", common_cuts_mom.c_str(), part_name_.c_str())));
+                //KinMap mom_kz_map = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && %s_PDG == 311", common_cuts_mom.c_str(), part_name_.c_str())));
                 if(debug) cout << "Mom: Working 8" << endl;
                 std::string mom_other = part_name_ + "_PDG != 2212 && TMath::Abs(" + part_name_ + "_PDG) != 211 && TMath::Abs(" + part_name_ + "_PDG) != 13 && " + part_name_ + "_PDG != 111 && TMath::Abs(" + part_name_ + "_PDG) != 321 && " + part_name_ + "_PDG != 311 &&" + part_name_ + "_PDG != -999";
                 KinMap mom_ot_map = plot->KinArray(TString(mom_name), mom_nbins, mom_low, mom_high, TString(mom_title),  TString(Form("%s && %s", common_cuts_mom.c_str(), mom_other.c_str())));
@@ -167,12 +172,13 @@ void MomentumDists(const string file, const string savename, bool debug)
                 std::vector<int> mom_map_cols;
                 
                 mom_map.push_back( mom_pr_map );    mom_map_names.push_back("p");           mom_map_cols.push_back( DrawingStyle::Proton );
-                mom_map.push_back( mom_pi_map );    mom_map_names.push_back("#pi^{#pm}");   mom_map_cols.push_back( DrawingStyle::Pion   );
+                mom_map.push_back( mom_piP_map );   mom_map_names.push_back("#pi^{+}");     mom_map_cols.push_back( DrawingStyle::Pion   );
+                mom_map.push_back( mom_piM_map );   mom_map_names.push_back("#pi^{-}");     mom_map_cols.push_back( DrawingStyle::Ka0    );
                 mom_map.push_back( mom_mum_map);    mom_map_names.push_back("#mu^{-}");     mom_map_cols.push_back( DrawingStyle::MuonM  );
                 mom_map.push_back( mom_mup_map);    mom_map_names.push_back("#mu^{+}");     mom_map_cols.push_back( DrawingStyle::MuonP  );
                 mom_map.push_back( mom_p0_map );    mom_map_names.push_back("#pi^{0}");     mom_map_cols.push_back( DrawingStyle::Pi0    );
                 mom_map.push_back( mom_ka_map );    mom_map_names.push_back("K^{#pm}");     mom_map_cols.push_back( DrawingStyle::Kaon   );
-                mom_map.push_back( mom_kz_map );    mom_map_names.push_back("K^{0}");       mom_map_cols.push_back( DrawingStyle::Ka0    );
+                //mom_map.push_back( mom_kz_map );    mom_map_names.push_back("K^{0}");       mom_map_cols.push_back( DrawingStyle::Ka0    );
                 mom_map.push_back( mom_ot_map );    mom_map_names.push_back("Other");       mom_map_cols.push_back( DrawingStyle::Other  );
                 
                 std::vector<TH1D*> mom_recon;
@@ -306,7 +312,12 @@ void MomentumDists(const string file, const string savename, bool debug)
                         TH1D * score_pr = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 2212", common_cuts_score.c_str(), std_partvar.c_str()));
                         
                         if(debug) cout << "Working 2" << endl;
-                        TH1D * score_pi = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && TMath::Abs(%s_PDG) == 211", common_cuts_score.c_str(), std_partvar.c_str()));
+                        //TH1D * score_pi = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && TMath::Abs(%s_PDG) == 211", common_cuts_score.c_str(), std_partvar.c_str()));
+                        
+                        TH1D * score_piP = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 211", common_cuts_score.c_str(), std_partvar.c_str()));
+                        
+                        TH1D * score_piM = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == -211", common_cuts_score.c_str(), std_partvar.c_str()));
+                        
                         
                         if(debug) cout << "Working 3" << endl;
                         TH1D * score_mum = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 13", common_cuts_score.c_str(), std_partvar.c_str()));
@@ -321,30 +332,35 @@ void MomentumDists(const string file, const string savename, bool debug)
                         TH1D * score_ka = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && TMath::Abs(%s_PDG) == 321", common_cuts_score.c_str(), std_partvar.c_str()));
                         
                         if(debug) cout << "Working 6" << endl;
-                        TH1D * score_kz = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 311", common_cuts_score.c_str(), std_partvar.c_str()));
+                        //TH1D * score_kz = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 311", common_cuts_score.c_str(), std_partvar.c_str()));
                         
                         if(debug) cout << "Working 7" << endl;
-                        std::string std_p_other =  std_partvar + "_PDG != 2212 && TMath::Abs(" + std_partvar + "_PDG) != 211 && " + std_partvar + "_PDG != 13 && " + std_partvar + "_PDG != 111 && TMath::Abs(" + std_partvar + "_PDG) != 311 && " + std_partvar + "_PDG != 311 && " + std_partvar + "_PDG != -999 && " + std_partvar + "_PDG != -13";
+                        //std::string std_p_other =  std_partvar + "_PDG != 2212 && TMath::Abs(" + std_partvar + "_PDG) != 211 && " + std_partvar + "_PDG != 13 && " + std_partvar + "_PDG != 111 && TMath::Abs(" + std_partvar + "_PDG) != 311 && " + std_partvar + "_PDG != 311 && " + std_partvar + "_PDG != -999 && " + std_partvar + "_PDG != -13";
+                        //TH1D * score_ot = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s", common_cuts_score.c_str(), std_p_other.c_str()));
+                        
+                        std::string std_p_other =  std_partvar + "_PDG != 2212 && TMath::Abs(" + std_partvar + "_PDG) != 211 && " + std_partvar + "_PDG != 13 && " + std_partvar + "_PDG != 111 && TMath::Abs(" + std_partvar + "_PDG) != 311 && " + std_partvar + "_PDG != -999 && " + std_partvar + "_PDG != -13";
                         TH1D * score_ot = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s", common_cuts_score.c_str(), std_p_other.c_str()));
                         
                         plot->ColFill(score_pr, DrawingStyle::Proton);
-                        plot->ColFill(score_pi, DrawingStyle::Pion);
+                        plot->ColFill(score_piP, DrawingStyle::Pion);
+                        plot->ColFill(score_piM, DrawingStyle::Ka0);
                         plot->ColFill(score_mum, DrawingStyle::MuonM);
                         plot->ColFill(score_mup, DrawingStyle::MuonP);
                         plot->ColFill(score_p0, DrawingStyle::Pi0);
                         plot->ColFill(score_ka, DrawingStyle::Kaon);
-                        plot->ColFill(score_kz, DrawingStyle::Ka0);
+                        //plot->ColFill(score_kz, DrawingStyle::Ka0);
                         plot->ColFill(score_ot, DrawingStyle::Other);
 
                         std::vector<TH1D*> score_h;
                         std::vector<std::string> score_names;
                         score_h.push_back( score_pr ); score_names.push_back("p");
-                        score_h.push_back( score_pi ); score_names.push_back("#pi^{#pm}");
+                        score_h.push_back( score_piP ); score_names.push_back("#pi^{+}");
+                        score_h.push_back( score_piM ); score_names.push_back("#pi^{-}");
                         score_h.push_back( score_mum ); score_names.push_back("#mu^{-}");
                         score_h.push_back( score_mup ); score_names.push_back("#mu^{+}");
                         score_h.push_back( score_p0 ); score_names.push_back("#pi^{0}");
                         score_h.push_back( score_ka ); score_names.push_back("K^{#pm}");
-                        score_h.push_back( score_kz ); score_names.push_back("K^{0}");
+                        //score_h.push_back( score_kz ); score_names.push_back("K^{0}");
                         score_h.push_back( score_ot ); score_names.push_back("Other");
                         
                         std::vector<double> score_per = plot->GetPercentage(score_h);
