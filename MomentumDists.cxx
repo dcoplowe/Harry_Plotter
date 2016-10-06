@@ -854,6 +854,10 @@ void MomentumDists(const string file, const string savename, bool debug)
         TH1D * effcuts_old = m_ep->EffVSCuts(TString(old_sig_def));
         TH1D * purcuts_old = m_ep->PurVSCuts(TString(old_sig_def));
         
+        effcuts_old->SetLineColor(DrawingStyle::Red);
+        purcuts_old->SetLineColor(DrawingStyle::Red);
+        purcuts_old->SetLineStyle(2);
+        
         TLegend * old_effpur_leg = plot->Legend(0.3,0.1);
         old_effpur_leg->AddEntry(effcuts_old, "Old Eff. dEdX PID Method", "l");
         old_effpur_leg->AddEntry(purcuts_old, "Old Pur. dEdX PID Method", "l");
