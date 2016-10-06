@@ -655,12 +655,26 @@ void MomentumDists(const string file, const string savename, bool debug)
                     }
                     //-------------------------//
                     
+                    string tar_sig = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1  && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 20 && TMath::RadToDeg()*truth_mu_Theta >= 0";
+                    KinMap dpTT_Sigtar_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), tar_sig.c_str())));
+                    
+                    dpTT_Sigtar_map.recon->SetLineStyle(2);
+                    dpTT_Sigtar_map.recon->SetLineWidth(2);
+                    dpTT_Sigtar_map.recon->SetLineColor(2);
+                    dpTT_tar_recon_leg->AddEntry( dpTT_Sigtar_map.recon, "H-CC1p1p^{+} #theta_#mu < 20^{#circ}", "l");
+                    
+                    dpTT_Sigtar_map.truth->SetLineStyle(2);
+                    dpTT_Sigtar_map.truth->SetLineWidth(2);
+                    dpTT_Sigtar_map.truth->SetLineColor(2);
+                    dpTT_tar_truth_leg->AddEntry( dpTT_Sigtar_map.truth, "H-CC1p1p^{+} #theta_#mu < 20^{#circ}", "l");
+
                     TLegend * dpTT_tar_recon_pot = plot->GetPOT(0.521,0.781);
                     TLegend * dpTT_tar_truth_pot = plot->GetPOT(0.521,0.781);
                     
                     TCanvas * dpTT_tar_recon_can = new TCanvas( (dpTT_tar_title + "_recon").c_str(), "", 500, 500);
                     dpTT_tar_recon_can->cd();
                     dpTT_tar_recon_tot->Draw();
+                    dpTT_Sigtar_map.recon->Draw("SAME");
                     dpTT_tar_recon_leg->Draw();
                     dpTT_tar_recon_pot->Draw();
                     outfile->cd();
@@ -669,6 +683,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                     TCanvas * dpTT_tar_truth_can = new TCanvas( (dpTT_tar_title+ "_truth").c_str(), "", 500, 500);
                     dpTT_tar_truth_can->cd();
                     dpTT_tar_truth_tot->Draw();
+                    dpTT_Sigtar_map.truth->Draw("SAME");
                     dpTT_tar_truth_leg->Draw();
                     dpTT_tar_truth_pot->Draw();
                     outfile->cd();
