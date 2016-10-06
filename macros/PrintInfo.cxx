@@ -18,12 +18,12 @@ void PrintInfo()
     TH1D * new_tracks_0 = new TH1D("new_tracks_0","",1,0, 1);
     TH1D * new_tracks_gt0 = new TH1D("new_tracks_gt0","",1,0, 1);
     
-    intree->Project("new_tracks_0","0.5","new_tracks == 0");
-    intree->Project("new_tracks_gt0","0.5","new_tracks > 0");
+    intree->Project("new_tracks_0","0.5","new_tracks == 0 && accum_level[0] > 5");
+    intree->Project("new_tracks_gt0","0.5","new_tracks > 0 && accum_level[0] > 5");
     
     
     new_tracks_gt0->Divide(new_tracks_0);
     
     std::cout << "Increase = " << new_tracks_gt0->GetBinContent(1) << std::endl;
-    
+    //11% increase
 }
