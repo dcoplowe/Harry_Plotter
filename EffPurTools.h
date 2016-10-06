@@ -13,6 +13,7 @@ class TTree;
 class TH1D;
 
 //using namespace PlotUtils;
+using namespace std;
 
 class EffPurTools : public DrawingStyle {
 public:

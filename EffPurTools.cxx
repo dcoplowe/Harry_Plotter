@@ -8,8 +8,6 @@
 #include "TH1D.h"
 #include "TTree.h"
 
-using namespace std;
-
 EffPurTools::EffPurTools(TString filename, bool debug, TString reconame, TString truename) {
     
     SetFileName(filename);
@@ -183,8 +181,8 @@ TH1D * EffPurTools::PurVSCuts(const TString signal, int branch, const TString cu
     
     if(_DEBUG_){
         for(int i = 0; i < num->GetNbinsX(); i++ ){
-            cout << "num->GetBinContent("<<i+1<<")" << num->GetBinContent(i+1) << " +/- " << num->GetBinError(i+1) << endl;
-            cout << "den->GetBinContent("<<i+1<<")" << den->GetBinContent(i+1) << " +/- " << den->GetBinError(i+1) << endl;            
+            cout << "num->GetBinContent("<<i+1<<") = " << num->GetBinContent(i+1) << " +/- " << num->GetBinError(i+1) << endl;
+            cout << "den->GetBinContent("<<i+1<<") = " << den->GetBinContent(i+1) << " +/- " << den->GetBinError(i+1) << endl;
         }
     }
     

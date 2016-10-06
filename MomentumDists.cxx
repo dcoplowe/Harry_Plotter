@@ -431,13 +431,11 @@ void MomentumDists(const string file, const string savename, bool debug)
         std::vector<string> truedpTT_type;
         std::vector<string> dpTT_type_title;
 
-        dpTT_type.push_back( (flag + "dpTT").c_str() );         truedpTT_type.push_back( (flag + "truedpTT").c_str() );         dpTT_type_title.push_back( "#hat{#nu}#times#hat{#it{l}}" );
-        dpTT_type.push_back( (flag + "dpTT_pi").c_str() );      truedpTT_type.push_back( (flag + "truedpTT_pi").c_str() );      dpTT_type_title.push_back( "#hat{#nu}#times#hat{p}_{#pi}" );
-        dpTT_type.push_back( (flag + "dpTT_pi_dir").c_str() );  truedpTT_type.push_back( (flag + "truedpTT_pi_dir").c_str() );  dpTT_type_title.push_back( "#hat{#nu}#times#hat{d}_{#pi}" );
-        dpTT_type.push_back( (flag + "dpTT_pr").c_str() );      truedpTT_type.push_back( (flag + "truedpTT_pr").c_str() );      dpTT_type_title.push_back( "#hat{#nu}#times#hat{p}_{p}" );
-        dpTT_type.push_back( (flag + "dpTT_pr_dir").c_str() );  truedpTT_type.push_back( (flag + "truedpTT_pr_dir").c_str() );  dpTT_type_title.push_back( "#hat{#nu}#times#hat{d}_{p}" );
-        
-        
+        dpTT_type.push_back( (flag + "dpTT").c_str() );         truedpTT_type.push_back( (flag + "truedpTT").c_str() );         dpTT_type_title.push_back( "#hat{#nu}#times#hat{#it{l}}   " );
+        dpTT_type.push_back( (flag + "dpTT_pi").c_str() );      truedpTT_type.push_back( (flag + "truedpTT_pi").c_str() );      dpTT_type_title.push_back( "#hat{#nu}#times#hat{p}_{#pi}   " );
+        dpTT_type.push_back( (flag + "dpTT_pi_dir").c_str() );  truedpTT_type.push_back( (flag + "truedpTT_pi_dir").c_str() );  dpTT_type_title.push_back( "#hat{#nu}#times#hat{d}_{#pi}   " );
+        dpTT_type.push_back( (flag + "dpTT_pr").c_str() );      truedpTT_type.push_back( (flag + "truedpTT_pr").c_str() );      dpTT_type_title.push_back( "#hat{#nu}#times#hat{p}_{p}   " );
+        dpTT_type.push_back( (flag + "dpTT_pr_dir").c_str() );  truedpTT_type.push_back( (flag + "truedpTT_pr_dir").c_str() );  dpTT_type_title.push_back( "#hat{#nu}#times#hat{d}_{p}   " );
         
         for(int i = 0; i < (int)dpTT_type.size(); i++){//dpTT distribution.
             string dpTT_title = dpTT_type_title[i] + " #delta#it{p}^{reco}_{TT} (GeV/#it{c});" + dpTT_type_title[i] + " #delta#it{p}^{true}_{TT} (GeV/#it{c})";
@@ -690,7 +688,7 @@ void MomentumDists(const string file, const string savename, bool debug)
         
         string signal_def_truth = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1  && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 20 && TMath::RadToDeg()*truth_mu_Theta >= 0 && truth_true_target_region == 1";
         
-        EffPurTools * m_ep = new EffPurTools(file, cut_names, true/*debug*/);
+        EffPurTools * m_ep = new EffPurTools(file, cut_names, debug);
         TH1D * effcuts0 = m_ep->EffVSCuts(TString(signal_def_truth));
         TH1D * purcuts0 = m_ep->PurVSCuts(TString(signal_def_truth));
         
@@ -713,7 +711,7 @@ void MomentumDists(const string file, const string savename, bool debug)
         
         TLegend * effpur_pot = plot->GetPOT(0.521,0.781);
         
-        TCanvas * effpur_can = new TCanvas("EffPurVSCuts_Branch0","",500,500);
+        TCanvas * effpur_can = new TCanvas("effpurVScuts","",500,500);
         effpur_can->cd();
         effcuts0->GetYaxis()->SetTitle("Efficieny/Purity");
         effcuts0->Draw("HIST");
@@ -724,7 +722,47 @@ void MomentumDists(const string file, const string savename, bool debug)
         effpur_can->Write();
         
         //Eff. of dpTT for signal
-        //TH1D eff_dpTT = m_ep->EffVSVar();
+        std::vector<string> truthdpTT_type;
+        std::vector<string> dpTT_save;
+        
+        truthdpTT_type.push_back( "truth_truedpTT" );           dpTT_save.push_back( "_dpTT" );
+        truthdpTT_type.push_back( "truth_truedpTT_pi" );        dpTT_save.push_back( "_dpTT_pi" );
+        truthdpTT_type.push_back( "truth_truedpTT_pi_dir" );    dpTT_save.push_back( "_dpTT_pi_dir" );
+        truthdpTT_type.push_back( "truth_truedpTT_pr" );        dpTT_save.push_back( "_dpTT_pr" );
+        truthdpTT_type.push_back( "truth_truedpTT_pr_dir" );    dpTT_save.push_back( "_dpTT_pr_dir" );
+        
+        for(int i = 0; i < (int)truthdpTT_type.size(); i++){
+        
+            TH1D * eff_dpTT = m_ep->EffVSVar(TString( truthdpTT_type.c_str() ),21, -300, 300, signal_def_truth, TString((dpTT_type_title[i] + "#delta#it{p}_{TT} (MeV/#it{c})").c_str()));
+            
+            TCanvas * eff_dpTT_can = new TCanvas( ("eff_" + dpTT_save[i]).c_str() , "", 500, 500);
+            eff_dpTT_can->cd();
+            eff_dpTT->Draw("HIST");
+            TLegend * eff_dpTT_pot = plot->GetPOT(0.521,0.781);
+            eff_dpTT_pot->Draw();
+            
+            outfile->cd();
+            eff_dpTT_can->Write();
+            
+            delete eff_dpTT;
+            delete eff_dpTT_can;
+            
+            TH1D * pur_dpTT = m_ep->PurVSVar(TString( dpTT_type[i].c_str() ), 21, -300, 300, signal_def_truth, TString((dpTT_type_title[i] + "#delta#it{p}_{TT} (MeV/#it{c})").c_str()));
+            
+            TCanvas * pur_dpTT_can = new TCanvas( ("pur_" + dpTT_save[i]).c_str() , "", 500, 500);
+            pur_dpTT_can->cd();
+            pur_dpTT->Draw("HIST");
+            TLegend * pur_dpTT_pot = plot->GetPOT(0.521,0.781);
+            pur_dpTT_pot->Draw();
+            
+            outfile->cd();
+            pur_dpTT_can->Write();
+            
+            delete pur_dpTT;
+            delete pur_dpTT_can;
+            
+            
+        }
         
     
         outfile->Close();
