@@ -94,7 +94,7 @@ TH1D * EffPurTools::EffVSCuts(const TString signal, int branch, const TString cu
     TH1I * h_ncuts = new TH1I("h_ncuts", "",10, 0, 10);
     
     TString ncuts_name = "truth_ncuts";
-    _truthtree->Profile("h_ncutes", "truth_ncuts");//Draw(ncuts_name + ">> h_ncuts");
+    _truthtree->Project("h_ncutes", "truth_ncuts");//Draw(ncuts_name + ">> h_ncuts");
     
     if(_DEBUG_) cout << "Found and Filled ncuts histogram " << endl;
     
@@ -190,7 +190,7 @@ TH1D * EffPurTools::PurVSCuts(const TString signal, int branch, const TString cu
     if(_DEBUG_) cout << "Read tree " << _recontree->GetName() << endl;
 
     TH1I * h_ncuts = new TH1I("h_ncuts", "",10, 0, 10);
-    _recontree->Profile("h_ncuts","ncuts"); //->Draw("ncuts>> h_ncuts");
+    _recontree->Project("h_ncuts","ncuts"); //->Draw("ncuts>> h_ncuts");
     int ncuts = (int)h_ncuts->GetBinCenter(h_ncuts->GetMaximumBin());
     
     if(_DEBUG_) cout << "Number of cuts found to be " << ncuts << endl;
