@@ -94,7 +94,7 @@ TH1D * EffPurTools::EffVSCuts(const TString signal, int branch, const TString cu
     TH1I * h_ncuts = new TH1I("h_ncuts", "",10, 0, 10);
     
     TString ncuts_name = "truth_ncuts";
-    _truthtree->Project("h_ncutes", "truth_ncuts");//Draw(ncuts_name + ">> h_ncuts");
+    _truthtree->Project("h_ncuts", "truth_ncuts");//Draw(ncuts_name + ">> h_ncuts");
     
     if(_DEBUG_) cout << "Found and Filled ncuts histogram " << endl;
     
