@@ -465,7 +465,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                     }
                     else dpTT_g_title += "6";
                     
-                    string dpTT_top_title = "Top_" + dpTT_g_title;
+                    string dpTT_top_title = "top_" + dpTT_g_title;
                     
                     //1) topologically  --> CC1P1PiP, CC2P, CC2Pi, CC1Pi01P, CC1Pi01Pi, Other <-- Use only PDG codes to determine these
                     string CC1P1PiP = flag + "mu_PDG == 13 && ((" + flag + "pr_PDG == 2212 && " + flag + "pi_PDG == 211 ) ||  (" + flag + "pr_PDG == 211 && " + flag + "pi_PDG == 2212 ))";
@@ -602,7 +602,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                     //------------------------------------------------------------------------------------------------------------------------------------------------------
                     //2) nuclear medium --> H, C, Other + signal overlay.
                     
-                    string dpTT_tar_title = "Tar_" + dpTT_g_title;
+                    string dpTT_tar_title = "tar_" + dpTT_g_title;
                     
                     KinMap dpTT_Htar_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && mc_targetZ == 1", base_cuts.c_str())));
                     KinMap dpTT_Ctar_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && mc_targetZ == 6", base_cuts.c_str())));
@@ -689,6 +689,90 @@ void MomentumDists(const string file, const string savename, bool debug)
                     outfile->cd();
                     dpTT_tar_truth_can->Write();
                     
+                    //------------------------------------------------------------------------------------------------------------------------------------------------------
+                    //------------------------------------------------------------------------------------------------------------------------------------------------------
+                    //3) mis-PID effect --> Correct P,Pi : Correct P, Wrong Pi : Correct Pi, Wrong P : Wrong P,Pi, Other <-- Use only PDG codes to determine these
+                    
+                    string dpTT_mis_title = "mis_" + dpTT_g_title;
+                    
+                    string misCPCPi = flag + "pr_PDG == 2212 && " + flag + "pi_PDG == 211";
+                    KinMap dpTT_misCPCPi_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misCPCPi.c_str())));
+                    string misCPWPi = flag + "pr_PDG == 2212 && " + flag + "pi_PDG != 211";
+                    KinMap dpTT_misCPWPi_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misCPWPi.c_str())));
+                    string misSWPPi = flag + "pr_PDG == 211 && " + flag + "pi_PDG != 2212";
+                    KinMap dpTT_misSWPPi_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misSWPPi.c_str())));
+                    string misWPCPi = flag + "pr_PDG != 2212 && " + flag + "pi_PDG == 211";
+                    KinMap dpTT_misWPCPi_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misWPCPi.c_str())));
+                    string misWPWPi = flag + "pr_PDG != 2212 && " + flag + "pi_PDG != 211";
+                    KinMap dpTT_misWPWPi_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misWPWPi.c_str())));
+                    string misOther = "!( (" + misCPCPi + ") || (" + misCPWPi + ") || ("  + misSWPPi + ") || ("  + misWPCPi + ") || ("  + misWPWPi + ") )";
+                    KinMap dpTT_misOther_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misOther.c_str())));
+
+                    std::vector<KinMap> dpTT_mis_map;
+                    std::vector<std::string> dpTT_mis_names;
+                    std::vector<int> dpTT_mis_cols;
+                    
+                    dpTT_mis_map.push_back( dpTT_misCPCPi_map );   dpTT_mis_names.push_back( "Correct p,#pi^{+}" );         dpTT_mis_cols.push_back( DrawingStyle::Yellow);
+                    dpTT_mis_map.push_back( dpTT_misCPWPi_map );   dpTT_mis_names.push_back( "Correct p, Wrong #pi^{+}" );  dpTT_mis_cols.push_back( DrawingStyle::Blue );
+                    dpTT_mis_map.push_back( dpTT_misSWPPi_map );   dpTT_mis_names.push_back( "Mis-PID correct p,#pi^{+}");  dpTT_mis_cols.push_back( DrawingStyle::Red );
+                    dpTT_mis_map.push_back( dpTT_misWPCPi_map );   dpTT_mis_names.push_back( "Wrong p, Correct #pi^{+}" );  dpTT_mis_cols.push_back( DrawingStyle::Green );
+                    dpTT_mis_map.push_back( dpTT_misWPWPi_map );   dpTT_mis_names.push_back( "Wrong p, Wrong #pi^{+}" );    dpTT_mis_cols.push_back( DrawingStyle::LBlue );
+                    dpTT_mis_map.push_back( dpTT_misOther_map );   dpTT_mis_names.push_back( "Other" );                     dpTT_mis_cols.push_back( DrawingStyle::Other );
+                    
+                    std::vector<TH1D*> dpTT_mis_recon;
+                    std::vector<TH1D*> dpTT_mis_truth;
+                    
+                    for(int mpc = 0; mpc < (int)dpTT_mis_map.size(); mpc++){
+                        plot->ColFill( dpTT_mis_map[mpc].recon, dpTT_mis_cols[mpc]);
+                        plot->ColFill( dpTT_mis_map[mpc].truth, dpTT_mis_cols[mpc]);
+                    
+                        dpTT_mis_recon.push_back( dpTT_mis_map[mpc].recon );
+                        dpTT_mis_truth.push_back( dpTT_mis_map[mpc].truth );
+                    }
+                    
+                    std::vector<double> dpTT_mis_recon_per = plot->GetPercentage( dpTT_mis_recon );
+                    std::vector<double> dpTT_mis_truth_per = plot->GetPercentage( dpTT_mis_truth );
+                    
+                    string dpTT_mis_recon_title = Form(";%s;%s", dpTT_mis_recon[0]->GetXaxis()->GetTitle(), dpTT_mis_recon[0]->GetYaxis()->GetTitle());
+                    string dpTT_mis_truth_title = Form(";%s;%s", dpTT_mis_truth[0]->GetXaxis()->GetTitle(), dpTT_mis_truth[0]->GetYaxis()->GetTitle());
+                    
+                    THStack * dpTT_mis_recon_tot = new THStack( (dpTT_mis_title + "_recon").c_str() , dpTT_mis_recon_title.c_str());
+                    THStack * dpTT_mis_truth_tot = new THStack( (dpTT_mis_title + "_truth").c_str(), dpTT_mis_truth_title.c_str());
+                    
+                    TLegend * dpTT_mis_recon_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
+                    TLegend * dpTT_mis_truth_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
+                    
+                    for(int mpc = 1; mpc < (int)dpTT_mis_map.size() + 1; mpc++){
+                        
+                        dpTT_mis_recon_tot->Add( dpTT_mis_recon[(int)dpTT_top_map.size() - mpc] );
+                        dpTT_mis_truth_tot->Add( dpTT_mis_truth[(int)dpTT_top_map.size() - mpc] );
+                        
+                        if( (mpc - 1) < (int)dpTT_mis_map.size()){
+                            string dpTT_mis_name = dpTT_mis_names[mpc - 1];
+                            dpTT_mis_recon_leg->AddEntry(dpTT_mis_recon[ mpc - 1 ], Form("%s (%.2f%%)", dpTT_mis_name.c_str(), dpTT_mis_recon_per[ mpc - 1 ]), "f");
+                            dpTT_mis_truth_leg->AddEntry(dpTT_mis_truth[ mpc - 1 ], Form("%s (%.2f%%)", dpTT_mis_name.c_str(), dpTT_mis_truth_per[ mpc - 1 ]), "f");
+                        }
+                    }
+                    //-------------------------//
+                    
+                    TLegend * dpTT_mis_recon_pot = plot->GetPOT(0.521,0.781);
+                    TLegend * dpTT_mis_truth_pot = plot->GetPOT(0.521,0.781);
+                    
+                    TCanvas * dpTT_mis_recon_can = new TCanvas( (dpTT_mis_title + "_recon").c_str(), "", 500, 500);
+                    dpTT_mis_recon_can->cd();
+                    dpTT_mis_recon_tot->Draw();
+                    dpTT_mis_recon_leg->Draw();
+                    dpTT_mis_recon_pot->Draw();
+                    outfile->cd();
+                    dpTT_mis_recon_can->Write();
+                    
+                    TCanvas * dpTT_mis_truth_can = new TCanvas( (dpTT_mis_title+ "_truth").c_str(), "", 500, 500);
+                    dpTT_mis_truth_can->cd();
+                    dpTT_mis_truth_tot->Draw();
+                    dpTT_mis_truth_leg->Draw();
+                    dpTT_mis_truth_pot->Draw();
+                    outfile->cd();
+                    dpTT_mis_truth_can->Write();
                 }
             }
         }
