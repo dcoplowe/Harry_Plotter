@@ -724,7 +724,7 @@ void MomentumDists(const string file, const string savename, bool debug)
         effpur_can->Write();
         
         //Eff. of dpTT for signal
-        TH1D eff_dpTT = m_ep->EffVSVar();
+        //TH1D eff_dpTT = m_ep->EffVSVar();
         
     
         outfile->Close();
