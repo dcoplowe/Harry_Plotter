@@ -685,12 +685,12 @@ void MomentumDists(const string file, const string savename, bool debug)
         cut_names.push_back("3 Tracks");
         cut_names.push_back("Muon Track");
         cut_names.push_back("Contained Vtx");
-        cut_names.push_back("PID: p/#pi^{+}");
+        cut_names.push_back("PID: p/#pi^{#pm}");
         cut_names.push_back("Michel Tags");
         
-        string signal_def_truth = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1  && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 20 && TMath::RadToDeg()*truth_mu_Theta >= 0";//&& truth_true_target_region == 1";
+        string signal_def_truth = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1  && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 20 && TMath::RadToDeg()*truth_mu_Theta >= 0 && truth_true_target_region == 1";
         
-        EffPurTools * m_ep = new EffPurTools(file, cut_names, debug);
+        EffPurTools * m_ep = new EffPurTools(file, cut_names, true/*debug*/);
         TH1D * effcuts0 = m_ep->EffVSCuts(TString(signal_def_truth));
         TH1D * purcuts0 = m_ep->PurVSCuts(TString(signal_def_truth));
         
@@ -715,12 +715,17 @@ void MomentumDists(const string file, const string savename, bool debug)
         
         TCanvas * effpur_can = new TCanvas("EffPurVSCuts_Branch0","",500,500);
         effpur_can->cd();
+        effcuts0->GetYaxis()->SetTitle("Efficieny/Purity");
         effcuts0->Draw("HIST");
         purcuts0->Draw("SAMEHIST");
         effpur_leg->Draw();
         effpur_pot->Draw();
         outfile->cd();
         effpur_can->Write();
+        
+        //Eff. of dpTT for signal
+        TH1D eff_dpTT = m_ep->EffVSVar();
+        
     
         outfile->Close();
 
