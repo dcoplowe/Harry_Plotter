@@ -262,6 +262,10 @@ TH1D * EffPurTools::DrawRatioVSCuts(TH1D * num, TH1D * den, TString y_title, TSt
     ratio->Divide(num, den);
     ratio->GetYaxis()->SetRangeUser(0,1.1);
     
+    for(int i = 0; i < ratio->GetNbinsX(); i++){
+        cout << "ratio->GetBinContent("<< i + 1 <<") = " << ratio->GetBinContent(i+1) << " +/- " << ratio->GetBinError(i+1) << endl;
+    }
+    
     if(!((int)_cutnames.size() > 0)){
         for(int i = 0; i < ratio->GetNbinsX(); i++){
             ratio->GetXaxis()->SetBinLabel(i+1, Form("%d.",(i+1)));
