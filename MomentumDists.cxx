@@ -716,8 +716,8 @@ void MomentumDists(const string file, const string savename, bool debug)
                     KinMap dpTT_misWPWPi_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misWPWPi.c_str())));
                     
                     if(debug) cout << "dpTT Mis: Working 6" << endl;
-                    string misOther = "!( (" + misCPCPi + ") || (" + misCPWPi + ") || ("  + misSWPPi + ") || ("  + misWPCPi + ") || ("  + misWPWPi + ") )";
-                    KinMap dpTT_misOther_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misOther.c_str())));
+                    //string misOther = "!( (" + misCPCPi + ") || (" + misCPWPi + ") || ("  + misSWPPi + ") || ("  + misWPCPi + ") || ("  + misWPWPi + ") )";
+                    KinMap dpTT_misOther_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s", base_cuts.c_str())));
 
                     if(debug) cout << "dpTT Mis: Working 7" << endl;
 
@@ -741,6 +741,11 @@ void MomentumDists(const string file, const string savename, bool debug)
                     for(int mpc = 0; mpc < (int)dpTT_mis_map.size(); mpc++){
                         plot->ColFill( dpTT_mis_map[mpc].recon, dpTT_mis_cols[mpc]);
                         plot->ColFill( dpTT_mis_map[mpc].truth, dpTT_mis_cols[mpc]);
+                        
+                        if(mpc < (int)dpTT_mis_map.size() - 1 ){//Remove all the other topologies from other:
+                            dpTT_mis_map[ (int)dpTT_mis_map.size() - 1 ].recon->Add(dpTT_mis_map[mpc].recon, -1.);
+                            dpTT_mis_map[ (int)dpTT_mis_map.size() - 1 ].truth->Add(dpTT_mis_map[mpc].truth, -1.);
+                        }
                     
                         dpTT_mis_recon.push_back( dpTT_mis_map[mpc].recon );
                         dpTT_mis_truth.push_back( dpTT_mis_map[mpc].truth );
