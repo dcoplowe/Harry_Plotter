@@ -733,7 +733,7 @@ void MomentumDists(const string file, const string savename, bool debug)
         
         for(int i = 0; i < (int)truthdpTT_type.size(); i++){
         
-            TH1D * eff_dpTT = m_ep->EffVSVar(TString( truthdpTT_type.c_str() ),21, -300, 300, signal_def_truth, TString((dpTT_type_title[i] + "#delta#it{p}_{TT} (MeV/#it{c})").c_str()));
+            TH1D * eff_dpTT = m_ep->EffVSVar(TString( truthdpTT_type[i].c_str() ),21, -300, 300, signal_def_truth, TString((dpTT_type_title[i] + "#delta#it{p}_{TT} (MeV/#it{c})").c_str()));
             
             TCanvas * eff_dpTT_can = new TCanvas( ("eff_" + dpTT_save[i]).c_str() , "", 500, 500);
             eff_dpTT_can->cd();
