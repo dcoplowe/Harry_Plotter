@@ -108,6 +108,8 @@ TH1D * EffPurTools::EffVSCuts(const TString signal, int branch, const TString cu
         den->SetBinContent(i+1,num->GetBinContent(1));
         den->SetBinError(i+1,num->GetBinError(1));
         cout << "num->GetBinContent(1) = " << num->GetBinContent(1) << " +/- " << num->GetBinError(1) << endl;
+        cout << "den->GetBinContent("<< i+1 <<") = " << den->GetBinContent(i+1) << " +/- " << den->GetBinError(i+1) << endl;
+
     }
     
     _effhcounter++;
