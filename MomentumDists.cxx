@@ -815,7 +815,7 @@ void MomentumDists(const string file, const string savename, bool debug)
         
         string signal_def_truth = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1  && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 20 && TMath::RadToDeg()*truth_mu_Theta >= 0";// && truth_true_target_region == 1";
         
-        EffPurTools * m_ep = new EffPurTools(file, cut_names, debug);
+        EffPurTools * m_ep = new EffPurTools(file, cut_names, true /*debug*/);
         TH1D * effcuts0 = m_ep->EffVSCuts(TString(signal_def_truth));
         TH1D * purcuts0 = m_ep->PurVSCuts(TString(signal_def_truth));
         
