@@ -660,12 +660,12 @@ void MomentumDists(const string file, const string savename, bool debug)
                     
                     dpTT_Sigtar_map.recon->SetLineStyle(2);
                     dpTT_Sigtar_map.recon->SetLineWidth(2);
-                    dpTT_Sigtar_map.recon->SetLineColor(2);
+                    dpTT_Sigtar_map.recon->SetLineColor(1);
                     dpTT_tar_recon_leg->AddEntry( dpTT_Sigtar_map.recon, "H-CC1p1p^{+} #theta_#mu < 20^{#circ}", "l");
                     
                     dpTT_Sigtar_map.truth->SetLineStyle(2);
                     dpTT_Sigtar_map.truth->SetLineWidth(2);
-                    dpTT_Sigtar_map.truth->SetLineColor(2);
+                    dpTT_Sigtar_map.truth->SetLineColor(1);
                     dpTT_tar_truth_leg->AddEntry( dpTT_Sigtar_map.truth, "H-CC1p1p^{+} #theta_#mu < 20^{#circ}", "l");
 
                     TLegend * dpTT_tar_recon_pot = plot->GetPOT(0.521,0.781);
