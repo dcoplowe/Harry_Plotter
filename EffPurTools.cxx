@@ -104,12 +104,13 @@ TH1D * EffPurTools::EffVSCuts(const TString signal, int branch, const TString cu
     TH1D * num = EventsVSCuts(intree, full_signal, branch, ncuts);
     TH1D * den = new TH1D("den", "", num->GetNbinsX(), 0., (double)num->GetNbinsX());
 
-    for(int i = 0; i < num->GetNbinsX(); i++){
-        den->SetBinContent(i+1,num->GetBinContent(1));
-        den->SetBinError(i+1,num->GetBinError(1));
-        cout << "num->GetBinContent(1) = " << num->GetBinContent(1) << " +/- " << num->GetBinError(1) << endl;
-        cout << "den->GetBinContent("<< i+1 <<") = " << den->GetBinContent(i+1) << " +/- " << den->GetBinError(i+1) << endl;
-
+    if(_DEBUG_){
+        for(int i = 0; i < num->GetNbinsX(); i++){
+            den->SetBinContent(i+1,num->GetBinContent(1));
+            den->SetBinError(i+1,num->GetBinError(1));
+            cout << "num->GetBinContent(1) = " << num->GetBinContent(1) << " +/- " << num->GetBinError(1) << endl;
+            cout << "den->GetBinContent("<< i+1 <<") = " << den->GetBinContent(i+1) << " +/- " << den->GetBinError(i+1) << endl;
+        }
     }
     
     _effhcounter++;
@@ -179,6 +180,13 @@ TH1D * EffPurTools::PurVSCuts(const TString signal, int branch, const TString cu
 
     TH1D * num = EventsVSCuts(intree, full_signal, branch, ncuts, "pur_num");
     TH1D * den = EventsVSCuts(intree, cuts, branch, ncuts, "pur_den");
+    
+    if(_DEBUG_){
+        for(int i = 0; i < num->GetNbinsX(); i++ ){
+            cout << "num->GetBinContent("<<i+1<<")" << num->GetBinContent(i+1) << " +/- " << num->GetBinError(i+1) << endl;
+            cout << "den->GetBinContent("<<i+1<<")" << den->GetBinContent(i+1) << " +/- " << den->GetBinError(i+1) << endl;            
+        }
+    }
     
     _purhcounter++;
     TH1D * purcuts = DrawRatioVSCuts(num, den, "Purity", Form("h_purity%.3d", _purhcounter));
@@ -262,8 +270,10 @@ TH1D * EffPurTools::DrawRatioVSCuts(TH1D * num, TH1D * den, TString y_title, TSt
     ratio->Divide(num, den);
     ratio->GetYaxis()->SetRangeUser(0,1.1);
     
-    for(int i = 0; i < ratio->GetNbinsX(); i++){
-        cout << "ratio->GetBinContent("<< i + 1 <<") = " << ratio->GetBinContent(i+1) << " +/- " << ratio->GetBinError(i+1) << endl;
+    if(_DEBUG_){
+        for(int i = 0; i < ratio->GetNbinsX(); i++){
+            cout << "ratio->GetBinContent("<< i + 1 <<") = " << ratio->GetBinContent(i+1) << " +/- " << ratio->GetBinError(i+1) << endl;
+        }
     }
     
     if(!((int)_cutnames.size() > 0)){
