@@ -812,7 +812,7 @@ void MomentumDists(const string file, const string savename, bool debug)
         cut_names.push_back("Contained Vtx");
         cut_names.push_back("PID: p/#pi^{#pm}");
         cut_names.push_back("Michel Tags");
-        
+                
         string signal_def_truth = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1  && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 20 && TMath::RadToDeg()*truth_mu_Theta >= 0";// && truth_true_target_region == 1";
         
         EffPurTools * m_ep = new EffPurTools(file, cut_names, true /*debug*/);
@@ -849,6 +849,31 @@ void MomentumDists(const string file, const string savename, bool debug)
         effpur_pot->Draw();
         outfile->cd();
         effpur_can->Write();
+    
+        string old_sig_def = "mc_intType == 2 && mc_current == 1";
+        TH1D * effcuts_old = m_ep->EffVSCuts(TString(old_sig_def));
+        TH1D * purcuts_old = m_ep->PurVSCuts(TString(old_sig_def));
+        
+        TLegend * old_effpur_leg = plot->Legend(0.3,0.1);
+        old_effpur_leg->AddEntry(effcuts_old, "Old Eff. dEdX PID Method", "l");
+        old_effpur_leg->AddEntry(purcuts_old, "Old Pur. dEdX PID Method", "l");
+        old_effpur_leg->AddEntry(effcuts0, "New Eff. dEdX PID Method", "l");
+        old_effpur_leg->AddEntry(purcuts0, "New Pur. dEdX PID Method", "l");
+    
+        TLegend * old_effpur_pot = plot->GetPOT(0.521,0.781);
+        
+        TCanvas * old_effpur_can = new TCanvas("effpurVScuts_oldSigDef","",500,500);
+        old_effpur_can->cd();
+        effcuts0->GetYaxis()->SetTitle("Efficieny/Purity");
+        effcuts0->Draw("HIST");
+        purcuts0->Draw("SAMEHIST");
+        effcuts_old->Draw("SAMEHIST");
+        purcuts_old->Draw("SAMEHIST");
+        old_effpur_leg->Draw();
+        old_effpur_pot->Draw();
+        outfile->cd();
+        old_effpur_can->Write();
+        
         
         //Eff. of dpTT for signal
         std::vector<string> truthdpTT_type;
