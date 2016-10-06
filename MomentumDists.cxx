@@ -725,11 +725,11 @@ void MomentumDists(const string file, const string savename, bool debug)
         std::vector<string> truthdpTT_type;
         std::vector<string> dpTT_save;
         
-        truthdpTT_type.push_back( "truth_truedpTT" );           dpTT_save.push_back( "_dpTT" );
-        truthdpTT_type.push_back( "truth_truedpTT_pi" );        dpTT_save.push_back( "_dpTT_pi" );
-        truthdpTT_type.push_back( "truth_truedpTT_pi_dir" );    dpTT_save.push_back( "_dpTT_pi_dir" );
-        truthdpTT_type.push_back( "truth_truedpTT_pr" );        dpTT_save.push_back( "_dpTT_pr" );
-        truthdpTT_type.push_back( "truth_truedpTT_pr_dir" );    dpTT_save.push_back( "_dpTT_pr_dir" );
+        truthdpTT_type.push_back( "truth_truedpTT" );           dpTT_save.push_back( "_dpTT_EX" );
+        truthdpTT_type.push_back( "truth_truedpTT_pi" );        dpTT_save.push_back( "_dpTT_pi_EX" );
+        truthdpTT_type.push_back( "truth_truedpTT_pi_dir" );    dpTT_save.push_back( "_dpTT_pi_dir_EX" );
+        truthdpTT_type.push_back( "truth_truedpTT_pr" );        dpTT_save.push_back( "_dpTT_pr_EX" );
+        truthdpTT_type.push_back( "truth_truedpTT_pr_dir" );    dpTT_save.push_back( "_dpTT_pr_dir_EX" );
         
         for(int i = 0; i < (int)truthdpTT_type.size(); i++){
         
