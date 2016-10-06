@@ -185,7 +185,7 @@ TH1D * EffPurTools::PurVSCuts(const TString signal, int branch, const TString cu
     
     if(_DEBUG_) cout << "Opened Tree " << endl;
     
-    if(!intree) return 0x0;
+    //if(!intree) return 0x0;
     
     if(_DEBUG_) cout << "Read tree " << _recontree->GetName() << endl;
 
