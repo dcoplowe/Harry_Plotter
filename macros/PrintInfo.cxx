@@ -1,4 +1,4 @@
-const string testing_mc("/pnfs/minerva/persistent/users/dcoplowe/merged_CC1P1Pi_CC1P1Pi_run00013213.root");
+const string testing_mc("/pnfs/minerva/persistent/users/dcoplowe/CC1P1Pi_Full.root");
 
 const string flag("sel_");
 
