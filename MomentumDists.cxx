@@ -716,6 +716,8 @@ void MomentumDists(const string file, const string savename, bool debug)
         effcuts0->GetYaxis()->SetTitle("Efficieny/Purity");
         effcuts0->Draw("HIST");
         purcuts0->Draw("SAMEHIST");
+        effcuts1->Draw("SAMEHIST");
+        purcuts1->Draw("SAMEHIST");
         effpur_leg->Draw();
         effpur_pot->Draw();
         outfile->cd();
