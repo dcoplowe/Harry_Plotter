@@ -1018,9 +1018,6 @@ int main(int argc, char *argv[])
     smon << mon;
     syear << year;
     
-    
-    TDaTime
-    
     string savename = "CC1P1PiP_Plots_290916.root";
     
     bool debug = false;
