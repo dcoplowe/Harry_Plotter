@@ -516,7 +516,7 @@ TH1D * EffPurTools::PurVSCuts(std::string signal, int branch, std::string cuts){
 TH1D * EffPurTools::PurVSVar(std::string var, int nbins, const Double_t * xbins, std::string signal, std::string x_title, std::string cuts){
     return PurVSVar(TString(var), nbins, xbins, TString(signal), TString(x_title), TString(cuts));
 }
-TH1D * EffPurTools::PurVSVar(std::string var, int nbins, const Double_t x_low, const Double_t x_high, std::string signal, std:string x_title, std::string cuts){
+TH1D * EffPurTools::PurVSVar(std::string var, int nbins, const Double_t x_low, const Double_t x_high, std::string signal, std::string x_title, std::string cuts){
     return PurVSVar(TString(var), nbins, x_low, x_high, TString(signal), TString(x_title), TString(cuts));
 }
 
