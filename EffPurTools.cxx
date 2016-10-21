@@ -68,7 +68,7 @@ EffPurTools::EffPurTools(const char* filename, std::vector<std::string> cut_name
     std::vector<TString> tmp_cut_names;
     
     for(int i = 0; i < (int)cut_names.size(); i++){
-        tmp_cut_names.push_back( TString(cut_names) );
+        tmp_cut_names.push_back( TString(cut_names[i]) );
     }
     
     //EffPurTools(filename, reconame, truename);
