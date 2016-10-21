@@ -159,7 +159,7 @@ TH1D * EffPurTools::EffVSCuts(const TString signal, int branch, const TString cu
     return effcuts;
 }
 
-TH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title, const TString cuts){
+TH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString cuts, const TString x_title){
     if(_DEBUG_) cout << "EffPurTools::EffVSVar()" << endl;
     
     if(!_truthtree){
@@ -167,14 +167,14 @@ TH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t * xbin
         return 0x0;
     }
     
-    TH1D * effvar = RatioVSVar(_truthtree, var, nbins, xbins, signal, x_title, cuts);
+    TH1D * effvar = RatioVSVar(_truthtree, var, nbins, xbins, signal, cuts, x_title);
     _effvarcounter++;
     effvar->SetName(Form("effvar%.3d", _effvarcounter));
     effvar->GetYaxis()->SetTitle("Efficiency");
     return effvar;
 }
 
-TH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title, const TString cuts){
+TH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString cuts, const TString x_title){
     if(_DEBUG_) cout << "EffPurTools::EffVSVar(TString, TString, TString)" << endl;
     //TTree * intree = (TTree*)_file->Get(_truename.Data());
     
@@ -183,7 +183,7 @@ TH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t x_low,
         return 0x0;
     }
     
-    TH1D * effvar = RatioVSVar(_truthtree, var, nbins, x_low, x_high, signal, x_title, cuts);
+    TH1D * effvar = RatioVSVar(_truthtree, var, nbins, x_low, x_high, signal, cuts, x_title);
     _effvarcounter++;
     effvar->SetName(Form("effvar%.3d", _effvarcounter));
     effvar->GetYaxis()->SetTitle("Efficiency");
@@ -248,8 +248,7 @@ TH1D * EffPurTools::PurVSCuts(const TString signal, int branch, const TString cu
     return purcuts;
 }
 
-
-TH1D * EffPurTools::PurVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title, const TString cuts){
+TH1D * EffPurTools::PurVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString cuts, const TString x_title){
     if(_DEBUG_) cout << "EffPurTools::PurVSVar()" << endl;
     //TTree * intree = (TTree*)_file->Get(_reconame.Data());
     
@@ -258,7 +257,7 @@ TH1D * EffPurTools::PurVSVar(const TString var, int nbins, const Double_t * xbin
         return 0x0;
     }
     
-    TH1D * purvar = RatioVSVar(_recontree, var, nbins, xbins, signal, x_title, cuts);
+    TH1D * purvar = RatioVSVar(_recontree, var, nbins, xbins, cuts, signal, x_title);
     _purvarcounter++;
     purvar->SetName(Form("effvar%.3d", _purvarcounter));
     purvar->GetYaxis()->SetTitle("Purity");
@@ -274,11 +273,7 @@ TH1D * EffPurTools::PurVSVar(const TString var, int nbins, const Double_t x_low,
         return 0x0;
     }
     
-    TH1D * purvar = RatioVSVar(_recontree, var, nbins, x_low, x_high, signal, x_title, cuts);
-    _purvarcounter++;
-    purvar->SetName(Form("effvar%.3d", _purvarcounter));
-    purvar->GetYaxis()->SetTitle("Purity");
-    return purvar;
+    return PurVSVar(var, nbins, EvenArray(nbins, x_low, x_high), signal, cuts, x_title);
 }
 
 void EffPurTools::SetFile(){
@@ -441,24 +436,24 @@ void EffPurTools::SetCutNames(std::vector<TString> var){
 }
 //------------------------------------------------------//
 
-TH1D * EffPurTools::RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title, const TString cuts){
+TH1D * EffPurTools::RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString common_cut, const TString num_only_cut, const TString x_title){
     
     if(_DEBUG_){
         cout << "    Signal: " << signal.Data() << endl;
         cout << "    Cut(s): " << cuts.Data() << endl;
     }
     
-    TString full_signal = signal;
+    TString num_cut = common_cut;
     
-    if(!cuts.EqualTo("",TString::kExact)){
-        full_signal.Append(" && ");
-        full_signal.Append(cuts);
-        if(_DEBUG_) cout << "    Cut(s): " << cuts.Data() << endl;
+    if(!num_only_cut.EqualTo("",TString::kExact)){
+        num_cut.Append(" && ");
+        num_cut.Append(num_only_cut);
+        if(_DEBUG_) cout << "    Numerator only cut(s): " << num_cut.Data() << endl;
     }
-    else if(_DEBUG_) cout << "    Cut(s): None" << endl;
+    else if(_DEBUG_) cout << "    Numerator only cut(s): None" << endl;
     
-    TH1D * num = GetHisto(intree, var, nbins, xbins, full_signal);
-    TH1D * den = GetHisto(intree, var, nbins, xbins, cuts);
+    TH1D * num = GetHisto(intree, var, nbins, xbins, num_cut);
+    TH1D * den = GetHisto(intree, var, nbins, xbins, common_cut);
     
     TH1D * ratio = new TH1D(Form("ratio_%s", var.Data()), Form(";%s;Ratio",x_title.Data()), nbins, xbins);
     ratio->Divide(num, den);
@@ -469,54 +464,44 @@ TH1D * EffPurTools::RatioVSVar(TTree * intree, const TString var, int nbins, con
     return ratio;
 }
 
-TH1D * EffPurTools::RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title, const TString cuts){
-    
-    if(_DEBUG_){
-        cout << "    Signal: " << signal.Data() << endl;
-        cout << "    Cut(s): " << cuts.Data() << endl;
-    }
-    
-    TString full_signal = signal;
-    
-    if(!cuts.EqualTo("",TString::kExact)){
-        full_signal.Append(" && ");
-        full_signal.Append(cuts);
-        if(_DEBUG_) cout << "    Cut(s): " << cuts.Data() << endl;
-    }
-    else if(_DEBUG_) cout << "    Cut(s): None" << endl;
-    
-    TH1D * num = GetHisto(intree, var, nbins, x_low, x_high, full_signal);
-    TH1D * den = GetHisto(intree, var, nbins, x_low, x_high, cuts);
-    
-    TH1D * ratio = new TH1D(Form("ratio_%s", var.Data()), Form(";%s;Ratio",x_title.Data()), nbins, x_low, x_high);
-    ratio->Divide(num, den);
-    ratio->GetYaxis()->SetRangeUser(0., 1.1);
-    
-    delete num;
-    delete den;
-    
-    return ratio;
+TH1D * EffPurTools::RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString common_cut, const TString num_only_cut, const TString x_title){
+    return RatioVSVar(intree, var, nbins, EvenArray(nbins, x_low, x_high), common_cut, num_only_cut, x_title);
 }
 
-TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
+TH1D * EffPurTools::EffVSCuts(const char* signal, int branch, const char* cuts){
     return EffVSCuts(TString(signal), branch, TString(cuts));
 }
 
-TH1D * EffPurTools::EffVSVar(std::string var, int nbins, const Double_t * xbins, std::string signal, std::string x_title, std::string cuts){
+TH1D * EffPurTools::EffVSVar(const char* var, int nbins, const Double_t * xbins, const char* signal, const char* cuts, const char* x_title){
     return EffVSVar(TString(var), nbins, xbins, TString(signal), TString(x_title), TString(cuts));
 }
 
-TH1D * EffPurTools::EffVSVar(const char* var, int nbins, const Double_t x_low, const Double_t x_high, const char* signal, const char* x_title, const char* cuts){
+TH1D * EffPurTools::EffVSVar(const char* var, int nbins, const Double_t x_low, const Double_t x_high, const char* signal, const char* cuts, const char* x_title){
     return EffVSVar(TString(var), nbins, x_low, x_high, TString(signal), TString(x_title), TString(cuts));
 }
 
-TH1D * EffPurTools::PurVSCuts(std::string signal, int branch, std::string cuts){
+TH1D * EffPurTools::PurVSCuts(const char* signal, int branch, const char* cuts){
     return PurVSCuts(TString(signal), branch, TString(cuts));
 }
-TH1D * EffPurTools::PurVSVar(std::string var, int nbins, const Double_t * xbins, std::string signal, std::string x_title, std::string cuts){
+
+TH1D * EffPurTools::PurVSVar(const char* var, int nbins, const Double_t * xbins, const char* signal, const char* cuts, const char* x_title){
     return PurVSVar(TString(var), nbins, xbins, TString(signal), TString(x_title), TString(cuts));
 }
-TH1D * EffPurTools::PurVSVar(std::string var, int nbins, const Double_t x_low, const Double_t x_high, std::string signal, std::string x_title, std::string cuts){
+
+TH1D * EffPurTools::PurVSVar(const char* var, int nbins, const Double_t x_low, const Double_t x_high, const char* signal, const char* cuts, const char* x_title){
     return PurVSVar(TString(var), nbins, x_low, x_high, TString(signal), TString(x_title), TString(cuts));
+}
+
+Double_t * EffPurTools::EvenArray(int nbins, x_low, x_high){
+    Double_t * xbins = new Double_t[ nbins + 1 ];
+    
+    Double_t range = x_high - x_low;
+    Double_t binwidth = range/(Double_t)nbins;
+    
+    for (int i=0; i < nbins + 1; i++) {
+        xbins[i] = x_low + binwidth*i;
+        //cout << "Array Element: " << i << " : " << xbins[i] << endl;
+    }
+    return xbins;
 }
 

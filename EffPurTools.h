@@ -44,20 +44,21 @@ public:
     
     //These may not be void functions:
     TH1D * EffVSCuts(const TString signal, int branch = 0, const TString cuts = "");
-    TH1D * EffVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title = "", const TString cuts = "");
-    TH1D * EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title = "", const TString cuts = "");
+    //Be careful here, given the efficiency is how many of the selected events are signal. The signal for eff. vs. var is common to both the numerator and denominator whereas the cut is made on the numerator only.
+    TH1D * EffVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString cuts, const TString x_title = "");
+    TH1D * EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString cuts, const TString x_title = "");
     
     TH1D * PurVSCuts(const TString signal, int branch = 0, const TString cuts = "");
-    TH1D * PurVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title = "", const TString cuts = "");
-    TH1D * PurVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title = "", const TString cuts = "");
+    TH1D * PurVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString cuts = "", const TString x_title = "");
+    TH1D * PurVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString cuts = "", const TString x_title = "");
 
-    TH1D * EffVSCuts(std::string signal, int branch = 0, std::string cuts = "");
-    TH1D * EffVSVar(std::string var, int nbins, const Double_t * xbins, std::string signal, std::string x_title = "", std::string cuts = "");
-    TH1D * EffVSVar(const char* var, int nbins, const Double_t x_low, const Double_t x_high, const char* signal, const char* x_title = "", const char* cuts = "");
+    TH1D * EffVSCuts(const char* signal, int branch = 0, const char* cuts = "");
+    TH1D * EffVSVar(const char* var, int nbins, const Double_t * xbins, const char* signal, const char* cuts, const char* x_title = "");
+    TH1D * EffVSVar(const char* var, int nbins, const Double_t x_low, const Double_t x_high, const char* signal, const char* cuts, const char* x_title = "");
     
-    TH1D * PurVSCuts(std::string signal, int branch = 0, std::string cuts = "");
-    TH1D * PurVSVar(std::string var, int nbins, const Double_t * xbins, std::string signal, std::string x_title = "", std::string cuts = "");
-    TH1D * PurVSVar(std::string var, int nbins, const Double_t x_low, const Double_t x_high, std::string signal, std::string x_title = "", std::string cuts = "");
+    TH1D * PurVSCuts(const char* signal, int branch = 0, const char* cuts = "");
+    TH1D * PurVSVar(const char* var, int nbins, const Double_t * xbins, const char* signal, const char* cuts, const char* x_title = "");
+    TH1D * PurVSVar(const char* var, int nbins, const Double_t x_low, const Double_t x_high, const char* signal, const char* cuts, const char* x_title = "");
 
     
     
@@ -83,8 +84,12 @@ private:
     TH1D * EventsVSCuts(TTree * intree, const TString cuts, int branch, const int ncuts, TString name = "h_evntcuts");
     TH1D * DrawRatioVSCuts(TH1D * num, TH1D * den, TString y_title = "", TString h_name = "h_ratio");
     
-    TH1D * RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title, const TString cuts);
-    TH1D * RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title, const TString cuts);
+//    TH1D * RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title, const TString cuts);
+//    TH1D * RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title, const TString cuts);
+    
+    TH1D * RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString common_cut, const TString num_only_cut, const TString x_title);
+    TH1D * RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString common_cut, const TString num_only_cut, const TString x_title);
+    
     
     TH1D * GetHisto(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString cuts);
     TH1D * GetHisto(TTree * intree, const TString var, int nbins, const double x_low, const double x_high, const TString cuts);
@@ -96,6 +101,8 @@ private:
     int _purvarcounter;
 
     bool _DEBUG_;
+    
+    Double_t * EvenArray(int nbins, x_low, x_high);
 
 };
 
