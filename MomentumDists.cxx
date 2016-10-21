@@ -890,9 +890,9 @@ void MomentumDists(const string file, const string savename, bool debug)
         truthdpTT_type.push_back( "truth_truedpTT_pr" );        dpTT_save.push_back( "_dpTT_pr_EX" );
         truthdpTT_type.push_back( "truth_truedpTT_pr_dir" );    dpTT_save.push_back( "_dpTT_pr_dir_EX" );
         
-        for(int i = 0; i < (int)truthdpTT_type.size(); i++){
+        /*for(int i = 0; i < (int)truthdpTT_type.size(); i++){
         
-            TH1D * eff_dpTT = m_ep->EffVSVar(TString( truthdpTT_type[i].c_str() ),21, -300, 300, signal_def_truth, TString((dpTT_type_title[i] + "#delta#it{p}_{TT} (MeV/#it{c})").c_str()));
+            TH1D * eff_dpTT = m_ep->EffVSVar(TString( truthdpTT_type[i].c_str() ),21, -300, 300, signal_def_truth, "accum" TString((dpTT_type_title[i] + "#delta#it{p}_{TT} (MeV/#it{c})").c_str()));
             
             TCanvas * eff_dpTT_can = new TCanvas( ("eff_" + dpTT_save[i]).c_str() , "", 500, 500);
             eff_dpTT_can->cd();
@@ -919,7 +919,7 @@ void MomentumDists(const string file, const string savename, bool debug)
             
             delete pur_dpTT;
             delete pur_dpTT_can;
-        }
+        }*/
         
         string pcount_st[2] = {"pro", "piP"};//Signal def should be greater than zero protons (any protons); -- Should accum_level be a factor? I am not sure...
         string pname_st[2] = {"pr", "pi"};
