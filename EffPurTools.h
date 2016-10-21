@@ -29,8 +29,8 @@ public:
     EffPurTools(TString filename, bool debug = false, TString reconame = "sel", TString truename = "Truth");
     EffPurTools();
     
-    EffPurTools(std::string filename, std::vector<std::string> cut_names, bool debug = false, std::string reconame = "sel", std::string truename = "Truth");
-    EffPurTools(std::string filename, bool debug = false, std::string reconame = "sel", std::string truename = "Truth");
+    EffPurTools(const char* filename, std::vector<std::string> cut_names, bool debug = false, std::string reconame = "sel", std::string truename = "Truth");
+    EffPurTools(const char* filename, bool debug = false, std::string reconame = "sel", std::string truename = "Truth");
     
     ~EffPurTools(){};
     
@@ -54,7 +54,6 @@ public:
     TH1D * EffVSCuts(std::string signal, int branch = 0, std::string cuts = "");
     TH1D * EffVSVar(std::string var, int nbins, const Double_t * xbins, std::string signal, std::string x_title = "", std::string cuts = "");
     TH1D * EffVSVar(const char* var, int nbins, const Double_t x_low, const Double_t x_high, const char* signal, const char* x_title = "", const char* cuts = "");
-    
     
     TH1D * PurVSCuts(std::string signal, int branch = 0, std::string cuts = "");
     TH1D * PurVSVar(std::string var, int nbins, const Double_t * xbins, std::string signal, std::string x_title = "", std::string cuts = "");

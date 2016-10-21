@@ -63,7 +63,7 @@ EffPurTools::EffPurTools() {
     //SetTrueBranch("Truth");
 }
 
-EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_names, bool debug, std::string reconame, std::string truename){
+EffPurTools::EffPurTools(const char* filename, std::vector<std::string> cut_names, bool debug, std::string reconame, std::string truename){
     
     std::vector<TString> tmp_cut_names;
     
@@ -93,7 +93,7 @@ EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_name
     cout << "Recon branch: " << _reconame.Data() << endl;
 }
 
-EffPurTools::EffPurTools(std::string filename, bool debug, std::string reconame, std::string truename){
+EffPurTools::EffPurTools(const char* filename, bool debug, std::string reconame, std::string truename){
     EffPurTools(TString(filename), debug, TString(reconame), TString(truename));
 }
 
