@@ -473,11 +473,11 @@ TH1D * EffPurTools::EffVSCuts(const char* signal, int branch, const char* cuts){
 }
 
 TH1D * EffPurTools::EffVSVar(const char* var, int nbins, const Double_t * xbins, const char* signal, const char* cuts, const char* x_title){
-    return EffVSVar(TString(var), nbins, xbins, TString(signal), TString(x_title), TString(cuts));
+    return EffVSVar(TString(var), nbins, xbins, TString(signal), TString(cuts), TString(x_title));
 }
 
 TH1D * EffPurTools::EffVSVar(const char* var, int nbins, const Double_t x_low, const Double_t x_high, const char* signal, const char* cuts, const char* x_title){
-    return EffVSVar(TString(var), nbins, x_low, x_high, TString(signal), TString(x_title), TString(cuts));
+    return EffVSVar(TString(var), nbins, x_low, x_high, TString(signal), TString(cuts), TString(x_title));
 }
 
 TH1D * EffPurTools::PurVSCuts(const char* signal, int branch, const char* cuts){
@@ -485,11 +485,11 @@ TH1D * EffPurTools::PurVSCuts(const char* signal, int branch, const char* cuts){
 }
 
 TH1D * EffPurTools::PurVSVar(const char* var, int nbins, const Double_t * xbins, const char* signal, const char* cuts, const char* x_title){
-    return PurVSVar(TString(var), nbins, xbins, TString(signal), TString(x_title), TString(cuts));
+    return PurVSVar(TString(var), nbins, xbins, TString(signal), TString(cuts), TString(x_title));
 }
 
 TH1D * EffPurTools::PurVSVar(const char* var, int nbins, const Double_t x_low, const Double_t x_high, const char* signal, const char* cuts, const char* x_title){
-    return PurVSVar(TString(var), nbins, x_low, x_high, TString(signal), TString(x_title), TString(cuts));
+    return PurVSVar(TString(var), nbins, x_low, x_high, TString(signal), TString(cuts), TString(x_title));
 }
 
 Double_t * EffPurTools::EvenArray(int nbins, Double_t x_low, Double_t x_high){

@@ -59,8 +59,6 @@ public:
     TH1D * PurVSCuts(const char* signal, int branch = 0, const char* cuts = "");
     TH1D * PurVSVar(const char* var, int nbins, const Double_t * xbins, const char* signal, const char* cuts, const char* x_title = "");
     TH1D * PurVSVar(const char* var, int nbins, const Double_t x_low, const Double_t x_high, const char* signal, const char* cuts, const char* x_title = "");
-
-    
     
     void SetCutNames(std::vector<TString> var);
     void SetCutName(TString var);//This must be written in order;
