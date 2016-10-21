@@ -71,6 +71,46 @@ public:
     TH2D * SmearMatrix(const TString vars_yx, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, const TString xy_title = "", const TString cuts = "");
     TH2D * SmearMatrix(const TString vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const TString xy_title = "", const TString cuts = "");
     
+    //std::string versions:
+    
+    TH1D * GetHisto(TTree * intree, std::string var, int nbins, const double x_low, const double x_high, std::string xy_title = "", std::string cuts = "");
+    TH1D * GetHisto(TTree * intree, std::string var, int nbins, const Double_t * xbins, std::string xy_title = "", std::string cuts = "");
+    
+    TH2D * GetHisto(TTree * intree, std::string vars_yx, int x_nbins, const double x_low, const double x_high, int y_nbins, const double y_low, const double y_high, std::string xy_title = "", std::string cuts = "");
+    TH2D * GetHisto(TTree * intree, std::string vars_yx, int x_nbins, const Double_t * xbins, int y_nbins, const Double_t * ybins, std::string xy_title = "", std::string cuts = "");
+    
+    TH2D * SmearMatrix(TTree * intree, std::string vars_yx, int nbins, const double low, const double high, std::string xy_title = "", std::string cuts = "");
+    TH2D * SmearMatrix(TTree * intree, std::string vars_yx, int nbins, const Double_t * bins, std::string xy_title = "", std::string cuts = "");
+    
+    TH2D * SmearMatrix(TTree * intree, std::string vars_yx, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, std::string xy_title = "", std::string cuts = "");
+    TH2D * SmearMatrix(TTree * intree, std::string vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, std::string xy_title = "", std::string cuts = "");
+    
+    TH1D * GetRTRatio(TTree * intree, std::string vars_tr, std::string x_title = "", std::string cuts = "");
+    
+    KinMap KinArray(TTree * intree, std::string vars_tr, int nbins, const double low, const double high, std::string rt_title = "", std::string cuts = "", bool cor = true);
+    KinMap KinArray(TTree * intree, std::string vars_tr, int nbins, const Double_t * bins, std::string rt_title = "", std::string cuts = "", bool cor = true);
+    KinMap KinArray(TTree * intree, std::string vars_tr, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, std::string rt_title = "", std::string cuts = "", bool cor = true);
+    KinMap KinArray(TTree * intree, std::string vars_tr, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, std::string rt_title = "", std::string cuts = "", bool cor = true);
+    
+    TH1D * GetRTRatio(std::string vars_tr, std::string x_title = "", std::string cuts = "");
+    
+    KinMap KinArray(std::string vars_tr, int nbins, const double low, const double high, std::string rt_title = "", std::string cuts = "", bool cor = true);
+    KinMap KinArray(std::string vars_tr, int nbins, const Double_t * bins, std::string rt_title = "", std::string cuts = "", bool cor = true);
+    KinMap KinArray(std::string vars_tr, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, std::string rt_title = "", std::string cuts = "", bool cor = true);
+    KinMap KinArray(std::string vars_tr, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, std::string rt_title = "", std::string cuts = "", bool cor = true);
+    
+    TH1D * GetTruthHisto(std::string var, int nbins, const double x_low, const double x_high, std::string xy_title = "", std::string cuts = "");
+    TH1D * GetTruthHisto(std::string var, int nbins, const Double_t * xbins, std::string xy_title = "", std::string cuts = "");
+    
+    TH1D * GetRecoHisto(std::string var, int nbins, const double x_low, const double x_high, std::string xy_title = "", std::string cuts = "");
+    TH1D * GetRecoHisto(std::string var, int nbins, const Double_t * xbins, std::string xy_title = "", std::string cuts = "");
+    
+    TH2D * SmearMatrix(std::string vars_yx, int nbins, const double low, const double high, std::string xy_title = "", std::string cuts = "");
+    TH2D * SmearMatrix(std::string vars_yx, int nbins, const Double_t * bins, std::string xy_title = "", std::string cuts = "");
+    
+    TH2D * SmearMatrix(std::string vars_yx, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, std::string xy_title = "", std::string cuts = "");
+    TH2D * SmearMatrix(std::string vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, std::string xy_title = "", std::string cuts = "");
+    
     std::vector<double> GetPercentage(std::vector<TH1D*> histos);
     
     TLegend * GetPOT(double x_pos, double y_pos, TString filename = "");

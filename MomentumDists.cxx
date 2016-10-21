@@ -815,8 +815,8 @@ void MomentumDists(const string file, const string savename, bool debug)
         
         string signal_def_truth = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1  && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 20 && TMath::RadToDeg()*truth_mu_Theta >= 0";// && truth_true_target_region == 1";
         
-        EffPurTools * m_ep = new EffPurTools(file, cut_names, true /*debug*/);
-        TH1D * effcuts0 = m_ep->EffVSCuts(TString( signal_def_truth));
+        EffPurTools * m_ep = new EffPurTools(file, cut_names, true /*debug*/);//Here shouldn't the requirement of being in the scintillator target region be a cut? I think so...
+        TH1D * effcuts0 = m_ep->EffVSCuts(TString(signal_def_truth));
         TH1D * purcuts0 = m_ep->PurVSCuts(TString( (signal_def_truth + " && truth_true_target_region == 1").c_str() ));
         
         TH1D * effcuts1 = m_ep->EffVSCuts(TString(signal_def_truth), 1);
@@ -919,6 +919,29 @@ void MomentumDists(const string file, const string savename, bool debug)
             delete pur_dpTT;
             delete pur_dpTT_can;
         }
+        
+        string pcount_st[2] = {"pro", "piP"};//Signal def should be greater than zero protons (any protons); -- Should accum_level be a factor? I am not sure...
+        string pname_st[2] = {"pr", "pi"};
+        string psym_st[2] = {"p","#pi^{+}"};
+        
+        //Eff. vs E_{p,pi} -- for use in determining how best to approach improving three tracks:
+        for(int i = 0; i < 2; i++){
+            
+            TH1D * part_eff_E = m_ep->EffVSVar( ("truth_" + pname_st[i] + "_E/1000").c_str(), 50, 0, 6, ("truth_n_" + pcount_st[i] + " > 0").c_str(), ("E^{true}_" + psym_st[i] + " GeV").c_str());
+            
+            TCanvas * part_eff_E_can = new TCanvas( ("eff_" + pname_st[i] + "_E").c_str() , "", 500, 500);
+            part_eff_E_can->cd();
+            part_eff_E->Draw("HIST");
+            TLegend * part_eff_E_can_pot = plot->GetPOT(0.521,0.781);
+            part_eff_E_can_pot->Draw();
+            
+            outfile->cd();
+            part_eff_E_can->Write();
+            
+            delete part_eff_E;
+            delete part_eff_E_can;
+        }
+        
         
     
         outfile->Close();

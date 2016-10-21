@@ -31,7 +31,7 @@ EffPurTools::EffPurTools(TString filename, bool debug, TString reconame, TString
     if(_DEBUG_) cout << "EffPurTools::EffPurTools(TString filename, TString reconame, TString truename)" << endl;
 }
 
-EffPurTools::EffPurTools(TString filename, std::vector<TString> cut_names, bool debug, TString reconame, TString truename){
+EffPurTools::EffPurTools(TString filename, std::vector<TString> cut_names, bool debug, TString reconame, TString truename) {
     
     //EffPurTools(filename, reconame, truename);
     SetCutNames(cut_names);
@@ -62,6 +62,38 @@ EffPurTools::EffPurTools() {
     //SetRecoBranch("CC1P1Pi");
     //SetTrueBranch("Truth");
 }
+
+EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_names, bool debug, std::string reconame, std::string truename){
+    
+    std::vector<TString> tmp_cut_names;
+    
+    for(int i = 0; i < (int)cut_names.size(); i++){
+        tmp_cut_names.push_back( TString(cut_names) );
+    }
+    
+    //EffPurTools(filename, reconame, truename);
+    SetCutNames(tmp_cut_names);
+    SetFileName(filename);
+    SetRecoBranch(reconame);
+    SetTrueBranch(truename);
+    SetFile();
+    
+    _purhcounter = -1;
+    _effhcounter = -1;
+    _ghcounter = -1;
+    _effvarcounter = -1;
+    _purvarcounter = -1;
+    
+    _DEBUG_ = debug;
+    
+    if(_DEBUG_) cout << "EffPurTools::EffPurTools(TString filename, std::vector<TString> cut_names, TString reconame, TString truename)" << endl;
+    
+    cout << "    Filename: " << _filename.Data() << endl;
+    cout << "Truth branch: " << _truename.Data() << endl;
+    cout << "Recon branch: " << _reconame.Data() << endl;
+}
+
+EffPurTools::EffPurTools(std::string filename, bool debug, std::string reconame, std::string truename) : EffPurTools(TString(filename), debug, TString(reconame), TString(truename))  { }
 
 //These may not be void functions:
 TH1D * EffPurTools::EffVSCuts(const TString signal, int branch, const TString cuts){
@@ -463,3 +495,26 @@ TH1D * EffPurTools::RatioVSVar(TTree * intree, const TString var, int nbins, con
     
     return ratio;
 }
+
+TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
+    return EffVSCuts(TString(signal), branch, TString(cuts));
+}
+
+TH1D * EffPurTools::EffVSVar(std::string var, int nbins, const Double_t * xbins, std::string signal, std::string x_title, std::string cuts){
+    return EffVSVar(TString(var), nbins, xbins, TString(signal), TString(x_title), TString(cuts));
+}
+
+TH1D * EffPurTools::EffVSVar(std::string var, int nbins, const Double_t x_low, const Double_t x_high, std::string signal, std::string x_title, std::string cuts){
+    return EffVSVar(TString(var), nbins, x_low, x_high, TString(signal), TString(x_title), TString(cuts));
+}
+
+TH1D * EffPurTools::PurVSCuts(std::string signal, int branch, std::string cuts){
+    return PurVSCuts(TString(signal), branch, TString(cuts));
+}
+TH1D * EffPurTools::PurVSVar(std::string var, int nbins, const Double_t * xbins, std::string signal, std::string x_title, std::string cuts){
+    return PurVSVar(TString(var), nbins, xbins, TString(signal), TString(x_title), TString(cuts));
+}
+TH1D * EffPurTools::PurVSVar(std::string var, int nbins, const Double_t x_low, const Double_t x_high, std::string signal, std:string x_title, std::string cuts){
+    return PurVSVar(TString(var), nbins, x_low, x_high, TString(signal), TString(x_title), TString(cuts));
+}
+

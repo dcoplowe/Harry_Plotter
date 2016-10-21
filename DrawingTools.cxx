@@ -505,3 +505,98 @@ TLegend * DrawingTools::Legend(double x_size, double y_size, double x_start, dou
 }
 
 
+TH1D * DrawingTools::GetHisto(TTree * intree, std::string var, int nbins, const double x_low, const double x_high, std::string xy_title, std::string cuts){
+    return GetHisto(intree, TString(var), nbins, x_low, x_high, TString(xy_title), TString(cuts));
+}
+TH1D * DrawingTools::GetHisto(TTree * intree, std::string var, int nbins, const Double_t * xbins, std::string xy_title, std::string cuts){
+    return GetHisto(intree, TString(var), nbins, xbins, TString(xy_title), TString(cuts));
+}
+
+TH2D * DrawingTools::GetHisto(TTree * intree, std::string vars_yx, int x_nbins, const double x_low, const double x_high, int y_nbins, const double y_low, const double y_high, std::string xy_title, std::string cuts){
+    return GetHisto(intree, TString(vars_yx), x_nbins, x_low, x_high, y_nbins, y_low, y_high, TString(xy_title), TString(cuts));
+}
+
+TH2D * DrawingTools::GetHisto(TTree * intree, std::string vars_yx, int x_nbins, const Double_t * xbins, int y_nbins, const Double_t * ybins, std::string xy_title, std::string cuts){
+    return GetHisto(intree, TString(vars_yx), x_nbins, xbins, y_nbins, ybins, TString(xy_title), TString(cuts));
+}
+
+TH2D * DrawingTools::SmearMatrix(TTree * intree, std::string vars_yx, int nbins, const double low, const double high, std::string xy_title, std::string cuts){
+    return SmearMatrix(intree, vars_yx, nbins, low, high, TString(xy_title), TString(cuts));
+}
+
+TH2D * DrawingTools::SmearMatrix(TTree * intree, std::string vars_yx, int nbins, const Double_t * bins,  std::string xy_title, std::string cuts){
+    return SmearMatrix(intree, TString(vars_yx), nbins, bins, TString(xy_title), TString(cuts));
+}
+
+TH2D * DrawingTools::SmearMatrix(TTree * intree, std::string vars_yx, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, std::string xy_title, std::string cuts){
+    return SmearMatrix(intree, TString(vars_yx), re_nbins, re_low, re_high, tr_nbins, tr_low, tr_high, TString(xy_title), TString(cuts));
+}
+
+TH2D * DrawingTools::SmearMatrix(TTree * intree, std::string vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, std::string xy_title, std::string cuts){
+    return SmearMatrix(intree, TString(vars_yx), re_nbins, re_bins, tr_nbins, tr_bins, TString(xy_title), TString(cuts));
+}
+
+TH1D * DrawingTools::GetRTRatio(TTree * intree, std::string vars_tr, std::string x_title, std::string cuts){
+    return GetRTRatio(intree, TString(vars_tr), TString(x_title), TString(cuts));
+}
+
+KinMap DrawingTools::KinArray(TTree * intree, std::string vars_tr, int nbins, const double low, const double high, std::string rt_title, std::string cuts, bool cor){
+    return KinArray(intree, TString(vars_tr), nbins, low, high, TString(rt_title), TString(cuts), cor);
+}
+
+KinMap DrawingTools::KinArray(TTree * intree, std::string vars_tr, int nbins, const Double_t * bins, std::string rt_title, std::string cuts, bool cor){
+    return KinArray(intree, TString(vars_tr), nbins, bins, TString(rt_title), TString(cuts), cor);
+}
+
+KinMap DrawingTools::KinArray(TTree * intree, std::string vars_tr, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, std::string rt_title, std::string cuts, bool cor){
+    return KinArray(intree, TString(vars_tr), re_nbins, re_low, re_high, tr_nbins, tr_low, tr_high, TString(rt_title), TString(cuts), cor);
+}
+KinMap DrawingTools::KinArray(TTree * intree, std::string vars_tr, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, std::string rt_title, std::string cuts, bool cor){
+    return KinArray(intree, TString(vars_tr), re_nbins, re_bins, tr_nbins, tr_bins, TString(rt_title), TString(cuts),cor);
+}
+
+TH1D * DrawingTools::GetRTRatio(std::string vars_tr, std::string x_title, std::string cuts){
+    return GetRTRatio(TString(vars_tr), TString(x_title), TString(cuts));
+}
+
+KinMap DrawingTools::KinArray(std::string vars_tr, int nbins, const double low, const double high, std::string rt_title, std::string cuts, bool cor){
+    return KinArray(TString(vars_tr), nbins, low, high, TString(rt_title), TString(cuts), cor);
+}
+KinMap DrawingTools::KinArray(std::string vars_tr, int nbins, const Double_t * bins, std::string rt_title, std::string cuts, bool cor){
+    return KinArray(TString(vars_tr), nbins, bins, TString(rt_title), TString(cuts), cor);
+}
+KinMap DrawingTools::KinArray(std::string vars_tr, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, std::string rt_title, std::string cuts, bool cor){
+    return KinArray(TString(vars_tr), re_nbins, re_low, re_high, tr_nbins, tr_low, tr_high, TString(rt_title), TString(cuts), cor);
+}
+
+KinMap DrawingTools::KinArray(std::string vars_tr, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, std::string rt_title, std::string cuts, bool cor){
+    return KinArray(TString(vars_tr), re_nbins, re_bins, tr_nbins, tr_bins, TString(rt_title), TString(cuts), cor);
+}
+
+TH1D * DrawingTools::GetTruthHisto(std::string var, int nbins, const double x_low, const double x_high, std::string xy_title, std::string cuts){
+    return GetTruthHisto(TString(var), nbins, x_low, x_high, TString(xy_title), TString(cuts));
+}
+TH1D * DrawingTools::GetTruthHisto(std::string var, int nbins, const Double_t * xbins, std::string xy_title, std::string cuts){
+    return GetTruthHisto(TString(var), nbins, xbins, TString(xy_title), TString(cuts));
+}
+
+TH1D * DrawingTools::GetRecoHisto(std::string var, int nbins, const double x_low, const double x_high, std::string xy_title, std::string cuts){
+    return GetRecoHisto(TString(var), nbins, x_low, x_high, TString(xy_title), TString(cuts));
+}
+TH1D * DrawingTools::GetRecoHisto(std::string var, int nbins, const Double_t * xbins, std::string xy_title, std::string cuts){
+    return GetRecoHisto(TString(var), nbins, xbins, TString(xy_title), TString(cuts));
+}
+
+TH2D * DrawingTools::SmearMatrix(std::string vars_yx, int nbins, const double low, const double high, std::string xy_title, std::string cuts){
+    return SmearMatrix(TString(vars_yx), nbins, low, high, TString(xy_title), TString(cuts));
+}
+TH2D * DrawingTools::SmearMatrix(std::string vars_yx, int nbins, const Double_t * bins, std::string xy_title, std::string cuts){
+    return SmearMatrix(TString(vars_yx), nbins, bins, TString(xy_title), TString(cuts));
+}
+
+TH2D * DrawingTools::SmearMatrix(std::string vars_yx, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, std::string xy_title, std::string cuts){
+    return SmearMatrix(TString(vars_yx), re_nbins, re_low, re_high, tr_nbins, tr_low, tr_high, TString(xy_title), TString(cuts));
+}
+TH2D * DrawingTools::SmearMatrix(std::string vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, std::string xy_title, std::string cuts){
+    return SmearMatrix(TString(vars_yx), re_nbins, re_bins, tr_nbins, tr_bins, TString(xy_title), TString(cuts));
+}
