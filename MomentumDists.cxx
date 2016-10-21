@@ -1040,7 +1040,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    //MomentumDists(filename, savename, debug);
+    MomentumDists(filename, savename, debug);
     
     return 0;
 }
