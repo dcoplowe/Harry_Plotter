@@ -1020,7 +1020,7 @@ int main(int argc, char *argv[])
     smon << mon;
     syear << year;
     
-    string savename = "CC1P1PiP_Plots_" + day + mon + year + ".root";
+    string savename = "CC1P1PiP_Plots_" + sday.str() + smon.str() + syear.str() + ".root";
     
     bool debug = false;
     
@@ -1033,9 +1033,8 @@ int main(int argc, char *argv[])
             default: return 1;
         }
     }
-    
-    
-    MomentumDists(filename, savename, debug);
+
+    //MomentumDists(filename, savename, debug);
     
     return 0;
 }

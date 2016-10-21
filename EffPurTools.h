@@ -102,7 +102,7 @@ private:
 
     bool _DEBUG_;
     
-    Double_t * EvenArray(int nbins, x_low, x_high);
+    Double_t * EvenArray(int nbins, Double_t x_low, Double_t x_high);
 
 };
 

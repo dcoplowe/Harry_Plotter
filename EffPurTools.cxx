@@ -492,7 +492,7 @@ TH1D * EffPurTools::PurVSVar(const char* var, int nbins, const Double_t x_low, c
     return PurVSVar(TString(var), nbins, x_low, x_high, TString(signal), TString(x_title), TString(cuts));
 }
 
-Double_t * EffPurTools::EvenArray(int nbins, x_low, x_high){
+Double_t * EffPurTools::EvenArray(int nbins, Double_t x_low, Double_t x_high){
     Double_t * xbins = new Double_t[ nbins + 1 ];
     
     Double_t range = x_high - x_low;
