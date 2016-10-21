@@ -93,7 +93,9 @@ EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_name
     cout << "Recon branch: " << _reconame.Data() << endl;
 }
 
-EffPurTools::EffPurTools(std::string filename, bool debug, std::string reconame, std::string truename) : EffPurTools(TString(filename), debug, TString(reconame), TString(truename))  { }
+EffPurTools::EffPurTools(std::string filename, bool debug, std::string reconame, std::string truename){
+    EffPurTools(TString(filename), debug, TString(reconame), TString(truename));
+}
 
 //These may not be void functions:
 TH1D * EffPurTools::EffVSCuts(const TString signal, int branch, const TString cuts){
