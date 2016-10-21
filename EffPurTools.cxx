@@ -58,7 +58,7 @@ EffPurTools::EffPurTools(TString filename, std::vector<TString> cut_names, bool 
 //This initialisation probably wont work:
 EffPurTools::EffPurTools() {
     if(_DEBUG_) cout << "EffPurTools::EffPurTools()" << endl;
-    EffPurTools("UNKNOWN");
+    EffPurTools(TString("UNKNOWN"));
     //SetRecoBranch("CC1P1Pi");
     //SetTrueBranch("Truth");
 }
