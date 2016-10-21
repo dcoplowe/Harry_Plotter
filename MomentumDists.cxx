@@ -929,9 +929,15 @@ void MomentumDists(const string file, const string savename, bool debug)
         for(int i = 0; i < 2; i++){
             for (int pid_meth = 0; pid_meth < 2; pid_meth++) {
             
-                TH1D * part_eff_E = m_ep->EffVSVar( ("truth_" + pname_st[i] + "_E/1000").c_str() , 50, 0, 6, ("truth_n_" + pcount_st[i] + " > 0 && truth_accum_level[" +  + "] > ").c_str(), ("E^{true}_" + psym_st[i] + " GeV").c_str());
+                stringstream sac_lev;
+                sac_lev << pid_meth;
                 
-                TCanvas * part_eff_E_can = new TCanvas( ("eff_" + pname_st[i] + "_E").c_str() , "", 500, 500);
+                TH1D * part_eff_E = m_ep->EffVSVar( ("truth_" + pname_st[i] + "_E/1000").c_str() , 50, 0, 6, ("truth_n_" + pcount_st[i] + " > 0").c_str(), "truth_accum_level[" + sac_lev.str() + "] > 5").c_str(), ("E^{true}_" + psym_st[i] + " (GeV)").c_str());
+                
+                string pid_name = "EX";
+                if(pid_meth > 1) pid_name = "LL";
+                
+                TCanvas * part_eff_E_can = new TCanvas( ("eff_" + pname_st[i] + "_E_" + pid_name).c_str() , "", 500, 500);
                 part_eff_E_can->cd();
                 part_eff_E->Draw("HIST");
                 TLegend * part_eff_E_can_pot = plot->GetPOT(0.521,0.781);
