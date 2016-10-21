@@ -30,6 +30,7 @@
 #include "THStack.h"
 #include "TLegend.h"
 #include "TFile.h"
+#include "TDaTime.h"
 
 //#include <TStyle.h>
 
@@ -1002,6 +1003,24 @@ TCanvas * AnalysisPlots:: VarVsParticles(TString var, int nbins, double x_low, d
 int main(int argc, char *argv[])
 {
     string filename = testing_mc;
+    
+    TDaTime today;
+    int day = today.GetDay();
+    int mon = today.GetMonth();
+    int year = today.GetYear();
+    year -= 2000;
+    
+    cout << "day = " << day << " mon = " << mon << " year = " << year << endl;
+    
+    stringstream sday, smon, syear;
+    
+    sday << day;
+    smon << mon;
+    syear << year;
+    
+    
+    TDaTime
+    
     string savename = "CC1P1PiP_Plots_290916.root";
     
     bool debug = false;
@@ -1016,7 +1035,7 @@ int main(int argc, char *argv[])
         }
     }
     
-    MomentumDists(filename, savename, debug);
+    //MomentumDists(filename, savename, debug);
     
     return 0;
 }
