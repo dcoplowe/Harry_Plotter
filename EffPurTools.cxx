@@ -439,8 +439,8 @@ void EffPurTools::SetCutNames(std::vector<TString> var){
 TH1D * EffPurTools::RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString common_cut, const TString num_only_cut, const TString x_title){
     
     if(_DEBUG_){
-        cout << "    Signal: " << signal.Data() << endl;
-        cout << "    Cut(s): " << cuts.Data() << endl;
+        cout << "          Common Cut: " << common_cut.Data() << endl;
+        cout << "    Cut to Numerator: " << num_only_cut.Data() << endl;
     }
     
     TString num_cut = common_cut;
