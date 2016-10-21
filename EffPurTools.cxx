@@ -506,7 +506,7 @@ TH1D * EffPurTools::EffVSVar(std::string var, int nbins, const Double_t * xbins,
     return EffVSVar(TString(var), nbins, xbins, TString(signal), TString(x_title), TString(cuts));
 }
 
-TH1D * EffPurTools::EffVSVar(std::string var, int nbins, const Double_t x_low, const Double_t x_high, std::string signal, std::string x_title, std::string cuts){
+TH1D * EffPurTools::EffVSVar(const char* var, int nbins, const Double_t x_low, const Double_t x_high, const char* signal, const char* x_title, const char* cuts){
     return EffVSVar(TString(var), nbins, x_low, x_high, TString(signal), TString(x_title), TString(cuts));
 }
 
