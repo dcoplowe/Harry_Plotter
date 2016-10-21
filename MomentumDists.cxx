@@ -30,7 +30,7 @@
 #include "THStack.h"
 #include "TLegend.h"
 #include "TFile.h"
-#include "TDaTime.h"
+#include "TDatime.h"
 
 //#include <TStyle.h>
 
@@ -1004,7 +1004,7 @@ int main(int argc, char *argv[])
 {
     string filename = testing_mc;
     
-    TDaTime today;
+    TDatime today;
     int day = today.GetDay();
     int mon = today.GetMonth();
     int year = today.GetYear();
