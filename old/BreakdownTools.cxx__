@@ -1,0 +1,26 @@
+#ifndef _BREAKDOWNTOOL_
+#define _BREAKDOWNTOOL_
+
+//Forward declarations:
+//#include "DrawingTools.h"
+//class DrawingTools;
+class TH1D;
+class TH2D;
+
+class BreakdownTools {// : public DrawingTools {
+public:
+	BreakdownTools();
+	~BreakdownToosl();
+
+	//Topology breakdown
+	//Particle breakdown
+	//Wrong PID
+    void PIDVar();
+    void TopVar();
+    void MisPIDVar();
+    
+private:
+    DrawingTools * m_plot;
+}
+
+#endif

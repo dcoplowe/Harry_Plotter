@@ -11,7 +11,6 @@
 class TFile;
 class TTree;
 class TH1D;
-class TH2D;
 
 //using namespace PlotUtils;
 using namespace std;
@@ -49,21 +48,13 @@ public:
     TH1D * EffVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString cuts, const TString x_title = "");
     TH1D * EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString cuts, const TString x_title = "");
     
-    TH2D * EffVSVar(const TString var_yx, int x_nbins, const Double_t * x_bins, int y_nbins, const Double_t * y_bins, const TString signal, const TString cuts, const TString xy_title = "");
-    TH2D * EffVSVar(const TString var_yx, int x_nbins, const Double_t x_low, const Double_t x_high, int y_nbins, const Double_t y_low, const Double_t y_high, const TString signal, const TString cuts, const TString xy_title = "");
-    
     TH1D * PurVSCuts(const TString signal, int branch = 0, const TString cuts = "");
-    
     TH1D * PurVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString cuts = "", const TString x_title = "");
     TH1D * PurVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString cuts = "", const TString x_title = "");
 
     TH1D * EffVSCuts(const char* signal, int branch = 0, const char* cuts = "");
-    
     TH1D * EffVSVar(const char* var, int nbins, const Double_t * xbins, const char* signal, const char* cuts, const char* x_title = "");
     TH1D * EffVSVar(const char* var, int nbins, const Double_t x_low, const Double_t x_high, const char* signal, const char* cuts, const char* x_title = "");
-    
-    TH2D * EffVSVar(const char * var_yx, int x_nbins, const Double_t * x_bins, int y_nbins, const Double_t * y_bins, const char * signal, const char * cuts, const char * xy_title = "");
-    TH2D * EffVSVar(const char * var_yx, int x_nbins, const Double_t x_low, const Double_t x_high, int y_nbins, const Double_t y_low, const Double_t y_high, const char * signal, const char * cuts, const char * xy_title = "");
     
     TH1D * PurVSCuts(const char* signal, int branch = 0, const char* cuts = "");
     TH1D * PurVSVar(const char* var, int nbins, const Double_t * xbins, const char* signal, const char* cuts, const char* x_title = "");
@@ -97,18 +88,13 @@ private:
     TH1D * RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString common_cut, const TString num_only_cut, const TString x_title);
     TH1D * RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString common_cut, const TString num_only_cut, const TString x_title);
     
-    TH2D * RatioVSVar(TTree * intree, const TString var_yx, int x_nbins, const Double_t * x_bins, int y_nbins, const Double_t * y_bins, const TString common_cut, const TString num_only_cut, const TString xy_title);
     
     TH1D * GetHisto(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString cuts);
     TH1D * GetHisto(TTree * intree, const TString var, int nbins, const double x_low, const double x_high, const TString cuts);
     
-    TH2D * GetHisto(TTree * intree, const TString var_yx, int x_nbins, const Double_t * xbins, int y_nbins, const Double_t * ybins, const TString cuts);
-    TH2D * GetHisto(TTree * intree, const TString var_yx, int x_nbins, const double x_low, const double x_high, int y_nbins, const double y_low, const double y_high, const TString cuts);
-    
     int _effhcounter;
     int _purhcounter;
-    int _ghcounter1D;
-    int _ghcounter2D;
+    int _ghcounter;
     int _effvarcounter;
     int _purvarcounter;
 

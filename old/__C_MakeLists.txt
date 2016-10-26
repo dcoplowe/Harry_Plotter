@@ -1,0 +1,15 @@
+cmake_minimum_required (VERSION 2.8 FATAL_ERROR)
+project (MakePlots)
+
+#set (MakePlots_VERSION_MAJOR 1)
+#set (MakePlots_VERSION_MINOR 0)
+
+add_library(src DrawingTools.cxx)
+
+include_directories ("${PROJECT_SOURCE_DIR}/src")
+add_subdirectory (src) 
+ 
+# add the executable
+add_executable(MakePlots MomentumDists.cxx)
+target_link_libraries (MakePlots src)
+

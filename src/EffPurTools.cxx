@@ -6,7 +6,6 @@
 #include "TFile.h"
 #include "TH1I.h"
 #include "TH1D.h"
-#include "TH2D.h"
 #include "TTree.h"
 
 EffPurTools::EffPurTools(TString filename, bool debug, TString reconame, TString truename) {
@@ -23,8 +22,7 @@ EffPurTools::EffPurTools(TString filename, bool debug, TString reconame, TString
     //Include counter to make sure hists have unique names:
     _purhcounter = -1;
     _effhcounter = -1;
-    _ghcounter1D = -1;
-    _ghcounter2D = -1;
+    _ghcounter = -1;
     _effvarcounter = -1;
     _purvarcounter = -1;
     
@@ -44,7 +42,7 @@ EffPurTools::EffPurTools(TString filename, std::vector<TString> cut_names, bool 
     
     _purhcounter = -1;
     _effhcounter = -1;
-    _ghcounter1D = -1;
+    _ghcounter = -1;
     _effvarcounter = -1;
     _purvarcounter = -1;
     
@@ -82,7 +80,7 @@ EffPurTools::EffPurTools(const char* filename, std::vector<std::string> cut_name
     
     _purhcounter = -1;
     _effhcounter = -1;
-    _ghcounter1D = -1;
+    _ghcounter = -1;
     _effvarcounter = -1;
     _purvarcounter = -1;
     
@@ -177,28 +175,19 @@ TH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t * xbin
 }
 
 TH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString cuts, const TString x_title){
-    if(_DEBUG_) cout << "EffPurTools::EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString cuts, const TString x_title)" << endl;
-    return RatioVSVar(_truthtree, var, nbins, EvenArray(nbins, x_low, x_high), signal, cuts, x_title);
-}
-
-TH2D * EffPurTools::EffVSVar(const TString var_yx, int x_nbins, const Double_t * x_bins, int y_nbins, const Double_t * y_bins, const TString signal, const TString cuts, const TString xy_title){
-    if(_DEBUG_) cout << "EffPurTools::EffVSVar()" << endl;
+    if(_DEBUG_) cout << "EffPurTools::EffVSVar(TString, TString, TString)" << endl;
+    //TTree * intree = (TTree*)_file->Get(_truename.Data());
     
     if(!_truthtree){
         cout << "EffPurTools::EffVSCuts : Warning : truth tree name not set." << endl;
         return 0x0;
     }
     
-    TH2D * effvar = RatioVSVar(_truthtree, var_yx, x_nbins, x_bins, y_nbins, y_bins, signal, cuts, xy_title);
+    TH1D * effvar = RatioVSVar(_truthtree, var, nbins, x_low, x_high, signal, cuts, x_title);
     _effvarcounter++;
     effvar->SetName(Form("effvar%.3d", _effvarcounter));
-    //effvar->Set
+    effvar->GetYaxis()->SetTitle("Efficiency");
     return effvar;
-}
-
-TH2D * EffPurTools::EffVSVar(const TString var_yx, int x_nbins, const Double_t x_low, const Double_t x_high, int y_nbins, const Double_t y_low, const Double_t y_high, const TString signal, const TString cuts, const TString xy_title){
-    if(_DEBUG_) cout << "EffPurTools::EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString cuts, const TString x_title)" << endl;
-    return RatioVSVar(_truthtree, var_yx, x_nbins, EvenArray(x_nbins, x_low, x_high), y_nbins, EvenArray(y_nbins, y_low, y_high), signal, cuts, xy_title);
 }
 
 TH1D * EffPurTools::PurVSCuts(const TString signal, int branch, const TString cuts){
@@ -270,13 +259,20 @@ TH1D * EffPurTools::PurVSVar(const TString var, int nbins, const Double_t * xbin
     
     TH1D * purvar = RatioVSVar(_recontree, var, nbins, xbins, cuts, signal, x_title);
     _purvarcounter++;
-    purvar->SetName(Form("purvar%.3d", _purvarcounter));
+    purvar->SetName(Form("effvar%.3d", _purvarcounter));
     purvar->GetYaxis()->SetTitle("Purity");
     return purvar;
 }
 
 TH1D * EffPurTools::PurVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title, const TString cuts){
     if(_DEBUG_) cout << "EffPurTools::PurVSVar()" << endl;
+    //TTree * intree = (TTree*)_file->Get(_reconame.Data());
+    
+    if(!_recontree){
+        cout << "EffPurTools::EffVSCuts : Warning : recon tree name not set." << endl;
+        return 0x0;
+    }
+    
     return PurVSVar(var, nbins, EvenArray(nbins, x_low, x_high), signal, cuts, x_title);
 }
 
@@ -386,13 +382,25 @@ TH1D * EffPurTools::DrawRatioVSCuts(TH1D * num, TH1D * den, TString y_title, TSt
 }
 
 TH1D * EffPurTools::GetHisto(TTree * intree, const TString var, int nbins, const double x_low, const double x_high, const TString cuts){
-    return GetHisto(intree, var, nbins, EvenArray(nbins, x_low, x_high), cuts);
+    
+    Double_t * xbins = new Double_t[ nbins + 1 ];
+    
+    Double_t range = x_high - x_low;
+    Double_t binwidth = range/(Double_t)nbins;
+    
+    for (int i=0; i < nbins + 1; i++) {
+        xbins[i] = x_low + binwidth*i;
+        //cout << "Array Element: " << i << " : " << xbins[i] << endl;
+    }
+    
+    return GetHisto(intree, var, nbins, xbins, cuts);
+    
 }
 
 TH1D * EffPurTools::GetHisto(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString cuts){
-    _ghcounter1D++;
+    _ghcounter++;
     
-    TString host_name = Form("1Dvar%.3d", _ghcounter1D);
+    TString host_name = Form("var%.3d", _ghcounter);
     
     TH1D * hist = new TH1D(host_name.Data(), "", nbins, xbins);
     
@@ -408,31 +416,6 @@ TH1D * EffPurTools::GetHisto(TTree * intree, const TString var, int nbins, const
     if(_DEBUG_) cout << "Histo: " << hist->GetName() << " : Entries = " << hist->Integral() << endl;
     
     return hist;
-}
-
-TH2D * EffPurTools::GetHisto(TTree * intree, const TString var_yx, int x_nbins, const Double_t * xbins, int y_nbins, const Double_t * ybins, const TString cuts){
-    _ghcounter2D++;
-    TString host_name = Form("2Dvar%.3d", _ghcounter2D);
-    
-    TH2D * hist = new TH2D(host_name.Data(), "", x_nbins, xbins, y_nbins, ybins);
-    
-    TString tmp_cuts = cuts.Data();
-  //  if(!tmp_cuts.EqualTo("", TString::kExact)) tmp_cuts.Append(" && ");
-    
-  //  tmp_cuts.Append(Form("(%s != -999)", var.Data()));
-    
-    if(_DEBUG_) cout << tmp_cuts.Data() << endl;
-    
-    intree->Project(host_name.Data(), var_yx.Data(), tmp_cuts.Data());
-    
-    if(_DEBUG_) cout << "Histo: " << hist->GetName() << " : Entries = " << hist->Integral() << endl;
-    
-    return hist;
-    
-}
-
-TH2D * EffPurTools::GetHisto(TTree * intree, const TString var_yx, int x_nbins, const double x_low, const double x_high, int y_nbins, const double y_low, const double y_high, const TString cuts){
-    return GetHisto(intree, var_yx, x_nbins, EvenArray(x_nbins, x_low, x_high), y_nbins, EvenArray(y_nbins, y_low, y_high), cuts);
 }
 
 //-------------- Set cut names of x-axis: --------------//
@@ -472,7 +455,7 @@ TH1D * EffPurTools::RatioVSVar(TTree * intree, const TString var, int nbins, con
     TH1D * num = GetHisto(intree, var, nbins, xbins, num_cut);
     TH1D * den = GetHisto(intree, var, nbins, xbins, common_cut);
     
-    TH1D * ratio = new TH1D(Form("ratio_1D_%s", var.Data()), Form(";%s;Ratio",x_title.Data()), nbins, xbins);
+    TH1D * ratio = new TH1D(Form("ratio_%s", var.Data()), Form(";%s;Ratio",x_title.Data()), nbins, xbins);
     ratio->Divide(num, den);
     
     delete num;
@@ -485,36 +468,6 @@ TH1D * EffPurTools::RatioVSVar(TTree * intree, const TString var, int nbins, con
     return RatioVSVar(intree, var, nbins, EvenArray(nbins, x_low, x_high), common_cut, num_only_cut, x_title);
 }
 
-TH2D * EffPurTools::RatioVSVar(TTree * intree, const TString var_yx, int x_nbins, const Double_t * x_bins, int y_nbins, const Double_t * y_bins, const TString common_cut, const TString num_only_cut, const TString xy_title){
-    
-    if(_DEBUG_){
-        cout << "          Common Cut: " << common_cut.Data() << endl;
-        cout << "    Cut to Numerator: " << num_only_cut.Data() << endl;
-    }
-    
-    TString num_cut = common_cut;
-    
-    if(!num_only_cut.EqualTo("",TString::kExact)){
-        num_cut.Append(" && ");
-        num_cut.Append(num_only_cut);
-        if(_DEBUG_) cout << "    Numerator only cut(s): " << num_cut.Data() << endl;
-    }
-    else if(_DEBUG_) cout << "    Numerator only cut(s): None" << endl;
-    
-    TH2D * num = GetHisto(intree, var_yx, x_nbins, x_bins, y_nbins, y_bins, num_cut);
-    TH2D * den = GetHisto(intree, var_yx, x_nbins, x_bins, y_nbins, y_bins, common_cut);
-    
-    _ghcounter2D++;
-    TH2D * ratio = new TH2D(Form("ratio_2D_%.3d", _ghcounter2D), Form(";%s",xy_title.Data()), x_nbins, x_bins, y_nbins, y_bins);
-    ratio->Divide(num, den);
-    
-    delete num;
-    delete den;
-    
-    return ratio;
-    
-}
-
 TH1D * EffPurTools::EffVSCuts(const char* signal, int branch, const char* cuts){
     return EffVSCuts(TString(signal), branch, TString(cuts));
 }
@@ -525,14 +478,6 @@ TH1D * EffPurTools::EffVSVar(const char* var, int nbins, const Double_t * xbins,
 
 TH1D * EffPurTools::EffVSVar(const char* var, int nbins, const Double_t x_low, const Double_t x_high, const char* signal, const char* cuts, const char* x_title){
     return EffVSVar(TString(var), nbins, x_low, x_high, TString(signal), TString(cuts), TString(x_title));
-}
-
-TH2D * EffPurTools::EffVSVar(const char * var_yx, int x_nbins, const Double_t * x_bins, int y_nbins, const Double_t * y_bins, const char * signal, const char * cuts, const char * xy_title){
-    return EffVSVar(TString(var_yx), x_nbins, x_bins, y_nbins, y_bins, TString(signal), TString(cuts), TString(xy_title));
-}
-
-TH2D * EffPurTools::EffVSVar(const char * var_yx, int x_nbins, const Double_t x_low, const Double_t x_high, int y_nbins, const Double_t y_low, const Double_t y_high, const char * signal, const char * cuts, const char * xy_title){
-    return EffVSVar(TString(var_yx), x_nbins, x_low, x_high, y_nbins, y_low, y_high, TString(signal), TString(cuts), TString(xy_title));
 }
 
 TH1D * EffPurTools::PurVSCuts(const char* signal, int branch, const char* cuts){

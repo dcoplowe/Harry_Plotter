@@ -926,72 +926,28 @@ void MomentumDists(const string file, const string savename, bool debug)
         string psym_st[2] = {"p","#pi^{+}"};
         
         //Eff. vs E_{p,pi} -- for use in determining how best to approach improving three tracks:
-        for(int i = 0; i < 2; i++){//Particle type loop
-            for(int low_clev = 0; low_clev < 2; low_clev++){//signal cut: consider the two cases where we look at the cut specifically or the selection vs. eff.
-                for(int hig_clev = 0; hig_clev < 2; hig_clev++){
-                    string slow_clev, shig_clev;
-                    switch (low_clev) {
-                        case 1:  slow_clev = "1"; break;
-                        default: slow_clev = "-1"; break;
-                    }
-                    
-                    switch (hig_clev) {
-                        case 1:  shig_clev = "3"; break;
-                        default: shig_clev = "5"; break;
-                    }
-                    
-                    for (int pid_meth = 0; pid_meth < 2; pid_meth++) {//EX of LL pid method
-                        stringstream sac_lev;
-                        sac_lev << pid_meth;
-                        
-                        string signal_1D = "truth_n_" + pcount_st[i] + " > 0 && truth_accum_level[" + sac_lev.str() + "] > " + slow_clev;
-                        string cut_1D = "truth_accum_level[" + sac_lev.str() + "] > " + shig_clev;
-                        
-                        TH1D * part_eff_E = m_ep->EffVSVar( ("truth_" + pname_st[i] + "_E/1000").c_str(), 50, 0, 6, signal_1D, cut_1D, ("E^{true}_{" + psym_st[i] + "} (GeV)").c_str() );
-                        
-                        string pid_name = "EX";
-                        if(pid_meth > 0) pid_name = "LL";
-                        
-                        string slow_clev_save = "0";
-                        if(low_clev > 0) slow_clev_save = slow_clev;
-                        
-                        string part_eff_E_can_name = "eff_" + pname_st[i] + "_E_" + pid_name + "_acl" + slow_clev_save + "_ach" + shig_clev;
-                        
-                        TCanvas * part_eff_E_can = new TCanvas(part_eff_E_can_name.c_str(), "", 500, 500);
-                        part_eff_E_can->cd();
-                        part_eff_E->Draw("HIST");
-                        TLegend * part_eff_E_can_pot = plot->GetPOT(0.521,0.781);
-                        part_eff_E_can_pot->Draw();
-                        
-                        outfile->cd();
-                        part_eff_E_can->Write();
-                        
-                        delete part_eff_E;
-                        delete part_eff_E_can;
-                        
-                        for(int j =0; j < 2; j++){
-                            string variable = "TMath::Cos(truth_" + pname_st[j] + "_Theta):truth_" + pname_st[i] + "_E/1000";
-                            string signal_2D = "truth_n_" + pcount_st[i] + " > 0 && truth_accum_level[" + sac_lev.str() + "] > " + slow_clev;
-                            string cut_2D = "truth_accum_level[" + sac_lev.str() + "] > " + shig_clev;
-                            
-                            TH2D * part_eff_E_cTheta = m_ep->EffVSVar(variable, 50, 0, 6, 30, -1, 1, signal_2D, cut_2D, ("E^{true}_{" + psym_st[i] + "} (GeV);cos#theta^{true}_{" + psym_st[j] + "}").c_str());
-                            
-                            string part_eff_E_cTheta_can_name = "eff_" + pname_st[i] + "_E" + pname_st[i] + " _cTheta" + pname_st[j] + "_" + pid_name + "_acl" + slow_clev_save + "_ach" + shig_clev;
-                            TCanvas * part_eff_E_cTheta_can = new TCanvas(part_eff_E_cTheta_can_name.c_str(), "", 500, 500);
-                            part_eff_E_cTheta_can->cd();
-                            part_eff_E_cTheta->Draw("COLZ");
-                            TLegend * part_eff_E_cTheta_can_pot = plot->GetPOT(0.521,0.781);
-                            part_eff_E_cTheta_can_pot->Draw();
-                            
-                            outfile->cd();
-                            part_eff_E_cTheta_can->Write();
-                            
-                            delete part_eff_E_cTheta;
-                            delete part_eff_E_cTheta_can_pot;
-                            delete part_eff_E_cTheta_can;
-                        }
-                    }
-                }
+        for(int i = 0; i < 2; i++){
+            for (int pid_meth = 0; pid_meth < 2; pid_meth++) {
+            
+                stringstream sac_lev;
+                sac_lev << pid_meth;
+                
+                TH1D * part_eff_E = m_ep->EffVSVar( ("truth_" + pname_st[i] + "_E/1000").c_str(), 50, 0, 6, ("truth_n_" + pcount_st[i] + " > 0").c_str(), ("truth_accum_level[" + sac_lev.str() + "] > 5").c_str(), ("E^{true}_" + psym_st[i] + " (GeV)").c_str() );
+                
+                string pid_name = "EX";
+                if(pid_meth > 0) pid_name = "LL";
+                
+                TCanvas * part_eff_E_can = new TCanvas( ("eff_" + pname_st[i] + "_E_" + pid_name).c_str() , "", 500, 500);
+                part_eff_E_can->cd();
+                part_eff_E->Draw("HIST");
+                TLegend * part_eff_E_can_pot = plot->GetPOT(0.521,0.781);
+                part_eff_E_can_pot->Draw();
+                
+                outfile->cd();
+                part_eff_E_can->Write();
+                
+                delete part_eff_E;
+                delete part_eff_E_can;
             }
         }
         
