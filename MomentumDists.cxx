@@ -807,12 +807,12 @@ void MomentumDists(const string file, const string savename, bool debug)
         }
         
         std::vector<TString> cut_names;
-        cut_names.push_back("Vertex");
-        cut_names.push_back("3 Tracks");
-        cut_names.push_back("Muon Track");
-        cut_names.push_back("Contained Vtx");
-        cut_names.push_back("PID: p/#pi^{#pm}");
-        cut_names.push_back("Michel Tags");
+        cut_names.push_back("Vertex");              // 1
+        cut_names.push_back("3 Tracks");            // 2
+        cut_names.push_back("Muon Track");          // 3
+        cut_names.push_back("Contained Vtx");       // 4
+        cut_names.push_back("PID: p/#pi^{#pm}");    // 5
+        cut_names.push_back("Michel Tags");         // 6
         
         string signal_def_truth = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1  && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 20 && TMath::RadToDeg()*truth_mu_Theta >= 0";// && truth_true_target_region == 1";
         
@@ -936,7 +936,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                     }
                     
                     switch (hig_clev) {
-                        case 1:  shig_clev = "3"; break;
+                        case 1:  shig_clev = "2"; break;
                         default: shig_clev = "5"; break;
                     }
                     
