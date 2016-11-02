@@ -438,6 +438,8 @@ void MomentumDists(const string file, const string savename, bool debug)
         dpTT_type.push_back( (flag + "dpTT_pr").c_str() );      truedpTT_type.push_back( (flag + "truedpTT_pr").c_str() );      dpTT_type_title.push_back( "#hat{#nu}#times#hat{p}_{p}   " );
         dpTT_type.push_back( (flag + "dpTT_pr_dir").c_str() );  truedpTT_type.push_back( (flag + "truedpTT_pr_dir").c_str() );  dpTT_type_title.push_back( "#hat{#nu}#times#hat{d}_{p}   " );
         
+        double dpTT_range = 600.;
+        
         for(int i = 0; i < (int)dpTT_type.size(); i++){//dpTT distribution.
             string dpTT_title = dpTT_type_title[i] + " #delta#it{p}^{reco}_{TT} (GeV/#it{c});" + dpTT_type_title[i] + " #delta#it{p}^{true}_{TT} (GeV/#it{c})";
             string dpTT_var = truedpTT_type[i] + ":" + dpTT_type[i] + "_EX";
@@ -470,29 +472,29 @@ void MomentumDists(const string file, const string savename, bool debug)
                     
                     //1) topologically  --> CC1P1PiP, CC2P, CC2Pi, CC1Pi01P, CC1Pi01Pi, Other <-- Use only PDG codes to determine these
                     string CC1P1PiP = flag + "mu_PDG == 13 && ((" + flag + "pr_PDG == 2212 && " + flag + "pi_PDG == 211 ) ||  (" + flag + "pr_PDG == 211 && " + flag + "pi_PDG == 2212 ))";
-                    KinMap dpTT_CC1P1PiP_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), CC1P1PiP.c_str())));
+                    KinMap dpTT_CC1P1PiP_map = plot->KinArray(TString(dpTT_var), 21, -dpTT_range, dpTT_range, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), CC1P1PiP.c_str())));
 
                     string CC1P1PiM = flag + "mu_PDG == 13 && ((" + flag + "pr_PDG == 2212 && " + flag + "pi_PDG == -211 ) ||  (" + flag + "pr_PDG == -211 && " + flag + "pi_PDG == 2212 ))";
-                    KinMap dpTT_CC1P1PiM_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), CC1P1PiM.c_str())));
+                    KinMap dpTT_CC1P1PiM_map = plot->KinArray(TString(dpTT_var), 21, -dpTT_range, dpTT_range, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), CC1P1PiM.c_str())));
                     
                     string CC2P = flag + "mu_PDG == 13 && " + flag + "pr_PDG == 2212 && " + flag + "pi_PDG == 2212 ";
-                    KinMap dpTT_CC2P_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), CC2P.c_str())));
+                    KinMap dpTT_CC2P_map = plot->KinArray(TString(dpTT_var), 21, -dpTT_range, dpTT_range, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), CC2P.c_str())));
                     
                     string CC2Pi = flag + "mu_PDG == 13 && " + flag + "pr_PDG == 211 && " + flag + "pi_PDG == 211 ";
-                    KinMap dpTT_CC2Pi_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), CC2Pi.c_str())));
+                    KinMap dpTT_CC2Pi_map = plot->KinArray(TString(dpTT_var), 21, -dpTT_range, dpTT_range, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), CC2Pi.c_str())));
                     
                     string CC1Pi01P = flag + "mu_PDG == 13 && ((" + flag + "pr_PDG == 2212 && " + flag + "pi_PDG == 111 ) ||  (" + flag + "pr_PDG == 111 && " + flag + "pi_PDG == 2212 ))";
-                    KinMap dpTT_CC1Pi01P_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), CC1Pi01P.c_str())));
+                    KinMap dpTT_CC1Pi01P_map = plot->KinArray(TString(dpTT_var), 21, -dpTT_range, dpTT_range, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), CC1Pi01P.c_str())));
                     
                     string CC1Pi01Pi = flag + "mu_PDG == 13 && ((" + flag + "pr_PDG == 111 && " + flag + "pi_PDG == 211 ) ||  (" + flag + "pr_PDG == 211 && " + flag + "pi_PDG == 111 ))";
-                    KinMap dpTT_CC1Pi01Pi_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), CC1Pi01Pi.c_str())));
+                    KinMap dpTT_CC1Pi01Pi_map = plot->KinArray(TString(dpTT_var), 21, -dpTT_range, dpTT_range, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), CC1Pi01Pi.c_str())));
                     
                     /*string TOther = "(" + flag + "mu_PDG == 13 ||" + flag + "mu_PDG == -13) && !( ((" + flag + "pr_PDG == 111 && " + flag + "pi_PDG == 211 ) ||  (" + flag + "pr_PDG == 211 && " + flag + "pi_PDG == 111 ))";
                     TOther += "|| ((" + flag + "pr_PDG == 2212 && " + flag + "pi_PDG == 211 ) ||  (" + flag + "pr_PDG == 211 && " + flag + "pi_PDG == 2212 ))";
                     TOther += "|| "+ flag + "pr_PDG == 2212 && " + flag + "pi_PDG == 2212 ";
                     TOther += "|| (" + flag + "pr_PDG == 211 && " + flag + "pi_PDG == 211)";
                     TOther += ")";*/
-                    KinMap dpTT_TOther_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s", base_cuts.c_str())));//No cuts just sum away the other topologies.
+                    KinMap dpTT_TOther_map = plot->KinArray(TString(dpTT_var), 21, -dpTT_range, dpTT_range, TString(dpTT_title),  TString(Form("%s", base_cuts.c_str())));//No cuts just sum away the other topologies.
                     
                     std::vector<KinMap> dpTT_top_map;
                     std::vector<std::string> dpTT_top_names;
@@ -605,11 +607,11 @@ void MomentumDists(const string file, const string savename, bool debug)
                     
                     string dpTT_tar_title = "tar_" + dpTT_g_title;
                     
-                    KinMap dpTT_Htar_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && mc_targetZ == 1", base_cuts.c_str())));
-                    KinMap dpTT_Ctar_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && mc_targetZ == 6", base_cuts.c_str())));
-                    KinMap dpTT_Pbtar_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && mc_targetZ == 82", base_cuts.c_str())));
+                    KinMap dpTT_Htar_map = plot->KinArray(TString(dpTT_var), 21, -dpTT_range, dpTT_range, TString(dpTT_title),  TString(Form("%s && mc_targetZ == 1", base_cuts.c_str())));
+                    KinMap dpTT_Ctar_map = plot->KinArray(TString(dpTT_var), 21, -dpTT_range, dpTT_range, TString(dpTT_title),  TString(Form("%s && mc_targetZ == 6", base_cuts.c_str())));
+                    KinMap dpTT_Pbtar_map = plot->KinArray(TString(dpTT_var), 21, -dpTT_range, dpTT_range, TString(dpTT_title),  TString(Form("%s && mc_targetZ == 82", base_cuts.c_str())));
                     string tar_other = "mc_targetZ != 1 && mc_targetZ != 6 && mc_targetZ != 82 && mc_targetZ != -999";
-                    KinMap dpTT_Othertar_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), tar_other.c_str())));
+                    KinMap dpTT_Othertar_map = plot->KinArray(TString(dpTT_var), 21, -dpTT_range, dpTT_range, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), tar_other.c_str())));
                     
                     std::vector<KinMap> dpTT_tar_map;
                     std::vector<std::string> dpTT_tar_names;
@@ -657,7 +659,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                     //-------------------------//
                     
                     string tar_sig = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1  && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 20 && TMath::RadToDeg()*truth_mu_Theta >= 0";
-                    KinMap dpTT_Sigtar_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), tar_sig.c_str())));
+                    KinMap dpTT_Sigtar_map = plot->KinArray(TString(dpTT_var), 21, -dpTT_range, dpTT_range, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), tar_sig.c_str())));
                     
                     dpTT_Sigtar_map.recon->SetLineStyle(2);
                     dpTT_Sigtar_map.recon->SetLineWidth(2);
@@ -698,27 +700,27 @@ void MomentumDists(const string file, const string savename, bool debug)
                     
                     if(debug) cout << "dpTT Mis: Working 1" << endl;
                     string misCPCPi = flag + "pr_PDG == 2212 && " + flag + "pi_PDG == 211";
-                    KinMap dpTT_misCPCPi_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misCPCPi.c_str())));
+                    KinMap dpTT_misCPCPi_map = plot->KinArray(TString(dpTT_var), 21, -dpTT_range, dpTT_range, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misCPCPi.c_str())));
                     
                     if(debug) cout << "dpTT Mis: Working 2" << endl;
                     string misCPWPi = flag + "pr_PDG == 2212 && " + flag + "pi_PDG != 211";
-                    KinMap dpTT_misCPWPi_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misCPWPi.c_str())));
+                    KinMap dpTT_misCPWPi_map = plot->KinArray(TString(dpTT_var), 21, -dpTT_range, dpTT_range, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misCPWPi.c_str())));
                     
                     if(debug) cout << "dpTT Mis: Working 3" << endl;
                     string misSWPPi = flag + "pr_PDG == 211 && " + flag + "pi_PDG != 2212";
-                    KinMap dpTT_misSWPPi_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misSWPPi.c_str())));
+                    KinMap dpTT_misSWPPi_map = plot->KinArray(TString(dpTT_var), 21, -dpTT_range, dpTT_range, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misSWPPi.c_str())));
                     
                     if(debug) cout << "dpTT Mis: Working 4" << endl;
                     string misWPCPi = flag + "pr_PDG != 2212 && " + flag + "pi_PDG == 211";
-                    KinMap dpTT_misWPCPi_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misWPCPi.c_str())));
+                    KinMap dpTT_misWPCPi_map = plot->KinArray(TString(dpTT_var), 21, -dpTT_range, dpTT_range, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misWPCPi.c_str())));
                     
                     if(debug) cout << "dpTT Mis: Working 5" << endl;
                     string misWPWPi = flag + "pr_PDG != 2212 && " + flag + "pi_PDG != 211";
-                    KinMap dpTT_misWPWPi_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misWPWPi.c_str())));
+                    KinMap dpTT_misWPWPi_map = plot->KinArray(TString(dpTT_var), 21, -dpTT_range, dpTT_range, TString(dpTT_title),  TString(Form("%s && %s", base_cuts.c_str(), misWPWPi.c_str())));
                     
                     if(debug) cout << "dpTT Mis: Working 6" << endl;
                     //string misOther = "!( (" + misCPCPi + ") || (" + misCPWPi + ") || ("  + misSWPPi + ") || ("  + misWPCPi + ") || ("  + misWPWPi + ") )";
-                    KinMap dpTT_misOther_map = plot->KinArray(TString(dpTT_var), 21, -300, 300, TString(dpTT_title),  TString(Form("%s", base_cuts.c_str())));
+                    KinMap dpTT_misOther_map = plot->KinArray(TString(dpTT_var), 21, -dpTT_range, dpTT_range, TString(dpTT_title),  TString(Form("%s", base_cuts.c_str())));
 
                     if(debug) cout << "dpTT Mis: Working 7" << endl;
 
@@ -994,9 +996,6 @@ void MomentumDists(const string file, const string savename, bool debug)
                 }
             }
         }
-        
-        
-    
         outfile->Close();
 
 }
