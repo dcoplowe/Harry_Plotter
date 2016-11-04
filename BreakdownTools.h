@@ -3,6 +3,7 @@
 
 //Forward declarations:
 #include "TString.h"
+#include <stdio.h>
 
 class DrawingTools;
 class TH1D;
