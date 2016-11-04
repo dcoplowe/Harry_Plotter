@@ -4,6 +4,7 @@
 //Forward declarations:
 #include "TString.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 class DrawingTools;
 class TH1D;
