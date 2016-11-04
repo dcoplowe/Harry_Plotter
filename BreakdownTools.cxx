@@ -7,6 +7,8 @@
 #include "TH1D.h";
 #include "TH2D.h";
 #include "TLegend.h"
+#include "THStack.h"
+#include "TCanvas.h"
 
 
 BreakdownTools::BreakdownTools(TString filename, bool debug, TString reconame, TString truename){
