@@ -13,7 +13,7 @@ BreakdownTools::~BreakdownTools(){
 
 BDCans BreakdownTools::PIDVar(const char * mom_name, const int mom_nbins, const double mom_low, const double mom_high, const char pname, const char * can_title, const char * mom_title, const char * cuts){
 
-    //Was taken from momentum plots in original;
+ /*   //Was taken from momentum plots in original;
     std::string internal_cuts = std::string(cuts);
     if(!internal_cuts.empty()) internal_cuts += " && ";
     
@@ -100,10 +100,10 @@ BDCans BreakdownTools::PIDVar(const char * mom_name, const int mom_nbins, const 
     TLegend * mom_recon_pot = m_plot->GetPOT(0.521,0.781);
     TLegend * mom_truth_pot = m_plot->GetPOT(0.521,0.781);
     TLegend * mom_ratio_pot = m_plot->GetPOT(0.521,0.781);
-    
+    */
     BDCans canvases;
-    
-    canvases.recon = new TCanvas( (can_title.str() + "_" + pname.str() + "_recon").c_str(), "", 500, 500);
+  
+   /* canvases.recon = new TCanvas( (can_title.str() + "_" + pname.str() + "_recon").c_str(), "", 500, 500);
     canvases.recon->cd();
     mom_recon_tot->Draw();
     mom_recon_leg->Draw();
@@ -125,7 +125,7 @@ BDCans BreakdownTools::PIDVar(const char * mom_name, const int mom_nbins, const 
     mom_ratio_tot->Draw();
     mom_ratio_leg->Draw();
     mom_ratio_pot->Draw();
-   
+   */
     return canvases;
 }
 
