@@ -34,7 +34,7 @@ BDCans BreakdownTools::PIDVar(const char * mom_name, const int mom_nbins, const 
     KinMap mom_p0_map =  m_plot->KinArray(mom_name, mom_nbins, mom_low, mom_high, mom_title,  (internal_cuts + pname + "_PDG == 111").c_str());
     KinMap mom_ka_map =  m_plot->KinArray(mom_name, mom_nbins, mom_low, mom_high, mom_title,  (internal_cuts + "TMath::Abs(" + pname + "_PDG) == 321").c_str());
     //KinMap mom_kz_map = m_plot->KinArray(mom_name, mom_nbins, mom_low, mom_high, mom_title,  (internal_cuts + pname + "_PDG == 311").c_str());
-    std::string mom_other = pname + "_PDG != 2212 && TMath::Abs(" + pname + "_PDG) != 211 && TMath::Abs(" + pname + "_PDG) != 13 && " + pname + "_PDG != 111 && TMath::Abs(" + pname + "_PDG) != 321 && " + pname + "_PDG != 311 &&" + pname + "_PDG != -999";
+    std::string mom_other = pname;// + "_PDG != 2212 && TMath::Abs(" + pname + "_PDG) != 211 && TMath::Abs(" + pname + "_PDG) != 13 && " + pname + "_PDG != 111 && TMath::Abs(" + pname + "_PDG) != 321 && " + pname + "_PDG != 311 &&" + pname + "_PDG != -999";
     KinMap mom_ot_map = m_plot->KinArray(mom_name, mom_nbins, mom_low, mom_high, mom_title, (internal_cuts + mom_other).c_str());
     
     std::vector<KinMap> mom_map;
