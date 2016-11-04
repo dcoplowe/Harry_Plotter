@@ -32,6 +32,6 @@ public:
     //void MisPIDVar();
     
 private:
-    //DrawingTools * m_plot;
+    DrawingTools * m_plot;
 };
 #endif

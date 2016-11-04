@@ -5,11 +5,11 @@
 #include <iostream>
 
 BreakdownTools::BreakdownTools(TString filename, bool debug, TString reconame, TString truename){
-    //m_plot = new DrawingTools(filename, debug, "BD", reconame, truename);
+    m_plot = new DrawingTools(filename, debug, "BD", reconame, truename);
 }
 
 BreakdownTools::~BreakdownTools(){
-    //delete m_plot;
+    delete m_plot;
 }
 
 BDCans BreakdownTools::PIDVar(const char * mom_name, const int mom_nbins, const double mom_low, const double mom_high, const char pname, const char * can_title, const char * mom_title, const char * cuts){
