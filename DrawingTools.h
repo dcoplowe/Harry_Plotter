@@ -4,6 +4,7 @@
 #include "DrawingStyle.h"
 
 #include "TString.h"
+#include <string>
 //#include "PlotUtils/MnvH1D.h"
 //#include "PlotUtils/MnvH2D_.h"
 
@@ -28,7 +29,7 @@ public:
     //Basic class for drawing plots and doesn't require filename, takes in tree and reads:
     DrawingTools();
     //This method takes in file, user sets truth and reco. tree names.
-    DrawingTools(TString filename, bool debug = false, TString reconame = "sel", TString truename = "Truth");
+    DrawingTools(TString filename, bool debug = false, TString unique_name = "", TString reconame = "sel", TString truename = "Truth");
     ~DrawingTools(){};//This method doesn't require any file;
     
     TH1D * GetHisto(TTree * intree, const TString var, int nbins, const double x_low, const double x_high, const TString xy_title = "", const TString cuts = "");
@@ -71,45 +72,45 @@ public:
     TH2D * SmearMatrix(const TString vars_yx, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, const TString xy_title = "", const TString cuts = "");
     TH2D * SmearMatrix(const TString vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const TString xy_title = "", const TString cuts = "");
     
-    //std::string versions:
+    //const char * versions:
     
-    TH1D * GetHisto(TTree * intree, std::string var, int nbins, const double x_low, const double x_high, std::string xy_title = "", std::string cuts = "");
-    TH1D * GetHisto(TTree * intree, std::string var, int nbins, const Double_t * xbins, std::string xy_title = "", std::string cuts = "");
+    TH1D * GetHisto(TTree * intree, const char * var, int nbins, const double x_low, const double x_high, const char * xy_title = "", const char * cuts = "");
+    TH1D * GetHisto(TTree * intree, const char * var, int nbins, const Double_t * xbins, const char * xy_title = "", const char * cuts = "");
     
-    TH2D * GetHisto(TTree * intree, std::string vars_yx, int x_nbins, const double x_low, const double x_high, int y_nbins, const double y_low, const double y_high, std::string xy_title = "", std::string cuts = "");
-    TH2D * GetHisto(TTree * intree, std::string vars_yx, int x_nbins, const Double_t * xbins, int y_nbins, const Double_t * ybins, std::string xy_title = "", std::string cuts = "");
+    TH2D * GetHisto(TTree * intree, const char * vars_yx, int x_nbins, const double x_low, const double x_high, int y_nbins, const double y_low, const double y_high, const char * xy_title = "", const char * cuts = "");
+    TH2D * GetHisto(TTree * intree, const char * vars_yx, int x_nbins, const Double_t * xbins, int y_nbins, const Double_t * ybins, const char * xy_title = "", const char * cuts = "");
     
-    TH2D * SmearMatrix(TTree * intree, std::string vars_yx, int nbins, const double low, const double high, std::string xy_title = "", std::string cuts = "");
-    TH2D * SmearMatrix(TTree * intree, std::string vars_yx, int nbins, const Double_t * bins, std::string xy_title = "", std::string cuts = "");
+    TH2D * SmearMatrix(TTree * intree, const char * vars_yx, int nbins, const double low, const double high, const char * xy_title = "", const char * cuts = "");
+    TH2D * SmearMatrix(TTree * intree, const char * vars_yx, int nbins, const Double_t * bins, const char * xy_title = "", const char * cuts = "");
     
-    TH2D * SmearMatrix(TTree * intree, std::string vars_yx, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, std::string xy_title = "", std::string cuts = "");
-    TH2D * SmearMatrix(TTree * intree, std::string vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, std::string xy_title = "", std::string cuts = "");
+    TH2D * SmearMatrix(TTree * intree, const char * vars_yx, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, const char * xy_title = "", const char * cuts = "");
+    TH2D * SmearMatrix(TTree * intree, const char * vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const char * xy_title = "", const char * cuts = "");
     
-    TH1D * GetRTRatio(TTree * intree, std::string vars_tr, std::string x_title = "", std::string cuts = "");
+    TH1D * GetRTRatio(TTree * intree, const char * vars_tr, const char * x_title = "", const char * cuts = "");
     
-    KinMap KinArray(TTree * intree, std::string vars_tr, int nbins, const double low, const double high, std::string rt_title = "", std::string cuts = "", bool cor = true);
-    KinMap KinArray(TTree * intree, std::string vars_tr, int nbins, const Double_t * bins, std::string rt_title = "", std::string cuts = "", bool cor = true);
-    KinMap KinArray(TTree * intree, std::string vars_tr, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, std::string rt_title = "", std::string cuts = "", bool cor = true);
-    KinMap KinArray(TTree * intree, std::string vars_tr, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, std::string rt_title = "", std::string cuts = "", bool cor = true);
+    KinMap KinArray(TTree * intree, const char * vars_tr, int nbins, const double low, const double high, const char * rt_title = "", const char * cuts = "", bool cor = true);
+    KinMap KinArray(TTree * intree, const char * vars_tr, int nbins, const Double_t * bins, const char * rt_title = "", const char * cuts = "", bool cor = true);
+    KinMap KinArray(TTree * intree, const char * vars_tr, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, const char * rt_title = "", const char * cuts = "", bool cor = true);
+    KinMap KinArray(TTree * intree, const char * vars_tr, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const char * rt_title = "", const char * cuts = "", bool cor = true);
     
-    TH1D * GetRTRatio(std::string vars_tr, std::string x_title = "", std::string cuts = "");
+    TH1D * GetRTRatio(const char * vars_tr, const char * x_title = "", const char * cuts = "");
     
-    KinMap KinArray(std::string vars_tr, int nbins, const double low, const double high, std::string rt_title = "", std::string cuts = "", bool cor = true);
-    KinMap KinArray(std::string vars_tr, int nbins, const Double_t * bins, std::string rt_title = "", std::string cuts = "", bool cor = true);
-    KinMap KinArray(std::string vars_tr, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, std::string rt_title = "", std::string cuts = "", bool cor = true);
-    KinMap KinArray(std::string vars_tr, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, std::string rt_title = "", std::string cuts = "", bool cor = true);
+    KinMap KinArray(const char * vars_tr, int nbins, const double low, const double high, const char * rt_title = "", const char * cuts = "", bool cor = true);
+    KinMap KinArray(const char * vars_tr, int nbins, const Double_t * bins, const char * rt_title = "", const char * cuts = "", bool cor = true);
+    KinMap KinArray(const char * vars_tr, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, const char * rt_title = "", const char * cuts = "", bool cor = true);
+    KinMap KinArray(const char * vars_tr, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const char * rt_title = "", const char * cuts = "", bool cor = true);
     
-    TH1D * GetTruthHisto(std::string var, int nbins, const double x_low, const double x_high, std::string xy_title = "", std::string cuts = "");
-    TH1D * GetTruthHisto(std::string var, int nbins, const Double_t * xbins, std::string xy_title = "", std::string cuts = "");
+    TH1D * GetTruthHisto(const char * var, int nbins, const double x_low, const double x_high, const char * xy_title = "", const char * cuts = "");
+    TH1D * GetTruthHisto(const char * var, int nbins, const Double_t * xbins, const char * xy_title = "", const char * cuts = "");
     
-    TH1D * GetRecoHisto(std::string var, int nbins, const double x_low, const double x_high, std::string xy_title = "", std::string cuts = "");
-    TH1D * GetRecoHisto(std::string var, int nbins, const Double_t * xbins, std::string xy_title = "", std::string cuts = "");
+    TH1D * GetRecoHisto(const char * var, int nbins, const double x_low, const double x_high, const char * xy_title = "", const char * cuts = "");
+    TH1D * GetRecoHisto(const char * var, int nbins, const Double_t * xbins, const char * xy_title = "", const char * cuts = "");
     
-    TH2D * SmearMatrix(std::string vars_yx, int nbins, const double low, const double high, std::string xy_title = "", std::string cuts = "");
-    TH2D * SmearMatrix(std::string vars_yx, int nbins, const Double_t * bins, std::string xy_title = "", std::string cuts = "");
+    TH2D * SmearMatrix(const char * vars_yx, int nbins, const double low, const double high, const char * xy_title = "", const char * cuts = "");
+    TH2D * SmearMatrix(const char * vars_yx, int nbins, const Double_t * bins, const char * xy_title = "", const char * cuts = "");
     
-    TH2D * SmearMatrix(std::string vars_yx, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, std::string xy_title = "", std::string cuts = "");
-    TH2D * SmearMatrix(std::string vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, std::string xy_title = "", std::string cuts = "");
+    TH2D * SmearMatrix(const char * vars_yx, int re_nbins, const double re_low, const double re_high, int tr_nbins, const double tr_low, const double tr_high, const char * xy_title = "", const char * cuts = "");
+    TH2D * SmearMatrix(const char * vars_yx, int re_nbins, const Double_t * re_bins, int tr_nbins, const Double_t * tr_bins, const char * xy_title = "", const char * cuts = "");
     
     std::vector<double> GetPercentage(std::vector<TH1D*> histos);
     
@@ -130,6 +131,7 @@ private:
     TString _filename;
     TString _truename;
     TString _reconame;
+    TString _uniquename;
     
     TFile * _file;
     
