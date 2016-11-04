@@ -2,7 +2,8 @@
 #define _BREAKDOWNTOOL_
 
 //Forward declarations:
-class TString;
+#include "TString.h"
+
 class DrawingTools;
 class TH1D;
 class TH2D;
