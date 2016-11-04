@@ -18,8 +18,9 @@ struct BDCans {
 
 class BreakdownTools {
 public:
-	BreakdownTools(TString filename, bool debug = false, TString reconame = "sel", TString truename = "Truth");
-	~BreakdownToosl();
+	
+    BreakdownTools(TString filename, bool debug = false, TString reconame = "sel", TString truename = "Truth");
+	~BreakdownTools();
 
 	//Topology breakdown
 	//Particle breakdown

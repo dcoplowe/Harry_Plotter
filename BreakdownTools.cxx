@@ -2,7 +2,7 @@
 #include "DrawingTools.h"
 #include "TString.h"
 
-BreakdownTool::BreakdownTools(TString filename, bool debug, TString reconame, TString truename){
+BreakdownTools::BreakdownTools(TString filename, bool debug, TString reconame, TString truename){
     m_plot = new DrawingTools(filename, debug, "BD", reconame, truename);
 }
 
