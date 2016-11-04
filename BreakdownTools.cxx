@@ -4,6 +4,11 @@
 #include <string>
 #include <iostream>
 
+#include "TH1D.h";
+#include "TH2D.h";
+
+
+
 BreakdownTools::BreakdownTools(TString filename, bool debug, TString reconame, TString truename){
     m_plot = new DrawingTools(filename, debug, "BD", reconame, truename);
 }
