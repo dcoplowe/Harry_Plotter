@@ -27,12 +27,11 @@ public:
 	//Topology breakdown
 	//Particle breakdown
 	//Wrong PID
-    //void PIDVar(const char * mom_name, const int mom_nbins, const double mom_low, const double mom_high, const char pname, const char * can_title, const char * mom_title = "", const char * cuts = "");
+    BDCan PIDVar(const char * mom_name, const int mom_nbins, const double mom_low, const double mom_high, const char pname, const char * can_title, const char * mom_title = "", const char * cuts = "");
     //void TopVar();
     //void MisPIDVar();
     
 private:
     //DrawingTools * m_plot;
-}
-
+};
 #endif
