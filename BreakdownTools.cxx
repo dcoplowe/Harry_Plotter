@@ -81,7 +81,7 @@ BDCans BreakdownTools::PIDVar(const char * mom_name, const int mom_nbins, const 
     THStack * mom_recon_tot = new THStack( (std::string(pname) + "_" + std::string(can_title) + "_recon").c_str() , mom_recon_title.c_str());
     THStack * mom_truth_tot = new THStack( (std::string(pname) + "_" + std::string(can_title) + "_truth").c_str(), mom_truth_title.c_str());
     THStack * mom_ratio_tot = new THStack( (std::string(pname) + "_" + std::string(can_title) + "_ratio").c_str(),  mom_ratio_title.c_str());
-    TH2D * mom_smear_tot = (TH2D*)mom_smear[0]->Clone( (part_name_ + can_title + "_smear").c_str() );//Just add all of these histos.
+    TH2D * mom_smear_tot = (TH2D*)mom_smear[0]->Clone( (std::string(pname) + "_" + std::string(can_title) + "_smear").c_str() );//Just add all of these histos.
     
     TLegend * mom_recon_leg = m_plot->Legend(0.25, 0.4, 0.551, 0.362);
     TLegend * mom_truth_leg = m_plot->Legend(0.25, 0.4, 0.551, 0.362);
@@ -110,24 +110,24 @@ BDCans BreakdownTools::PIDVar(const char * mom_name, const int mom_nbins, const 
     
     BDCans canvases;
   
-    canvases.recon = new TCanvas( (can_title + "_" + pname + "_recon").c_str(), "", 500, 500);
+    canvases.recon = new TCanvas( (std::string(can_title) + "_" + std::string(pname) + "_recon").c_str(), "", 500, 500);
     canvases.recon->cd();
     mom_recon_tot->Draw();
     mom_recon_leg->Draw();
     mom_recon_pot->Draw();
     
-    canvases.truth = new TCanvas( (can_title + "_" + pname + "_truth").c_str(), "", 500, 500);
+    canvases.truth = new TCanvas( (std::string(can_title) + "_" + std::string(pname) + "_truth").c_str(), "", 500, 500);
     canvases.truth->cd();
     mom_truth_tot->Draw();
     mom_truth_leg->Draw();
     mom_truth_pot->Draw();
     
-    canvases.smear = new TCanvas( (can_title + "_" + pname + "_smear").c_str(), "", 500, 500);
+    canvases.smear = new TCanvas( (std::string(can_title) + "_" + std::string(pname) + "_smear").c_str(), "", 500, 500);
     canvases.smear->cd();
     mom_smear_tot->Draw("COLZ");
     //mom_smear_pot->Draw();
     
-    canvases.ratio = new TCanvas( (can_title + "_" + pname + "_ratio").c_str(), "", 500, 500);
+    canvases.ratio = new TCanvas( (std::string(can_title) + "_" + std::string(pname) + "_ratio").c_str(), "", 500, 500);
     canvases.ratio->cd();
     mom_ratio_tot->Draw();
     mom_ratio_leg->Draw();
