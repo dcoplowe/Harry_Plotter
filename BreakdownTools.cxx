@@ -6,7 +6,7 @@
 
 #include "TH1D.h";
 #include "TH2D.h";
-
+#include "TLegend.h"
 
 
 BreakdownTools::BreakdownTools(TString filename, bool debug, TString reconame, TString truename){
