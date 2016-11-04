@@ -521,7 +521,7 @@ TH2D * DrawingTools::GetHisto(TTree * intree, const char * vars_yx, int x_nbins,
 }
 
 TH2D * DrawingTools::SmearMatrix(TTree * intree, const char * vars_yx, int nbins, const double low, const double high, const char * xy_title, const char * cuts){
-    return SmearMatrix(intree, vars_yx, nbins, low, high, TString(xy_title), TString(cuts));
+    return SmearMatrix(intree, TString(vars_yx), nbins, low, high, TString(xy_title), TString(cuts));
 }
 
 TH2D * DrawingTools::SmearMatrix(TTree * intree, const char * vars_yx, int nbins, const Double_t * bins,  const char * xy_title, const char * cuts){
