@@ -2,6 +2,7 @@
 #define _BREAKDOWNTOOL_
 
 //Forward declarations:
+class TString;
 class DrawingTools;
 class TH1D;
 class TH2D;
