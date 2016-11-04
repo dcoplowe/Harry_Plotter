@@ -329,7 +329,7 @@ void MomentumDists(const string file, const string savename, bool debug)
                             }
                             
                             if(debug) cout << "Working 1" << endl;
-                            TH1D * score_pr = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 2212", common_cuts_score.c_str(), std_partvar.c_str()));
+                            TH1D * score_pr = plot->GetRecoHisto(std_score.c_str(), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && %s_PDG == 2212", common_cuts_score.c_str(), std_partvar.c_str()));
                             
                             if(debug) cout << "Working 2" << endl;
                             //TH1D * score_pi = plot->GetRecoHisto(TString(std_score.c_str()), score_nins, score_low, score_high, Form("%s %sScore", part_name[i].c_str(), AltTit.c_str()), Form("%s && TMath::Abs(%s_PDG) == 211", common_cuts_score.c_str(), std_partvar.c_str()));
@@ -1060,6 +1060,7 @@ int main(int argc, char *argv[])
     int mon = today.GetMonth();
     int year = today.GetYear();
     year -= 2000;
+    
     
     cout << "day = " << day << " mon = " << mon << " year = " << year << endl;
     
