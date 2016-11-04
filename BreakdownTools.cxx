@@ -79,8 +79,8 @@ BDCans BreakdownTools::PIDVar(const char * mom_name, const int mom_nbins, const 
     string mom_ratio_title = Form(";%s;%s", mom_ratio[0]->GetXaxis()->GetTitle(), mom_ratio[0]->GetYaxis()->GetTitle());
     
     THStack * mom_recon_tot = new THStack( (std::string(pname) + "_" + std::string(can_title) + "_recon").c_str() , mom_recon_title.c_str());
-    THStack * mom_truth_tot = new THStack( (pname + "_" + can_title + "_truth").c_str(), mom_truth_title.c_str());
-    THStack * mom_ratio_tot = new THStack( (pname + "_" + can_title + "_ratio").c_str(),  mom_ratio_title.c_str());
+    THStack * mom_truth_tot = new THStack( (std::string(pname) + "_" + std::string(can_title) + "_truth").c_str(), mom_truth_title.c_str());
+    THStack * mom_ratio_tot = new THStack( (std::string(pname) + "_" + std::string(can_title) + "_ratio").c_str(),  mom_ratio_title.c_str());
     TH2D * mom_smear_tot = (TH2D*)mom_smear[0]->Clone( (part_name_ + can_title + "_smear").c_str() );//Just add all of these histos.
     
     TLegend * mom_recon_leg = m_plot->Legend(0.25, 0.4, 0.551, 0.362);
