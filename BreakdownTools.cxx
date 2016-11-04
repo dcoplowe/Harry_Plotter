@@ -4,8 +4,8 @@
 #include <string>
 #include <iostream>
 
-#include "TH1D.h";
-#include "TH2D.h";
+#include "TH1D.h"
+#include "TH2D.h"
 #include "TLegend.h"
 #include "THStack.h"
 #include "TCanvas.h"
@@ -25,17 +25,17 @@ BDCans BreakdownTools::PIDVar(const char * mom_name, const int mom_nbins, const 
     std::string internal_cuts = std::string(cuts);
     if(!internal_cuts.empty()) internal_cuts += " && ";
     
-    KinMap mom_pr_map =  m_plot->KinArray(mom_name, mom_nbins, mom_low, mom_high, mom_title,  (internal_cuts + pname.str() + "_PDG == 2212").c_str());
+    KinMap mom_pr_map =  m_plot->KinArray(mom_name, mom_nbins, mom_low, mom_high, mom_title,  (internal_cuts + pname + "_PDG == 2212").c_str());
     //KinMap mom_pi_map = m_plot->KinArray(mom_name), mom_nbins, mom_low, mom_high, mom_title,  Form("%s && TMath::Abs(%s_PDG) == 211", common_cuts_mom.c_str(), part_name_.c_str())));
-    KinMap mom_piP_map = m_plot->KinArray(mom_name, mom_nbins, mom_low, mom_high, mom_title,  (internal_cuts + pname.str() + "_PDG == 211").c_str());
-    KinMap mom_piM_map = m_plot->KinArray(mom_name, mom_nbins, mom_low, mom_high, mom_title,  (internal_cuts + pname.str() + "_PDG == -211").c_str());
-    KinMap mom_mum_map = m_plot->KinArray(mom_name, mom_nbins, mom_low, mom_high, mom_title,  (internal_cuts + pname.str() + "_PDG == 13").c_str());
-    KinMap mom_mup_map = m_plot->KinArray(mom_name, mom_nbins, mom_low, mom_high, mom_title,  (internal_cuts + pname.str() + "_PDG == -13").c_str());
-    KinMap mom_p0_map =  m_plot->KinArray(mom_name, mom_nbins, mom_low, mom_high, mom_title,  (internal_cuts + pname.str() + "_PDG == 111").c_str());
-    KinMap mom_ka_map =  m_plot->KinArray(mom_name, mom_nbins, mom_low, mom_high, mom_title,  (internal_cuts + "TMath::Abs(" + pname.str() + "_PDG) == 321").c_str());
-    //KinMap mom_kz_map = m_plot->KinArray(mom_name, mom_nbins, mom_low, mom_high, mom_title,  (internal_cuts + pname.str() + "_PDG == 311").c_str());
-    std::string mom_other = pname.str() + "_PDG != 2212 && TMath::Abs(" + pname.str() + "_PDG) != 211 && TMath::Abs(" + pname.str() + "_PDG) != 13 && ";
-    mom_other += pname.str() + "_PDG != 111 && TMath::Abs(" + pname.str() + "_PDG) != 321 && " + pname.str() + "_PDG != 311 &&" + pname.str() + "_PDG != -999";
+    KinMap mom_piP_map = m_plot->KinArray(mom_name, mom_nbins, mom_low, mom_high, mom_title,  (internal_cuts + pname + "_PDG == 211").c_str());
+    KinMap mom_piM_map = m_plot->KinArray(mom_name, mom_nbins, mom_low, mom_high, mom_title,  (internal_cuts + pname + "_PDG == -211").c_str());
+    KinMap mom_mum_map = m_plot->KinArray(mom_name, mom_nbins, mom_low, mom_high, mom_title,  (internal_cuts + pname + "_PDG == 13").c_str());
+    KinMap mom_mup_map = m_plot->KinArray(mom_name, mom_nbins, mom_low, mom_high, mom_title,  (internal_cuts + pname + "_PDG == -13").c_str());
+    KinMap mom_p0_map =  m_plot->KinArray(mom_name, mom_nbins, mom_low, mom_high, mom_title,  (internal_cuts + pname + "_PDG == 111").c_str());
+    KinMap mom_ka_map =  m_plot->KinArray(mom_name, mom_nbins, mom_low, mom_high, mom_title,  (internal_cuts + "TMath::Abs(" + pname + "_PDG) == 321").c_str());
+    //KinMap mom_kz_map = m_plot->KinArray(mom_name, mom_nbins, mom_low, mom_high, mom_title,  (internal_cuts + pname + "_PDG == 311").c_str());
+    std::string mom_other = pname + "_PDG != 2212 && TMath::Abs(" + pname + "_PDG) != 211 && TMath::Abs(" + pname + "_PDG) != 13 && ";
+    mom_other += pname + "_PDG != 111 && TMath::Abs(" + pname + "_PDG) != 321 && " + pname + "_PDG != 311 &&" + pname + "_PDG != -999";
     KinMap mom_ot_map = m_plot->KinArray(mom_name, mom_nbins, mom_low, mom_high, mom_title, (internal_cuts + mom_other).c_str());
     
     std::vector<KinMap> mom_map;
@@ -79,9 +79,9 @@ BDCans BreakdownTools::PIDVar(const char * mom_name, const int mom_nbins, const 
     string mom_smear_title = Form(";%s;%s", mom_smear[0]->GetXaxis()->GetTitle(), mom_smear[0]->GetYaxis()->GetTitle());
     string mom_ratio_title = Form(";%s;%s", mom_ratio[0]->GetXaxis()->GetTitle(), mom_ratio[0]->GetYaxis()->GetTitle());
     
-    THStack * mom_recon_tot = new THStack( (pname.str() + tmp_hyp + "_recon").c_str() , mom_recon_title.c_str());
-    THStack * mom_truth_tot = new THStack( (pname.str() + tmp_hyp + "_truth").c_str(), mom_truth_title.c_str());
-    THStack * mom_ratio_tot = new THStack( (pname.str() + tmp_hyp + "_ratio").c_str(),  mom_ratio_title.c_str());
+    THStack * mom_recon_tot = new THStack( (pname + tmp_hyp + "_recon").c_str() , mom_recon_title.c_str());
+    THStack * mom_truth_tot = new THStack( (pname + tmp_hyp + "_truth").c_str(), mom_truth_title.c_str());
+    THStack * mom_ratio_tot = new THStack( (pname + tmp_hyp + "_ratio").c_str(),  mom_ratio_title.c_str());
     TH2D * mom_smear_tot = (TH2D*)mom_smear[0]->Clone( (part_name_ + tmp_hyp + "_smear").c_str() );//Just add all of these histos.
     
     TLegend * mom_recon_leg = m_plot->Legend(0.25, 0.4, 0.551, 0.362);
@@ -111,24 +111,24 @@ BDCans BreakdownTools::PIDVar(const char * mom_name, const int mom_nbins, const 
     
     BDCans canvases;
   
-    canvases.recon = new TCanvas( (can_title.str() + "_" + pname.str() + "_recon").c_str(), "", 500, 500);
+    canvases.recon = new TCanvas( (can_title + "_" + pname + "_recon").c_str(), "", 500, 500);
     canvases.recon->cd();
     mom_recon_tot->Draw();
     mom_recon_leg->Draw();
     mom_recon_pot->Draw();
     
-    canvases.truth = new TCanvas( (can_title.str() + "_" + pname.str() + "_truth").c_str(), "", 500, 500);
+    canvases.truth = new TCanvas( (can_title + "_" + pname + "_truth").c_str(), "", 500, 500);
     canvases.truth->cd();
     mom_truth_tot->Draw();
     mom_truth_leg->Draw();
     mom_truth_pot->Draw();
     
-    canvases.smear = new TCanvas( (can_title.str() + "_" + pname.str() + "_smear").c_str(), "", 500, 500);
+    canvases.smear = new TCanvas( (can_title + "_" + pname + "_smear").c_str(), "", 500, 500);
     canvases.smear->cd();
     mom_smear_tot->Draw("COLZ");
     //mom_smear_pot->Draw();
     
-    canvases.ratio = new TCanvas( (can_title.str() + "_" + pname.str() + "_ratio").c_str(), "", 500, 500);
+    canvases.ratio = new TCanvas( (can_title + "_" + pname + "_ratio").c_str(), "", 500, 500);
     canvases.ratio->cd();
     mom_ratio_tot->Draw();
     mom_ratio_leg->Draw();
