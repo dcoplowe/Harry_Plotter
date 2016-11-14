@@ -945,7 +945,12 @@ void MomentumDists(const string file, const string savename, bool debug)
                         stringstream sac_lev;
                         sac_lev << pid_meth;
                         
-                        string signal_1D = "truth_n_" + pcount_st[i] + " > 0 && truth_accum_level[" + sac_lev.str() + "] > " + slow_clev;
+                        //string tar_sig = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1  && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 20 && TMath::RadToDeg()*truth_mu_Theta >= 0";
+                        
+                        //string signal_1D = "truth_n_" + pcount_st[i] + " > 0 && truth_accum_level[" + sac_lev.str() + "] > " + slow_clev; //Old sig. def. pre. 14/11
+                        
+                        string signal_1D = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1  && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 20 && TMath::RadToDeg()*truth_mu_Theta >= 0 && truth_accum_level[" + sac_lev.str() + "] > " + slow_clev;
+                        
                         string cut_1D = "truth_accum_level[" + sac_lev.str() + "] > " + shig_clev;
                         
                         TH1D * part_eff_E = m_ep->EffVSVar( ("truth_" + pname_st[i] + "_E/1000").c_str(), 50, 0, 6, signal_1D, cut_1D, ("E^{true}_{" + psym_st[i] + "} (GeV)").c_str() );
@@ -972,7 +977,9 @@ void MomentumDists(const string file, const string savename, bool debug)
                         
                         for(int j =0; j < 2; j++){
                             string variable = "TMath::Cos(truth_" + pname_st[j] + "_Theta):truth_" + pname_st[i] + "_E/1000";
-                            string signal_2D = "truth_n_" + pcount_st[i] + " > 0 && truth_accum_level[" + sac_lev.str() + "] > " + slow_clev;
+                            //string signal_2D = "truth_n_" + pcount_st[i] + " > 0 && truth_accum_level[" + sac_lev.str() + "] > " + slow_clev; //Old sig. def. pre. 14/11
+                            string signal_2D = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1  && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 20 && TMath::RadToDeg()*truth_mu_Theta >= 0 && truth_accum_level[" + sac_lev.str() + "] > " + slow_clev;
+                            
                             string cut_2D = "truth_accum_level[" + sac_lev.str() + "] > " + shig_clev;
                             
                             TH2D * part_eff_E_cTheta = m_ep->EffVSVar(variable, 50, 0, 6, 30, -1, 1, signal_2D, cut_2D, ("E^{true}_{" + psym_st[i] + "} (GeV);cos#theta^{true}_{" + psym_st[j] + "}").c_str());
