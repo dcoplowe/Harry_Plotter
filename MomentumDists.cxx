@@ -384,20 +384,21 @@ public:
     ~MomentumDists();
     
     void SetSaveName(std::string var){ m_savename = var; }
-    void SetTrueTreeName(std::string var){ m_truetreename = var; }
-    void SetRecoTreeName(std::string var){ m_recotreename = var; }
+    void SetTrueTreeName(std::string var){ m_truename = var; }
+    void SetRecoTreeName(std::string var){ m_reconame = var; }
 
     void MakePlots();
     
 private:
     EXP::EXP m_experiment;
+    std::string m_infilename;
     
     KinematicVars * m_recovars;
     
     std::string m_savename;
     
-    std::string m_truetreename;
-    std::string m_recotreename;
+    std::string m_truename;
+    std::string m_reconame;
     
     std::string GetDate();
     
@@ -406,19 +407,19 @@ private:
     
 };
 
-MomentumDists::MomentumDists(EXP::EXP exp, std::string filename, bool debug) : m_experiment(exp) {
+MomentumDists::MomentumDists(EXP::EXP exp, std::string filename, bool debug) : m_experiment(exp), m_infilename(filename) {
     
     cout << "Experiment: " <<  EXP::ToString(exp) << endl;
     
     if(exp == EXP::T2K){
-        m_truetreename = "truth";
-        m_recotreename = "default";
+        m_truename = "truth";
+        m_reconame = "default";
         m_getPOT = false;
     }
     else if(exp == EXP::MIN){
         
-        m_truetreename = "Truth";
-        m_recotreename = "sel";
+        m_truename = "Truth";
+        m_reconame = "sel";
         m_getPOT = true;
     }
     else{
@@ -439,6 +440,9 @@ MomentumDists::~MomentumDists(){
 
 void MomentumDists::MakePlots(){
     
+    DrawingTools * test = new DrawingTools(m_infilename, m_reconame);
+    
+    test->GetHisto(m_recovars->dpTT, 59, -300., 300, "#deltap_{TT}","accum_level>5");
     
     
     
