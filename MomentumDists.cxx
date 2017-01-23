@@ -440,13 +440,19 @@ MomentumDists::~MomentumDists(){
 
 void MomentumDists::MakePlots(){
     
-    //TFile * m_outfile;
+    TFile * outfile = new TFile(m_savename.c_str(), "RECREATE");
 
     
     DrawingTools * test = new DrawingTools(m_infilename, m_reconame);
     
     TH1D * hist = test->GetHisto(m_recovars->dpTT, 59, -300., 300, "#deltap_{TT}","accum_level>5");
 
+    
+    outfile->cd();
+    hist->Write();
+    outfile->Close();
+    delete outfile;
+    
 //    m_outfile
     
     
