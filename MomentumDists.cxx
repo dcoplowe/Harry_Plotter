@@ -250,7 +250,7 @@ Particle::Particle(EXP::EXP exp, std::string name, std::string tag) : m_tag(tag)
 class KinematicVars {
 public:
     KinematicVars(EXP::EXP exp);
-    ~KinematicVars(){};
+    ~KinematicVars();
     
     Particle * muon;
     Particle * proton;
@@ -393,7 +393,6 @@ private:
     
     //tmp POT bool (off for t2k):
     bool m_getPOT;
-    
     
 };
 
