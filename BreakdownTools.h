@@ -1,11 +1,10 @@
 #ifndef _BREAKDOWNTOOL_
 #define _BREAKDOWNTOOL_
 
-//Forward declarations:
-#include "TString.h"
 #include <stdio.h>
 #include <stdlib.h>
 
+//Forward declarations:
 class DrawingTools;
 class TH1D;
 class TH2D;
@@ -18,20 +17,34 @@ struct BDCans {
     TCanvas * ratio;
 };
 
+struct Variable {
+    std::string name;
+    std::string print;
+    std::string units;
+};
+
 class BreakdownTools {
 public:
 	
-    BreakdownTools(TString filename, bool debug = false, TString reconame = "sel", TString truename = "Truth");
+    BreakdownTools(std::string filename, std::string treename); : m_printPOT(false), m_fullbreakdown(false);
 	~BreakdownTools();
 
 	//Topology breakdown
 	//Particle breakdown
 	//Wrong PID
-    BDCans PIDVar(const char * mom_name, const int mom_nbins, const double mom_low, const double mom_high, const char * pname, const char * can_title, const char * mom_title = "", const char * cuts = "");
-    //void TopVar();
+    BDCans PID(Variable var, const int var_nbins, const double var_low, const double var_high, std::string cuts = "");
+    
+//    BDCans TOPO(std::string var_name, const int var_nbins, const double mom_low, const double mom_high, std::string pname, std::string can_title, std::string mom_title = "", std::string cuts = "");
+
+    void PrintPOT(){ m_printPOT = true; }
+    void FullBreakDown(){ m_fullbreakdown = true; }
+    
+    //    void TopVar();
     //void MisPIDVar();
     
 private:
     DrawingTools * m_plot;
+    bool m_printPOT;
+    bool m_fullbreakdown;
 };
 #endif
