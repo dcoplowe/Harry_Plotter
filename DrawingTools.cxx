@@ -163,7 +163,7 @@ KinMap DrawingTools::KinArray(std::string vars_tr, Int_t nbins, Double_t low, Do
     return KinArray(vars_tr, nbins, SetBinning(nbins, low, high), rt_title, cuts);
 }
 
-TH1D * DrawingTools::GetRTRatio(std::string vars_tr, std::string x_title, const TString cuts){
+TH1D * DrawingTools::GetRTRatio(std::string vars_tr, std::string x_title, std::string cuts){
     
     TString tr_vars(vars_tr.c_str());
     if(!tr_vars.Contains(":")){
@@ -180,7 +180,7 @@ TH1D * DrawingTools::GetRTRatio(std::string vars_tr, std::string x_title, const 
     
     TString tmp_title = "1 - reco/true";
     
-    if(x_title.Contains(";",TString::kExact)){
+    if(TString(x_title).Contains(";",TString::kExact)){
         tmp_title += " (" + TString(x_title) + ")";
     }
     else tmp_title += " (" + TString(x_title) + ");Counts";
