@@ -106,7 +106,7 @@ private:
 
 Particle::Particle(EXP::EXP exp, std::string name, std::string tag) : m_tag(tag) {
     
-    if(exp == EXP:T2K){
+    if(exp == EXP::T2K){
         //Reco vars: Common:
         P =         m_tag + name + "_mom";
         pT =        m_tag + name + "_pT";
@@ -150,7 +150,7 @@ Particle::Particle(EXP::EXP exp, std::string name, std::string tag) : m_tag(tag)
         //T2K: Reco vars:
         truectheta =    m_tag + name + "_truecostheta";
     }
-    else if(exp == EXP:MIN){
+    else if(exp == EXP::MIN){
         
         std::string tmpname = name;
         if(name.find("LL") != std::string::npos){
