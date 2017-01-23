@@ -29,7 +29,7 @@ DrawingTools::DrawingTools(std::string filename, std::string treename, std::stri
     m_2Dcounter = -1;
     
     m_ratiorange = 3;
-    m_ratiobins 59;
+    m_ratiobins = 59;
 
 }
 
@@ -64,7 +64,7 @@ TH1D * DrawingTools::GetHisto(std::string var, Int_t nbins, Double_t * bins, std
     //cout << tmp_cuts.Data() << endl;
     
     //    m_tree->Project(host_name.Data(), var.Data(), tmp_cuts.Data());
-    m_tree->Project(host_name.Data(), var.Data(), cuts.c_str());
+    m_tree->Project(host_name.Data(), var.c_str(), cuts.c_str());
     
     return hist;
 }
@@ -91,7 +91,7 @@ TH2D * DrawingTools::GetHisto(std::string var_yx, Int_t x_nbins, Double_t * x_bi
 //    tmp_cuts.Append(Form("(%s != -999) && (%s != -999)", y_var.Data(), x_var.Data()));
 //    if(_DEBUG_) cout << tmp_cuts.Data() << endl;
     
-    m_tree->Project(host_name.Data(), var_yx.Data(), cuts.c_str());
+    m_tree->Project(host_name.Data(), var_yx.c_str(), cuts.c_str());
     
     return hist;
 }
