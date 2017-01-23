@@ -26,7 +26,7 @@ struct Variable {
 class BreakdownTools {
 public:
 	
-    BreakdownTools(std::string filename, std::string treename); : m_printPOT(false), m_fullbreakdown(false);
+    BreakdownTools(std::string filename, std::string treename); //;
 	~BreakdownTools();
 
 	//Topology breakdown

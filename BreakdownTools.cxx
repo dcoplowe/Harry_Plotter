@@ -11,7 +11,7 @@
 #include "TCanvas.h"
 
 
-BreakdownTools::BreakdownTools(std::string filename, std::string recotreename, std::string truetreename ){
+BreakdownTools::BreakdownTools(std::string filename, std::string treename) : m_printPOT(false), m_fullbreakdown(false){
     m_plot = new DrawingTools();
 //    m_plot->SetFileName(filename.c_str());
 //    m_plot->SetRecoBranch(recotreename.c_str() );
