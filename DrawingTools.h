@@ -3,7 +3,7 @@
 
 #include "DrawingStyle.h"
 
-#include "std::string.h"
+//#include "std::string.h"
 #include <string>
 
 //Forward declarations here:
