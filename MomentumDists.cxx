@@ -101,151 +101,151 @@ private:
 
 Particle::Particle(EXP::EXP exp, std::string name, std::string tag) : m_tag(tag) {
     
-//    if(exp == EXP:T2K){
-//        //Reco vars: Common:
-//        P =         m_tag + name + "_mom";
-//        pT =        m_tag + name + "_pT";
-//        pTMag =     m_tag + name + "_pTMag";
-//        startdir =  m_tag + name + "_dir";
-//        endpos =    m_tag + name + "_endpos";
-//        
-//        //True vars: Common:
-//        trueP =         m_tag + name + "_truemom";
-//        truepT =        m_tag + name + "_truepT";
-//        truepTMag =     m_tag + name + "_truepTMag";
-//        truestartdir =  m_tag + name + "_truedir";
-//        trueendpos =    m_tag + name + "_endpos";
-//        pdg =           m_tag + name + "_pdg";
-//        
-//        //MIN: Reco vars:
-//        E = "";
-//        P4 = "";
-//        T = "";//KE
-//        pTT = "";
-//        theta = "";
-//        startpos = "";
-//        phi = "";
-//        
-//        michel = "";
-//        score = "";
-//        
-//        //MIN: True vars:
-//        trueE = "";
-//        trueP4 = "";
-//        trueT = "";//KE
-//        truepTT = "";
-//        truetheta = "";
-//        truestartpos = "";
-//        truephi = "";
-//        
-//        //T2K: Reco vars:
-//        ctheta =        m_tag + name + "_costheta";
-//        ctheta_nudir =  m_tag + name + "_nudir_costheta";
-//        
-//        //T2K: Reco vars:
-//        truectheta =    m_tag + name + "_truecostheta";
-//    }
-//    else if(exp == EXP:MIN){
-//        
-//        std::string tmpname = name;
-//        if(name.find("LL") != std::string::npos){
-//            std::string tmpstring = "_LL";
-//            tmpname.erase( tmpname.find(tmpstring), tmpname.length() );
-//        }
-//        else if(name.find("EX") != std::string::npos){
-//            std::string tmpstring = "_EX";
-//            tmpname.erase( tmpname.find(tmpstring), tmpname.length() );
-//        }
-//        
-//        //Reco vars: Common:
-//        P =         m_tag + name + "_mom";
-//        pT =        m_tag + name + "_pT";
-//        pTMag =     m_tag + name + "_pTMag";
-//        startdir =  m_tag + tmpname + "_startdir";
-//        endpos =    m_tag + tmpname + "_endpos";
-//        
-//        //True vars: Common:
-//        trueP =         m_tag + tmpname + "_truemom";
-//        truepT =        m_tag + tmpname + "_truepT";
-//        truepTMag =     m_tag + tmpname + "_truepTMag";
-//        truestartdir =  m_tag + tmpname + "_truestartdir";
-//        trueendpos =    m_tag + tmpname + "_endpos";
-//        pdg =           m_tag + tmpname + "_PDG";
-//        
-//        //MIN: Reco vars:
-//        E =     m_tag + name + "_E";
-//        P4 =    m_tag + name + "_4mom";
-//        T =     m_tag + name + "_KE";//KE
-//        pTT =   m_tag + name + "_pTT";
-//        theta = m_tag + name + "_Theta";
-//        phi =   m_tag + name + "_Phi";
-//        startpos = m_tag + tmpname + "_startpos";
-//        
-//        michel =    m_tag + name + "_michel";
-//        score =     m_tag + name + "_score";
-//        
-//        //MIN: True vars:
-//        trueE =         m_tag + tmpname + "_trueE";
-//        trueP4 =        m_tag + tmpname + "_true4mom";
-//        trueT =         m_tag + tmpname + "_trueKE";//KE
-//        truepTT =       m_tag + tmpname + "_truepTT";
-//        truetheta =     m_tag + tmpname + "_trueTheta";
-//        truephi =       m_tag + tmpname + "_truePhi";
-//        truestartpos =  m_tag + tmpname + "_truestartpos";
-//        
-//        //T2K: Reco vars:
-//        ctheta = "";
-//        ctheta_nudir = "";
-//        
-//        //T2K: Reco vars:
-//        truectheta = "";
-//    }
-//    else{
-//        //Reco vars: Common:
-//        P = "";
-//        pT = "";
-//        pTMag = "";
-//        startdir = "";
-//        endpos = "";
-//        
-//        //True vars: Common:
-//        trueP = "";
-//        truepT = "";
-//        truepTMag = "";
-//        truestartdir = "";
-//        trueendpos = "";
-//        pdg = "";
-//        
-//        //MIN: Reco vars:
-//        E = "";
-//        P4 = "";
-//        T = "";//KE
-//        pTT = "";
-//        theta = "";
-//        startpos = "";
-//        phi = "";
-//        
-//        michel = "";
-//        score = "";
-//        
-//        //MIN: True vars:
-//        trueE = "";
-//        trueP4 = "";
-//        trueT = "";//KE
-//        truepTT = "";
-//        truetheta = "";
-//        truestartpos = "";
-//        truephi = "";
-//        
-//        //T2K: Reco vars:
-//        ctheta = "";
-//        ctheta_nudir = "";
-//        
-//        //T2K: Reco vars:
-//        truectheta = "";
-//    }
+    if(exp == EXP:T2K){
+        //Reco vars: Common:
+        P =         m_tag + name + "_mom";
+        pT =        m_tag + name + "_pT";
+        pTMag =     m_tag + name + "_pTMag";
+        startdir =  m_tag + name + "_dir";
+        endpos =    m_tag + name + "_endpos";
+        
+        //True vars: Common:
+        trueP =         m_tag + name + "_truemom";
+        truepT =        m_tag + name + "_truepT";
+        truepTMag =     m_tag + name + "_truepTMag";
+        truestartdir =  m_tag + name + "_truedir";
+        trueendpos =    m_tag + name + "_endpos";
+        pdg =           m_tag + name + "_pdg";
+        
+        //MIN: Reco vars:
+        E = "";
+        P4 = "";
+        T = "";//KE
+        pTT = "";
+        theta = "";
+        startpos = "";
+        phi = "";
+        
+        michel = "";
+        score = "";
+        
+        //MIN: True vars:
+        trueE = "";
+        trueP4 = "";
+        trueT = "";//KE
+        truepTT = "";
+        truetheta = "";
+        truestartpos = "";
+        truephi = "";
+        
+        //T2K: Reco vars:
+        ctheta =        m_tag + name + "_costheta";
+        ctheta_nudir =  m_tag + name + "_nudir_costheta";
+        
+        //T2K: Reco vars:
+        truectheta =    m_tag + name + "_truecostheta";
+    }
+    else if(exp == EXP:MIN){
+        
+        std::string tmpname = name;
+        if(name.find("LL") != std::string::npos){
+            std::string tmpstring = "_LL";
+            tmpname.erase( tmpname.find(tmpstring), tmpname.length() );
+        }
+        else if(name.find("EX") != std::string::npos){
+            std::string tmpstring = "_EX";
+            tmpname.erase( tmpname.find(tmpstring), tmpname.length() );
+        }
+        
+        //Reco vars: Common:
+        P =         m_tag + name + "_mom";
+        pT =        m_tag + name + "_pT";
+        pTMag =     m_tag + name + "_pTMag";
+        startdir =  m_tag + tmpname + "_startdir";
+        endpos =    m_tag + tmpname + "_endpos";
+        
+        //True vars: Common:
+        trueP =         m_tag + tmpname + "_truemom";
+        truepT =        m_tag + tmpname + "_truepT";
+        truepTMag =     m_tag + tmpname + "_truepTMag";
+        truestartdir =  m_tag + tmpname + "_truestartdir";
+        trueendpos =    m_tag + tmpname + "_endpos";
+        pdg =           m_tag + tmpname + "_PDG";
+        
+        //MIN: Reco vars:
+        E =     m_tag + name + "_E";
+        P4 =    m_tag + name + "_4mom";
+        T =     m_tag + name + "_KE";//KE
+        pTT =   m_tag + name + "_pTT";
+        theta = m_tag + name + "_Theta";
+        phi =   m_tag + name + "_Phi";
+        startpos = m_tag + tmpname + "_startpos";
+        
+        michel =    m_tag + name + "_michel";
+        score =     m_tag + name + "_score";
+        
+        //MIN: True vars:
+        trueE =         m_tag + tmpname + "_trueE";
+        trueP4 =        m_tag + tmpname + "_true4mom";
+        trueT =         m_tag + tmpname + "_trueKE";//KE
+        truepTT =       m_tag + tmpname + "_truepTT";
+        truetheta =     m_tag + tmpname + "_trueTheta";
+        truephi =       m_tag + tmpname + "_truePhi";
+        truestartpos =  m_tag + tmpname + "_truestartpos";
+        
+        //T2K: Reco vars:
+        ctheta = "";
+        ctheta_nudir = "";
+        
+        //T2K: Reco vars:
+        truectheta = "";
+    }
+    else{
+        //Reco vars: Common:
+        P = "";
+        pT = "";
+        pTMag = "";
+        startdir = "";
+        endpos = "";
+        
+        //True vars: Common:
+        trueP = "";
+        truepT = "";
+        truepTMag = "";
+        truestartdir = "";
+        trueendpos = "";
+        pdg = "";
+        
+        //MIN: Reco vars:
+        E = "";
+        P4 = "";
+        T = "";//KE
+        pTT = "";
+        theta = "";
+        startpos = "";
+        phi = "";
+        
+        michel = "";
+        score = "";
+        
+        //MIN: True vars:
+        trueE = "";
+        trueP4 = "";
+        trueT = "";//KE
+        truepTT = "";
+        truetheta = "";
+        truestartpos = "";
+        truephi = "";
+        
+        //T2K: Reco vars:
+        ctheta = "";
+        ctheta_nudir = "";
+        
+        //T2K: Reco vars:
+        truectheta = "";
+    }
     
-};
+}
 
 class KinematicVars {
 public:
