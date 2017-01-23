@@ -430,7 +430,7 @@ MomentumDists::MomentumDists(EXP::EXP exp, std::string filename, bool debug) : m
     
     m_savename = EXP::ToString(exp) + "_CC1P1PiPlus_Plots_" + GetDate() + ".root";
 
-    
+    cout << "Saving file as " << m_savename << endl;
 }
 
 MomentumDists::~MomentumDists(){
