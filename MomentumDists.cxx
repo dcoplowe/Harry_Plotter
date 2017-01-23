@@ -481,7 +481,7 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    MomentumDists * plots = new MomentumDists(filename, debug);
+    MomentumDists * plots = new MomentumDists(experiment, filename, debug);
     
     if(!savename.empty()) plots->SetSaveName(savename);
     
