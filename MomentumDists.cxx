@@ -30,6 +30,8 @@
 
 using namespace std;
 
+const string testing_mc("/pnfs/minerva/persistent/users/dcoplowe/CC1P1Pi_PL13C_080117_1/grid/central_value/minerva/ana/v10r8p9/00/01/32/00/SIM_minerva_00013200_Subruns_0001-0002-0003-0004_CC1P1PiAnalysis_Ana_Tuple_v10r8p9-dcoplowe.root");
+
 
 namespace EXP {
     enum EXP{
@@ -84,7 +86,6 @@ public:
     std::string trueP4;
     std::string trueT;//KE
     std::string truestartpos;
-    std::string score;
     std::string truephi;
     
     //T2K: Reco vars:
@@ -456,6 +457,7 @@ std::string MomentumDists::GetDate(){
 int main(int argc, char *argv[])
 {
     
+    string filename = testing_mc;
     string savename = "";// = "CC1P1PiP_Plots_" + sday.str() + smon.str() + syear.str() + ".root";
     bool debug = false;
     
@@ -465,7 +467,7 @@ int main(int argc, char *argv[])
     char cc;
     while((cc = getopt(argc, argv, "i:o:d::t::m::")) != -1){
         switch (cc){
-            case 'i': filename = optarg; break;
+            case 'i': filename = std::string(optarg); break;
             case 'o': savename = optarg; break;
             case 'd': debug = true; break;
             case 't': experiment = EXP::T2K; break;
