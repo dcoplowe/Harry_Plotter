@@ -48,6 +48,9 @@ namespace EXP {
     }
 }
 
+#ifndef _PARTICLE_
+#define _PARTICLE_
+
 class Particle {
 public:
     Particle(EXP::EXP exp, std::string name, std::string tag = "sel");//; : m_tag {};
@@ -98,6 +101,8 @@ public:
 private:
     std::string m_tag;
 };
+
+#endif
 
 Particle::Particle(EXP::EXP exp, std::string name, std::string tag) : m_tag(tag) {
     
@@ -247,6 +252,9 @@ Particle::Particle(EXP::EXP exp, std::string name, std::string tag) : m_tag(tag)
     
 }
 
+#ifndef _KINEMATICVARS_
+#define _KINEMATICVARS_
+
 class KinematicVars {
 public:
     KinematicVars(EXP::EXP exp);
@@ -280,6 +288,8 @@ public:
 private:
     
 };
+
+#endif
 
 KinematicVars::KinematicVars(EXP::EXP exp){
     
