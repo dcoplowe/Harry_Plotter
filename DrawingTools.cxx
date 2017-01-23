@@ -126,8 +126,8 @@ KinMap DrawingTools::KinArray(std::string vars_tr, Int_t nbins, Double_t * bins,
     TString reco_title;
     
     if(!tmp_title.Contains(";",TString::kExact)){
-        true_title = rt_title.c_str() + "^{true}";
-        reco_title = rt_title.c_str() + "^{reco}";
+        true_title = TString(rt_title) + "^{true}";
+        reco_title = TString(rt_title) + "^{reco}";
     }
     else{
         true_title = TString( tmp_title(tmp_title.First(";") + 1, tmp_title.Length()) );
@@ -154,7 +154,7 @@ KinMap DrawingTools::KinArray(std::string vars_tr, Int_t nbins, Double_t * bins,
     
     tmp_cuts.Append(Form("%f < %s && %s < %f && %f < %s && %s < %f ", bins[0], recon_var.Data(), recon_var.Data(), bins[nbins], bins[0], truth_var.Data(), truth_var.Data(), bins[nbins]));
     
-    map.ratio = GetRTRatio(vars_tr, reco_title, std::string(tmp_cuts));
+    map.ratio = GetRTRatio(vars_tr, std::string(reco_title), std::string(tmp_cuts));
     
     return map;
 }
@@ -163,7 +163,7 @@ KinMap DrawingTools::KinArray(std::string vars_tr, Int_t nbins, Double_t low, Do
     return KinArray(vars_tr, nbins, SetBinning(nbins, low, high), rt_title, cuts);
 }
 
-    TH1D * DrawingTools::GetRTRatio(std::string vars_tr, std::string x_title, const TString cuts){
+TH1D * DrawingTools::GetRTRatio(std::string vars_tr, std::string x_title, const TString cuts){
     
     TString tr_vars(vars_tr.c_str());
     if(!tr_vars.Contains(":")){
