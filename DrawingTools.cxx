@@ -160,7 +160,7 @@ KinMap DrawingTools::KinArray(std::string vars_tr, Int_t nbins, Double_t * bins,
 }
 
 KinMap DrawingTools::KinArray(std::string vars_tr, Int_t nbins, Double_t low, Double_t high, std::string rt_title, std::string cuts){
-    return KinArray(std::string vars_tr, nbins, SetBinning(nbins, low, high), rt_title, cuts);
+    return KinArray(vars_tr, nbins, SetBinning(nbins, low, high), rt_title, cuts);
 }
 
     TH1D * DrawingTools::GetRTRatio(std::string vars_tr, std::string x_title, const TString cuts){

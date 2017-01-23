@@ -38,8 +38,8 @@ public:
     TH2D * GetHisto(std::string var_yx, Int_t x_nbins, Double_t x_low, Double_t x_high, Int_t y_nbins, Double_t y_low, Double_t y_high,
                     std::string xy_title = "", std::string cuts = "");
     
-    TH2D * SmearMatrix(std::string vars_yx, Int_t nbins, Double_t * bins, std::string xy_title = "", std::string cuts = "")
-    TH2D * SmearMatrix(std::string vars_yx, Int_t nbins, Double_t low, Double_t high, std::string xy_title = "", std::string cuts = "")
+    TH2D * SmearMatrix(std::string vars_yx, Int_t nbins, Double_t * bins, std::string xy_title = "", std::string cuts = "");
+    TH2D * SmearMatrix(std::string vars_yx, Int_t nbins, Double_t low, Double_t high, std::string xy_title = "", std::string cuts = "");
     
     KinMap KinArray(std::string vars_tr, Int_t nbins, Double_t * bins, std::string rt_title = "", std::string cuts = "");
     KinMap KinArray(std::string vars_tr, Int_t nbins, Double_t low, Double_t high, std::string rt_title = "", std::string cuts = "");
