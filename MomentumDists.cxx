@@ -245,8 +245,7 @@ Particle::Particle(EXP::EXP exp, std::string name, std::string tag) : m_tag(tag)
         truectheta = "";
     }
     
-    
-}
+};
 
 class KinematicVars {
 public:
