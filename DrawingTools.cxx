@@ -28,8 +28,8 @@ DrawingTools::DrawingTools(std::string filename, std::string treename, std::stri
     m_1Dcounter = -1;
     m_2Dcounter = -1;
     
-    m_ratiorange;
-    m_ratiobins;
+    m_ratiorange = 3;
+    m_ratiobins 59;
 
 }
 
@@ -43,7 +43,7 @@ DrawingTools::~DrawingTools(){
 TH1D * DrawingTools::GetHisto(std::string var, Int_t nbins, Double_t * bins, std::string xy_title, std::string cuts){
     
     m_1Dcounter++;
-    TString host_name = Form("h1Dvar%s%.5d", _uniquename.c_str(), m_1Dcounter);
+    TString host_name = Form("h1Dvar%s%.5d", m_uniquename.c_str(), m_1Dcounter);
     
     TString title;
     TString tmp_title(xy_title.c_str());
@@ -76,7 +76,7 @@ TH1D * DrawingTools::GetHisto(std::string var, Int_t nbins, Double_t low, Double
 TH2D * DrawingTools::GetHisto(std::string var_yx, Int_t x_nbins, Double_t * x_bins, Int_t y_nbins, Double_t * y_bins, std::string xy_title, std::string cuts){
     
     m_2Dcounter++;
-    TString host_name = Form("h2Dvar%s%.5d", _uniquename.c_str(), m_2Dcounter);
+    TString host_name = Form("h2Dvar%s%.5d", m_uniquename.c_str(), m_2Dcounter);
     
     TH2D * hist = new TH2D(host_name.Data(), Form(";%s", xy_title.c_str()), x_nbins, x_bins, y_nbins, y_bins);
     //hist->GetYaxis()->Setmaxdigits(2);
@@ -91,7 +91,7 @@ TH2D * DrawingTools::GetHisto(std::string var_yx, Int_t x_nbins, Double_t * x_bi
 //    tmp_cuts.Append(Form("(%s != -999) && (%s != -999)", y_var.Data(), x_var.Data()));
 //    if(_DEBUG_) cout << tmp_cuts.Data() << endl;
     
-    m_tree->Project(host_name.Data(), vars_yx.Data(), cuts.c_str());
+    m_tree->Project(host_name.Data(), var_yx.Data(), cuts.c_str());
     
     return hist;
 }
