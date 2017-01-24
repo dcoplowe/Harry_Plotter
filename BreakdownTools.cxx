@@ -112,15 +112,15 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     
     //Make outputs:
     
-    THStack * recon_tot = new THStack( (var.savename + "_recon").c_str() , Form(";%s;%s", kinmap_list[0].recon->GetXaxis()->Gettitle(),
-                                                                                kinmap_list[0].recon->GetYaxis()->Gettitle() ) );
+    THStack * recon_tot = new THStack( (var.savename + "_recon").c_str() , Form(";%s;%s", kinmap_list[0].recon->GetXaxis()->GetTitle(),
+                                                                                kinmap_list[0].recon->GetYaxis()->GetTitle() ) );
     
-    THStack * truth_tot = new THStack( (var.savename + "_truth").c_str(), Form(";%s;%s", kinmap_list[0].truth->GetXaxis()->Gettitle(),
-                                                                               kinmap_list[0].truth->GetYaxis()->Gettitle() ) );
+    THStack * truth_tot = new THStack( (var.savename + "_truth").c_str(), Form(";%s;%s", kinmap_list[0].truth->GetXaxis()->GetTitle(),
+                                                                               kinmap_list[0].truth->GetYaxis()->GetTitle() ) );
     
-    THStack * ratio_tot = new THStack( (var.savename + "_ratio").c_str(), Form(";%s;%s", kinmap_list[0].ratio->GetXaxis()->Gettitle(),
-                                                                                kinmap_list[0].ratio->GetYaxis()->Gettitle() ) );
-    TH2D * smear_tot = (TH2D*)kinmap_list[0]->Clone( (var.savename + "_smear").c_str() );//Just add all of these histos.
+    THStack * ratio_tot = new THStack( (var.savename + "_ratio").c_str(), Form(";%s;%s", kinmap_list[0].ratio->GetXaxis()->GetTitle(),
+                                                                                kinmap_list[0].ratio->GetYaxis()->GetTitle() ) );
+    TH2D * smear_tot = (TH2D*)kinmap_list[0].smear->Clone( (var.savename + "_smear").c_str() );//Just add all of these histos.
     
     TLegend * mom_recon_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
     TLegend * mom_truth_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
