@@ -333,7 +333,7 @@ KinematicVars::KinematicVars(EXP::EXP exp){
     }
     else if(exp == EXP::MIN){
         
-        muon = new Particle(exp, "mu_EX", "sel_");
+        muon = new Particle(exp, "mu", "sel_");
         proton = new Particle(exp, "pr_EX", "sel_");
         pion = new Particle(exp, "pi_EX", "sel_");
         

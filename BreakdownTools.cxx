@@ -194,7 +194,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
         tmp_cuts += " == ";
         tmp_cuts += particle.pdg_s;
         
-        cout << "tmp_cuts: " << tmp_cuts << endl;
+//        cout << "tmp_cuts: " << tmp_cuts << endl;
         
         if(other_cut.empty()){
             other_cut = pdgvar;
@@ -217,7 +217,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     
     if(!cuts.empty()) other_cut += ")";
     
-    cout << "other_cut: " << other_cut << endl;
+//    cout << "other_cut: " << other_cut << endl;
     
     DrawingTools::KinMap other_kinmap = KinArray(var.name, nbins, bins, var.symbol, other_cut);
     ColFill(other_kinmap, DrawingStyle::Other);
@@ -281,7 +281,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
         std::vector<int> plot_by_self;
 
         for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
-            cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
+//            cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
             
             bool in_other = true;
             for(int j = 0; j < (int)m_pdglist_minBD.size(); j++){
@@ -383,29 +383,29 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
     
     for(int i = 0; i < (int)m_toplist.size(); i++){
         
-        cout << i << ":" << (int)m_toplist.size() << endl;
+//        cout << i << ":" << (int)m_toplist.size() << endl;
         
         TOPS topology = m_toplist[i];
         
         std::string tmp_cuts = tmp_cuts_1;
         tmp_cuts += topology.signal;
-        cout << "tmp_cuts: " << tmp_cuts << endl;
+//        cout << "tmp_cuts: " << tmp_cuts << endl;
         
-        cout << "Working -2" << endl;
+//        cout << "Working -2" << endl;
         
         DrawingTools::KinMap tmp_kinmap = KinArray(var.name, nbins, bins, var.symbol, tmp_cuts);
         
-        cout << "Working -1" << endl;
+//        cout << "Working -1" << endl;
 
         
         ColFill(tmp_kinmap, topology.colour);
         
-        cout << "Working 0" << endl;
+//        cout << "Working 0" << endl;
 
         kinmap_list.push_back(tmp_kinmap);
     }
     
-    cout << "Working 1" << endl;
+//    cout << "Working 1" << endl;
     
     THStack * recon_tot = new THStack( (var.savename + "_TOP_recon").c_str(), Form(";%s (%s);%s", kinmap_list[0].recon->GetXaxis()->GetTitle(), var.units.c_str(),
                                                                                         kinmap_list[0].recon->GetYaxis()->GetTitle() ) );
@@ -425,7 +425,7 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
     std::string hsignal = tmp_cuts_1;
     hsignal += m_toplist[0].signal;
     hsignal += " && mc_targetZ == 1";
-    cout << "hsignal: " << hsignal << endl;
+//    cout << "hsignal: " << hsignal << endl;
     DrawingTools::KinMap signal_kinmap = KinArray(var.name, nbins, bins, var.symbol, hsignal);
     signal_kinmap.recon->SetLineColor(1);
     signal_kinmap.truth->SetLineColor(1);
@@ -442,12 +442,12 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
     std::vector<double> truth_percent = GetPercentage(kinmap_list, 1);
     std::vector<double> ratio_percent = GetPercentage(kinmap_list, 2);
 
-    cout << "Working 2" << endl;
+//    cout << "Working 2" << endl;
 
     
     if(m_fullbreakdown){
         
-        cout << "Working 3a" << endl;
+//        cout << "Working 3a" << endl;
 
         
         for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
@@ -467,7 +467,7 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
     }
     else{
         
-        cout << "Working 3b" << endl;
+//        cout << "Working 3b" << endl;
 
         double recon_other_percent = 0.;
         double truth_other_percent = 0.;
@@ -476,7 +476,7 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         std::vector<int> plot_by_self;
         
         for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
-            cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
+//            cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
             
             bool in_other = true;
             for(int j = 0; j < (int)m_pdglist_minBD.size(); j++){
