@@ -122,18 +122,21 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
                                                                                 kinmap_list[0].ratio->GetYaxis()->GetTitle() ) );
     TH2D * smear_tot = (TH2D*)kinmap_list[0].smear->Clone( (var.savename + "_smear").c_str() );//Just add all of these histos.
     
-    TLegend * mom_recon_leg = Legend(0.25, 0.4, 0.551, 0.362);
-    TLegend * mom_truth_leg = Legend(0.25, 0.4, 0.551, 0.362);
-    TLegend * mom_ratio_leg = Legend(0.25, 0.4, 0.551, 0.362);
+    TLegend * recon_leg = Legend(0.25, 0.4, 0.551, 0.362);
+    TLegend * truth_leg = Legend(0.25, 0.4, 0.551, 0.362);
+    TLegend * ratio_leg = Legend(0.25, 0.4, 0.551, 0.362);
     
     if(m_fullbreakdown){
         
         for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
-            cout << i << ":" << (int)kinmap_list.size() << endl;
+            cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
+            
             TH1D * tmp_recon = kinmap_list[ (int)(kinmap_list.size() - i) ].recon;
             ColFill(tmp_recon, m_pdglist[(int)(kinmap_list.size() - i)].colour);
             
-            mom_recon_leg->AddEntry(tmp_recon, Form("%s (%.2f%%)", m_pdglist[(int)(kinmap_list.size() - i)].symbol.c_str(), 1.), "f");
+            recon_tot->Add(tmp_recon);
+            recon_leg->AddEntry(tmp_recon, Form("%s (%.2f%%)", m_pdglist[(int)(kinmap_list.size() - i)].symbol.c_str(), 1.), "f");
+            
             
 //            TH1D * tmp_truth = kinmap_list[i].truth;
 //            
@@ -153,10 +156,17 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
         
     }
     
-    
-    
-    
     BDCans cans;
+    
+    cans.recon = new TCanvas( recon_tot->GetName(), "", 500, 500);
+    cans.recon->cd();
+    recon_tot->Draw();
+    recon_leg->Draw();
+//    mom_recon_pot->Draw();
+    
+    
+    
+    
     
     return cans;
 }
