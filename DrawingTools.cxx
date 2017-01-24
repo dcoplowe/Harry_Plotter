@@ -261,7 +261,7 @@ std::vector<double> DrawingTools::GetPercentage(std::vector<DrawingTools::KinMap
     if(type == 0){//Reco;
         if(m_verbose) cout << "GetPercentage : Recon" << endl;
         for (int i = 0; i < (int)histos.size(); i++) list.push_back( histos[i].recon );
-        if(other.recon) list.push_back(other.recon);
+        if(other.recon){ list.push_back(other.recon); cout << " other.recon exists " << endl;
     }
     else if(type == 1){//Truth;
         if(m_verbose) cout << "GetPercentage : Truth" << endl;
