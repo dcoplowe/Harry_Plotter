@@ -122,9 +122,9 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
                                                                                 kinmap_list[0].ratio->GetYaxis()->GetTitle() ) );
     TH2D * smear_tot = (TH2D*)kinmap_list[0].smear->Clone( (var.savename + "_smear").c_str() );//Just add all of these histos.
     
-    TLegend * mom_recon_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
-    TLegend * mom_truth_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
-    TLegend * mom_ratio_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
+    TLegend * mom_recon_leg = Legend(0.25, 0.4, 0.551, 0.362);
+    TLegend * mom_truth_leg = Legend(0.25, 0.4, 0.551, 0.362);
+    TLegend * mom_ratio_leg = Legend(0.25, 0.4, 0.551, 0.362);
     
     if(m_fullbreakdown){
         

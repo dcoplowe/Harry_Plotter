@@ -213,3 +213,10 @@ Double_t * DrawingTools::SetBinning(int nbins, Double_t low, Double_t high){
     
     return bins;
 }
+
+TLegend * DrawingTools::Legend(double x_size, double y_size, double x_start, double y_start){
+    TLegend * leg = new TLegend(x_start, y_start, x_start + x_size, y_start + y_size);
+    leg->SetFillStyle(0);
+    //leg->SetTextSize(0.042);
+    return leg;
+}

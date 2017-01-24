@@ -54,6 +54,8 @@ public:
     
     Double_t * SetBinning(int nbins, Double_t low, Double_t high);
     
+    TLegend * Legend(double x_size, double y_size, double x_start = 0.1, double y_start = 0.1);
+    
 private:
     //File and directory info:
     std::string m_filename;
