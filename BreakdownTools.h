@@ -115,9 +115,13 @@ public:
     void PrintPOT(){ m_printPOT = true; }
     
     void FullBreakDown(){ if(!m_fullbreakdown) m_fullbreakdown = true; else m_fullbreakdown = false;}//Switch on/off breakdown level.
-    void SetMinBDlist(Int_t pdg){ m_MinBDlist.push_back(pdg); }
-    void ClearBDlist(){ m_MinBDlist.clear(); }
-    void ResetBDlist();
+    void SetMinPDGBDlist(Int_t pdg){ m_pdglist_minBD.push_back(pdg); }
+    void ClearPDGBDlist(){ m_pdglist_minBD.clear(); }
+    void ResetPDGBDlist();
+    
+    void SetMinTOPBDlist(TOPSTYPE::TOPSTYPE top){ m_toplist_minBD.push_back(top); }
+    void ClearTOPBDlist(){ m_toplist_minBD.clear(); }
+    void ResetTOPBDlist();
     
     //    void TopVar();
     //void MisPIDVar();
@@ -127,7 +131,10 @@ private:
     bool m_fullbreakdown;
     
     std::vector<PDGs> m_pdglist;
-    std::vector<Int_t> m_MinBDlist;
+    std::vector<Int_t> m_pdglist_minBD;
+
+    std::vector<TOPS> m_toplist;
+    std::vector<TOPSTYPE::TOPSTYPE> m_toplist_minBD;
 
 };
 #endif
