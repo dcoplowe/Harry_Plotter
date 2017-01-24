@@ -14,15 +14,16 @@ class TH1D;
 class TH2D;
 
 //using namespace PlotUtils;
-struct KinMap {
-    TH1D * recon;
-    TH1D * truth;
-    TH2D * smear;
-    TH1D * ratio;
-};
 
 class DrawingTools : public DrawingStyle {
 public:
+    
+    struct KinMap {
+        TH1D * recon;
+        TH1D * truth;
+        TH2D * smear;
+        TH1D * ratio;
+    };
     
     //Basic class for drawing plots and doesn't require filename, takes in tree and reads:
     DrawingTools(std::string filename, std::string treename, std::string uniquename = "");
