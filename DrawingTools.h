@@ -52,6 +52,8 @@ public:
     void Verbose(){ m_verbose = true; }
     void SetRatioInfo(Int_t nbins, Double_t range){ m_ratiobins = nbins; m_ratiorange = range; }
     
+    Double_t * SetBinning(int nbins, Double_t low, Double_t high);
+    
 private:
     //File and directory info:
     std::string m_filename;
@@ -67,8 +69,6 @@ private:
     
     Double_t m_ratiorange;
     Int_t m_ratiobins;
-
-    Double_t * SetBinning(int nbins, Double_t low, Double_t high);
     
     bool m_verbose;
 };
