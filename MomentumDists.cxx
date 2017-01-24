@@ -402,6 +402,8 @@ public:
 
     void MakePlots();
     
+    TLatex * GetLogo();
+    
 private:
     EXP::EXP m_experiment;
     std::string m_infilename;
@@ -412,6 +414,7 @@ private:
     
     std::string m_truename;
     std::string m_reconame;
+    std::string m_exper_logo;
     
     std::string GetDate();
     
@@ -484,6 +487,9 @@ void MomentumDists::MakePlots(){
 
     
     outfile->cd();
+    canstest.recon->cd();
+    TLatex * canstest_logo = GetLogo();
+    
     canstest.recon->Write();
     canstest2.recon->Write();
     
@@ -543,6 +549,10 @@ std::string MomentumDists::GetDate(){
     
 }
 
+TLatex * MomentumDists::GetLogo(){
+    TLatex * logo = new TLatex(0.0, 0.1, ("#font[62]{" + m_exper_logo + "}").c_str() );
+    return logo;
+}
 
 int main(int argc, char *argv[])
 {
