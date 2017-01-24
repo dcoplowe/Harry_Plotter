@@ -48,6 +48,8 @@ public:
         //Particles:
         Proton = kOrange-2,
         Pion = kAzure+2,
+        PionP = kAzure+2,
+        PionM = kWhite,
         Muon = kCyan+2,
         MuonM = kCyan+2,
         MuonP = kOrange+7,
@@ -61,8 +63,28 @@ public:
         T2Pi = kRed+1,
         T1P1Pi0 = kCyan+2,
         T1Pi1Pi0 = kOrange+7,
-        Other = kGray
+        Other = kGray,
+        //Initial States:
+        LFG = kOrange-2,
+        GFG = kAzure+2,
+        SF  = kCyan+2,
+        BRFG = kRed+1,
+        //Final state interactions:
+        FSION = kOrange-2,
+        FSIOFF = kAzure+2,
+        //Generators:
+        GENIE = kOrange-2,
+        NUWRO = kAzure+2,
+        NEUT = kCyan+2,
+        GIBUU = kGreen-3,
+        //Nuclei:
+        HYDROGEN = kOrange-2,
+        CARBON = kRed+1,
+        OXYGEN = kAzure+2,
+        ARGON = kGray
     };
+    
+    
 };
 
 #endif

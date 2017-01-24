@@ -33,7 +33,7 @@ struct Variable {
 #ifndef _PARTPDGS_
 #define _PARTPDGS_
 
-class PDGs{
+class PDGs {
 public:
     PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol);
     ~PDGs(){};
@@ -42,6 +42,7 @@ public:
     std::string name;
     std::string symbol;
     std::string pdg_s;
+    Int_t  colour;
 };
 #endif
 
@@ -60,8 +61,11 @@ public:
 //    BDCans TOPO(std::string var_name, const int var_nbins, const double mom_low, const double mom_high, std::string pname, std::string can_title, std::string mom_title = "", std::string cuts = "");
 
     void PrintPOT(){ m_printPOT = true; }
-    void FullBreakDown(){ if(!m_fullbreakdown) m_fullbreakdown = true; else m_fullbreakdown = false;}//Switch on/off breakdown level.
     
+    void FullBreakDown(){ if(!m_fullbreakdown) m_fullbreakdown = true; else m_fullbreakdown = false;}//Switch on/off breakdown level.
+    void SetMinBDlist(Int_t pdg){ m_MinBDlist.push_back(pdg); }
+    void ClearBDlist(){ m_MinBDlist.clear(); }
+    void ResetBDlist();
     //    void TopVar();
     //void MisPIDVar();
     
@@ -70,6 +74,8 @@ private:
     bool m_fullbreakdown;
     
     std::vector<PDGs> m_pdglist;
+    std::vector<Int_t> m_MinBDlist;
+
     
 };
 #endif
