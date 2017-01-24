@@ -153,10 +153,10 @@ BreakdownTools::~BreakdownTools(){
 
 void BreakdownTools::ResetPDGBDlist(){
     ClearPDGBDlist();
-    m_MinBDlist.push_back(2212);
-    m_MinBDlist.push_back(211);
-    m_MinBDlist.push_back(-211);
-    m_MinBDlist.push_back(13);
+    m_pdglist_minBD.push_back(2212);
+    m_pdglist_minBD.push_back(211);
+    m_pdglist_minBD.push_back(-211);
+    m_pdglist_minBD.push_back(13);
 }
 
 void BreakdownTools::ResetTOPBDlist(){
@@ -284,8 +284,8 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
             cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
             
             bool in_other = true;
-            for(int j = 0; j < (int)m_MinBDlist.size(); j++){
-                if(m_MinBDlist[j] == m_pdglist[(i - 1)].pdg){
+            for(int j = 0; j < (int)m_pdglist_minBD.size(); j++){
+                if(m_pdglist_minBD[j] == m_pdglist[(i - 1)].pdg){
                     in_other = false;
                     plot_by_self.push_back((i - 1));
                     break;
