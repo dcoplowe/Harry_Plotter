@@ -486,28 +486,28 @@ void MomentumDists::MakePlots(){
 //    
 //    var.savename += "_1";
 //    test->FullBreakDown();
-//    BDCans canstest2 = test->PID(var, 40, 0, 2000, m_proton->pdg);
+    BDCans canstest2 = test->PID(var, 40, 0, 2000, m_proton->pdg);
 //
 //    
-//    outfile->cd();
-//    canstest.recon->cd();
-//    TLatex * canstest_logo = GetLogo();
-//    canstest_logo->Draw();
-//    
-//    canstest.recon->Write();
-//    canstest2.recon->Write();
-//    
-//    canstest.truth->Write();
-//    canstest2.truth->Write();
-//    
-//    canstest.ratio->Write();
-//    canstest2.ratio->Write();
-//    
-//    canstest.smear->Write();
-//    canstest2.smear->Write();
-//   
-//    canstest.smearSN->Write();
-//    canstest2.smearSN->Write();
+    outfile->cd();
+    canstest.recon->cd();
+    TLatex * canstest_logo = GetLogo();
+    canstest_logo->Draw();
+    
+    canstest.recon->Write();
+    canstest2.recon->Write();
+    
+    canstest.truth->Write();
+    canstest2.truth->Write();
+    
+    canstest.ratio->Write();
+    canstest2.ratio->Write();
+    
+    canstest.smear->Write();
+    canstest2.smear->Write();
+   
+    canstest.smearSN->Write();
+    canstest2.smearSN->Write();
    
 //    DrawingTools * test = new DrawingTools(m_infilename, m_reconame);
 //    

@@ -443,87 +443,87 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         
         cout << "Working 3b" << endl;
 
-//        double recon_other_percent = 0.;
-//        double truth_other_percent = 0.;
-//        double ratio_other_percent = 0.;
-//        
-//        std::vector<int> plot_by_self;
-//        
-//        for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
-//            cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
-//            
-//            bool in_other = true;
-//            for(int j = 0; j < (int)m_pdglist_minBD.size(); j++){
-//                if(m_toplist_minBD[j] == m_toplist[(i - 1)].type){
-//                    in_other = false;
-//                    plot_by_self.push_back((i - 1));
-//                    break;
-//                }
-//            }
-//            
-//            if(in_other){
-//                recon_other_percent += recon_percent[ i - 1 ];
-//                truth_other_percent += truth_percent[ i - 1 ];
-//                ratio_other_percent += ratio_percent[ i - 1 ];
-//                
-//                if( (i - 1) != (int)(kinmap_list.size() - 1)){
-//                    kinmap_list.back().recon->Add(kinmap_list[ (i - 1) ].recon);
-//                    kinmap_list.back().truth->Add(kinmap_list[ (i - 1) ].truth);
-//                    kinmap_list.back().ratio->Add(kinmap_list[ (i - 1) ].ratio);
-//                }//                other_kinmap.smear->Add();
-//            }
-//            
-//            //This is common to both:
-//            if(i < (int)kinmap_list.size()) smear_tot->Add(kinmap_list[ i ].smear);
-//        }
-//        
-//        recon_tot->Add(kinmap_list.back().recon);
-//        truth_tot->Add(kinmap_list.back().truth);
-//        ratio_tot->Add(kinmap_list.back().ratio);
-//        smear_tot->Add(kinmap_list.back().smear);
-//        
-//        for(int i = 0; i < (int)plot_by_self.size(); i++){
-//            recon_tot->Add(kinmap_list[ plot_by_self[i] ].recon);
-//            recon_leg->AddEntry(kinmap_list[ plot_by_self[i] ].recon, Form("%s (%.2f%%)", m_toplist[ plot_by_self[i] ].symbol.c_str(), recon_percent[ plot_by_self[i] ]), "f");
-//            
-//            truth_tot->Add(kinmap_list[ plot_by_self[i] ].truth);
-//            truth_leg->AddEntry(kinmap_list[ plot_by_self[i] ].truth, Form("%s (%.2f%%)", m_toplist[ plot_by_self[i] ].symbol.c_str(), truth_percent[ plot_by_self[i] ]), "f");
-//            
-//            ratio_tot->Add(kinmap_list[ plot_by_self[i] ].ratio);
-//            ratio_leg->AddEntry(kinmap_list[ plot_by_self[i] ].ratio, Form("%s (%.2f%%)", m_toplist[ plot_by_self[i] ].symbol.c_str(), ratio_percent[ plot_by_self[i] ]), "f");
-//        }
-//        
-//        recon_leg->AddEntry(kinmap_list.back().recon, Form("Other (%.2f%%)", recon_other_percent), "f");
-//        truth_leg->AddEntry(kinmap_list.back().truth, Form("Other (%.2f%%)", truth_other_percent), "f");
-//        ratio_leg->AddEntry(kinmap_list.back().ratio, Form("Other (%.2f%%)", ratio_other_percent), "f");
+        double recon_other_percent = 0.;
+        double truth_other_percent = 0.;
+        double ratio_other_percent = 0.;
+        
+        std::vector<int> plot_by_self;
+        
+        for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
+            cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
+            
+            bool in_other = true;
+            for(int j = 0; j < (int)m_pdglist_minBD.size(); j++){
+                if(m_toplist_minBD[j] == m_toplist[(i - 1)].type){
+                    in_other = false;
+                    plot_by_self.push_back((i - 1));
+                    break;
+                }
+            }
+            
+            if(in_other){
+                recon_other_percent += recon_percent[ i - 1 ];
+                truth_other_percent += truth_percent[ i - 1 ];
+                ratio_other_percent += ratio_percent[ i - 1 ];
+                
+                if( (i - 1) != (int)(kinmap_list.size() - 1)){
+                    kinmap_list.back().recon->Add(kinmap_list[ (i - 1) ].recon);
+                    kinmap_list.back().truth->Add(kinmap_list[ (i - 1) ].truth);
+                    kinmap_list.back().ratio->Add(kinmap_list[ (i - 1) ].ratio);
+                }//                other_kinmap.smear->Add();
+            }
+            
+            //This is common to both:
+            if(i < (int)kinmap_list.size()) smear_tot->Add(kinmap_list[ i ].smear);
+        }
+        
+        recon_tot->Add(kinmap_list.back().recon);
+        truth_tot->Add(kinmap_list.back().truth);
+        ratio_tot->Add(kinmap_list.back().ratio);
+        smear_tot->Add(kinmap_list.back().smear);
+        
+        for(int i = 0; i < (int)plot_by_self.size(); i++){
+            recon_tot->Add(kinmap_list[ plot_by_self[i] ].recon);
+            recon_leg->AddEntry(kinmap_list[ plot_by_self[i] ].recon, Form("%s (%.2f%%)", m_toplist[ plot_by_self[i] ].symbol.c_str(), recon_percent[ plot_by_self[i] ]), "f");
+            
+            truth_tot->Add(kinmap_list[ plot_by_self[i] ].truth);
+            truth_leg->AddEntry(kinmap_list[ plot_by_self[i] ].truth, Form("%s (%.2f%%)", m_toplist[ plot_by_self[i] ].symbol.c_str(), truth_percent[ plot_by_self[i] ]), "f");
+            
+            ratio_tot->Add(kinmap_list[ plot_by_self[i] ].ratio);
+            ratio_leg->AddEntry(kinmap_list[ plot_by_self[i] ].ratio, Form("%s (%.2f%%)", m_toplist[ plot_by_self[i] ].symbol.c_str(), ratio_percent[ plot_by_self[i] ]), "f");
+        }
+        
+        recon_leg->AddEntry(kinmap_list.back().recon, Form("Other (%.2f%%)", recon_other_percent), "f");
+        truth_leg->AddEntry(kinmap_list.back().truth, Form("Other (%.2f%%)", truth_other_percent), "f");
+        ratio_leg->AddEntry(kinmap_list.back().ratio, Form("Other (%.2f%%)", ratio_other_percent), "f");
     }
     
     BDCans cans;
     
-//    cans.recon = new TCanvas( recon_tot->GetName(), "", 500, 500);
-//    cans.recon->cd();
-//    recon_tot->Draw();
-//    recon_leg->Draw();
-//    //    mom_recon_pot->Draw();
-//    
-//    cans.truth = new TCanvas( truth_tot->GetName(), "", 500, 500);
-//    cans.truth->cd();
-//    truth_tot->Draw();
-//    truth_leg->Draw();
-//    
-//    cans.ratio = new TCanvas( ratio_tot->GetName(), "", 500, 500);
-//    cans.ratio->cd();
-//    ratio_tot->Draw();
-//    ratio_leg->Draw();
-//    
-//    cans.smear = new TCanvas( smear_tot->GetName(), "", 500, 500);
-//    cans.smear->cd();
-//    smear_tot->Draw("COLZ");
-//    
-//    TH2D * smear_totSN = NormalHist(smear_tot, 0., true);
-//    cans.smearSN = new TCanvas( (std::string(smear_tot->GetName()) + "SN").c_str(), "", 500, 500);
-//    cans.smearSN->cd();
-//    smear_totSN->Draw("COLZ");
+    cans.recon = new TCanvas( recon_tot->GetName(), "", 500, 500);
+    cans.recon->cd();
+    recon_tot->Draw();
+    recon_leg->Draw();
+    //    mom_recon_pot->Draw();
+    
+    cans.truth = new TCanvas( truth_tot->GetName(), "", 500, 500);
+    cans.truth->cd();
+    truth_tot->Draw();
+    truth_leg->Draw();
+    
+    cans.ratio = new TCanvas( ratio_tot->GetName(), "", 500, 500);
+    cans.ratio->cd();
+    ratio_tot->Draw();
+    ratio_leg->Draw();
+    
+    cans.smear = new TCanvas( smear_tot->GetName(), "", 500, 500);
+    cans.smear->cd();
+    smear_tot->Draw("COLZ");
+    
+    TH2D * smear_totSN = NormalHist(smear_tot, 0., true);
+    cans.smearSN = new TCanvas( (std::string(smear_tot->GetName()) + "SN").c_str(), "", 500, 500);
+    cans.smearSN->cd();
+    smear_totSN->Draw("COLZ");
     
     return cans;
 }
