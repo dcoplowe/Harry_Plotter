@@ -209,7 +209,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
                 truth_tot->Add(kinmap_list[ plot_by_self[i] ].truth);
                 truth_leg->AddEntry(kinmap_list[ plot_by_self[i] ].truth, Form("%s (%.2f%%)", m_pdglist[ plot_by_self[i] ].symbol.c_str(), recon_percent[ plot_by_self[i] ]), "f");
                 
-                ratio_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].ratio);
+                ratio_tot->Add(kinmap_list[ plot_by_self[i] ].ratio);
                 ratio_leg->AddEntry(kinmap_list[ plot_by_self[i] ].ratio, Form("%s (%.2f%%)", m_pdglist[ plot_by_self[i] ].symbol.c_str(), recon_percent[ plot_by_self[i] ]), "f");
         }
         
