@@ -430,34 +430,34 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         
         std::vector<int> plot_by_self;
         
-        for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
-            cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
-            
-            bool in_other = true;
-            for(int j = 0; j < (int)m_pdglist_minBD.size(); j++){
-                if(m_toplist_minBD[j] == m_toplist[(i - 1)].type){
-                    in_other = false;
-                    plot_by_self.push_back((i - 1));
-                    break;
-                }
-            }
-            
-            if(in_other){
-                recon_other_percent += recon_percent[ i - 1 ];
-                truth_other_percent += truth_percent[ i - 1 ];
-                ratio_other_percent += ratio_percent[ i - 1 ];
-                
-                if( (i - 1) != (int)(kinmap_list.size() - 1)){
-                    kinmap_list.back().recon->Add(kinmap_list[ (i - 1) ].recon);
-                    kinmap_list.back().truth->Add(kinmap_list[ (i - 1) ].truth);
-                    kinmap_list.back().ratio->Add(kinmap_list[ (i - 1) ].ratio);
-                }//                other_kinmap.smear->Add();
-            }
-            
-            //This is common to both:
-            if(i < (int)kinmap_list.size()) smear_tot->Add(kinmap_list[ i ].smear);
-        }
-        
+//        for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
+//            cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
+//            
+//            bool in_other = true;
+//            for(int j = 0; j < (int)m_pdglist_minBD.size(); j++){
+//                if(m_toplist_minBD[j] == m_toplist[(i - 1)].type){
+//                    in_other = false;
+//                    plot_by_self.push_back((i - 1));
+//                    break;
+//                }
+//            }
+//            
+//            if(in_other){
+//                recon_other_percent += recon_percent[ i - 1 ];
+//                truth_other_percent += truth_percent[ i - 1 ];
+//                ratio_other_percent += ratio_percent[ i - 1 ];
+//                
+//                if( (i - 1) != (int)(kinmap_list.size() - 1)){
+//                    kinmap_list.back().recon->Add(kinmap_list[ (i - 1) ].recon);
+//                    kinmap_list.back().truth->Add(kinmap_list[ (i - 1) ].truth);
+//                    kinmap_list.back().ratio->Add(kinmap_list[ (i - 1) ].ratio);
+//                }//                other_kinmap.smear->Add();
+//            }
+//            
+//            //This is common to both:
+//            if(i < (int)kinmap_list.size()) smear_tot->Add(kinmap_list[ i ].smear);
+//        }
+//        
 //        recon_tot->Add(kinmap_list.back().recon);
 //        truth_tot->Add(kinmap_list.back().truth);
 //        ratio_tot->Add(kinmap_list.back().ratio);
