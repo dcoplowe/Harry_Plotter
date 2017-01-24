@@ -465,7 +465,7 @@ void MomentumDists::MakePlots(){
     BreakdownTools * test = new BreakdownTools(m_infilename, m_reconame);
     
     Variable var;
-    var.name = m_proton->P;
+    var.name = m_proton->trueP + ":" + m_proton->P;
     var.units = "MeV/#it{c}";
     var.symbol = "#it{c}";
     
