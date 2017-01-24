@@ -64,7 +64,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
             other_cut += particle.pdg_s;
         }
             
-        DrawingTools::KinMap tmp_kinmap = KinArray(var.name, nbins, bins, (var.print + " (" + var.units + ")" ).c_str(), tmp_cuts);
+        DrawingTools::KinMap tmp_kinmap = KinArray(var.name, nbins, bins, (var.symbol + " (" + var.units + ")" ).c_str(), tmp_cuts);
         kinmap_list.push_back(tmp_kinmap);
     }
     
@@ -72,7 +72,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     
     cout << "other_cut: " << other_cut << endl;
     
-    DrawingTools::KinMap other_kinmap = KinArray(var.name, nbins, bins, (var.print + " (" + var.units + ")" ).c_str(), other_cut);
+    DrawingTools::KinMap other_kinmap = KinArray(var.name, nbins, bins, (var.symbol + " (" + var.units + ")" ).c_str(), other_cut);
     kinmap_list.push_back(other_kinmap);
     
     BDCans cans;

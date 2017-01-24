@@ -465,7 +465,12 @@ void MomentumDists::MakePlots(){
     
     BreakdownTools * test = new BreakdownTools(m_infilename, m_reconame);
     
-    BDCans canstest = test->PID(Variable var, Int_t nbins, Double_t low, Double_t high, m_proton->pdg);
+    Variable var;
+    var.name = m_proton->P;
+    var.units = "MeV/#it{c}";
+    var.symbol = "#it{c}";
+    
+    BDCans canstest = test->PID(var, 40, 0, 2000, m_proton->pdg);
     
 //    DrawingTools * test = new DrawingTools(m_infilename, m_reconame);
 //    

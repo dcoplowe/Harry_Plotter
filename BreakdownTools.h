@@ -27,7 +27,7 @@ struct BDCans {
 
 struct Variable {
     std::string name;
-    std::string print;
+    std::string symbol;
     std::string units;
 };
 
