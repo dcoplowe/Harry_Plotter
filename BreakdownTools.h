@@ -46,17 +46,6 @@ public:
 };
 #endif
 
-#ifndef _PARTPDGS_CXX
-#define _PARTPDGS_CXX
-
-PDGs::PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol) : pdg(part_pdg), name(part_name), symbol(part_symbol){
-    stringstream ss;
-    ss << pdg;
-    pdg_s = ss.str();
-}
-
-#endif
-
 class BreakdownTools : public DrawingTools {
 public:
 	

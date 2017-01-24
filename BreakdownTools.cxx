@@ -9,6 +9,16 @@
 #include "THStack.h"
 #include "TCanvas.h"
 
+#ifndef _PARTPDGS_CXX
+#define _PARTPDGS_CXX
+
+PDGs::PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol) : pdg(part_pdg), name(part_name), symbol(part_symbol){
+    stringstream ss;
+    ss << pdg;
+    pdg_s = ss.str();
+}
+#endif
+
 BreakdownTools::BreakdownTools(std::string filename, std::string treename) : DrawingTools(filename, treename, ("BD" + treename).c_str()), m_printPOT(false), m_fullbreakdown(false){
 
 //    PDGs proton(2212, "proton",   "p");
