@@ -28,6 +28,7 @@ struct Variable {
     std::string name;
     std::string symbol;
     std::string units;
+    std::string savename;
 };
 
 #ifndef _PARTPDGS_

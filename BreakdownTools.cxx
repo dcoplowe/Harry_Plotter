@@ -18,20 +18,18 @@ PDGs::PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol) : pdg
     ss << pdg;
     pdg_s = ss.str();
     
-    DrawingStyle::DSColors varssss = DrawingStyle::Proton;
-    
-    if(name.find("proton") != std::string::npos) colour =       (Int_t)DrawingStyle::Proton;//Proton
-    else if(name.find("pionP") != std::string::npos) colour =   (Int_t)DrawingStyle::PionP;//PionP
-    else if(name.find("pionM") != std::string::npos) colour =   (Int_t)DrawingStyle::PionM;
-    else if(name.find("pion") != std::string::npos) colour =    (Int_t)DrawingStyle::Pion;
-    else if(name.find("muonP") != std::string::npos) colour =   (Int_t)DrawingStyle::MuonP;//PionP
-    else if(name.find("muonM") != std::string::npos) colour =   (Int_t)DrawingStyle::MuonM;
-    else if(name.find("muon") != std::string::npos) colour =    (Int_t)DrawingStyle::Muon;
-    else if(name.find("pizero") != std::string::npos) colour =  (Int_t)DrawingStyle::Pi0;
-    else if(name.find("kapm") != std::string::npos) colour =    (Int_t)DrawingStyle::Kaon;
-    else if(name.find("kazero") != std::string::npos) colour =  (Int_t)DrawingStyle::Ka0;
+    if(name.find("proton") != std::string::npos)        colour = (Int_t)DrawingStyle::Proton;//Proton
+    else if(name.find("pionP") != std::string::npos)    colour = (Int_t)DrawingStyle::PionP;//PionP
+    else if(name.find("pionM") != std::string::npos)    colour = (Int_t)DrawingStyle::PionM;
+    else if(name.find("pion") != std::string::npos)     colour = (Int_t)DrawingStyle::Pion;
+    else if(name.find("muonP") != std::string::npos)    colour = (Int_t)DrawingStyle::MuonP;//PionP
+    else if(name.find("muonM") != std::string::npos)    colour = (Int_t)DrawingStyle::MuonM;
+    else if(name.find("muon") != std::string::npos)     colour = (Int_t)DrawingStyle::Muon;
+    else if(name.find("pizero") != std::string::npos)   colour = (Int_t)DrawingStyle::Pi0;
+    else if(name.find("kapm") != std::string::npos)     colour = (Int_t)DrawingStyle::Kaon;
+    else if(name.find("kazero") != std::string::npos)   colour = (Int_t)DrawingStyle::Ka0;
     else colour = (Int_t)DrawingStyle::Other;
-    
+
 }
 #endif
 
@@ -111,16 +109,41 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     cout << "other_cut: " << other_cut << endl;
     
     DrawingTools::KinMap other_kinmap = KinArray(var.name, nbins, bins, (var.symbol + " (" + var.units + ")" ).c_str(), other_cut);
-    kinmap_list.push_back(other_kinmap);
-//    particle_symbs.push_back("Other");
     
-//    THStack ;
+    //Make outputs:
     
+    THStack * recon_tot = new THStack( (var.savename + "_recon").c_str() , Form(";%s;%s", kinmap_list[0].recon->GetXaxis()->Gettitle(),
+                                                                                kinmap_list[0].recon->GetYaxis()->Gettitle() ) );
+    
+    THStack * truth_tot = new THStack( (var.savename + "_truth").c_str(), Form(";%s;%s", kinmap_list[0].truth->GetXaxis()->Gettitle(),
+                                                                               kinmap_list[0].truth->GetYaxis()->Gettitle() ) );
+    
+    THStack * ratio_tot = new THStack( (var.savename + "_ratio").c_str(), Form(";%s;%s", kinmap_list[0].ratio->GetXaxis()->Gettitle(),
+                                                                                kinmap_list[0].ratio->GetYaxis()->Gettitle() ) );
+    TH2D * smear_tot = (TH2D*)kinmap_list[0]->Clone( (var.savename + "_smear").c_str() );//Just add all of these histos.
+    
+    TLegend * mom_recon_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
+    TLegend * mom_truth_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
+    TLegend * mom_ratio_leg = plot->Legend(0.25, 0.4, 0.551, 0.362);
     
     if(m_fullbreakdown){
         
         for(int i = 0; i < (int)kinmap_list.size(); i++){
             
+            TH1D * tmp_recon = kinmap_list[i].recon;
+            
+            mom_recon_leg->AddEntry(tmp_recon, Form("%s (%.2f%%)", m_pdglist[i].symbol.c_str(), 1.), "f");
+            
+//            TH1D * tmp_truth = kinmap_list[i].truth;
+//            
+//            mom_truth_leg->AddEntry(tmp_truth, Form("", ), "f");
+//            
+//            TH1D * tmp_ratio = kinmap_list[i].ratio;
+//            
+//            mom_ratio_leg->AddEntry(tmp_ratio, Form("", ), "f");
+//            
+//            TH2D * tmp_smear = kinmap_list[i].smear;
+
         }
         
         
