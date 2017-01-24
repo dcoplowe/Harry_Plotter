@@ -108,7 +108,7 @@ TH2D * DrawingTools::SmearMatrix(std::string vars_yx, Int_t nbins, Double_t low,
     return GetHisto(vars_yx, nbins, SetBinning(nbins, low, high), nbins, SetBinning(nbins, low, high), xy_title, cuts);
 }
 
-KinMap DrawingTools::KinArray(std::string vars_tr, Int_t nbins, Double_t * bins, std::string rt_title, std::string cuts){
+DrawingTools::KinMap DrawingTools::KinArray(std::string vars_tr, Int_t nbins, Double_t * bins, std::string rt_title, std::string cuts){
     //In this map we can to keep all the entries preserved from one plot to another, i.e. all integrals are the same. Therefore want a common cut for all plots.
     
     KinMap map;
@@ -159,7 +159,7 @@ KinMap DrawingTools::KinArray(std::string vars_tr, Int_t nbins, Double_t * bins,
     return map;
 }
 
-KinMap DrawingTools::KinArray(std::string vars_tr, Int_t nbins, Double_t low, Double_t high, std::string rt_title, std::string cuts){
+DrawingTools::KM DrawingTools::KinArray(std::string vars_tr, Int_t nbins, Double_t low, Double_t high, std::string rt_title, std::string cuts){
     return KinArray(vars_tr, nbins, SetBinning(nbins, low, high), rt_title, cuts);
 }
 

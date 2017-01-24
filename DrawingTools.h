@@ -17,6 +17,7 @@ class TH2D;
 
 class DrawingTools : public DrawingStyle {
 public:
+    
     struct KinMap {
         TH1D * recon;
         TH1D * truth;
