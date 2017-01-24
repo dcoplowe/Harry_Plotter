@@ -18,7 +18,7 @@ PDGs::PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol) : pdg
     ss << pdg;
     pdg_s = ss.str();
     
-    DrawingStyle::DSColors varssss ;
+    DrawingStyle::DSColors varssss = DrawingStyle::DSColors.Proton;
     
     
 //    if(name.find("proton") != std::string::npos) colour =  (Int_t)DrawingStyle::DSColors::Proton;//Proton
@@ -57,7 +57,7 @@ BreakdownTools::~BreakdownTools(){
     ClearBDlist();
 }
 
-BreakdownTools::ResetBDlist(){
+void BreakdownTools::ResetBDlist(){
     ClearBDlist();
     m_MinBDlist.push_back(2212);
     m_MinBDlist.push_back(211);

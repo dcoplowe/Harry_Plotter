@@ -387,7 +387,7 @@ KinematicVars::~KinematicVars(){
     
 }
 
-#endif;
+#endif
 
 class MomentumDists {
 
