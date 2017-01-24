@@ -268,7 +268,7 @@ std::vector<double> DrawingTools::GetPercentage(std::vector<DrawingTools::KinMap
     if(type == 0){//Reco;
         if(m_verbose) cout << "GetPercentage : Recon" << endl;
         for (int i = 0; i < (int)histos.size(); i++) list.push_back( histos[i].recon );
-        if(other.recon){ list.push_back(other.recon); cout << " other.recon exists " << endl; }
+        if(other.recon) list.push_back(other.recon);
     }
     else if(type == 1){//Truth;
         if(m_verbose) cout << "GetPercentage : Truth" << endl;
@@ -391,7 +391,6 @@ TLegend * DrawingTools::GetPOT(double x_pos, double y_pos){
 
 void DrawingTools::SetPOT(){
     TTree * tmp_meta_tree = (TTree*)m_file->Get("Meta");
-    Double_t m_POT = 0;
     assert(tmp_meta_tree->GetEntries()==1);
     tmp_meta_tree->GetEntry(0);
     TLeaf * lpot= tmp_meta_tree->GetLeaf("POT_Used");

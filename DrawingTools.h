@@ -89,7 +89,7 @@ private:
     bool m_verbose;
     bool m_getPOT;
     
-    Double_t m_POT;
+    double m_POT;
     
     KinMap empty_kinmap;
     
