@@ -32,6 +32,30 @@ PDGs::PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol) : pdg
 }
 #endif
 
+#ifndef _TOPOLOGY_CXX
+#define _TOPOLOGY_CXX
+
+TOPS::TOPS(TOPSTYPE::TOPSTYPE topo_type) : type(topo_type), name(TOPSTYPE::ToString(type ,0)), symbol(TOPSTYPE::ToString(type ,1)){
+    
+    CC1P1PiPlus,
+    CC1P1PiMinus,
+    CC2P,
+    CC2PiPlus,
+    CC1P1PiZero,
+    CC1PiZero1PiPlus,
+    Other
+    
+    if(type == CC1P1PiPlus)             colour = (Int_t)DrawingStyle::T1P1PiP;//Proton
+    else if(type == CC1P1PiMinus)       colour = (Int_t)DrawingStyle::T1P1PiM;
+    else if(type == CC2P)               colour = (Int_t)DrawingStyle::T2Pr;
+    else if(type == CC2PiPlus)          colour = (Int_t)DrawingStyle::T2PiP;
+    else if(type == CC1P1PiZero)        colour = (Int_t)DrawingStyle::T1P1Pi0;
+    else if(type == CC1PiZero1PiPlus)   colour = (Int_t)DrawingStyle::T1Pi1Pi0;
+    else colour = (Int_t)DrawingStyle::Other;
+    
+}
+#endif
+
 BreakdownTools::BreakdownTools(std::string filename, std::string treename) : DrawingTools(filename, treename, ("BD" + treename).c_str()), m_printPOT(false), m_fullbreakdown(true){
 
 //    PDGs proton;
