@@ -11,6 +11,7 @@
 #include "TLeaf.h"
 #include "TH1D.h"
 #include "TH2D.h"
+#include "TMath.h"
 
 using namespace std;
 
@@ -301,7 +302,7 @@ TH1D * DrawingTools::ToPDF(TH1D *hraw, TString hn){
         const Double_t eff = cont/tmpnt;
         const Double_t pdf = eff/bw;
         
-        const Double_t dpdf = sqrt(eff*(1-eff)/tmpnt) / bw;
+        const Double_t dpdf = TMath::Sqrt(eff*(1-eff)/tmpnt) / bw;
         hist->SetBinContent(ib, pdf);
         hist->SetBinError(ib, dpdf);
     }
