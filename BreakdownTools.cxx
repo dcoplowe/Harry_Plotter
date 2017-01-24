@@ -1,4 +1,5 @@
 #include "BreakdownTools.h"
+#include "DrawingStyle.h"
 
 #include <string>
 #include <iostream>
@@ -53,7 +54,7 @@ BreakdownTools::~BreakdownTools(){
     ClearBDlist();
 }
 
-BreakdownTools::ResetBDlist(){;
+BreakdownTools::ResetBDlist(){
     ClearBDlist();
     m_MinBDlist.push_back(2212);
     m_MinBDlist.push_back(211);
@@ -109,7 +110,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     
     DrawingTools::KinMap other_kinmap = KinArray(var.name, nbins, bins, (var.symbol + " (" + var.units + ")" ).c_str(), other_cut);
     kinmap_list.push_back(other_kinmap);
-    particle_symbs.push_back("Other");
+//    particle_symbs.push_back("Other");
     
 //    THStack ;
     
