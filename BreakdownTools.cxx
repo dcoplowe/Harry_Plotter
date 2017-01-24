@@ -531,6 +531,8 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
     recon_tot->Draw();
     signal_kinmap.recon->Draw("SAME");
     recon_leg->Draw();
+    TLegend * recon_pot = GetPOT(0.1,0.1);
+    recon_pot->Draw();
     //    mom_recon_pot->Draw();
     
     cans.truth = new TCanvas( truth_tot->GetName(), "", 500, 500);
@@ -538,21 +540,29 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
     truth_tot->Draw();
     signal_kinmap.truth->Draw("SAME");
     truth_leg->Draw();
+    TLegend * truth_pot = GetPOT(0.1,0.1);
+    truth_pot->Draw();
     
     cans.ratio = new TCanvas( ratio_tot->GetName(), "", 500, 500);
     cans.ratio->cd();
     ratio_tot->Draw();
     ratio_leg->Draw();
     signal_kinmap.ratio->Draw("SAME");
+    TLegend * ratio_pot = GetPOT(0.1,0.1);
+    ratio_pot->Draw();
     
     cans.smear = new TCanvas( smear_tot->GetName(), "", 500, 500);
     cans.smear->cd();
     smear_tot->Draw("COLZ");
+    TLegend * smear_pot = GetPOT(0.1,0.1);
+    smear_pot->Draw();
     
     TH2D * smear_totSN = NormalHist(smear_tot, 0., true);
     cans.smearSN = new TCanvas( (std::string(smear_tot->GetName()) + "SN").c_str(), "", 500, 500);
     cans.smearSN->cd();
     smear_totSN->Draw("COLZ");
+    TLegend * smearSN_pot = GetPOT(0.1,0.1);
+    smearSN_pot->Draw();
     
     return cans;
 }
@@ -650,6 +660,8 @@ BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::s
     recon_tot->Draw();
     signal_kinmap.recon->Draw("SAME");
     recon_leg->Draw();
+    TLegend * recon_pot = GetPOT(0.1,0.1);
+    recon_pot->Draw();
     //    mom_recon_pot->Draw();
     
     cans.truth = new TCanvas( truth_tot->GetName(), "", 500, 500);
@@ -657,21 +669,29 @@ BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::s
     truth_tot->Draw();
     signal_kinmap.truth->Draw("SAME");
     truth_leg->Draw();
+    TLegend * truth_pot = GetPOT(0.1,0.1);
+    truth_pot->Draw();
     
     cans.ratio = new TCanvas( ratio_tot->GetName(), "", 500, 500);
     cans.ratio->cd();
     ratio_tot->Draw();
     ratio_leg->Draw();
     signal_kinmap.ratio->Draw("SAME");
+    TLegend * ratio_pot = GetPOT(0.1,0.1);
+    ratio_pot->Draw();
     
     cans.smear = new TCanvas( smear_tot->GetName(), "", 500, 500);
     cans.smear->cd();
     smear_tot->Draw("COLZ");
+    TLegend * smear_pot = GetPOT(0.1,0.1);
+    smear_pot->Draw();
     
     TH2D * smear_totSN = NormalHist(smear_tot, 0., true);
     cans.smearSN = new TCanvas( (std::string(smear_tot->GetName()) + "SN").c_str(), "", 500, 500);
     cans.smearSN->cd();
     smear_totSN->Draw("COLZ");
+    TLegend * smearSN_pot = GetPOT(0.1,0.1);
+    smearSN_pot->Draw();
 
     return cans;
 }
