@@ -460,7 +460,7 @@ void MomentumDists::MakePlots(){
     TH2D * hist_1 = test->GetHisto( (m_proton->trueP + ":" + m_proton->P).c_str() , 30, 0., 1.0, 30, 0., 1.0, "proton p (MeV/c)","accum_level>5 ");
     TH1D * hist_2 = test->GetHisto(m_recovars->dpTT, 59, -300., 300, "#deltap_{TT} (MeV/c)","accum_level>5 ");
     
-    DrawingTools::KinMap pmap = KinArray( (m_proton->pTT + ":" + m_proton->pTT).c_str(), 29, -300, 300, "proton p_{TT} (MeV/c)", "accum_level>5 ");
+    DrawingTools::KM pmap = test->KinArray( (m_proton->pTT + ":" + m_proton->pTT).c_str(), 29, -300, 300, "proton p_{TT} (MeV/c)", "accum_level>5 ");
     
     outfile->cd();
     hist_1->Write();
