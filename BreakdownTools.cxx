@@ -37,12 +37,12 @@ PDGs::PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol) : pdg
 
 TOPS::TOPS(TOPSTYPE::TOPSTYPE topo_type) : type(topo_type), name(TOPSTYPE::ToString(type ,0)), symbol(TOPSTYPE::ToString(type ,1)){
         
-    if(type == CC1P1PiPlus)             colour = (Int_t)DrawingStyle::T1P1PiP;//Proton
-    else if(type == CC1P1PiMinus)       colour = (Int_t)DrawingStyle::T1P1PiM;
-    else if(type == CC2P)               colour = (Int_t)DrawingStyle::T2Pr;
-    else if(type == CC2PiPlus)          colour = (Int_t)DrawingStyle::T2PiP;
-    else if(type == CC1P1PiZero)        colour = (Int_t)DrawingStyle::T1P1Pi0;
-    else if(type == CC1PiZero1PiPlus)   colour = (Int_t)DrawingStyle::T1Pi1Pi0;
+    if(type == TOPSTYPE::CC1P1PiPlus)             colour = (Int_t)DrawingStyle::T1P1PiP;//Proton
+    else if(type == TOPSTYPE::CC1P1PiMinus)       colour = (Int_t)DrawingStyle::T1P1PiM;
+    else if(type == TOPSTYPE::CC2P)               colour = (Int_t)DrawingStyle::T2Pr;
+    else if(type == TOPSTYPE::CC2PiPlus)          colour = (Int_t)DrawingStyle::T2PiP;
+    else if(type == TOPSTYPE::CC1P1PiZero)        colour = (Int_t)DrawingStyle::T1P1Pi0;
+    else if(type == TOPSTYPE::CC1PiZero1PiPlus)   colour = (Int_t)DrawingStyle::T1Pi1Pi0;
     else colour = (Int_t)DrawingStyle::Other;
     
 }
