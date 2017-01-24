@@ -27,6 +27,7 @@
 #include "TLegend.h"
 #include "TFile.h"
 #include "TDatime.h"
+#include "TLatex.h"
 
 //#include <TStyle.h>
 
@@ -489,6 +490,7 @@ void MomentumDists::MakePlots(){
     outfile->cd();
     canstest.recon->cd();
     TLatex * canstest_logo = GetLogo();
+    canstest_logo->Draw();
     
     canstest.recon->Write();
     canstest2.recon->Write();
