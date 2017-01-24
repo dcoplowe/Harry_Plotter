@@ -488,7 +488,9 @@ void MomentumDists::MakePlots(){
 //    test->FullBreakDown();
     BDCans canstest2 = test->PID(var, 40, 0, 2000, m_proton->pdg);
 //
-//    
+//
+    BDCans canstest3 = test->TARGET(var, 40, 0, 2000, "accum_level > 5");
+
     outfile->cd();
     canstest.recon->cd();
     TLatex * canstest_logo = GetLogo();
@@ -496,15 +498,19 @@ void MomentumDists::MakePlots(){
     
     canstest.recon->Write();
     canstest2.recon->Write();
+    canstest3.recon->Write();
     
     canstest.truth->Write();
     canstest2.truth->Write();
+    canstest3.truth->Write();
     
     canstest.ratio->Write();
     canstest2.ratio->Write();
+    canstest3.ratio->Write();
     
     canstest.smear->Write();
     canstest2.smear->Write();
+    canstest3.smear->Write();
    
     canstest.smearSN->Write();
     canstest2.smearSN->Write();
