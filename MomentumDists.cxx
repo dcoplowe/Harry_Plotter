@@ -924,7 +924,7 @@ void MomentumDists::MakePlots(){
     BDCans pi_phi_pid = run->PID(phi, 40, 0, 2000, m_pion->pdg, base_cut);
     
     pi_phi_pid.recon->cd();
-    TLatex * pi_theta_pid_logo_recon = GetLogo();
+    TLatex * pi_phi_pid_logo_recon = GetLogo();
     pi_phi_pid_logo_recon->Draw();
     pi_phi_pid.recon->Write();
     
@@ -971,14 +971,14 @@ void MomentumDists::MakePlots(){
     mu_phi_tar.recon->Write();
     
     mu_phi_tar.truth->cd();
-    TLatex * mu_theta_tar_logo_truth = GetLogo();
+    TLatex * mu_phi_tar_logo_truth = GetLogo();
     mu_phi_tar_logo_truth->Draw();
     mu_phi_tar.truth->Write();
     
     BDCans mu_phi_pid = run->PID(phi, 40, 0, 2000, m_muon->pdg, base_cut);
     
     mu_phi_pid.recon->cd();
-    TLatex * mu_theta_pid_logo_recon = GetLogo();
+    TLatex * mu_phi_pid_logo_recon = GetLogo();
     mu_phi_pid_logo_recon->Draw();
     mu_phi_pid.recon->Write();
     
