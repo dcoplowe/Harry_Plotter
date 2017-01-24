@@ -60,7 +60,8 @@ public:
     BDCans PID(Variable var, Int_t nbins, Double_t * bins, std::string pdgvar, std::string cuts = "");
     BDCans PID(Variable var, Int_t nbins, Double_t low, Double_t high, std::string pdgvar, std::string cuts = "");
 
-//    BDCans TOPO(std::string var_name, const int var_nbins, const double mom_low, const double mom_high, std::string pname, std::string can_title, std::string mom_title = "", std::string cuts = "");
+    BDCans TOPO(Variable var, Int_t nbins, Double_t * bins, std::string pdgvar, std::string cuts = "");
+    BDCans TOPO(Variable var, Int_t nbins, Double_t low, Double_t high, std::string pdgvar, std::string cuts = "");
 
     void PrintPOT(){ m_printPOT = true; }
     

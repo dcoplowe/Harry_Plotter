@@ -240,7 +240,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     cans.smear->cd();
     smear_tot->Draw("COLZ");
     
-    TH2D * smear_totSN = NormalHist(smear_tot, 0., kTrue);
+    TH2D * smear_totSN = NormalHist(smear_tot, 0., true);
     cans.smearSN = new TCanvas( (std::string(smear_tot->GetName()) + "SN").c_str(), "", 500, 500);
     cans.smearSN->cd();
     smear_totSN->Draw("COLZ");
@@ -251,3 +251,20 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
 BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t low, Double_t high, std::string pdgvar, std::string cuts){
     return PID(var, nbins, SetBinning(nbins, low, high), pdgvar, cuts);
 }
+
+BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::string pdgvar, std::string cuts = ""){
+    BDCans cans;
+    return cans;
+}
+
+BDCans TOPO(Variable var, Int_t nbins, Double_t low, Double_t high, std::string pdgvar, std::string cuts = ""){
+    return TOPO(var, nbins, SetBinning(nbins, low, high), pdgvar, cuts);
+}
+
+
+
+
+
+
+
+

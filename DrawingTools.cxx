@@ -313,7 +313,7 @@ TH1D * DrawingTools::ToPDF(TH1D *hraw, TString hn){
 }
 
 
-TH2D * DrawingTools::NormalHist(TH2D *hraw, Double_t thres, Bool_t kmax){
+TH2D * DrawingTools::NormalHist(TH2D *hraw, Double_t thres, bool kmax){
     TH2D *hh=(TH2D*)hraw->Clone(Form("%sSN",hraw->GetName()));
     hh->Scale(0);
     

@@ -64,7 +64,7 @@ public:
     std::vector<double> GetPercentage(std::vector<DrawingTools::KinMap> histos, Int_t type, KinMap other);
     
     TH1D * ToPDF(TH1D * hraw, TString hn = "");
-    TH2D * NormalHist(TH2D * hraw, Double_t thres = 0, Bool_t kmax=kFALSE);
+    TH2D * NormalHist(TH2D * hraw, Double_t thres = 0, bool kmax=false);
     
     TLegend * GetPOT(double x_pos, double y_pos);
     
