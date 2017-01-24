@@ -100,7 +100,7 @@ TOPS::TOPS(TOPSTYPE::TOPSTYPE topo_type) : type(topo_type), name(TOPSTYPE::ToStr
         signal += "&& truth_n_piP == 0 && truth_n_pro == 2 && truth_n_tau == 0";
         signal += "&& mc_nFSPart == 3)";
         //CC2PiPlus
-        signal = "&& !";
+        signal += "&& !";
         signal += "(truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_ka0 == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0 ";
         signal += "&& truth_n_piP == 2 && truth_n_pro == 0 && truth_n_tau == 0";
@@ -396,45 +396,46 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
                                                                                         kinmap_list[0].ratio->GetYaxis()->GetTitle() ) );
     
     TH2D * smear_tot = (TH2D*)kinmap_list[0].smear->Clone( (var.savename + "_TOP_smear").c_str() );//Just add all of these histos.
-//
-//    TLegend * recon_leg = Legend(0.25, 0.4, 0.551, 0.362);
-//    TLegend * truth_leg = Legend(0.25, 0.4, 0.551, 0.362);
-//    TLegend * ratio_leg = Legend(0.25, 0.4, 0.551, 0.362);
-//    
-//    std::vector<double> recon_percent = GetPercentage(kinmap_list, 0, other_kinmap);
-//    std::vector<double> truth_percent = GetPercentage(kinmap_list, 1, other_kinmap);
-//    std::vector<double> ratio_percent = GetPercentage(kinmap_list, 2, other_kinmap);
-//    
-//    if(m_fullbreakdown){
-//        
-//        //        std::vector<double> recon_percent = GetPercentage(kinmap_list, 0, other_kinmap);
-//        //        std::vector<double> truth_percent = GetPercentage(kinmap_list, 1, other_kinmap);
-//        //        std::vector<double> ratio_percent = GetPercentage(kinmap_list, 2, other_kinmap);
-//        //
-//        recon_tot->Add(other_kinmap.recon);
-//        truth_tot->Add(other_kinmap.truth);
-//        ratio_tot->Add(other_kinmap.ratio);
-//        smear_tot->Add(other_kinmap.smear);
-//        
-//        for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
-//            //            cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
-//            
-//            recon_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].recon);
-//            recon_leg->AddEntry(kinmap_list[ (i - 1) ].recon, Form("%s (%.2f%%)", m_pdglist[(i - 1)].symbol.c_str(), recon_percent[ i - 1 ]), "f");
-//            
-//            truth_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].truth);
-//            truth_leg->AddEntry(kinmap_list[ (i - 1) ].truth, Form("%s (%.2f%%)", m_pdglist[(i - 1)].symbol.c_str(), recon_percent[ i - 1 ]), "f");
-//            
-//            ratio_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].ratio);
-//            ratio_leg->AddEntry(kinmap_list[ (i - 1) ].ratio, Form("%s (%.2f%%)", m_pdglist[(i - 1)].symbol.c_str(), recon_percent[ i - 1 ]), "f");
-//            
-//            if(i < (int)kinmap_list.size()) smear_tot->Add(kinmap_list[ i ].smear);
-//        }
-//        
-//        recon_leg->AddEntry(other_kinmap.recon, Form("Other (%.2f%%)", recon_percent.back()), "f");
-//        truth_leg->AddEntry(other_kinmap.truth, Form("Other (%.2f%%)", truth_percent.back()), "f");
-//        ratio_leg->AddEntry(other_kinmap.ratio, Form("Other (%.2f%%)", ratio_percent.back()), "f");
-//    }
+
+    TLegend * recon_leg = Legend(0.25, 0.4, 0.551, 0.362);
+    TLegend * truth_leg = Legend(0.25, 0.4, 0.551, 0.362);
+    TLegend * ratio_leg = Legend(0.25, 0.4, 0.551, 0.362);
+    
+    std::vector<double> recon_percent = GetPercentage(kinmap_list, 0);
+    std::vector<double> truth_percent = GetPercentage(kinmap_list, 1);
+    std::vector<double> ratio_percent = GetPercentage(kinmap_list, 2);
+
+    
+    if(m_fullbreakdown){
+        
+        //        std::vector<double> recon_percent = GetPercentage(kinmap_list, 0, other_kinmap);
+        //        std::vector<double> truth_percent = GetPercentage(kinmap_list, 1, other_kinmap);
+        //        std::vector<double> ratio_percent = GetPercentage(kinmap_list, 2, other_kinmap);
+        //
+        recon_tot->Add(other_kinmap.recon);
+        truth_tot->Add(other_kinmap.truth);
+        ratio_tot->Add(other_kinmap.ratio);
+        smear_tot->Add(other_kinmap.smear);
+        
+        for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
+            //            cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
+            
+            recon_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].recon);
+            recon_leg->AddEntry(kinmap_list[ (i - 1) ].recon, Form("%s (%.2f%%)", m_pdglist[(i - 1)].symbol.c_str(), recon_percent[ i - 1 ]), "f");
+            
+            truth_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].truth);
+            truth_leg->AddEntry(kinmap_list[ (i - 1) ].truth, Form("%s (%.2f%%)", m_pdglist[(i - 1)].symbol.c_str(), recon_percent[ i - 1 ]), "f");
+            
+            ratio_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].ratio);
+            ratio_leg->AddEntry(kinmap_list[ (i - 1) ].ratio, Form("%s (%.2f%%)", m_pdglist[(i - 1)].symbol.c_str(), recon_percent[ i - 1 ]), "f");
+            
+            if(i < (int)kinmap_list.size()) smear_tot->Add(kinmap_list[ i ].smear);
+        }
+        
+        recon_leg->AddEntry(other_kinmap.recon, Form("Other (%.2f%%)", recon_percent.back()), "f");
+        truth_leg->AddEntry(other_kinmap.truth, Form("Other (%.2f%%)", truth_percent.back()), "f");
+        ratio_leg->AddEntry(other_kinmap.ratio, Form("Other (%.2f%%)", ratio_percent.back()), "f");
+    }
 //    else{
 //        double recon_other_percent = 0.;
 //        double truth_other_percent = 0.;
