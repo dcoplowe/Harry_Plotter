@@ -471,6 +471,9 @@ void MomentumDists::MakePlots(){
     
     BDCans canstest = test->PID(var, 40, 0, 2000, m_proton->pdg);
     
+    outfile->cd();
+    canstest.recon->Write();
+    
 //    DrawingTools * test = new DrawingTools(m_infilename, m_reconame);
 //    
 //    
