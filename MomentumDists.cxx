@@ -405,6 +405,10 @@ private:
     //tmp POT bool (off for t2k):
     bool m_getPOT;
     
+    Particle * m_muon;
+    Particle * m_proton;
+    Particle * m_pion;
+    
 };
 
 MomentumDists::MomentumDists(EXP::EXP exp, std::string filename, bool debug) : m_experiment(exp), m_infilename(filename) {
@@ -429,6 +433,10 @@ MomentumDists::MomentumDists(EXP::EXP exp, std::string filename, bool debug) : m
     m_recovars = new KinematicVars(exp);//Setup reco var names
     //For truth tree seems like all we need is the following form: 'truth_pi_E'
     
+    m_muon = m_recovars->muon;
+    m_proton = m_recovars->proton;
+    m_pion = m_recovars->pion;
+    
     m_savename = EXP::ToString(exp) + "_CC1P1PiPlus_Plots_" + GetDate() + ".root";
 
     cout << "Saving file as " << m_savename << endl;
@@ -436,6 +444,9 @@ MomentumDists::MomentumDists(EXP::EXP exp, std::string filename, bool debug) : m
 
 MomentumDists::~MomentumDists(){
     delete m_recovars;
+    delete m_muon;
+    delete m_proton;
+    delete m_pion;
 }
 
 void MomentumDists::MakePlots(){
@@ -445,11 +456,11 @@ void MomentumDists::MakePlots(){
     
     DrawingTools * test = new DrawingTools(m_infilename, m_reconame);
     
-    TH2D * hist_1 = test->GetHisto( (proton->trueP + ":" + proton->P).c_str() , 30, 0., 1.0, 30, 0., 1.0, "proton p (MeV/c)","accum_level>5 ");
+    
+    TH2D * hist_1 = test->GetHisto( (m_proton->trueP + ":" + m_proton->P).c_str() , 30, 0., 1.0, 30, 0., 1.0, "proton p (MeV/c)","accum_level>5 ");
     TH1D * hist_2 = test->GetHisto(m_recovars->dpTT, 59, -300., 300, "#deltap_{TT} (MeV/c)","accum_level>5 ");
     
-    KinMap pmap KinArray( (proton->pTT + ":" + proton->pTT).c_str(), 29, -300, 300, "proton p_{TT} (MeV/c)", "accum_level>5 ");
-    
+    KinMap pmap KinArray( (m_proton->pTT + ":" + m_proton->pTT).c_str(), 29, -300, 300, "proton p_{TT} (MeV/c)", "accum_level>5 ");
     
     outfile->cd();
     hist_1->Write();
