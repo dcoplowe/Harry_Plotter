@@ -224,16 +224,16 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
 
     //Make outputs:
     
-    THStack * recon_tot = new THStack( ("PID_" + var.savename + "_recon").c_str(), Form(";%s (%s);%s", kinmap_list[0].recon->GetXaxis()->GetTitle(), var.units.c_str(),
+    THStack * recon_tot = new THStack( (var.savename + "_PID_recon").c_str(), Form(";%s (%s);%s", kinmap_list[0].recon->GetXaxis()->GetTitle(), var.units.c_str(),
                                                                                 kinmap_list[0].recon->GetYaxis()->GetTitle() ) );
     
-    THStack * truth_tot = new THStack( ("PID_" + var.savename + "_truth").c_str(), Form(";%s (%s);%s", kinmap_list[0].truth->GetXaxis()->GetTitle(), var.units.c_str(),
+    THStack * truth_tot = new THStack( (var.savename + "_PID_truth").c_str(), Form(";%s (%s);%s", kinmap_list[0].truth->GetXaxis()->GetTitle(), var.units.c_str(),
                                                                                kinmap_list[0].truth->GetYaxis()->GetTitle() ) );
     
-    THStack * ratio_tot = new THStack( ("PID_" + var.savename + "_ratio").c_str(), Form(";%s (%s);%s", kinmap_list[0].ratio->GetXaxis()->GetTitle(), var.units.c_str(),
+    THStack * ratio_tot = new THStack( (var.savename + "_PID_ratio").c_str(), Form(";%s (%s);%s", kinmap_list[0].ratio->GetXaxis()->GetTitle(), var.units.c_str(),
                                                                                kinmap_list[0].ratio->GetYaxis()->GetTitle() ) );
     
-    TH2D * smear_tot = (TH2D*)kinmap_list[0].smear->Clone( ("PID_" + var.savename + "_smear").c_str() );//Just add all of these histos.
+    TH2D * smear_tot = (TH2D*)kinmap_list[0].smear->Clone( (var.savename + "_PID_smear").c_str() );//Just add all of these histos.
     
     TLegend * recon_leg = Legend(0.25, 0.4, 0.551, 0.362);
     TLegend * truth_leg = Legend(0.25, 0.4, 0.551, 0.362);
@@ -386,27 +386,17 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         kinmap_list.push_back(tmp_kinmap);
     }
     
-//    
-//    if(!cuts.empty()) other_cut += ")";
-//    
-//    cout << "other_cut: " << other_cut << endl;
-//    
-//    DrawingTools::KinMap other_kinmap = KinArray(var.name, nbins, bins, var.symbol, other_cut);
-//    ColFill(other_kinmap, DrawingStyle::Other);
-//    
-//    //Make outputs:
-//    
-//    THStack * recon_tot = new THStack( ("PID_" + var.savename + "_recon").c_str(), Form(";%s (%s);%s", kinmap_list[0].recon->GetXaxis()->GetTitle(), var.units.c_str(),
-//                                                                                        kinmap_list[0].recon->GetYaxis()->GetTitle() ) );
-//    
-//    THStack * truth_tot = new THStack( ("PID_" + var.savename + "_truth").c_str(), Form(";%s (%s);%s", kinmap_list[0].truth->GetXaxis()->GetTitle(), var.units.c_str(),
-//                                                                                        kinmap_list[0].truth->GetYaxis()->GetTitle() ) );
-//    
-//    THStack * ratio_tot = new THStack( ("PID_" + var.savename + "_ratio").c_str(), Form(";%s (%s);%s", kinmap_list[0].ratio->GetXaxis()->GetTitle(), var.units.c_str(),
-//                                                                                        kinmap_list[0].ratio->GetYaxis()->GetTitle() ) );
-//    
-//    TH2D * smear_tot = (TH2D*)kinmap_list[0].smear->Clone( ("PID_" + var.savename + "_smear").c_str() );//Just add all of these histos.
-//    
+    THStack * recon_tot = new THStack( (var.savename + "_TOP_recon").c_str(), Form(";%s (%s);%s", kinmap_list[0].recon->GetXaxis()->GetTitle(), var.units.c_str(),
+                                                                                        kinmap_list[0].recon->GetYaxis()->GetTitle() ) );
+    
+    THStack * truth_tot = new THStack( (var.savename + "_TOP_truth").c_str(), Form(";%s (%s);%s", kinmap_list[0].truth->GetXaxis()->GetTitle(), var.units.c_str(),
+                                                                                        kinmap_list[0].truth->GetYaxis()->GetTitle() ) );
+    
+    THStack * ratio_tot = new THStack( (var.savename + "_TOP_ratio").c_str(), Form(";%s (%s);%s", kinmap_list[0].ratio->GetXaxis()->GetTitle(), var.units.c_str(),
+                                                                                        kinmap_list[0].ratio->GetYaxis()->GetTitle() ) );
+    
+    TH2D * smear_tot = (TH2D*)kinmap_list[0].smear->Clone( (var.savename + "_TOP_smear").c_str() );//Just add all of these histos.
+//
 //    TLegend * recon_leg = Legend(0.25, 0.4, 0.551, 0.362);
 //    TLegend * truth_leg = Legend(0.25, 0.4, 0.551, 0.362);
 //    TLegend * ratio_leg = Legend(0.25, 0.4, 0.551, 0.362);
