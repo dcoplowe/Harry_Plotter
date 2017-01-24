@@ -19,6 +19,8 @@
 
 #include "EffPurTools.h"
 #include "DrawingTools.h"
+#include "BreakdownTools.h"
+
 #include "TH1D.h"
 #include "TH2D.h"
 #include "THStack.h"
@@ -103,6 +105,9 @@ private:
 };
 
 #endif
+
+#ifndef _PARTICLE_CXX
+#define _PARTICLE_CXX
 
 Particle::Particle(EXP::EXP exp, std::string name, std::string tag) : m_tag(tag) {
     
@@ -252,6 +257,8 @@ Particle::Particle(EXP::EXP exp, std::string name, std::string tag) : m_tag(tag)
     
 }
 
+#endif
+
 #ifndef _KINEMATICVARS_
 #define _KINEMATICVARS_
 
@@ -290,6 +297,9 @@ private:
 };
 
 #endif
+
+#ifndef _KINEMATICVARS_CXX
+#define _KINEMATICVARS_CXX
 
 KinematicVars::KinematicVars(EXP::EXP exp){
     
@@ -377,6 +387,8 @@ KinematicVars::~KinematicVars(){
     
 }
 
+#endif;
+
 class MomentumDists {
 
 public:
@@ -451,22 +463,26 @@ void MomentumDists::MakePlots(){
     TFile * outfile = new TFile(m_savename.c_str(), "RECREATE");
 
     
-    DrawingTools * test = new DrawingTools(m_infilename, m_reconame);
+    BreakdownTools * test = new BreakdownTools(m_infilename, m_reconame);
     
+    BDCans canstest = test->PID(Variable var, Int_t nbins, Double_t low, Double_t high, m_proton->pdg);
     
-    TH2D * hist_1 = test->GetHisto( (m_proton->trueP + ":" + m_proton->P).c_str() , 30, 0., 2000.0, 30, 0., 2000.0, "proton p (MeV/c)","accum_level>5 ");
-    TH1D * hist_2 = test->GetHisto(m_recovars->dpTT, 59, -300., 300, "#deltap_{TT} (MeV/c)","accum_level>5 ");
-    
-    DrawingTools::KinMap pmap = test->KinArray( (m_proton->trueP + ":" + m_proton->P).c_str(), 29, -1000, 1000, "proton p_{TT} (MeV/c)", "accum_level>5 ");
-    
-    outfile->cd();
-    hist_1->Write();
-    hist_2->Write();
-    
-    pmap.recon->Write();
-    pmap.truth->Write();
-    pmap.smear->Write();
-    pmap.ratio->Write();
+//    DrawingTools * test = new DrawingTools(m_infilename, m_reconame);
+//    
+//    
+//    TH2D * hist_1 = test->GetHisto( (m_proton->trueP + ":" + m_proton->P).c_str() , 30, 0., 2000.0, 30, 0., 2000.0, "proton p (MeV/c)","accum_level>5 ");
+//    TH1D * hist_2 = test->GetHisto(m_recovars->dpTT, 59, -300., 300, "#deltap_{TT} (MeV/c)","accum_level>5 ");
+//    
+//    DrawingTools::KinMap pmap = test->KinArray( (m_proton->trueP + ":" + m_proton->P).c_str(), 29, -1000, 1000, "proton p_{TT} (MeV/c)", "accum_level>5 ");
+//    
+//    outfile->cd();
+//    hist_1->Write();
+//    hist_2->Write();
+//    
+//    pmap.recon->Write();
+//    pmap.truth->Write();
+//    pmap.smear->Write();
+//    pmap.ratio->Write();
 
     outfile->Close();
     delete outfile;
