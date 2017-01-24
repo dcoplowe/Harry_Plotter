@@ -202,7 +202,6 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
         ratio_tot->Add(other_kinmap.ratio);
         smear_tot->Add(other_kinmap.smear);
         
-        
         for(int i = 0; i < (int)plot_by_self.size(); i++){
                 recon_tot->Add(kinmap_list[ plot_by_self[i] ].recon);
                 recon_leg->AddEntry(kinmap_list[ plot_by_self[i] ].recon, Form("%s (%.2f%%)", m_pdglist[ plot_by_self[i] ].symbol.c_str(), recon_percent[ plot_by_self[i] ]), "f");
@@ -214,10 +213,9 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
                 ratio_leg->AddEntry(kinmap_list[ plot_by_self[i] ].ratio, Form("%s (%.2f%%)", m_pdglist[ plot_by_self[i] ].symbol.c_str(), recon_percent[ plot_by_self[i] ]), "f");
         }
         
-        recon_leg->AddEntry(other_kinmap.recon, Form("Other (%.2f%%)", recon_other_percent, "f");
+        recon_leg->AddEntry(other_kinmap.recon, Form("Other (%.2f%%)", recon_other_percent), "f");
         truth_leg->AddEntry(other_kinmap.truth, Form("Other (%.2f%%)", truth_other_percent), "f");
         ratio_leg->AddEntry(other_kinmap.ratio, Form("Other (%.2f%%)", ratio_other_percent), "f");
-        
     }
     
     BDCans cans;
