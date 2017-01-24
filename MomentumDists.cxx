@@ -1035,7 +1035,6 @@ void MomentumDists::MakePlots(){
     //******************** DPTT END ********************//
     
     //******************** DPTT ±600 START ********************//
-    Variable dpTT;
     dpTT.savename = m_recovars->dpTT + "600";
     
     BDCans dpTT600_top = run->TOPO(dpTT, 79, -600, 600, base_cut);
