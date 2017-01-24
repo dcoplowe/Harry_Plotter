@@ -7,7 +7,6 @@
 #include <sstream>
 
 #include "DrawingTools.h"
-//#include "RTypes.h"
 
 //Forward declarations:
 //class DrawingTools;
