@@ -251,7 +251,7 @@ std::vector<double> DrawingTools::GetPercentage(std::vector<TH1D*> histos){
 }
 
 std::vector<double> GetPercentage(std::vector<DrawingTools::KinMap> histos, Int_t type){
-    KinMap empty_kinmap;
+    DrawingTools::KinMap empty_kinmap;
     return GetPercentage(histos, type, empty_kinmap);
 }
 
