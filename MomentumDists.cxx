@@ -480,7 +480,7 @@ void MomentumDists::MakePlots(){
     var.symbol = "#it{p}_{p}";
     var.savename = m_proton->P;
     
-    BDCans canstest = test->TOPO(var, 40, 0, 2000);
+    BDCans canstest = test->TOPO(var, 40, 0, 2000, "accum_level > 5 ");
     
 //    BDCans canstest = test->PID(var, 40, 0, 2000, m_proton->pdg);
 //    

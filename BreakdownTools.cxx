@@ -412,6 +412,22 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
     TLegend * truth_leg = Legend(0.25, 0.4, 0.551, 0.362);
     TLegend * ratio_leg = Legend(0.25, 0.4, 0.551, 0.362);
     
+    std::string hsignal = tmp_cuts_1;
+    hsignal += m_toplist[0].signal;
+    hsignal += " && mc_targetZ == 1";
+    cout << "hsignal: " << hsignal << endl;
+    DrawingTools::KinMap signal_kinmap = KinArray(var.name, nbins, bins, var.symbol, hsignal);
+    signal_kinmap.recon->SetLineColor(1);
+    signal_kinmap.truth->SetLineColor(1);
+    signal_kinmap.recon->SetLineStyle(2);
+    signal_kinmap.truth->SetLineStyle(2);
+    signal_kinmap.recon->SetLineWidth(2);
+    signal_kinmap.truth->SetLineWidth(2);
+    
+    recon_leg->AddEntry(signal_kinmap.recon, ("H-" + m_toplist[0].symbol.c_str()).c_str(), "l");
+    truth_leg->AddEntry(signal_kinmap.truth, ("H-" + m_toplist[0].symbol.c_str()).c_str(), "l");
+    ratio_leg->AddEntry(signal_kinmap.ratio, ("H-" + m_toplist[0].symbol.c_str()).c_str(), "l");
+    
     std::vector<double> recon_percent = GetPercentage(kinmap_list, 0);
     std::vector<double> truth_percent = GetPercentage(kinmap_list, 1);
     std::vector<double> ratio_percent = GetPercentage(kinmap_list, 2);
@@ -503,18 +519,21 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
     cans.recon = new TCanvas( recon_tot->GetName(), "", 500, 500);
     cans.recon->cd();
     recon_tot->Draw();
+    signal_kinmap.recon->Draw("SAME");
     recon_leg->Draw();
     //    mom_recon_pot->Draw();
     
     cans.truth = new TCanvas( truth_tot->GetName(), "", 500, 500);
     cans.truth->cd();
     truth_tot->Draw();
+    signal_kinmap.truth->Draw("SAME");
     truth_leg->Draw();
     
     cans.ratio = new TCanvas( ratio_tot->GetName(), "", 500, 500);
     cans.ratio->cd();
     ratio_tot->Draw();
     ratio_leg->Draw();
+    signal_kinmap.ratio->Draw("SAME");
     
     cans.smear = new TCanvas( smear_tot->GetName(), "", 500, 500);
     cans.smear->cd();
@@ -533,7 +552,14 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t low, Double_t hi
 }
 
 
+BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::string cuts = ""){
+    BDCans cans;
 
+    return cans;
+}
+BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts = ""){
+    return TARGET(var, nbins, SetBinning(nbins, low, high), cuts);
+}
 
 
 
