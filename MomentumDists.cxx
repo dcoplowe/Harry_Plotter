@@ -507,11 +507,6 @@ void MomentumDists::MakePlots(){
     canstest.smearSN->Write();
     canstest2.smearSN->Write();
    
-    cout << "canstest.smear = " << canstest.smear->GetName() << endl;
-    cout << "canstest2.smear = " << canstest2.smear->GetName() << endl;
-    cout << "canstest.smearSN = " << canstest.smearSN->GetName() << endl;
-    cout << "canstest2.smearSN = " << canstest2.smearSN->GetName() << endl;
-
 //    DrawingTools * test = new DrawingTools(m_infilename, m_reconame);
 //    
 //    
