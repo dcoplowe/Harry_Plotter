@@ -81,5 +81,5 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
 }
 
 BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t low, Double_t high, std::string pdgvar, std::string cuts){
-    return PID(Variable var, Int_t nbins, SetBinning(nbins, low, high), pdgvar, cuts);
+    return PID(var, nbins, SetBinning(nbins, low, high), pdgvar, cuts);
 }
