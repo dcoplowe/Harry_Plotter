@@ -481,6 +481,17 @@ void MomentumDists::MakePlots(){
     canstest.recon->Write();
     canstest2.recon->Write();
     
+    canstest.truth->Write();
+    canstest2.truth->Write();
+    
+    canstest.ratio->Write();
+    canstest2.ratio->Write();
+    
+    canstest.smear->Write();
+    canstest2.smear->Write();
+    
+    
+    
 //    DrawingTools * test = new DrawingTools(m_infilename, m_reconame);
 //    
 //    
