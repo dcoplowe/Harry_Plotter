@@ -424,9 +424,9 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
     signal_kinmap.recon->SetLineWidth(2);
     signal_kinmap.truth->SetLineWidth(2);
     
-    recon_leg->AddEntry(signal_kinmap.recon, ("H-" + m_toplist[0].symbol.c_str()).c_str(), "l");
-    truth_leg->AddEntry(signal_kinmap.truth, ("H-" + m_toplist[0].symbol.c_str()).c_str(), "l");
-    ratio_leg->AddEntry(signal_kinmap.ratio, ("H-" + m_toplist[0].symbol.c_str()).c_str(), "l");
+    recon_leg->AddEntry(signal_kinmap.recon, ("H-" + m_toplist[0].symbol).c_str(), "l");
+    truth_leg->AddEntry(signal_kinmap.truth, ("H-" + m_toplist[0].symbol).c_str(), "l");
+    ratio_leg->AddEntry(signal_kinmap.ratio, ("H-" + m_toplist[0].symbol).c_str(), "l");
     
     std::vector<double> recon_percent = GetPercentage(kinmap_list, 0);
     std::vector<double> truth_percent = GetPercentage(kinmap_list, 1);
@@ -551,13 +551,133 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t low, Double_t hi
     return TOPO(var, nbins, SetBinning(nbins, low, high), cuts);
 }
 
+BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::string cuts){
 
-BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::string cuts = ""){
+    std::string tmp_cuts_1 = cuts;
+    if(!cuts.empty()){
+        tmp_cuts_1 += " && ";
+    }
+    
+    //Hydrogen:
+    std::string hsig = tmp_cuts_1 + "mc_targetZ == 1";
+    DrawingTools::KinMap hydrogen_kinmap = KinArray(var.name, nbins, bins, var.symbol, hsig);
+    ColFill(hydrogen_kinmap, DrawingStyle::HYDROGEN);
+    
+    //Carbon:
+    std::string csig = tmp_cuts_1 + "mc_targetZ == 6";
+    DrawingTools::KinMap carbon_kinmap = KinArray(var.name, nbins, bins, var.symbol, csig);
+    ColFill(carbon_kinmap, DrawingStyle::CARBON);
+
+    //Other:
+    std::string osig = tmp_cuts_1 + "mc_targetZ != 1 && mc_targetZ != 6";
+    DrawingTools::KinMap other_kinmap = KinArray(var.name, nbins, bins, var.symbol, osig);
+    ColFill(other_kinmap, DrawingStyle::Other);
+
+    std::string hsignal = tmp_cuts_1;
+    hsignal += m_toplist[0].signal;
+    hsignal += " && mc_targetZ == 1";
+    DrawingTools::KinMap signal_kinmap = KinArray(var.name, nbins, bins, var.symbol, hsignal);
+    signal_kinmap.recon->SetLineColor(1);
+    signal_kinmap.truth->SetLineColor(1);
+    signal_kinmap.recon->SetLineStyle(2);
+    signal_kinmap.truth->SetLineStyle(2);
+    signal_kinmap.recon->SetLineWidth(2);
+    signal_kinmap.truth->SetLineWidth(2);
+    
+    std::vector<KinMap> kinmap_list;
+    kinmap_list.push_back( other_kinmap );
+    kinmap_list.push_back( carbon_kinmap );
+    kinmap_list.push_back( hydrogen_kinmap );
+    
+    THStack * recon_tot = new THStack( (var.savename + "_TAR_recon").c_str(), Form(";%s (%s);%s", kinmap_list[0].recon->GetXaxis()->GetTitle(), var.units.c_str(),
+                                                                                   kinmap_list[0].recon->GetYaxis()->GetTitle() ) );
+    
+    THStack * truth_tot = new THStack( (var.savename + "_TAR_truth").c_str(), Form(";%s (%s);%s", kinmap_list[0].truth->GetXaxis()->GetTitle(), var.units.c_str(),
+                                                                                   kinmap_list[0].truth->GetYaxis()->GetTitle() ) );
+    
+    THStack * ratio_tot = new THStack( (var.savename + "_TAR_ratio").c_str(), Form(";%s (%s);%s", kinmap_list[0].ratio->GetXaxis()->GetTitle(), var.units.c_str(),
+                                                                                   kinmap_list[0].ratio->GetYaxis()->GetTitle() ) );
+    
+    TH2D * smear_tot = (TH2D*)kinmap_list[0].smear->Clone( (var.savename + "_TAR_smear").c_str() );//Just add all of these histos.
+    
+    TLegend * recon_leg = Legend(0.25, 0.4, 0.551, 0.362);
+    TLegend * truth_leg = Legend(0.25, 0.4, 0.551, 0.362);
+    TLegend * ratio_leg = Legend(0.25, 0.4, 0.551, 0.362);
+    
+    std::string hsignal = tmp_cuts_1;
+    hsignal += m_toplist[0].signal;
+    hsignal += " && mc_targetZ == 1";
+    cout << "hsignal: " << hsignal << endl;
+    DrawingTools::KinMap signal_kinmap = KinArray(var.name, nbins, bins, var.symbol, hsignal);
+    signal_kinmap.recon->SetLineColor(1);
+    signal_kinmap.truth->SetLineColor(1);
+    signal_kinmap.recon->SetLineStyle(2);
+    signal_kinmap.truth->SetLineStyle(2);
+    signal_kinmap.recon->SetLineWidth(2);
+    signal_kinmap.truth->SetLineWidth(2);
+    
+    std::vector<double> recon_percent = GetPercentage(kinmap_list, 0);
+    std::vector<double> truth_percent = GetPercentage(kinmap_list, 1);
+    std::vector<double> ratio_percent = GetPercentage(kinmap_list, 2);
+    
+    recon_leg->AddEntry(signal_kinmap.recon, ("H-" + m_toplist[0].symbol).c_str(), "l");
+    truth_leg->AddEntry(signal_kinmap.truth, ("H-" + m_toplist[0].symbol).c_str(), "l");
+    ratio_leg->AddEntry(signal_kinmap.ratio, ("H-" + m_toplist[0].symbol).c_str(), "l");
+    
+    recon_leg->AddEntry(kinmap_list[2].recon, Form("Hydrogen (%.2f%%)", recon_percent[2]), "l");
+    truth_leg->AddEntry(kinmap_list[2].truth, Form("Hydrogen (%.2f%%)", truth_percent[2]), "l");
+    ratio_leg->AddEntry(kinmap_list[2].ratio, Form("Hydrogen (%.2f%%)", recon_percent[2]), "l");
+
+    recon_leg->AddEntry(kinmap_list[1].recon, Form("Carbon (%.2f%%)", recon_percent[1]), "l");
+    truth_leg->AddEntry(kinmap_list[1].truth, Form("Carbon (%.2f%%)", truth_percent[1]), "l");
+    ratio_leg->AddEntry(kinmap_list[1].ratio, Form("Carbon (%.2f%%)", ratio_percent[1]), "l");
+
+    recon_leg->AddEntry(kinmap_list[0].recon, Form("Other (%.2f%%)", recon_percent[0]), "l");
+    truth_leg->AddEntry(kinmap_list[0].truth, Form("Other (%.2f%%)", truth_percent[0]), "l");
+    ratio_leg->AddEntry(kinmap_list[0].ratio, Form("Other (%.2f%%)", ratio_percent[0]), "l");
+    
+    for(int i = 0; i < 3; i++){
+        
+        recon_tot->Add( kinmap_list[i].recon);
+        truth_tot->Add( kinmap_list[i].truth);
+        ratio_tot->Add( kinmap_list[i].ratio);
+        
+        if(i > 0) smear_tot->Add(kinmap_list[i].smear);
+    }
+    
     BDCans cans;
+    
+    cans.recon = new TCanvas( recon_tot->GetName(), "", 500, 500);
+    cans.recon->cd();
+    recon_tot->Draw();
+    signal_kinmap.recon->Draw("SAME");
+    recon_leg->Draw();
+    //    mom_recon_pot->Draw();
+    
+    cans.truth = new TCanvas( truth_tot->GetName(), "", 500, 500);
+    cans.truth->cd();
+    truth_tot->Draw();
+    signal_kinmap.truth->Draw("SAME");
+    truth_leg->Draw();
+    
+    cans.ratio = new TCanvas( ratio_tot->GetName(), "", 500, 500);
+    cans.ratio->cd();
+    ratio_tot->Draw();
+    ratio_leg->Draw();
+    signal_kinmap.ratio->Draw("SAME");
+    
+    cans.smear = new TCanvas( smear_tot->GetName(), "", 500, 500);
+    cans.smear->cd();
+    smear_tot->Draw("COLZ");
+    
+    TH2D * smear_totSN = NormalHist(smear_tot, 0., true);
+    cans.smearSN = new TCanvas( (std::string(smear_tot->GetName()) + "SN").c_str(), "", 500, 500);
+    cans.smearSN->cd();
+    smear_totSN->Draw("COLZ");
 
     return cans;
 }
-BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts = ""){
+BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts){
     return TARGET(var, nbins, SetBinning(nbins, low, high), cuts);
 }
 
