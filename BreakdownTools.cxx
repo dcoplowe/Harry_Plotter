@@ -129,8 +129,9 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     if(m_fullbreakdown){
         
         for(int i = 0; i < (int)kinmap_list.size(); i++){
-            
+            cout << i << ":" << (int)kinmap_list.size() << endl;
             TH1D * tmp_recon = kinmap_list[i].recon;
+            ColFill(tmp_recon, m_pdglist[i].colour);
             
             mom_recon_leg->AddEntry(tmp_recon, Form("%s (%.2f%%)", m_pdglist[i].symbol.c_str(), 1.), "f");
             

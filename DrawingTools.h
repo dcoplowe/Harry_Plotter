@@ -56,6 +56,8 @@ public:
     
     TLegend * Legend(double x_size, double y_size, double x_start = 0.1, double y_start = 0.1);
     
+    void ColFill(TH1D *&h1, int fill_color, int line_color = kBlack);
+    
 private:
     //File and directory info:
     std::string m_filename;

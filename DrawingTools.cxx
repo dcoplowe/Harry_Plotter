@@ -220,3 +220,8 @@ TLegend * DrawingTools::Legend(double x_size, double y_size, double x_start, dou
     //leg->SetTextSize(0.042);
     return leg;
 }
+
+void DrawingTools::ColFill(TH1D *&h1, int fill_color, int line_color){
+    h1->SetFillColor(fill_color);
+    h1->SetLineColor(line_color);
+}
