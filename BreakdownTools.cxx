@@ -128,7 +128,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     
     if(m_fullbreakdown){
         
-        for(int i = 0; i < (int)(kinmap_list.size() + 1); i++){
+        for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
             cout << i << ":" << (int)kinmap_list.size() << endl;
             TH1D * tmp_recon = kinmap_list[ (int)(kinmap_list.size() - i) ].recon;
             ColFill(tmp_recon, m_pdglist[(int)(kinmap_list.size() - i)].colour);
