@@ -83,6 +83,7 @@ private:
     
     bool m_verbose;
     
+    KinMap empty_kinmap;
 };
 
 #endif
