@@ -214,14 +214,21 @@ Double_t * DrawingTools::SetBinning(int nbins, Double_t low, Double_t high){
     return bins;
 }
 
-TLegend * DrawingTools::Legend(double x_size, double y_size, double x_start, double y_start){
+TLegend * DrawingTools::Legend(Double_t x_size, Double_t y_size, Double_t x_start, Double_t y_start){
     TLegend * leg = new TLegend(x_start, y_start, x_start + x_size, y_start + y_size);
     leg->SetFillStyle(0);
     //leg->SetTextSize(0.042);
     return leg;
 }
 
-void DrawingTools::ColFill(TH1D *&h1, int fill_color, int line_color){
+void DrawingTools::ColFill(TH1D *&h1, Int_t fill_color, Int_t line_color){
     h1->SetFillColor(fill_color);
     h1->SetLineColor(line_color);
 }
+
+void DrawingTools::ColFill(KinMap &map, Int_t fill_color, Int_t line_color){
+    ColFill(map.recon, fill_color, line_color);
+    ColFill(map.truth, fill_color, line_color);
+    ColFill(map.ratio, fill_color, line_color);
+}
+

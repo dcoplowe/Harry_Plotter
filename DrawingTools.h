@@ -54,9 +54,12 @@ public:
     
     Double_t * SetBinning(int nbins, Double_t low, Double_t high);
     
-    TLegend * Legend(double x_size, double y_size, double x_start = 0.1, double y_start = 0.1);
+    TLegend * Legend(Double_t x_size, Double_t y_size, Double_t x_start = 0.1, Double_t y_start = 0.1);
     
-    void ColFill(TH1D *&h1, int fill_color, int line_color = kBlack);
+    void ColFill(TH1D *&h1, Int_t fill_color, Int_t line_color = kBlack);
+    void ColFill(KinMap &map, Int_t fill_color, Int_t line_color = kBlack);
+
+    
     
 private:
     //File and directory info:

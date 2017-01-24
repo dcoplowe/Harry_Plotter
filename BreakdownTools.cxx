@@ -19,12 +19,11 @@ PDGs::PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol) : pdg
     pdg_s = ss.str();
     
     if(name.find("proton") != std::string::npos)        colour = (Int_t)DrawingStyle::Proton;//Proton
-    else if(name.find("pionP") != std::string::npos)    colour = (Int_t)DrawingStyle::PionP;//PionP
-    else if(name.find("pionM") != std::string::npos)    colour = (Int_t)DrawingStyle::PionM;
+    else if(name.find("piplus") != std::string::npos)   colour = (Int_t)DrawingStyle::PionP;//PionP
+    else if(name.find("piminus") != std::string::npos)  colour = (Int_t)DrawingStyle::PionM;
     else if(name.find("pion") != std::string::npos)     colour = (Int_t)DrawingStyle::Pion;
-    else if(name.find("muonP") != std::string::npos)    colour = (Int_t)DrawingStyle::MuonP;//PionP
-    else if(name.find("muonM") != std::string::npos)    colour = (Int_t)DrawingStyle::MuonM;
-    else if(name.find("muon") != std::string::npos)     colour = (Int_t)DrawingStyle::Muon;
+    else if(name.find("amuon") != std::string::npos)    colour = (Int_t)DrawingStyle::MuonP;//PionP
+    else if(name.find("muon") != std::string::npos)     colour = (Int_t)DrawingStyle::MuonM;
     else if(name.find("pizero") != std::string::npos)   colour = (Int_t)DrawingStyle::Pi0;
     else if(name.find("kapm") != std::string::npos)     colour = (Int_t)DrawingStyle::Kaon;
     else if(name.find("kazero") != std::string::npos)   colour = (Int_t)DrawingStyle::Ka0;
@@ -39,8 +38,8 @@ BreakdownTools::BreakdownTools(std::string filename, std::string treename) : Dra
     m_pdglist.push_back( PDGs(2212, "proton",   "p"));
     m_pdglist.push_back( PDGs(211,  "piplus",   "#pi^{+}") );
     m_pdglist.push_back( PDGs(-211, "piminus", "#pi^{-}") );
-    m_pdglist.push_back( PDGs(13, "muon", "#muon^{-}") );
-    m_pdglist.push_back( PDGs(-13, "amuon", "#muon^{-}") );
+    m_pdglist.push_back( PDGs(13, "muon", "#mu^{-}") );
+    m_pdglist.push_back( PDGs(-13, "amuon", "#mu^{-}") );
     m_pdglist.push_back( PDGs(111, "pizero", "#pi^{0}") );
     m_pdglist.push_back( PDGs(321, "kapm", "K^{#pm}") );
     m_pdglist.push_back( PDGs(311, "kazero", "K^{0}") );
@@ -100,7 +99,10 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
             other_cut += particle.pdg_s;
         }
             
-        DrawingTools::KinMap tmp_kinmap = KinArray(var.name, nbins, bins, (var.symbol + " (" + var.units + ")" ).c_str(), tmp_cuts);
+        DrawingTools::KinMap tmp_kinmap = KinArray(var.name, nbins, bins, var.symbol, tmp_cuts);
+        
+        ColFill(tmp_recon, particle.colour);
+        
         kinmap_list.push_back(tmp_kinmap);
     }
     
@@ -108,18 +110,19 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     
     cout << "other_cut: " << other_cut << endl;
     
-    DrawingTools::KinMap other_kinmap = KinArray(var.name, nbins, bins, (var.symbol + " (" + var.units + ")" ).c_str(), other_cut);
+    DrawingTools::KinMap other_kinmap = KinArray(var.name, nbins, bins, var.symbol, other_cut);
     
     //Make outputs:
     
-    THStack * recon_tot = new THStack( (var.savename + "_recon").c_str() , Form(";%s;%s", kinmap_list[0].recon->GetXaxis()->GetTitle(),
+    THStack * recon_tot = new THStack( (var.savename + "_recon").c_str(), Form(";%s (%s);%s", kinmap_list[0].recon->GetXaxis()->GetTitle(), var.symbol,
                                                                                 kinmap_list[0].recon->GetYaxis()->GetTitle() ) );
     
-    THStack * truth_tot = new THStack( (var.savename + "_truth").c_str(), Form(";%s;%s", kinmap_list[0].truth->GetXaxis()->GetTitle(),
+    THStack * truth_tot = new THStack( (var.savename + "_truth").c_str(), Form(";%s (%s);%s", kinmap_list[0].truth->GetXaxis()->GetTitle(), var.symbol,
                                                                                kinmap_list[0].truth->GetYaxis()->GetTitle() ) );
     
-    THStack * ratio_tot = new THStack( (var.savename + "_ratio").c_str(), Form(";%s;%s", kinmap_list[0].ratio->GetXaxis()->GetTitle(),
-                                                                                kinmap_list[0].ratio->GetYaxis()->GetTitle() ) );
+    THStack * ratio_tot = new THStack( (var.savename + "_ratio").c_str(), Form(";%s (%s);%s", kinmap_list[0].ratio->GetXaxis()->GetTitle(), var.symbol,
+                                                                               kinmap_list[0].ratio->GetYaxis()->GetTitle() ) );
+    
     TH2D * smear_tot = (TH2D*)kinmap_list[0].smear->Clone( (var.savename + "_smear").c_str() );//Just add all of these histos.
     
     TLegend * recon_leg = Legend(0.25, 0.4, 0.551, 0.362);
@@ -131,11 +134,8 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
         for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
             cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
             
-            TH1D * tmp_recon = kinmap_list[ (int)(kinmap_list.size() - i) ].recon;
-            ColFill(tmp_recon, m_pdglist[(int)(kinmap_list.size() - i)].colour);
-            
-            recon_tot->Add(tmp_recon);
-            recon_leg->AddEntry(tmp_recon, Form("%s (%.2f%%)", m_pdglist[(int)(kinmap_list.size() - i)].symbol.c_str(), 1.), "f");
+            recon_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].recon);
+            recon_leg->AddEntry(kinmap_list[ (i - 1) ].recon, Form("%s (%.2f%%)", m_pdglist[(i - 1)].symbol.c_str(), 1.), "f");
             
             
 //            TH1D * tmp_truth = kinmap_list[i].truth;
@@ -174,3 +174,10 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
 BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t low, Double_t high, std::string pdgvar, std::string cuts){
     return PID(var, nbins, SetBinning(nbins, low, high), pdgvar, cuts);
 }
+
+
+void BreakdownTools::ColFill(DrawingTools::KinMap map, Int_t colour){
+    
+}
+
+

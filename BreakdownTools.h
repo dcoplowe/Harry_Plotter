@@ -67,6 +67,7 @@ public:
     void SetMinBDlist(Int_t pdg){ m_MinBDlist.push_back(pdg); }
     void ClearBDlist(){ m_MinBDlist.clear(); }
     void ResetBDlist();
+    
     //    void TopVar();
     //void MisPIDVar();
     
@@ -77,6 +78,6 @@ private:
     std::vector<PDGs> m_pdglist;
     std::vector<Int_t> m_MinBDlist;
 
-    
+    void ColFill(DrawingTools::KinMap map, Int_t colour);
 };
 #endif
