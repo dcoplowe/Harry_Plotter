@@ -447,7 +447,7 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
                 truth_other_percent += truth_percent[ i - 1 ];
                 ratio_other_percent += ratio_percent[ i - 1 ];
                 
-                if(kinmap_list[ (i - 1) ] != kinmap_list.back()){
+                if( (i - 1) != (int)(kinmap_list.size() - 1)){
                     kinmap_list.back().recon->Add(kinmap_list[ (i - 1) ].recon);
                     kinmap_list.back().truth->Add(kinmap_list[ (i - 1) ].truth);
                     kinmap_list.back().ratio->Add(kinmap_list[ (i - 1) ].ratio);
@@ -458,10 +458,10 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
             if(i < (int)kinmap_list.size()) smear_tot->Add(kinmap_list[ i ].smear);
         }
         
-        recon_tot->Add(other_kinmap.recon);
-        truth_tot->Add(other_kinmap.truth);
-        ratio_tot->Add(other_kinmap.ratio);
-        smear_tot->Add(other_kinmap.smear);
+        recon_tot->Add(kinmap_list.back().recon);
+        truth_tot->Add(kinmap_list.back().truth);
+        ratio_tot->Add(kinmap_list.back().ratio);
+        smear_tot->Add(kinmap_list.back().smear);
         
         for(int i = 0; i < (int)plot_by_self.size(); i++){
             recon_tot->Add(kinmap_list[ plot_by_self[i] ].recon);
