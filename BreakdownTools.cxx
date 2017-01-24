@@ -36,15 +36,7 @@ PDGs::PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol) : pdg
 #define _TOPOLOGY_CXX
 
 TOPS::TOPS(TOPSTYPE::TOPSTYPE topo_type) : type(topo_type), name(TOPSTYPE::ToString(type ,0)), symbol(TOPSTYPE::ToString(type ,1)){
-    
-    CC1P1PiPlus,
-    CC1P1PiMinus,
-    CC2P,
-    CC2PiPlus,
-    CC1P1PiZero,
-    CC1PiZero1PiPlus,
-    Other
-    
+        
     if(type == CC1P1PiPlus)             colour = (Int_t)DrawingStyle::T1P1PiP;//Proton
     else if(type == CC1P1PiMinus)       colour = (Int_t)DrawingStyle::T1P1PiM;
     else if(type == CC2P)               colour = (Int_t)DrawingStyle::T2Pr;

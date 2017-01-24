@@ -45,23 +45,23 @@ namespace TOPSTYPE {
     
     inline std::string ToString(TOPSTYPE name, int form){
         std::string sname = "Unknown";
-        if(name == CC1P1PiPlus && form == 0){ sname = "CC1P1PiPlus";
-            else if(name == CC1P1PiPlus && form == 1){ sname = "CC1p1#pi^{+}";
-                else if(name == CC1P1PiMinus && form == 0) sname = "CC1P1PiMinus";
-                else if(name == CC1P1PiMinus && form == 0) sname = "CC1p1#pi^{-}";
-                else if(name == CC2P && form == 0) sname = "CC2P";
-                else if(name == CC2P && form == 1) sname = "CC2p";
-                else if(name == CC2PiPlus && form == 0) sname = "CC2PiPlus";
-                else if(name == CC2PiPlus && form == 1) sname = "CC2#pi^{+}";
-                else if(name == CC1P1PiZero && form == 0) sname = "CC1P1PiZero";
-                else if(name == CC1P1PiZero && form == 1) sname = "CC1P1#pi^{0}";
-                else if(name == CC1PiZero1PiPlus && form == 0) sname = "CC1PiZero1PiPlus";
-                else if(name == CC1PiZero1PiPlus && form == 1) sname = "CC1#pi^{0}1#pi^{+}";
-                else if(name == Other) sname = "Other";
-                
-                return sname;
-            }
-            
+        if(name == CC1P1PiPlus && form == 0) sname = "CC1P1PiPlus";
+        else if(name == CC1P1PiPlus && form == 1) sname = "CC1p1#pi^{+}";
+        else if(name == CC1P1PiMinus && form == 0) sname = "CC1P1PiMinus";
+        else if(name == CC1P1PiMinus && form == 1) sname = "CC1p1#pi^{-}";
+        else if(name == CC2P && form == 0) sname = "CC2P";
+        else if(name == CC2P && form == 1) sname = "CC2p";
+        else if(name == CC2PiPlus && form == 0) sname = "CC2PiPlus";
+        else if(name == CC2PiPlus && form == 1) sname = "CC2#pi^{+}";
+        else if(name == CC1P1PiZero && form == 0) sname = "CC1P1PiZero";
+        else if(name == CC1P1PiZero && form == 1) sname = "CC1P1#pi^{0}";
+        else if(name == CC1PiZero1PiPlus && form == 0) sname = "CC1PiZero1PiPlus";
+        else if(name == CC1PiZero1PiPlus && form == 1) sname = "CC1#pi^{0}1#pi^{+}";
+        else if(name == Other) sname = "Other";
+        
+        return sname;
+    }
+    
 }
 
 #ifndef _PARTPDGS_
