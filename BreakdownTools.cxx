@@ -381,9 +381,11 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         tmp_cuts += topology.signal;
         cout << "tmp_cuts: " << tmp_cuts << endl;
         
+        cout << "Working -2" << endl;
+        
         DrawingTools::KinMap tmp_kinmap = KinArray(var.name, nbins, bins, var.symbol, tmp_cuts);
         
-        cout << "Working 01" << endl;
+        cout << "Working -1" << endl;
 
         
         ColFill(tmp_kinmap, topology.colour);
