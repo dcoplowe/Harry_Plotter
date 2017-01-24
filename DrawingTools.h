@@ -25,7 +25,7 @@ public:
         TH1D * ratio;
     };
 
-    KinMap KM;
+//    KinMap KM;
     
     //Basic class for drawing plots and doesn't require filename, takes in tree and reads:
     DrawingTools(std::string filename, std::string treename, std::string uniquename = "");
