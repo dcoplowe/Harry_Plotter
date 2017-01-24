@@ -18,7 +18,7 @@ PDGs::PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol) : pdg
     ss << pdg;
     pdg_s = ss.str();
     
-    DrawingStyle::DSColors varssss = DrawingStyle::DSColors.Proton;
+    DrawingStyle::DSColors varssss = DrawingStyle::DSColors::Proton;
     
     
 //    if(name.find("proton") != std::string::npos) colour =  (Int_t)DrawingStyle::DSColors::Proton;//Proton
