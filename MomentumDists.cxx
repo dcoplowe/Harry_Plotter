@@ -320,10 +320,10 @@ KinematicVars::KinematicVars(EXP::EXP exp){
         dalphaT = "sel_dalphaT_EX";
         dphiT = "sel_dphiT_EX";
         
-        truedpTT = "sel_truedpTT_EX";
-        truedpT = "sel_truedpT_EX";
-        truedalphaT = "sel_truedalphaT_EX";
-        truedphiT = "sel_truedphiT_EX";
+        truedpTT = "sel_truedpTT";
+        truedpT = "sel_truedpT";
+        truedalphaT = "sel_truedalphaT";
+        truedphiT = "sel_truedphiT";
         
         dpTT_alt = "sel_dpTT_LL";
         dpT_alt = "sel_dpT_LL";
