@@ -30,7 +30,11 @@ DrawingTools::DrawingTools(std::string filename, std::string treename, std::stri
     
     m_ratiorange = 3;
     m_ratiobins = 59;
-
+    
+    empty_kinmap.recon = 0x0;
+    empty_kinmap.truth = 0x0;
+    empty_kinmap.ratio = 0x0;
+    empty_kinmap.smear = 0x0;
 }
 
 DrawingTools::~DrawingTools(){
