@@ -174,10 +174,3 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
 BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t low, Double_t high, std::string pdgvar, std::string cuts){
     return PID(var, nbins, SetBinning(nbins, low, high), pdgvar, cuts);
 }
-
-
-void BreakdownTools::ColFill(DrawingTools::KinMap map, Int_t colour){
-    
-}
-
-
