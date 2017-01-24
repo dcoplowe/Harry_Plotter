@@ -136,6 +136,8 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
         std::vector<double> ratio_percent = GetPercentage(kinmap_list, 2, other_kinmap);
         
         recon_tot->Add(other_kinmap.recon);
+        truth_tot->Add(other_kinmap.truth);
+        ratio_tot->Add(other_kinmap.ratio);
         
         for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
             cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
@@ -155,7 +157,9 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
 //            TH2D * tmp_smear = kinmap_list[i].smear;
 
         }
-        recon_leg->AddEntry(kinmap_list[ (i - 1) ].recon, Form("Other (%.2f%%)", recon_percent.back()), "f");
+        recon_leg->AddEntry(other_kinmap.recon, Form("Other (%.2f%%)", recon_percent.back()), "f");
+        recon_leg->AddEntry(other_kinmap.truth, Form("Other (%.2f%%)", truth_percent.back()), "f");
+        recon_leg->AddEntry(other_kinmap.ratio, Form("Other (%.2f%%)", ratio_percent.back()), "f");
     }
     else{
         
