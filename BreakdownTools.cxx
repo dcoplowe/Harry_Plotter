@@ -603,19 +603,7 @@ BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::s
     TLegend * recon_leg = Legend(0.25, 0.4, 0.551, 0.362);
     TLegend * truth_leg = Legend(0.25, 0.4, 0.551, 0.362);
     TLegend * ratio_leg = Legend(0.25, 0.4, 0.551, 0.362);
-    
-    std::string hsignal = tmp_cuts_1;
-    hsignal += m_toplist[0].signal;
-    hsignal += " && mc_targetZ == 1";
-    cout << "hsignal: " << hsignal << endl;
-    DrawingTools::KinMap signal_kinmap = KinArray(var.name, nbins, bins, var.symbol, hsignal);
-    signal_kinmap.recon->SetLineColor(1);
-    signal_kinmap.truth->SetLineColor(1);
-    signal_kinmap.recon->SetLineStyle(2);
-    signal_kinmap.truth->SetLineStyle(2);
-    signal_kinmap.recon->SetLineWidth(2);
-    signal_kinmap.truth->SetLineWidth(2);
-    
+        
     std::vector<double> recon_percent = GetPercentage(kinmap_list, 0);
     std::vector<double> truth_percent = GetPercentage(kinmap_list, 1);
     std::vector<double> ratio_percent = GetPercentage(kinmap_list, 2);
