@@ -444,9 +444,10 @@ MomentumDists::MomentumDists(EXP::EXP exp, std::string filename, bool debug) : m
 
 MomentumDists::~MomentumDists(){
     delete m_recovars;
-    delete m_muon;
-    delete m_proton;
-    delete m_pion;
+    
+//    delete m_muon;
+//    delete m_proton;
+//    delete m_pion;
 }
 
 void MomentumDists::MakePlots(){
