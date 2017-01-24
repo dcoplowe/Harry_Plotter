@@ -224,16 +224,16 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
 
     //Make outputs:
     
-    THStack * recon_tot = new THStack( (var.savename + "_recon").c_str(), Form(";%s (%s);%s", kinmap_list[0].recon->GetXaxis()->GetTitle(), var.units.c_str(),
+    THStack * recon_tot = new THStack( ("PID_" + var.savename + "_recon").c_str(), Form(";%s (%s);%s", kinmap_list[0].recon->GetXaxis()->GetTitle(), var.units.c_str(),
                                                                                 kinmap_list[0].recon->GetYaxis()->GetTitle() ) );
     
-    THStack * truth_tot = new THStack( (var.savename + "_truth").c_str(), Form(";%s (%s);%s", kinmap_list[0].truth->GetXaxis()->GetTitle(), var.units.c_str(),
+    THStack * truth_tot = new THStack( ("PID_" + var.savename + "_truth").c_str(), Form(";%s (%s);%s", kinmap_list[0].truth->GetXaxis()->GetTitle(), var.units.c_str(),
                                                                                kinmap_list[0].truth->GetYaxis()->GetTitle() ) );
     
-    THStack * ratio_tot = new THStack( (var.savename + "_ratio").c_str(), Form(";%s (%s);%s", kinmap_list[0].ratio->GetXaxis()->GetTitle(), var.units.c_str(),
+    THStack * ratio_tot = new THStack( ("PID_" + var.savename + "_ratio").c_str(), Form(";%s (%s);%s", kinmap_list[0].ratio->GetXaxis()->GetTitle(), var.units.c_str(),
                                                                                kinmap_list[0].ratio->GetYaxis()->GetTitle() ) );
     
-    TH2D * smear_tot = (TH2D*)kinmap_list[0].smear->Clone( (var.savename + "_smear").c_str() );//Just add all of these histos.
+    TH2D * smear_tot = (TH2D*)kinmap_list[0].smear->Clone( ("PID_" + var.savename + "_smear").c_str() );//Just add all of these histos.
     
     TLegend * recon_leg = Legend(0.25, 0.4, 0.551, 0.362);
     TLegend * truth_leg = Legend(0.25, 0.4, 0.551, 0.362);
@@ -364,13 +364,169 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t low, Double_t hig
 
 BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::string pdgvar, std::string cuts){
     
+    std::vector<DrawingTools::KinMap> kinmap_list;
     
+    std::string tmp_cuts_1 = cuts;
+    if(!cuts.empty()){
+        tmp_cuts_1 += " && ";
+    }
     
+    for(int i = 0; i < (int)m_pdglist.size(); i++){
+        
+        TOPS topology = m_toplist[i];
+        
+        std::string tmp_cuts = tmp_cuts_1;
+        tmp_cuts += topology.signal;
+        cout << "tmp_cuts: " << tmp_cuts << endl;
+        
+        DrawingTools::KinMap tmp_kinmap = KinArray(var.name, nbins, bins, var.symbol, tmp_cuts);
+        
+        ColFill(tmp_kinmap, topology.colour);
+        
+        kinmap_list.push_back(tmp_kinmap);
+    }
     
-    
-    
+//    
+//    if(!cuts.empty()) other_cut += ")";
+//    
+//    cout << "other_cut: " << other_cut << endl;
+//    
+//    DrawingTools::KinMap other_kinmap = KinArray(var.name, nbins, bins, var.symbol, other_cut);
+//    ColFill(other_kinmap, DrawingStyle::Other);
+//    
+//    //Make outputs:
+//    
+//    THStack * recon_tot = new THStack( ("PID_" + var.savename + "_recon").c_str(), Form(";%s (%s);%s", kinmap_list[0].recon->GetXaxis()->GetTitle(), var.units.c_str(),
+//                                                                                        kinmap_list[0].recon->GetYaxis()->GetTitle() ) );
+//    
+//    THStack * truth_tot = new THStack( ("PID_" + var.savename + "_truth").c_str(), Form(";%s (%s);%s", kinmap_list[0].truth->GetXaxis()->GetTitle(), var.units.c_str(),
+//                                                                                        kinmap_list[0].truth->GetYaxis()->GetTitle() ) );
+//    
+//    THStack * ratio_tot = new THStack( ("PID_" + var.savename + "_ratio").c_str(), Form(";%s (%s);%s", kinmap_list[0].ratio->GetXaxis()->GetTitle(), var.units.c_str(),
+//                                                                                        kinmap_list[0].ratio->GetYaxis()->GetTitle() ) );
+//    
+//    TH2D * smear_tot = (TH2D*)kinmap_list[0].smear->Clone( ("PID_" + var.savename + "_smear").c_str() );//Just add all of these histos.
+//    
+//    TLegend * recon_leg = Legend(0.25, 0.4, 0.551, 0.362);
+//    TLegend * truth_leg = Legend(0.25, 0.4, 0.551, 0.362);
+//    TLegend * ratio_leg = Legend(0.25, 0.4, 0.551, 0.362);
+//    
+//    std::vector<double> recon_percent = GetPercentage(kinmap_list, 0, other_kinmap);
+//    std::vector<double> truth_percent = GetPercentage(kinmap_list, 1, other_kinmap);
+//    std::vector<double> ratio_percent = GetPercentage(kinmap_list, 2, other_kinmap);
+//    
+//    if(m_fullbreakdown){
+//        
+//        //        std::vector<double> recon_percent = GetPercentage(kinmap_list, 0, other_kinmap);
+//        //        std::vector<double> truth_percent = GetPercentage(kinmap_list, 1, other_kinmap);
+//        //        std::vector<double> ratio_percent = GetPercentage(kinmap_list, 2, other_kinmap);
+//        //
+//        recon_tot->Add(other_kinmap.recon);
+//        truth_tot->Add(other_kinmap.truth);
+//        ratio_tot->Add(other_kinmap.ratio);
+//        smear_tot->Add(other_kinmap.smear);
+//        
+//        for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
+//            //            cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
+//            
+//            recon_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].recon);
+//            recon_leg->AddEntry(kinmap_list[ (i - 1) ].recon, Form("%s (%.2f%%)", m_pdglist[(i - 1)].symbol.c_str(), recon_percent[ i - 1 ]), "f");
+//            
+//            truth_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].truth);
+//            truth_leg->AddEntry(kinmap_list[ (i - 1) ].truth, Form("%s (%.2f%%)", m_pdglist[(i - 1)].symbol.c_str(), recon_percent[ i - 1 ]), "f");
+//            
+//            ratio_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].ratio);
+//            ratio_leg->AddEntry(kinmap_list[ (i - 1) ].ratio, Form("%s (%.2f%%)", m_pdglist[(i - 1)].symbol.c_str(), recon_percent[ i - 1 ]), "f");
+//            
+//            if(i < (int)kinmap_list.size()) smear_tot->Add(kinmap_list[ i ].smear);
+//        }
+//        
+//        recon_leg->AddEntry(other_kinmap.recon, Form("Other (%.2f%%)", recon_percent.back()), "f");
+//        truth_leg->AddEntry(other_kinmap.truth, Form("Other (%.2f%%)", truth_percent.back()), "f");
+//        ratio_leg->AddEntry(other_kinmap.ratio, Form("Other (%.2f%%)", ratio_percent.back()), "f");
+//    }
+//    else{
+//        double recon_other_percent = 0.;
+//        double truth_other_percent = 0.;
+//        double ratio_other_percent = 0.;
+//        
+//        std::vector<int> plot_by_self;
+//        
+//        for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
+//            cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
+//            
+//            bool in_other = true;
+//            for(int j = 0; j < (int)m_pdglist_minBD.size(); j++){
+//                if(m_pdglist_minBD[j] == m_pdglist[(i - 1)].pdg){
+//                    in_other = false;
+//                    plot_by_self.push_back((i - 1));
+//                    break;
+//                }
+//            }
+//            
+//            if(in_other){
+//                recon_other_percent += recon_percent[ i - 1 ];
+//                truth_other_percent += truth_percent[ i - 1 ];
+//                ratio_other_percent += ratio_percent[ i - 1 ];
+//                
+//                other_kinmap.recon->Add(kinmap_list[ (i - 1) ].recon);
+//                other_kinmap.truth->Add(kinmap_list[ (i - 1) ].truth);
+//                other_kinmap.ratio->Add(kinmap_list[ (i - 1) ].ratio);
+//                //                other_kinmap.smear->Add();
+//            }
+//            
+//            //This is common to both:
+//            if(i < (int)kinmap_list.size()) smear_tot->Add(kinmap_list[ i ].smear);
+//        }
+//        
+//        recon_tot->Add(other_kinmap.recon);
+//        truth_tot->Add(other_kinmap.truth);
+//        ratio_tot->Add(other_kinmap.ratio);
+//        smear_tot->Add(other_kinmap.smear);
+//        
+//        for(int i = 0; i < (int)plot_by_self.size(); i++){
+//            recon_tot->Add(kinmap_list[ plot_by_self[i] ].recon);
+//            recon_leg->AddEntry(kinmap_list[ plot_by_self[i] ].recon, Form("%s (%.2f%%)", m_pdglist[ plot_by_self[i] ].symbol.c_str(), recon_percent[ plot_by_self[i] ]), "f");
+//            
+//            truth_tot->Add(kinmap_list[ plot_by_self[i] ].truth);
+//            truth_leg->AddEntry(kinmap_list[ plot_by_self[i] ].truth, Form("%s (%.2f%%)", m_pdglist[ plot_by_self[i] ].symbol.c_str(), recon_percent[ plot_by_self[i] ]), "f");
+//            
+//            ratio_tot->Add(kinmap_list[ plot_by_self[i] ].ratio);
+//            ratio_leg->AddEntry(kinmap_list[ plot_by_self[i] ].ratio, Form("%s (%.2f%%)", m_pdglist[ plot_by_self[i] ].symbol.c_str(), recon_percent[ plot_by_self[i] ]), "f");
+//        }
+//        
+//        recon_leg->AddEntry(other_kinmap.recon, Form("Other (%.2f%%)", recon_other_percent), "f");
+//        truth_leg->AddEntry(other_kinmap.truth, Form("Other (%.2f%%)", truth_other_percent), "f");
+//        ratio_leg->AddEntry(other_kinmap.ratio, Form("Other (%.2f%%)", ratio_other_percent), "f");
+//    }
     
     BDCans cans;
+    
+//    cans.recon = new TCanvas( recon_tot->GetName(), "", 500, 500);
+//    cans.recon->cd();
+//    recon_tot->Draw();
+//    recon_leg->Draw();
+//    //    mom_recon_pot->Draw();
+//    
+//    cans.truth = new TCanvas( truth_tot->GetName(), "", 500, 500);
+//    cans.truth->cd();
+//    truth_tot->Draw();
+//    truth_leg->Draw();
+//    
+//    cans.ratio = new TCanvas( ratio_tot->GetName(), "", 500, 500);
+//    cans.ratio->cd();
+//    ratio_tot->Draw();
+//    ratio_leg->Draw();
+//    
+//    cans.smear = new TCanvas( smear_tot->GetName(), "", 500, 500);
+//    cans.smear->cd();
+//    smear_tot->Draw("COLZ");
+//    
+//    TH2D * smear_totSN = NormalHist(smear_tot, 0., true);
+//    cans.smearSN = new TCanvas( (std::string(smear_tot->GetName()) + "SN").c_str(), "", 500, 500);
+//    cans.smearSN->cd();
+//    smear_totSN->Draw("COLZ");
+    
     return cans;
 }
 

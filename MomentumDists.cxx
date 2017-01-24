@@ -480,32 +480,34 @@ void MomentumDists::MakePlots(){
     var.symbol = "#it{p}_{p}";
     var.savename = m_proton->P;
     
-    BDCans canstest = test->PID(var, 40, 0, 2000, m_proton->pdg);
+    BDCans canstest = test->TOP(var, 40, 0, 2000, m_proton->pdg);
     
-    var.savename += "_1";
-    test->FullBreakDown();
-    BDCans canstest2 = test->PID(var, 40, 0, 2000, m_proton->pdg);
-
-    
-    outfile->cd();
-    canstest.recon->cd();
-    TLatex * canstest_logo = GetLogo();
-    canstest_logo->Draw();
-    
-    canstest.recon->Write();
-    canstest2.recon->Write();
-    
-    canstest.truth->Write();
-    canstest2.truth->Write();
-    
-    canstest.ratio->Write();
-    canstest2.ratio->Write();
-    
-    canstest.smear->Write();
-    canstest2.smear->Write();
-   
-    canstest.smearSN->Write();
-    canstest2.smearSN->Write();
+//    BDCans canstest = test->PID(var, 40, 0, 2000, m_proton->pdg);
+//    
+//    var.savename += "_1";
+//    test->FullBreakDown();
+//    BDCans canstest2 = test->PID(var, 40, 0, 2000, m_proton->pdg);
+//
+//    
+//    outfile->cd();
+//    canstest.recon->cd();
+//    TLatex * canstest_logo = GetLogo();
+//    canstest_logo->Draw();
+//    
+//    canstest.recon->Write();
+//    canstest2.recon->Write();
+//    
+//    canstest.truth->Write();
+//    canstest2.truth->Write();
+//    
+//    canstest.ratio->Write();
+//    canstest2.ratio->Write();
+//    
+//    canstest.smear->Write();
+//    canstest2.smear->Write();
+//   
+//    canstest.smearSN->Write();
+//    canstest2.smearSN->Write();
    
 //    DrawingTools * test = new DrawingTools(m_infilename, m_reconame);
 //    
