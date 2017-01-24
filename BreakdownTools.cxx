@@ -18,17 +18,17 @@ PDGs::PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol) : pdg
     ss << pdg;
     pdg_s = ss.str();
     
-    if(name.find("proton") != std::string::npos) colour =  static_cast<Int_t>(      DrawingStyle::DSColors::Proton );//Proton
-    else if(name.find("pionP") != std::string::npos) colour =  static_cast<Int_t>(  DrawingStyle::DSColors::PionP );//PionP
-    else if(name.find("pionM") != std::string::npos) colour =  static_cast<Int_t>(  DrawingStyle::DSColors::PionM );
-    else if(name.find("pion") != std::string::npos) colour =  static_cast<Int_t>(   DrawingStyle::DSColors::Pion );
-    else if(name.find("muonP") != std::string::npos) colour =  static_cast<Int_t>(  DrawingStyle::DSColors::MuonP );//PionP
-    else if(name.find("muonM") != std::string::npos) colour =  static_cast<Int_t>(  DrawingStyle::DSColors::MuonM );
-    else if(name.find("muon") != std::string::npos) colour =  static_cast<Int_t>(   DrawingStyle::DSColors::Muon );
-    else if(name.find("pizero") != std::string::npos) colour =  static_cast<Int_t>( DrawingStyle::DSColors::Pi0 );
-    else if(name.find("kapm") != std::string::npos) colour =  static_cast<Int_t>(   DrawingStyle::DSColors::Kaon );
-    else if(name.find("kazero") != std::string::npos) colour =  static_cast<Int_t>( DrawingStyle::DSColors::Ka0 );
-    else colour = static_cast<Int_t>( DrawingStyle::DSColors::Other );
+    if(name.find("proton") != std::string::npos) colour =  static_cast<Int_t>(      DSColors::Proton );//Proton
+//    else if(name.find("pionP") != std::string::npos) colour =  static_cast<Int_t>(  DrawingStyle::DSColors::PionP );//PionP
+//    else if(name.find("pionM") != std::string::npos) colour =  static_cast<Int_t>(  DrawingStyle::DSColors::PionM );
+//    else if(name.find("pion") != std::string::npos) colour =  static_cast<Int_t>(   DrawingStyle::DSColors::Pion );
+//    else if(name.find("muonP") != std::string::npos) colour =  static_cast<Int_t>(  DrawingStyle::DSColors::MuonP );//PionP
+//    else if(name.find("muonM") != std::string::npos) colour =  static_cast<Int_t>(  DrawingStyle::DSColors::MuonM );
+//    else if(name.find("muon") != std::string::npos) colour =  static_cast<Int_t>(   DrawingStyle::DSColors::Muon );
+//    else if(name.find("pizero") != std::string::npos) colour =  static_cast<Int_t>( DrawingStyle::DSColors::Pi0 );
+//    else if(name.find("kapm") != std::string::npos) colour =  static_cast<Int_t>(   DrawingStyle::DSColors::Kaon );
+//    else if(name.find("kazero") != std::string::npos) colour =  static_cast<Int_t>( DrawingStyle::DSColors::Ka0 );
+//    else colour = static_cast<Int_t>( DrawingStyle::DSColors::Other );
     
 }
 #endif
