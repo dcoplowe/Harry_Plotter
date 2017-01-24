@@ -26,7 +26,7 @@ PDGs::PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol) : pdg
     else if(name.find("muon") != std::string::npos)     colour = (Int_t)DrawingStyle::MuonM;
     else if(name.find("pizero") != std::string::npos)   colour = (Int_t)DrawingStyle::Pi0;
     else if(name.find("kapm") != std::string::npos)     colour = (Int_t)DrawingStyle::Kaon;
-    else if(name.find("kazero") != std::string::npos)   colour = (Int_t)DrawingStyle::kaO;
+    else if(name.find("kazero") != std::string::npos)   colour = (Int_t)DrawingStyle::ka0;
     else colour = (Int_t)DrawingStyle::Other;
     
 }
