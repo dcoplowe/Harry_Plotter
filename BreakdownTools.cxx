@@ -458,25 +458,25 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
             if(i < (int)kinmap_list.size()) smear_tot->Add(kinmap_list[ i ].smear);
         }
         
-        recon_tot->Add(kinmap_list.back().recon);
-        truth_tot->Add(kinmap_list.back().truth);
-        ratio_tot->Add(kinmap_list.back().ratio);
-        smear_tot->Add(kinmap_list.back().smear);
-        
-        for(int i = 0; i < (int)plot_by_self.size(); i++){
-            recon_tot->Add(kinmap_list[ plot_by_self[i] ].recon);
-            recon_leg->AddEntry(kinmap_list[ plot_by_self[i] ].recon, Form("%s (%.2f%%)", m_toplist[ plot_by_self[i] ].symbol.c_str(), recon_percent[ plot_by_self[i] ]), "f");
-            
-            truth_tot->Add(kinmap_list[ plot_by_self[i] ].truth);
-            truth_leg->AddEntry(kinmap_list[ plot_by_self[i] ].truth, Form("%s (%.2f%%)", m_toplist[ plot_by_self[i] ].symbol.c_str(), truth_percent[ plot_by_self[i] ]), "f");
-            
-            ratio_tot->Add(kinmap_list[ plot_by_self[i] ].ratio);
-            ratio_leg->AddEntry(kinmap_list[ plot_by_self[i] ].ratio, Form("%s (%.2f%%)", m_toplist[ plot_by_self[i] ].symbol.c_str(), ratio_percent[ plot_by_self[i] ]), "f");
-        }
-        
-        recon_leg->AddEntry(kinmap_list.back().recon, Form("Other (%.2f%%)", recon_other_percent), "f");
-        truth_leg->AddEntry(kinmap_list.back().truth, Form("Other (%.2f%%)", truth_other_percent), "f");
-        ratio_leg->AddEntry(kinmap_list.back().ratio, Form("Other (%.2f%%)", ratio_other_percent), "f");
+//        recon_tot->Add(kinmap_list.back().recon);
+//        truth_tot->Add(kinmap_list.back().truth);
+//        ratio_tot->Add(kinmap_list.back().ratio);
+//        smear_tot->Add(kinmap_list.back().smear);
+//        
+//        for(int i = 0; i < (int)plot_by_self.size(); i++){
+//            recon_tot->Add(kinmap_list[ plot_by_self[i] ].recon);
+//            recon_leg->AddEntry(kinmap_list[ plot_by_self[i] ].recon, Form("%s (%.2f%%)", m_toplist[ plot_by_self[i] ].symbol.c_str(), recon_percent[ plot_by_self[i] ]), "f");
+//            
+//            truth_tot->Add(kinmap_list[ plot_by_self[i] ].truth);
+//            truth_leg->AddEntry(kinmap_list[ plot_by_self[i] ].truth, Form("%s (%.2f%%)", m_toplist[ plot_by_self[i] ].symbol.c_str(), truth_percent[ plot_by_self[i] ]), "f");
+//            
+//            ratio_tot->Add(kinmap_list[ plot_by_self[i] ].ratio);
+//            ratio_leg->AddEntry(kinmap_list[ plot_by_self[i] ].ratio, Form("%s (%.2f%%)", m_toplist[ plot_by_self[i] ].symbol.c_str(), ratio_percent[ plot_by_self[i] ]), "f");
+//        }
+//        
+//        recon_leg->AddEntry(kinmap_list.back().recon, Form("Other (%.2f%%)", recon_other_percent), "f");
+//        truth_leg->AddEntry(kinmap_list.back().truth, Form("Other (%.2f%%)", truth_other_percent), "f");
+//        ratio_leg->AddEntry(kinmap_list.back().ratio, Form("Other (%.2f%%)", ratio_other_percent), "f");
     }
     
     BDCans cans;
