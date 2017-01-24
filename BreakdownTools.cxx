@@ -26,7 +26,7 @@ PDGs::PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol) : pdg
     else if(name.find("muon") != std::string::npos)     colour = (Int_t)DrawingStyle::MuonM;
     else if(name.find("pizero") != std::string::npos)   colour = (Int_t)DrawingStyle::Pi0;
     else if(name.find("kapm") != std::string::npos)     colour = (Int_t)DrawingStyle::Kaon;
-    else if(name.find("kazero") != std::string::npos)   colour = (Int_t)DrawingStyle::Ka0;
+    else if(name.find("kazero") != std::string::npos)   colour = (Int_t)DrawingStyle::kaO;
     else colour = (Int_t)DrawingStyle::Other;
     
 }
@@ -39,42 +39,42 @@ TOPS::TOPS(TOPSTYPE::TOPSTYPE topo_type) : type(topo_type), name(TOPSTYPE::ToStr
         
     if(type == TOPSTYPE::CC1P1PiPlus){
         colour = (Int_t)DrawingStyle::T1P1PiP;//Proton
-        signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_ka0 == 0 && truth_n_muo == 1 ";
+        signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0 ";
         signal += "&& truth_n_piP == 1 && truth_n_pro == 1 && truth_n_tau == 0";
         signal += "&& mc_nFSPart == 3";
     }
     else if(type == TOPSTYPE::CC1P1PiMinus){
         colour = (Int_t)DrawingStyle::T1P1PiM;
-        signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_ka0 == 0 && truth_n_muo == 1 ";
+        signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 1 ";
         signal += "&& truth_n_piP == 0 && truth_n_pro == 1 && truth_n_tau == 0";
         signal += "&& mc_nFSPart == 3";
     }
     else if(type == TOPSTYPE::CC2P){
         colour = (Int_t)DrawingStyle::T2Pr;
-        signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_ka0 == 0 && truth_n_muo == 1 ";
+        signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0 ";
         signal += "&& truth_n_piP == 0 && truth_n_pro == 2 && truth_n_tau == 0";
         signal += "&& mc_nFSPart == 3";
     }
     else if(type == TOPSTYPE::CC2PiPlus)  {
         colour = (Int_t)DrawingStyle::T2PiP;
-        signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_ka0 == 0 && truth_n_muo == 1 ";
+        signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0 ";
         signal += "&& truth_n_piP == 2 && truth_n_pro == 0 && truth_n_tau == 0";
         signal += "&& mc_nFSPart == 3";
     }
     else if(type == TOPSTYPE::CC1P1PiZero) {
         colour = (Int_t)DrawingStyle::T1P1Pi0;
-        signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_ka0 == 0 && truth_n_muo == 1 ";
+        signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 1 && truth_n_piM == 0 ";
         signal += "&& truth_n_piP == 0 && truth_n_pro == 1 && truth_n_tau == 0";
         signal += "&& mc_nFSPart == 3";
     }
     else if(type == TOPSTYPE::CC1PiZero1PiPlus){
         colour = (Int_t)DrawingStyle::T1Pi1Pi0;
-        signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_ka0 == 0 && truth_n_muo == 1 ";
+        signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 1 && truth_n_piM == 0 ";
         signal += "&& truth_n_piP == 1 && truth_n_pro == 0 && truth_n_tau == 0";
         signal += "&& mc_nFSPart == 3";
@@ -83,37 +83,37 @@ TOPS::TOPS(TOPSTYPE::TOPSTYPE topo_type) : type(topo_type), name(TOPSTYPE::ToStr
         colour = (Int_t)DrawingStyle::Other;
         //CC1P1PiPlus
         signal = "!";
-        signal += "(truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_ka0 == 0 && truth_n_muo == 1 ";
+        signal += "(truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0 ";
         signal += "&& truth_n_piP == 1 && truth_n_pro == 1 && truth_n_tau == 0";
         signal += "&& mc_nFSPart == 3)";
         //CC1P1PiMinus
         signal += "&& !";
-        signal += "(truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_ka0 == 0 && truth_n_muo == 1 ";
+        signal += "(truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 1 ";
         signal += "&& truth_n_piP == 0 && truth_n_pro == 1 && truth_n_tau == 0";
         signal += "&& mc_nFSPart == 3)";
         //CC2P
         signal += "&& !";
-        signal += "(truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_ka0 == 0 && truth_n_muo == 1 ";
+        signal += "(truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0 ";
         signal += "&& truth_n_piP == 0 && truth_n_pro == 2 && truth_n_tau == 0";
         signal += "&& mc_nFSPart == 3)";
         //CC2PiPlus
         signal += "&& !";
-        signal += "(truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_ka0 == 0 && truth_n_muo == 1 ";
+        signal += "(truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0 ";
         signal += "&& truth_n_piP == 2 && truth_n_pro == 0 && truth_n_tau == 0";
         signal += "&& mc_nFSPart == 3)";
         //CC1P1PiZero
         signal += "&& !";
-        signal += "(truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_ka0 == 0 && truth_n_muo == 1 ";
+        signal += "(truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 1 && truth_n_piM == 0 ";
         signal += "&& truth_n_piP == 0 && truth_n_pro == 1 && truth_n_tau == 0";
         signal += "&& mc_nFSPart == 3)";
         //CC1PiZero1PiPlus
         signal += "&& !";
-        signal += "(truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_ka0 == 0 && truth_n_muo == 1 ";
+        signal += "(truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 1 && truth_n_piM == 0 ";
         signal += "&& truth_n_piP == 1 && truth_n_pro == 0 && truth_n_tau == 0";
         signal += "&& mc_nFSPart == 3)";
