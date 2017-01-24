@@ -12,8 +12,9 @@
 
 using namespace std;
 
-namespace DrawingStyle {
-    
+//namespace DrawingStyle {
+//    declarations
+//}
 
 class DrawingStyle {
 
@@ -89,8 +90,5 @@ public:
     
     
 };
-    
-    
-}
 
 #endif

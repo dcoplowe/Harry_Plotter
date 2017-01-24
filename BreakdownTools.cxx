@@ -18,7 +18,10 @@ PDGs::PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol) : pdg
     ss << pdg;
     pdg_s = ss.str();
     
-    if(name.find("proton") != std::string::npos) colour =  (Int_t)DrawingStyle::DSColors::Proton;//Proton
+    DrawingStyle::DSColors varssss ;
+    
+    
+//    if(name.find("proton") != std::string::npos) colour =  (Int_t)DrawingStyle::DSColors::Proton;//Proton
 //    else if(name.find("pionP") != std::string::npos) colour =  static_cast<Int_t>(  DrawingStyle::DSColors::PionP );//PionP
 //    else if(name.find("pionM") != std::string::npos) colour =  static_cast<Int_t>(  DrawingStyle::DSColors::PionM );
 //    else if(name.find("pion") != std::string::npos) colour =  static_cast<Int_t>(   DrawingStyle::DSColors::Pion );
