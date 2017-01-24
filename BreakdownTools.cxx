@@ -226,9 +226,15 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     recon_leg->Draw();
 //    mom_recon_pot->Draw();
     
+    cans.truth = new TCanvas( truth_tot->GetName(), "", 500, 500);
+    cans.truth->cd();
+    truth_tot->Draw();
+    truth_leg->Draw();
     
-    
-    
+    cans.ratio = new TCanvas( ratio_tot->GetName(), "", 500, 500);
+    cans.ratio->cd();
+    ratio_tot->Draw();
+    ratio_leg->Draw();
     
     return cans;
 }
