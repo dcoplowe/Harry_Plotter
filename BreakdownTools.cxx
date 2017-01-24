@@ -11,14 +11,15 @@
 
 BreakdownTools::BreakdownTools(std::string filename, std::string treename) : DrawingTools(filename, treename, ("BD" + treename).c_str()), m_printPOT(false), m_fullbreakdown(false){
 
-    m_pdglist.push_back( PDGs(2212, "proton",   "p") );
-    m_pdglist.push_back( PDGs(211,  "piplus",   "#pi^{+}") );
-    m_pdglist.push_back( PDGs(-211, "piminus", "#pi^{-}") );
-    m_pdglist.push_back( PDGs(13, "muon", "#muon^{-}") );
-    m_pdglist.push_back( PDGs(-13, "amuon", "#muon^{-}") );
-    m_pdglist.push_back( PDGs(111, "pizero", "#pi^{0}") );
-    m_pdglist.push_back( PDGs(321, "kapm", "K^{#pm}") );
-    m_pdglist.push_back( PDGs(311, "kazero", "K^{0}") );
+    PDGs proton(2212, "proton",   "p");
+    m_pdglist.push_back(proton);
+//    m_pdglist.push_back( PDGs(211,  "piplus",   "#pi^{+}") );
+//    m_pdglist.push_back( PDGs(-211, "piminus", "#pi^{-}") );
+//    m_pdglist.push_back( PDGs(13, "muon", "#muon^{-}") );
+//    m_pdglist.push_back( PDGs(-13, "amuon", "#muon^{-}") );
+//    m_pdglist.push_back( PDGs(111, "pizero", "#pi^{0}") );
+//    m_pdglist.push_back( PDGs(321, "kapm", "K^{#pm}") );
+//    m_pdglist.push_back( PDGs(311, "kazero", "K^{0}") );
 
 }
 

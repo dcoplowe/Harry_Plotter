@@ -462,7 +462,6 @@ void MomentumDists::MakePlots(){
     
     TFile * outfile = new TFile(m_savename.c_str(), "RECREATE");
 
-    
     BreakdownTools * test = new BreakdownTools(m_infilename, m_reconame);
     
     Variable var;
