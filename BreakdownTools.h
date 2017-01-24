@@ -21,6 +21,7 @@ struct BDCans {
     TCanvas * recon;
     TCanvas * truth;
     TCanvas * smear;
+    TCanvas * smearSN;
     TCanvas * ratio;
 };
 

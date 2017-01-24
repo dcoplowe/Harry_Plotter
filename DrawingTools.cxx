@@ -283,10 +283,98 @@ std::vector<double> DrawingTools::GetPercentage(std::vector<DrawingTools::KinMap
     return out_list;
 }
 
+TH1D * DrawingTools::ToPDF(TH1 *hraw, TString hn){
+    const Int_t x0 = 0;
+    const Int_t x1 = hraw->GetNbinsX()+1;
+    const Double_t tmpnt = hraw->Integral(x0, x1);
+    
+    TH1D * hist = (TH1D*) hraw->Clone((hn+hraw->GetName())+"pdf");
+    hist->Scale(0);
+    
+    for(Int_t ib=x0; ib<=x1; ib++){
+        const Double_t bw = hraw->GetBinWidth(ib);
+        const Double_t cont = hraw->GetBinContent(ib);
+        if(cont<EPSILON)
+            continue;
+        
+        //in case of finit number of bins (i.e. eff not always small), Binomial error is more accurate than Poisson error
+        const Double_t eff = cont/tmpnt;
+        const Double_t pdf = eff/bw;
+        
+        const Double_t dpdf = sqrt(eff*(1-eff)/tmpnt) / bw;
+        hist->SetBinContent(ib, pdf);
+        hist->SetBinError(ib, dpdf);
+    }
+    
+    hist->SetEntries(tmpnt);
+    
+    return hist;
+}
 
 
-
-
-
-
-
+TH2D * DrawingTools::NormalHist(TH2D *hraw, Double_t thres, Bool_t kmax){
+    TH2D *hh=(TH2D*)hraw->Clone(Form("%sSN",hraw->GetName()));
+    hh->Scale(0);
+    
+    const Int_t x0 = hh->GetXaxis()->GetFirst();
+    const Int_t x1 = hh->GetXaxis()->GetLast();
+    const Int_t y0 = hh->GetYaxis()->GetFirst();
+    const Int_t y1 = hh->GetYaxis()->GetLast();
+    
+    Double_t hmax = -1e10;
+    Double_t hmin = 1e10;
+    Double_t nent = 0;
+    for(Int_t ix=x0; ix<=x1; ix++){
+        
+        //if option "e" is specified, the errors are computed. if option "o" original axis range of the taget axes will be kept, but only bins inside the selected range will be filled.
+        
+        TH1D * sliceh = hraw->ProjectionY(Form("tmpnormalhist%sx%d", hh->GetName(), ix), ix, ix, "oe");
+        const Double_t tot = sliceh->GetEntries();
+        
+        TH1D * pdfh=0x0;
+        
+        if(tot>EPSILON){
+            nent += tot;
+            
+            Double_t imax = kIniValue;
+            
+            if(!kmax){
+                pdfh = ToPDF(sliceh,"tmp");
+            }
+            else{
+                imax = sliceh->GetBinContent(sliceh->GetMaximumBin());
+            }
+            
+            for(Int_t iy=y0; iy<=y1; iy++){
+                const Double_t cont = kmax ? sliceh->GetBinContent(iy)/imax : pdfh->GetBinContent(iy);
+                const Double_t ierr = kmax ? sliceh->GetBinError(iy)/imax   : pdfh->GetBinError(iy);
+                if(tot>thres && cont>0){
+                    hh->SetBinContent(ix, iy, cont);
+                    hh->SetBinError(ix,iy, ierr);
+                    if(cont>hmax) hmax = cont;
+                    if(cont<hmin) hmin = cont;
+                }
+            }
+        }
+        
+        delete pdfh;
+        delete sliceh;
+    }
+    
+    hh->SetEntries(nent);
+    hh->SetMinimum(0.99*hmin);
+    hh->SetMaximum(1.1*hmax);
+    
+    TString xtit(hraw->GetXaxis()->GetTitle()); 
+    if(xtit.Contains("(")){
+        xtit=xtit(0, xtit.First('('));
+    }
+    
+    TString ytit(hraw->GetYaxis()->GetTitle()); 
+    if(ytit.Contains("(")){
+        ytit=ytit(0, ytit.First('('));
+    }
+    
+    //hh->SetTitle(Form("f(%s|%s) %s", ytit.Data(), xtit.Data(), hraw->GetTitle()));
+    return hh;
+}

@@ -503,7 +503,9 @@ void MomentumDists::MakePlots(){
     
     canstest.smear->Write();
     canstest2.smear->Write();
-    
+   
+    canstest.smearSN->Write();
+    canstest2.smearSN->Write();
     
     
 //    DrawingTools * test = new DrawingTools(m_infilename, m_reconame);
