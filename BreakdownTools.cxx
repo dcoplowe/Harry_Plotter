@@ -373,6 +373,8 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
     
     for(int i = 0; i < (int)m_pdglist.size(); i++){
         
+        cout << i << ":" << (int)m_pdglist.size() << endl;
+        
         TOPS topology = m_toplist[i];
         
         std::string tmp_cuts = tmp_cuts_1;
@@ -381,7 +383,13 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         
         DrawingTools::KinMap tmp_kinmap = KinArray(var.name, nbins, bins, var.symbol, tmp_cuts);
         
+        cout << "Working 1" << endl;
+
+        
         ColFill(tmp_kinmap, topology.colour);
+        
+        cout << "Working 0" << endl;
+
         
         kinmap_list.push_back(tmp_kinmap);
     }
