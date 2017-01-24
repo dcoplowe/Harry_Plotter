@@ -482,7 +482,7 @@ void MomentumDists::MakePlots(){
     
     BDCans canstest = test->PID(var, 40, 0, 2000, m_proton->pdg);
     
-    var.savename += "_1_";
+    var.savename += "_1";
     test->FullBreakDown();
     BDCans canstest2 = test->PID(var, 40, 0, 2000, m_proton->pdg);
 
