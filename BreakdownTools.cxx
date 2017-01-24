@@ -268,12 +268,12 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t low, Double_t hig
     return PID(var, nbins, SetBinning(nbins, low, high), pdgvar, cuts);
 }
 
-BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::string pdgvar, std::string cuts = ""){
+BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::string pdgvar, std::string cuts){
     BDCans cans;
     return cans;
 }
 
-BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t low, Double_t high, std::string pdgvar, std::string cuts = ""){
+BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t low, Double_t high, std::string pdgvar, std::string cuts){
     return TOPO(var, nbins, SetBinning(nbins, low, high), pdgvar, cuts);
 }
 
