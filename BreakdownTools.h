@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
+#include <sstream>
 
 #include "DrawingTools.h"
 //#include "RTypes.h"
@@ -41,7 +42,7 @@ public:
     Int_t pdg;
     std::string name;
     std::string symbol;
-    std::string s_pdg;
+    std::string pdg_s;
 };
 #endif
 
