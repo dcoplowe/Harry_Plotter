@@ -5,7 +5,8 @@
 #include <stdlib.h>
 #include <string>
 
-#inculde "DrawingTools.h"
+#include "DrawingTools.h"
+#include "RTypes.h"
 
 //Forward declarations:
 //class DrawingTools;
@@ -31,6 +32,7 @@ struct Variable {
 
 #ifndef _PARTPDGS_
 #define _PARTPDGS_
+
 class PDGs{
 public:
     PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol);
@@ -41,6 +43,7 @@ public:
     std::string symbol;
     std::string s_pdg;
 };
+
 #endif
 
 PDGs::PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol) : pdg(part_pdg), name(part_name), symbol(part_symbol){
