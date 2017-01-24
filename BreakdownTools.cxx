@@ -244,10 +244,10 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     cans.smear->cd();
     smear_tot->Draw("COLZ");
     
-    TH2D * smear_totSN = NormalHist(smear_tot);
-//    cans.smearSN = new TCanvas( (std::string(smear_tot->GetName()) + "_SN").c_str(), "", 500, 500);
-//    cans.smearSN->cd();
-//    smear_totSN->Draw("COLZ");
+    TH2D * smear_totSN = NormalHist(smear_tot, 1.);
+    cans.smearSN = new TCanvas( (std::string(smear_tot->GetName()) + "_SN").c_str(), "", 500, 500);
+    cans.smearSN->cd();
+    smear_totSN->Draw("COLZ");
     
     return cans;
 }
