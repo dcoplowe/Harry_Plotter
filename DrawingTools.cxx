@@ -283,7 +283,7 @@ std::vector<double> DrawingTools::GetPercentage(std::vector<DrawingTools::KinMap
     return out_list;
 }
 
-TH1D * DrawingTools::ToPDF(TH1 *hraw, TString hn){
+TH1D * DrawingTools::ToPDF(TH1D *hraw, TString hn){
     const Int_t x0 = 0;
     const Int_t x1 = hraw->GetNbinsX()+1;
     const Double_t tmpnt = hraw->Integral(x0, x1);
