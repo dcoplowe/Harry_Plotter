@@ -114,13 +114,13 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     
     //Make outputs:
     
-    THStack * recon_tot = new THStack( (var.savename + "_recon").c_str(), Form(";%s (%s);%s", kinmap_list[0].recon->GetXaxis()->GetTitle(), var.symbol.c_str(),
+    THStack * recon_tot = new THStack( (var.savename + "_recon").c_str(), Form(";%s (%s);%s", kinmap_list[0].recon->GetXaxis()->GetTitle(), var.units.c_str(),
                                                                                 kinmap_list[0].recon->GetYaxis()->GetTitle() ) );
     
-    THStack * truth_tot = new THStack( (var.savename + "_truth").c_str(), Form(";%s (%s);%s", kinmap_list[0].truth->GetXaxis()->GetTitle(), var.symbol.c_str(),
+    THStack * truth_tot = new THStack( (var.savename + "_truth").c_str(), Form(";%s (%s);%s", kinmap_list[0].truth->GetXaxis()->GetTitle(), var.units.c_str(),
                                                                                kinmap_list[0].truth->GetYaxis()->GetTitle() ) );
     
-    THStack * ratio_tot = new THStack( (var.savename + "_ratio").c_str(), Form(";%s (%s);%s", kinmap_list[0].ratio->GetXaxis()->GetTitle(), var.symbol.c_str(),
+    THStack * ratio_tot = new THStack( (var.savename + "_ratio").c_str(), Form(";%s (%s);%s", kinmap_list[0].ratio->GetXaxis()->GetTitle(), var.units.c_str(),
                                                                                kinmap_list[0].ratio->GetYaxis()->GetTitle() ) );
     
     TH2D * smear_tot = (TH2D*)kinmap_list[0].smear->Clone( (var.savename + "_smear").c_str() );//Just add all of these histos.
@@ -131,11 +131,15 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     
     if(m_fullbreakdown){
         
+        std::vector<double> recon_percent = GetPercentage(kinmap_list, 0, other_kinmap);
+        std::vector<double> truth_percent = GetPercentage(kinmap_list, 1, other_kinmap);
+        std::vector<double> ratio_percent = GetPercentage(kinmap_list, 2, other_kinmap);
+        
         for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
             cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
             
             recon_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].recon);
-            recon_leg->AddEntry(kinmap_list[ (i - 1) ].recon, Form("%s (%.2f%%)", m_pdglist[(i - 1)].symbol.c_str(), 1.), "f");
+            recon_leg->AddEntry(kinmap_list[ (i - 1) ].recon, Form("%s (%.2f%%)", m_pdglist[(i - 1)].symbol.c_str(), recon_percent[ i - 1 ]), "f");
             
             
 //            TH1D * tmp_truth = kinmap_list[i].truth;

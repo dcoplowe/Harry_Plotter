@@ -467,7 +467,7 @@ void MomentumDists::MakePlots(){
     Variable var;
     var.name = m_proton->trueP + ":" + m_proton->P;
     var.units = "MeV/#it{c}";
-    var.symbol = "#it{p}";
+    var.symbol = "#it{p}_{p}";
     var.savename = m_proton->P;
     
     BDCans canstest = test->PID(var, 40, 0, 2000, m_proton->pdg);

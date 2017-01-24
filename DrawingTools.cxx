@@ -14,7 +14,7 @@
 
 using namespace std;
 
-DrawingTools::DrawingTools(std::string filename, std::string treename, std::string uniquename) : m_filename(filename), m_treename(treename), m_uniquename(uniquename), m_verbose(false) {
+DrawingTools::DrawingTools(std::string filename, std::string treename, std::string uniquename) : m_filename(filename), m_treename(treename), m_uniquename(uniquename), m_verbose(true) {
     
     m_file = new TFile(m_filename.c_str(), "READ");
     
@@ -231,4 +231,53 @@ void DrawingTools::ColFill(KinMap &map, Int_t fill_color, Int_t line_color){
     ColFill(map.truth, fill_color, line_color);
     ColFill(map.ratio, fill_color, line_color);
 }
+
+std::vector<double> DrawingTools::GetPercentage(std::vector<TH1D*> histos){
+    
+    std::vector<double> pers;
+    double norm = 0;
+    for(int i = 0; i < (int)histos.size(); i++){
+        double integral = histos[i]->Integral();
+        if(m_verbose) cout << "Histogram: " << histos[i]->GetName() << " Integtral = " << integral << endl;
+        norm += integral;
+        pers.push_back( integral );
+    }
+    
+    if(m_verbose) cout << "Norm = " << norm << endl;
+    
+    for(int i = 0; i < (int)pers.size(); i++) pers[i] *= 100/norm;
+    
+    return pers;
+}
+
+std::vector<double> DrawingTools::GetPercentage(std::vector<KinMap> histos, Int_t type, KinMap other){
+    
+    std::vector<TH1D*> list;
+    if(type == 0){//Reco;
+        if(m_verbose) cout << "GetPercentage : Recon" << endl;
+        for (int i = 0; i < (int)histos.size(); i++) list.push_back( histos[i].recon );
+        if(other) list.push_back(other.recon);
+    }
+    else if(type == 1){//Truth;
+        if(m_verbose) cout << "GetPercentage : Truth" << endl;
+        for (int i = 0; i < (int)histos.size(); i++) list.push_back( histos[i].truth );
+        if(other) list.push_back(other.truth);
+    }
+    else if(type == 2){//ratio;
+        if(m_verbose) cout << "GetPercentage : Ratio" << endl;
+        for (int i = 0; i < (int)histos.size(); i++) list.push_back( histos[i].ratio );
+        if(other) list.push_back(other.ratio);
+    }
+    
+    std::vector<double> out_list = GetPercentage(list);
+    list.clear();
+    return out_list;
+}
+
+
+
+
+
+
+
 
