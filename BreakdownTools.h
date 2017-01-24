@@ -78,6 +78,5 @@ private:
     std::vector<PDGs> m_pdglist;
     std::vector<Int_t> m_MinBDlist;
 
-    void ColFill(DrawingTools::KinMap map, Int_t colour);
 };
 #endif
