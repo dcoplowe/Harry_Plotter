@@ -250,7 +250,7 @@ std::vector<double> DrawingTools::GetPercentage(std::vector<TH1D*> histos){
     return pers;
 }
 
-std::vector<double> DrawingTools::GetPercentage(std::vector<KinMap> histos, Int_t type, KinMap other){
+std::vector<double> DrawingTools::GetPercentage(std::vector<DrawingTools::KinMap> histos, Int_t type, KinMap other){
     
     std::vector<TH1D*> list;
     if(type == 0){//Reco;
