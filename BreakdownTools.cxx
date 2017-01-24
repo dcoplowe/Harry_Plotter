@@ -101,7 +101,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
             
         DrawingTools::KinMap tmp_kinmap = KinArray(var.name, nbins, bins, var.symbol, tmp_cuts);
         
-        ColFill(tmp_recon, particle.colour);
+        ColFill(tmp_kinmap, particle.colour);
         
         kinmap_list.push_back(tmp_kinmap);
     }
@@ -114,13 +114,13 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     
     //Make outputs:
     
-    THStack * recon_tot = new THStack( (var.savename + "_recon").c_str(), Form(";%s (%s);%s", kinmap_list[0].recon->GetXaxis()->GetTitle(), var.symbol,
+    THStack * recon_tot = new THStack( (var.savename + "_recon").c_str(), Form(";%s (%s);%s", kinmap_list[0].recon->GetXaxis()->GetTitle(), var.symbol.c_str(),
                                                                                 kinmap_list[0].recon->GetYaxis()->GetTitle() ) );
     
-    THStack * truth_tot = new THStack( (var.savename + "_truth").c_str(), Form(";%s (%s);%s", kinmap_list[0].truth->GetXaxis()->GetTitle(), var.symbol,
+    THStack * truth_tot = new THStack( (var.savename + "_truth").c_str(), Form(";%s (%s);%s", kinmap_list[0].truth->GetXaxis()->GetTitle(), var.symbol.c_str(),
                                                                                kinmap_list[0].truth->GetYaxis()->GetTitle() ) );
     
-    THStack * ratio_tot = new THStack( (var.savename + "_ratio").c_str(), Form(";%s (%s);%s", kinmap_list[0].ratio->GetXaxis()->GetTitle(), var.symbol,
+    THStack * ratio_tot = new THStack( (var.savename + "_ratio").c_str(), Form(";%s (%s);%s", kinmap_list[0].ratio->GetXaxis()->GetTitle(), var.symbol.c_str(),
                                                                                kinmap_list[0].ratio->GetYaxis()->GetTitle() ) );
     
     TH2D * smear_tot = (TH2D*)kinmap_list[0].smear->Clone( (var.savename + "_smear").c_str() );//Just add all of these histos.
