@@ -37,7 +37,7 @@ struct Variable {
 class PDGs{
 public:
     PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol);
-    ~PGDs();
+    ~PDGs(){};
     
     Int_t pdg;
     std::string name;
@@ -54,8 +54,6 @@ PDGs::PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol) : pdg
     ss << pdg;
     pdg_s = ss.str();
 }
-
-PDGs::~PGDs(){}
 
 #endif
 
