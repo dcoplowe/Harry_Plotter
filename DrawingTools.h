@@ -88,7 +88,6 @@ private:
     
     KinMap empty_kinmap;
     
-    Double_t EPSILON = 1e-12;
 };
 
 #endif

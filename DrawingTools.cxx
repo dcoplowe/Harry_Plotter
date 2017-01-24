@@ -294,7 +294,7 @@ TH1D * DrawingTools::ToPDF(TH1 *hraw, TString hn){
     for(Int_t ib=x0; ib<=x1; ib++){
         const Double_t bw = hraw->GetBinWidth(ib);
         const Double_t cont = hraw->GetBinContent(ib);
-        if(cont<EPSILON)
+        if(cont<1e-12)
             continue;
         
         //in case of finit number of bins (i.e. eff not always small), Binomial error is more accurate than Poisson error
@@ -333,10 +333,10 @@ TH2D * DrawingTools::NormalHist(TH2D *hraw, Double_t thres, Bool_t kmax){
         
         TH1D * pdfh=0x0;
         
-        if(tot>EPSILON){
+        if(tot>1e-12){
             nent += tot;
             
-            Double_t imax = kIniValue;
+            Double_t imax = -999;
             
             if(!kmax){
                 pdfh = ToPDF(sliceh,"tmp");
