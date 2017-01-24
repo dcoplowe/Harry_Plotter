@@ -15,7 +15,7 @@
 
 using namespace std;
 
-DrawingTools::DrawingTools(std::string filename, std::string treename, std::string uniquename) : m_filename(filename), m_treename(treename), m_uniquename(uniquename), m_verbose(false) {
+DrawingTools::DrawingTools(std::string filename, std::string treename, std::string uniquename) : m_filename(filename), m_treename(treename), m_uniquename(uniquename), m_verbose(false), m_getPOT(true) {
     
     m_file = new TFile(m_filename.c_str(), "READ");
     
@@ -36,6 +36,8 @@ DrawingTools::DrawingTools(std::string filename, std::string treename, std::stri
     empty_kinmap.truth = 0x0;
     empty_kinmap.ratio = 0x0;
     empty_kinmap.smear = 0x0;
+    
+    SetPOT();
 }
 
 DrawingTools::~DrawingTools(){
@@ -378,4 +380,20 @@ TH2D * DrawingTools::NormalHist(TH2D *hraw, Double_t thres, bool kmax){
     
     //hh->SetTitle(Form("f(%s|%s) %s", ytit.Data(), xtit.Data(), hraw->GetTitle()));
     return hh;
+}
+
+TLegend * DrawingTools::GetPOT(double x_pos, double y_pos){
+    TLegend * pot = Legend(x_pos, y_pos);
+    pot->AddEntry((TObject*)0, Form(" %.2e POT", m_POT),"");
+    pot->SetTextSize(0.042);
+    return pot;
+}
+
+void DrawingTools::SetPOT(){
+    TTree * tmp_meta_tree = (TTree*)m_file->Get("Meta");
+    Double_t m_POT = 0;
+    assert(tmp_meta_tree->GetEntries()==1);
+    tmp_meta_tree->GetEntry(0);
+    TLeaf * lpot= tmp_meta_tree->GetLeaf("POT_Used");
+    if(lpot) m_POT = lpot->GetValue();
 }

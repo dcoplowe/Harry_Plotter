@@ -334,26 +334,36 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     cans.recon->cd();
     recon_tot->Draw();
     recon_leg->Draw();
+    TLegend * recon_pot = GetPOT(0.1,0.1);
+    recon_pot->Draw();
 //    mom_recon_pot->Draw();
     
     cans.truth = new TCanvas( truth_tot->GetName(), "", 500, 500);
     cans.truth->cd();
     truth_tot->Draw();
     truth_leg->Draw();
+    TLegend * truth_pot = GetPOT(0.1,0.1);
+    truth_pot->Draw();
     
     cans.ratio = new TCanvas( ratio_tot->GetName(), "", 500, 500);
     cans.ratio->cd();
     ratio_tot->Draw();
     ratio_leg->Draw();
+    TLegend * ratio_pot = GetPOT(0.1,0.1);
+    ratio_pot->Draw();
     
     cans.smear = new TCanvas( smear_tot->GetName(), "", 500, 500);
     cans.smear->cd();
     smear_tot->Draw("COLZ");
+    TLegend * smear_pot = GetPOT(0.1,0.1);
+    smear_pot->Draw();
     
     TH2D * smear_totSN = NormalHist(smear_tot, 0., true);
     cans.smearSN = new TCanvas( (std::string(smear_tot->GetName()) + "SN").c_str(), "", 500, 500);
     cans.smearSN->cd();
     smear_totSN->Draw("COLZ");
+    TLegend * smearSN_pot = GetPOT(0.1,0.1);
+    smearSN_pot->Draw();
     
     return cans;
 }
@@ -603,7 +613,7 @@ BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::s
     TLegend * recon_leg = Legend(0.25, 0.4, 0.551, 0.362);
     TLegend * truth_leg = Legend(0.25, 0.4, 0.551, 0.362);
     TLegend * ratio_leg = Legend(0.25, 0.4, 0.551, 0.362);
-        
+    
     std::vector<double> recon_percent = GetPercentage(kinmap_list, 0);
     std::vector<double> truth_percent = GetPercentage(kinmap_list, 1);
     std::vector<double> ratio_percent = GetPercentage(kinmap_list, 2);
@@ -612,17 +622,17 @@ BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::s
     truth_leg->AddEntry(signal_kinmap.truth, ("H-" + m_toplist[0].symbol).c_str(), "l");
     ratio_leg->AddEntry(signal_kinmap.ratio, ("H-" + m_toplist[0].symbol).c_str(), "l");
     
-    recon_leg->AddEntry(kinmap_list[2].recon, Form("Hydrogen (%.2f%%)", recon_percent[2]), "l");
-    truth_leg->AddEntry(kinmap_list[2].truth, Form("Hydrogen (%.2f%%)", truth_percent[2]), "l");
-    ratio_leg->AddEntry(kinmap_list[2].ratio, Form("Hydrogen (%.2f%%)", recon_percent[2]), "l");
+    recon_leg->AddEntry(kinmap_list[2].recon, Form("Hydrogen (%.2f%%)", recon_percent[2]), "f");
+    truth_leg->AddEntry(kinmap_list[2].truth, Form("Hydrogen (%.2f%%)", truth_percent[2]), "f");
+    ratio_leg->AddEntry(kinmap_list[2].ratio, Form("Hydrogen (%.2f%%)", recon_percent[2]), "f");
 
-    recon_leg->AddEntry(kinmap_list[1].recon, Form("Carbon (%.2f%%)", recon_percent[1]), "l");
-    truth_leg->AddEntry(kinmap_list[1].truth, Form("Carbon (%.2f%%)", truth_percent[1]), "l");
-    ratio_leg->AddEntry(kinmap_list[1].ratio, Form("Carbon (%.2f%%)", ratio_percent[1]), "l");
+    recon_leg->AddEntry(kinmap_list[1].recon, Form("Carbon (%.2f%%)", recon_percent[1]), "f");
+    truth_leg->AddEntry(kinmap_list[1].truth, Form("Carbon (%.2f%%)", truth_percent[1]), "f");
+    ratio_leg->AddEntry(kinmap_list[1].ratio, Form("Carbon (%.2f%%)", ratio_percent[1]), "f");
 
-    recon_leg->AddEntry(kinmap_list[0].recon, Form("Other (%.2f%%)", recon_percent[0]), "l");
-    truth_leg->AddEntry(kinmap_list[0].truth, Form("Other (%.2f%%)", truth_percent[0]), "l");
-    ratio_leg->AddEntry(kinmap_list[0].ratio, Form("Other (%.2f%%)", ratio_percent[0]), "l");
+    recon_leg->AddEntry(kinmap_list[0].recon, Form("Other (%.2f%%)", recon_percent[0]), "f");
+    truth_leg->AddEntry(kinmap_list[0].truth, Form("Other (%.2f%%)", truth_percent[0]), "f");
+    ratio_leg->AddEntry(kinmap_list[0].ratio, Form("Other (%.2f%%)", ratio_percent[0]), "f");
     
     for(int i = 0; i < 3; i++){
         

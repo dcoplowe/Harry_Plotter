@@ -55,7 +55,9 @@ public:
     Double_t * SetBinning(int nbins, Double_t low, Double_t high);
     
     TLegend * Legend(Double_t x_size, Double_t y_size, Double_t x_start = 0.1, Double_t y_start = 0.1);
-    
+    TLegend * GetPOT(double x_pos, double y_pos);
+    void SetPOT(double x_pos, double y_pos);
+
     void ColFill(TH1D *&h1, Int_t fill_color, Int_t line_color = kBlack);
     void ColFill(KinMap &map, Int_t fill_color, Int_t line_color = kBlack);
 
@@ -85,6 +87,9 @@ private:
     Int_t m_ratiobins;
     
     bool m_verbose;
+    bool m_getPOT;
+    
+    Double_t m_POT;
     
     KinMap empty_kinmap;
     

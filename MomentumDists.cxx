@@ -422,6 +422,8 @@ private:
     //tmp POT bool (off for t2k):
     bool m_getPOT;
     
+//    TFile * m_outfile;
+    
     Particle * m_muon;
     Particle * m_proton;
     Particle * m_pion;
@@ -462,6 +464,9 @@ MomentumDists::MomentumDists(EXP::EXP exp, std::string filename, bool debug) : m
     
 
     cout << "Saving file as " << m_savename << endl;
+    
+//    m_outfile = new TFile(m_savename.c_str(), "RECREATE");
+    
 }
 
 MomentumDists::~MomentumDists(){
@@ -472,52 +477,608 @@ void MomentumDists::MakePlots(){
     
     TFile * outfile = new TFile(m_savename.c_str(), "RECREATE");
 
-    BreakdownTools * test = new BreakdownTools(m_infilename, m_reconame);
+    BreakdownTools * run = new BreakdownTools(m_infilename, m_reconame);
+    run->FullBreakDown();//Off for now.
     
-    Variable var;
-    var.name = m_proton->trueP + ":" + m_proton->P;
-    var.units = "MeV/#it{c}";
-    var.symbol = "#it{p}_{p}";
-    var.savename = m_proton->P;
+    //Pass all cuts check://Only consider dEdX ( accum_level[0]) recon for now:
+    string base_cut = "accum_level[0] > 5 && " + m_pion->michel + " == 1";
     
-    BDCans canstest = test->TOPO(var, 40, 0, 2000, "accum_level > 5 ");
     
-//    BDCans canstest = test->PID(var, 40, 0, 2000, m_proton->pdg);
-//    
-//    var.savename += "_1";
-//    test->FullBreakDown();
-    BDCans canstest2 = test->PID(var, 40, 0, 2000, m_proton->pdg);
-//
-//
-    BDCans canstest3 = test->TARGET(var, 40, 0, 2000, "accum_level > 5");
-
+    //******************** MOMENTUM START ********************//
+    Variable mom;
+    mom.units = "MeV/#it{c}";
+    mom.symbol = "#it{p}_{p}";
+    
+    //**** Proton ****//
+    
+    mom.name = m_proton->trueP + ":" + m_proton->P;
+    mom.savename = m_proton->P;
+    
+    BDCans pr_mom_top = run->TOPO(mom, 40, 0, 2000, base_cut);
+    
     outfile->cd();
-    canstest.recon->cd();
-    TLatex * canstest_logo = GetLogo();
-    canstest_logo->Draw();
     
-    canstest.recon->Write();
-    canstest2.recon->Write();
-    canstest3.recon->Write();
+    pr_mom_top.recon->cd();
+    TLatex * pr_mom_top_logo_recon = GetLogo();
+    pr_mom_top_logo_recon->Draw();
+    pr_mom_top.recon->Write();
     
-    canstest.truth->Write();
-    canstest2.truth->Write();
-    canstest3.truth->Write();
+    pr_mom_top.truth->cd();
+    TLatex * pr_mom_top_logo_truth = GetLogo();
+    pr_mom_top_logo_truth->Draw();
+    pr_mom_top.truth->Write();
     
-    canstest.ratio->Write();
-    canstest2.ratio->Write();
-    canstest3.ratio->Write();
+    pr_mom_top.ratio->cd();
+    TLatex * pr_mom_top_logo_ratio = GetLogo();
+    pr_mom_top_logo_ratio->Draw();
+    pr_mom_top.ratio->Write();
     
-    canstest.smear->Write();
-    canstest2.smear->Write();
-    canstest3.smear->Write();
-   
-    canstest.smearSN->Write();
-    canstest2.smearSN->Write();
+    pr_mom_top.smearSN->cd();
+    TLatex * pr_mom_top_logo_smearSN = GetLogo();
+    pr_mom_top_logo_smearSN->Draw();
+    pr_mom_top.smearSN->Write();
+    
+    BDCans pr_mom_tar = run->TARGET(mom, 40, 0, 2000, base_cut);
+    
+    pr_mom_tar.recon->cd();
+    TLatex * pr_mom_tar_logo_recon = GetLogo();
+    pr_mom_tar_logo_recon->Draw();
+    pr_mom_tar.recon->Write();
+    
+    pr_mom_tar.truth->cd();
+    TLatex * pr_mom_tar_logo_truth = GetLogo();
+    pr_mom_tar_logo_truth->Draw();
+    pr_mom_tar.truth->Write();
+    
+    BDCans pr_mom_pid = run->PID(mom, 40, 0, 2000, m_proton->pdg, base_cut);
+    
+    pr_mom_pid.recon->cd();
+    TLatex * pr_mom_pid_logo_recon = GetLogo();
+    pr_mom_pid_logo_recon->Draw();
+    pr_mom_pid.recon->Write();
+    
+    pr_mom_pid.truth->cd();
+    TLatex * pr_mom_pid_logo_truth = GetLogo();
+    pr_mom_pid_logo_truth->Draw();
+    pr_mom_pid.truth->Write();
+    
+    //**** Proton ****//
+    
+    mom.name = m_pion->trueP + ":" + m_pion->P;
+    mom.savename = m_pion->P;
+    mom.symbol = "#it{p}_{#pi^{#pm}}";
+    
+    BDCans pi_mom_top = run->TOPO(mom, 40, 0, 2000, base_cut);
+    
+    outfile->cd();
+    
+    pi_mom_top.recon->cd();
+    TLatex * pi_mom_top_logo_recon = GetLogo();
+    pi_mom_top_logo_recon->Draw();
+    pi_mom_top.recon->Write();
+    
+    pi_mom_top.truth->cd();
+    TLatex * pi_mom_top_logo_truth = GetLogo();
+    pi_mom_top_logo_truth->Draw();
+    pi_mom_top.truth->Write();
+    
+    pi_mom_top.ratio->cd();
+    TLatex * pi_mom_top_logo_ratio = GetLogo();
+    pi_mom_top_logo_ratio->Draw();
+    pi_mom_top.ratio->Write();
+    
+    pi_mom_top.smearSN->cd();
+    TLatex * pi_mom_top_logo_smearSN = GetLogo();
+    pi_mom_top_logo_smearSN->Draw();
+    pi_mom_top.smearSN->Write();
+    
+    BDCans pi_mom_tar = run->TARGET(mom, 40, 0, 2000, base_cut);
+    
+    pi_mom_tar.recon->cd();
+    TLatex * pi_mom_tar_logo_recon = GetLogo();
+    pi_mom_tar_logo_recon->Draw();
+    pi_mom_tar.recon->Write();
+    
+    pi_mom_tar.truth->cd();
+    TLatex * pi_mom_tar_logo_truth = GetLogo();
+    pi_mom_tar_logo_truth->Draw();
+    pi_mom_tar.truth->Write();
+    
+    BDCans pi_mom_pid = run->PID(mom, 40, 0, 2000, m_pion->pdg, base_cut);
+    
+    pi_mom_pid.recon->cd();
+    TLatex * pi_mom_pid_logo_recon = GetLogo();
+    pi_mom_pid_logo_recon->Draw();
+    pi_mom_pid.recon->Write();
+    
+    pi_mom_pid.truth->cd();
+    TLatex * pi_mom_pid_logo_truth = GetLogo();
+    pi_mom_pid_logo_truth->Draw();
+    pi_mom_pid.truth->Write();
+    
+    //**** Muon ****//
+    
+    mom.name = m_muon->trueP + ":" + m_muon->P;
+    mom.savename = m_muon->P;
+    mom.symbol = "#it{p}_{#mu^{#pm}}";
+    
+    BDCans mu_mom_top = run->TOPO(mom, 40, 0, 2000, base_cut);
+    
+    outfile->cd();
+    
+    mu_mom_top.recon->cd();
+    TLatex * mu_mom_top_logo_recon = GetLogo();
+    mu_mom_top_logo_recon->Draw();
+    mu_mom_top.recon->Write();
+    
+    mu_mom_top.truth->cd();
+    TLatex * mu_mom_top_logo_truth = GetLogo();
+    mu_mom_top_logo_truth->Draw();
+    mu_mom_top.truth->Write();
+    
+    mu_mom_top.ratio->cd();
+    TLatex * mu_mom_top_logo_ratio = GetLogo();
+    mu_mom_top_logo_ratio->Draw();
+    mu_mom_top.ratio->Write();
+    
+    mu_mom_top.smearSN->cd();
+    TLatex * mu_mom_top_logo_smearSN = GetLogo();
+    mu_mom_top_logo_smearSN->Draw();
+    mu_mom_top.smearSN->Write();
+    
+    BDCans mu_mom_tar = run->TARGET(mom, 40, 0, 2000, base_cut);
+    
+    mu_mom_tar.recon->cd();
+    TLatex * mu_mom_tar_logo_recon = GetLogo();
+    mu_mom_tar_logo_recon->Draw();
+    mu_mom_tar.recon->Write();
+    
+    mu_mom_tar.truth->cd();
+    TLatex * mu_mom_tar_logo_truth = GetLogo();
+    mu_mom_tar_logo_truth->Draw();
+    mu_mom_tar.truth->Write();
+    
+    BDCans mu_mom_pid = run->PID(mom, 40, 0, 2000, m_muon->pdg, base_cut);
+    
+    mu_mom_pid.recon->cd();
+    TLatex * mu_mom_pid_logo_recon = GetLogo();
+    mu_mom_pid_logo_recon->Draw();
+    mu_mom_pid.recon->Write();
+    
+    mu_mom_pid.truth->cd();
+    TLatex * mu_mom_pid_logo_truth = GetLogo();
+    mu_mom_pid_logo_truth->Draw();
+    mu_mom_pid.truth->Write();
+    
+    //******************** MOMENTUM END ********************//
+    
+    
+    //******************** THETA START ********************//
+    Variable theta;
+    theta.units = "degrees";
+    
+    //**** Proton ****//
+    
+    theta.name = m_proton->truetheta + ":" + m_proton->theta;
+    theta.savename = m_proton->theta;
+    theta.symbol = "#theta_{p}";
+    
+    BDCans pr_theta_top = run->TOPO(theta, 40, 0, 2000, base_cut);
+    
+    outfile->cd();
+    
+    pr_theta_top.recon->cd();
+    TLatex * pr_theta_top_logo_recon = GetLogo();
+    pr_theta_top_logo_recon->Draw();
+    pr_theta_top.recon->Write();
+    
+    pr_theta_top.truth->cd();
+    TLatex * pr_theta_top_logo_truth = GetLogo();
+    pr_theta_top_logo_truth->Draw();
+    pr_theta_top.truth->Write();
+    
+    pr_theta_top.ratio->cd();
+    TLatex * pr_theta_top_logo_ratio = GetLogo();
+    pr_theta_top_logo_ratio->Draw();
+    pr_theta_top.ratio->Write();
+    
+    pr_theta_top.smearSN->cd();
+    TLatex * pr_theta_top_logo_smearSN = GetLogo();
+    pr_theta_top_logo_smearSN->Draw();
+    pr_theta_top.smearSN->Write();
+    
+    BDCans pr_theta_tar = run->TARGET(theta, 40, 0, 2000, base_cut);
+    
+    pr_theta_tar.recon->cd();
+    TLatex * pr_theta_tar_logo_recon = GetLogo();
+    pr_theta_tar_logo_recon->Draw();
+    pr_theta_tar.recon->Write();
+    
+    pr_theta_tar.truth->cd();
+    TLatex * pr_theta_tar_logo_truth = GetLogo();
+    pr_theta_tar_logo_truth->Draw();
+    pr_theta_tar.truth->Write();
+    
+    BDCans pr_theta_pid = run->PID(theta, 40, 0, 2000, m_proton->pdg, base_cut);
+    
+    pr_theta_pid.recon->cd();
+    TLatex * pr_theta_pid_logo_recon = GetLogo();
+    pr_theta_pid_logo_recon->Draw();
+    pr_theta_pid.recon->Write();
+    
+    pr_theta_pid.truth->cd();
+    TLatex * pr_theta_pid_logo_truth = GetLogo();
+    pr_theta_pid_logo_truth->Draw();
+    pr_theta_pid.truth->Write();
+
+    //**** Pion ****//
+    
+    theta.name = m_pion->truetheta + ":" + m_pion->theta;
+    theta.savename = m_pion->theta;
+    theta.symbol = "#theta_{#pi^{#pm}}";
+    
+    BDCans pi_theta_top = run->TOPO(theta, 40, 0, 2000, base_cut);
+    
+    outfile->cd();
+    
+    pr_theta_top.recon->cd();
+    TLatex * pi_theta_top_logo_recon = GetLogo();
+    pi_theta_top_logo_recon->Draw();
+    pi_theta_top.recon->Write();
+    
+    pi_theta_top.truth->cd();
+    TLatex * pi_theta_top_logo_truth = GetLogo();
+    pi_theta_top_logo_truth->Draw();
+    pi_theta_top.truth->Write();
+    
+    pi_theta_top.ratio->cd();
+    TLatex * pi_theta_top_logo_ratio = GetLogo();
+    pi_theta_top_logo_ratio->Draw();
+    pi_theta_top.ratio->Write();
+    
+    pi_theta_top.smearSN->cd();
+    TLatex * pi_theta_top_logo_smearSN = GetLogo();
+    pi_theta_top_logo_smearSN->Draw();
+    pi_theta_top.smearSN->Write();
+    
+    BDCans pi_theta_tar = run->TARGET(theta, 40, 0, 2000, base_cut);
+    
+    pi_theta_tar.recon->cd();
+    TLatex * pi_theta_tar_logo_recon = GetLogo();
+    pi_theta_tar_logo_recon->Draw();
+    pi_theta_tar.recon->Write();
+    
+    pi_theta_tar.truth->cd();
+    TLatex * pi_theta_tar_logo_truth = GetLogo();
+    pi_theta_tar_logo_truth->Draw();
+    pi_theta_tar.truth->Write();
+    
+    BDCans pi_theta_pid = run->PID(theta, 40, 0, 2000, m_pion->pdg, base_cut);
+    
+    pi_theta_pid.recon->cd();
+    TLatex * pi_theta_pid_logo_recon = GetLogo();
+    pi_theta_pid_logo_recon->Draw();
+    pi_theta_pid.recon->Write();
+    
+    pi_theta_pid.truth->cd();
+    TLatex * pi_theta_pid_logo_truth = GetLogo();
+    pi_theta_pid_logo_truth->Draw();
+    pi_theta_pid.truth->Write();
+
+    //**** Muon ****//
+    
+    theta.name = m_muon->truetheta + ":" + m_muon->theta;
+    theta.savename = m_muon->theta;
+    theta.symbol = "#theta_{#mu^{#pm}}";
+    
+    BDCans mu_theta_top = run->TOPO(theta, 40, 0, 2000, base_cut);
+    
+    outfile->cd();
+    
+    mu_theta_top.recon->cd();
+    TLatex * mu_theta_top_logo_recon = GetLogo();
+    mu_theta_top_logo_recon->Draw();
+    mu_theta_top.recon->Write();
+    
+    mu_theta_top.truth->cd();
+    TLatex * mu_theta_top_logo_truth = GetLogo();
+    mu_theta_top_logo_truth->Draw();
+    mu_theta_top.truth->Write();
+    
+    mu_theta_top.ratio->cd();
+    TLatex * mu_theta_top_logo_ratio = GetLogo();
+    mu_theta_top_logo_ratio->Draw();
+    mu_theta_top.ratio->Write();
+    
+    mu_theta_top.smearSN->cd();
+    TLatex * mu_theta_top_logo_smearSN = GetLogo();
+    mu_theta_top_logo_smearSN->Draw();
+    mu_theta_top.smearSN->Write();
+    
+    BDCans mu_theta_tar = run->TARGET(theta, 40, 0, 2000, base_cut);
+    
+    mu_theta_tar.recon->cd();
+    TLatex * mu_theta_tar_logo_recon = GetLogo();
+    mu_theta_tar_logo_recon->Draw();
+    mu_theta_tar.recon->Write();
+    
+    mu_theta_tar.truth->cd();
+    TLatex * mu_theta_tar_logo_truth = GetLogo();
+    mu_theta_tar_logo_truth->Draw();
+    mu_theta_tar.truth->Write();
+    
+    BDCans mu_theta_pid = run->PID(theta, 40, 0, 2000, m_muon->pdg, base_cut);
+    
+    mu_theta_pid.recon->cd();
+    TLatex * mu_theta_pid_logo_recon = GetLogo();
+    mu_theta_pid_logo_recon->Draw();
+    mu_theta_pid.recon->Write();
+    
+    mu_theta_pid.truth->cd();
+    TLatex * mu_theta_pid_logo_truth = GetLogo();
+    mu_theta_pid_logo_truth->Draw();
+    mu_theta_pid.truth->Write();
+    //******************** THETA END ********************//
+    
+    //******************** PHI START ********************//
+    Variable phi;
+    phi.units = "degrees";
+    
+    //**** Proton ****//
+    
+    phi.name = m_proton->truephi + ":" + m_proton->phi;
+    phi.savename = m_proton->phi;
+    phi.symbol = "#phi_{p}";
+    
+    BDCans pr_phi_top = run->TOPO(phi, 40, 0, 2000, base_cut);
+    
+    outfile->cd();
+    
+    pr_phi_top.recon->cd();
+    TLatex * pr_phi_top_logo_recon = GetLogo();
+    pr_phi_top_logo_recon->Draw();
+    pr_phi_top.recon->Write();
+    
+    pr_phi_top.truth->cd();
+    TLatex * pr_phi_top_logo_truth = GetLogo();
+    pr_phi_top_logo_truth->Draw();
+    pr_phi_top.truth->Write();
+    
+    pr_phi_top.ratio->cd();
+    TLatex * pr_phi_top_logo_ratio = GetLogo();
+    pr_phi_top_logo_ratio->Draw();
+    pr_phi_top.ratio->Write();
+    
+    pr_phi_top.smearSN->cd();
+    TLatex * pr_phi_top_logo_smearSN = GetLogo();
+    pr_phi_top_logo_smearSN->Draw();
+    pr_phi_top.smearSN->Write();
+    
+    BDCans pr_phi_tar = run->TARGET(phi, 40, 0, 2000, base_cut);
+    
+    pr_phi_tar.recon->cd();
+    TLatex * pr_phi_tar_logo_recon = GetLogo();
+    pr_phi_tar_logo_recon->Draw();
+    pr_phi_tar.recon->Write();
+    
+    pr_phi_tar.truth->cd();
+    TLatex * pr_theta_tar_logo_truth = GetLogo();
+    pr_phi_tar_logo_truth->Draw();
+    pr_phi_tar.truth->Write();
+    
+    BDCans pr_phi_pid = run->PID(phi, 40, 0, 2000, m_proton->pdg, base_cut);
+    
+    pr_phi_pid.recon->cd();
+    TLatex * pr_theta_pid_logo_recon = GetLogo();
+    pr_phi_pid_logo_recon->Draw();
+    pr_phi_pid.recon->Write();
+    
+    pr_phi_pid.truth->cd();
+    TLatex * pr_phi_pid_logo_truth = GetLogo();
+    pr_phi_pid_logo_truth->Draw();
+    pr_phi_pid.truth->Write();
+
+    
+    //**** Pion ****//
+    
+    phi.name = m_pion->truephi + ":" + m_pion->phi;
+    phi.savename = m_pion->phi;
+    phi.symbol = "#phi_{#pi^{#pm}}";
+    
+    BDCans pi_phi_top = run->TOPO(phi, 40, 0, 2000, base_cut);
+    
+    outfile->cd();
+    
+    pi_phi_top.recon->cd();
+    TLatex * pi_phi_top_logo_recon = GetLogo();
+    pi_phi_top_logo_recon->Draw();
+    pi_phi_top.recon->Write();
+    
+    pi_phi_top.truth->cd();
+    TLatex * pi_phi_top_logo_truth = GetLogo();
+    pi_phi_top_logo_truth->Draw();
+    pi_phi_top.truth->Write();
+    
+    pi_phi_top.ratio->cd();
+    TLatex * pi_phi_top_logo_ratio = GetLogo();
+    pi_phi_top_logo_ratio->Draw();
+    pi_phi_top.ratio->Write();
+    
+    pi_phi_top.smearSN->cd();
+    TLatex * pi_phi_top_logo_smearSN = GetLogo();
+    pi_phi_top_logo_smearSN->Draw();
+    pi_phi_top.smearSN->Write();
+    
+    BDCans pi_phi_tar = run->TARGET(phi, 40, 0, 2000, base_cut);
+    
+    pi_phi_tar.recon->cd();
+    TLatex * pi_phi_tar_logo_recon = GetLogo();
+    pi_phi_tar_logo_recon->Draw();
+    pi_phi_tar.recon->Write();
+    
+    pi_phi_tar.truth->cd();
+    TLatex * pi_theta_tar_logo_truth = GetLogo();
+    pi_phi_tar_logo_truth->Draw();
+    pi_phi_tar.truth->Write();
+    
+    BDCans pi_phi_pid = run->PID(phi, 40, 0, 2000, m_pion->pdg, base_cut);
+    
+    pi_phi_pid.recon->cd();
+    TLatex * pi_theta_pid_logo_recon = GetLogo();
+    pi_phi_pid_logo_recon->Draw();
+    pi_phi_pid.recon->Write();
+    
+    pi_phi_pid.truth->cd();
+    TLatex * pi_phi_pid_logo_truth = GetLogo();
+    pi_phi_pid_logo_truth->Draw();
+    pi_phi_pid.truth->Write();
+
+    //**** Muon ****//
+    
+    phi.name = m_muon->truephi + ":" + m_muon->phi;
+    phi.savename = m_muon->phi;
+    phi.symbol = "#phi_{#mu^{#pm}}";
+    
+    BDCans mu_phi_top = run->TOPO(phi, 40, 0, 2000, base_cut);
+    
+    outfile->cd();
+    
+    mu_phi_top.recon->cd();
+    TLatex * mu_phi_top_logo_recon = GetLogo();
+    mu_phi_top_logo_recon->Draw();
+    mu_phi_top.recon->Write();
+    
+    mu_phi_top.truth->cd();
+    TLatex * mu_phi_top_logo_truth = GetLogo();
+    mu_phi_top_logo_truth->Draw();
+    mu_phi_top.truth->Write();
+    
+    mu_phi_top.ratio->cd();
+    TLatex * mu_phi_top_logo_ratio = GetLogo();
+    mu_phi_top_logo_ratio->Draw();
+    mu_phi_top.ratio->Write();
+    
+    mu_phi_top.smearSN->cd();
+    TLatex * mu_phi_top_logo_smearSN = GetLogo();
+    mu_phi_top_logo_smearSN->Draw();
+    mu_phi_top.smearSN->Write();
+    
+    BDCans mu_phi_tar = run->TARGET(phi, 40, 0, 2000, base_cut);
+    
+    mu_phi_tar.recon->cd();
+    TLatex * mu_phi_tar_logo_recon = GetLogo();
+    mu_phi_tar_logo_recon->Draw();
+    mu_phi_tar.recon->Write();
+    
+    mu_phi_tar.truth->cd();
+    TLatex * mu_theta_tar_logo_truth = GetLogo();
+    mu_phi_tar_logo_truth->Draw();
+    mu_phi_tar.truth->Write();
+    
+    BDCans mu_phi_pid = run->PID(phi, 40, 0, 2000, m_muon->pdg, base_cut);
+    
+    mu_phi_pid.recon->cd();
+    TLatex * mu_theta_pid_logo_recon = GetLogo();
+    mu_phi_pid_logo_recon->Draw();
+    mu_phi_pid.recon->Write();
+    
+    mu_phi_pid.truth->cd();
+    TLatex * mu_phi_pid_logo_truth = GetLogo();
+    mu_phi_pid_logo_truth->Draw();
+    mu_phi_pid.truth->Write();
+
+    //******************** PHI END ********************//
+
+    //******************** DPTT ±300 START ********************//
+    Variable dpTT;
+    dpTT.units = "MeV/#it{c}";
+    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT;
+    dpTT.savename = m_recovars->dpTT + "300";
+    dpTT.symbol = "#deltap_{TT}";
+    
+    BDCans dpTT_top = run->TOPO(dpTT, 39, -300, 300, base_cut);
+    
+    outfile->cd();
+    
+    dpTT_top.recon->cd();
+    TLatex * dpTT_top_logo_recon = GetLogo();
+    dpTT_top_logo_recon->Draw();
+    dpTT_top.recon->Write();
+    
+    dpTT_top.truth->cd();
+    TLatex * dpTT_top_logo_truth = GetLogo();
+    dpTT_top_logo_truth->Draw();
+    dpTT_top.truth->Write();
+    
+    dpTT_top.ratio->cd();
+    TLatex * dpTT_top_logo_ratio = GetLogo();
+    dpTT_top_logo_ratio->Draw();
+    dpTT_top.ratio->Write();
+    
+    dpTT_top.smearSN->cd();
+    TLatex * dpTT_top_logo_smearSN = GetLogo();
+    dpTT_top_logo_smearSN->Draw();
+    dpTT_top.smearSN->Write();
+    
+    BDCans dpTT_tar = run->TARGET(dpTT, 39, -300, 300, base_cut);
+    
+    dpTT_tar.recon->cd();
+    TLatex * dpTT_tar_logo_recon = GetLogo();
+    dpTT_tar_logo_recon->Draw();
+    dpTT_tar.recon->Write();
+    
+    dpTT_tar.truth->cd();
+    TLatex * dpTT_tar_logo_truth = GetLogo();
+    dpTT_tar_logo_truth->Draw();
+    dpTT_tar.truth->Write();
+    
+    //******************** DPTT END ********************//
+    
+    //******************** DPTT ±600 START ********************//
+    Variable dpTT;
+    dpTT.savename = m_recovars->dpTT + "600";
+    
+    BDCans dpTT600_top = run->TOPO(dpTT, 79, -600, 600, base_cut);
+    
+    outfile->cd();
+    
+    dpTT600_top.recon->cd();
+    TLatex * dpTT600_top_logo_recon = GetLogo();
+    dpTT600_top_logo_recon->Draw();
+    dpTT600_top.recon->Write();
+    
+    dpTT600_top.truth->cd();
+    TLatex * dpTT600_top_logo_truth = GetLogo();
+    dpTT600_top_logo_truth->Draw();
+    dpTT600_top.truth->Write();
+    
+    dpTT600_top.ratio->cd();
+    TLatex * dpTT600_top_logo_ratio = GetLogo();
+    dpTT600_top_logo_ratio->Draw();
+    dpTT600_top.ratio->Write();
+    
+    dpTT600_top.smearSN->cd();
+    TLatex * dpTT600_top_logo_smearSN = GetLogo();
+    dpTT600_top_logo_smearSN->Draw();
+    dpTT600_top.smearSN->Write();
+    
+    BDCans dpTT600_tar = run->TARGET(dpTT, 39, -300, 300, base_cut);
+    
+    dpTT600_tar.recon->cd();
+    TLatex * dpTT600_tar_logo_recon = GetLogo();
+    dpTT600_tar_logo_recon->Draw();
+    dpTT600_tar.recon->Write();
+    
+    dpTT600_tar.truth->cd();
+    TLatex * dpTT600_tar_logo_truth = GetLogo();
+    dpTT600_tar_logo_truth->Draw();
+    dpTT600_tar.truth->Write();
+    
+    //******************** DPTT END ********************//
    
 //    DrawingTools * test = new DrawingTools(m_infilename, m_reconame);
-//    
-//    
+//
+//
 //    TH2D * hist_1 = test->GetHisto( (m_proton->trueP + ":" + m_proton->P).c_str() , 30, 0., 2000.0, 30, 0., 2000.0, "proton p (MeV/c)","accum_level>5 ");
 //    TH1D * hist_2 = test->GetHisto(m_recovars->dpTT, 59, -300., 300, "#deltap_{TT} (MeV/c)","accum_level>5 ");
 //    
