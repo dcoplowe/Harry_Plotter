@@ -470,7 +470,7 @@ void MomentumDists::MakePlots(){
     var.units = "MeV/#it{c}";
     var.symbol = "#it{c}";
     
-    BDCans canstest = test->PID(var, 40, 0, 2000, m_proton->pdg);
+    //BDCans canstest = test->PID(var, 40, 0, 2000, m_proton->pdg);
     
 //    DrawingTools * test = new DrawingTools(m_infilename, m_reconame);
 //    
