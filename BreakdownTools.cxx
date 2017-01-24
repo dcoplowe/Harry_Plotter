@@ -43,7 +43,6 @@ BreakdownTools::BreakdownTools(std::string filename, std::string treename) : Dra
     m_pdglist.push_back( PDGs(111, "pizero", "#pi^{0}") );
     m_pdglist.push_back( PDGs(321, "kapm", "K^{#pm}") );
     m_pdglist.push_back( PDGs(311, "kazero", "K^{0}") );
-    m_MinBDlist
     //Miminum particles to define in breakdown:
     ResetBDlist();
 }
@@ -111,7 +110,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     cout << "other_cut: " << other_cut << endl;
     
     DrawingTools::KinMap other_kinmap = KinArray(var.name, nbins, bins, var.symbol, other_cut);
-    ColFill(tmp_kinmap, DrawingStyle::Other);
+    ColFill(other_kinmap, DrawingStyle::Other);
 
     //Make outputs:
     
@@ -176,7 +175,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
             
             bool in_other = true;
             for(int j = 0; j < (int)m_MinBDlist.size(); j++){
-                if(m_MinBDlist[j] == m_pdglist[(i - 1)]){
+                if(m_MinBDlist[j] == m_pdglist[(i - 1)].pdg){
                     in_other = false;
                     plot_by_self.push_back((i - 1));
                     break;
