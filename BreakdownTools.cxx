@@ -236,6 +236,10 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     ratio_tot->Draw();
     ratio_leg->Draw();
     
+    cans.smear = new TCanvas( smear_tot->GetName(), "", 500, 500);
+    cans.smear->cd();
+    smear_tot->Draw();
+    
     return cans;
 }
 

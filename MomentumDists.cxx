@@ -48,6 +48,7 @@ namespace EXP {
         else if(name == MIN) sname = "MINERvA";
         return sname;
     }
+
 }
 
 #ifndef _PARTICLE_
@@ -427,20 +428,24 @@ MomentumDists::MomentumDists(EXP::EXP exp, std::string filename, bool debug) : m
     
     cout << "Experiment: " <<  EXP::ToString(exp) << endl;
     
+    m_exper_logo = EXP::ToString(exp);
+    
     if(exp == EXP::T2K){
         m_truename = "truth";
         m_reconame = "default";
         m_getPOT = false;
+        m_exper_logo += " Work In Progress";
     }
     else if(exp == EXP::MIN){
         
         m_truename = "Truth";
         m_reconame = "sel";
         m_getPOT = true;
+        m_exper_logo += " Preliminary";
     }
-    else{
-        
-    }
+//    else{
+//        
+//    }
     
     m_recovars = new KinematicVars(exp);//Setup reco var names
     //For truth tree seems like all we need is the following form: 'truth_pi_E'
@@ -450,6 +455,7 @@ MomentumDists::MomentumDists(EXP::EXP exp, std::string filename, bool debug) : m
     m_pion = m_recovars->pion;
     
     m_savename = EXP::ToString(exp) + "_CC1P1PiPlus_Plots_" + GetDate() + ".root";
+    
 
     cout << "Saving file as " << m_savename << endl;
 }
