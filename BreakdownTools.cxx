@@ -386,6 +386,8 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         kinmap_list.push_back(tmp_kinmap);
     }
     
+    cout << "Working 1" << endl;
+    
     THStack * recon_tot = new THStack( (var.savename + "_TOP_recon").c_str(), Form(";%s (%s);%s", kinmap_list[0].recon->GetXaxis()->GetTitle(), var.units.c_str(),
                                                                                         kinmap_list[0].recon->GetYaxis()->GetTitle() ) );
     
@@ -405,8 +407,13 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
     std::vector<double> truth_percent = GetPercentage(kinmap_list, 1);
     std::vector<double> ratio_percent = GetPercentage(kinmap_list, 2);
 
+    cout << "Working 2" << endl;
+
     
     if(m_fullbreakdown){
+        
+        cout << "Working 3a" << endl;
+
         
         for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
             //            cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
@@ -424,12 +431,15 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         }
     }
     else{
-        double recon_other_percent = 0.;
-        double truth_other_percent = 0.;
-        double ratio_other_percent = 0.;
         
-        std::vector<int> plot_by_self;
-        
+        cout << "Working 3b" << endl;
+
+//        double recon_other_percent = 0.;
+//        double truth_other_percent = 0.;
+//        double ratio_other_percent = 0.;
+//        
+//        std::vector<int> plot_by_self;
+//        
 //        for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
 //            cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
 //            
