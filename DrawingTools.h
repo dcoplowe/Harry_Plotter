@@ -55,8 +55,9 @@ public:
     Double_t * SetBinning(int nbins, Double_t low, Double_t high);
     
     TLegend * Legend(Double_t x_size, Double_t y_size, Double_t x_start = 0.1, Double_t y_start = 0.1);
-    TLegend * GetPOT(double x_pos, double y_pos);
-    void SetPOT(double x_pos, double y_pos);
+    
+    TLegend * GetPOT(Double_t x_pos, Double_t y_pos);
+    void SetPOT();
 
     void ColFill(TH1D *&h1, Int_t fill_color, Int_t line_color = kBlack);
     void ColFill(KinMap &map, Int_t fill_color, Int_t line_color = kBlack);
@@ -67,8 +68,7 @@ public:
     
     TH1D * ToPDF(TH1D * hraw, TString hn = "");
     TH2D * NormalHist(TH2D * hraw, Double_t thres = 0, bool kmax=false);
-    
-    TLegend * GetPOT(double x_pos, double y_pos);
+ 
     
 private:
     //File and directory info:
