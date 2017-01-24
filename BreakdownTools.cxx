@@ -131,9 +131,9 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     
     if(m_fullbreakdown){
         
-        std::vector<double> recon_percent = GetPercentage(kinmap_list, 0);//, other_kinmap);
-        std::vector<double> truth_percent = GetPercentage(kinmap_list, 1);//, other_kinmap);
-        std::vector<double> ratio_percent = GetPercentage(kinmap_list, 2);//, other_kinmap);
+        std::vector<double> recon_percent = GetPercentage(kinmap_list, 0, other_kinmap);
+        std::vector<double> truth_percent = GetPercentage(kinmap_list, 1, other_kinmap);
+        std::vector<double> ratio_percent = GetPercentage(kinmap_list, 2, other_kinmap);
         
         for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
             cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;

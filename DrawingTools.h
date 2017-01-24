@@ -60,7 +60,7 @@ public:
     void ColFill(KinMap &map, Int_t fill_color, Int_t line_color = kBlack);
 
     std::vector<double> GetPercentage(std::vector<TH1D*> histos);
-    std::vector<double> GetPercentage(std::vector<DrawingTools::KinMap> histos, Int_t type);//, KinMap other = 0x0);
+    std::vector<double> GetPercentage(std::vector<DrawingTools::KinMap> histos, Int_t type, KinMap other = empty_kinmap);
     
     TLegend * GetPOT(double x_pos, double y_pos);
     
@@ -81,6 +81,8 @@ private:
     Int_t m_ratiobins;
     
     bool m_verbose;
+    
+    KinMap empty_kinmap;
 };
 
 #endif

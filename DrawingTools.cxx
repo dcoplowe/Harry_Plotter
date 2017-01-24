@@ -250,23 +250,23 @@ std::vector<double> DrawingTools::GetPercentage(std::vector<TH1D*> histos){
     return pers;
 }
 
-std::vector<double> DrawingTools::GetPercentage(std::vector<DrawingTools::KinMap> histos, Int_t type){//, KinMap other){
+std::vector<double> DrawingTools::GetPercentage(std::vector<DrawingTools::KinMap> histos, Int_t type, KinMap other){
     
     std::vector<TH1D*> list;
     if(type == 0){//Reco;
         if(m_verbose) cout << "GetPercentage : Recon" << endl;
         for (int i = 0; i < (int)histos.size(); i++) list.push_back( histos[i].recon );
-//        if(other) list.push_back(other.recon);
+        if(other.recon) list.push_back(other.recon);
     }
     else if(type == 1){//Truth;
         if(m_verbose) cout << "GetPercentage : Truth" << endl;
         for (int i = 0; i < (int)histos.size(); i++) list.push_back( histos[i].truth );
-//        if(other) list.push_back(other.truth);
+        if(other.truth) list.push_back(other.truth);
     }
     else if(type == 2){//ratio;
         if(m_verbose) cout << "GetPercentage : Ratio" << endl;
         for (int i = 0; i < (int)histos.size(); i++) list.push_back( histos[i].ratio );
-//        if(other) list.push_back(other.ratio);
+        if(other.ratio) list.push_back(other.ratio);
     }
     
     std::vector<double> out_list = GetPercentage(list);
