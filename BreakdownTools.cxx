@@ -93,7 +93,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
             other_cut += particle.pdg_s;
         }
         else{
-            other_cut += " || ";
+            other_cut += " && ";
             other_cut += pdgvar;
             other_cut += " != ";
             other_cut += particle.pdg_s;
