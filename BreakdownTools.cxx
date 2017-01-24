@@ -371,9 +371,9 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         tmp_cuts_1 += " && ";
     }
     
-    for(int i = 0; i < (int)m_pdglist.size(); i++){
+    for(int i = 0; i < (int)m_toplist.size(); i++){
         
-        cout << i << ":" << (int)m_pdglist.size() << endl;
+        cout << i << ":" << (int)m_toplist.size() << endl;
         
         TOPS topology = m_toplist[i];
         
@@ -392,7 +392,6 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         
         cout << "Working 0" << endl;
 
-        
         kinmap_list.push_back(tmp_kinmap);
     }
     
