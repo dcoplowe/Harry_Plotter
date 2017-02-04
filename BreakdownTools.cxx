@@ -86,39 +86,39 @@ TOPS::TOPS(TOPSTYPE::TOPSTYPE topo_type) : type(topo_type), name(TOPSTYPE::ToStr
         signal += "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0 ";
         signal += "&& truth_n_piP == 1 && truth_n_pro == 1 && truth_n_tau == 0";
-        signal += "&& mc_nFSPart == 3
+        signal += "&& mc_nFSPart == 3";
         signal += ")";
         //CCNPNPiMinus
         signal += "&& !(";
-        signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
+        signal += "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM > 0 ";
         signal += "&& truth_n_piP == 0 && truth_n_pro > 0 && truth_n_tau == 0";
         signal += "&& mc_nFSPart > 0";
         signal += ")";
         //CC2P
         signal += "&& !(";
-        signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
+        signal += "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0 ";
         signal += "&& truth_n_piP == 0 && truth_n_pro > 0 && truth_n_tau == 0";
         signal += "&& mc_nFSPart > 0";
         signal += ")";
         //CC2PiPlus
         signal += "&& !(";
-        signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
+        signal += "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0 ";
         signal += "&& truth_n_piP > 0 && truth_n_pro == 0 && truth_n_tau == 0";
         signal += "&& mc_nFSPart > 0";
         signal += ")";
         //CC1P1PiZero
         signal += "&& !(";
-        signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
+        signal += "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 > 0 && truth_n_piM == 0 ";
         signal += "&& truth_n_piP == 0 && truth_n_pro > 0 && truth_n_tau == 0";
         signal += "&& mc_nFSPart > 0";
         signal += ")";
         //CC1PiZero1PiPlus
         signal += "&& !(";
-        signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
+        signal += "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 > 0 && truth_n_piM == 0 ";
         signal += "&& truth_n_piP > 0 && truth_n_pro == 0 && truth_n_tau == 0";
         signal += "&& mc_nFSPart > 0";
