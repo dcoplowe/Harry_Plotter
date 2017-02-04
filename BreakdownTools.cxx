@@ -142,11 +142,11 @@ BreakdownTools::BreakdownTools(std::string filename, std::string treename) : Dra
     ResetPDGBDlist();
     
     m_toplist.push_back( TOPS(TOPSTYPE::CC1P1PiPlus)        );
-    m_toplist.push_back( TOPS(TOPSTYPE::CC1P1PiMinus)       );
-    m_toplist.push_back( TOPS(TOPSTYPE::CC2P)               );
-    m_toplist.push_back( TOPS(TOPSTYPE::CC2PiPlus)          );
-    m_toplist.push_back( TOPS(TOPSTYPE::CC1P1PiZero)        );
-    m_toplist.push_back( TOPS(TOPSTYPE::CC1PiZero1PiPlus)   );
+    m_toplist.push_back( TOPS(TOPSTYPE::CCNPNPiMinus)       );
+    m_toplist.push_back( TOPS(TOPSTYPE::CCNP)               );
+    m_toplist.push_back( TOPS(TOPSTYPE::CCNPiPlus)          );
+    m_toplist.push_back( TOPS(TOPSTYPE::CCNPNPiZero)        );
+    m_toplist.push_back( TOPS(TOPSTYPE::CCNPiZeroNPiPlus)   );
     m_toplist.push_back( TOPS(TOPSTYPE::Other)              );
     ResetTOPBDlist();
 
