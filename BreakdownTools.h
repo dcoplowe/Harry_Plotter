@@ -35,11 +35,11 @@ struct Variable {
 namespace TOPSTYPE {
     enum TOPSTYPE{
         CC1P1PiPlus,
-        CC1P1PiMinus,
-        CC2P,
-        CC2PiPlus,
-        CC1P1PiZero,
-        CC1PiZero1PiPlus,
+        CCNPNPiMinus,
+        CCNP,
+        CCNPiPlus,
+        CCNPNPiZero,
+        CCNPiZeroNPiPlus,
         Other
     };
     
@@ -47,16 +47,16 @@ namespace TOPSTYPE {
         std::string sname = "Unknown";
         if(name == CC1P1PiPlus && form == 0) sname = "CC1P1PiPlus";
         else if(name == CC1P1PiPlus && form == 1) sname = "CC1p1#pi^{+}";
-        else if(name == CC1P1PiMinus && form == 0) sname = "CC1P1PiMinus";
-        else if(name == CC1P1PiMinus && form == 1) sname = "CC1p1#pi^{-}";
-        else if(name == CC2P && form == 0) sname = "CC2P";
-        else if(name == CC2P && form == 1) sname = "CC2p";
-        else if(name == CC2PiPlus && form == 0) sname = "CC2PiPlus";
-        else if(name == CC2PiPlus && form == 1) sname = "CC2#pi^{+}";
-        else if(name == CC1P1PiZero && form == 0) sname = "CC1P1PiZero";
-        else if(name == CC1P1PiZero && form == 1) sname = "CC1P1#pi^{0}";
-        else if(name == CC1PiZero1PiPlus && form == 0) sname = "CC1PiZero1PiPlus";
-        else if(name == CC1PiZero1PiPlus && form == 1) sname = "CC1#pi^{0}1#pi^{+}";
+        else if(name == CCNPNPiMinus && form == 0) sname = "CCNPNPiMinus";
+        else if(name == CCNPNPiMinus && form == 1) sname = "CCNpN#pi^{-}";
+        else if(name == CCNP && form == 0) sname = "CCNP";
+        else if(name == CCNP && form == 1) sname = "CCNp";
+        else if(name == CCNPiPlus && form == 0) sname = "CCNPiPlus";
+        else if(name == CCNPiPlus && form == 1) sname = "CCN#pi^{+}";
+        else if(name == CCNPNPiZero && form == 0) sname = "CCNPNPiZero";
+        else if(name == CCNPNPiZero && form == 1) sname = "CCNPN#pi^{0}";
+        else if(name == CCNPiZeroNPiPlus && form == 0) sname = "CCNPiZeroNPiPlus";
+        else if(name == CCNPiZeroNPiPlus && form == 1) sname = "CCN#pi^{0}N#pi^{+}";
         else if(name == Other) sname = "Other";
         
         return sname;
