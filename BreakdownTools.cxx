@@ -168,11 +168,11 @@ void BreakdownTools::ResetPDGBDlist(){
 void BreakdownTools::ResetTOPBDlist(){
     ClearTOPBDlist();
     m_toplist_minBD.push_back( TOPSTYPE::CC1P1PiPlus        );
-    m_toplist_minBD.push_back( TOPSTYPE::CC1P1PiMinus       );
-    m_toplist_minBD.push_back( TOPSTYPE::CC2P               );
-    m_toplist_minBD.push_back( TOPSTYPE::CC2PiPlus          );
-    m_toplist_minBD.push_back( TOPSTYPE::CC1P1PiZero        );
-    m_toplist_minBD.push_back( TOPSTYPE::CC1PiZero1PiPlus   );
+    m_toplist_minBD.push_back( TOPSTYPE::CCNPNPiMinus       );
+    m_toplist_minBD.push_back( TOPSTYPE::CCNP               );
+    m_toplist_minBD.push_back( TOPSTYPE::CCNPiPlus          );
+    m_toplist_minBD.push_back( TOPSTYPE::CCNPNPiZero        );
+    m_toplist_minBD.push_back( TOPSTYPE::CCNPiZeroNPiPlus   );
     m_toplist_minBD.push_back( TOPSTYPE::Other              );
 }
 
