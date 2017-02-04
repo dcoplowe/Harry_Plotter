@@ -72,7 +72,7 @@ TOPS::TOPS(TOPSTYPE::TOPSTYPE topo_type) : type(topo_type), name(TOPSTYPE::ToStr
         signal += "&& truth_n_piP == 0 && truth_n_pro > 0 && truth_n_tau == 0";
         signal += "&& mc_nFSPart > 0";
     }
-    else if(type == TOPSTYPE::CC1PiZero1PiPlus){
+    else if(type == TOPSTYPE::CCNPiZeroNPiPlus){
         colour = (Int_t)DrawingStyle::T1Pi1Pi0;
         signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 > 0 && truth_n_piM == 0 ";
