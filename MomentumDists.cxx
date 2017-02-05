@@ -530,6 +530,11 @@ void MomentumDists::MakePlots(){
     pr_mom_tar_logo_truth->Draw();
     pr_mom_tar.truth->Write();
     
+    pr_mom_tar.ratio->cd();
+    TLatex * pr_mom_tar_logo_ratio = GetLogo();
+    pr_mom_tar_logo_ratio->Draw();
+    pr_mom_tar.ratio->Write();
+    
     BDCans pr_mom_pid = run->PID(mom, 40, 0, 2000, m_proton->pdg, base_cut);
     
     pr_mom_pid.recon->cd();
@@ -542,7 +547,7 @@ void MomentumDists::MakePlots(){
     pr_mom_pid_logo_truth->Draw();
     pr_mom_pid.truth->Write();
     
-    //**** Proton ****//
+    //**** Pion ****//
     
     mom.name = m_pion->trueP + ":" + m_pion->P;
     mom.savename = m_pion->P;
@@ -583,6 +588,11 @@ void MomentumDists::MakePlots(){
     TLatex * pi_mom_tar_logo_truth = GetLogo();
     pi_mom_tar_logo_truth->Draw();
     pi_mom_tar.truth->Write();
+    
+    pi_mom_tar.ratio->cd();
+    TLatex * pi_mom_tar_logo_ratio = GetLogo();
+    pi_mom_tar_logo_ratio->Draw();
+    pi_mom_tar.ratio->Write();
     
     BDCans pi_mom_pid = run->PID(mom, 40, 0, 2000, m_pion->pdg, base_cut);
     
@@ -637,6 +647,11 @@ void MomentumDists::MakePlots(){
     TLatex * mu_mom_tar_logo_truth = GetLogo();
     mu_mom_tar_logo_truth->Draw();
     mu_mom_tar.truth->Write();
+    
+    mu_mom_tar.ratio->cd();
+    TLatex * mu_mom_tar_logo_ratio = GetLogo();
+    mu_mom_tar_logo_ratio->Draw();
+    mu_mom_tar.ratio->Write();
     
     BDCans mu_mom_pid = run->PID(mom, 40, 0, 2000, m_muon->pdg, base_cut);
     
@@ -698,6 +713,11 @@ void MomentumDists::MakePlots(){
     pr_theta_tar_logo_truth->Draw();
     pr_theta_tar.truth->Write();
     
+    pr_theta_tar.ratio->cd();
+    TLatex * pr_theta_tar_logo_ratio = GetLogo();
+    pr_theta_tar_logo_ratio->Draw();
+    pr_theta_tar.ratio->Write();
+    
     BDCans pr_theta_pid = run->PID(theta, 40, 0, 3.14, m_proton->pdg, base_cut);
     
     pr_theta_pid.recon->cd();
@@ -752,6 +772,11 @@ void MomentumDists::MakePlots(){
     pi_theta_tar_logo_truth->Draw();
     pi_theta_tar.truth->Write();
     
+    pi_theta_tar.ratio->cd();
+    TLatex * pi_theta_tar_logo_ratio = GetLogo();
+    pi_theta_tar_logo_ratio->Draw();
+    pi_theta_tar.ratio->Write();
+    
     BDCans pi_theta_pid = run->PID(theta, 40, 0, 3.14, m_pion->pdg, base_cut);
     
     pi_theta_pid.recon->cd();
@@ -805,6 +830,11 @@ void MomentumDists::MakePlots(){
     TLatex * mu_theta_tar_logo_truth = GetLogo();
     mu_theta_tar_logo_truth->Draw();
     mu_theta_tar.truth->Write();
+    
+    mu_theta_tar.ratio->cd();
+    TLatex * mu_theta_tar_logo_ratio = GetLogo();
+    mu_theta_tar_logo_ratio->Draw();
+    mu_theta_tar.ratio->Write();
     
     BDCans mu_theta_pid = run->PID(theta, 40, 0, 3.14, m_muon->pdg, base_cut);
     
@@ -865,6 +895,11 @@ void MomentumDists::MakePlots(){
     pr_phi_tar_logo_truth->Draw();
     pr_phi_tar.truth->Write();
     
+    pr_phi_tar.ratio->cd();
+    TLatex * pr_phi_tar_logo_ratio = GetLogo();
+    pr_phi_tar_logo_ratio->Draw();
+    pr_phi_tar.ratio->Write();
+    
     BDCans pr_phi_pid = run->PID(phi, 40, 0, 3.14, m_proton->pdg, base_cut);
     
     pr_phi_pid.recon->cd();
@@ -920,6 +955,11 @@ void MomentumDists::MakePlots(){
     pi_phi_tar_logo_truth->Draw();
     pi_phi_tar.truth->Write();
     
+    pi_phi_tar.ratio->cd();
+    TLatex * pi_phi_tar_logo_ratio = GetLogo();
+    pi_phi_tar_logo_ratio->Draw();
+    pi_phi_tar.ratio->Write();
+    
     BDCans pi_phi_pid = run->PID(phi, 40, 0, 3.14, m_pion->pdg, base_cut);
     
     pi_phi_pid.recon->cd();
@@ -973,6 +1013,11 @@ void MomentumDists::MakePlots(){
     TLatex * mu_phi_tar_logo_truth = GetLogo();
     mu_phi_tar_logo_truth->Draw();
     mu_phi_tar.truth->Write();
+    
+    mu_phi_tar.ratio->cd();
+    TLatex * mu_phi_tar_logo_ratio = GetLogo();
+    mu_phi_tar_logo_ratio->Draw();
+    mu_phi_tar.ratio->Write();
     
     BDCans mu_phi_pid = run->PID(phi, 40, 0, 3.14, m_muon->pdg, base_cut);
     
@@ -1031,6 +1076,11 @@ void MomentumDists::MakePlots(){
     dpTT_tar_logo_truth->Draw();
     dpTT_tar.truth->Write();
     
+    dpTT_tar.ratio->cd();
+    TLatex * dpTT_tar_logo_ratio = GetLogo();
+    dpTT_tar_logo_ratio->Draw();
+    dpTT_tar.ratio->Write();
+    
     //******************** DPTT END ********************//
     
     //******************** DPTT ±600 START ********************//
@@ -1071,6 +1121,11 @@ void MomentumDists::MakePlots(){
     TLatex * dpTT600_tar_logo_truth = GetLogo();
     dpTT600_tar_logo_truth->Draw();
     dpTT600_tar.truth->Write();
+    
+    dpTT600_tar.ratio->cd();
+    TLatex * dpTT600_tar_logo_ratio = GetLogo();
+    dpTT600_tar_logo_ratio->Draw();
+    dpTT600_tar.ratio->Write();
     
     //******************** DPTT END ********************//
    
