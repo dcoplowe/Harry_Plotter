@@ -13,7 +13,7 @@
 #ifndef _PARTPDGS_CXX
 #define _PARTPDGS_CXX
 
-PDGs::PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol) : pdg(part_pdg), name(part_name), symbol(part_symbol){
+PDGs::PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol) : pdg(part_pdg), name(part_name), symbol(part_symbol), line_colour(1), line_style(1) {
     stringstream ss;
     ss << pdg;
     pdg_s = ss.str();
@@ -35,14 +35,20 @@ PDGs::PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol) : pdg
 #ifndef _TOPOLOGY_CXX
 #define _TOPOLOGY_CXX
 
-TOPS::TOPS(TOPSTYPE::TOPSTYPE topo_type) : type(topo_type), name(TOPSTYPE::ToString(type ,0)), symbol(TOPSTYPE::ToString(type ,1)){
+TOPS::TOPS(TOPSTYPE::TOPSTYPE topo_type) : type(topo_type), name(TOPSTYPE::ToString(type ,0)), symbol(TOPSTYPE::ToString(type ,1)), line_colour(1), line_style(1) {
+    
+    if(type == TOPSTYPE::CC1P1PiPlus || type == TOPSTYPE::HCC1P1PiPlus){
         
-    if(type == TOPSTYPE::CC1P1PiPlus){
-        colour = (Int_t)DrawingStyle::T1P1PiP;//Proton
         signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0 ";
         signal += "&& truth_n_piP == 1 && truth_n_pro == 1 && truth_n_tau == 0";
         signal += "&& mc_nFSPart == 3";
+        
+        if(type == TOPSTYPE::HCC1P1PiPlus){
+            signal += " && mc_targetZ == 1";
+            line_style = 2;
+        }
+        else colour = (Int_t)DrawingStyle::T1P1PiP;//Proton
     }
     else if(type == TOPSTYPE::CCNPNPiMinus){
         colour = (Int_t)DrawingStyle::T1P1PiM;
@@ -58,14 +64,14 @@ TOPS::TOPS(TOPSTYPE::TOPSTYPE topo_type) : type(topo_type), name(TOPSTYPE::ToStr
         signal += "&& truth_n_piP == 0 && truth_n_pro > 0 && truth_n_tau == 0";
         signal += "&& mc_nFSPart > 0";
     }
-    else if(type == TOPSTYPE::CCNPiPlus)  {
+    else if(type == TOPSTYPE::CCNPiPlus){
         colour = (Int_t)DrawingStyle::T2PiP;
         signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0 ";
         signal += "&& truth_n_piP > 0 && truth_n_pro == 0 && truth_n_tau == 0";
         signal += "&& mc_nFSPart > 0";
     }
-    else if(type == TOPSTYPE::CCNPNPiZero) {
+    else if(type == TOPSTYPE::CCNPNPiZero){
         colour = (Int_t)DrawingStyle::T1P1Pi0;
         signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 > 0 && truth_n_piM == 0 ";
@@ -79,52 +85,25 @@ TOPS::TOPS(TOPSTYPE::TOPSTYPE topo_type) : type(topo_type), name(TOPSTYPE::ToStr
         signal += "&& truth_n_piP > 0 && truth_n_pro == 0 && truth_n_tau == 0";
         signal += "&& mc_nFSPart > 0";
     }
-    else{
+    else if(type == TOPSTYPE::Other){
+        signal = "";
         colour = (Int_t)DrawingStyle::Other;
-        //CC1P1PiPlus
-        signal = "!(";
-        signal += "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
-        signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0 ";
-        signal += "&& truth_n_piP == 1 && truth_n_pro == 1 && truth_n_tau == 0";
-        signal += "&& mc_nFSPart == 3";
-        signal += ")";
-        //CCNPNPiMinus
-        signal += "&& !(";
-        signal += "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
-        signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM > 0 ";
-        signal += "&& truth_n_piP == 0 && truth_n_pro > 0 && truth_n_tau == 0";
-        signal += "&& mc_nFSPart > 0";
-        signal += ")";
-        //CC2P
-        signal += "&& !(";
-        signal += "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
-        signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0 ";
-        signal += "&& truth_n_piP == 0 && truth_n_pro > 0 && truth_n_tau == 0";
-        signal += "&& mc_nFSPart > 0";
-        signal += ")";
-        //CC2PiPlus
-        signal += "&& !(";
-        signal += "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
-        signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0 ";
-        signal += "&& truth_n_piP > 0 && truth_n_pro == 0 && truth_n_tau == 0";
-        signal += "&& mc_nFSPart > 0";
-        signal += ")";
-        //CC1P1PiZero
-        signal += "&& !(";
-        signal += "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
-        signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 > 0 && truth_n_piM == 0 ";
-        signal += "&& truth_n_piP == 0 && truth_n_pro > 0 && truth_n_tau == 0";
-        signal += "&& mc_nFSPart > 0";
-        signal += ")";
-        //CC1PiZero1PiPlus
-        signal += "&& !(";
-        signal += "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
-        signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 > 0 && truth_n_piM == 0 ";
-        signal += "&& truth_n_piP > 0 && truth_n_pro == 0 && truth_n_tau == 0";
-        signal += "&& mc_nFSPart > 0";
-        signal += ")";
     }
+    else std::cout << "Warning Toplogoly definition not set!! This will make no cuts on " << TOPSTYPE::ToString(type, 0) << " topology." << std::endl;
 }
+
+void TOPS::AddToOther(TOPSTYPE::TOPSTYPE topo_type){
+    std::cout << " signal (pre) = " << signal << std::endl;
+    
+    if(!signal.empty()) signal += " && ";
+    signal += "!(";
+    TOPS tmp_top = TOPS(topo_type);
+    signal += tmp_top.signal;
+    signal += ")";
+    
+    std::cout << " signal (post) = " << signal << std::endl;
+}
+
 #endif
 
 BreakdownTools::BreakdownTools(std::string filename, std::string treename) : DrawingTools(filename, treename, ("BD" + treename).c_str()), m_printPOT(false), m_fullbreakdown(true){
@@ -141,15 +120,32 @@ BreakdownTools::BreakdownTools(std::string filename, std::string treename) : Dra
     //Miminum particles to define in breakdown:
     ResetPDGBDlist();
     
-    m_toplist.push_back( TOPS(TOPSTYPE::CC1P1PiPlus)        );
-    m_toplist.push_back( TOPS(TOPSTYPE::CCNPNPiMinus)       );
-    m_toplist.push_back( TOPS(TOPSTYPE::CCNP)               );
-    m_toplist.push_back( TOPS(TOPSTYPE::CCNPiPlus)          );
-    m_toplist.push_back( TOPS(TOPSTYPE::CCNPNPiZero)        );
-    m_toplist.push_back( TOPS(TOPSTYPE::CCNPiZeroNPiPlus)   );
-    m_toplist.push_back( TOPS(TOPSTYPE::Other)              );
+    
+    std::vector<TOPSTYPE::TOPSTYPE> topo_list;
+    topo_list.push_back( TOPSTYPE::CC1P1PiPlus      );
+    topo_list.push_back( TOPSTYPE::CCNPNPiMinus     );
+    topo_list.push_back( TOPSTYPE::CCNP             );
+    topo_list.push_back( TOPSTYPE::CCNPiPlus        );
+    topo_list.push_back( TOPSTYPE::CCNPNPiZero      );
+    topo_list.push_back( TOPSTYPE::CCNPiZeroNPiPlus );
+    
+    TOPS Other_Tops(TOPSTYPE::Other);
+    
+    for(int i = 0; i < (int)topo_list.size(); i++){
+        m_toplist.push_back( TOPS(topo_list[i]) );
+        Other_Tops.AddToOther( topo_list[i] );
+    }
+    
+    m_toplist.push_back( Other_Tops );
+//    m_toplist.push_back( TOPS(TOPSTYPE::CC1P1PiPlus)        );
+//    m_toplist.push_back( TOPS(TOPSTYPE::CCNPNPiMinus)       );
+//    m_toplist.push_back( TOPS(TOPSTYPE::CCNP)               );
+//    m_toplist.push_back( TOPS(TOPSTYPE::CCNPiPlus)          );
+//    m_toplist.push_back( TOPS(TOPSTYPE::CCNPNPiZero)        );
+//    m_toplist.push_back( TOPS(TOPSTYPE::CCNPiZeroNPiPlus)   );
+//    m_toplist.push_back( TOPS(TOPSTYPE::Other)              );
     ResetTOPBDlist();
-
+    
 }
 
 BreakdownTools::~BreakdownTools(){

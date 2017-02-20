@@ -34,6 +34,7 @@ struct Variable {
 
 namespace TOPSTYPE {
     enum TOPSTYPE{
+        HCC1P1PiPlus = 0,
         CC1P1PiPlus,
         CCNPNPiMinus,
         CCNP,
@@ -45,19 +46,14 @@ namespace TOPSTYPE {
     
     inline std::string ToString(TOPSTYPE name, int form){
         std::string sname = "Unknown";
-        if(name == CC1P1PiPlus && form == 0) sname = "CC1P1PiPlus";
-        else if(name == CC1P1PiPlus && form == 1) sname = "CC1p1#pi^{+}";
-        else if(name == CCNPNPiMinus && form == 0) sname = "CCNPNPiMinus";
-        else if(name == CCNPNPiMinus && form == 1) sname = "CCNpN#pi^{-}";
-        else if(name == CCNP && form == 0) sname = "CCNP";
-        else if(name == CCNP && form == 1) sname = "CCNp";
-        else if(name == CCNPiPlus && form == 0) sname = "CCNPiPlus";
-        else if(name == CCNPiPlus && form == 1) sname = "CCN#pi^{+}";
-        else if(name == CCNPNPiZero && form == 0) sname = "CCNPNPiZero";
-        else if(name == CCNPNPiZero && form == 1) sname = "CCNPN#pi^{0}";
-        else if(name == CCNPiZeroNPiPlus && form == 0) sname = "CCNPiZeroNPiPlus";
-        else if(name == CCNPiZeroNPiPlus && form == 1) sname = "CCN#pi^{0}N#pi^{+}";
-        else if(name == Other) sname = "Other";
+        if(name == HCC1P1PiPlus)            sname = (form == 0) ? "HCC1P1PiPlus" : "CC1p1#pi^{+} on H";
+        else if(name == CC1P1PiPlus)        sname = (form == 0) ? "CC1P1PiPlus" : "CC1p1#pi^{+}";
+        else if(name == CCNPNPiMinus)       sname = (form == 0) ? "CCNPNPiMinus" : "CCNpN#pi^{-}";
+        else if(name == CCNP)               sname = (form == 0) ? "CCNP" : "CCNp";
+        else if(name == CCNPiPlus)          sname = (form == 0) ? "CCNPiPlus" : "CCN#pi^{+}";
+        else if(name == CCNPNPiZero)        sname = (form == 0) ? "CCNPNPiZero" : "CCNPN#pi^{0}";
+        else if(name == CCNPiZeroNPiPlus)   sname = (form == 0) ? "CCNPiZeroNPiPlus" : "CCN#pi^{0}N#pi^{+}";
+        else if(name == Other)              sname = "Other";
         
         return sname;
     }
@@ -76,7 +72,9 @@ public:
     std::string name;
     std::string symbol;
     std::string pdg_s;
-    Int_t  colour;
+    Int_t  colour;//Fill colour
+    Int_t  line_colour;
+    Int_t  line_style;
 };
 #endif
 
@@ -85,7 +83,7 @@ public:
 
 class TOPS {
 public:
-    TOPS(TOPSTYPE::TOPSTYPE topo_type);
+    TOPS(TOPSTYPE::TOPSTYPE topo_type);//Contains all the topologies signal defs.
     ~TOPS(){};
     
     TOPSTYPE::TOPSTYPE type;
@@ -93,6 +91,11 @@ public:
     std::string symbol;
     std::string signal;
     Int_t  colour;
+    Int_t  line_colour;
+    Int_t  line_style;
+    
+    void AddToOther(TOPSTYPE::TOPSTYPE topo_type);
+    
 };
 #endif
 
