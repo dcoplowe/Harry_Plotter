@@ -59,8 +59,8 @@ public:
     TLegend * GetPOT(Double_t x_pos, Double_t y_pos);
     void SetPOT();
     
-    void SetColors(TH1D *&h1,   Int_t fill_color, Int_t line_color = kBlack, Int_t fill_style = -999, Int_t line_style = -999);
-    void SetColors(KinMap &map, Int_t fill_color, Int_t line_color = kBlack, Int_t fill_style = -999, Int_t line_style = -999);
+    void SetColors(TH1D *&h1,   Int_t fill_color, Int_t line_color = kBlack, Int_t fill_style = 1001, Int_t line_style = 1);
+    void SetColors(KinMap &map, Int_t fill_color, Int_t line_color = kBlack, Int_t fill_style = 1001, Int_t line_style = 1);
 
     std::vector<double> GetPercentage(std::vector<TH1D*> histos);
     std::vector<double> GetPercentage(std::vector<DrawingTools::KinMap> histos, Int_t type);
