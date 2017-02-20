@@ -108,6 +108,12 @@ TH2D * DrawingTools::GetHisto(std::string var_yx, Int_t x_nbins, Double_t x_low,
 }
 
 TH2D * DrawingTools::SmearMatrix(std::string vars_yx, Int_t nbins, Double_t * bins, std::string xy_title, std::string cuts){
+    cout << "Pre: xy_title = " << xy_title << endl;
+
+    if(xy_title.find(";") == std::string::npos){
+        xy_title = Form("%s Reco.;%s Truth", xy_title.c_str(), xy_title.c_str());
+    }
+    cout << "Post: xy_title = " << xy_title << endl;
     return GetHisto(vars_yx, nbins, bins, nbins, bins, xy_title, cuts);
 }
 

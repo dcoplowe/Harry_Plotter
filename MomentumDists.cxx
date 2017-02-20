@@ -755,10 +755,10 @@ void MomentumDists::MakePlots(){
     pi_theta_top_logo_ratio->Draw();
     pi_theta_top.ratio->Write();
     
-    pi_theta_top.smear->cd();
-    TLatex * pi_theta_top_logo_smear = GetLogo();
-    pi_theta_top_logo_smear->Draw();
-    pi_theta_top.smear->Write();
+    pi_theta_top.smearSN->cd();
+    TLatex * pi_theta_top_logo_smearSN = GetLogo();
+    pi_theta_top_logo_smearSN->Draw();
+    pi_theta_top.smearSN->Write();
     
     BDCans pi_theta_tar = run->TARGET(theta, 40, 0, 3.14, base_cut);
     
