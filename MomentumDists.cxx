@@ -1164,14 +1164,14 @@ std::string MomentumDists::GetDate(){
     int year = today.GetYear();
     year -= 2000;
     
-    stringstream sday, smon, syear;
+//    stringstream sday, smon, syear;
+//    
+//    sday << day;
+//    smon << mon;
+//    syear << year;
+//    return (sday.str() + smon.str() + syear.str());
     
-    sday << day;
-    smon << mon;
-    syear << year;
-    
-    return (sday.str() + smon.str() + syear.str());
-    
+    return std::string(Form("%.2d%.2d%.2d",day, mon, year));
 }
 
 TLatex * MomentumDists::GetLogo(){
