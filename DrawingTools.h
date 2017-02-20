@@ -28,7 +28,7 @@ public:
 //    KinMap KM;
     
     //Basic class for drawing plots and doesn't require filename, takes in tree and reads:
-    DrawingTools(std::string filename, std::string treename std::string uniquename = "");
+    DrawingTools(std::string filename, std::string treename, std::string uniquename = "");
     ~DrawingTools();
     //This method takes in file, user sets truth and reco. tree names.
     
