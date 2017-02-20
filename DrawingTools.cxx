@@ -15,7 +15,7 @@
 
 using namespace std;
 
-DrawingTools::DrawingTools(std::string filename, std::string treename, std::string uniquename) : m_filename(filename), m_treename(treename), m_uniquename(uniquename), m_verbose(false), m_getPOT(true) {
+DrawingTools::DrawingTools(std::string filename, std::string treename, std::string uniquename) : m_filename(filename), m_treename(treename), m_uniquename(uniquename), m_weight("1"), m_verbose(false), m_getPOT(true) {
     
     m_file = new TFile(m_filename.c_str(), "READ");
     
@@ -71,7 +71,7 @@ TH1D * DrawingTools::GetHisto(std::string var, Int_t nbins, Double_t * bins, std
     //cout << tmp_cuts.Data() << endl;
     
     //    m_tree->Project(host_name.Data(), var.Data(), tmp_cuts.Data());
-    m_tree->Project(host_name.Data(), var.c_str(), cuts.c_str());
+    m_tree->Project(host_name.Data(), var.c_str(), (m_weight + "*(" + cuts + ")").c_str());
     
     return hist;
 }
@@ -98,7 +98,7 @@ TH2D * DrawingTools::GetHisto(std::string var_yx, Int_t x_nbins, Double_t * x_bi
 //    tmp_cuts.Append(Form("(%s != -999) && (%s != -999)", y_var.Data(), x_var.Data()));
 //    if(_DEBUG_) cout << tmp_cuts.Data() << endl;
     
-    m_tree->Project(host_name.Data(), var_yx.c_str(), cuts.c_str());
+    m_tree->Project(host_name.Data(), var_yx.c_str(), (m_weight + "*(" + cuts + ")").c_str());
     
     return hist;
 }
@@ -198,7 +198,7 @@ TH1D * DrawingTools::GetRTRatio(std::string vars_tr, std::string x_title, std::s
     //cout << var.Data() << endl;
     //cout << cuts.Data() << endl;
     
-    m_tree->Project(host_name.Data(), var.Data(), cuts.c_str());
+    m_tree->Project(host_name.Data(), var.Data(), (m_weight + "*(" + cuts + ")").c_str());//(m_weight + "*(" + cuts + ")").c_str() <-- Don't know if this is needed.
     
     if(m_verbose) cout << "RTRatio : Integral = " << ratio->Integral() << endl;
     
@@ -228,15 +228,18 @@ TLegend * DrawingTools::Legend(Double_t x_size, Double_t y_size, Double_t x_star
     return leg;
 }
 
-void DrawingTools::ColFill(TH1D *&h1, Int_t fill_color, Int_t line_color){
+void DrawingTools::SetColors(TH1D *&h1, Int_t fill_color, Int_t line_color, Int_t fill_style, Int_t line_style){
     h1->SetFillColor(fill_color);
     h1->SetLineColor(line_color);
+    
+    if(fill_style != -999) h1->SetFillStyle(fill_style);
+    if(line_style != -999) h1->SetLineStyle(line_style);
 }
 
-void DrawingTools::ColFill(KinMap &map, Int_t fill_color, Int_t line_color){
-    ColFill(map.recon, fill_color, line_color);
-    ColFill(map.truth, fill_color, line_color);
-    ColFill(map.ratio, fill_color, line_color);
+void DrawingTools::SetColors(KinMap &map, Int_t fill_color, Int_t line_color, Int_t fill_style, Int_t line_style){
+    SetColors(map.recon, fill_color, line_color, fill_style, line_style);
+    SetColors(map.truth, fill_color, line_color, fill_style, line_style);
+    SetColors(map.ratio, fill_color, line_color, fill_style, line_style);
 }
 
 std::vector<double> DrawingTools::GetPercentage(std::vector<TH1D*> histos){

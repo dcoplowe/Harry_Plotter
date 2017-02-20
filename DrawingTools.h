@@ -28,7 +28,7 @@ public:
 //    KinMap KM;
     
     //Basic class for drawing plots and doesn't require filename, takes in tree and reads:
-    DrawingTools(std::string filename, std::string treename, std::string uniquename = "");
+    DrawingTools(std::string filename, std::string treename std::string uniquename = "");
     ~DrawingTools();
     //This method takes in file, user sets truth and reco. tree names.
     
@@ -58,9 +58,9 @@ public:
     
     TLegend * GetPOT(Double_t x_pos, Double_t y_pos);
     void SetPOT();
-
-    void ColFill(TH1D *&h1, Int_t fill_color, Int_t line_color = kBlack);
-    void ColFill(KinMap &map, Int_t fill_color, Int_t line_color = kBlack);
+    
+    void SetColors(TH1D *&h1,   Int_t fill_color, Int_t line_color = kBlack, Int_t fill_style = -999, Int_t line_style = -999);
+    void SetColors(KinMap &map, Int_t fill_color, Int_t line_color = kBlack, Int_t fill_style = -999, Int_t line_style = -999);
 
     std::vector<double> GetPercentage(std::vector<TH1D*> histos);
     std::vector<double> GetPercentage(std::vector<DrawingTools::KinMap> histos, Int_t type);
@@ -68,14 +68,16 @@ public:
     
     TH1D * ToPDF(TH1D * hraw, TString hn = "");
     TH2D * NormalHist(TH2D * hraw, Double_t thres = 0, bool kmax=false);
- 
     
+    void SetWghtName(std::string var = "1"){ m_weight = var; }//Or 1 in initialisation -- weight for MINERvA and wgt for T2K?
+ 
 private:
     //File and directory info:
     std::string m_filename;
     std::string m_treename;
 
     std::string m_uniquename;
+    std::string m_weight;
     
     TFile * m_file;
     TTree * m_tree;
