@@ -41,18 +41,30 @@ namespace TOPSTYPE {
         CCNPiPlus,
         CCNPNPiZero,
         CCNPiZeroNPiPlus,
+        //Added topos (200217):
+        CCKaonsOth,
+        CCNN,//N Neutrons
+        CCNPNN,//N Protons, N Neutrons
+        CCNPiNN, //N pions, N Neutrons
+        CCNPiNPNN, //N pions, N Protons N Neutrons
+        //CCNucBreakUp, -- may be nice in the future
         Other
     };
     
     inline std::string ToString(TOPSTYPE name, int form){
         std::string sname = "Unknown";
-        if(name == HCC1P1PiPlus)            sname = (form == 0) ? "HCC1P1PiPlus" : "CC1p1#pi^{+} on H";
-        else if(name == CC1P1PiPlus)        sname = (form == 0) ? "CC1P1PiPlus" : "CC1p1#pi^{+}";
-        else if(name == CCNPNPiMinus)       sname = (form == 0) ? "CCNPNPiMinus" : "CCNpN#pi^{-}";
-        else if(name == CCNP)               sname = (form == 0) ? "CCNP" : "CCNp";
-        else if(name == CCNPiPlus)          sname = (form == 0) ? "CCNPiPlus" : "CCN#pi^{+}";
-        else if(name == CCNPNPiZero)        sname = (form == 0) ? "CCNPNPiZero" : "CCNPN#pi^{0}";
-        else if(name == CCNPiZeroNPiPlus)   sname = (form == 0) ? "CCNPiZeroNPiPlus" : "CCN#pi^{0}N#pi^{+}";
+        if(name == HCC1P1PiPlus)            sname = (form == 0) ? "HCC1P1PiPlus"        : "CC1p1#pi^{+} on H";
+        else if(name == CC1P1PiPlus)        sname = (form == 0) ? "CC1P1PiPlus"         : "CC1p1#pi^{+}";
+        else if(name == CCNPNPiMinus)       sname = (form == 0) ? "CCNPNPiMinus"        : "CCNpN#pi^{-}";
+        else if(name == CCNP)               sname = (form == 0) ? "CCNP"                : "CCNp";
+        else if(name == CCNPiPlus)          sname = (form == 0) ? "CCNPiPlus"           : "CCN#pi^{+}";
+        else if(name == CCNPNPiZero)        sname = (form == 0) ? "CCNPNPiZero"         : "CCNPN#pi^{0}";
+        else if(name == CCNPiZeroNPiPlus)   sname = (form == 0) ? "CCNPiZeroNPiPlus"    : "CCN#pi^{0}N#pi^{+}";
+        else if(name == CCKaonsOth)         sname = (form == 0) ? "CCKaonsOth"          : "CC Kaons Inc.";
+        else if(name == CCNN)               sname = (form == 0) ? "CCNN"                : "CCNn";
+        else if(name == CCNPNN)             sname = (form == 0) ? "CCNPNN"              : "CCNpNn";
+        else if(name == CCNPiNN)            sname = (form == 0) ? "CCNPiNN"             : "CCN#piNn";
+        else if(name == CCNPiNPNN)          sname = (form == 0) ? "CCNPiPNNN"           : "CCN#piNpNn";
         else if(name == Other)              sname = "Other";
         
         return sname;
@@ -90,11 +102,15 @@ public:
     std::string name;
     std::string symbol;
     std::string signal;
-    Int_t  colour;
+    Int_t  fill_colour;
+    Int_t  fill_style;
     Int_t  line_colour;
     Int_t  line_style;
     
     void AddToOther(TOPSTYPE::TOPSTYPE topo_type);
+    
+private:
+    bool is_Other;
     
 };
 #endif

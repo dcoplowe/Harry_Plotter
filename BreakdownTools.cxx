@@ -35,7 +35,7 @@ PDGs::PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol) : pdg
 #ifndef _TOPOLOGY_CXX
 #define _TOPOLOGY_CXX
 
-TOPS::TOPS(TOPSTYPE::TOPSTYPE topo_type) : type(topo_type), name(TOPSTYPE::ToString(type ,0)), symbol(TOPSTYPE::ToString(type ,1)), line_colour(1), line_style(1) {
+TOPS::TOPS(TOPSTYPE::TOPSTYPE topo_type) : type(topo_type), name(TOPSTYPE::ToString(type ,0)), symbol(TOPSTYPE::ToString(type ,1)), fill_style(1001), line_colour(1), line_style(1), is_Other(false) {
     
     if(type == TOPSTYPE::CC1P1PiPlus || type == TOPSTYPE::HCC1P1PiPlus){
         
@@ -47,61 +47,111 @@ TOPS::TOPS(TOPSTYPE::TOPSTYPE topo_type) : type(topo_type), name(TOPSTYPE::ToStr
         if(type == TOPSTYPE::HCC1P1PiPlus){
             signal += " && mc_targetZ == 1";
             line_style = 2;
+            line_colour = 1;
+            fill_style = 0;
         }
-        else colour = (Int_t)DrawingStyle::T1P1PiP;//Proton
+        else fill_colour = (Int_t)DrawingStyle::T1P1PiP;//Proton
     }
     else if(type == TOPSTYPE::CCNPNPiMinus){
-        colour = (Int_t)DrawingStyle::T1P1PiM;
+        fill_colour = (Int_t)DrawingStyle::T1P1PiM;
         signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM > 0 ";
         signal += "&& truth_n_piP == 0 && truth_n_pro > 0 && truth_n_tau == 0";
         signal += "&& mc_nFSPart > 0";
     }
     else if(type == TOPSTYPE::CCNP){
-        colour = (Int_t)DrawingStyle::T2Pr;
+        fill_colour = (Int_t)DrawingStyle::T2Pr;
         signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0 ";
         signal += "&& truth_n_piP == 0 && truth_n_pro > 0 && truth_n_tau == 0";
         signal += "&& mc_nFSPart > 0";
     }
     else if(type == TOPSTYPE::CCNPiPlus){
-        colour = (Int_t)DrawingStyle::T2PiP;
+        fill_colour = (Int_t)DrawingStyle::T2PiP;
         signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0 ";
         signal += "&& truth_n_piP > 0 && truth_n_pro == 0 && truth_n_tau == 0";
         signal += "&& mc_nFSPart > 0";
     }
     else if(type == TOPSTYPE::CCNPNPiZero){
-        colour = (Int_t)DrawingStyle::T1P1Pi0;
+        fill_colour = (Int_t)DrawingStyle::T1P1Pi0;
         signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 > 0 && truth_n_piM == 0 ";
         signal += "&& truth_n_piP == 0 && truth_n_pro > 0 && truth_n_tau == 0";
         signal += "&& mc_nFSPart > 0";
     }
     else if(type == TOPSTYPE::CCNPiZeroNPiPlus){
-        colour = (Int_t)DrawingStyle::T1Pi1Pi0;
+        fill_colour = (Int_t)DrawingStyle::T1Pi1Pi0;
         signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
         signal += "&& truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 > 0 && truth_n_piM == 0 ";
         signal += "&& truth_n_piP > 0 && truth_n_pro == 0 && truth_n_tau == 0";
         signal += "&& mc_nFSPart > 0";
     }
+    else if(type == TOPSTYPE::CCKaonsOth){
+        fill_colour = (Int_t)DrawingStyle::T1P1PiM;
+        fill_style = 3008;
+        signal = "truth_n_ele == 0 && (truth_n_kPM > 0 || truth_n_kaO > 0) && truth_n_muo == 1 ";
+        signal += "&& (truth_n_ntn > 0 || truth_n_pho > 0 || truth_n_pi0 > 0 || truth_n_piM > 0 ";
+        signal += "|| truth_n_piP > 0 || truth_n_pro > 0) && truth_n_tau == 0";
+        signal += "&& mc_nFSPart > 0";
+    }
+    else if(type == TOPSTYPE::CCNN){
+        fill_style = 3009;
+        fill_colour = (Int_t)DrawingStyle::T2Pr;
+        signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
+        signal += "&& truth_n_ntn > 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0 ";
+        signal += "&& truth_n_piP == 0 && truth_n_pro == 0 && truth_n_tau == 0";
+        signal += "&& mc_nFSPart > 0";
+    }
+    else if(type == TOPSTYPE::CCNPNN){
+        fill_colour = (Int_t)DrawingStyle::T2PiP;
+        fill_style = 3019;
+        signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
+        signal += "&& truth_n_ntn > 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0 ";
+        signal += "&& truth_n_piP == 0 && truth_n_pro > 0 && truth_n_tau == 0";
+        signal += "&& mc_nFSPart > 0";
+    }
+    else if(type == TOPSTYPE::CCNPiNN){
+        fill_colour = (Int_t)DrawingStyle::T1P1Pi0;
+        fill_style = 3025;
+        signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
+        signal += "&& truth_n_ntn > 0 && truth_n_pho == 0 && (truth_n_pi0 > 0 || truth_n_piM > 0 ";
+        signal += "|| truth_n_piP > 0) && truth_n_pro == 0 && truth_n_tau == 0";
+        signal += "&& mc_nFSPart > 0";
+    }
+    else if(type == TOPSTYPE::CCNPiNPNN){
+        fill_colour = (Int_t)DrawingStyle::T1Pi1Pi0;
+        fill_style = 3024;
+        signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
+        signal += "&& truth_n_ntn > 0 && truth_n_pho == 0 && (truth_n_pi0 > 0 || truth_n_piM > 0 ";
+        signal += "|| truth_n_piP > 0) && truth_n_pro > 0 && truth_n_tau == 0";
+        signal += "&& mc_nFSPart > 0";
+    }
+//    else if(type == TOPSTYPE::CC1Pi1PNN){
+//        fill_colour = (Int_t)DrawingStyle::CC1Pi1PNN;
+//        signal = "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ";
+//        signal += "&& truth_n_ntn > 0 && truth_n_pho == 0 && (truth_n_pi0 > 0 || truth_n_piM > 0 ";
+//        signal += "|| truth_n_piP > 0) && truth_n_pro > 0 && truth_n_tau == 0";
+//        signal += "&& mc_nFSPart > 0";
+//    }
     else if(type == TOPSTYPE::Other){
         signal = "";
-        colour = (Int_t)DrawingStyle::Other;
+        is_Other = true;
+        fill_colour = (Int_t)DrawingStyle::Other;
     }
     else std::cout << "Warning Toplogoly definition not set!! This will make no cuts on " << TOPSTYPE::ToString(type, 0) << " topology." << std::endl;
 }
 
 void TOPS::AddToOther(TOPSTYPE::TOPSTYPE topo_type){
-    std::cout << " signal (pre) = " << signal << std::endl;
-    
-    if(!signal.empty()) signal += " && ";
-    signal += "!(";
-    TOPS tmp_top = TOPS(topo_type);
-    signal += tmp_top.signal;
-    signal += ")";
-    
-    std::cout << " signal (post) = " << signal << std::endl;
+//    std::cout << " signal (pre) = " << signal << std::endl;
+    if(is_Other){
+        if(!signal.empty()) signal += " && ";
+        signal += "!(";
+        TOPS tmp_top = TOPS(topo_type);
+        signal += tmp_top.signal;
+        signal += ")";
+    }
+//    std::cout << " signal (post) = " << signal << std::endl;
 }
 
 #endif
@@ -120,7 +170,6 @@ BreakdownTools::BreakdownTools(std::string filename, std::string treename) : Dra
     //Miminum particles to define in breakdown:
     ResetPDGBDlist();
     
-    
     std::vector<TOPSTYPE::TOPSTYPE> topo_list;
     topo_list.push_back( TOPSTYPE::CC1P1PiPlus      );
     topo_list.push_back( TOPSTYPE::CCNPNPiMinus     );
@@ -128,48 +177,47 @@ BreakdownTools::BreakdownTools(std::string filename, std::string treename) : Dra
     topo_list.push_back( TOPSTYPE::CCNPiPlus        );
     topo_list.push_back( TOPSTYPE::CCNPNPiZero      );
     topo_list.push_back( TOPSTYPE::CCNPiZeroNPiPlus );
+    topo_list.push_back( TOPSTYPE::CCKaonsOth );
+    topo_list.push_back( TOPSTYPE::CCNN );
+    topo_list.push_back( TOPSTYPE::CCNPNN );
+    topo_list.push_back( TOPSTYPE::CCNPiNN );
+    topo_list.push_back( TOPSTYPE::CCNPiNPNN );
     
-    TOPS Other_Tops(TOPSTYPE::Other);
+    TOPS Other_Tops(TOPSTYPE::Other);//This has to be added to the list last.
     
     for(int i = 0; i < (int)topo_list.size(); i++){
         m_toplist.push_back( TOPS(topo_list[i]) );
         Other_Tops.AddToOther( topo_list[i] );
     }
-    
     m_toplist.push_back( Other_Tops );
-//    m_toplist.push_back( TOPS(TOPSTYPE::CC1P1PiPlus)        );
-//    m_toplist.push_back( TOPS(TOPSTYPE::CCNPNPiMinus)       );
-//    m_toplist.push_back( TOPS(TOPSTYPE::CCNP)               );
-//    m_toplist.push_back( TOPS(TOPSTYPE::CCNPiPlus)          );
-//    m_toplist.push_back( TOPS(TOPSTYPE::CCNPNPiZero)        );
-//    m_toplist.push_back( TOPS(TOPSTYPE::CCNPiZeroNPiPlus)   );
-//    m_toplist.push_back( TOPS(TOPSTYPE::Other)              );
     ResetTOPBDlist();
-    
 }
 
 BreakdownTools::~BreakdownTools(){
     m_pdglist.clear();
+    m_toplist.clear();
+
     ClearPDGBDlist();
+    ClearTOPBDlist();
 }
 
 void BreakdownTools::ResetPDGBDlist(){
     ClearPDGBDlist();
-    m_pdglist_minBD.push_back(2212);
-    m_pdglist_minBD.push_back(211);
-    m_pdglist_minBD.push_back(-211);
-    m_pdglist_minBD.push_back(13);
+    SetMinPDGBDlist(2212);
+    SetMinPDGBDlist(211);
+    SetMinPDGBDlist(-211);
+    SetMinPDGBDlist(13);
 }
 
 void BreakdownTools::ResetTOPBDlist(){
     ClearTOPBDlist();
-    m_toplist_minBD.push_back( TOPSTYPE::CC1P1PiPlus        );
-    m_toplist_minBD.push_back( TOPSTYPE::CCNPNPiMinus       );
-    m_toplist_minBD.push_back( TOPSTYPE::CCNP               );
-    m_toplist_minBD.push_back( TOPSTYPE::CCNPiPlus          );
-    m_toplist_minBD.push_back( TOPSTYPE::CCNPNPiZero        );
-    m_toplist_minBD.push_back( TOPSTYPE::CCNPiZeroNPiPlus   );
-    m_toplist_minBD.push_back( TOPSTYPE::Other              );
+    SetMinTOPBDlist( TOPSTYPE::CC1P1PiPlus        );
+    SetMinTOPBDlist( TOPSTYPE::CCNPNPiMinus       );
+    SetMinTOPBDlist( TOPSTYPE::CCNP               );
+    SetMinTOPBDlist( TOPSTYPE::CCNPiPlus          );
+    SetMinTOPBDlist( TOPSTYPE::CCNPNPiZero        );
+    SetMinTOPBDlist( TOPSTYPE::CCNPiZeroNPiPlus   );
+    SetMinTOPBDlist( TOPSTYPE::Other              );
 }
 
 BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::string pdgvar, std::string cuts){
@@ -212,7 +260,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
             
         DrawingTools::KinMap tmp_kinmap = KinArray(var.name, nbins, bins, var.symbol, tmp_cuts);
         
-        ColFill(tmp_kinmap, particle.colour);
+        SetColors(tmp_kinmap, particle.colour);
         
         kinmap_list.push_back(tmp_kinmap);
     }
@@ -222,7 +270,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
 //    cout << "other_cut: " << other_cut << endl;
     
     DrawingTools::KinMap other_kinmap = KinArray(var.name, nbins, bins, var.symbol, other_cut);
-    ColFill(other_kinmap, DrawingStyle::Other);
+    SetColors(other_kinmap, DrawingStyle::Other);
 
     //Make outputs:
     
@@ -398,9 +446,8 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         DrawingTools::KinMap tmp_kinmap = KinArray(var.name, nbins, bins, var.symbol, tmp_cuts);
         
 //        cout << "Working -1" << endl;
-
         
-        ColFill(tmp_kinmap, topology.colour);
+        SetColors(tmp_kinmap, topology.fill_colour);
         
 //        cout << "Working 0" << endl;
 
@@ -424,17 +471,19 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
     TLegend * truth_leg = Legend(0.25, 0.4, 0.551, 0.362);
     TLegend * ratio_leg = Legend(0.25, 0.4, 0.551, 0.362);
     
-    std::string hsignal = tmp_cuts_1;
-    hsignal += m_toplist[0].signal;
-    hsignal += " && mc_targetZ == 1";
-//    cout << "hsignal: " << hsignal << endl;
+    //The signal bit:
+    std::string hsignal = tmp_cuts_1;// + " && ";
+    TOPS sig_top(TOPSTYPE::HCC1P1PiPlus);
+    hsignal += sig_top.signal;//    cout << "hsignal: " << hsignal << endl;
     DrawingTools::KinMap signal_kinmap = KinArray(var.name, nbins, bins, var.symbol, hsignal);
-    signal_kinmap.recon->SetLineColor(1);
-    signal_kinmap.truth->SetLineColor(1);
-    signal_kinmap.recon->SetLineStyle(2);
-    signal_kinmap.truth->SetLineStyle(2);
+    SetColors(signal_kinmap, sig_top.fill_colour, sig_top.line_colour, sig_top.fill_style, sig_top.line_style);
+//    signal_kinmap.recon->SetLineColor(1);
+//    signal_kinmap.truth->SetLineColor(1);
+//    signal_kinmap.recon->SetLineStyle(2);
+//    signal_kinmap.truth->SetLineStyle(2);
     signal_kinmap.recon->SetLineWidth(2);
     signal_kinmap.truth->SetLineWidth(2);
+    signal_kinmap.ratio->SetLineWidth(2);
     
     recon_leg->AddEntry(signal_kinmap.recon, ("H-" + m_toplist[0].symbol).c_str(), "l");
     truth_leg->AddEntry(signal_kinmap.truth, ("H-" + m_toplist[0].symbol).c_str(), "l");
@@ -446,11 +495,9 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
 
 //    cout << "Working 2" << endl;
 
-    
     if(m_fullbreakdown){
         
 //        cout << "Working 3a" << endl;
-
         
         for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
             //            cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
@@ -583,29 +630,28 @@ BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::s
     //Hydrogen:
     std::string hsig = tmp_cuts_1 + "mc_targetZ == 1";
     DrawingTools::KinMap hydrogen_kinmap = KinArray(var.name, nbins, bins, var.symbol, hsig);
-    ColFill(hydrogen_kinmap, DrawingStyle::HYDROGEN);
+    SetColors(hydrogen_kinmap, DrawingStyle::HYDROGEN);
     
     //Carbon:
     std::string csig = tmp_cuts_1 + "mc_targetZ == 6";
     DrawingTools::KinMap carbon_kinmap = KinArray(var.name, nbins, bins, var.symbol, csig);
-    ColFill(carbon_kinmap, DrawingStyle::CARBON);
+    SetColors(carbon_kinmap, DrawingStyle::CARBON);
 
     //Other:
     std::string osig = tmp_cuts_1 + "mc_targetZ != 1 && mc_targetZ != 6";
     DrawingTools::KinMap other_kinmap = KinArray(var.name, nbins, bins, var.symbol, osig);
-    ColFill(other_kinmap, DrawingStyle::Other);
+    SetColors(other_kinmap, DrawingStyle::Other);
 
+    //The signal bit:
     std::string hsignal = tmp_cuts_1;
-    hsignal += m_toplist[0].signal;
-    hsignal += " && mc_targetZ == 1";
+    TOPS sig_top(TOPSTYPE::HCC1P1PiPlus);
+    hsignal += sig_top.signal;
     DrawingTools::KinMap signal_kinmap = KinArray(var.name, nbins, bins, var.symbol, hsignal);
-    signal_kinmap.recon->SetLineColor(1);
-    signal_kinmap.truth->SetLineColor(1);
-    signal_kinmap.recon->SetLineStyle(2);
-    signal_kinmap.truth->SetLineStyle(2);
+    SetColors(signal_kinmap, sig_top.fill_colour, sig_top.line_colour, sig_top.fill_style, sig_top.line_style);
     signal_kinmap.recon->SetLineWidth(2);
     signal_kinmap.truth->SetLineWidth(2);
-    
+    signal_kinmap.ratio->SetLineWidth(2);
+
     std::vector<KinMap> kinmap_list;
     kinmap_list.push_back( other_kinmap );
     kinmap_list.push_back( carbon_kinmap );
@@ -700,8 +746,3 @@ BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::s
 BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts){
     return TARGET(var, nbins, SetBinning(nbins, low, high), cuts);
 }
-
-
-
-
-
