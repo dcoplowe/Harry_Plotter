@@ -447,7 +447,7 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         
 //        cout << "Working -1" << endl;
         
-        SetColors(tmp_kinmap, topology.fill_colour, topology.line_colour, topology.fill_colour, topology.line_style);
+        SetColors(tmp_kinmap, topology.fill_colour, topology.line_colour, topology.fill_style, topology.line_style);
         
 //        cout << "Working 0" << endl;
 
