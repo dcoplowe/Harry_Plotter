@@ -229,6 +229,9 @@ TLegend * DrawingTools::Legend(Double_t x_size, Double_t y_size, Double_t x_star
 }
 
 void DrawingTools::SetColors(TH1D *&h1, Int_t fill_color, Int_t line_color, Int_t fill_style, Int_t line_style){
+    
+    cout << "FillColor = " << fill_color << " FillSyle = " << fill_style << " LineColor = " << line_color << " LineStyle = " << line_style << endl;
+    
     h1->SetFillColor(fill_color);
     h1->SetLineColor(line_color);
     
