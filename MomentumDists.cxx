@@ -972,12 +972,12 @@ void MomentumDists::MakePlots(){
     W_mass.name = "mc_w";
     W_mass.savename = "W_EX";
 
-    TCanvas * w_dist_EL = m_run->TARGETSignal(W_mass, 200, 0, 3000, EX_base_cut);
+    TCanvas * w_dist_EL = m_run->TARGETSingle(W_mass, 200, 0, 3000, EX_base_cut);
     PrintLogo(w_dist_EL);
     w_dist_EL->Write();
     
     W_mass.savename = "W_EX";
-    TCanvas * w_dist_LL = m_run->TARGETSignal(W_mass, 200, 0, 3000, LL_base_cut);
+    TCanvas * w_dist_LL = m_run->TARGETSingle(W_mass, 200, 0, 3000, LL_base_cut);
     PrintLogo(w_dist_LL);
     w_dist_LL->Write();
     
