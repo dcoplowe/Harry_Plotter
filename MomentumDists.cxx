@@ -413,6 +413,7 @@ public:
     void ProduceGroup(Variable var, Int_t nbins, Double_t low, Double_t high, std::string PDG_var, std::string cuts);
     
     void MakeDir(std::string name);
+    void cdDir(std::string name = ""){  m_outfile->cd((m_savename + ":/" + name).c_str()); }//Default is the root dir.
     
 private:
     EXP::EXP m_experiment;
@@ -573,11 +574,12 @@ void MomentumDists::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std
 
 void MomentumDists::MakeDir(std::string name){
     if(m_outfile->IsOpen()){
-        m_outfile->cd();
+        cdDir();
         TDirectory * tmp_dir = m_outfile->GetDirectory(name.c_str());
         if (!tmp_dir) {
             m_outfile->mkdir(name.c_str());
-            m_outfile->cd((m_savename + ":/" + name).c_str());
+            cdDir(name);
+//            m_outfile->cd((m_savename + ":/" + name).c_str());
         }
         else{
             cout << "MomentumDists::MakeDir : Directory exists, entering : " << name << endl;
