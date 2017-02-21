@@ -691,13 +691,13 @@ void MomentumDists::MakePlots(){
     mom.pdg = m_pion_alt->pdg;
     ProduceGroup(mom, 40, 0, 2000, LL_base_cut);
     
-    //Muon:
-    MakeDir("Mom/LL/Muon");
-    mom.name = m_muon_alt->trueP + ":" + m_muon_alt->P;
-    mom.symbol = "#it{p}_{#mu}";
-    mom.savename = m_muon_alt->P;
-    mom.pdg = m_muon_alt->pdg;
-    ProduceGroup(mom, 40, 0, 2000, LL_base_cut);
+//    //Muon:
+//    MakeDir("Mom/LL/Muon");
+//    mom.name = m_muon_alt->trueP + ":" + m_muon_alt->P;
+//    mom.symbol = "#it{p}_{#mu}";
+//    mom.savename = m_muon_alt->P;
+//    mom.pdg = m_muon_alt->pdg;
+//    ProduceGroup(mom, 40, 0, 2000, LL_base_cut);
     
     //**************************************** Mom END ****************************************//
     //*****************************************************************************************//
@@ -705,55 +705,55 @@ void MomentumDists::MakePlots(){
     //*****************************************************************************************//
     //**************************************** Theta START ************************************//
     
-//    Variable theta;
-////    theta.units = "degrees";
-//    theta.units = "rad";
-//
-//    //Proton:
-//    MakeDir("Theta/dEdX/Proton");
-////    theta.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
-//    theta.name = m_proton->trueP + ":" + m_proton->P;//This probably wont work as the code looks for :: to make a split... Add fix.
-//    theta.symbol = "#theta_{p}";
-//    theta.savename = m_proton->P;
-//    theta.pdg = m_proton->pdg;
-//    ProduceGroup(theta, 40, 0, 2.*TMath::Pi(), EX_base_cut);
-//    
-//    //Pion:
-//    MakeDir("Theta/dEdX/Pion");
-////    theta.name = m_pion->trueP + "*TMath::RadToDeg():" + m_pion->P + "*TMath::RadToDeg()";
-//    theta.name = m_pion->trueP + ":" + m_pion->P;//This probably wont work as the code looks for :: to make a split... Add fix.
-//    theta.symbol = "#theta_{#pi}";
-//    theta.savename = m_pion->P;
-//    theta.pdg = m_pion->pdg;
-//    ProduceGroup(theta, 40, 0, 2.*TMath::Pi(), EX_base_cut);
-//    
-//    //Muon:
-//    MakeDir("Theta/dEdX/Muon");
-////    theta.name = m_muon->trueP + "*TMath::RadToDeg():" + m_muon->P + "*TMath::RadToDeg()";
-//    theta.name = m_muon->trueP + ":" + m_muon->P;//This probably wont work as the code looks for :: to make a split... Add fix.
-//    theta.symbol = "#theta_{#mu}";
-//    theta.savename = m_muon->P;
-//    theta.pdg = m_muon->pdg;
-//    ProduceGroup(theta, 40, 0, 2.*TMath::Pi(), EX_base_cut);
-//    
-//    //Proton:
-//    MakeDir("Theta/LL/Proton");
-//    //    theta.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
-//    theta.name = m_proton_alt->trueP + ":" + m_proton_alt->P;//This probably wont work as the code looks for :: to make a split... Add fix.
-//    theta.symbol = "#theta_{p}";
-//    theta.savename = m_proton_alt->P;
-//    theta.pdg = m_proton_alt->pdg;
-//    ProduceGroup(theta, 40, 0, 2.*TMath::Pi(), LL_base_cut);
-//    
-//    //Pion:
-//    MakeDir("Theta/LL/Pion");
-//    //    theta.name = m_pion->trueP + "*TMath::RadToDeg():" + m_pion->P + "*TMath::RadToDeg()";
-//    theta.name = m_pion_alt->trueP + ":" + m_pion_alt->P;//This probably wont work as the code looks for :: to make a split... Add fix.
-//    theta.symbol = "#theta_{#pi}";
-//    theta.savename = m_pion_alt->P;
-//    theta.pdg = m_pion_alt->pdg;
-//    ProduceGroup(theta, 40, 0, 2.*TMath::Pi(), LL_base_cut);
-//    
+    Variable theta;
+//    theta.units = "degrees";
+    theta.units = "rad";
+
+    //Proton:
+    MakeDir("Theta/dEdX/Proton");
+//    theta.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
+    theta.name = m_proton->trueP + ":" + m_proton->P;//This probably wont work as the code looks for :: to make a split... Add fix.
+    theta.symbol = "#theta_{p}";
+    theta.savename = m_proton->P;
+    theta.pdg = m_proton->pdg;
+    ProduceGroup(theta, 40, 0, 2.*TMath::Pi(), EX_base_cut);
+    
+    //Pion:
+    MakeDir("Theta/dEdX/Pion");
+//    theta.name = m_pion->trueP + "*TMath::RadToDeg():" + m_pion->P + "*TMath::RadToDeg()";
+    theta.name = m_pion->trueP + ":" + m_pion->P;//This probably wont work as the code looks for :: to make a split... Add fix.
+    theta.symbol = "#theta_{#pi}";
+    theta.savename = m_pion->P;
+    theta.pdg = m_pion->pdg;
+    ProduceGroup(theta, 40, 0, 2.*TMath::Pi(), EX_base_cut);
+    
+    //Muon:
+    MakeDir("Theta/dEdX/Muon");
+//    theta.name = m_muon->trueP + "*TMath::RadToDeg():" + m_muon->P + "*TMath::RadToDeg()";
+    theta.name = m_muon->trueP + ":" + m_muon->P;//This probably wont work as the code looks for :: to make a split... Add fix.
+    theta.symbol = "#theta_{#mu}";
+    theta.savename = m_muon->P;
+    theta.pdg = m_muon->pdg;
+    ProduceGroup(theta, 40, 0, 2.*TMath::Pi(), EX_base_cut);
+    
+    //Proton:
+    MakeDir("Theta/LL/Proton");
+    //    theta.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
+    theta.name = m_proton_alt->trueP + ":" + m_proton_alt->P;//This probably wont work as the code looks for :: to make a split... Add fix.
+    theta.symbol = "#theta_{p}";
+    theta.savename = m_proton_alt->P;
+    theta.pdg = m_proton_alt->pdg;
+    ProduceGroup(theta, 40, 0, 2.*TMath::Pi(), LL_base_cut);
+    
+    //Pion:
+    MakeDir("Theta/LL/Pion");
+    //    theta.name = m_pion->trueP + "*TMath::RadToDeg():" + m_pion->P + "*TMath::RadToDeg()";
+    theta.name = m_pion_alt->trueP + ":" + m_pion_alt->P;//This probably wont work as the code looks for :: to make a split... Add fix.
+    theta.symbol = "#theta_{#pi}";
+    theta.savename = m_pion_alt->P;
+    theta.pdg = m_pion_alt->pdg;
+    ProduceGroup(theta, 40, 0, 2.*TMath::Pi(), LL_base_cut);
+    
 //    //Muon:
 //    MakeDir("Theta/LLMuon");
 //    //    theta.name = m_muon->trueP + "*TMath::RadToDeg():" + m_muon->P + "*TMath::RadToDeg()";
@@ -762,224 +762,224 @@ void MomentumDists::MakePlots(){
 //    theta.savename = m_muon_alt->P;
 //    theta.pdg = m_muon_alt->pdg;
 //    ProduceGroup(theta, 40, 0, 2.*TMath::Pi(), LL_base_cut);
-//    
-//    //**************************************** Theta END **************************************//
-//    //*****************************************************************************************//
-//    //*****************************************************************************************//
-//    //*****************************************************************************************//
-//    //**************************************** Phi START ************************************//
-//    
-//    Variable phi;
-//    //    phi.units = "degrees";
-//    phi.units = "rad";
-//    
-//    //Proton:
-//    MakeDir("Phi/dEdX/Proton");
-//    //    phi.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
-//    phi.name = m_proton->truephi + ":" + m_proton->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
-//    phi.symbol = "#phi_{p}";
-//    phi.savename = m_proton->phi;
-//    phi.pdg = m_proton->pdg;
-//    ProduceGroup(mom, 40, 0, 2.*TMath::Pi(), EX_base_cut);
-//    
-//    //Pion:
-//    MakeDir("Phi/dEdX/Pion");
-////    mom.name = m_pion->truephi + "*TMath::RadToDeg():" + m_pion->phi + "*TMath::RadToDeg()";
-//    phi.name = m_pion->truephi + ":" + m_pion->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
-//    phi.symbol = "#phi_{#pi}";
-//    phi.savename = m_pion->phi;
-//    phi.pdg = m_pion->pdg;
-//    ProduceGroup(phi, 40, 0, 2.*TMath::Pi(), EX_base_cut);
-//    
-//    //Muon:
-//    MakeDir("Phi/dEdX/Muon");
-////    phi.name = m_muon->truephi + "*TMath::RadToDeg():" + m_muon->phi + "*TMath::RadToDeg()";
-//    phi.name = m_muon->truephi + ":" + m_muon->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
+    
+    //**************************************** Theta END **************************************//
+    //*****************************************************************************************//
+    //*****************************************************************************************//
+    //*****************************************************************************************//
+    //**************************************** Phi START ************************************//
+    
+    Variable phi;
+    //    phi.units = "degrees";
+    phi.units = "rad";
+    
+    //Proton:
+    MakeDir("Phi/dEdX/Proton");
+    //    phi.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
+    phi.name = m_proton->truephi + ":" + m_proton->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
+    phi.symbol = "#phi_{p}";
+    phi.savename = m_proton->phi;
+    phi.pdg = m_proton->pdg;
+    ProduceGroup(mom, 40, 0, 2.*TMath::Pi(), EX_base_cut);
+    
+    //Pion:
+    MakeDir("Phi/dEdX/Pion");
+//    mom.name = m_pion->truephi + "*TMath::RadToDeg():" + m_pion->phi + "*TMath::RadToDeg()";
+    phi.name = m_pion->truephi + ":" + m_pion->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
+    phi.symbol = "#phi_{#pi}";
+    phi.savename = m_pion->phi;
+    phi.pdg = m_pion->pdg;
+    ProduceGroup(phi, 40, 0, 2.*TMath::Pi(), EX_base_cut);
+    
+    //Muon:
+    MakeDir("Phi/dEdX/Muon");
+//    phi.name = m_muon->truephi + "*TMath::RadToDeg():" + m_muon->phi + "*TMath::RadToDeg()";
+    phi.name = m_muon->truephi + ":" + m_muon->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
+    phi.symbol = "#theta_{#mu}";
+    phi.savename = m_muon->phi;
+    phi.pdg = m_muon->pdg;
+    ProduceGroup(phi, 40, 0, 2.*TMath::Pi(), EX_base_cut);
+    
+    //Proton:
+    MakeDir("Phi/LL/Proton");
+    //    phi.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
+    phi.name = m_proton_alt->truephi + ":" + m_proton_alt->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
+    phi.symbol = "#phi_{p}";
+    phi.savename = m_proton_alt->phi;
+    phi.pdg = m_proton_alt->pdg;
+    ProduceGroup(mom, 40, 0, 2.*TMath::Pi(), LL_base_cut);
+    
+    //Pion:
+    MakeDir("Phi/LL/Pion");
+    //    mom.name = m_pion->truephi + "*TMath::RadToDeg():" + m_pion->phi + "*TMath::RadToDeg()";
+    phi.name = m_pion_alt->truephi + ":" + m_pion_alt->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
+    phi.symbol = "#phi_{#pi}";
+    phi.savename = m_pion_alt->phi;
+    phi.pdg = m_pion_alt->pdg;
+    ProduceGroup(phi, 40, 0, 2.*TMath::Pi(), LL_base_cut);
+    
+    //Muon:
+//    MakeDir("Phi/LL/Muon");
+//    //    phi.name = m_muon->truephi + "*TMath::RadToDeg():" + m_muon->phi + "*TMath::RadToDeg()";
+//    phi.name = m_muon_alt->truephi + ":" + m_muon_alt->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
 //    phi.symbol = "#theta_{#mu}";
-//    phi.savename = m_muon->phi;
-//    phi.pdg = m_muon->pdg;
-//    ProduceGroup(phi, 40, 0, 2.*TMath::Pi(), EX_base_cut);
-//    
-//    //Proton:
-//    MakeDir("Phi/LL/Proton");
-//    //    phi.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
-//    phi.name = m_proton_alt->truephi + ":" + m_proton_alt->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
-//    phi.symbol = "#phi_{p}";
-//    phi.savename = m_proton_alt->phi;
-//    phi.pdg = m_proton_alt->pdg;
-//    ProduceGroup(mom, 40, 0, 2.*TMath::Pi(), LL_base_cut);
-//    
-//    //Pion:
-//    MakeDir("Phi/LL/Pion");
-//    //    mom.name = m_pion->truephi + "*TMath::RadToDeg():" + m_pion->phi + "*TMath::RadToDeg()";
-//    phi.name = m_pion_alt->truephi + ":" + m_pion_alt->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
-//    phi.symbol = "#phi_{#pi}";
-//    phi.savename = m_pion_alt->phi;
-//    phi.pdg = m_pion_alt->pdg;
+//    phi.savename = m_muon_alt->phi;
+//    phi.pdg = m_muon_alt->pdg;
 //    ProduceGroup(phi, 40, 0, 2.*TMath::Pi(), LL_base_cut);
-//    
-//    //Muon:
-////    MakeDir("Phi/LL/Muon");
-////    //    phi.name = m_muon->truephi + "*TMath::RadToDeg():" + m_muon->phi + "*TMath::RadToDeg()";
-////    phi.name = m_muon_alt->truephi + ":" + m_muon_alt->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
-////    phi.symbol = "#theta_{#mu}";
-////    phi.savename = m_muon_alt->phi;
-////    phi.pdg = m_muon_alt->pdg;
-////    ProduceGroup(phi, 40, 0, 2.*TMath::Pi(), LL_base_cut);
-//    
-//    //**************************************** Theta END **************************************//
-//    //*****************************************************************************************//
-//    //*****************************************************************************************//
-//    //*****************************************************************************************//
-//    //**************************************** DPTT START ************************************//
-//    
-//    Variable dpTT;
-//    dpTT.units = "MeV/#it{c}";
-//    dpTT.symbol = "#deltap_{TT}";
-//    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT;
-//    
-//    MakeDir("dpTT/dEdX");
-//    dpTT.savename = m_recovars->dpTT;// + "300";
-//    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-//   
-//    MakeDir("dpTT/dEdX/pm1000");
-//    dpTT.savename = m_recovars->dpTT + "1000";
-//    ProduceGroup(dpTT, 99, -1000, 1000, (EX_base_cut + " && " + m_recovars->dpTT + " != -999."));
-//    
-//    MakeDir("dpTT/dEdX/pm7000");
-//    dpTT.savename = m_recovars->dpTT + "7000";
-//    ProduceGroup(dpTT, 199, -7000, 7000, (EX_base_cut + " && " + m_recovars->dpTT + " != -999."));
-//
-//    MakeDir("dpTT/dEdX/tmumom");
-//    dpTT.symbol = "#deltap_{TT}";
-//    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tmumom;
-//    dpTT.savename = m_recovars->dpTT_tmumom;
-//    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-//    
-//    MakeDir("dpTT/dEdX/tmumom");
-//    dpTT.symbol = "#deltap_{TT}";
-//    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tpimom;
-//    dpTT.savename = m_recovars->dpTT_tpimom;
-//    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-//    
-//    MakeDir("dpTT/dEdX/tprmom");
-//    dpTT.symbol = "#deltap_{TT}";
-//    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tprmom;
-//    dpTT.savename = m_recovars->dpTT_tprmom;
-//    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-//    
-//    MakeDir("dpTT/dEdX/tnudir");
-//    dpTT.symbol = "#deltap_{TT}";
-//    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tnudir;
-//    dpTT.savename = m_recovars->dpTT_tnudir;
-//    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-//    
-//    MakeDir("dpTT/dEdX/pimom");
-//    dpTT.symbol = "#deltap_{TT}";
-//    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pi;
-//    dpTT.savename = m_recovars->dpTT_pi;
-//    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-//    
-//    MakeDir("dpTT/dEdX/prmom");
-//    dpTT.symbol = "#deltap_{TT}";
-//    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pr;
-//    dpTT.savename = m_recovars->dpTT_pr;
-//    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-//    
-//    MakeDir("dpTT/dEdX/pidir");
-//    dpTT.symbol = "#deltap_{TT}";
-//    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pidir;
-//    dpTT.savename = m_recovars->dpTT_pidir;
-//    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-//    
-//    MakeDir("dpTT/dEdX/prdir");
-//    dpTT.symbol = "#deltap_{TT}";
-//    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_prdir;
-//    dpTT.savename = m_recovars->dpTT_prdir;
-//    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-//    
-//    //LL Method
-//    MakeDir("dpTT/LL");
-//    dpTT.savename = m_recovars->dpTT_alt;// + "300";
-//    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-//    
-//    MakeDir("dpTT/LL/pm1000");
-//    dpTT.savename = m_recovars->dpTT_alt + "1000";
-//    ProduceGroup(dpTT, 99, -1000, 1000, (EX_base_cut + " && " + m_recovars->dpTT_alt + " != -999."));
-//    
-//    MakeDir("dpTT/LL/pm7000");
-//    dpTT.savename = m_recovars->dpTT + "7000";
-//    ProduceGroup(dpTT, 199, -7000, 7000, (EX_base_cut + " && " + m_recovars->dpTT_alt + " != -999."));
-//    
-//    MakeDir("dpTT/LL/tmumom");
-//    dpTT.symbol = "#deltap_{TT}";
-//    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tmumom_alt;
-//    dpTT.savename = m_recovars->dpTT_tmumom_alt;
-//    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-//    
-//    MakeDir("dpTT/LL/tmumom");
-//    dpTT.symbol = "#deltap_{TT}";
-//    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tpimom_alt;
-//    dpTT.savename = m_recovars->dpTT_tpimom_alt;
-//    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-//    
-//    MakeDir("dpTT/LL/tprmom");
-//    dpTT.symbol = "#deltap_{TT}";
-//    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tprmom_alt;
-//    dpTT.savename = m_recovars->dpTT_tprmom_alt;
-//    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-//    
-//    MakeDir("dpTT/LL/tnudir");
-//    dpTT.symbol = "#deltap_{TT}";
-//    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tnudir_alt;
-//    dpTT.savename = m_recovars->dpTT_tnudir_alt;
-//    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-//    
-//    MakeDir("dpTT/LL/pimom");
-//    dpTT.symbol = "#deltap_{TT}";
-//    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pi_alt;
-//    dpTT.savename = m_recovars->dpTT_pi_alt;
-//    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-//    
-//    MakeDir("dpTT/LL/prmom");
-//    dpTT.symbol = "#deltap_{TT}";
-//    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pr_alt;
-//    dpTT.savename = m_recovars->dpTT_pr_alt;
-//    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-//    
-//    MakeDir("dpTT/LL/pidir");
-//    dpTT.symbol = "#deltap_{TT}";
-//    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pidir_alt;
-//    dpTT.savename = m_recovars->dpTT_pidir_alt;
-//    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-//    
-//    MakeDir("dpTT/LL/prdir");
-//    dpTT.symbol = "#deltap_{TT}";
-//    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_prdir_alt;
-//    dpTT.savename = m_recovars->dpTT_prdir_alt;
-//    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-//    
-//    //**************************************** DPTT END ***************************************//
-//    //*****************************************************************************************//
-//    //*****************************************************************************************//
-//    //*****************************************************************************************//
-//
-//    MakeDir("W");
-//
-//    Variable W_mass;
-//    W_mass.units = "MeV";
-//    W_mass.symbol = "W";
-//    W_mass.name = "mc_w";
-//    W_mass.savename = "W_EX";
-//
-//    TCanvas * w_dist_EL = m_run->TARGETSingle(W_mass, 200, 0, 3000, EX_base_cut);
-//    PrintLogo(w_dist_EL);
-//    w_dist_EL->Write();
-//    
-//    W_mass.savename = "W_EX";
-//    TCanvas * w_dist_LL = m_run->TARGETSingle(W_mass, 200, 0, 3000, LL_base_cut);
-//    PrintLogo(w_dist_LL);
-//    w_dist_LL->Write();
+    
+    //**************************************** Theta END **************************************//
+    //*****************************************************************************************//
+    //*****************************************************************************************//
+    //*****************************************************************************************//
+    //**************************************** DPTT START ************************************//
+    
+    Variable dpTT;
+    dpTT.units = "MeV/#it{c}";
+    dpTT.symbol = "#deltap_{TT}";
+    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT;
+    
+    MakeDir("dpTT/dEdX");
+    dpTT.savename = m_recovars->dpTT;// + "300";
+    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+   
+    MakeDir("dpTT/dEdX/pm1000");
+    dpTT.savename = m_recovars->dpTT + "1000";
+    ProduceGroup(dpTT, 99, -1000, 1000, (EX_base_cut + " && " + m_recovars->dpTT + " != -999."));
+    
+    MakeDir("dpTT/dEdX/pm7000");
+    dpTT.savename = m_recovars->dpTT + "7000";
+    ProduceGroup(dpTT, 199, -7000, 7000, (EX_base_cut + " && " + m_recovars->dpTT + " != -999."));
+
+    MakeDir("dpTT/dEdX/tmumom");
+    dpTT.symbol = "#deltap_{TT}";
+    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tmumom;
+    dpTT.savename = m_recovars->dpTT_tmumom;
+    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    
+    MakeDir("dpTT/dEdX/tmumom");
+    dpTT.symbol = "#deltap_{TT}";
+    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tpimom;
+    dpTT.savename = m_recovars->dpTT_tpimom;
+    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    
+    MakeDir("dpTT/dEdX/tprmom");
+    dpTT.symbol = "#deltap_{TT}";
+    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tprmom;
+    dpTT.savename = m_recovars->dpTT_tprmom;
+    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    
+    MakeDir("dpTT/dEdX/tnudir");
+    dpTT.symbol = "#deltap_{TT}";
+    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tnudir;
+    dpTT.savename = m_recovars->dpTT_tnudir;
+    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    
+    MakeDir("dpTT/dEdX/pimom");
+    dpTT.symbol = "#deltap_{TT}";
+    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pi;
+    dpTT.savename = m_recovars->dpTT_pi;
+    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    
+    MakeDir("dpTT/dEdX/prmom");
+    dpTT.symbol = "#deltap_{TT}";
+    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pr;
+    dpTT.savename = m_recovars->dpTT_pr;
+    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    
+    MakeDir("dpTT/dEdX/pidir");
+    dpTT.symbol = "#deltap_{TT}";
+    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pidir;
+    dpTT.savename = m_recovars->dpTT_pidir;
+    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    
+    MakeDir("dpTT/dEdX/prdir");
+    dpTT.symbol = "#deltap_{TT}";
+    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_prdir;
+    dpTT.savename = m_recovars->dpTT_prdir;
+    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    
+    //LL Method
+    MakeDir("dpTT/LL");
+    dpTT.savename = m_recovars->dpTT_alt;// + "300";
+    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    
+    MakeDir("dpTT/LL/pm1000");
+    dpTT.savename = m_recovars->dpTT_alt + "1000";
+    ProduceGroup(dpTT, 99, -1000, 1000, (EX_base_cut + " && " + m_recovars->dpTT_alt + " != -999."));
+    
+    MakeDir("dpTT/LL/pm7000");
+    dpTT.savename = m_recovars->dpTT + "7000";
+    ProduceGroup(dpTT, 199, -7000, 7000, (EX_base_cut + " && " + m_recovars->dpTT_alt + " != -999."));
+    
+    MakeDir("dpTT/LL/tmumom");
+    dpTT.symbol = "#deltap_{TT}";
+    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tmumom_alt;
+    dpTT.savename = m_recovars->dpTT_tmumom_alt;
+    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    
+    MakeDir("dpTT/LL/tmumom");
+    dpTT.symbol = "#deltap_{TT}";
+    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tpimom_alt;
+    dpTT.savename = m_recovars->dpTT_tpimom_alt;
+    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    
+    MakeDir("dpTT/LL/tprmom");
+    dpTT.symbol = "#deltap_{TT}";
+    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tprmom_alt;
+    dpTT.savename = m_recovars->dpTT_tprmom_alt;
+    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    
+    MakeDir("dpTT/LL/tnudir");
+    dpTT.symbol = "#deltap_{TT}";
+    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tnudir_alt;
+    dpTT.savename = m_recovars->dpTT_tnudir_alt;
+    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    
+    MakeDir("dpTT/LL/pimom");
+    dpTT.symbol = "#deltap_{TT}";
+    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pi_alt;
+    dpTT.savename = m_recovars->dpTT_pi_alt;
+    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    
+    MakeDir("dpTT/LL/prmom");
+    dpTT.symbol = "#deltap_{TT}";
+    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pr_alt;
+    dpTT.savename = m_recovars->dpTT_pr_alt;
+    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    
+    MakeDir("dpTT/LL/pidir");
+    dpTT.symbol = "#deltap_{TT}";
+    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pidir_alt;
+    dpTT.savename = m_recovars->dpTT_pidir_alt;
+    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    
+    MakeDir("dpTT/LL/prdir");
+    dpTT.symbol = "#deltap_{TT}";
+    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_prdir_alt;
+    dpTT.savename = m_recovars->dpTT_prdir_alt;
+    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    
+    //**************************************** DPTT END ***************************************//
+    //*****************************************************************************************//
+    //*****************************************************************************************//
+    //*****************************************************************************************//
+
+    MakeDir("W");
+
+    Variable W_mass;
+    W_mass.units = "MeV";
+    W_mass.symbol = "W";
+    W_mass.name = "mc_w";
+    W_mass.savename = "W_EX";
+
+    TCanvas * w_dist_EL = m_run->TARGETSingle(W_mass, 200, 0, 3000, EX_base_cut);
+    PrintLogo(w_dist_EL);
+    w_dist_EL->Write();
+    
+    W_mass.savename = "W_EX";
+    TCanvas * w_dist_LL = m_run->TARGETSingle(W_mass, 200, 0, 3000, LL_base_cut);
+    PrintLogo(w_dist_LL);
+    w_dist_LL->Write();
     
     //CLOSE THE DIRECTORY
     if(m_outfile->IsOpen()) m_outfile->Close();
