@@ -788,9 +788,7 @@ TCanvas * BreakdownTools::TARGETSingle(Variable var, Int_t nbins, Double_t * bin
     
     TLegend * recon_leg = Legend(0.25, 0.4, 0.551, 0.362);
     
-    std::vector<double> recon_percent = GetPercentage(kinmap_list, 0);
-    std::vector<double> truth_percent = GetPercentage(kinmap_list, 1);
-    std::vector<double> ratio_percent = GetPercentage(kinmap_list, 2);
+    std::vector<double> recon_percent = GetPercentage(kinmap_list);
     
     recon_leg->AddEntry(signal_kinmap.recon, ("H-" + m_toplist[0].symbol).c_str(), "l");
     
