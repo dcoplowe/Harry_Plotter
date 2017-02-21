@@ -556,7 +556,7 @@ void MomentumDists::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std
         var_pid.smearSN->Write();
         
     }
-    else std::cout << "MomentumDists::ProduceGroup : ERROR : File is not open..." << std::endl;
+//    else std::cout << "MomentumDists::ProduceGroup : ERROR : File is not open..." << std::endl;
     
 }
 
