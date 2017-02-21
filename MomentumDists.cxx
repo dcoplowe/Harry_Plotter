@@ -505,9 +505,14 @@ void MomentumDists::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std
 
     if(m_outfile->IsOpen()){
         
+        cout << "IS Work 1" << endl;
+        
         BDCans var_top = m_run->TOPO(var, nbins, bins, cuts);
         BDCans var_tar = m_run->TARGET(var, nbins, bins, cuts);
         BDCans var_pid = m_run->PID(var, nbins, bins, PDG_var, cuts);
+        
+        
+        cout << "IS Work 2" << endl;
         
         m_outfile->cd();
         
@@ -516,44 +521,49 @@ void MomentumDists::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std
         PrintLogo(var_tar.recon);
         PrintLogo(var_pid.recon);
         
+        cout << "IS Work 3" << endl;
+        
         var_top.recon->Write();
         var_tar.recon->Write();
         var_pid.recon->Write();
         
-        //Truth Vars:
-        PrintLogo(var_top.truth);
-        PrintLogo(var_tar.truth);
-        PrintLogo(var_pid.truth);
-        
-        var_top.truth->Write();
-        var_tar.truth->Write();
-        var_pid.truth->Write();
-        
-        //Ratio Vars:
-        PrintLogo(var_top.ratio);
-        PrintLogo(var_tar.ratio);
-        PrintLogo(var_pid.ratio);
-        
-        var_top.ratio->Write();
-        var_tar.ratio->Write();
-        var_pid.ratio->Write();
-        
-        //Smear Vars:
-        PrintLogo(var_top.smear);
-        PrintLogo(var_tar.smear);
-        PrintLogo(var_pid.smear);
-        
-        PrintLogo(var_top.smearSN);
-        PrintLogo(var_tar.smearSN);
-        PrintLogo(var_pid.smearSN);
-        
-        var_top.smear->Write();
-        var_tar.smear->Write();
-        var_pid.smear->Write();
-        
-        var_top.smearSN->Write();
-        var_tar.smearSN->Write();
-        var_pid.smearSN->Write();
+        cout << "IS Work 4" << endl;
+
+//        
+//        //Truth Vars:
+//        PrintLogo(var_top.truth);
+//        PrintLogo(var_tar.truth);
+//        PrintLogo(var_pid.truth);
+//        
+//        var_top.truth->Write();
+//        var_tar.truth->Write();
+//        var_pid.truth->Write();
+//        
+//        //Ratio Vars:
+//        PrintLogo(var_top.ratio);
+//        PrintLogo(var_tar.ratio);
+//        PrintLogo(var_pid.ratio);
+//        
+//        var_top.ratio->Write();
+//        var_tar.ratio->Write();
+//        var_pid.ratio->Write();
+//        
+//        //Smear Vars:
+//        PrintLogo(var_top.smear);
+//        PrintLogo(var_tar.smear);
+//        PrintLogo(var_pid.smear);
+//        
+//        PrintLogo(var_top.smearSN);
+//        PrintLogo(var_tar.smearSN);
+//        PrintLogo(var_pid.smearSN);
+//        
+//        var_top.smear->Write();
+//        var_tar.smear->Write();
+//        var_pid.smear->Write();
+//        
+//        var_top.smearSN->Write();
+//        var_tar.smearSN->Write();
+//        var_pid.smearSN->Write();
         
     }
     else std::cout << "MomentumDists::ProduceGroup : ERROR : File is not open..." << std::endl;
