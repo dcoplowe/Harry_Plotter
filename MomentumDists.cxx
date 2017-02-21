@@ -573,23 +573,16 @@ void MomentumDists::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std
 
 void MomentumDists::MakeDir(std::string name){
     if(m_outfile->IsOpen()){
-        m_outfile->pwd();
+        m_outfile->cd();
         TDirectory * tmp_dir = m_outfile->GetDirectory(name.c_str());
-        cout << "Makin Dir: " << (m_savename + ":/" + name).c_str() << endl;
         if (!tmp_dir) {
-//            std::string cur_dirname = std::string(m_outfile->pwd());
-//            TDirectory * cur_dir =
             m_outfile->mkdir(name.c_str());
-            
             m_outfile->cd((m_savename + ":/" + name).c_str());
-            //m_outfile->ls();
-//             m_outfile->cd((cur_dirname + name).c_str());
-//            m_outfile->cd((cur_dirname + "/" + name).c_str());
-            m_outfile->pwd();
-
-//                            tmp_dir->cd();
         }
-        else cout << "MomentumDists::MakeDir : Directory exists : " << name << endl;
+        else{
+            cout << "MomentumDists::MakeDir : Directory exists, entering : " << name << endl;
+            
+        }
     }
     else cout << "MomentumDists::MakeDir : File is closed..." << endl;
 }
@@ -606,8 +599,8 @@ void MomentumDists::MakePlots(){
     
     MakeDir("Mom");
     cout << "Current Dir : ";
-    m_outfile->cd( (m_savename + ":/Mom" ).c_str() );
-    m_outfile->pwd();
+//    m_outfile->cd( (m_savename + ":/Mom" ).c_str() );
+//    m_outfile->pwd();
     
     cout << "Make 1" << endl;
     
