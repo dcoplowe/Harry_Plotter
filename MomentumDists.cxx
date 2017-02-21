@@ -506,8 +506,8 @@ void MomentumDists::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std
     if(m_outfile->IsOpen()){
         
         BDCans var_top = m_run->TOPO(var, nbins, bins, cuts);
-        BDCans var_tar = run->TARGET(var, nbins, bins, cuts);
-        BDCans var_pid = run->PID(var, nbins, bins, PDG_var, cuts);
+        BDCans var_tar = m_run->TARGET(var, nbins, bins, cuts);
+        BDCans var_pid = m_run->PID(var, nbins, bins, PDG_var, cuts);
         
 //        m_outfile->cd();
         
