@@ -29,6 +29,7 @@
 #include "TDatime.h"
 #include "TLatex.h"
 #include "TDirectory.h"
+#include "TMath.h"
 
 //#include <TStyle.h>
 
@@ -486,9 +487,9 @@ private:
     Particle * m_proton;
     Particle * m_pion;
     
-    Particle * m_muonalt;
-    Particle * m_protonalt;
-    Particle * m_pionalt;
+    Particle * m_muon_alt;
+    Particle * m_proton_alt;
+    Particle * m_pion_alt;
     
     BreakdownTools * m_run;
 };
@@ -567,7 +568,7 @@ void MomentumDists::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std
         BDCans var_tar = m_run->TARGET(var, nbins, bins, cuts);
         
         BDCans var_pid;
-        if(!var.pdg.empty()) var_pid = m_run->PID(var, nbins, bins, PDG_var, cuts);
+        if(!var.pdg.empty()) var_pid = m_run->PID(var, nbins, bins, var.pdg, cuts);
         
         //Recon Vars:
         PrintLogo(var_top.recon);

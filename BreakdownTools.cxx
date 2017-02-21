@@ -790,15 +790,15 @@ TCanvas * BreakdownTools::TARGETSingle(Variable var, Int_t nbins, Double_t * bin
     
     std::vector<double> recon_percent = GetPercentage(kinmap_list);
     
-    recon_leg->AddEntry(signal_kinmap.recon, ("H-" + m_toplist[0].symbol).c_str(), "l");
+    recon_leg->AddEntry(signal_kinmap, ("H-" + m_toplist[0].symbol).c_str(), "l");
     
-    recon_leg->AddEntry(kinmap_list[2].recon, Form("Hydrogen (%.2f%%)", recon_percent[2]), "f");
+    recon_leg->AddEntry(kinmap_list[2], Form("Hydrogen (%.2f%%)", recon_percent[2]), "f");
     
-    recon_leg->AddEntry(kinmap_list[1].recon, Form("Carbon (%.2f%%)", recon_percent[1]), "f");
+    recon_leg->AddEntry(kinmap_list[1], Form("Carbon (%.2f%%)", recon_percent[1]), "f");
     
-    recon_leg->AddEntry(kinmap_list[0].recon, Form("Other (%.2f%%)", recon_percent[0]), "f");
+    recon_leg->AddEntry(kinmap_list[0], Form("Other (%.2f%%)", recon_percent[0]), "f");
     
-    for(int i = 0; i < 3; i++) recon_tot->Add( kinmap_list[i].recon);
+    for(int i = 0; i < 3; i++) recon_tot->Add( kinmap_list[i]);
     
     TCanvas * cans = new TCanvas( recon_tot->GetName(), "", 500, 500);
     cans->cd();
