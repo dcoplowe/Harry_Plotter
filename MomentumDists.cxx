@@ -509,7 +509,7 @@ void MomentumDists::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std
         BDCans var_tar = m_run->TARGET(var, nbins, bins, cuts);
         BDCans var_pid = m_run->PID(var, nbins, bins, PDG_var, cuts);
         
-//        m_outfile->cd();
+        m_outfile->cd();
         
         //Recon Vars:
         PrintLogo(var_top.recon);
@@ -567,7 +567,7 @@ void MomentumDists::MakeDir(std::string name){
         if (!tmp_dir) {
 //            std::string cur_dirname = std::string(m_outfile->pwd());
             m_outfile->mkdir(name.c_str());
-            m_outfile->cd((m_savename + ":/" + name).c_str());
+//            m_outfile->cd((m_savename + "/" + name).c_str());
 //            m_outfile->cd((cur_dirname + "/" + name).c_str());
             m_outfile->pwd();
 
