@@ -482,13 +482,14 @@ MomentumDists::MomentumDists(EXP::EXP exp, std::string filename, bool debug) : m
 }
 
 MomentumDists::~MomentumDists(){
-    delete m_recovars;
-    delete m_run;
     
     if(m_outfile){
         if(m_outfile->IsOpen()) m_outfile->Close();
         delete m_outfile;
     }
+    
+    delete m_recovars;
+    delete m_run;
 }
 
 void MomentumDists::PrintLogo(TCanvas *& can){
@@ -621,8 +622,8 @@ void MomentumDists::MakePlots(){
 //    
 //    ProduceGroup(pi_mom, 40, 0, 2000, m_pion->pdg, base_cut);
     
-    m_outfile->Close();
-    delete m_outfile;
+    if(m_outfile->IsOpen()) m_outfile->Close();
+    if(m_outfile) delete m_outfile;
 
 //
 //    
