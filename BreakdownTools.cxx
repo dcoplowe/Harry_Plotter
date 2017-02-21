@@ -743,6 +743,76 @@ BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::s
 
     return cans;
 }
+
 BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts){
     return TARGET(var, nbins, SetBinning(nbins, low, high), cuts);
+}
+
+TCanvas * BreakdownTools::TARGETSingle(Variable var, Int_t nbins, Double_t * bins, std::string cuts){
+    
+    std::string tmp_cuts_1 = cuts;
+    if(!cuts.empty()){
+        tmp_cuts_1 += " && ";
+    }
+    
+    //Hydrogen:
+    std::string hsig = tmp_cuts_1 + "mc_targetZ == 1";
+    TH1D * hydrogen_kinmap = GetHisto(var.name, nbins, bins, var.symbol, hsig);
+    SetColors(hydrogen_kinmap, DrawingStyle::HYDROGEN);
+    
+    //Carbon:
+    std::string csig = tmp_cuts_1 + "mc_targetZ == 6";
+    TH1D * carbon_kinmap = GetHisto(var.name, nbins, bins, var.symbol, csig);
+    SetColors(carbon_kinmap, DrawingStyle::CARBON);
+    
+    //Other:
+    std::string osig = tmp_cuts_1 + "mc_targetZ != 1 && mc_targetZ != 6";
+    TH1D * other_kinmap = GetHisto(var.name, nbins, bins, var.symbol, osig);
+    SetColors(other_kinmap, DrawingStyle::Other);
+    
+    //The signal bit:
+    std::string hsignal = tmp_cuts_1;
+    TOPS sig_top(TOPSTYPE::HCC1P1PiPlus);
+    hsignal += sig_top.signal;
+    TH1D * signal_kinmap = GetHisto(var.name, nbins, bins, var.symbol, hsignal);
+    SetColors(signal_kinmap, sig_top.fill_colour, sig_top.line_colour, sig_top.fill_style, sig_top.line_style);
+    signal_kinmap->SetLineWidth(2);
+    
+    std::vector<TH1D*> kinmap_list;
+    kinmap_list.push_back( other_kinmap );
+    kinmap_list.push_back( carbon_kinmap );
+    kinmap_list.push_back( hydrogen_kinmap );
+    
+    THStack * recon_tot = new THStack( (var.savename + "_TAR").c_str(), Form(";%s (%s);%s", kinmap_list[0]->GetXaxis()->GetTitle(), var.units.c_str(),
+                                                                                   kinmap_list[0]->GetYaxis()->GetTitle() ) );
+    
+    TLegend * recon_leg = Legend(0.25, 0.4, 0.551, 0.362);
+    
+    std::vector<double> recon_percent = GetPercentage(kinmap_list, 0);
+    std::vector<double> truth_percent = GetPercentage(kinmap_list, 1);
+    std::vector<double> ratio_percent = GetPercentage(kinmap_list, 2);
+    
+    recon_leg->AddEntry(signal_kinmap.recon, ("H-" + m_toplist[0].symbol).c_str(), "l");
+    
+    recon_leg->AddEntry(kinmap_list[2].recon, Form("Hydrogen (%.2f%%)", recon_percent[2]), "f");
+    
+    recon_leg->AddEntry(kinmap_list[1].recon, Form("Carbon (%.2f%%)", recon_percent[1]), "f");
+    
+    recon_leg->AddEntry(kinmap_list[0].recon, Form("Other (%.2f%%)", recon_percent[0]), "f");
+    
+    for(int i = 0; i < 3; i++) recon_tot->Add( kinmap_list[i].recon);
+    
+    TCanvas * cans = new TCanvas( recon_tot->GetName(), "", 500, 500);
+    cans->cd();
+    recon_tot->Draw();
+    signal_kinmap->Draw("SAME");
+    recon_leg->Draw();
+    TLegend * recon_pot = GetPOT(0.1,0.1);
+    recon_pot->Draw();
+    
+    return cans;
+}
+
+TCanvas * BreakdownTools::TARGETSingle(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts){
+    return TARGETSingle(var, nbins, SetBinning(nbins, low, high), cuts);
 }

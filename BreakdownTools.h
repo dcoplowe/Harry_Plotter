@@ -30,6 +30,7 @@ struct Variable {
     std::string symbol;
     std::string units;
     std::string savename;
+    std::string pdg;
 };
 
 namespace TOPSTYPE {
@@ -133,6 +134,9 @@ public:
     
     BDCans TARGET(Variable var, Int_t nbins, Double_t * bins, std::string cuts = "");
     BDCans TARGET(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts = "");
+    
+    TCanvas * TARGETSingle(Variable var, Int_t nbins, Double_t * bins, std::string cuts = "");
+    TCanvas * TARGETSingle(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts = "");
 
     void PrintPOT(){ m_printPOT = true; }
     
