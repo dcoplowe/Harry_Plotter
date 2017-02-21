@@ -606,6 +606,7 @@ void MomentumDists::MakePlots(){
     
     MakeDir("Mom");
     cout << "Current Dir : ";
+    m_outfile->cd( (m_outfile + ":/Mom" ).c_str() );
     m_outfile->pwd();
     
     cout << "Make 1" << endl;
