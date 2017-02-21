@@ -498,7 +498,7 @@ void MomentumDists::PrintLogo(TCanvas *& can){
 }
 
 void MomentumDists::ProduceGroup(Variable var, Int_t nbins, Double_t low, Double_t high, std::string PDG_var, std::string cuts){
-    ProduceGroup(var, nbins, DrawingTools::SetBinning(nbins, low, high), PDG_var, cuts);
+    ProduceGroup(var, nbins, BreakdownTools::SetBinning(nbins, low, high), PDG_var, cuts);
 }
 
 void MomentumDists::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std::string PDG_var, std::string cuts){//, Int_t setsave = 11111??
