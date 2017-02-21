@@ -574,7 +574,7 @@ void MomentumDists::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std
 void MomentumDists::MakeDir(std::string name){
     if(m_outfile->IsOpen()){
         m_outfile->pwd();
-        TDirectory *tmp_dir = m_outfile->GetDirectory(name.c_str());
+        TDirectory * tmp_dir = m_outfile->GetDirectory(name.c_str());
         if (!tmp_dir) {
             std::string cur_dirname = std::string(m_outfile->pwd());
             m_outfile->mkdir(name.c_str());
