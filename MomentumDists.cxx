@@ -602,20 +602,24 @@ void MomentumDists::MakePlots(){
     cout << "Current Dir : ";
     m_outfile->pwd();
     
+    cout << "Make 1" << endl;
+    
     Variable mom;
     mom.name = m_proton->trueP + ":" + m_proton->P;
     mom.units = "MeV/#it{c}";
     mom.symbol = "#it{p}_{p}";
     mom.savename = m_proton->P;
     
+    cout << "Make 1" << endl;
+    
     ProduceGroup(mom, 40, 0, 2000, m_proton->pdg, base_cut);
-    
-    Variable pi_mom;
-    pi_mom.name = m_pion->trueP + ":" + m_pion->P;
-    pi_mom.units = "MeV/#it{c}";
-    pi_mom.symbol = "#it{p}_{p}";
-    
-    ProduceGroup(pi_mom, 40, 0, 2000, m_pion->pdg, base_cut);
+//    
+//    Variable pi_mom;
+//    pi_mom.name = m_pion->trueP + ":" + m_pion->P;
+//    pi_mom.units = "MeV/#it{c}";
+//    pi_mom.symbol = "#it{p}_{p}";
+//    
+//    ProduceGroup(pi_mom, 40, 0, 2000, m_pion->pdg, base_cut);
     
     m_outfile->Close();
     delete m_outfile;
