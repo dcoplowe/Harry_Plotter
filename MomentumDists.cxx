@@ -28,6 +28,7 @@
 #include "TFile.h"
 #include "TDatime.h"
 #include "TLatex.h"
+#include "TDirectory.h"
 
 //#include <TStyle.h>
 
@@ -411,6 +412,8 @@ public:
     void ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std::string PDG_var, std::string cuts);
     void ProduceGroup(Variable var, Int_t nbins, Double_t low, Double_t high, std::string PDG_var, std::string cuts);
     
+    void MakeDir(std::string name);
+    
 private:
     EXP::EXP m_experiment;
     std::string m_infilename;
@@ -506,7 +509,7 @@ void MomentumDists::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std
         BDCans var_tar = run->TARGET(mom, nbins, bins, base_cut);
         BDCans var_pid = run->PID(mom, 40, 0, 2000, PDG_var, base_cut);
         
-        m_outfile->cd();
+//        m_outfile->cd();
         
         //Recon Vars:
         PrintLogo(var_top.recon);
@@ -557,6 +560,19 @@ void MomentumDists::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std
     
 }
 
+void MomentumDists::MakeDir(std::string name){
+    if(m_outfile->IsOpen()){
+        TDirectory *tmp_dir = m_outfile->GetDirectory(name.c_str());
+        if (!tmp_dir) {
+            m_outfile->mkdir(name.c_str());
+            m_outfile->cd(name.c_str());
+            //                tmp_dir->cd();
+        }
+        else cout << "MomentumDists::MakeDir : Directory exists : " << name << endl;
+    }
+    else cout << "MomentumDists::MakeDir : File is closed..." << endl;
+}
+
 void MomentumDists::MakePlots(){
     
 //    TFile * outfile = new TFile(m_savename.c_str(), "RECREATE");
@@ -567,10 +583,14 @@ void MomentumDists::MakePlots(){
     //Pass all cuts check://Only consider dEdX ( accum_level[0]) recon for now:
     string base_cut = "accum_level[0] > 5 && " + m_pion->michel + " == 1";
     
+    MakeDir("Mom");
+    cout << "Current Dir : " << m_outfile->pwd();
+    
     Variable mom;
     mom.name = m_proton->trueP + ":" + m_proton->P;
     mom.units = "MeV/#it{c}";
     mom.symbol = "#it{p}_{p}";
+    mom.savename = m_proton->P;
     
     ProduceGroup(mom, 40, 0, 2000, m_proton->pdg, base_cut);
     
