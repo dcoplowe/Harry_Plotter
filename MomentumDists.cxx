@@ -581,9 +581,9 @@ void MomentumDists::MakeDir(std::string name){
             m_outfile->pwd();
 
 //            m_outfile->cd((m_savename + ":/" + name).c_str());
-             m_outfile->cd((cur_dirname + name).c_str());
+//             m_outfile->cd((cur_dirname + name).c_str());
 //            m_outfile->cd((cur_dirname + "/" + name).c_str());
-            m_outfile->pwd();
+//            m_outfile->pwd();
 
             //                tmp_dir->cd();
         }
