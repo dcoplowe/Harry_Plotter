@@ -1361,7 +1361,7 @@ int main(int argc, char *argv[])
     
     plots->MakePlots();
 
-    delete plots;
+//    delete plots; -- TODO: Fix this
     
     return 0;
 }
