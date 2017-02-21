@@ -1252,8 +1252,8 @@ void MomentumDists::MakePlots(){
 //    pmap.smear->Write();
 //    pmap.ratio->Write();
 
-    outfile->Close();
-    delete outfile;
+//    outfile->Close();
+//    delete outfile;
     
 //    m_outfile
     
