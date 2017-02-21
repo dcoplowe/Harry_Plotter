@@ -575,12 +575,12 @@ void MomentumDists::MakeDir(std::string name){
     if(m_outfile->IsOpen()){
         m_outfile->pwd();
         TDirectory * tmp_dir = m_outfile->GetDirectory(name.c_str());
+        cout << "Makine Dir: " << (m_savename + ":/" + name).c_str() << endl;
         if (!tmp_dir) {
 //            std::string cur_dirname = std::string(m_outfile->pwd());
             m_outfile->mkdir(name.c_str());
             m_outfile->pwd();
-
-//            m_outfile->cd((m_savename + ":/" + name).c_str());
+            m_outfile->cd((m_savename + ":/" + name).c_str());
 //             m_outfile->cd((cur_dirname + name).c_str());
 //            m_outfile->cd((cur_dirname + "/" + name).c_str());
 //            m_outfile->pwd();
