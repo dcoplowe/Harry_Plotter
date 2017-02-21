@@ -599,7 +599,7 @@ void MomentumDists::MakePlots(){
     //Pass all cuts check://Only consider dEdX ( accum_level[0]) recon for now:
     string base_cut = "accum_level[0] > 5 && " + m_pion->michel + " == 1";
     
-    MakeDir("Mom");
+    MakeDir("Mom/Proton");
     cout << "Current Dir : ";
 //    m_outfile->cd( (m_savename + ":/Mom" ).c_str() );
 //    m_outfile->pwd();
@@ -615,15 +615,16 @@ void MomentumDists::MakePlots(){
     cout << "Make 1" << endl;
     
     ProduceGroup(mom, 40, 0, 2000, m_proton->pdg, base_cut);
-//    
-//    Variable pi_mom;
-//    pi_mom.name = m_pion->trueP + ":" + m_pion->P;
-//    pi_mom.units = "MeV/#it{c}";
-//    pi_mom.symbol = "#it{p}_{p}";
-//    
-//    ProduceGroup(pi_mom, 40, 0, 2000, m_pion->pdg, base_cut);
+
+    MakeDir("Mom/Pion");
+    Variable pi_mom;
+    pi_mom.name = m_pion->trueP + ":" + m_pion->P;
+    pi_mom.units = "MeV/#it{c}";
+    pi_mom.symbol = "#it{p}_{p}";
     
-    MakeDir("Theta");
+    ProduceGroup(pi_mom, 40, 0, 2000, m_pion->pdg, base_cut);
+    
+    MakeDir("Theta/Proton");
 
     Variable theta;
         theta.units = "degrees";
@@ -635,6 +636,9 @@ void MomentumDists::MakePlots(){
         theta.symbol = "#theta_{p}";
     
     ProduceGroup(theta, 40, 0, 180, m_proton->pdg, base_cut);
+    
+    MakeDir("Theta/Pion");
+
     
     if(m_outfile->IsOpen()) m_outfile->Close();
     if(m_outfile) delete m_outfile;
