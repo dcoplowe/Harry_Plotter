@@ -556,7 +556,7 @@ void MomentumDists::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std
         var_pid.smearSN->Write();
         
     }
-//    else std::cout << "MomentumDists::ProduceGroup : ERROR : File is not open..." << std::endl;
+    else std::cout << "MomentumDists::ProduceGroup : ERROR : File is not open..." << std::endl;
     
 }
 
@@ -584,7 +584,8 @@ void MomentumDists::MakePlots(){
     string base_cut = "accum_level[0] > 5 && " + m_pion->michel + " == 1";
     
     MakeDir("Mom");
-    cout << "Current Dir : " << m_outfile->pwd();
+    cout << "Current Dir : ";
+    m_outfile->pwd();
     
     Variable mom;
     mom.name = m_proton->trueP + ":" + m_proton->P;
