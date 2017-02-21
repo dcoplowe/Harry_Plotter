@@ -583,7 +583,7 @@ void MomentumDists::MakeDir(std::string name){
         }
         else{
             cout << "MomentumDists::MakeDir : Directory exists, entering : " << name << endl;
-            
+            cdDir(name);
         }
     }
     else cout << "MomentumDists::MakeDir : File is closed..." << endl;
@@ -622,6 +622,19 @@ void MomentumDists::MakePlots(){
 //    pi_mom.symbol = "#it{p}_{p}";
 //    
 //    ProduceGroup(pi_mom, 40, 0, 2000, m_pion->pdg, base_cut);
+    
+    MakeDir("Theta");
+
+    Variable theta;
+        theta.units = "degrees";
+    
+        //**** Proton ****//
+    
+        theta.name = m_proton->truetheta + ":" + m_proton->theta;
+        theta.savename = m_proton->theta;
+        theta.symbol = "#theta_{p}";
+    
+    ProduceGroup(theta, 40, 0, 180, m_proton->pdg, base_cut);
     
     if(m_outfile->IsOpen()) m_outfile->Close();
     if(m_outfile) delete m_outfile;
