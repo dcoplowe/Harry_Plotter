@@ -585,9 +585,9 @@ void MomentumDists::MakeDir(std::string name){
             //m_outfile->ls();
 //             m_outfile->cd((cur_dirname + name).c_str());
 //            m_outfile->cd((cur_dirname + "/" + name).c_str());
-//            m_outfile->pwd();
+            m_outfile->pwd();
 
-                            tmp_dir->cd();
+//                            tmp_dir->cd();
         }
         else cout << "MomentumDists::MakeDir : Directory exists : " << name << endl;
     }
