@@ -515,7 +515,7 @@ void MomentumDists::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std
         
         cout << "IS Work 2" << endl;
         
-        m_outfile->cd();
+//        m_outfile->cd();
         
         //Recon Vars:
         PrintLogo(var_top.recon);
