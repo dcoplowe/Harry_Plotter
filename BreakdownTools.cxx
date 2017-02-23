@@ -387,7 +387,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     TIter next(rlist);
     TH1D ratio_sum( (var.savename + "_PID_ratio_sum").c_str(), "", ratio_tot->GetXaxis()->GetNbins(), ratio_tot->GetXaxis()->GetXmin(), ratio_tot->GetXaxis()->GetXmax());
     TH1D * rhist_tmp;
-    while (rhist_tmp = (TH1D*)next()) {
+    while ( (rhist_tmp = (TH1D*)next()) ) {
         ratio_sum.Add(rhist_tmp);
     }
     
