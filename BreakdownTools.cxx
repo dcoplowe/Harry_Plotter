@@ -392,8 +392,8 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     }
     
     TLegend * ratio_stats = Legend(0.25, 0.2, 0.1, 0.2);
-    ratio_stats->AddEntry((TOject*), Form("Mean = %.3f", (double)ratio_sum.GetMean()), "");
-    ratio_stats->AddEntry((TOject*), Form(" RMS = %.3f", (double)ratio_sum.GetRMS()), "");
+    ratio_stats->AddEntry((TObject*), Form("Mean = %.3f", (double)ratio_sum.GetMean()), "");
+    ratio_stats->AddEntry((TObject*), Form(" RMS = %.3f", (double)ratio_sum.GetRMS()), "");
     
     BDCans cans;
     
