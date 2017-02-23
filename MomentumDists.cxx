@@ -255,7 +255,7 @@ void MomentumDists::MakeThetaPlots(Particle * part, Int_t nbins, Double_t * bins
     theta.units = "rad";
     theta.symbol = "#theta_{" + part->GetSymbol() + "}";
     theta.name = part->truetheta + ":" + part->theta;//This probably wont work as the code looks for :: to make a split... Add fix.
-    theta.savename = part->truetheta;
+    theta.savename = part->theta;
     theta.pdg = part->pdg;
     ProduceGroup(theta, nbins, bins, cuts);
 }
@@ -339,7 +339,7 @@ void MomentumDists::MakePlots(){
     
     //Proton:
     MakeDir("Mom/LL/Proton");
-    MakeMomPlots(m_pion_alt, 40, 0, 2000, LL_base_cut);
+    MakeMomPlots(m_proton_alt, 40, 0, 2000, LL_base_cut);
     
     //Pion:
     MakeDir("Mom/LL/Pion");
@@ -478,7 +478,7 @@ void MomentumDists::MakePlots(){
     ProduceGroup(dpTT, 99, -1000, 1000, (LL_base_cut + " && " + m_recovars->dpTT_alt + " != -999."));
     
     MakeDir("dpTT/LL/pm7000");
-    dpTT.savename = m_recovars->dpTT + "7000";
+    dpTT.savename = m_recovars->dpTT_alt + "7000";
     ProduceGroup(dpTT, 199, -7000, 7000, (LL_base_cut + " && " + m_recovars->dpTT_alt + " != -999."));
     
     MakeDir("dpTT/LL/tmumom");
