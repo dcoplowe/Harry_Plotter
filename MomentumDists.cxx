@@ -281,7 +281,15 @@ void MomentumDists::MakePhiPlots(Particle * part, Int_t nbins, Double_t low, Dou
 }
 
 void MomentumDists::MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
-    ;
+    Variable phi;
+    //    phi.units = "degrees";
+    //    phi.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
+    phi.units = "rad";
+    phi.symbol = "#phi_{" + part->GetSymbol() + "}";
+    phi.name = part->truephi + ":" + part->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
+    phi.savename = part->phi;
+    phi.pdg = part->pdg;
+    ProduceGroup(phi, nbins, bins, cuts);
 }
 
 void MomentumDists::MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
@@ -306,7 +314,7 @@ void MomentumDists::MakeDir(std::string name){
 //            m_outfile->cd((m_savename + ":/" + name).c_str());
         }
         else{
-            cout << "MomentumDists::MakeDir : Directory exists, entering : " << name << endl;
+//            cout << "MomentumDists::MakeDir : Directory exists, entering : " << name << endl;
             cdDir(name);
         }
     }
@@ -556,10 +564,6 @@ void MomentumDists::MakePlots(){
     if(m_outfile->IsOpen()) m_outfile->Close();
     if(m_outfile) delete m_outfile;
     //DONE
-
-    
-    
-    
 }
 
 

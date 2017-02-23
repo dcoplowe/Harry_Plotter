@@ -9,6 +9,7 @@
 #include "TLegend.h"
 #include "THStack.h"
 #include "TCanvas.h"
+#include "TList.h"
 
 #ifndef _PARTPDGS_CXX
 #define _PARTPDGS_CXX
@@ -380,6 +381,20 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
         ratio_leg->AddEntry(other_kinmap.ratio, Form("Other (%.2f%%)", ratio_other_percent), "f");
     }
     
+    //Get the ratio histograms, make them into one histogram and determine the rms and mean:
+    TList * rlist = ratio_tot->GetHists();
+    
+    TIter next(rlist);
+    TH1D ratio_sum( (var.savename + "_PID_ratio_sum").c_str(), "", ratio_tot->GetXaxis()->GetNbins(), ratio_tot->GetXaxis()->GetXmin(), ratio_tot->GetXaxis()->GetXmax());
+    TH1D * rhist_tmp;
+    while (rhist_tmp = (TH1D*)next()) {
+        ratio_sum.Add(rhist_tmp);
+    }
+    
+    TLegend * ratio_stats = Legend(0.25, 0.2, 0.1, 0.2);
+    ratio_stats->AddEntry((TOject*), Form("Mean = %.3f", (double)ratio_sum.GetMean()), "");
+    ratio_stats->AddEntry((TOject*), Form(" RMS = %.3f", (double)ratio_sum.GetRMS()), "");
+    
     BDCans cans;
     
     cans.recon = new TCanvas( recon_tot->GetName(), "", 500, 500);
@@ -401,6 +416,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     cans.ratio->cd();
     ratio_tot->Draw();
     ratio_leg->Draw();
+    ratio_stats->Draw();
     TLegend * ratio_pot = GetPOT(0.1,0.1);
     ratio_pot->Draw();
     
