@@ -394,7 +394,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
         ratio_sum.Add(rhist_tmp);
     }
     
-    TLegend * ratio_stats = Legend(0.25, 0.2, 0.05, 0.1);
+    TLegend * ratio_stats = Legend(0.25, 0.8, 0.05, 0.1);
     ratio_stats->AddEntry((TObject*)0, Form("Mean = %.3f", (double)ratio_sum.GetMean()), "");
     ratio_stats->AddEntry((TObject*)0, Form(" RMS = %.3f", (double)ratio_sum.GetRMS()), "");
     
@@ -594,6 +594,22 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         ratio_leg->AddEntry(kinmap_list.back().ratio, Form("Other (%.2f%%)", ratio_other_percent), "f");
     }
     
+    TList * rlist = ratio_tot->GetHists();
+    Int_t ratio_nbins = kinmap_list[0].ratio->GetNbinsX();
+    Double_t ratio_low = kinmap_list[0].ratio->GetXaxis()->GetXmin();
+    Double_t ratio_high = kinmap_list[0].ratio->GetXaxis()->GetXmax();
+    
+    TIter next(rlist);
+    TH1D ratio_sum( (var.savename + "_PID_ratio_sum").c_str(), "", ratio_nbins, ratio_low, ratio_high);
+    TH1D * rhist_tmp;
+    while ( (rhist_tmp = (TH1D*)next()) ) {
+        ratio_sum.Add(rhist_tmp);
+    }
+    
+    TLegend * ratio_stats = Legend(0.25, 0.8, 0.05, 0.1);
+    ratio_stats->AddEntry((TObject*)0, Form("Mean = %.3f", (double)ratio_sum.GetMean()), "");
+    ratio_stats->AddEntry((TObject*)0, Form(" RMS = %.3f", (double)ratio_sum.GetRMS()), "");
+    
     BDCans cans;
     
     cans.recon = new TCanvas( recon_tot->GetName(), "", 500, 500);
@@ -617,6 +633,7 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
     cans.ratio->cd();
     ratio_tot->Draw();
     ratio_leg->Draw();
+    ratio_stats->Draw();
     signal_kinmap.ratio->Draw("SAME");
     TLegend * ratio_pot = GetPOT(0.1,0.1);
     ratio_pot->Draw();
@@ -722,6 +739,22 @@ BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::s
         if(i > 0) smear_tot->Add(kinmap_list[i].smear);
     }
     
+    TList * rlist = ratio_tot->GetHists();
+    Int_t ratio_nbins = kinmap_list[0].ratio->GetNbinsX();
+    Double_t ratio_low = kinmap_list[0].ratio->GetXaxis()->GetXmin();
+    Double_t ratio_high = kinmap_list[0].ratio->GetXaxis()->GetXmax();
+    
+    TIter next(rlist);
+    TH1D ratio_sum( (var.savename + "_PID_ratio_sum").c_str(), "", ratio_nbins, ratio_low, ratio_high);
+    TH1D * rhist_tmp;
+    while ( (rhist_tmp = (TH1D*)next()) ) {
+        ratio_sum.Add(rhist_tmp);
+    }
+    
+    TLegend * ratio_stats = Legend(0.25, 0.8, 0.05, 0.1);
+    ratio_stats->AddEntry((TObject*)0, Form("Mean = %.3f", (double)ratio_sum.GetMean()), "");
+    ratio_stats->AddEntry((TObject*)0, Form(" RMS = %.3f", (double)ratio_sum.GetRMS()), "");
+    
     BDCans cans;
     
     cans.recon = new TCanvas( recon_tot->GetName(), "", 500, 500);
@@ -745,6 +778,7 @@ BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::s
     cans.ratio->cd();
     ratio_tot->Draw();
     ratio_leg->Draw();
+    ratio_stats->Draw();
     signal_kinmap.ratio->Draw("SAME");
     TLegend * ratio_pot = GetPOT(0.1,0.1);
     ratio_pot->Draw();
