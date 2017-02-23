@@ -383,13 +383,12 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     
     //Get the ratio histograms, make them into one histogram and determine the rms and mean:
     TList * rlist = ratio_tot->GetHists();
-//    cout << "ratio_tot->GetNhists() = " << ratio_tot->GetNhists() << endl;
-    cout << "ratio_tot->GetXaxis()->GetNbins() = " << kinmap_list[0].ratio->GetNbinsX() << endl;
-    cout << "ratio_tot->GetXaxis()->GetXmin() = " <<  kinmap_list[0].ratio->GetXaxis()->GetXmin() << endl;
-    cout << "ratio_tot->GetXaxis()->GetXmax() = " <<  kinmap_list[0].ratio->GetXaxis()->GetXmax() << endl;
+    Int_t ratio_nbins = kinmap_list[0].ratio->GetNbinsX();
+    Double_t ratio_low = kinmap_list[0].ratio->GetXaxis()->GetXmin();
+    Double_t ratio_high = kinmap_list[0].ratio->GetXaxis()->GetXmax();
     
     TIter next(rlist);
-    TH1D ratio_sum( (var.savename + "_PID_ratio_sum").c_str(), "", ratio_tot->GetXaxis()->GetNbins(), ratio_tot->GetXaxis()->GetXmin(), ratio_tot->GetXaxis()->GetXmax());
+    TH1D ratio_sum( (var.savename + "_PID_ratio_sum").c_str(), "", ratio_nbins, ratio_low, ratio_high);
     TH1D * rhist_tmp;
     while ( (rhist_tmp = (TH1D*)next()) ) {
         ratio_sum.Add(rhist_tmp);
