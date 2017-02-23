@@ -71,7 +71,6 @@ public:
     void MakeScorePlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts);
     void MakeScorePlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts);
     
-    
     void ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std::string cuts);
     void ProduceGroup(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts);
     
@@ -250,7 +249,15 @@ void MomentumDists::MakeMomPlots(Particle * part, Int_t nbins, Double_t low, Dou
 }
 
 void MomentumDists::MakeThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
-   
+    Variable theta;
+    //    theta.units = "degrees";
+    //    theta.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
+    theta.units = "rad";
+    theta.symbol = "#theta_{" + part->GetSymbol() + "}";
+    theta.name = part->truetheta + ":" + part->theta;//This probably wont work as the code looks for :: to make a split... Add fix.
+    theta.savename = part->truetheta;
+    theta.pdg = part->pdg;
+    ProduceGroup(theta, nbins, bins, cuts);
 }
 
 void MomentumDists::MakeThetaPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
@@ -258,7 +265,15 @@ void MomentumDists::MakeThetaPlots(Particle * part, Int_t nbins, Double_t low, D
 }
 
 void MomentumDists::MakePhiPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
-    ;
+    Variable phi;
+    //    phi.units = "degrees";
+    //    phi.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
+    phi.units = "rad";
+    phi.symbol = "#phi_{" + part->GetSymbol() + "}";
+    phi.name = part->truephi + ":" + part->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
+    phi.savename = part->phi;
+    phi.pdg = part->pdg;
+    ProduceGroup(phi, nbins, bins, cuts);
 }
 
 void MomentumDists::MakePhiPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
@@ -310,52 +325,25 @@ void MomentumDists::MakePlots(){
     string LL_base_cut = "accum_level[1] > 5 && " + m_pion_alt->michel + " == 1";//Alt michel too
     //**************************************** Mom START ****************************************//
     
-    Variable mom;
-    mom.units = "MeV/#it{c}";
-
     //Proton:
     MakeDir("Mom/dEdX/Proton");
     MakeMomPlots(m_proton, 40, 0, 2000, EX_base_cut);
     
     //Pion:
     MakeDir("Mom/dEdX/Pion");
-    mom.name = m_pion->trueP + ":" + m_pion->P;
-    mom.symbol = "#it{p}_{#pi}";
-    mom.savename = m_pion->P;
-    mom.pdg = m_pion->pdg;
-    ProduceGroup(mom, 40, 0, 2000, EX_base_cut);
+    MakeMomPlots(m_pion, 40, 0, 2000, EX_base_cut);
     
     //Muon:
     MakeDir("Mom/dEdX/Muon");
-    mom.name = m_muon->trueP + ":" + m_muon->P;
-    mom.symbol = "#it{p}_{#mu}";
-    mom.savename = m_muon->P;
-    mom.pdg = m_muon->pdg;
-    ProduceGroup(mom, 40, 0, 2000, EX_base_cut);
+    MakeMomPlots(m_muon, 40, 0, 6000, EX_base_cut);
     
     //Proton:
     MakeDir("Mom/LL/Proton");
-    mom.name = m_proton_alt->trueP + ":" + m_proton_alt->P;
-    mom.symbol = "#it{p}_{" + m_proton_alt->GetSymbol() + "}";
-    mom.savename = m_proton_alt->P;
-    mom.pdg = m_proton_alt->pdg;
-    ProduceGroup(mom, 40, 0, 2000, LL_base_cut);
+    MakeMomPlots(m_pion_alt, 40, 0, 2000, LL_base_cut);
     
     //Pion:
     MakeDir("Mom/LL/Pion");
-    mom.name = m_pion_alt->trueP + ":" + m_pion_alt->P;
-    mom.symbol = "#it{p}_{#pi}";
-    mom.savename = m_pion_alt->P;
-    mom.pdg = m_pion_alt->pdg;
-    ProduceGroup(mom, 40, 0, 2000, LL_base_cut);
-    
-//    //Muon:
-//    MakeDir("Mom/LL/Muon");
-//    mom.name = m_muon_alt->trueP + ":" + m_muon_alt->P;
-//    mom.symbol = "#it{p}_{#mu}";
-//    mom.savename = m_muon_alt->P;
-//    mom.pdg = m_muon_alt->pdg;
-//    ProduceGroup(mom, 40, 0, 2000, LL_base_cut);
+    MakeMomPlots(m_pion_alt, 40, 0, 2000, LL_base_cut)
     
     //**************************************** Mom END ****************************************//
     //*****************************************************************************************//
@@ -363,63 +351,25 @@ void MomentumDists::MakePlots(){
     //*****************************************************************************************//
     //**************************************** Theta START ************************************//
     
-    Variable theta;
-//    theta.units = "degrees";
-    theta.units = "rad";
-
     //Proton:
     MakeDir("Theta/dEdX/Proton");
-//    theta.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
-    theta.name = m_proton->trueP + ":" + m_proton->P;//This probably wont work as the code looks for :: to make a split... Add fix.
-    theta.symbol = "#theta_{" + m_proton->GetSymbol() + "}";
-    theta.savename = m_proton->P;
-    theta.pdg = m_proton->pdg;
-    ProduceGroup(theta, 40, 0, 2.*TMath::Pi(), EX_base_cut);
+    MakeThetaPlots(m_proton, 40, 0, 2.*TMath::Pi(), EX_base_cut);
     
     //Pion:
     MakeDir("Theta/dEdX/Pion");
-//    theta.name = m_pion->trueP + "*TMath::RadToDeg():" + m_pion->P + "*TMath::RadToDeg()";
-    theta.name = m_pion->trueP + ":" + m_pion->P;//This probably wont work as the code looks for :: to make a split... Add fix.
-    theta.symbol = "#theta_{#pi}";
-    theta.savename = m_pion->P;
-    theta.pdg = m_pion->pdg;
-    ProduceGroup(theta, 40, 0, 2.*TMath::Pi(), EX_base_cut);
-    
+    MakeThetaPlots(m_pion, 40, 0, 2.*TMath::Pi(), EX_base_cut);
+
     //Muon:
     MakeDir("Theta/dEdX/Muon");
-//    theta.name = m_muon->trueP + "*TMath::RadToDeg():" + m_muon->P + "*TMath::RadToDeg()";
-    theta.name = m_muon->trueP + ":" + m_muon->P;//This probably wont work as the code looks for :: to make a split... Add fix.
-    theta.symbol = "#theta_{#mu}";
-    theta.savename = m_muon->P;
-    theta.pdg = m_muon->pdg;
-    ProduceGroup(theta, 40, 0, 2.*TMath::Pi(), EX_base_cut);
+    MakeThetaPlots(m_muon, 40, 0, 2.*TMath::Pi(), EX_base_cut);
     
     //Proton:
     MakeDir("Theta/LL/Proton");
-    //    theta.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
-    theta.name = m_proton_alt->trueP + ":" + m_proton_alt->P;//This probably wont work as the code looks for :: to make a split... Add fix.
-    theta.symbol = "#theta_{" + m_proton_alt->GetSymbol() + "}";
-    theta.savename = m_proton_alt->P;
-    theta.pdg = m_proton_alt->pdg;
-    ProduceGroup(theta, 40, 0, 2.*TMath::Pi(), LL_base_cut);
+    MakeThetaPlots(m_proton_alt, 40, 0, 2.*TMath::Pi(), LL_base_cut);
     
     //Pion:
     MakeDir("Theta/LL/Pion");
-    //    theta.name = m_pion->trueP + "*TMath::RadToDeg():" + m_pion->P + "*TMath::RadToDeg()";
-    theta.name = m_pion_alt->trueP + ":" + m_pion_alt->P;//This probably wont work as the code looks for :: to make a split... Add fix.
-    theta.symbol = "#theta_{#pi}";
-    theta.savename = m_pion_alt->P;
-    theta.pdg = m_pion_alt->pdg;
-    ProduceGroup(theta, 40, 0, 2.*TMath::Pi(), LL_base_cut);
-    
-//    //Muon:
-//    MakeDir("Theta/LLMuon");
-//    //    theta.name = m_muon->trueP + "*TMath::RadToDeg():" + m_muon->P + "*TMath::RadToDeg()";
-//    theta.name = m_muon_alt->trueP + ":" + m_muon_alt->P;//This probably wont work as the code looks for :: to make a split... Add fix.
-//    theta.symbol = "#theta_{#mu}";
-//    theta.savename = m_muon_alt->P;
-//    theta.pdg = m_muon_alt->pdg;
-//    ProduceGroup(theta, 40, 0, 2.*TMath::Pi(), LL_base_cut);
+    MakeThetaPlots(m_pion_alt, 40, 0, 2.*TMath::Pi(), LL_base_cut);
     
     //**************************************** Theta END **************************************//
     //*****************************************************************************************//
@@ -433,58 +383,24 @@ void MomentumDists::MakePlots(){
     
     //Proton:
     MakeDir("Phi/dEdX/Proton");
-    //    phi.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
-    phi.name = m_proton->truephi + ":" + m_proton->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
-    phi.symbol = "#phi_{" + m_proton->GetSymbol() + "}";
-    phi.savename = m_proton->phi;
-    phi.pdg = m_proton->pdg;
-    ProduceGroup(mom, 40, 0, 2.*TMath::Pi(), EX_base_cut);
+    MakePhiPlots(m_proton, 40, 0, 2.*TMath::Pi(), EX_base_cut);
     
     //Pion:
     MakeDir("Phi/dEdX/Pion");
-//    mom.name = m_pion->truephi + "*TMath::RadToDeg():" + m_pion->phi + "*TMath::RadToDeg()";
-    phi.name = m_pion->truephi + ":" + m_pion->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
-    phi.symbol = "#phi_{#pi}";
-    phi.savename = m_pion->phi;
-    phi.pdg = m_pion->pdg;
-    ProduceGroup(phi, 40, 0, 2.*TMath::Pi(), EX_base_cut);
+    MakePhiPlots(m_pion, 40, 0, 2.*TMath::Pi(), EX_base_cut);
     
     //Muon:
-//    MakeDir("Phi/dEdX/Muon");
-////    phi.name = m_muon->truephi + "*TMath::RadToDeg():" + m_muon->phi + "*TMath::RadToDeg()";
-//    phi.name = m_muon->truephi + ":" + m_muon->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
-//    phi.symbol = "#theta_{#mu}";
-//    phi.savename = m_muon->phi;
-//    phi.pdg = m_muon->pdg;
-//    ProduceGroup(phi, 40, 0, 2.*TMath::Pi(), EX_base_cut);
-    
+    MakeDir("Phi/dEdX/Muon");
+    MakePhiPlots(m_muon, 40, 0, 2.*TMath::Pi(), EX_base_cut);
+
     //Proton:
     MakeDir("Phi/LL/Proton");
-    //    phi.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
-    phi.name = m_proton_alt->truephi + ":" + m_proton_alt->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
-    phi.symbol = "#phi_{" + m_proton_alt->GetSymbol() + "}";
-    phi.savename = m_proton_alt->phi;
-    phi.pdg = m_proton_alt->pdg;
-    ProduceGroup(mom, 40, 0, 2.*TMath::Pi(), LL_base_cut);
+    MakePhiPlots(m_proton_alt, 40, 0, 2.*TMath::Pi(), LL_base_cut);
     
     //Pion:
     MakeDir("Phi/LL/Pion");
-    //    mom.name = m_pion->truephi + "*TMath::RadToDeg():" + m_pion->phi + "*TMath::RadToDeg()";
-    phi.name = m_pion_alt->truephi + ":" + m_pion_alt->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
-    phi.symbol = "#phi_{#pi}";
-    phi.savename = m_pion_alt->phi;
-    phi.pdg = m_pion_alt->pdg;
-    ProduceGroup(phi, 40, 0, 2.*TMath::Pi(), LL_base_cut);
+    MakePhiPlots(m_pion_alt, 40, 0, 2.*TMath::Pi(), EX_base_cut);
     
-    //Muon:
-//    MakeDir("Phi/LL/Muon");
-//    //    phi.name = m_muon->truephi + "*TMath::RadToDeg():" + m_muon->phi + "*TMath::RadToDeg()";
-//    phi.name = m_muon_alt->truephi + ":" + m_muon_alt->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
-//    phi.symbol = "#theta_{#mu}";
-//    phi.savename = m_muon_alt->phi;
-//    phi.pdg = m_muon_alt->pdg;
-//    ProduceGroup(phi, 40, 0, 2.*TMath::Pi(), LL_base_cut);
-//
 //    //**************************************** Theta END **************************************//
 //    //*****************************************************************************************//
 //    //*****************************************************************************************//
