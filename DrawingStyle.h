@@ -51,9 +51,10 @@ public:
         LBlue = kBlue-5,
         //Particles:
         Proton = kOrange-2,
+        Neutron = kWhite,
         Pion = kAzure+2,
         PionP = kAzure+2,
-        PionM = kWhite,
+        PionM = kMagenta-10,
         Muon = kCyan+2,
         MuonM = kCyan+2,
         MuonP = kOrange+7,
@@ -82,8 +83,8 @@ public:
         NEUT = kCyan+2,
         GIBUU = kGreen-3,
         //Nuclei:
-        HYDROGEN = kOrange-2,
-        CARBON = kRed+1,
+        HYDROGEN = kWhite,
+        CARBON = kOrange-2,
         OXYGEN = kAzure+2,
         ARGON = kGray
     };

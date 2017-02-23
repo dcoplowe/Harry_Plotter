@@ -20,6 +20,7 @@
 #include "EffPurTools.h"
 #include "DrawingTools.h"
 #include "BreakdownTools.h"
+#include "PartKinMaps.h"
 
 #include "TH1D.h"
 #include "TH2D.h"
@@ -37,408 +38,6 @@ using namespace std;
 
 const string testing_mc("/pnfs/minerva/persistent/users/dcoplowe/CC1P1Pi_PL13C_080117_1/grid/central_value/minerva/ana/v10r8p9/00/01/32/00/SIM_minerva_00013200_Subruns_0001-0002-0003-0004_CC1P1PiAnalysis_Ana_Tuple_v10r8p9-dcoplowe.root");
 
-
-namespace EXP {
-    enum EXP{
-        T2K = 0,
-        MIN,
-        UNKNOWN
-    };
-    
-    inline std::string ToString(EXP name){
-        std::string sname = "Unknown";
-        if(name == T2K) sname = "T2K";
-        else if(name == MIN) sname = "MINERvA";
-        return sname;
-    }
-
-}
-
-#ifndef _PARTICLE_
-#define _PARTICLE_
-
-class Particle {
-public:
-    Particle(EXP::EXP exp, std::string name, std::string tag = "sel");//; : m_tag {};
-    ~Particle(){};
-    
-    //Reco vars: Common:
-    std::string P;
-    std::string theta;
-    std::string pT;
-    std::string pTMag;
-    std::string pTT;
-    std::string startdir;
-    std::string endpos;
-    
-    //True vars: Common:
-    std::string trueP;
-    std::string truetheta;
-    std::string truepT;
-    std::string truepTMag;
-    std::string truepTT;
-    std::string truestartdir;
-    std::string trueendpos;
-    std::string pdg;
-
-    //MIN: Reco vars:
-    std::string E;
-    std::string P4;
-    std::string T;//KE
-    std::string startpos;
-    std::string michel;
-    std::string score;
-    std::string phi;
-    
-    //MIN: True vars:
-    std::string trueE;
-    std::string trueP4;
-    std::string trueT;//KE
-    std::string truestartpos;
-    std::string truephi;
-    
-    //T2K: Reco vars:
-    std::string ctheta;
-    std::string ctheta_nudir;
-
-    //T2K: Reco vars:
-    std::string truectheta;
-    
-private:
-    std::string m_tag;
-};
-
-#endif
-
-#ifndef _PARTICLE_CXX
-#define _PARTICLE_CXX
-
-Particle::Particle(EXP::EXP exp, std::string name, std::string tag) : m_tag(tag) {
-    
-    if(exp == EXP::T2K){
-        //Reco vars: Common:
-        P =         m_tag + name + "_mom";
-        pT =        m_tag + name + "_pT";
-        pTMag =     m_tag + name + "_pTMag";
-        startdir =  m_tag + name + "_dir";
-        endpos =    m_tag + name + "_endpos";
-        
-        //True vars: Common:
-        trueP =         m_tag + name + "_truemom";
-        truepT =        m_tag + name + "_truepT";
-        truepTMag =     m_tag + name + "_truepTMag";
-        truestartdir =  m_tag + name + "_truedir";
-        trueendpos =    m_tag + name + "_endpos";
-        pdg =           m_tag + name + "_pdg";
-        
-        //MIN: Reco vars:
-        E = "";
-        P4 = "";
-        T = "";//KE
-        pTT = "";
-        theta = "";
-        startpos = "";
-        phi = "";
-        
-        michel = "";
-        score = "";
-        
-        //MIN: True vars:
-        trueE = "";
-        trueP4 = "";
-        trueT = "";//KE
-        truepTT = "";
-        truetheta = "";
-        truestartpos = "";
-        truephi = "";
-        
-        //T2K: Reco vars:
-        ctheta =        m_tag + name + "_costheta";
-        ctheta_nudir =  m_tag + name + "_nudir_costheta";
-        
-        //T2K: Reco vars:
-        truectheta =    m_tag + name + "_truecostheta";
-    }
-    else if(exp == EXP::MIN){
-        
-        std::string tmpname = name;
-        if(name.find("LL") != std::string::npos){
-            std::string tmpstring = "_LL";
-            tmpname.erase( tmpname.find(tmpstring), tmpname.length() );
-        }
-        else if(name.find("EX") != std::string::npos){
-            std::string tmpstring = "_EX";
-            tmpname.erase( tmpname.find(tmpstring), tmpname.length() );
-        }
-        
-        //Reco vars: Common:
-        P =         m_tag + name + "_mom";
-        pT =        m_tag + name + "_pT";
-        pTMag =     m_tag + name + "_pTMag";
-        startdir =  m_tag + tmpname + "_startdir";
-        endpos =    m_tag + tmpname + "_endpos";
-        
-        //True vars: Common:
-        trueP =         m_tag + tmpname + "_truemom";
-        truepT =        m_tag + tmpname + "_truepT";
-        truepTMag =     m_tag + tmpname + "_truepTMag";
-        truestartdir =  m_tag + tmpname + "_truestartdir";
-        trueendpos =    m_tag + tmpname + "_endpos";
-        pdg =           m_tag + tmpname + "_PDG";
-        
-        //MIN: Reco vars:
-        E =     m_tag + name + "_E";
-        P4 =    m_tag + name + "_4mom";
-        T =     m_tag + name + "_KE";//KE
-        pTT =   m_tag + name + "_pTT";
-        theta = m_tag + name + "_Theta";
-        phi =   m_tag + name + "_Phi";
-        startpos = m_tag + tmpname + "_startpos";
-        
-        michel =    m_tag + name + "_michel";
-        score =     m_tag + name + "_score";
-        
-        //MIN: True vars:
-        trueE =         m_tag + tmpname + "_trueE";
-        trueP4 =        m_tag + tmpname + "_true4mom";
-        trueT =         m_tag + tmpname + "_trueKE";//KE
-        truepTT =       m_tag + tmpname + "_truepTT";
-        truetheta =     m_tag + tmpname + "_trueTheta";
-        truephi =       m_tag + tmpname + "_truePhi";
-        truestartpos =  m_tag + tmpname + "_truestartpos";
-        
-        //T2K: Reco vars:
-        ctheta = "";
-        ctheta_nudir = "";
-        
-        //T2K: Reco vars:
-        truectheta = "";
-    }
-    else{
-        //Reco vars: Common:
-        P = "";
-        pT = "";
-        pTMag = "";
-        startdir = "";
-        endpos = "";
-        
-        //True vars: Common:
-        trueP = "";
-        truepT = "";
-        truepTMag = "";
-        truestartdir = "";
-        trueendpos = "";
-        pdg = "";
-        
-        //MIN: Reco vars:
-        E = "";
-        P4 = "";
-        T = "";//KE
-        pTT = "";
-        theta = "";
-        startpos = "";
-        phi = "";
-        
-        michel = "";
-        score = "";
-        
-        //MIN: True vars:
-        trueE = "";
-        trueP4 = "";
-        trueT = "";//KE
-        truepTT = "";
-        truetheta = "";
-        truestartpos = "";
-        truephi = "";
-        
-        //T2K: Reco vars:
-        ctheta = "";
-        ctheta_nudir = "";
-        
-        //T2K: Reco vars:
-        truectheta = "";
-    }
-    
-}
-
-#endif
-
-#ifndef _KINEMATICVARS_
-#define _KINEMATICVARS_
-
-class KinematicVars {
-public:
-    KinematicVars(EXP::EXP exp);
-    ~KinematicVars();
-    
-    Particle * muon;
-    Particle * proton;
-    Particle * pion;
-    
-    //For alt mom. reco:
-    Particle * muon_alt;
-    Particle * proton_alt;
-    Particle * pion_alt;
-    
-    //Transverse Variables:
-    std::string dpTT;
-    std::string dpTT_tmumom;
-    std::string dpTT_tpimom;
-    std::string dpTT_tprmom;
-    std::string dpTT_tnudir;
-    
-    std::string dpTT_pi;
-    std::string dpTT_pr;
-    
-    std::string dpTT_pidir;
-    std::string dpTT_prdir;
-    
-    std::string dpT;
-    std::string dalphaT;
-    std::string dphiT;
-    
-    std::string truedpTT;
-    std::string truedpT;
-    std::string truedalphaT;
-    std::string truedphiT;
-    
-    //Vars for LL/dEdX comp.
-    
-    std::string dpTT_alt;
-    std::string dpTT_tmumom_alt;
-    std::string dpTT_tpimom_alt;
-    std::string dpTT_tprmom_alt;
-    std::string dpTT_tnudir_alt;
-    
-    std::string dpTT_pi_alt;
-    std::string dpTT_pr_alt;
-    
-    std::string dpTT_pidir_alt;
-    std::string dpTT_prdir_alt;
-    
-    std::string dpT_alt;
-    std::string dalphaT_alt;
-    std::string dphiT_alt;
-    
-private:
-    
-};
-
-#endif
-
-#ifndef _KINEMATICVARS_CXX
-#define _KINEMATICVARS_CXX
-
-KinematicVars::KinematicVars(EXP::EXP exp){
-    
-    if(exp == EXP::T2K){
-        muon = new Particle(exp, "mu");
-        proton = new Particle(exp, "pr");
-        pion = new Particle(exp, "pi");
-        
-        muon_alt = 0x0;
-        proton_alt = 0x0;
-        pion_alt = 0x0;
-        
-        //Transverse Variables:
-        dpTT = "sel_dpTT_EX";
-        dpT = "sel_dpT_EX";
-        dalphaT = "sel_dalphaT_EX";
-        dphiT = "sel_dphiT_EX";
-        
-        truedpTT = "sel_truedpTT";
-        truedpT = "sel_truedpT";
-        truedalphaT = "sel_truedalphaT";
-        truedphiT = "sel_truedphiT";
-        
-        dpTT_alt = "sel_dpTT_LL";
-        dpT_alt = "sel_dpT_LL";
-        dalphaT_alt = "sel_dalphaT_LL";
-        dphiT_alt = "sel_dphiT_LL";
-        
-    }
-    else if(exp == EXP::MIN){
-        
-        muon = new Particle(exp, "mu", "sel_");
-        proton = new Particle(exp, "pr_EX", "sel_");
-        pion = new Particle(exp, "pi_EX", "sel_");
-        
-        muon_alt = new Particle(exp, "mu_LL", "sel_");
-        proton_alt = new Particle(exp, "pr_LL", "sel_");
-        pion_alt = new Particle(exp, "pi_LL", "sel_");
-        
-        //Transverse Variables:
-        dpTT = "sel_dpTT_EX";
-        dpTT_tmumom = "sel_dpTT_EX_tmumom";
-        dpTT_tpimom = "sel_dpTT_EX_tpimom";
-        dpTT_tprmom = "sel_dpTT_EX_tprmom";
-        dpTT_tnudir = "sel_dpTT_EX_tnudir";
-        
-        dpTT_pi = "sel_dpTT_pi_EX";
-        dpTT_pr = "sel_dpTT_pr_EX";
-        
-        dpTT_pidir = "sel_dpTT_pi_dir_EX";
-        dpTT_prdir = "sel_dpTT_pr_dir_EX";
-        
-        dpT = "sel_dpT_EX";
-        dalphaT = "sel_dalphaT_EX";
-        dphiT = "sel_dphiT_EX";
-        
-        truedpTT = "sel_truedpTT";
-        truedpT = "sel_truedpT";
-        truedalphaT = "sel_truedalphaT";
-        truedphiT = "sel_truedphiT";
-        
-        dpTT_alt = "sel_dpTT_LL";
-        dpTT_tmumom_alt = "sel_dpTT_LL_tmumom";
-        dpTT_tpimom_alt = "sel_dpTT_LL_tpimom";
-        dpTT_tprmom_alt = "sel_dpTT_LL_tprmom";
-        dpTT_tnudir_alt = "sel_dpTT_LL_tnudir";
-        
-        dpTT_pi_alt = "sel_dpTT_pi_LL";
-        dpTT_pr_alt = "sel_dpTT_pr_LL";
-        
-        dpTT_pidir_alt = "sel_dpTT_pi_dir_LL";
-        dpTT_prdir_alt = "sel_dpTT_pr_dir_LL";
-        
-        dpT_alt = "sel_dpT_LL";
-        dalphaT_alt = "sel_dalphaT_LL";
-        dphiT_alt = "sel_dphiT_LL";
-        
-    }
-    else{
-        //Transverse Variables:
-        dpTT = "";
-        dpT = "";
-        dalphaT = "";
-        dphiT = "";
-        
-        truedpTT = "";
-        truedpT = "";
-        truedalphaT = "";
-        truedphiT = "";
-        
-        dpTT_alt = "";
-        dpT_alt = "";
-        dalphaT_alt = "";
-        dphiT_alt = "";
-    }
-    
-}
-
-KinematicVars::~KinematicVars(){
-    delete muon;
-    delete proton;
-    delete pion;
-    
-    if(muon_alt)    delete muon_alt;
-    if(proton_alt)  delete proton_alt;
-    if(pion_alt)    delete pion_alt;
-    
-}
-
-#endif
-
 class MomentumDists {
 
 public:
@@ -455,6 +54,23 @@ public:
     
     TLatex * GetLogo();
     void PrintLogo(TCanvas *& can);
+    
+    //Particle kinematic variables:
+    void MakeMomPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts);
+    void MakeMomPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts);
+    
+    void MakeThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts);
+    void MakeThetaPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts);
+
+    void MakePhiPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts);
+    void MakePhiPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts);
+
+    void MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts);
+    void MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts);
+
+    void MakeScorePlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts);
+    void MakeScorePlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts);
+    
     
     void ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std::string cuts);
     void ProduceGroup(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts);
@@ -594,8 +210,8 @@ void MomentumDists::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std
         if(!var.pdg.empty()) PrintLogo(var_pid.ratio);
         
         var_top.ratio->Write();
-//        var_tar.ratio->Write();
-//        if(!var.pdg.empty()) var_pid.ratio->Write();
+        var_tar.ratio->Write();
+        if(!var.pdg.empty()) var_pid.ratio->Write();
         
         //Smear Vars:
         PrintLogo(var_top.smear);
@@ -617,6 +233,52 @@ void MomentumDists::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std
     }
     else std::cout << "MomentumDists::ProduceGroup : ERROR : File is not open..." << std::endl;
     
+}
+
+void MomentumDists::MakeMomPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
+    Variable mom;
+    mom.units = "MeV/#it{c}";
+    mom.name = part->trueP + ":" + part->P;
+    mom.symbol = "#it{p}_{" + part->GetSymbol() + "}";
+    mom.savename = part->P;
+    mom.pdg = part->pdg;
+    ProduceGroup(mom, nbins, bins, cuts);
+}
+
+void MomentumDists::MakeMomPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
+    MakeMomPlots(part, nbins, m_run->SetBinning(nbins, low, high), cuts);
+}
+
+void MomentumDists::MakeThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
+   
+}
+
+void MomentumDists::MakeThetaPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
+    MakeThetaPlots(part, nbins, m_run->SetBinning(nbins, low, high), cuts);
+}
+
+void MomentumDists::MakePhiPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
+    ;
+}
+
+void MomentumDists::MakePhiPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
+    MakePhiPlots(part, nbins, m_run->SetBinning(nbins, low, high), cuts);
+}
+
+void MomentumDists::MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
+    ;
+}
+
+void MomentumDists::MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
+    MakeCosThetaPlots(part, nbins, m_run->SetBinning(nbins, low, high), cuts);
+}
+
+void MomentumDists::MakeScorePlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
+    ;
+}
+
+void MomentumDists::MakeScorePlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
+    MakeScorePlots(part, nbins, m_run->SetBinning(nbins, low, high), cuts);
 }
 
 void MomentumDists::MakeDir(std::string name){
@@ -653,11 +315,7 @@ void MomentumDists::MakePlots(){
 
     //Proton:
     MakeDir("Mom/dEdX/Proton");
-    mom.name = m_proton->trueP + ":" + m_proton->P;
-    mom.symbol = "#it{p}_{p}";
-    mom.savename = m_proton->P;
-    mom.pdg = m_proton->pdg;
-    ProduceGroup(mom, 40, 0, 2000, EX_base_cut);
+    MakeMomPlots(m_proton, 40, 0, 2000, EX_base_cut);
     
     //Pion:
     MakeDir("Mom/dEdX/Pion");
@@ -678,7 +336,7 @@ void MomentumDists::MakePlots(){
     //Proton:
     MakeDir("Mom/LL/Proton");
     mom.name = m_proton_alt->trueP + ":" + m_proton_alt->P;
-    mom.symbol = "#it{p}_{p}";
+    mom.symbol = "#it{p}_{" + m_proton_alt->GetSymbol() + "}";
     mom.savename = m_proton_alt->P;
     mom.pdg = m_proton_alt->pdg;
     ProduceGroup(mom, 40, 0, 2000, LL_base_cut);
@@ -713,7 +371,7 @@ void MomentumDists::MakePlots(){
     MakeDir("Theta/dEdX/Proton");
 //    theta.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
     theta.name = m_proton->trueP + ":" + m_proton->P;//This probably wont work as the code looks for :: to make a split... Add fix.
-    theta.symbol = "#theta_{p}";
+    theta.symbol = "#theta_{" + m_proton->GetSymbol() + "}";
     theta.savename = m_proton->P;
     theta.pdg = m_proton->pdg;
     ProduceGroup(theta, 40, 0, 2.*TMath::Pi(), EX_base_cut);
@@ -740,7 +398,7 @@ void MomentumDists::MakePlots(){
     MakeDir("Theta/LL/Proton");
     //    theta.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
     theta.name = m_proton_alt->trueP + ":" + m_proton_alt->P;//This probably wont work as the code looks for :: to make a split... Add fix.
-    theta.symbol = "#theta_{p}";
+    theta.symbol = "#theta_{" + m_proton_alt->GetSymbol() + "}";
     theta.savename = m_proton_alt->P;
     theta.pdg = m_proton_alt->pdg;
     ProduceGroup(theta, 40, 0, 2.*TMath::Pi(), LL_base_cut);
@@ -777,7 +435,7 @@ void MomentumDists::MakePlots(){
     MakeDir("Phi/dEdX/Proton");
     //    phi.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
     phi.name = m_proton->truephi + ":" + m_proton->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
-    phi.symbol = "#phi_{p}";
+    phi.symbol = "#phi_{" + m_proton->GetSymbol() + "}";
     phi.savename = m_proton->phi;
     phi.pdg = m_proton->pdg;
     ProduceGroup(mom, 40, 0, 2.*TMath::Pi(), EX_base_cut);
@@ -804,7 +462,7 @@ void MomentumDists::MakePlots(){
     MakeDir("Phi/LL/Proton");
     //    phi.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
     phi.name = m_proton_alt->truephi + ":" + m_proton_alt->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
-    phi.symbol = "#phi_{p}";
+    phi.symbol = "#phi_{" + m_proton_alt->GetSymbol() + "}";
     phi.savename = m_proton_alt->phi;
     phi.pdg = m_proton_alt->pdg;
     ProduceGroup(mom, 40, 0, 2.*TMath::Pi(), LL_base_cut);
