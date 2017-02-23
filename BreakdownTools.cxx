@@ -383,6 +383,10 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     
     //Get the ratio histograms, make them into one histogram and determine the rms and mean:
     TList * rlist = ratio_tot->GetHists();
+    cout << "ratio_tot->GetNhists() = " << ratio_tot->GetNhists() << endl;
+    cout << "ratio_tot->GetXaxis()->GetNbins() = " << ratio_tot->GetXaxis()->GetNbins() << endl;
+    cout << "ratio_tot->GetXaxis()->GetXmin() = " << ratio_tot->GetXaxis()->GetXmin() << endl;
+    cout << "ratio_tot->GetXaxis()->GetXmax() = " << ratio_tot->GetXaxis()->GetXmax() << endl;
     
     TIter next(rlist);
     TH1D ratio_sum( (var.savename + "_PID_ratio_sum").c_str(), "", ratio_tot->GetXaxis()->GetNbins(), ratio_tot->GetXaxis()->GetXmin(), ratio_tot->GetXaxis()->GetXmax());
