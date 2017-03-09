@@ -9,149 +9,96 @@
 #include "TH2D.h"
 #include "TTree.h"
 
-EffPurTools::EffPurTools(TString filename, bool debug, TString reconame, TString truename) {
+
+EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string truename) : m_debug(false) {
     
-    SetFileName(filename);
-    SetRecoBranch(reconame);
-    SetTrueBranch(truename);
-    SetFile();
-    
-    cout << "    Filename: " << _filename.Data() << endl;
-    cout << "Truth branch: " << _truename.Data() << endl;
-    cout << "Recon branch: " << _reconame.Data() << endl;
+    cout << "    Filename: " << filename << endl;
+    cout << "Truth branch: " << reconame << endl;
+    cout << "Recon branch: " << truename << endl;
     
     //Include counter to make sure hists have unique names:
-    _purhcounter = -1;
-    _effhcounter = -1;
-    _ghcounter1D = -1;
-    _ghcounter2D = -1;
-    _effvarcounter = -1;
-    _purvarcounter = -1;
-    
-    _DEBUG_ = debug;
-    
-    if(_DEBUG_) cout << "EffPurTools::EffPurTools(TString filename, TString reconame, TString truename)" << endl;
-}
+    m_purhcounter = -1;
+    m_effhcounter = -1;
+    m_ghcounter1D = -1;
+    m_ghcounter2D = -1;
+    m_effvarcounter = -1;
+    m_purvarcounter = -1;
 
-EffPurTools::EffPurTools(TString filename, std::vector<TString> cut_names, bool debug, TString reconame, TString truename) {
     
-    //EffPurTools(filename, reconame, truename);
-    SetCutNames(cut_names);
-    SetFileName(filename);
-    SetRecoBranch(reconame);
-    SetTrueBranch(truename);
-    SetFile();
+    m_file = new TFile(filename, "READ");
     
-    _purhcounter = -1;
-    _effhcounter = -1;
-    _ghcounter1D = -1;
-    _effvarcounter = -1;
-    _purvarcounter = -1;
-    
-    _DEBUG_ = debug;
-    
-    if(_DEBUG_) cout << "EffPurTools::EffPurTools(TString filename, std::vector<TString> cut_names, TString reconame, TString truename)" << endl;
-
-    cout << "    Filename: " << _filename.Data() << endl;
-    cout << "Truth branch: " << _truename.Data() << endl;
-    cout << "Recon branch: " << _reconame.Data() << endl;
-}
-
-//This initialisation probably wont work:
-EffPurTools::EffPurTools() {
-    if(_DEBUG_) cout << "EffPurTools::EffPurTools()" << endl;
-    EffPurTools(TString("UNKNOWN"));
-    //SetRecoBranch("CC1P1Pi");
-    //SetTrueBranch("Truth");
-}
-
-EffPurTools::EffPurTools(const char* filename, std::vector<std::string> cut_names, bool debug, std::string reconame, std::string truename){
-    
-    std::vector<TString> tmp_cut_names;
-    
-    for(int i = 0; i < (int)cut_names.size(); i++){
-        tmp_cut_names.push_back( TString(cut_names[i]) );
+    if(!m_file){
+        cout << "Could not open file named: " << filename << endl;
+        exit(0);
     }
     
-    //EffPurTools(filename, reconame, truename);
-    SetCutNames(tmp_cut_names);
-    SetFileName(filename);
-    SetRecoBranch(reconame);
-    SetTrueBranch(truename);
-    SetFile();
+    m_truth = static_cast<TTree*>(m_file->Get(truename));
+    m_recon = static_cast<TTree*>(m_file->Get(reconame));
     
-    _purhcounter = -1;
-    _effhcounter = -1;
-    _ghcounter1D = -1;
-    _effvarcounter = -1;
-    _purvarcounter = -1;
-    
-    _DEBUG_ = debug;
-    
-    if(_DEBUG_) cout << "EffPurTools::EffPurTools(TString filename, std::vector<TString> cut_names, TString reconame, TString truename)" << endl;
-    
-    cout << "    Filename: " << _filename.Data() << endl;
-    cout << "Truth branch: " << _truename.Data() << endl;
-    cout << "Recon branch: " << _reconame.Data() << endl;
+    if(m_truth || m_recon){
+        cout << "Could not access truth/recon tree(s)." << endl;
+        exit(0);
+    }
 }
 
-EffPurTools::EffPurTools(const char* filename, bool debug, std::string reconame, std::string truename){
-    EffPurTools(TString(filename), debug, TString(reconame), TString(truename));
+EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_names, std::string reconame, std::string truename) : EffPurTools(filename, reconame, truename) {
+    SetCutNames(cut_names);
+}
+
+EffPurTools::~EffPurTools(){
+    if(m_truth) delete m_truth;
+    if(m_recon) delete m_recon;
+    if(m_file->IsOpen()) m_file->Close();
+    delete m_file;
 }
 
 //These may not be void functions:
-TH1D * EffPurTools::EffVSCuts(const TString signal, int branch, const TString cuts){
-    if(_DEBUG_) cout << "EffPurTools::EffVSCuts(TString, TString)" << endl;
+TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
     
-    if(!_truthtree){
-        cout << "EffPurTools::EffVSCuts : Warning : truth tree name not set." << endl;
-        return 0x0;
-    }
+    if(m_debug) cout << "EffPurTools::EffVSCuts()" << endl;
     
-    if(signal.EqualTo("",TString::kExact)){
+    if(signal.empty()){
         cout << "No signal defined -- Need for efficiency calculations" << endl;
         return 0x0;
     }
-    else if(_DEBUG_) cout << "    Signal: " << signal.Data() << endl;
+    else if(m_debug) cout << "    Signal: " << signal << endl;
     
-    TString full_signal = signal;
+    std::string full_signal = signal;
     
-    if(!cuts.EqualTo("",TString::kExact)){
-        full_signal.Append(" && ");
-        full_signal.Append(cuts);
-        if(_DEBUG_) cout << "    Cut(s): " << cuts.Data() << endl;
+    if(!cuts.empty()){
+        full_signal += " && ";
+        full_signal += cuts;
+        if(m_debug)  cout << "    Cut(s): " << cuts << endl;
     }
-    else if(_DEBUG_)cout << "    Cut(s): None" << endl;
+    else if(m_debug) cout << "    Cut(s): None" << endl;
     
-    if(_DEBUG_) cout << "Starting to read tree " << endl;
-    
-    if(_DEBUG_) cout << "Read tree " << _truthtree->GetName() << endl;
+    if(m_debug) cout << "Read tree " << m_truth->GetName() << endl;
     
     TH1I * h_ncuts = new TH1I("h_ncuts", "",10, 0, 10);
     
     TString ncuts_name = "truth_ncuts";
-    _truthtree->Project("h_ncuts", "truth_ncuts");//Draw(ncuts_name + ">> h_ncuts");
+    m_truth->Project("h_ncuts", "truth_ncuts");//Draw(ncuts_name + ">> h_ncuts");
     
-    if(_DEBUG_) cout << "Found and Filled ncuts histogram " << endl;
+    if(m_debug) cout << "Found and Filled ncuts histogram " << endl;
     
     int ncuts = (int)h_ncuts->GetBinCenter(h_ncuts->GetMaximumBin());
     
-    if(_DEBUG_) cout << "Number of cuts found to be " << ncuts << endl;
+    if(m_debug) cout << "Number of cuts found to be " << ncuts << endl;
     
-    TH1D * num = EventsVSCuts(_truthtree, full_signal, branch, ncuts);
+    TH1D * num = EventsVSCuts(m_truth, full_signal, branch, ncuts);
     TH1D * den = new TH1D("den", "", num->GetNbinsX(), 0., (double)num->GetNbinsX());
-
-    if(_DEBUG_){
-        for(int i = 0; i < num->GetNbinsX(); i++){
-            den->SetBinContent(i+1,num->GetBinContent(1));
-            den->SetBinError(i+1,num->GetBinError(1));
+    
+    for(int i = 0; i < num->GetNbinsX(); i++){
+        den->SetBinContent(i+1,num->GetBinContent(1));
+        den->SetBinError(i+1,num->GetBinError(1));
+        if(m_debug){
             cout << "num->GetBinContent(1) = " << num->GetBinContent(1) << " +/- " << num->GetBinError(1) << endl;
             cout << "den->GetBinContent("<< i+1 <<") = " << den->GetBinContent(i+1) << " +/- " << den->GetBinError(i+1) << endl;
         }
     }
-    
-    _effhcounter++;
-    TH1D * effcuts = DrawRatioVSCuts(num, den, "Efficiency", Form("h_effic%.3d", _effhcounter));
+
+    m_effhcounter++;
+    TH1D * effcuts = DrawRatioVSCuts(num, den, "Efficiency", Form("h_effic%.3d", m_effhcounter));
     effcuts->SetLineColor(Blue);
     
     delete num;
@@ -161,195 +108,165 @@ TH1D * EffPurTools::EffVSCuts(const TString signal, int branch, const TString cu
     return effcuts;
 }
 
-TH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString cuts, const TString x_title){
-    if(_DEBUG_) cout << "EffPurTools::EffVSVar()" << endl;
+TH1D * EffPurTools::PurVSCuts(std::string signal, int branch, std::string cuts){
+    if(m_debug) cout << "EffPurTools::PurVSCuts(TString, TString)" << endl;
     
-    if(!_truthtree){
-        cout << "EffPurTools::EffVSCuts : Warning : truth tree name not set." << endl;
-        return 0x0;
-    }
     
-    TH1D * effvar = RatioVSVar(_truthtree, var, nbins, xbins, signal, cuts, x_title);
-    _effvarcounter++;
-    effvar->SetName(Form("effvar%.3d", _effvarcounter));
-    effvar->GetYaxis()->SetTitle("Efficiency");
-    return effvar;
-}
-
-TH1D * EffPurTools::EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString cuts, const TString x_title){
-    if(_DEBUG_) cout << "EffPurTools::EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString cuts, const TString x_title)" << endl;
-    return RatioVSVar(_truthtree, var, nbins, EvenArray(nbins, x_low, x_high), signal, cuts, x_title);
-}
-
-TH2D * EffPurTools::EffVSVar(const TString var_yx, int x_nbins, const Double_t * x_bins, int y_nbins, const Double_t * y_bins, const TString signal, const TString cuts, const TString xy_title){
-    if(_DEBUG_) cout << "EffPurTools::EffVSVar()" << endl;
-    
-    if(!_truthtree){
-        cout << "EffPurTools::EffVSCuts : Warning : truth tree name not set." << endl;
-        return 0x0;
-    }
-    
-    TH2D * effvar = RatioVSVar(_truthtree, var_yx, x_nbins, x_bins, y_nbins, y_bins, signal, cuts, xy_title);
-    _effvarcounter++;
-    effvar->SetName(Form("effvar%.3d", _effvarcounter));
-    //effvar->Set
-    return effvar;
-}
-
-TH2D * EffPurTools::EffVSVar(const TString var_yx, int x_nbins, const Double_t x_low, const Double_t x_high, int y_nbins, const Double_t y_low, const Double_t y_high, const TString signal, const TString cuts, const TString xy_title){
-    if(_DEBUG_) cout << "EffPurTools::EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString cuts, const TString x_title)" << endl;
-    return RatioVSVar(_truthtree, var_yx, x_nbins, EvenArray(x_nbins, x_low, x_high), y_nbins, EvenArray(y_nbins, y_low, y_high), signal, cuts, xy_title);
-}
-
-TH1D * EffPurTools::PurVSCuts(const TString signal, int branch, const TString cuts){
-    if(_DEBUG_) cout << "EffPurTools::PurVSCuts(TString, TString)" << endl;
-    
-    if(!_recontree){
-        cout << "EffPurTools::EffVSCuts : Warning : recon tree name not set." << endl;
-        return 0x0;
-    }
-    
-    if(signal.EqualTo("",TString::kExact)){
+    if(signal.empty()){
         cout << "No signal defined -- Need for purity calculations" << endl;
         return 0x0;
     }
-    else if(_DEBUG_) cout << "    Signal: " << signal.Data() << endl;
+    else if(m_debug) cout << "    Signal: " << signal << endl;
     
-    TString full_signal = signal;
     
-    if(!cuts.EqualTo("",TString::kExact)){
-        full_signal.Append(" && ");
-        full_signal.Append(cuts);
-        if(_DEBUG_) cout << "    Cut(s): " << cuts.Data() << endl;
+    std::string full_signal = signal;
+    
+    if(!cuts.empty()){
+        full_signal += " && ";
+        full_signal += cuts;
+        if(m_debug)  cout << "    Cut(s): " << cuts << endl;
     }
-    else if(_DEBUG_) cout << "    Cut(s): None" << endl;
+    else if(m_debug) cout << "    Cut(s): None" << endl;
     
-    if(_DEBUG_) cout << "Starting to read tree " << endl;
-
-    //TTree * intree = (TTree*)_file->Get(_reconame.Data());
+    if(m_debug) cout << "Read tree " << m_recon->GetName() << endl;
     
-    if(_DEBUG_) cout << "Opened Tree " << endl;
-    
-    //if(!intree) return 0x0;
-    
-    if(_DEBUG_) cout << "Read tree " << _recontree->GetName() << endl;
-
     TH1I * h_ncuts = new TH1I("h_ncuts", "",10, 0, 10);
-    _recontree->Project("h_ncuts","ncuts"); //->Draw("ncuts>> h_ncuts");
+    m_recon->Project("h_ncuts","ncuts"); //->Draw("ncuts>> h_ncuts");
     int ncuts = (int)h_ncuts->GetBinCenter(h_ncuts->GetMaximumBin());
     
-    if(_DEBUG_) cout << "Number of cuts found to be " << ncuts << endl;
-
-    TH1D * num = EventsVSCuts(_recontree, full_signal, branch, ncuts, "pur_num");
-    TH1D * den = EventsVSCuts(_recontree, cuts, branch, ncuts, "pur_den");
+    if(m_debug) cout << "Number of cuts found to be " << ncuts << endl;
     
-    if(_DEBUG_){
+    TH1D * num = EventsVSCuts(m_recon, full_signal, branch, ncuts, "pur_num");
+    TH1D * den = EventsVSCuts(m_recon, cuts, branch, ncuts, "pur_den");
+    
+    if(m_debug){
         for(int i = 0; i < num->GetNbinsX(); i++ ){
             cout << "num->GetBinContent("<<i+1<<") = " << num->GetBinContent(i+1) << " +/- " << num->GetBinError(i+1) << endl;
             cout << "den->GetBinContent("<<i+1<<") = " << den->GetBinContent(i+1) << " +/- " << den->GetBinError(i+1) << endl;
         }
     }
     
-    _purhcounter++;
-    TH1D * purcuts = DrawRatioVSCuts(num, den, "Purity", Form("h_purity%.3d", _purhcounter));
-
+    m_purhcounter++;
+    TH1D * purcuts = DrawRatioVSCuts(num, den, "Purity", Form("h_purity%.3d", m_purhcounter));
+    
     delete num;
     delete den;
     
     return purcuts;
 }
 
-TH1D * EffPurTools::PurVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString cuts, const TString x_title){
-    if(_DEBUG_) cout << "EffPurTools::PurVSVar()" << endl;
+TH1D * EffPurTools::EffVSVar(std::string var, int nbins, Double_t * xbins, std::string signal, std::string cuts, std::string x_title){
+    if(m_debug) cout << "EffPurTools::EffVSVar()" << endl;
+    
+    TH1D * effvar = RatioVSVar(m_truth, var, nbins, xbins, signal, cuts, x_title);
+    m_effvarcounter++;
+    effvar->SetName(Form("effvar%.3d", m_effvarcounter));
+    effvar->GetYaxis()->SetTitle("Efficiency");
+    return effvar;
+}
+
+TH1D * EffPurTools::EffVSVar(std::string var, int nbins, Double_t x_low, Double_t x_high, std::string signal, std::string cuts, std::string x_title){
+    if(m_debug) cout << "EffPurTools::EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString cuts, const TString x_title)" << endl;
+    return EffVSVar(std::string var, nbins, EvenArray(nbins, x_low, x_high), signal, cuts, x_title);
+}
+
+TH2D * EffPurTools::EffVSVar(std::string var_yx, int x_nbins, Double_t * x_bins, int y_nbins, Double_t * y_bins, std::string signal, std::string cuts, std::string xy_title){
+    if(m_debug) cout << "EffPurTools::EffVSVar()" << endl;
+    
+    TH2D * effvar = RatioVSVar(m_truth, var_yx, x_nbins, x_bins, y_nbins, y_bins, signal, cuts, xy_title);
+    m_effvarcounter++;
+    effvar->SetName(Form("effvar%.3d", m_effvarcounter));
+    //effvar->Set
+    return effvar;
+}
+
+TH2D * EffPurTools::EffVSVar(std::string var_yx, int x_nbins, Double_t x_low, Double_t x_high, int y_nbins, Double_t y_low, Double_t y_high, std::string signal, std::string cuts, std::string xy_title){
+    return EffVSVar(var_yx, x_nbins, EvenArray(x_nbins, x_low, x_high), y_nbins, EvenArray(y_nbins, y_low, y_high), signal, cuts, xy_title);
+}
+
+TH1D * EffPurTools::PurVSVar(std::string var, int nbins, Double_t * xbins, std::string signal, std::string  x_title, std::string cuts){
+    if(m_debug) cout << "EffPurTools::PurVSVar()" << endl;
     //TTree * intree = (TTree*)_file->Get(_reconame.Data());
     
-    if(!_recontree){
-        cout << "EffPurTools::EffVSCuts : Warning : recon tree name not set." << endl;
-        return 0x0;
-    }
-    
-    TH1D * purvar = RatioVSVar(_recontree, var, nbins, xbins, cuts, signal, x_title);
-    _purvarcounter++;
-    purvar->SetName(Form("purvar%.3d", _purvarcounter));
+    TH1D * purvar = RatioVSVar(m_recon, var, nbins, xbins, cuts, signal, x_title);
+    m_purvarcounter++;
+    purvar->SetName(Form("purvar%.3d", m_purvarcounter));
     purvar->GetYaxis()->SetTitle("Purity");
     return purvar;
 }
 
-TH1D * EffPurTools::PurVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title, const TString cuts){
-    if(_DEBUG_) cout << "EffPurTools::PurVSVar()" << endl;
-    return PurVSVar(var, nbins, EvenArray(nbins, x_low, x_high), signal, cuts, x_title);
+TH1D * EffPurTools::PurVSVar(std::string var, int nbins, Double_t x_low, Double_t x_high, std::string signal, std::string x_title, std::string cuts){
+    if(m_debug) cout << "EffPurTools::PurVSVar()" << endl;
+    return PurVSVar(var, nbins, EvenArray(nbins, x_low, x_high), signal, x_title, cuts);
 }
 
-void EffPurTools::SetFile(){
-    if(_DEBUG_) cout << "EffPurTools::SetFile()" << endl;
-    _file = new TFile(_filename, "READ");
+TH2D * EffPurTools::PurVSVar(std::string var_yx, int x_nbins, Double_t * x_bins, int y_nbins, Double_t * y_bins, std::string signal, std::string  xy_title, std::string cuts){
+    if(m_debug) cout << "EffPurTools::PurVSVar()" << endl;
+    //TTree * intree = (TTree*)_file->Get(_reconame.Data());
     
-    if(!_file) exit(0);
-    
-    //Set the trees too:
-    if(!_truename.EqualTo("")){
-        _truthtree = (TTree*)_file->Get(_truename.Data());
-    }
-    
-    if(!_reconame.EqualTo("")){
-        _recontree = (TTree*)_file->Get(_reconame.Data());
-    }
-    
-    
+    TH2D * purvar = RatioVSVar(m_recon, var, x_nbins, x_bins, y_nbins, y_bins, cuts, signal, xy_title);
+    m_purvarcounter++;
+    purvar->SetName(Form("purvar%.3d", m_purvarcounter));
+//    purvar->GetYaxis()->SetTitle("Purity");
+    return purvar;
 }
 
-TH1D * EffPurTools::EventsVSCuts(TTree * intree, const TString cuts, int branch, const int ncuts, TString name){
+TH2D * EffPurTools::PurVSVar(std::string var_yx, int x_nbins, Double_t x_low, Double_t x_high, int y_nbins, Double_t y_low, Double_t y_high, std::string signal, std::string  xy_title, std::string cuts){
+    if(m_debug) cout << "EffPurTools::PurVSVar()" << endl;
+    return PurVSVar(var_yx, x_nbins, EvenArray(x_nbins, x_low, x_high), y_nbins, EvenArray(y_nbins, y_low, y_high), signal, xy_title, cuts);
+}
+
+TH1D * EffPurTools::EventsVSCuts(TTree * intree, std::string cuts, int branch, int ncuts, std::string name){
     
-    if(_DEBUG_) cout << "EffPurTools::EventsVSCuts" << endl;
+    if(m_debug) cout << "EffPurTools::EventsVSCuts" << endl;
     
+    std::string tmp_cuts;
+    
+    if(!cuts.empty()){
+        tmp_cuts += cuts;
+        tmp_cuts += " && ";
+    }
+    
+    std::string tree_name = std::string( intree->GetName() );
+    if(tree_name.find("Truth") != std::string::npos){
+        tmp_cuts += "truth_";
+    }
+
     std::stringstream sbranch;
     sbranch << branch;
+    tmp_cuts += "accum_level[" + sbranch.str() + "]>";
     
-    TString tmp_cuts = "accum_level[" + sbranch.str() + "]>";
-    TString tree_name = intree->GetName();
-    
-    if(_DEBUG_) cout << "Reading tree named " << tree_name.Data() << endl;
-    
-    if(tree_name.EqualTo("Truth",TString::kExact)){
-        tmp_cuts.Prepend("truth_");
-    }
-    
-    if(!cuts.EqualTo("", TString::kExact)){
-        tmp_cuts.Prepend(" && ");
-        tmp_cuts.Prepend(cuts);
-    }
-    
-    if(_DEBUG_) cout << "Cut set as: " << tmp_cuts.Data() << endl;
+    if(m_debug) cout << "Cut set as: " << tmp_cuts << endl;
     
     //This will complain: delete outside of function.
-    TH1D * h_evntcuts = new TH1D(name.Data(),"", ncuts + 1, 0., (double)(ncuts + 1));
+    TH1D * h_evntcuts = new TH1D(name.c_str(),"", ncuts + 1, 0., (double)(ncuts + 1));
     
     for(int i = 0; i < ncuts + 1; i++){
         TH1D * h_tmp = new TH1D("h_tmp","", 1, 0., 1.);
         TString loop_cuts = Form("%s %d", tmp_cuts.Data(), (i-1));
-        if(_DEBUG_) cout << "Loop cut: " << loop_cuts.Data() << endl;
-        intree->Project("h_tmp","0.5",loop_cuts);
+        if(m_debug) cout << "Loop cut: " << loop_cuts << endl;
+        intree->Project("h_tmp","0.5",loop_cuts.c_str());
         double intergal = (double)h_tmp->Integral();
         h_evntcuts->SetBinContent(i+1, intergal);
-        if(_DEBUG_) cout << "Cut " << i << ": Events after cut " << intergal << endl;
+        if(m_debug) cout << "Cut " << i << ": Events after cut " << intergal << endl;
         delete h_tmp;
     }
     return h_evntcuts;
 }
 
-TH1D * EffPurTools::DrawRatioVSCuts(TH1D * num, TH1D * den, TString y_title, TString h_name){
-    if(_DEBUG_) cout << "EffPurTools::DrawRatioVSCuts" << endl;
-    TH1D * ratio = new TH1D(Form("%s",h_name.Data()),Form("; ;%s", y_title.Data()),den->GetNbinsX(),den->GetXaxis()->GetXmin(),den->GetXaxis()->GetXmax());
+TH1D * EffPurTools::DrawRatioVSCuts(TH1D * num, TH1D * den, std::string y_title, std::string h_name){
+    if(m_debug) cout << "EffPurTools::DrawRatioVSCuts" << endl;
+    TH1D * ratio = new TH1D(h_name.c_str(), (";;" + y_title).c_str(),den->GetNbinsX(),den->GetXaxis()->GetXmin(),den->GetXaxis()->GetXmax());
     ratio->Divide(num, den);
     ratio->GetYaxis()->SetRangeUser(0,1.1);
     
-    if(_DEBUG_){
+    if(m_debug){
         for(int i = 0; i < ratio->GetNbinsX(); i++){
             cout << "ratio->GetBinContent("<< i + 1 <<") = " << ratio->GetBinContent(i+1) << " +/- " << ratio->GetBinError(i+1) << endl;
         }
     }
     
-    if(!((int)_cutnames.size() > 0)){
+    if(!((int)m_cutnames.size() > 0)){
         for(int i = 0; i < ratio->GetNbinsX(); i++){
             ratio->GetXaxis()->SetBinLabel(i+1, Form("%d.",(i+1)));
         }
@@ -359,120 +276,98 @@ TH1D * EffPurTools::DrawRatioVSCuts(TH1D * num, TH1D * den, TString y_title, TSt
     
     int max_bins = ratio->GetNbinsX();
     //Stop trying to run over array size:
-    if(max_bins > (int)(_cutnames.size() + 1)){
-        max_bins = (int)_cutnames.size();
-        if(_DEBUG_)  cout << "Not all cuts have names. Running up to " << max_bins << endl;
+    if(max_bins > (int)(m_cutnames.size() + 1)){
+        max_bins = (int)m_cutnames.size();
+        if(m_debug)  cout << "Not all cuts have names. Running up to " << max_bins << endl;
     }
-    else if(_DEBUG_) cout << "Writing label names" << endl;
+    else if(m_debug) cout << "Writing label names" << endl;
     
-    //cout << "Size of _cutnames array " << _cutnames.size() << endl;
+    //cout << "Size of m_cutnames array " << m_cutnames.size() << endl;
     
     for(int i = 0; i < ratio->GetNbinsX(); i++){
-        TString tmp_label;
+        std::string tmp_label;
         
         if(i == 0){
-            tmp_label.Form("No Cuts");
+            tmp_label = "No Cuts";
         }
         else{
-            if(max_bins > i ) tmp_label.Form("%d) %s", i, _cutnames[i-1].Data());
-            else tmp_label.Form("%d)", i);
+            if(max_bins > i ) tmp_label = Form("%d) %s", i, m_cutnames[i-1].c_str());
+            else tmp_label = Form("%d)", i);
         }
         
-        if(_DEBUG_) cout << tmp_label.Data() << endl;
-        ratio->GetXaxis()->SetBinLabel(i+1, tmp_label.Data());
+        if(m_debug) cout << tmp_label << endl;
+        ratio->GetXaxis()->SetBinLabel(i+1, tmp_label.c_str());
     }
     
     return ratio;
 }
 
-TH1D * EffPurTools::GetHisto(TTree * intree, const TString var, int nbins, const double x_low, const double x_high, const TString cuts){
-    return GetHisto(intree, var, nbins, EvenArray(nbins, x_low, x_high), cuts);
-}
-
-TH1D * EffPurTools::GetHisto(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString cuts){
-    _ghcounter1D++;
+TH1D * EffPurTools::GetHisto(TTree * intree, std::string var, int nbins, Double_t * xbins, std::string cuts){
+    m_ghcounter1D++;
     
-    TString host_name = Form("1Dvar%.3d", _ghcounter1D);
+    std::string host_name = Form("1Dvar%.3d", m_ghcounter1D);
     
-    TH1D * hist = new TH1D(host_name.Data(), "", nbins, xbins);
+    TH1D * hist = new TH1D(host_name.c_str(), "", nbins, xbins);
     
-    TString tmp_cuts = cuts.Data();
-    if(!tmp_cuts.EqualTo("", TString::kExact)) tmp_cuts.Append(" && ");
+    intree->Project(host_name.c_str(), var.c_str(), cuts.c_str());
     
-    tmp_cuts.Append(Form("(%s != -999)", var.Data()));
-    
-    if(_DEBUG_) cout << tmp_cuts.Data() << endl;
-    
-    intree->Project(host_name.Data(), var.Data(), tmp_cuts.Data());
-    
-    if(_DEBUG_) cout << "Histo: " << hist->GetName() << " : Entries = " << hist->Integral() << endl;
+    if(m_debug) cout << "Histo: " << hist->GetName() << " : Entries = " << hist->Integral() << endl;
     
     return hist;
 }
 
-TH2D * EffPurTools::GetHisto(TTree * intree, const TString var_yx, int x_nbins, const Double_t * xbins, int y_nbins, const Double_t * ybins, const TString cuts){
-    _ghcounter2D++;
-    TString host_name = Form("2Dvar%.3d", _ghcounter2D);
+TH2D * EffPurTools::GetHisto(TTree * intree, std::string var_yx, int x_nbins, Double_t * xbins, int y_nbins, Double_t * ybins, std::string cuts){
+    m_ghcounter2D++;
+    std::string host_name = Form("2Dvar%.3d", m_ghcounter2D);
     
-    TH2D * hist = new TH2D(host_name.Data(), "", x_nbins, xbins, y_nbins, ybins);
+    TH2D * hist = new TH2D(host_name.c_str(), "", x_nbins, xbins, y_nbins, ybins);
     
-    TString tmp_cuts = cuts.Data();
-  //  if(!tmp_cuts.EqualTo("", TString::kExact)) tmp_cuts.Append(" && ");
+    intree->Project(host_name.Data(), var_yx.c_str(), cuts.c_str());
     
-  //  tmp_cuts.Append(Form("(%s != -999)", var.Data()));
-    
-    if(_DEBUG_) cout << tmp_cuts.Data() << endl;
-    
-    intree->Project(host_name.Data(), var_yx.Data(), tmp_cuts.Data());
-    
-    if(_DEBUG_) cout << "Histo: " << hist->GetName() << " : Entries = " << hist->Integral() << endl;
+    if(m_debug) cout << "Histo: " << hist->GetName() << " : Entries = " << hist->Integral() << endl;
     
     return hist;
-    
-}
-
-TH2D * EffPurTools::GetHisto(TTree * intree, const TString var_yx, int x_nbins, const double x_low, const double x_high, int y_nbins, const double y_low, const double y_high, const TString cuts){
-    return GetHisto(intree, var_yx, x_nbins, EvenArray(x_nbins, x_low, x_high), y_nbins, EvenArray(y_nbins, y_low, y_high), cuts);
 }
 
 //-------------- Set cut names of x-axis: --------------//
-void EffPurTools::SetCutName(TString var){
-    _cutnames.push_back(var);
+void EffPurTools::SetCutName(std::string var){
+    m_cutnames.push_back(var);
 }
 
 void EffPurTools::ResetCutNames(){
-    _cutnames.clear();
+    m_cutnames.clear();
 }
 
-void EffPurTools::SetCutNames(std::vector<TString> var){
+void EffPurTools::SetCutNames(std::vector<std::string> var){
     ResetCutNames();
     for(int i=0; i < (int)var.size(); i++){
         TString tmp_string = var[i];
-        SetCutName(tmp_string);
+        SetCutName(var[i]);
     }
 }
 //------------------------------------------------------//
 
-TH1D * EffPurTools::RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString common_cut, const TString num_only_cut, const TString x_title){
+TH1D * EffPurTools::RatioVSVar(TTree * intree, std::string var, int nbins, Double_t * xbins, std::string common_cut, std::string num_only_cut, std::string x_title){
     
-    if(_DEBUG_){
-        cout << "          Common Cut: " << common_cut.Data() << endl;
-        cout << "    Cut to Numerator: " << num_only_cut.Data() << endl;
+    if(m_debug){
+        cout << "          Common Cut: " << common_cut << endl;
+        cout << "    Cut to Numerator: " << num_only_cut << endl;
     }
     
-    TString num_cut = common_cut;
+    std::string num_cut = common_cut;
     
-    if(!num_only_cut.EqualTo("",TString::kExact)){
-        num_cut.Append(" && ");
-        num_cut.Append(num_only_cut);
-        if(_DEBUG_) cout << "    Numerator only cut(s): " << num_cut.Data() << endl;
+    if(!num_only_cut.empty()){
+        num_cut += " && ";
+        num_cut += num_only_cut;
+        if(m_debug) cout << "    Numerator only cut(s): " << num_cut << endl;
     }
-    else if(_DEBUG_) cout << "    Numerator only cut(s): None" << endl;
+    else if(m_debug) cout << "    Numerator only cut(s): None" << endl;
     
     TH1D * num = GetHisto(intree, var, nbins, xbins, num_cut);
     TH1D * den = GetHisto(intree, var, nbins, xbins, common_cut);
     
-    TH1D * ratio = new TH1D(Form("ratio_1D_%s", var.Data()), Form(";%s;Ratio",x_title.Data()), nbins, xbins);
+    m_ghcounter1D++;
+    TH1D * ratio = new TH1D(Form("ratio_1D_%.3d", m_ghcounter1D), (";" + x_title + ";Ratio").c_str(), nbins, xbins);
     ratio->Divide(num, den);
     
     delete num;
@@ -481,70 +376,33 @@ TH1D * EffPurTools::RatioVSVar(TTree * intree, const TString var, int nbins, con
     return ratio;
 }
 
-TH1D * EffPurTools::RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString common_cut, const TString num_only_cut, const TString x_title){
-    return RatioVSVar(intree, var, nbins, EvenArray(nbins, x_low, x_high), common_cut, num_only_cut, x_title);
-}
+TH2D * EffPurTools::RatioVSVar(std::string var_yx, int x_nbins, Double_t * x_bins, int y_nbins, Double_t * y_bins, std::string common_cut, std::string num_only_cut, std::string xy_title){
+    
+    if(m_debug){
+        cout << "          Common Cut: " << common_cut << endl;
+        cout << "    Cut to Numerator: " << num_only_cut << endl;
+    }
+    
+    std::string num_cut = common_cut;
 
-TH2D * EffPurTools::RatioVSVar(TTree * intree, const TString var_yx, int x_nbins, const Double_t * x_bins, int y_nbins, const Double_t * y_bins, const TString common_cut, const TString num_only_cut, const TString xy_title){
-    
-    if(_DEBUG_){
-        cout << "          Common Cut: " << common_cut.Data() << endl;
-        cout << "    Cut to Numerator: " << num_only_cut.Data() << endl;
+    if(!num_only_cut.empty()){
+        num_cut += " && ";
+        num_cut += num_only_cut;
+        if(m_debug) cout << "    Numerator only cut(s): " << num_cut << endl;
     }
-    
-    TString num_cut = common_cut;
-    
-    if(!num_only_cut.EqualTo("",TString::kExact)){
-        num_cut.Append(" && ");
-        num_cut.Append(num_only_cut);
-        if(_DEBUG_) cout << "    Numerator only cut(s): " << num_cut.Data() << endl;
-    }
-    else if(_DEBUG_) cout << "    Numerator only cut(s): None" << endl;
+    else if(m_debug) cout << "    Numerator only cut(s): None" << endl;
     
     TH2D * num = GetHisto(intree, var_yx, x_nbins, x_bins, y_nbins, y_bins, num_cut);
     TH2D * den = GetHisto(intree, var_yx, x_nbins, x_bins, y_nbins, y_bins, common_cut);
     
-    _ghcounter2D++;
-    TH2D * ratio = new TH2D(Form("ratio_2D_%.3d", _ghcounter2D), Form(";%s",xy_title.Data()), x_nbins, x_bins, y_nbins, y_bins);
+    m_ghcounter2D++;
+    TH2D * ratio = new TH2D(Form("ratio_2D_%.3d", m_ghcounter2D), (";" + xy_title).c_str(), x_nbins, x_bins, y_nbins, y_bins);
     ratio->Divide(num, den);
     
     delete num;
     delete den;
     
     return ratio;
-    
-}
-
-TH1D * EffPurTools::EffVSCuts(const char* signal, int branch, const char* cuts){
-    return EffVSCuts(TString(signal), branch, TString(cuts));
-}
-
-TH1D * EffPurTools::EffVSVar(const char* var, int nbins, const Double_t * xbins, const char* signal, const char* cuts, const char* x_title){
-    return EffVSVar(TString(var), nbins, xbins, TString(signal), TString(cuts), TString(x_title));
-}
-
-TH1D * EffPurTools::EffVSVar(const char* var, int nbins, const Double_t x_low, const Double_t x_high, const char* signal, const char* cuts, const char* x_title){
-    return EffVSVar(TString(var), nbins, x_low, x_high, TString(signal), TString(cuts), TString(x_title));
-}
-
-TH2D * EffPurTools::EffVSVar(const char * var_yx, int x_nbins, const Double_t * x_bins, int y_nbins, const Double_t * y_bins, const char * signal, const char * cuts, const char * xy_title){
-    return EffVSVar(TString(var_yx), x_nbins, x_bins, y_nbins, y_bins, TString(signal), TString(cuts), TString(xy_title));
-}
-
-TH2D * EffPurTools::EffVSVar(const char * var_yx, int x_nbins, const Double_t x_low, const Double_t x_high, int y_nbins, const Double_t y_low, const Double_t y_high, const char * signal, const char * cuts, const char * xy_title){
-    return EffVSVar(TString(var_yx), x_nbins, x_low, x_high, y_nbins, y_low, y_high, TString(signal), TString(cuts), TString(xy_title));
-}
-
-TH1D * EffPurTools::PurVSCuts(const char* signal, int branch, const char* cuts){
-    return PurVSCuts(TString(signal), branch, TString(cuts));
-}
-
-TH1D * EffPurTools::PurVSVar(const char* var, int nbins, const Double_t * xbins, const char* signal, const char* cuts, const char* x_title){
-    return PurVSVar(TString(var), nbins, xbins, TString(signal), TString(cuts), TString(x_title));
-}
-
-TH1D * EffPurTools::PurVSVar(const char* var, int nbins, const Double_t x_low, const Double_t x_high, const char* signal, const char* cuts, const char* x_title){
-    return PurVSVar(TString(var), nbins, x_low, x_high, TString(signal), TString(cuts), TString(x_title));
 }
 
 Double_t * EffPurTools::EvenArray(int nbins, Double_t x_low, Double_t x_high){
