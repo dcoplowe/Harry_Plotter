@@ -323,7 +323,7 @@ TH2D * EffPurTools::GetHisto(TTree * intree, std::string var_yx, int x_nbins, Do
     
     TH2D * hist = new TH2D(host_name.c_str(), "", x_nbins, xbins, y_nbins, ybins);
     
-    intree->Project(host_name.Data(), var_yx.c_str(), cuts.c_str());
+    intree->Project(host_name.c_str(), var_yx.c_str(), cuts.c_str());
     
     if(m_debug) cout << "Histo: " << hist->GetName() << " : Entries = " << hist->Integral() << endl;
     
@@ -377,7 +377,7 @@ TH1D * EffPurTools::RatioVSVar(TTree * intree, std::string var, int nbins, Doubl
     return ratio;
 }
 
-TH2D * EffPurTools::RatioVSVar(std::string var_yx, int x_nbins, Double_t * x_bins, int y_nbins, Double_t * y_bins, std::string common_cut, std::string num_only_cut, std::string xy_title){
+TH2D * EffPurTools::RatioVSVar(TTree * intree, std::string var_yx, int x_nbins, Double_t * x_bins, int y_nbins, Double_t * y_bins, std::string common_cut, std::string num_only_cut, std::string xy_title){
     
     if(m_debug){
         cout << "          Common Cut: " << common_cut << endl;
