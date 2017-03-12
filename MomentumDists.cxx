@@ -36,7 +36,7 @@
 
 using namespace std;
 
-const string testing_mc("/pnfs/minerva/persistent/users/dcoplowe/CC1P1Pi_PL13C_080117_1/grid/central_value/minerva/ana/v10r8p9/00/01/32/00/SIM_minerva_00013200_Subruns_0001-0002-0003-0004_CC1P1PiAnalysis_Ana_Tuple_v10r8p9-dcoplowe.root");
+const string testing_mc("/pnfs/minerva/persistent/users/dcoplowe/CC1P1Pi_PL13C_280217/grid/central_value/minerva/ana/v10r8p9/00/01/32/00/SIM_minerva_00013200_Subruns_0001-0002-0003-0004_CC1P1PiAnalysis_Ana_Tuple_v10r8p9-dcoplowe.root");
 
 class MomentumDists {
 
@@ -106,7 +106,9 @@ private:
     Particle * m_proton_alt;
     Particle * m_pion_alt;
     
-    BreakdownTools * m_run;
+    BreakdownTools  * m_runbd;
+    BreakdownTools  * m_runtruthbd;
+    EffPurTools     * m_runep;
 };
 
 MomentumDists::MomentumDists(EXP::EXP exp, std::string filename, bool debug) : m_experiment(exp), m_infilename(filename) {
@@ -149,7 +151,18 @@ MomentumDists::MomentumDists(EXP::EXP exp, std::string filename, bool debug) : m
     
     cout << "Saving file as " << m_savename << endl;
     
-    m_run = new BreakdownTools(m_infilename, m_reconame);
+    m_runbd = new BreakdownTools(m_infilename, m_reconame);
+    m_runtruthbd = new BreakdownTools(m_infilename, m_truename);
+    
+    std::vector<std::string> selection_cuts;
+    selection_cuts.push_back("Vertex");
+    selection_cuts.push_back("3 Tracks");
+    selection_cuts.push_back("Muon Track");
+    selection_cuts.push_back("Contained Vtx");
+    selection_cuts.push_back("PID: p/#pi^{+}");
+    selection_cuts.push_back("Michel Sense");
+    
+    m_runep = new EffPurTools(m_infilename, selection_cuts);
     
     m_outfile = new TFile(m_savename.c_str(), "RECREATE");
 }
@@ -162,7 +175,7 @@ MomentumDists::~MomentumDists(){
     }
     
     delete m_recovars;
-    delete m_run;
+    delete m_runbd;
 }
 
 void MomentumDists::PrintLogo(TCanvas *& can){
@@ -172,18 +185,18 @@ void MomentumDists::PrintLogo(TCanvas *& can){
 }
 
 void MomentumDists::ProduceGroup(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts){
-    ProduceGroup(var, nbins, m_run->SetBinning(nbins, low, high), cuts);
+    ProduceGroup(var, nbins, m_runbd->SetBinning(nbins, low, high), cuts);
 }
 
 void MomentumDists::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std::string cuts){//, Int_t setsave = 11111??
 
     if(m_outfile->IsOpen()){
         
-        BDCans var_top = m_run->TOPO(var, nbins, bins, cuts);
-        BDCans var_tar = m_run->TARGET(var, nbins, bins, cuts);
+        BDCans var_top = m_runbd->TOPO(var, nbins, bins, cuts);
+        BDCans var_tar = m_runbd->TARGET(var, nbins, bins, cuts);
         
         BDCans var_pid;
-        if(!var.pdg.empty()) var_pid = m_run->PID(var, nbins, bins, var.pdg, cuts);
+        if(!var.pdg.empty()) var_pid = m_runbd->PID(var, nbins, bins, var.pdg, cuts);
         
         //Recon Vars:
         PrintLogo(var_top.recon);
@@ -245,7 +258,7 @@ void MomentumDists::MakeMomPlots(Particle * part, Int_t nbins, Double_t * bins, 
 }
 
 void MomentumDists::MakeMomPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
-    MakeMomPlots(part, nbins, m_run->SetBinning(nbins, low, high), cuts);
+    MakeMomPlots(part, nbins, m_runbd->SetBinning(nbins, low, high), cuts);
 }
 
 void MomentumDists::MakeThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
@@ -261,7 +274,7 @@ void MomentumDists::MakeThetaPlots(Particle * part, Int_t nbins, Double_t * bins
 }
 
 void MomentumDists::MakeThetaPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
-    MakeThetaPlots(part, nbins, m_run->SetBinning(nbins, low, high), cuts);
+    MakeThetaPlots(part, nbins, m_runbd->SetBinning(nbins, low, high), cuts);
 }
 
 void MomentumDists::MakePhiPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
@@ -277,7 +290,7 @@ void MomentumDists::MakePhiPlots(Particle * part, Int_t nbins, Double_t * bins, 
 }
 
 void MomentumDists::MakePhiPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
-    MakePhiPlots(part, nbins, m_run->SetBinning(nbins, low, high), cuts);
+    MakePhiPlots(part, nbins, m_runbd->SetBinning(nbins, low, high), cuts);
 }
 
 void MomentumDists::MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
@@ -293,7 +306,7 @@ void MomentumDists::MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t * b
 }
 
 void MomentumDists::MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
-    MakeCosThetaPlots(part, nbins, m_run->SetBinning(nbins, low, high), cuts);
+    MakeCosThetaPlots(part, nbins, m_runbd->SetBinning(nbins, low, high), cuts);
 }
 
 void MomentumDists::MakeScorePlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
@@ -301,7 +314,7 @@ void MomentumDists::MakeScorePlots(Particle * part, Int_t nbins, Double_t * bins
 }
 
 void MomentumDists::MakeScorePlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
-    MakeScorePlots(part, nbins, m_run->SetBinning(nbins, low, high), cuts);
+    MakeScorePlots(part, nbins, m_runbd->SetBinning(nbins, low, high), cuts);
 }
 
 void MomentumDists::MakeDir(std::string name){
@@ -541,7 +554,7 @@ void MomentumDists::MakePlots(){
     //*****************************************************************************************//
     //*****************************************************************************************//
     //*****************************************************************************************//
-    //************************************** W Mass END ***************************************//
+    //************************************** W Mass Start *************************************//
 
     MakeDir("W");
 
@@ -551,14 +564,56 @@ void MomentumDists::MakePlots(){
     W_mass.name = "mc_w";
     W_mass.savename = "W_EX";
 
-    TCanvas * w_dist_EL = m_run->TARGETSingle(W_mass, 200, 0, 3000, EX_base_cut);
+    TCanvas * w_dist_EL = m_runbd->TARGETSingle(W_mass, 200, 0, 3000, EX_base_cut);
     PrintLogo(w_dist_EL);
     w_dist_EL->Write();
     
     W_mass.savename = "W_LL";
-    TCanvas * w_dist_LL = m_run->TARGETSingle(W_mass, 200, 0, 3000, LL_base_cut);
+    TCanvas * w_dist_LL = m_runbd->TARGETSingle(W_mass, 200, 0, 3000, LL_base_cut);
     PrintLogo(w_dist_LL);
     w_dist_LL->Write();
+    
+    //**************************************** W Mass END *************************************//
+    //*****************************************************************************************//
+    //*****************************************************************************************//
+    //*****************************************************************************************//
+    //******************************** Efficiency/Purity START ********************************//
+    
+    
+    //*****************************************************************************************//
+    //*************************************** VS cuts START ***********************************//
+    
+    MakeDir("Efficiency/Cuts/dEdX");
+    std::string signal_def = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
+    signal_def += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 20 && TMath::RadToDeg()*truth_mu_Theta >= 0 && truth_true_target_region == 1"
+    
+    TCanvas * eff_pur_cuts_EX = new TCanvas("eff_pur_cuts_dEdX","", 600, 800);
+    eff_pur_cuts_EX->cd();
+    m_runep->EffVSCuts( signal_def.c_str() )->Draw();
+    m_runep->PurVSCuts( signal_def.c_str() )->Draw("SAME");
+    eff_pur_cuts_EX->Write();
+    
+    MakeDir("Efficiency/Cuts/LL");
+
+    TCanvas * eff_pur_cuts_LL = new TCanvas("eff_pur_cuts_LL","", 600, 800);
+    eff_pur_cuts_LL->cd();
+    m_runep->EffVSCuts( signal_def.c_str(), 1 )->Draw();
+    m_runep->PurVSCuts( signal_def.c_str(), 1 )->Draw("SAME");
+    eff_pur_cuts_LL->Write();
+    
+    //*****************************************************************************************//
+    //**************************************** VS cuts END ************************************//
+//
+//    Variable truemom;
+//    
+//    EffDists(Variable var, Int_t nbins, Double_t low, Double_t high){
+//        //Produce eff. and truth dist from truth tree.
+//        m_runep->EffVSVar(var.name.c_str(), nbins, x_low, x_high, signal_def, cuts, x_title);
+//        m_runtruthbd->Draw(var.name.c_str(), nbins, low, high, xy_title, cuts);
+//    }
+    
+    //********************************** Efficiency/Purity END ********************************//
+    //*****************************************************************************************//
     
     //CLOSE THE DIRECTORY
     if(m_outfile->IsOpen()) m_outfile->Close();
@@ -599,7 +654,6 @@ int main(int argc, char *argv[])
     
     EXP::EXP experiment = EXP::UNKNOWN;
     
-    
     char cc;
     while((cc = getopt(argc, argv, "i:o:d::t::m::")) != -1){
         switch (cc){
@@ -614,8 +668,8 @@ int main(int argc, char *argv[])
     
     if(experiment == EXP::UNKNOWN){
         cout << "**** Experiment not defined ****" << endl;
-        cout << "For T2K : -t" << endl;
-        cout << "For T2K : -m" << endl;
+        cout << "For     T2K : -t" << endl;
+        cout << "For MINERvA : -m" << endl;
         return 0;
     }
 
