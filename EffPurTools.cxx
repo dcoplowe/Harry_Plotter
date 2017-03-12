@@ -32,8 +32,8 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
         exit(0);
     }
     
-    m_truth = static_cast<TTree*>(m_file->Get(truename));
-    m_recon = static_cast<TTree*>(m_file->Get(reconame));
+    m_truth = static_cast<TTree*>(m_file->Get(truename.c_str()));
+    m_recon = static_cast<TTree*>(m_file->Get(reconame.c_str()));
     
     if(m_truth || m_recon){
         cout << "Could not access truth/recon tree(s)." << endl;
@@ -41,7 +41,8 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
     }
 }
 
-EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_names, std::string reconame, std::string truename) : EffPurTools(filename, reconame, truename) {
+EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_names, std::string reconame, std::string truename) {
+    EffPurTools(filename, reconame, truename);
     SetCutNames(cut_names);
 }
 
