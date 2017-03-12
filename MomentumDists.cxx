@@ -124,7 +124,6 @@ MomentumDists::MomentumDists(EXP::EXP exp, std::string filename, bool debug) : m
         m_exper_logo += " Work In Progress";
     }
     else if(exp == EXP::MIN){
-        
         m_truename = "Truth";
         m_reconame = "sel";
         m_getPOT = true;

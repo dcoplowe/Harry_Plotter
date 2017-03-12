@@ -9,12 +9,11 @@
 #include "TH2D.h"
 #include "TTree.h"
 
-
 EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string truename) : m_debug(false) {
     
     cout << "    Filename: " << filename << endl;
-    cout << "Truth branch: " << reconame << endl;
-    cout << "Recon branch: " << truename << endl;
+    cout << "Truth branch: " << truename << endl;
+    cout << "Recon branch: " << reconame << endl;
     
     //Include counter to make sure hists have unique names:
     m_purhcounter = -1;
@@ -32,8 +31,8 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
         exit(0);
     }
     
-    m_truth = static_cast<TTree*>(m_file->Get(truename.c_str()));
-    m_recon = static_cast<TTree*>(m_file->Get(reconame.c_str()));
+    m_truth = (TTree*)m_file->Get(truename.c_str());
+    m_recon = (TTree*)m_file->Get(reconame.c_str());
     
     if(m_truth || m_recon){
         cout << "Could not access truth/recon tree(s)." << endl;
