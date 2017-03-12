@@ -25,7 +25,7 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
     m_purvarcounter = -1;
 
     
-    m_file = new TFile(filename, "READ");
+    m_file = new TFile(filename.c_str(), "READ");
     
     if(!m_file){
         cout << "Could not open file named: " << filename << endl;

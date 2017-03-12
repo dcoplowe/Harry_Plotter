@@ -60,8 +60,8 @@ private:
     bool m_debug;
     
     TFile * m_file;
-    TTree * m_truthtree;
-    TTree * m_recontree;
+    TTree * m_truth;
+    TTree * m_recon;
     
     std::vector<std::string> m_cutnames;
     
