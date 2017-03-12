@@ -205,7 +205,7 @@ TH2D * EffPurTools::PurVSVar(std::string var_yx, int x_nbins, Double_t * x_bins,
     if(m_debug) cout << "EffPurTools::PurVSVar()" << endl;
     //TTree * intree = (TTree*)_file->Get(_reconame.Data());
     
-    TH2D * purvar = RatioVSVar(m_recon, var, x_nbins, x_bins, y_nbins, y_bins, cuts, signal, xy_title);
+    TH2D * purvar = RatioVSVar(m_recon, var_yx, x_nbins, x_bins, y_nbins, y_bins, cuts, signal, xy_title);
     m_purvarcounter++;
     purvar->SetName(Form("purvar%.3d", m_purvarcounter));
 //    purvar->GetYaxis()->SetTitle("Purity");

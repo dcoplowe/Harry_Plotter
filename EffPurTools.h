@@ -71,8 +71,8 @@ private:
     TH1D * RatioVSVar(TTree * intree, std::string var, int nbins, Double_t * xbins, std::string common_cut, std::string num_only_cut, std::string x_title);
     TH2D * RatioVSVar(TTree * intree, std::string var_yx, int x_nbins, Double_t * x_bins, int y_nbins, Double_t * y_bins, std::string common_cut, std::string num_only_cut, std::string xy_title);
     
-    TH1D * GetHisto(std::string var, int nbins, Double_t * xbins, std::string cuts);    
-    TH2D * GetHisto(std::string var_yx, int x_nbins, Double_t * xbins, int y_nbins, Double_t * ybins, std::string cuts);
+    TH1D * GetHisto(TTree * intree, std::string var, int nbins, Double_t * xbins, std::string cuts);
+    TH2D * GetHisto(TTree * intree, std::string var_yx, int x_nbins, Double_t * xbins, int y_nbins, Double_t * ybins, std::string cuts);
     
     int m_purhcounter;
     int m_effhcounter;
