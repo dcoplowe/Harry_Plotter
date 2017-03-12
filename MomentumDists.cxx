@@ -585,7 +585,7 @@ void MomentumDists::MakePlots(){
     
     MakeDir("Efficiency/Cuts/dEdX");
     std::string signal_def = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
-    signal_def += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 20 && TMath::RadToDeg()*truth_mu_Theta >= 0 && truth_true_target_region == 1"
+    signal_def += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 20 && TMath::RadToDeg()*truth_mu_Theta >= 0 && truth_true_target_region == 1";
     
     TCanvas * eff_pur_cuts_EX = new TCanvas("eff_pur_cuts_dEdX","", 600, 800);
     eff_pur_cuts_EX->cd();
