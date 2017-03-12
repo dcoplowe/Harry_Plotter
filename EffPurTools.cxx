@@ -168,7 +168,7 @@ TH1D * EffPurTools::EffVSVar(std::string var, int nbins, Double_t * xbins, std::
 
 TH1D * EffPurTools::EffVSVar(std::string var, int nbins, Double_t x_low, Double_t x_high, std::string signal, std::string cuts, std::string x_title){
     if(m_debug) cout << "EffPurTools::EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString cuts, const TString x_title)" << endl;
-    return EffVSVar(std::string var, nbins, EvenArray(nbins, x_low, x_high), signal, cuts, x_title);
+    return EffVSVar(var, nbins, EvenArray(nbins, x_low, x_high), signal, cuts, x_title);
 }
 
 TH2D * EffPurTools::EffVSVar(std::string var_yx, int x_nbins, Double_t * x_bins, int y_nbins, Double_t * y_bins, std::string signal, std::string cuts, std::string xy_title){
@@ -244,9 +244,9 @@ TH1D * EffPurTools::EventsVSCuts(TTree * intree, std::string cuts, int branch, i
     
     for(int i = 0; i < ncuts + 1; i++){
         TH1D * h_tmp = new TH1D("h_tmp","", 1, 0., 1.);
-        TString loop_cuts = Form("%s %d", tmp_cuts.Data(), (i-1));
+        std::string loop_cuts = Form("%s %d", tmp_cuts.c_str(), (i-1));
         if(m_debug) cout << "Loop cut: " << loop_cuts << endl;
-        intree->Project("h_tmp","0.5",loop_cuts.c_str());
+        intree->Project("h_tmp","0.5", loop_cuts.c_str());
         double intergal = (double)h_tmp->Integral();
         h_evntcuts->SetBinContent(i+1, intergal);
         if(m_debug) cout << "Cut " << i << ": Events after cut " << intergal << endl;
