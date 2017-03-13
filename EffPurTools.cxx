@@ -31,8 +31,11 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
         exit(0);
     }
     
-    m_truth = static_cast<TTree*>(m_file->Get(truename.c_str()));
-    m_recon = static_cast<TTree*>(m_file->Get(reconame.c_str()));
+//    m_truth = static_cast<TTree*>(m_file->Get(truename.c_str()));
+//    m_recon = static_cast<TTree*>(m_file->Get(reconame.c_str()));
+
+    m_truth = (TTree*)m_file->Get(truename.c_str());
+    m_recon = (TTree*)m_file->Get(reconame.c_str());
     
     if(!m_truth || !m_recon){
         cout << "Could not access truth/recon tree(s)." << endl;
@@ -72,7 +75,10 @@ TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
     }
     else if(m_debug) cout << "    Cut(s): None" << endl;
     
+    
+    cout << "Is tree working :: " << endl;
     if(m_debug) cout << "Read tree " << m_truth->GetName() << endl;
+    cout << "Is tree working :: " << endl;
     
     TH1I * h_ncuts = new TH1I("h_ncuts", "",10, 0, 10);
     
