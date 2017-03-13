@@ -74,6 +74,8 @@ public:
     void ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std::string cuts);
     void ProduceGroup(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts);
     
+    void MomentumDists::EffDists(Variable var, Int_t nbins, Double_t low, Double_t high, std::string signal_def, std::string cuts = "");
+    
     void MakeDir(std::string name);
     void cdDir(std::string name = ""){  m_outfile->cd((m_savename + ":/" + name).c_str()); }//Default is the root dir.
     
@@ -315,6 +317,20 @@ void MomentumDists::MakeScorePlots(Particle * part, Int_t nbins, Double_t * bins
 void MomentumDists::MakeScorePlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
     MakeScorePlots(part, nbins, m_runbd->SetBinning(nbins, low, high), cuts);
 }
+
+void MomentumDists::EffDists(Variable var, Int_t nbins, Double_t low, Double_t high, std::string signal_def, std::string cuts){
+    //Produce eff. and truth dist from truth tree.
+    if(m_outfile->IsOpen()){
+        
+        TCanvas * effdists = new TCanvas( (var.name + "_eff").c_str(), 900,800);
+        effdists->cd();
+        m_runep->EffVSVar(var.name.c_str(), nbins, low, high, signal_def, cuts, (var.symbol + " " + var.units).c_str() )->Draw();
+        effdists->Write();
+        delete effdists;
+
+    }
+}
+
 
 void MomentumDists::MakeDir(std::string name){
     if(m_outfile->IsOpen()){
@@ -583,33 +599,52 @@ void MomentumDists::MakePlots(){
     //*************************************** VS cuts START ***********************************//
     
     MakeDir("Efficiency/Cuts/dEdX");
-    std::string signal_def = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
-    signal_def += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 20 && TMath::RadToDeg()*truth_mu_Theta >= 0 && truth_true_target_region == 1";
+    std::string signal_def_eff = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
+    signal_def += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25 && TMath::RadToDeg()*truth_mu_Theta >= 0";
+    signal_def += " && truth_true_target_region == 1 && truth_mu_E < 20000. && truth_mu_E > 0.";
+    
+    std::string signal_def_pur = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
+    signal_def += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25 && TMath::RadToDeg()*truth_mu_Theta >= 0";
+    signal_def += " && truth_true_target_region == 1 && truth_mu_E < 20000. && truth_mu_E > 0.";
+    
     
     TCanvas * eff_pur_cuts_EX = new TCanvas("eff_pur_cuts_dEdX","", 600, 800);
     eff_pur_cuts_EX->cd();
-    m_runep->EffVSCuts( signal_def.c_str() )->Draw();
-    m_runep->PurVSCuts( signal_def.c_str() )->Draw("SAME");
+    m_runep->EffVSCuts( signal_def_eff )->Draw();
+    m_runep->PurVSCuts( signal_def_pur )->Draw("SAME");
     eff_pur_cuts_EX->Write();
     
     MakeDir("Efficiency/Cuts/LL");
 
     TCanvas * eff_pur_cuts_LL = new TCanvas("eff_pur_cuts_LL","", 600, 800);
     eff_pur_cuts_LL->cd();
-    m_runep->EffVSCuts( signal_def.c_str(), 1 )->Draw();
-    m_runep->PurVSCuts( signal_def.c_str(), 1 )->Draw("SAME");
+    m_runep->EffVSCuts( signal_def, 1 )->Draw();
+    m_runep->PurVSCuts( signal_def, 1 )->Draw("SAME");
     eff_pur_cuts_LL->Write();
     
     //*****************************************************************************************//
     //**************************************** VS cuts END ************************************//
 //
 //    Variable truemom;
-//    
-//    EffDists(Variable var, Int_t nbins, Double_t low, Double_t high){
-//        //Produce eff. and truth dist from truth tree.
-//        m_runep->EffVSVar(var.name.c_str(), nbins, x_low, x_high, signal_def, cuts, x_title);
-//        m_runtruthbd->Draw(var.name.c_str(), nbins, low, high, xy_title, cuts);
-//    }
+//
+  
+    MakeDir("Efficiency/Mom/dEdX");
+    string cut_dEdX = "truth_accum_level[0] > 5";// && truth_pi_michel == 1";
+    
+    Int_t truemom_bins[3] = {40, 40, 40};
+    Double_t truemom_low[3] = {0., 0., 1500.};
+    Double_t truemom_hig[3] = {2000., 2000., 20000.};
+
+    string true_sym[3] = {"p", "#pi^{+}", "#mu^{-}"};
+    string true_nam[3] = {"pr", "pi", "mu"};
+    
+    Variable truemom;
+    truemom.units = "MeV/#it{c}";
+    for(int p = 0; p < 3; p++){
+        truemom.name = "truth_" + true_nam[p] + "_mom";
+        truemom.symbol = "#it{p}_{" + true_sym[p] + "}";
+        EffDists(truemom, truemom_bins[p], truemom_low[p], truemom_hig[p], signal_def_eff, cut_dEdX);
+    }
     
     //********************************** Efficiency/Purity END ********************************//
     //*****************************************************************************************//
