@@ -55,6 +55,8 @@ public:
     TLatex * GetLogo();
     void PrintLogo(TCanvas *& can);
     
+    TLatex * GetSignal();
+    
     //Particle kinematic variables:
     void MakeMomPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts);
     void MakeMomPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts);
@@ -94,6 +96,7 @@ private:
     std::string m_truename;
     std::string m_reconame;
     std::string m_exper_logo;
+    std::string m_exper_signal;
     
     std::string GetDate();
     
@@ -136,6 +139,8 @@ MomentumDists::MomentumDists(EXP::EXP exp, std::string filename, bool debug) : m
 //    else{
 //        
 //    }
+    
+    m_exper_signal = "H-CC1p1#pi^+ (1.5 < E_{#mu^{-}} (GeV) < 20, #theta_{#mu^{-}} < 25^{#circ})";
     
     m_recovars = new KinematicVars(exp);//Setup reco var names
     //For truth tree seems like all we need is the following form: 'truth_pi_E'
@@ -335,7 +340,14 @@ void MomentumDists::EffPart(Variable var, Int_t nbins, Double_t low, Double_t hi
         TH1D * tmp_eff = m_runep->EffVSVar(var.name.c_str(), nbins, low, high, signal_def, cuts, (var.symbol + " (" + var.units + ")")/*.c_str()*/ );//->Draw();
         tmp_eff->SetLineColor(colour);
         tmp_eff->Draw();
+    
+        TLatex sig = GetSignal();
+        sig->Draw();
+        
+        PrintLogo(effdists);
+        
         effdists->Write();
+        
         delete tmp_eff;
         delete effdists;
     }
@@ -356,6 +368,11 @@ void MomentumDists::TruthPart(Variable var, Int_t nbins, Double_t low, Double_t 
         tmp_truth->SetFillColor( colour );
         tmp_truth->SetLineColor( kBlack );
         tmp_truth->Draw();
+        
+        TLatex sig = GetSignal();
+        sig->Draw();
+        
+        PrintLogo(truthdists);
         
         truthdists->Write();
         
@@ -688,6 +705,7 @@ void MomentumDists::MakePlots(){
     
     //*****************************************************************************************//
     //*************************************** VS eff. START ***********************************//
+    
     for(int build = 0; build < 2; build++){
         
         string mom_type = "dEdX";
@@ -728,7 +746,7 @@ void MomentumDists::MakePlots(){
             
             if(build == 0){
             MakeDir("Truth/Theta");
-            TruthPart(truetheta, 80, 0, TMath::TwoPi(), signal_def_eff);
+            TruthPart(truetheta, 40, 0, TMath::TwoPi(), signal_def_eff);
             }
         }
         
@@ -836,6 +854,11 @@ std::string MomentumDists::GetDate(){
 TLatex * MomentumDists::GetLogo(){
     TLatex * logo = new TLatex(0.0, 0.1, ("#font[62]{" + m_exper_logo + "}").c_str() );
     return logo;
+}
+
+TLatex * MomentumDists::GetSignal(){
+//    TLatex * logo = new TLatex(0.0, 0.1, ("#font[62]{" + m_exper_signal + "}").c_str() );
+    return new TLatex(0.0, 0.1, ("#font[62]{" + m_exper_signal + "}").c_str() );
 }
 
 int main(int argc, char *argv[])
