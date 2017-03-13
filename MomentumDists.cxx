@@ -74,7 +74,7 @@ public:
     void ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std::string cuts);
     void ProduceGroup(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts);
     
-    void EffDists(Variable var, Int_t nbins, Double_t low, Double_t high, std::string signal_def, std::string cuts = "");
+    void EffPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string signal_def, std::string cuts = "");
     
     void MakeDir(std::string name);
     void cdDir(std::string name = ""){  m_outfile->cd((m_savename + ":/" + name).c_str()); }//Default is the root dir.
@@ -318,14 +318,15 @@ void MomentumDists::MakeScorePlots(Particle * part, Int_t nbins, Double_t low, D
     MakeScorePlots(part, nbins, m_runbd->SetBinning(nbins, low, high), cuts);
 }
 
-void MomentumDists::EffDists(Variable var, Int_t nbins, Double_t low, Double_t high, std::string signal_def, std::string cuts){
+void MomentumDists::EffPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string signal_def, std::string cuts){
     //Produce eff. and truth dist from truth tree.
     if(m_outfile->IsOpen()){
         
-        if(var.name.find("mu") != std::string::npos) colour = DSColors::MuonM;
+        int colour = DrawingStyle::Other;
+        if(var.name.find("mu") != std::string::npos) colour = DrawingStyle::MuonM;
         else if(var.name.find("pi") != std::string::npos) colour = DrawingStyle::PionP;
-        else if(var.name.find("pi") != std::string::npos) colour = DrawingStyle::Proton;
-        else colour = DSColors::Other;
+        else if(var.name.find("pr") != std::string::npos) colour = DrawingStyle::Proton;
+        else colour = DrawingStyle::Other;
         
         TCanvas * effdists = new TCanvas( (var.name + "_eff").c_str(), "", 900,800);
         effdists->cd();
@@ -395,23 +396,23 @@ void MomentumDists::MakePlots(){
     
     //Proton:
     MakeDir("Theta/dEdX/Proton");
-    MakeThetaPlots(m_proton, 40, 0, 2.*TMath::Pi(), EX_base_cut);
+    MakeThetaPlots(m_proton, 40, 0, TMath::TwoPi(), EX_base_cut);
     
     //Pion:
     MakeDir("Theta/dEdX/Pion");
-    MakeThetaPlots(m_pion, 40, 0, 2.*TMath::Pi(), EX_base_cut);
+    MakeThetaPlots(m_pion, 40, 0, TMath::TwoPi(), EX_base_cut);
 
     //Muon:
     MakeDir("Theta/dEdX/Muon");
-    MakeThetaPlots(m_muon, 40, 0, 2.*TMath::Pi(), EX_base_cut);
+    MakeThetaPlots(m_muon, 40, 0, TMath::TwoPi(), EX_base_cut);
     
     //Proton:
     MakeDir("Theta/LL/Proton");
-    MakeThetaPlots(m_proton_alt, 40, 0, 2.*TMath::Pi(), LL_base_cut);
+    MakeThetaPlots(m_proton_alt, 40, 0, TMath::TwoPi(), LL_base_cut);
     
     //Pion:
     MakeDir("Theta/LL/Pion");
-    MakeThetaPlots(m_pion_alt, 40, 0, 2.*TMath::Pi(), LL_base_cut);
+    MakeThetaPlots(m_pion_alt, 40, 0, TMath::TwoPi(), LL_base_cut);
     
     //**************************************** Theta END **************************************//
     //*****************************************************************************************//
@@ -421,23 +422,23 @@ void MomentumDists::MakePlots(){
 
     //Proton:
     MakeDir("Phi/dEdX/Proton");
-    MakePhiPlots(m_proton, 40, 0, 2.*TMath::Pi(), EX_base_cut);
+    MakePhiPlots(m_proton, 40, -TMath::Pi(), TMath::Pi(), EX_base_cut);
     
     //Pion:
     MakeDir("Phi/dEdX/Pion");
-    MakePhiPlots(m_pion, 40, 0, 2.*TMath::Pi(), EX_base_cut);
+    MakePhiPlots(m_pion, 40, -TMath::Pi(), TMath::Pi(), EX_base_cut);
     
     //Muon:
     MakeDir("Phi/dEdX/Muon");
-    MakePhiPlots(m_muon, 40, 0, 2.*TMath::Pi(), EX_base_cut);
+    MakePhiPlots(m_muon, 40, -TMath::Pi(), TMath::Pi(), EX_base_cut);
 
     //Proton:
     MakeDir("Phi/LL/Proton");
-    MakePhiPlots(m_proton_alt, 40, 0, 2.*TMath::Pi(), LL_base_cut);
+    MakePhiPlots(m_proton_alt, 40, -TMath::Pi(), TMath::Pi(), LL_base_cut);
     
     //Pion:
     MakeDir("Phi/LL/Pion");
-    MakePhiPlots(m_pion_alt, 40, 0, 2.*TMath::Pi(), EX_base_cut);
+    MakePhiPlots(m_pion_alt, 40, -TMath::Pi(), TMath::Pi(), EX_base_cut);
     
     //**************************************** Theta END **************************************//
     //*****************************************************************************************//
@@ -649,7 +650,7 @@ void MomentumDists::MakePlots(){
     for(int p = 0; p < 3; p++){
         truemom.name = "truth_" + true_nam[p] + "_mom";
         truemom.symbol = "#it{p}_{" + true_sym[p] + "}";
-        EffDists(truemom, truemom_bins[p], truemom_low[p], truemom_hig[p], signal_def_eff, cut_dEdX);
+        EffPart(truemom, truemom_bins[p], truemom_low[p], truemom_hig[p], signal_def_eff, cut_dEdX);
     }
     
     Variable truetheta;
@@ -657,7 +658,7 @@ void MomentumDists::MakePlots(){
     for(int p = 0; p < 3; p++){
         truetheta.name = "truth_" + true_nam[p] + "_Theta";
         truetheta.symbol = "#theta_{" + true_sym[p] + "}";
-        EffDists(truetheta, 40, 0., TMath::TwoPi(), signal_def_eff, cut_dEdX);
+        EffPart(truetheta, 40, 0., TMath::TwoPi(), signal_def_eff, cut_dEdX);
     }
     
     Variable truephi;
@@ -665,7 +666,7 @@ void MomentumDists::MakePlots(){
     for(int p = 0; p < 3; p++){
         truephi.name = "truth_" + true_nam[p] + "_Phi";
         truephi.symbol = "#theta_{" + true_sym[p] + "}";
-        EffDists(truephi, 40, 0., TMath::TwoPi(), signal_def_eff, cut_dEdX);
+        EffPart(truephi, 40, -TMath::Pi(), TMath::Pi(), signal_def_eff, cut_dEdX);
     }
     
     //********************************** Efficiency/Purity END ********************************//
