@@ -48,7 +48,7 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
 }
 
 EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_names, std::string reconame, std::string truename) {
-    this->EffPurTools(filename, reconame, truename);
+    EffPurTools(filename, reconame, truename);
     SetCutNames(cut_names);
 }
 
