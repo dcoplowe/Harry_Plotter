@@ -140,7 +140,7 @@ MomentumDists::MomentumDists(EXP::EXP exp, std::string filename, bool debug) : m
 //        
 //    }
     
-    m_exper_signal = "H-CC1p1#pi^{+} (1.5 < E_{#mu} (GeV) < 20,  #theta_{#mu} < 25 Deg.)";
+    m_exper_signal = "H-CC1p1#pi^{+} (1.5 < E_{#mu} GeV < 20,  #theta_{#mu} < 25 Deg.)";
     
     m_recovars = new KinematicVars(exp);//Setup reco var names
     //For truth tree seems like all we need is the following form: 'truth_pi_E'
@@ -767,6 +767,17 @@ void MomentumDists::MakePlots(){
             }
         }
     }
+    
+    Variable trueW;
+    trueW.units = "MeV";
+    trueW.name = "mc_W";
+    trueW.symbol = "W";
+    MakeDir("Truth/W");
+    TruthPart(trueW, 40, 0, 3000, signal_def_eff);
+    MakeDir("Truth/W/EX");
+    TruthPart(trueW, 40, 0, 3000, (signal_def_eff + " && truth_accum_level[0] > 5"));
+    MakeDir("Truth/W/LL");
+    TruthPart(trueW, 40, 0, 3000, (signal_def_eff + " && truth_accum_level[1] > 5"));
     
     //*****************************************************************************************//
     //**************************************** VS eff. END ************************************//
