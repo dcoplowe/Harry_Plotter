@@ -1,6 +1,6 @@
 #include "EffPurTools.h"
 
-<assert.h>
+#include <cassert>
 
 //ROOT Includes:
 #include "TLeaf.h"
