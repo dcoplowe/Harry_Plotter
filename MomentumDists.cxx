@@ -715,8 +715,8 @@ void MomentumDists::MakePlots(){
             EffPart(truephi, 40, -TMath::Pi(), TMath::Pi(), signal_def_eff, cut_dEdX);
             
             if(build == 0){
-                MakeDir("Truth/Theta");
-                TruthPart(truetheta, 40, 0., TMath::TwoPi(), signal_def_eff);
+                MakeDir("Truth/Phi");
+                TruthPart(truephi, 40, -TMath::Pi(), TMath::Pi(), signal_def_eff);
             }
         }
     }
