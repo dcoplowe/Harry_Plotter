@@ -600,12 +600,12 @@ void MomentumDists::MakePlots(){
     
     MakeDir("Efficiency/Cuts/dEdX");
     std::string signal_def_eff = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
-    signal_def += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25 && TMath::RadToDeg()*truth_mu_Theta >= 0";
-    signal_def += " && truth_true_target_region == 1 && truth_mu_E < 20000. && truth_mu_E > 0.";
+    signal_def_eff += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25 && TMath::RadToDeg()*truth_mu_Theta >= 0";
+    signal_def_eff += " && truth_true_target_region == 1 && truth_mu_E < 20000. && truth_mu_E > 0.";
     
     std::string signal_def_pur = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
-    signal_def += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25 && TMath::RadToDeg()*truth_mu_Theta >= 0";
-    signal_def += " && truth_true_target_region == 1 && truth_mu_E < 20000. && truth_mu_E > 0.";
+    signal_def_pur += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25 && TMath::RadToDeg()*truth_mu_Theta >= 0";
+    signal_def_pur += " && truth_true_target_region == 1 && truth_mu_E < 20000. && truth_mu_E > 0.";
     
     
     TCanvas * eff_pur_cuts_EX = new TCanvas("eff_pur_cuts_dEdX","", 600, 800);
