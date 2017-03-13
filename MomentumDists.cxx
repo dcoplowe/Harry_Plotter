@@ -140,7 +140,7 @@ MomentumDists::MomentumDists(EXP::EXP exp, std::string filename, bool debug) : m
 //        
 //    }
     
-    m_exper_signal = "H-CC1p1#pi^+ (1.5 < E_{#mu^{-}} (GeV) < 20, #theta_{#mu^{-}} < 25^{#circ})";
+    m_exper_signal = "H-CC1p1#pi^{+} (1.5 < E_{#mu} (GeV) < 20, #theta_{#mu} < {25}^{#circ})";
     
     m_recovars = new KinematicVars(exp);//Setup reco var names
     //For truth tree seems like all we need is the following form: 'truth_pi_E'
@@ -854,13 +854,11 @@ std::string MomentumDists::GetDate(){
 }
 
 TLatex * MomentumDists::GetLogo(){
-    TLatex * logo = new TLatex(0.0, 0.1, ("#font[62]{" + m_exper_logo + "}").c_str() );
-    return logo;
+    return new TLatex(0.0, 0.1, ("#font[62]{" + m_exper_logo + "}").c_str() );
 }
 
 TLatex * MomentumDists::GetSignal(){
-//    TLatex * logo = new TLatex(0.0, 0.1, ("#font[62]{" + m_exper_signal + "}").c_str() );
-    return new TLatex(0.0, 0.1, ("#font[62]{" + m_exper_signal + "}").c_str() );
+    return new TLatex(0.0, 0.1, ("#font[62]{#it{" + m_exper_signal + "}}").c_str() );
 }
 
 int main(int argc, char *argv[])
