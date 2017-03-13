@@ -140,7 +140,7 @@ MomentumDists::MomentumDists(EXP::EXP exp, std::string filename, bool debug) : m
 //        
 //    }
     
-    m_exper_signal = "H-CC1p1#pi^{+} (1.5 < E_{#mu} (GeV) < 20, #theta_{#mu} < {25}^{#circ})";
+    m_exper_signal = "H-CC1p1#pi^{+} (1.5 < E_{#mu} (GeV) < 20,  #theta_{#mu} < 25 Deg.)";
     
     m_recovars = new KinematicVars(exp);//Setup reco var names
     //For truth tree seems like all we need is the following form: 'truth_pi_E'
