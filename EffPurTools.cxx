@@ -44,6 +44,8 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
     
     cout << " m_truth->GetName() = " << m_truth->GetName() << endl;
     cout << " m_recon->GetName() = " << m_recon->GetName() << endl;
+    
+    m_truth->Print();
 
 }
 
