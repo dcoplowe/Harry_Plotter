@@ -45,12 +45,49 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
     cout << " m_truth->GetName() = " << m_truth->GetName() << endl;
     cout << " m_recon->GetName() = " << m_recon->GetName() << endl;
     
-    m_truth->Print();
+//    m_truth->Print();
 
 }
 
 EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_names, std::string reconame, std::string truename) {
-    EffPurTools(filename, reconame, truename);
+    //EffPurTools(filename, reconame, truename);
+    cout << "    Filename: " << filename << endl;
+    cout << "Truth branch: " << truename << endl;
+    cout << "Recon branch: " << reconame << endl;
+    
+    //Include counter to make sure hists have unique names:
+    m_purhcounter = -1;
+    m_effhcounter = -1;
+    m_ghcounter1D = -1;
+    m_ghcounter2D = -1;
+    m_effvarcounter = -1;
+    m_purvarcounter = -1;
+    
+    
+    m_file = new TFile(filename.c_str(), "READ");
+    
+    if(!m_file){
+        cout << "Could not open file named: " << filename << endl;
+        exit(0);
+    }
+    
+    //    m_truth = static_cast<TTree*>(m_file->Get(truename.c_str()));
+    //    m_recon = static_cast<TTree*>(m_file->Get(reconame.c_str()));
+    
+    m_truth = (TTree*)m_file->Get(truename.c_str());
+    m_recon = (TTree*)m_file->Get(reconame.c_str());
+    
+    if(!m_truth || !m_recon){
+        cout << "Could not access truth/recon tree(s)." << endl;
+        exit(0);
+    }
+    
+    cout << " m_truth->GetName() = " << m_truth->GetName() << endl;
+    cout << " m_recon->GetName() = " << m_recon->GetName() << endl;
+
+    
+    
+    
     SetCutNames(cut_names);
 }
 
