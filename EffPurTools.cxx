@@ -9,7 +9,7 @@
 #include "TH2D.h"
 #include "TTree.h"
 
-EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string truename) : m_debug(false) {
+EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string truename) : m_debug(true) {
     
     cout << "    Filename: " << filename << endl;
     cout << "Truth branch: " << truename << endl;

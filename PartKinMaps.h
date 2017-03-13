@@ -85,7 +85,7 @@ private:
 #ifndef _PARTICLE_CXX
 #define _PARTICLE_CXX
 
-Particle::Particle(EXP::EXP exp, std::string name, std::string symbol, std::string tag) : m_symbol(symbol), m_tag(tag) {
+Particle::Particle(EXP::EXP exp, std::string name, std::string symbol, std::string tag) : m_tag(tag), m_symbol(symbol) {
     
     if(exp == EXP::T2K){
         //Reco vars: Common:
