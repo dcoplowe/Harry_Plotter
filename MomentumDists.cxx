@@ -75,6 +75,8 @@ public:
     void ProduceGroup(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts);
     
     void EffPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string signal_def, std::string cuts = "");
+    void TruthPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts = "");
+    
     
     void MakeDir(std::string name);
     void cdDir(std::string name = ""){  m_outfile->cd((m_savename + ":/" + name).c_str()); }//Default is the root dir.
@@ -330,12 +332,35 @@ void MomentumDists::EffPart(Variable var, Int_t nbins, Double_t low, Double_t hi
         
         TCanvas * effdists = new TCanvas( (var.name + "_eff").c_str(), "", 900,800);
         effdists->cd();
-        TH1D * tmp_eff = m_runep->EffVSVar(var.name.c_str(), nbins, low, high, signal_def, cuts, (var.symbol + " " + var.units).c_str() );//->Draw();
+        TH1D * tmp_eff = m_runep->EffVSVar(var.name.c_str(), nbins, low, high, signal_def, cuts, (var.symbol + " (" + var.units + ")")/*.c_str()*/ );//->Draw();
         tmp_eff->SetLineColor(colour);
         tmp_eff->Draw();
         effdists->Write();
         delete tmp_eff;
         delete effdists;
+    }
+}
+
+void MomentumDists::TruthPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts){
+    
+    if(m_outfile->IsOpen()){
+        int colour = DrawingStyle::Other;
+        if(var.name.find("mu") != std::string::npos) colour = DrawingStyle::MuonM;
+        else if(var.name.find("pi") != std::string::npos) colour = DrawingStyle::PionP;
+        else if(var.name.find("pr") != std::string::npos) colour = DrawingStyle::Proton;
+        else colour = DrawingStyle::Other;
+        
+        TCanvas * truthdists = new TCanvas( (var.name + "_truth").c_str(), "", 900,800);
+        truthdists->cd();
+        TH1D * tmp_truth = m_runtruthbd->GetHisto(var.name, nbins, low, high, (var.symbol + " (" + var.units + ")"), cuts);
+        tmp_truth->SetFillColor( colour );
+        tmp_truth->SetLineColor( kBlack );
+        tmp_truth->Draw();
+        
+        truthdists->Write();
+        
+        delete tmp_truth;
+        delete truthdists;
     }
 }
 
@@ -608,18 +633,18 @@ void MomentumDists::MakePlots(){
     
     MakeDir("Efficiency/Cuts/dEdX");
     std::string signal_def_eff = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
-    signal_def_eff += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25 && TMath::RadToDeg()*truth_mu_Theta >= 0";
+    signal_def_eff += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25. && TMath::RadToDeg()*truth_mu_Theta >= 0.";
     signal_def_eff += " && truth_true_target_region == 1 && truth_mu_E < 20000. && truth_mu_E > 0.";
     
     std::string signal_def_pur = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
-    signal_def_pur += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25 && TMath::RadToDeg()*truth_mu_Theta >= 0";
+    signal_def_pur += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25. && TMath::RadToDeg()*truth_mu_Theta >= 0.";
     signal_def_pur += " && truth_true_target_region == 1 && truth_mu_E < 20000. && truth_mu_E > 0.";
-    
     
     TCanvas * eff_pur_cuts_EX = new TCanvas("eff_pur_cuts_dEdX","", 600, 800);
     eff_pur_cuts_EX->cd();
     m_runep->EffVSCuts( signal_def_eff )->Draw("HIST");
     m_runep->PurVSCuts( signal_def_pur )->Draw("HISTSAME");
+//    TLegend ;
     eff_pur_cuts_EX->Write();
     
     MakeDir("Efficiency/Cuts/LL");
@@ -632,16 +657,15 @@ void MomentumDists::MakePlots(){
     
     //*****************************************************************************************//
     //**************************************** VS cuts END ************************************//
-//
-//    Variable truemom;
-//
-  
+
+    
+    //*****************************************************************************************//
+    //*************************************** VS eff. START ***********************************//
     for(int build = 0; build < 2; build++){
         
         string mom_type = "dEdX";
         if(build == 1) mom_type = "LL";
         
-        MakeDir("Efficiency/" + mom_type + "/Mom");
         string cut_dEdX = "truth_accum_level[" + string(build == 0 ? "0" : "1") + "] > 5";// && truth_pi_michel == 1";
         
         Int_t truemom_bins[3] = {40, 40, 40};
@@ -656,30 +680,106 @@ void MomentumDists::MakePlots(){
         for(int p = 0; p < 3; p++){
             truemom.name = "truth_" + true_nam[p] + "_mom";
             truemom.symbol = "#it{p}_{" + true_sym[p] + "}";
+            
+            MakeDir("Efficiency/" + mom_type + "/Mom");
             EffPart(truemom, truemom_bins[p], truemom_low[p], truemom_hig[p], signal_def_eff, cut_dEdX);
+            
+            if(build == 0){
+                MakeDir("Truth/Mom");
+                TruthPart(truemom, truemom_bins[p], truemom_low[p], truemom_hig[p], signal_def_eff);
+            }
         }
         
-        MakeDir("Efficiency/" + mom_type + "/Theta");
         Variable truetheta;//Is this range between 0 and pi?
         truetheta.units = "Rad.";
         for(int p = 0; p < 3; p++){
             truetheta.name = "truth_" + true_nam[p] + "_Theta";
             truetheta.symbol = "#theta_{" + true_sym[p] + "}";
+
+            MakeDir("Efficiency/" + mom_type + "/Theta");
             EffPart(truetheta, 40, 0., TMath::TwoPi(), signal_def_eff, cut_dEdX);
+            
+            if(build == 0){
+            MakeDir("Truth/Theta");
+            TruthPart(truetheta, 40, 0., TMath::TwoPi(), signal_def_eff);
+            }
         }
         
-        MakeDir("Efficiency/" + mom_type + "/Mom");
         Variable truephi;
         truephi.units = "Rad.";
         for(int p = 0; p < 3; p++){
             truephi.name = "truth_" + true_nam[p] + "_Phi";
             truephi.symbol = "#theta_{" + true_sym[p] + "}";
+            
+            MakeDir("Efficiency/" + mom_type + "/Phi");
             EffPart(truephi, 40, -TMath::Pi(), TMath::Pi(), signal_def_eff, cut_dEdX);
+            
+            if(build == 0){
+                MakeDir("Truth/Theta");
+                TruthPart(truetheta, 40, 0., TMath::TwoPi(), signal_def_eff);
+            }
         }
-        
     }
+    
+    //*****************************************************************************************//
+    //**************************************** VS eff. END ************************************//
+    
     //********************************** Efficiency/Purity END ********************************//
     //*****************************************************************************************//
+    //*****************************************************************************************//
+    //*****************************************************************************************//
+    //*************************************** Truth START *************************************//
+    
+//    //*****************************************************************************************//
+//    //*************************************** VS eff. START ***********************************//
+////   m_runtruthbd
+//    
+//    for(int build = 0; build < 2; build++){
+//        
+//        string mom_type = "dEdX";
+//        if(build == 1) mom_type = "LL";
+//        
+//        MakeDir("Truth/" + mom_type + "/Mom");
+//        string cut_dEdX = "truth_accum_level[" + string(build == 0 ? "0" : "1") + "] > 5";// && truth_pi_michel == 1";
+//        
+//        Int_t truemom_bins[3] = {40, 40, 40};
+//        Double_t truemom_low[3] = {0., 0., 1500.};
+//        Double_t truemom_hig[3] = {2000., 2000., 20000.};
+//        
+//        string true_sym[3] = {"p", "#pi^{+}", "#mu^{-}"};
+//        string true_nam[3] = {"pr", "pi", "mu"};
+//        
+//        Variable truemom;
+//        truemom.units = "MeV/#it{c}";
+//        for(int p = 0; p < 3; p++){
+//            truemom.name = "truth_" + true_nam[p] + "_mom";
+//            truemom.symbol = "#it{p}_{" + true_sym[p] + "}";
+//            TruthPart(truemom, nbins, low, high, cuts);
+//        }
+//        
+//        MakeDir("Truth/" + mom_type + "/Theta");
+//        Variable truetheta;//Is this range between 0 and pi?
+//        truetheta.units = "Rad.";
+//        for(int p = 0; p < 3; p++){
+//            truetheta.name = "truth_" + true_nam[p] + "_Theta";
+//            truetheta.symbol = "#theta_{" + true_sym[p] + "}";
+//            EffPart(truetheta, 40, 0., TMath::TwoPi(), signal_def_eff, cut_dEdX);
+//        }
+//        
+//        MakeDir("Truth/" + mom_type + "/Phi");
+//        Variable truephi;
+//        truephi.units = "Rad.";
+//        for(int p = 0; p < 3; p++){
+//            truephi.name = "truth_" + true_nam[p] + "_Phi";
+//            truephi.symbol = "#theta_{" + true_sym[p] + "}";
+//            EffPart(truephi, 40, -TMath::Pi(), TMath::Pi(), signal_def_eff, cut_dEdX);
+//        }
+//    }
+//    
+    //****************************************** Truth END ************************************//
+    //*****************************************************************************************//
+
+    
     
     //CLOSE THE DIRECTORY
     if(m_outfile->IsOpen()) m_outfile->Close();
