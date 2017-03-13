@@ -13,10 +13,11 @@
 
 EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string truename) : m_debug(false) {
     
-    cout << "    Filename: " << filename << endl;
-    cout << "Truth branch: " << truename << endl;
-    cout << "Recon branch: " << reconame << endl;
-    
+    if(m_debug){
+        cout << "    Filename: " << filename << endl;
+        cout << "Truth branch: " << truename << endl;
+        cout << "Recon branch: " << reconame << endl;
+    }
     //Include counter to make sure hists have unique names:
     m_purhcounter = -1;
     m_effhcounter = -1;
@@ -44,17 +45,17 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
         exit(0);
     }
     
-    cout << " m_truth->GetName() = " << m_truth->GetName() << endl;
-    cout << " m_recon->GetName() = " << m_recon->GetName() << endl;
-    
 //    m_truth->Print();
 
 }
 
 EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_names, std::string reconame, std::string truename) : m_debug(false) {
-    cout << "    Filename: " << filename << endl;
-    cout << "Truth branch: " << truename << endl;
-    cout << "Recon branch: " << reconame << endl;
+    
+    if(m_debug){
+        cout << "    Filename: " << filename << endl;
+        cout << "Truth branch: " << truename << endl;
+        cout << "Recon branch: " << reconame << endl;
+    }
     
     //Include counter to make sure hists have unique names:
     m_purhcounter = -1;
@@ -121,9 +122,7 @@ TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
     int ncuts = lused->GetValue();
     
     if(m_debug) cout << "Found and Filled ncuts histogram " << endl;
-    
-//    int ncuts = (int)h_ncuts->GetBinCenter(h_ncuts->GetMaximumBin());
-    
+
     if(m_debug) cout << "Number of cuts found to be " << ncuts << endl;
     
     TH1D * num = EventsVSCuts(m_truth, full_signal, branch, ncuts);
