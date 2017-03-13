@@ -332,6 +332,7 @@ void MomentumDists::EffPart(Variable var, Int_t nbins, Double_t low, Double_t hi
         effdists->cd();
         TH1D * tmp_eff = m_runep->EffVSVar(var.name.c_str(), nbins, low, high, signal_def, cuts, (var.symbol + " " + var.units).c_str() );//->Draw();
         tmp_eff->SetLineColor(colour);
+        tmp_eff->Draw();
         effdists->Write();
         delete tmp_eff;
         delete effdists;
@@ -617,16 +618,16 @@ void MomentumDists::MakePlots(){
     
     TCanvas * eff_pur_cuts_EX = new TCanvas("eff_pur_cuts_dEdX","", 600, 800);
     eff_pur_cuts_EX->cd();
-    m_runep->EffVSCuts( signal_def_eff )->Draw();
-    m_runep->PurVSCuts( signal_def_pur )->Draw("SAME");
+    m_runep->EffVSCuts( signal_def_eff )->Draw("HIST");
+    m_runep->PurVSCuts( signal_def_pur )->Draw("HISTSAME");
     eff_pur_cuts_EX->Write();
     
     MakeDir("Efficiency/Cuts/LL");
 
     TCanvas * eff_pur_cuts_LL = new TCanvas("eff_pur_cuts_LL","", 600, 800);
     eff_pur_cuts_LL->cd();
-    m_runep->EffVSCuts( signal_def_eff, 1 )->Draw();
-    m_runep->PurVSCuts( signal_def_pur, 1 )->Draw("SAME");
+    m_runep->EffVSCuts( signal_def_eff, 1 )->Draw("HIST");
+    m_runep->PurVSCuts( signal_def_pur, 1 )->Draw("HISTSAME");
     eff_pur_cuts_LL->Write();
     
     //*****************************************************************************************//
@@ -635,7 +636,7 @@ void MomentumDists::MakePlots(){
 //    Variable truemom;
 //
   
-    MakeDir("Efficiency/Mom/dEdX");
+    MakeDir("Efficiency/dEdX/Mom");
     string cut_dEdX = "truth_accum_level[0] > 5";// && truth_pi_michel == 1";
     
     Int_t truemom_bins[3] = {40, 40, 40};
@@ -652,8 +653,9 @@ void MomentumDists::MakePlots(){
         truemom.symbol = "#it{p}_{" + true_sym[p] + "}";
         EffPart(truemom, truemom_bins[p], truemom_low[p], truemom_hig[p], signal_def_eff, cut_dEdX);
     }
-    
-    Variable truetheta;
+
+    MakeDir("Efficiency/dEdX/Theta");
+    Variable truetheta;//Is this range between 0 and pi?
     truetheta.units = "Rad.";
     for(int p = 0; p < 3; p++){
         truetheta.name = "truth_" + true_nam[p] + "_Theta";
@@ -661,6 +663,7 @@ void MomentumDists::MakePlots(){
         EffPart(truetheta, 40, 0., TMath::TwoPi(), signal_def_eff, cut_dEdX);
     }
     
+    MakeDir("Efficiency/dEdX/Mom");
     Variable truephi;
     truephi.units = "Rad.";
     for(int p = 0; p < 3; p++){
