@@ -8,6 +8,7 @@
 #include "TH1D.h"
 #include "TH2D.h"
 #include "TTree.h"
+#include "TLeaf.h"
 
 EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string truename) : m_debug(true) {
     
