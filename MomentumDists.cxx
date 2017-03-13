@@ -642,18 +642,45 @@ void MomentumDists::MakePlots(){
     
     TCanvas * eff_pur_cuts_EX = new TCanvas("eff_pur_cuts_dEdX","", 600, 800);
     eff_pur_cuts_EX->cd();
-    m_runep->EffVSCuts( signal_def_eff )->Draw("HIST");
-    m_runep->PurVSCuts( signal_def_pur )->Draw("HISTSAME");
-//    TLegend ;
+    TH1D * eff_EX = m_runep->EffVSCuts( signal_def_eff, 1 );//->Draw("HIST");
+    TH1D * pur_EX = m_runep->PurVSCuts( signal_def_pur, 1 );//->Draw("HISTSAME");
+    
+    eff_EX->Draw("HIST");
+    pur_EX->Draw("HISTSAME");
+    
+    TLegend * eff_pur_cuts_EX_leg = m_runbd->Legend(0.2,0.1);
+    eff_pur_cuts_EX_leg->AddEntry(eff_EX, "Efficiency", "l");
+    eff_pur_cuts_EX_leg->AddEntry(pur_EX, "Purity", "l");
+    eff_pur_cuts_EX_leg->Draw();
+    
     eff_pur_cuts_EX->Write();
+    
+    delete eff_EX;
+    delete pur_EX;
+    delete eff_pur_cuts_EX_leg;
+    delete eff_pur_cuts_EX;
     
     MakeDir("Efficiency/Cuts/LL");
 
     TCanvas * eff_pur_cuts_LL = new TCanvas("eff_pur_cuts_LL","", 600, 800);
     eff_pur_cuts_LL->cd();
-    m_runep->EffVSCuts( signal_def_eff, 1 )->Draw("HIST");
-    m_runep->PurVSCuts( signal_def_pur, 1 )->Draw("HISTSAME");
+    TH1D * eff_LL = m_runep->EffVSCuts( signal_def_eff, 1 );//->Draw("HIST");
+    TH1D * pur_LL = m_runep->PurVSCuts( signal_def_pur, 1 );//->Draw("HISTSAME");
+    
+    eff_LL->Draw("HIST");
+    pur_LL->Draw("HISTSAME");
+    
+    TLegend * eff_pur_cuts_LL_leg = m_runbd->Legend(0.2,0.1);
+    eff_pur_cuts_LL_leg->AddEntry(eff_LL, "Efficiency", "l");
+    eff_pur_cuts_LL_leg->AddEntry(pur_LL, "Purity", "l");
+    eff_pur_cuts_LL_leg->Draw();
+    
     eff_pur_cuts_LL->Write();
+    
+    delete eff_LL;
+    delete pur_LL;
+    delete eff_pur_cuts_LL_leg;
+    delete eff_pur_cuts_LL;
     
     //*****************************************************************************************//
     //**************************************** VS cuts END ************************************//
