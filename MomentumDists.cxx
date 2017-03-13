@@ -322,7 +322,7 @@ void MomentumDists::EffDists(Variable var, Int_t nbins, Double_t low, Double_t h
     //Produce eff. and truth dist from truth tree.
     if(m_outfile->IsOpen()){
         
-        TCanvas * effdists = new TCanvas( (var.name + "_eff").c_str(), 900,800);
+        TCanvas * effdists = new TCanvas( (var.name + "_eff").c_str(), "", 900,800);
         effdists->cd();
         m_runep->EffVSVar(var.name.c_str(), nbins, low, high, signal_def, cuts, (var.symbol + " " + var.units).c_str() )->Draw();
         effdists->Write();
