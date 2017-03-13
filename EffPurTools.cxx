@@ -67,6 +67,9 @@ TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
         cout << " Truth tree exists!" << endl;
     }
     
+    cout << m_truth->GetName() << endl;
+    m_truth->Print();
+    
     if(m_debug) cout << "EffPurTools::EffVSCuts()" << endl;
     
     if(signal.empty()){
@@ -91,7 +94,6 @@ TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
     
     TH1I * h_ncuts = new TH1I("h_ncuts", "",10, 0, 10);
     
-    TString ncuts_name = "truth_ncuts";
     m_truth->Project("h_ncuts", "truth_ncuts");//Draw(ncuts_name + ">> h_ncuts");
     
     if(m_debug) cout << "Found and Filled ncuts histogram " << endl;
