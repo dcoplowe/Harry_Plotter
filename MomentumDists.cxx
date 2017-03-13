@@ -642,7 +642,7 @@ void MomentumDists::MakePlots(){
         if(build == 1) mom_type = "LL";
         
         MakeDir("Efficiency/" + mom_type + "/Mom");
-        string cut_dEdX = "truth_accum_level[" (build == 0 ? "0" : "1") "] > 5";// && truth_pi_michel == 1";
+        string cut_dEdX = "truth_accum_level[" + string(build == 0 ? "0" : "1") + "] > 5";// && truth_pi_michel == 1";
         
         Int_t truemom_bins[3] = {40, 40, 40};
         Double_t truemom_low[3] = {0., 0., 1500.};
