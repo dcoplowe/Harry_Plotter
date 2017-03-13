@@ -74,7 +74,7 @@ public:
     void ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std::string cuts);
     void ProduceGroup(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts);
     
-    void MomentumDists::EffDists(Variable var, Int_t nbins, Double_t low, Double_t high, std::string signal_def, std::string cuts = "");
+    void EffDists(Variable var, Int_t nbins, Double_t low, Double_t high, std::string signal_def, std::string cuts = "");
     
     void MakeDir(std::string name);
     void cdDir(std::string name = ""){  m_outfile->cd((m_savename + ":/" + name).c_str()); }//Default is the root dir.
