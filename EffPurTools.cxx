@@ -144,7 +144,6 @@ TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
     
     delete num;
     delete den;
-    delete h_ncuts;
     
     return effcuts;
 }
