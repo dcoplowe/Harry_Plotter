@@ -49,8 +49,7 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
 
 }
 
-EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_names, std::string reconame, std::string truename) {
-    //EffPurTools(filename, reconame, truename);
+EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_names, std::string reconame, std::string truename) : m_debug(true) {
     cout << "    Filename: " << filename << endl;
     cout << "Truth branch: " << truename << endl;
     cout << "Recon branch: " << reconame << endl;
@@ -82,12 +81,6 @@ EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_name
         exit(0);
     }
     
-    cout << " m_truth->GetName() = " << m_truth->GetName() << endl;
-    cout << " m_recon->GetName() = " << m_recon->GetName() << endl;
-
-    
-    
-    
     SetCutNames(cut_names);
 }
 
@@ -100,14 +93,6 @@ EffPurTools::~EffPurTools(){
 
 //These may not be void functions:
 TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
-    
-
-    if(m_truth){
-        cout << " Truth tree exists!" << endl;
-    }
-    
-    cout << m_truth->GetName() << endl;
-    m_truth->Print();
     
     if(m_debug) cout << "EffPurTools::EffVSCuts()" << endl;
     
@@ -126,18 +111,19 @@ TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
     }
     else if(m_debug) cout << "    Cut(s): None" << endl;
     
-    cout << "Is tree working :: " << endl;
-//    if(m_debug) cout << "Read tree " << m_truth->GetName() << endl;
-    cout << "Is tree working :: " << endl;
-    
+    if(m_debug) cout << "Read tree " << m_truth->GetName() << endl;
     
     TH1I * h_ncuts = new TH1I("h_ncuts", "",10, 0, 10);
     
-    m_truth->Project("h_ncuts", "truth_ncuts");//Draw(ncuts_name + ">> h_ncuts");
+    m_truth->Project("h_ncuts", "truth_ncuts");
+    
+    m_truth->GetEntry(0);
+    TLeaf * lused = m_truth->GetLeaf("truth_ncuts");
+    int ncuts = lused->GetValue();
     
     if(m_debug) cout << "Found and Filled ncuts histogram " << endl;
     
-    int ncuts = (int)h_ncuts->GetBinCenter(h_ncuts->GetMaximumBin());
+//    int ncuts = (int)h_ncuts->GetBinCenter(h_ncuts->GetMaximumBin());
     
     if(m_debug) cout << "Number of cuts found to be " << ncuts << endl;
     
