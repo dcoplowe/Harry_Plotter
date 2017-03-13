@@ -636,42 +636,48 @@ void MomentumDists::MakePlots(){
 //    Variable truemom;
 //
   
-    MakeDir("Efficiency/dEdX/Mom");
-    string cut_dEdX = "truth_accum_level[0] > 5";// && truth_pi_michel == 1";
-    
-    Int_t truemom_bins[3] = {40, 40, 40};
-    Double_t truemom_low[3] = {0., 0., 1500.};
-    Double_t truemom_hig[3] = {2000., 2000., 20000.};
-
-    string true_sym[3] = {"p", "#pi^{+}", "#mu^{-}"};
-    string true_nam[3] = {"pr", "pi", "mu"};
-    
-    Variable truemom;
-    truemom.units = "MeV/#it{c}";
-    for(int p = 0; p < 3; p++){
-        truemom.name = "truth_" + true_nam[p] + "_mom";
-        truemom.symbol = "#it{p}_{" + true_sym[p] + "}";
-        EffPart(truemom, truemom_bins[p], truemom_low[p], truemom_hig[p], signal_def_eff, cut_dEdX);
+    for(int build = 0; build < 2; build++){
+        
+        string mom_type = "dEdX";
+        if(build == 1) mom_type = "LL";
+        
+        MakeDir("Efficiency/" + mom_type + "/Mom");
+        string cut_dEdX = "truth_accum_level[" + (build == 0 ? "0" : "1") + "] > 5";// && truth_pi_michel == 1";
+        
+        Int_t truemom_bins[3] = {40, 40, 40};
+        Double_t truemom_low[3] = {0., 0., 1500.};
+        Double_t truemom_hig[3] = {2000., 2000., 20000.};
+        
+        string true_sym[3] = {"p", "#pi^{+}", "#mu^{-}"};
+        string true_nam[3] = {"pr", "pi", "mu"};
+        
+        Variable truemom;
+        truemom.units = "MeV/#it{c}";
+        for(int p = 0; p < 3; p++){
+            truemom.name = "truth_" + true_nam[p] + "_mom";
+            truemom.symbol = "#it{p}_{" + true_sym[p] + "}";
+            EffPart(truemom, truemom_bins[p], truemom_low[p], truemom_hig[p], signal_def_eff, cut_dEdX);
+        }
+        
+        MakeDir("Efficiency/" + mom_type + "/Theta");
+        Variable truetheta;//Is this range between 0 and pi?
+        truetheta.units = "Rad.";
+        for(int p = 0; p < 3; p++){
+            truetheta.name = "truth_" + true_nam[p] + "_Theta";
+            truetheta.symbol = "#theta_{" + true_sym[p] + "}";
+            EffPart(truetheta, 40, 0., TMath::TwoPi(), signal_def_eff, cut_dEdX);
+        }
+        
+        MakeDir("Efficiency/" + mom_type + "/Mom");
+        Variable truephi;
+        truephi.units = "Rad.";
+        for(int p = 0; p < 3; p++){
+            truephi.name = "truth_" + true_nam[p] + "_Phi";
+            truephi.symbol = "#theta_{" + true_sym[p] + "}";
+            EffPart(truephi, 40, -TMath::Pi(), TMath::Pi(), signal_def_eff, cut_dEdX);
+        }
+        
     }
-
-    MakeDir("Efficiency/dEdX/Theta");
-    Variable truetheta;//Is this range between 0 and pi?
-    truetheta.units = "Rad.";
-    for(int p = 0; p < 3; p++){
-        truetheta.name = "truth_" + true_nam[p] + "_Theta";
-        truetheta.symbol = "#theta_{" + true_sym[p] + "}";
-        EffPart(truetheta, 40, 0., TMath::TwoPi(), signal_def_eff, cut_dEdX);
-    }
-    
-    MakeDir("Efficiency/dEdX/Mom");
-    Variable truephi;
-    truephi.units = "Rad.";
-    for(int p = 0; p < 3; p++){
-        truephi.name = "truth_" + true_nam[p] + "_Phi";
-        truephi.symbol = "#theta_{" + true_sym[p] + "}";
-        EffPart(truephi, 40, -TMath::Pi(), TMath::Pi(), signal_def_eff, cut_dEdX);
-    }
-    
     //********************************** Efficiency/Purity END ********************************//
     //*****************************************************************************************//
     

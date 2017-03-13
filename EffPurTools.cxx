@@ -188,6 +188,7 @@ TH1D * EffPurTools::PurVSCuts(std::string signal, int branch, std::string cuts){
     
     m_purhcounter++;
     TH1D * purcuts = DrawRatioVSCuts(num, den, "Purity", Form("h_purity%.3d", m_purhcounter));
+    purcuts->SetLineColor(Yellow);
     
     delete num;
     delete den;
