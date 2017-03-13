@@ -79,9 +79,8 @@ TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
     }
     else if(m_debug) cout << "    Cut(s): None" << endl;
     
-    
     cout << "Is tree working :: " << endl;
-    if(m_debug) cout << "Read tree " << m_truth->GetName() << endl;
+//    if(m_debug) cout << "Read tree " << m_truth->GetName() << endl;
     cout << "Is tree working :: " << endl;
     
     TH1I * h_ncuts = new TH1I("h_ncuts", "",10, 0, 10);
