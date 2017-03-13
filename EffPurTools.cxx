@@ -11,7 +11,7 @@
 #include "TH2D.h"
 #include "TTree.h"
 
-EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string truename) : m_debug(true) {
+EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string truename) : m_debug(false) {
     
     cout << "    Filename: " << filename << endl;
     cout << "Truth branch: " << truename << endl;
@@ -51,7 +51,7 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
 
 }
 
-EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_names, std::string reconame, std::string truename) : m_debug(true) {
+EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_names, std::string reconame, std::string truename) : m_debug(false) {
     cout << "    Filename: " << filename << endl;
     cout << "Truth branch: " << truename << endl;
     cout << "Recon branch: " << reconame << endl;
