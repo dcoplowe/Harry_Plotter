@@ -41,6 +41,10 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
         cout << "Could not access truth/recon tree(s)." << endl;
         exit(0);
     }
+    
+    cout << " m_truth->GetName() = " << m_truth->GetName() << endl;
+    cout << " m_recon->GetName() = " << m_recon->GetName() << endl;
+    
 }
 
 EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_names, std::string reconame, std::string truename) {
