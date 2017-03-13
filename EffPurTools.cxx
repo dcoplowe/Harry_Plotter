@@ -113,11 +113,8 @@ TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
     else if(m_debug) cout << "    Cut(s): None" << endl;
     
     if(m_debug) cout << "Read tree " << m_truth->GetName() << endl;
-    
-    TH1I * h_ncuts = new TH1I("h_ncuts", "",10, 0, 10);
-    
-    m_truth->Project("h_ncuts", "truth_ncuts");
-    
+
+    assert( m_truth->GetEntries() > 1 );
     m_truth->GetEntry(0);
     TLeaf * lused = m_truth->GetLeaf("truth_ncuts");
     int ncuts = lused->GetValue();
@@ -173,9 +170,10 @@ TH1D * EffPurTools::PurVSCuts(std::string signal, int branch, std::string cuts){
     
     if(m_debug) cout << "Read tree " << m_recon->GetName() << endl;
     
-    TH1I * h_ncuts = new TH1I("h_ncuts", "",10, 0, 10);
-    m_recon->Project("h_ncuts","ncuts"); //->Draw("ncuts>> h_ncuts");
-    int ncuts = (int)h_ncuts->GetBinCenter(h_ncuts->GetMaximumBin());
+    assert( m_recon->GetEntries() > 1 );
+    m_recon->GetEntry(0);
+    TLeaf * lused = m_truth->GetLeaf("truth_ncuts");
+    int ncuts = lused->GetValue();
     
     if(m_debug) cout << "Number of cuts found to be " << ncuts << endl;
     
