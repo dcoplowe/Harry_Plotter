@@ -44,7 +44,7 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
     
     cout << " m_truth->GetName() = " << m_truth->GetName() << endl;
     cout << " m_recon->GetName() = " << m_recon->GetName() << endl;
-    
+
 }
 
 EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_names, std::string reconame, std::string truename) {
@@ -61,6 +61,11 @@ EffPurTools::~EffPurTools(){
 
 //These may not be void functions:
 TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
+    
+
+    if(m_truth){
+        cout << " Truth tree exists!" << endl;
+    }
     
     if(m_debug) cout << "EffPurTools::EffVSCuts()" << endl;
     
@@ -82,6 +87,7 @@ TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
     cout << "Is tree working :: " << endl;
 //    if(m_debug) cout << "Read tree " << m_truth->GetName() << endl;
     cout << "Is tree working :: " << endl;
+    
     
     TH1I * h_ncuts = new TH1I("h_ncuts", "",10, 0, 10);
     
