@@ -323,8 +323,8 @@ void MomentumDists::EffDists(Variable var, Int_t nbins, Double_t low, Double_t h
     if(m_outfile->IsOpen()){
         
         if(var.name.find("mu") != std::string::npos) colour = DSColors::MuonM;
-        else if(var.name.find("pi") != std::string::npos) colour = DSColors::PionP;
-        else if(var.name.find("pi") != std::string::npos) colour = DSColors::Proton;
+        else if(var.name.find("pi") != std::string::npos) colour = DrawingStyle::PionP;
+        else if(var.name.find("pi") != std::string::npos) colour = DrawingStyle::Proton;
         else colour = DSColors::Other;
         
         TCanvas * effdists = new TCanvas( (var.name + "_eff").c_str(), "", 900,800);
@@ -660,6 +660,13 @@ void MomentumDists::MakePlots(){
         EffDists(truetheta, 40, 0., TMath::TwoPi(), signal_def_eff, cut_dEdX);
     }
     
+    Variable truephi;
+    truephi.units = "Rad.";
+    for(int p = 0; p < 3; p++){
+        truephi.name = "truth_" + true_nam[p] + "_Phi";
+        truephi.symbol = "#theta_{" + true_sym[p] + "}";
+        EffDists(truephi, 40, 0., TMath::TwoPi(), signal_def_eff, cut_dEdX);
+    }
     
     //********************************** Efficiency/Purity END ********************************//
     //*****************************************************************************************//
