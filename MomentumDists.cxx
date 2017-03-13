@@ -646,6 +646,15 @@ void MomentumDists::MakePlots(){
         EffDists(truemom, truemom_bins[p], truemom_low[p], truemom_hig[p], signal_def_eff, cut_dEdX);
     }
     
+    Variable truetheta;
+    truetheta.units = "Rad.";
+    for(int p = 0; p < 3; p++){
+        truetheta.name = "truth_" + true_nam[p] + "_mom";
+        truetheta.symbol = "#theta_{" + true_sym[p] + "}";
+        EffDists(truetheta, 40, 0., TMath::TwoPi(), signal_def_eff, cut_dEdX);
+    }
+    
+    
     //********************************** Efficiency/Purity END ********************************//
     //*****************************************************************************************//
     
