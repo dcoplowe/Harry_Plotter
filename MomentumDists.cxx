@@ -770,7 +770,7 @@ void MomentumDists::MakePlots(){
     
     Variable trueW;
     trueW.units = "MeV";
-    trueW.name = "mc_W";
+    trueW.name = "mc_w";
     trueW.symbol = "W";
     MakeDir("Truth/W");
     TruthPart(trueW, 40, 0, 3000, signal_def_eff);
