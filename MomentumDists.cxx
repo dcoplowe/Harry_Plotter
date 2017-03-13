@@ -322,12 +322,18 @@ void MomentumDists::EffDists(Variable var, Int_t nbins, Double_t low, Double_t h
     //Produce eff. and truth dist from truth tree.
     if(m_outfile->IsOpen()){
         
+        if(var.name.find("mu") != std::string::npos) colour = DSColors::MuonM;
+        else if(var.name.find("pi") != std::string::npos) colour = DSColors::PionP;
+        else if(var.name.find("pi") != std::string::npos) colour = DSColors::Proton;
+        else colour = DSColors::Other;
+        
         TCanvas * effdists = new TCanvas( (var.name + "_eff").c_str(), "", 900,800);
         effdists->cd();
-        m_runep->EffVSVar(var.name.c_str(), nbins, low, high, signal_def, cuts, (var.symbol + " " + var.units).c_str() )->Draw();
+        TH1D * tmp_eff = m_runep->EffVSVar(var.name.c_str(), nbins, low, high, signal_def, cuts, (var.symbol + " " + var.units).c_str() );//->Draw();
+        tmp_eff->SetLineColor(colour);
         effdists->Write();
+        delete tmp_eff;
         delete effdists;
-
     }
 }
 
@@ -649,7 +655,7 @@ void MomentumDists::MakePlots(){
     Variable truetheta;
     truetheta.units = "Rad.";
     for(int p = 0; p < 3; p++){
-        truetheta.name = "truth_" + true_nam[p] + "_mom";
+        truetheta.name = "truth_" + true_nam[p] + "_Theta";
         truetheta.symbol = "#theta_{" + true_sym[p] + "}";
         EffDists(truetheta, 40, 0., TMath::TwoPi(), signal_def_eff, cut_dEdX);
     }
