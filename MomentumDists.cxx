@@ -618,8 +618,8 @@ void MomentumDists::MakePlots(){
 
     TCanvas * eff_pur_cuts_LL = new TCanvas("eff_pur_cuts_LL","", 600, 800);
     eff_pur_cuts_LL->cd();
-    m_runep->EffVSCuts( signal_def, 1 )->Draw();
-    m_runep->PurVSCuts( signal_def, 1 )->Draw("SAME");
+    m_runep->EffVSCuts( signal_def_eff, 1 )->Draw();
+    m_runep->PurVSCuts( signal_def_pur, 1 )->Draw("SAME");
     eff_pur_cuts_LL->Write();
     
     //*****************************************************************************************//
