@@ -341,13 +341,14 @@ void MomentumDists::EffPart(Variable var, Int_t nbins, Double_t low, Double_t hi
         tmp_eff->SetLineColor(colour);
         tmp_eff->Draw();
     
-        TLatex sig = GetSignal();
+        TLatex * sig = GetSignal();
         sig->Draw();
         
         PrintLogo(effdists);
         
         effdists->Write();
-        
+
+        delete sig;
         delete tmp_eff;
         delete effdists;
     }
@@ -369,13 +370,14 @@ void MomentumDists::TruthPart(Variable var, Int_t nbins, Double_t low, Double_t 
         tmp_truth->SetLineColor( kBlack );
         tmp_truth->Draw();
         
-        TLatex sig = GetSignal();
+        TLatex * sig = GetSignal();
         sig->Draw();
         
         PrintLogo(truthdists);
         
         truthdists->Write();
         
+        delete sig;
         delete tmp_truth;
         delete truthdists;
     }
