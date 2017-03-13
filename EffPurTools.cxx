@@ -198,7 +198,7 @@ TH1D * EffPurTools::PurVSCuts(std::string signal, int branch, std::string cuts){
 TH1D * EffPurTools::EffVSVar(std::string var, int nbins, Double_t * xbins, std::string signal, std::string cuts, std::string x_title){
     if(m_debug) cout << "EffPurTools::EffVSVar()" << endl;
     
-    TH1D * effvar = RatioVSVar(m_truth, var, nbins, xbins, signal, cuts, x_title0);
+    TH1D * effvar = RatioVSVar(m_truth, var, nbins, xbins, signal, cuts, x_title);
     m_effvarcounter++;
     effvar->SetName(Form("effvar%.3d", m_effvarcounter));
     effvar->GetYaxis()->SetTitle("Efficiency");
