@@ -4,15 +4,13 @@ ROOTFLAGS = `root-config --cflags --glibs`
 
 #DC Added:
 #SRC_DIR = src
-SRCS = ProduePlots.cxx EffPurTools.cxx  BreakdownTools.cxx DrawingTools.cxx #DrawingStyle.h
-#SRCS = ProduePlots.cxx DrawingTools.cxx
-#SRCS = ProduePlots.cxx #EffPurTools.cxx
+SRCS = ProduvePlots.cxx EffPurTools.cxx  BreakdownTools.cxx DrawingTools.cxx #DrawingStyle.h
 OBJS = $(SRCS:.c=.o)
 
-MAIN = ProduePlots
+MAIN = ProduvePlots
 
 all:    $(MAIN)
-	@echo  ProduePlots has compiled successfully.
+	@echo  ProduvePlots has compiled successfully.
 
 #New main without minerva specific build:
 $(MAIN): $(OBJS)
