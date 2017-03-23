@@ -38,11 +38,11 @@ using namespace std;
 
 const string testing_mc("/pnfs/minerva/persistent/users/dcoplowe/CC1P1Pi_PL13C_030317/grid/central_value/minerva/ana/v10r8p9/00/01/32/00/SIM_minerva_00013200_Subruns_0001-0002-0003-0004_CC1P1PiAnalysis_Ana_Tuple_v10r8p9-dcoplowe.root");
 
-class MomentumDists {
+class ProducePlots {
 
 public:
-    MomentumDists(EXP::EXP exp, std::string filename, bool debug);
-    ~MomentumDists();
+    ProducePlots(EXP::EXP exp, std::string filename, bool debug);
+    ~ProducePlots();
     
     void SetSaveName(std::string var){ m_savename = var; }
     void SetTrueTreeName(std::string var){ m_truename = var; }
@@ -118,7 +118,7 @@ private:
     EffPurTools     * m_runep;
 };
 
-MomentumDists::MomentumDists(EXP::EXP exp, std::string filename, bool debug) : m_experiment(exp), m_infilename(filename) {
+ProducePlots::ProducePlots(EXP::EXP exp, std::string filename, bool debug) : m_experiment(exp), m_infilename(filename) {
     
     cout << "Experiment: " <<  EXP::ToString(exp) << endl;
     
@@ -175,7 +175,7 @@ MomentumDists::MomentumDists(EXP::EXP exp, std::string filename, bool debug) : m
     m_outfile = new TFile(m_savename.c_str(), "RECREATE");
 }
 
-MomentumDists::~MomentumDists(){
+ProducePlots::~ProducePlots(){
     
     if(m_outfile){
         if(m_outfile->IsOpen()) m_outfile->Close();
@@ -186,17 +186,17 @@ MomentumDists::~MomentumDists(){
     delete m_runbd;
 }
 
-void MomentumDists::PrintLogo(TCanvas *& can){
+void ProducePlots::PrintLogo(TCanvas *& can){
     can->cd();
     TLatex * logo = GetLogo();
     logo->Draw();
 }
 
-void MomentumDists::ProduceGroup(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts){
+void ProducePlots::ProduceGroup(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts){
     ProduceGroup(var, nbins, m_runbd->SetBinning(nbins, low, high), cuts);
 }
 
-void MomentumDists::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std::string cuts){//, Int_t setsave = 11111??
+void ProducePlots::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std::string cuts){//, Int_t setsave = 11111??
 
     if(m_outfile->IsOpen()){
         
@@ -251,11 +251,11 @@ void MomentumDists::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std
 //        if(!var.pdg.empty()) var_pid.smearSN->Write();
         
     }
-    else std::cout << "MomentumDists::ProduceGroup : ERROR : File is not open..." << std::endl;
+    else std::cout << "ProducePlots::ProduceGroup : ERROR : File is not open..." << std::endl;
     
 }
 
-void MomentumDists::MakeMomPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
+void ProducePlots::MakeMomPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
     Variable mom;
     mom.units = "MeV/#it{c}";
     mom.name = part->trueP + ":" + part->P;
@@ -265,11 +265,11 @@ void MomentumDists::MakeMomPlots(Particle * part, Int_t nbins, Double_t * bins, 
     ProduceGroup(mom, nbins, bins, cuts);
 }
 
-void MomentumDists::MakeMomPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
+void ProducePlots::MakeMomPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
     MakeMomPlots(part, nbins, m_runbd->SetBinning(nbins, low, high), cuts);
 }
 
-void MomentumDists::MakeThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
+void ProducePlots::MakeThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
     Variable theta;
     //    theta.units = "degrees";
     //    theta.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
@@ -281,11 +281,11 @@ void MomentumDists::MakeThetaPlots(Particle * part, Int_t nbins, Double_t * bins
     ProduceGroup(theta, nbins, bins, cuts);
 }
 
-void MomentumDists::MakeThetaPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
+void ProducePlots::MakeThetaPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
     MakeThetaPlots(part, nbins, m_runbd->SetBinning(nbins, low, high), cuts);
 }
 
-void MomentumDists::MakePhiPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
+void ProducePlots::MakePhiPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
     Variable phi;
     //    phi.units = "degrees";
     //    phi.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
@@ -297,11 +297,11 @@ void MomentumDists::MakePhiPlots(Particle * part, Int_t nbins, Double_t * bins, 
     ProduceGroup(phi, nbins, bins, cuts);
 }
 
-void MomentumDists::MakePhiPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
+void ProducePlots::MakePhiPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
     MakePhiPlots(part, nbins, m_runbd->SetBinning(nbins, low, high), cuts);
 }
 
-void MomentumDists::MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
+void ProducePlots::MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
     Variable phi;
     //    phi.units = "degrees";
     //    phi.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
@@ -313,19 +313,19 @@ void MomentumDists::MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t * b
     ProduceGroup(phi, nbins, bins, cuts);
 }
 
-void MomentumDists::MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
+void ProducePlots::MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
     MakeCosThetaPlots(part, nbins, m_runbd->SetBinning(nbins, low, high), cuts);
 }
 
-void MomentumDists::MakeScorePlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
+void ProducePlots::MakeScorePlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
     ;
 }
 
-void MomentumDists::MakeScorePlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
+void ProducePlots::MakeScorePlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
     MakeScorePlots(part, nbins, m_runbd->SetBinning(nbins, low, high), cuts);
 }
 
-void MomentumDists::EffPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string signal_def, std::string cuts){
+void ProducePlots::EffPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string signal_def, std::string cuts){
     //Produce eff. and truth dist from truth tree.
     if(m_outfile->IsOpen()){
         
@@ -354,7 +354,7 @@ void MomentumDists::EffPart(Variable var, Int_t nbins, Double_t low, Double_t hi
     }
 }
 
-void MomentumDists::TruthPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts){
+void ProducePlots::TruthPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts){
     
     if(m_outfile->IsOpen()){
         int colour = DrawingStyle::Other;
@@ -384,7 +384,7 @@ void MomentumDists::TruthPart(Variable var, Int_t nbins, Double_t low, Double_t 
 }
 
 
-void MomentumDists::MakeDir(std::string name){
+void ProducePlots::MakeDir(std::string name){
     if(m_outfile->IsOpen()){
         cdDir();
         TDirectory * tmp_dir = m_outfile->GetDirectory(name.c_str());
@@ -394,14 +394,14 @@ void MomentumDists::MakeDir(std::string name){
 //            m_outfile->cd((m_savename + ":/" + name).c_str());
         }
         else{
-//            cout << "MomentumDists::MakeDir : Directory exists, entering : " << name << endl;
+//            cout << "ProducePlots::MakeDir : Directory exists, entering : " << name << endl;
             cdDir(name);
         }
     }
-    else cout << "MomentumDists::MakeDir : File is closed..." << endl;
+    else cout << "ProducePlots::MakeDir : File is closed..." << endl;
 }
 
-void MomentumDists::MakePlots(){
+void ProducePlots::MakePlots(){
     
     //dEdX (0) and LL mom. (1) reco plots:
     //W/WO michel tag.
@@ -651,31 +651,40 @@ void MomentumDists::MakePlots(){
     //*************************************** VS cuts START ***********************************//
     
     MakeDir("Efficiency/Cuts/dEdX");
-    std::string signal_def_eff = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
-    signal_def_eff += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25. && TMath::RadToDeg()*truth_mu_Theta >= 0.";
-    signal_def_eff += " && truth_true_target_region == 1 && truth_mu_E < 20000. && truth_mu_E > 0.";
-    
-    std::string signal_def_pur = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
-    signal_def_pur += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25. && TMath::RadToDeg()*truth_mu_Theta >= 0.";
-    signal_def_pur += " && truth_true_target_region == 1 && truth_mu_E < 20000. && truth_mu_E > 0.";
+    std::string signal_def_new = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
+    signal_def_new += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25. && TMath::RadToDeg()*truth_mu_Theta >= 0.";
+    signal_def_new += " && truth_true_target_region == 1 && truth_mu_E < 20000. && truth_mu_E > 0.";
+
+    std::string signal_def_old = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
+    signal_def_old += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25. && TMath::RadToDeg()*truth_mu_Theta >= 0.";
     
     TCanvas * eff_pur_cuts_EX = new TCanvas("eff_pur_cuts_dEdX","", 600, 800);
     eff_pur_cuts_EX->cd();
-    TH1D * eff_EX = m_runep->EffVSCuts( signal_def_eff, 1 );//->Draw("HIST");
-    TH1D * pur_EX = m_runep->PurVSCuts( signal_def_pur, 1 );//->Draw("HISTSAME");
+    TH1D * eff_EX_new = m_runep->EffVSCuts( signal_def_new );//->Draw("HIST");
+    TH1D * pur_EX_new = m_runep->PurVSCuts( signal_def_new );//->Draw("HISTSAME");
+    TH1D * eff_EX_old = m_runep->EffVSCuts( signal_def_new );//->Draw("HIST");
+    TH1D * pur_EX_old = m_runep->PurVSCuts( signal_def_new );//->Draw("HISTSAME");
     
-    eff_EX->Draw("HIST");
-    pur_EX->Draw("HISTSAME");
-    
+    eff_EX_new->Draw("HIST");
+    pur_EX_new->Draw("HISTSAME");
+    eff_EX_old->SetLineStyle(7);
+    pur_EX_old->SetLineStyle(7);
+    eff_EX_old->Draw("HISTSAME");
+    pur_EX_old->Draw("HISTSAME");
+
     TLegend * eff_pur_cuts_EX_leg = m_runbd->Legend(0.2,0.1);
-    eff_pur_cuts_EX_leg->AddEntry(eff_EX, "Efficiency", "l");
-    eff_pur_cuts_EX_leg->AddEntry(pur_EX, "Purity", "l");
+    eff_pur_cuts_EX_leg->AddEntry(eff_EX_new, "Efficiency (New)", "l");
+    eff_pur_cuts_EX_leg->AddEntry(pur_EX_new, "Purity (New)", "l");
+    eff_pur_cuts_EX_leg->AddEntry(pur_EX_old, "Efficiency (Old)", "l");
+    eff_pur_cuts_EX_leg->AddEntry(pur_EX_old, "Purity (Old)", "l");
     eff_pur_cuts_EX_leg->Draw();
     
     eff_pur_cuts_EX->Write();
     
-    delete eff_EX;
-    delete pur_EX;
+    delete eff_EX_new;
+    delete pur_EX_new;
+    delete eff_EX_old;
+    delete pur_EX_old;
     delete eff_pur_cuts_EX_leg;
     delete eff_pur_cuts_EX;
     
@@ -683,21 +692,32 @@ void MomentumDists::MakePlots(){
 
     TCanvas * eff_pur_cuts_LL = new TCanvas("eff_pur_cuts_LL","", 600, 800);
     eff_pur_cuts_LL->cd();
-    TH1D * eff_LL = m_runep->EffVSCuts( signal_def_eff, 1 );//->Draw("HIST");
-    TH1D * pur_LL = m_runep->PurVSCuts( signal_def_pur, 1 );//->Draw("HISTSAME");
+    TH1D * eff_LL_new = m_runep->EffVSCuts( signal_def_new, 1 );//->Draw("HIST");
+    TH1D * pur_LL_new = m_runep->PurVSCuts( signal_def_new, 1 );//->Draw("HISTSAME");
+    TH1D * eff_LL_old = m_runep->EffVSCuts( signal_def_old, 1 );//->Draw("HIST");
+    TH1D * pur_LL_old = m_runep->PurVSCuts( signal_def_old, 1 );//->Draw("HISTSAME");
     
-    eff_LL->Draw("HIST");
-    pur_LL->Draw("HISTSAME");
-    
+    eff_LL_new->Draw("HIST");
+    pur_LL_new->Draw("HISTSAME");
+    eff_LL_old->SetLineStyle(7);
+    pur_LL_old->SetLineStyle(7);
+
+    eff_LL_old->Draw("HISTSAME");
+    pur_LL_old->Draw("HISTSAME");
+
     TLegend * eff_pur_cuts_LL_leg = m_runbd->Legend(0.2,0.1);
-    eff_pur_cuts_LL_leg->AddEntry(eff_LL, "Efficiency", "l");
-    eff_pur_cuts_LL_leg->AddEntry(pur_LL, "Purity", "l");
+    eff_pur_cuts_LL_leg->AddEntry(eff_LL_new, "Efficiency (New)", "l");
+    eff_pur_cuts_LL_leg->AddEntry(pur_LL_new, "Purity (New)", "l");
+    eff_pur_cuts_LL_leg->AddEntry(eff_LL_old, "Efficiency (Old)", "l");
+    eff_pur_cuts_LL_leg->AddEntry(pur_LL_old, "Purity (Old)", "l");
     eff_pur_cuts_LL_leg->Draw();
     
     eff_pur_cuts_LL->Write();
-    
-    delete eff_LL;
-    delete pur_LL;
+
+    delete eff_LL_new;
+    delete pur_LL_new; 
+    delete eff_LL_old;
+    delete pur_LL_old;
     delete eff_pur_cuts_LL_leg;
     delete eff_pur_cuts_LL;
     
@@ -729,11 +749,11 @@ void MomentumDists::MakePlots(){
             truemom.symbol = "#it{p}_{" + true_sym[p] + "}";
             
             MakeDir("Efficiency/" + mom_type + "/Mom");
-            EffPart(truemom, truemom_bins[p], truemom_low[p], truemom_hig[p], signal_def_eff, cut_dEdX);
+            EffPart(truemom, truemom_bins[p], truemom_low[p], truemom_hig[p], signal_def_new, cut_dEdX);
             
             if(build == 0){
                 MakeDir("Truth/Mom");
-                TruthPart(truemom, truemom_bins[p], truemom_low[p], truemom_hig[p], signal_def_eff);
+                TruthPart(truemom, truemom_bins[p], truemom_low[p], truemom_hig[p], signal_def_new);
             }
         }
         
@@ -744,11 +764,11 @@ void MomentumDists::MakePlots(){
             truetheta.symbol = "#theta_{" + true_sym[p] + "}";
 
             MakeDir("Efficiency/" + mom_type + "/Theta");
-            EffPart(truetheta, 40, 0., TMath::TwoPi(), signal_def_eff, cut_dEdX);
+            EffPart(truetheta, 40, 0., TMath::TwoPi(), signal_def_new, cut_dEdX);
             
             if(build == 0){
             MakeDir("Truth/Theta");
-            TruthPart(truetheta, 40, 0, TMath::TwoPi(), signal_def_eff);
+            TruthPart(truetheta, 40, 0, TMath::TwoPi(), signal_def_new);
             }
         }
         
@@ -759,11 +779,11 @@ void MomentumDists::MakePlots(){
             truephi.symbol = "#theta_{" + true_sym[p] + "}";
             
             MakeDir("Efficiency/" + mom_type + "/Phi");
-            EffPart(truephi, 40, -TMath::Pi(), TMath::Pi(), signal_def_eff, cut_dEdX);
+            EffPart(truephi, 40, -TMath::Pi(), TMath::Pi(), signal_def_new, cut_dEdX);
             
             if(build == 0){
                 MakeDir("Truth/Phi");
-                TruthPart(truephi, 40, -TMath::Pi(), TMath::Pi(), signal_def_eff);
+                TruthPart(truephi, 40, -TMath::Pi(), TMath::Pi(), signal_def_new);
             }
         }
     }
@@ -773,11 +793,11 @@ void MomentumDists::MakePlots(){
     trueW.name = "mc_w";
     trueW.symbol = "W";
     MakeDir("Truth/W");
-    TruthPart(trueW, 40, 0, 3000, signal_def_eff);
+    TruthPart(trueW, 40, 0, 3000, signal_def_new);
     MakeDir("Truth/W/EX");
-    TruthPart(trueW, 40, 0, 3000, (signal_def_eff + " && truth_accum_level[0] > 5"));
+    TruthPart(trueW, 40, 0, 3000, (signal_def_new + " && truth_accum_level[0] > 5"));
     MakeDir("Truth/W/LL");
-    TruthPart(trueW, 40, 0, 3000, (signal_def_eff + " && truth_accum_level[1] > 5"));
+    TruthPart(trueW, 40, 0, 3000, (signal_def_new + " && truth_accum_level[1] > 5"));
     
     //*****************************************************************************************//
     //**************************************** VS eff. END ************************************//
@@ -821,7 +841,7 @@ void MomentumDists::MakePlots(){
 //        for(int p = 0; p < 3; p++){
 //            truetheta.name = "truth_" + true_nam[p] + "_Theta";
 //            truetheta.symbol = "#theta_{" + true_sym[p] + "}";
-//            EffPart(truetheta, 40, 0., TMath::TwoPi(), signal_def_eff, cut_dEdX);
+//            EffPart(truetheta, 40, 0., TMath::TwoPi(), signal_def_new, cut_dEdX);
 //        }
 //        
 //        MakeDir("Truth/" + mom_type + "/Phi");
@@ -830,14 +850,12 @@ void MomentumDists::MakePlots(){
 //        for(int p = 0; p < 3; p++){
 //            truephi.name = "truth_" + true_nam[p] + "_Phi";
 //            truephi.symbol = "#theta_{" + true_sym[p] + "}";
-//            EffPart(truephi, 40, -TMath::Pi(), TMath::Pi(), signal_def_eff, cut_dEdX);
+//            EffPart(truephi, 40, -TMath::Pi(), TMath::Pi(), signal_def_new, cut_dEdX);
 //        }
 //    }
 //    
     //****************************************** Truth END ************************************//
     //*****************************************************************************************//
-
-    
     
     //CLOSE THE DIRECTORY
     if(m_outfile->IsOpen()) m_outfile->Close();
@@ -846,7 +864,7 @@ void MomentumDists::MakePlots(){
 }
 
 
-std::string MomentumDists::GetDate(){
+std::string ProducePlots::GetDate(){
     
     TDatime today;
     int day = today.GetDay();
@@ -864,11 +882,11 @@ std::string MomentumDists::GetDate(){
     return std::string(Form("%.2d%.2d%.2d",day, mon, year));
 }
 
-TLatex * MomentumDists::GetLogo(){
+TLatex * ProducePlots::GetLogo(){
     return new TLatex(0.0, 0.1, ("#font[62]{" + m_exper_logo + "}").c_str() );
 }
 
-TLatex * MomentumDists::GetSignal(){
+TLatex * ProducePlots::GetSignal(){
     return new TLatex(0.0, 0.1, ("#font[62]{#it{" + m_exper_signal + "}}").c_str() );
 }
 
@@ -900,7 +918,7 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    MomentumDists * plots = new MomentumDists(experiment, filename, debug);
+    ProducePlots * plots = new ProducePlots(experiment, filename, debug);
     
     if(!savename.empty()) plots->SetSaveName(savename);
     
