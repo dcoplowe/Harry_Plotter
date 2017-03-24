@@ -165,6 +165,5 @@ private:
 
     Int_t m_statcounter;
     TLegend * RatioStats(THStack * ratio_tot);
-
 };
 #endif
