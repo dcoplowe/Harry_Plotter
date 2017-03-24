@@ -298,7 +298,7 @@ TH1D * EffPurTools::DrawRatioVSCuts(TH1D * num, TH1D * den, std::string y_title,
     TH1D * ratio = new TH1D(h_name.c_str(), (";;" + y_title).c_str(),den->GetNbinsX(),den->GetXaxis()->GetXmin(),den->GetXaxis()->GetXmax());
     ratio->GetYaxis()->SetRangeUser(0.,110.);
     ratio->Divide(num, den);
-    ratop->Scale(100);
+    ratio->Scale(100);
     
     if(m_debug){
         for(int i = 0; i < ratio->GetNbinsX(); i++){
