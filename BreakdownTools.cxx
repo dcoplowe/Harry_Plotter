@@ -849,9 +849,11 @@ TLegend * BreakdownTools::RatioStats(THStack * ratio_tot)
 //Get the ratio histograms, make them into one histogram and determine the rms and mean:
     TList * rlist = ratio_tot->GetHists();
     TH1D * hfirst = (TH1D*)rlist->First();
+    cout << "FOund hfirst" << endl;
     Int_t ratio_nbins = hfirst->GetNbinsX();
     Double_t ratio_low = hfirst->GetXaxis()->GetXmin();
     Double_t ratio_high = hfirst->GetXaxis()->GetXmax();
+    cout << "Range : Bins = " << ratio_nbins << " low = " << ratio_low << " high = " << ratio_high << endl;
     
     TIter next(rlist);
     m_statcounter++;
