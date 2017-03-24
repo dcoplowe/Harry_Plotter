@@ -10,6 +10,7 @@
 #include "THStack.h"
 #include "TCanvas.h"
 #include "TList.h"
+#include "TF1.h"
 
 #ifndef _PARTPDGS_CXX
 #define _PARTPDGS_CXX
@@ -193,6 +194,8 @@ BreakdownTools::BreakdownTools(std::string filename, std::string treename) : Dra
     }
     m_toplist.push_back( Other_Tops );
     ResetTOPBDlist();
+
+    m_statcounter = -1;
 }
 
 BreakdownTools::~BreakdownTools(){
@@ -381,23 +384,8 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
         ratio_leg->AddEntry(other_kinmap.ratio, Form("Other (%.2f%%)", ratio_other_percent), "f");
     }
     
-    //Get the ratio histograms, make them into one histogram and determine the rms and mean:
-    TList * rlist = ratio_tot->GetHists();
-    Int_t ratio_nbins = kinmap_list[0].ratio->GetNbinsX();
-    Double_t ratio_low = kinmap_list[0].ratio->GetXaxis()->GetXmin();
-    Double_t ratio_high = kinmap_list[0].ratio->GetXaxis()->GetXmax();
-    
-    TIter next(rlist);
-    TH1D ratio_sum( (var.savename + "_PID_ratio_sum").c_str(), "", ratio_nbins, ratio_low, ratio_high);
-    TH1D * rhist_tmp;
-    while ( (rhist_tmp = (TH1D*)next()) ) {
-        ratio_sum.Add(rhist_tmp);
-    }
-    
-    TLegend * ratio_stats = Legend(0.25, 0.8, 0.05, 0.1);
-    ratio_stats->AddEntry((TObject*)0, Form("Mean = %.3f", (double)ratio_sum.GetMean()), "");
-    ratio_stats->AddEntry((TObject*)0, Form(" RMS = %.3f", (double)ratio_sum.GetRMS()), "");
-    
+    TLegend * ratio_stats = RatioStats(ratio_tot);
+
     BDCans cans;
     
     cans.recon = new TCanvas( recon_tot->GetName(), "", 500, 500);
@@ -739,22 +727,8 @@ BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::s
         if(i > 0) smear_tot->Add(kinmap_list[i].smear);
     }
     
-    TList * rlist = ratio_tot->GetHists();
-    Int_t ratio_nbins = kinmap_list[0].ratio->GetNbinsX();
-    Double_t ratio_low = kinmap_list[0].ratio->GetXaxis()->GetXmin();
-    Double_t ratio_high = kinmap_list[0].ratio->GetXaxis()->GetXmax();
-    
-    TIter next(rlist);
-    TH1D ratio_sum( (var.savename + "_PID_ratio_sum").c_str(), "", ratio_nbins, ratio_low, ratio_high);
-    TH1D * rhist_tmp;
-    while ( (rhist_tmp = (TH1D*)next()) ) {
-        ratio_sum.Add(rhist_tmp);
-    }
-    
-    TLegend * ratio_stats = Legend(0.25, 0.8, 0.05, 0.1);
-    ratio_stats->AddEntry((TObject*)0, Form("Mean = %.3f", (double)ratio_sum.GetMean()), "");
-    ratio_stats->AddEntry((TObject*)0, Form(" RMS = %.3f", (double)ratio_sum.GetRMS()), "");
-    
+    TLegend * ratio_stats = RatioStats(ratio_tot);
+
     BDCans cans;
     
     cans.recon = new TCanvas( recon_tot->GetName(), "", 500, 500);
@@ -868,4 +842,39 @@ TCanvas * BreakdownTools::TARGETSingle(Variable var, Int_t nbins, Double_t * bin
 
 TCanvas * BreakdownTools::TARGETSingle(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts){
     return TARGETSingle(var, nbins, SetBinning(nbins, low, high), cuts);
+}
+
+TLegend * BreakdownTools::RatioStats(THStack * ratio_tot)
+{
+//Get the ratio histograms, make them into one histogram and determine the rms and mean:
+    TList * rlist = ratio_tot->GetHists();
+    TH1D * hfirst = (TH1D*)rlist->First();
+    Int_t ratio_nbins = hfirst->GetNbinsX();
+    Double_t ratio_low = hfirst->GetXaxis()->GetXmin();
+    Double_t ratio_high = hfirst->GetXaxis()->GetXmax();
+    
+    TIter next(rlist);
+    m_statcounter++;
+    TH1D ratio_sum( Form("%s_ratio_sum%.3d", hfirst->GetName(), m_statcounter), "", ratio_nbins, ratio_low, ratio_high);
+    TH1D * rhist_tmp;
+    while ( (rhist_tmp = (TH1D*)next()) ) {
+        ratio_sum.Add(rhist_tmp);
+    }
+    
+    TLegend * ratio_stats = Legend(0.25, 0.8, 0.05, 0.1);
+    ratio_stats->AddEntry((TObject*)0, Form("Mean = %.3f", (double)ratio_sum.GetMean()), "");
+    ratio_stats->AddEntry((TObject*)0, Form(" RMS = %.3f", (double)ratio_sum.GetRMS()), "");
+
+    TF1 * cauchy = new TF1("cauchy","([2][1])/(TMath::Pi()*([1]*[1] + (x-[0])*(x-[0]) ) )", ratio_low, ratio_high);
+    cauchy->SetParameter(0, (double)ratio_sum.GetMean() );
+    cauchy->SetParameter(1, (double)ratio_sum.GetRMS()  );
+    cauchy->SetParameter(2, (double)ratio_sum.Integral());
+    ratio_sum.Fit("cauchy","RLN");
+    ratio_stats->AddEntry((TObject*)0, Form("Cauchy Mean = %.3f", (double)cauchy->GetParameter(0)), "");
+    ratio_stats->AddEntry((TObject*)0, Form("Cauchy #sigma = %.3f", (double)cauchy->GetParameter(1)), "");
+
+    delete rlist;
+    delete rhist_tmp;
+
+    return ratio_stats;
 }
