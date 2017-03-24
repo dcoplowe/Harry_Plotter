@@ -875,6 +875,7 @@ TLegend * BreakdownTools::RatioStats(THStack * ratio_tot)
 
     delete rlist;
     delete rhist_tmp;
+    delete cauchy;
 
     return ratio_stats;
 }
