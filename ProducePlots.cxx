@@ -118,7 +118,7 @@ private:
     EffPurTools     * m_runep;
 };
 
-ProducePlots::ProducePlots(EXP::EXP exp, std::string filename, bool debug, realdata) : m_experiment(exp), m_infilename(filename),
+ProducePlots::ProducePlots(EXP::EXP exp, std::string filename, bool debug, bool realdata) : m_experiment(exp), m_infilename(filename),
 m_realdata(realdata) {
     
     cout << "Experiment: " <<  EXP::ToString(exp) << endl;
