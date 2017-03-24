@@ -873,9 +873,12 @@ TLegend * BreakdownTools::RatioStats(THStack * ratio_tot)
     cauchy->SetParameter(0, (double)ratio_sum.GetMean() );
     cauchy->SetParameter(1, (double)ratio_sum.GetRMS()  );
     cauchy->SetParameter(2, (double)ratio_sum.Integral());
-    ratio_sum.Fit("cauchy","RLN");
-    ratio_stats->AddEntry((TObject*)0, Form("Cauchy Mean = %.3f", (double)cauchy->GetParameter(0)), "");
-    ratio_stats->AddEntry((TObject*)0, Form("Cauchy #sigma = %.3f", (double)cauchy->GetParameter(1)), "");
+    TFitResultPtr r = ratio_sum.Fit(cauchy,"RLN");
+    Int_t fitStatus = r;
+    if(fitStatus == 0){
+        ratio_stats->AddEntry((TObject*)0, Form("Cauchy Mean = %.3f", (double)cauchy->GetParameter(0)), "");
+        ratio_stats->AddEntry((TObject*)0, Form("Cauchy #sigma = %.3f", (double)cauchy->GetParameter(1)), "");
+    }
 
     delete rlist;
     delete rhist_tmp;
