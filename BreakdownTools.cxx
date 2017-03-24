@@ -886,6 +886,6 @@ TLegend * BreakdownTools::RatioStats(THStack * ratio_tot)
     delete rlist;
     // delete cauchy;
     delete rhist_tmp;
-
+    cout << "Returning RatioStats" << endl;
     return ratio_stats;
 }
