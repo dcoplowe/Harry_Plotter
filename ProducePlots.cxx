@@ -376,7 +376,7 @@ void ProducePlots::TruthPart(Variable var, Int_t nbins, Double_t low, Double_t h
             stringstream sac_lev, sbranch;
             sac_lev << ac_lev;
             sbranch << branch;
-            string pass_cuts = cuts + " && truth_accum_level[" + sbranch.str() + "] > " sac_lev.str();
+            string pass_cuts = cuts + " && truth_accum_level[" + sbranch.str() + "] > " + sac_lev.str();
             tmp_passcuts = m_runtruthbd->GetHisto(var.name, nbins, low, high, (var.symbol + " (" + var.units + ")"), pass_cuts);
             tmp_passcuts->SetLineStyle( 2 );//Dashed
             tmp_passcuts->SetLineColor( kWhite );
@@ -730,8 +730,8 @@ void ProducePlots::MakePlots(){
     TH1D * pur_LL_new = m_runep->PurVSCuts( signal_def_new, 1 );//->Draw("HISTSAME");
     TH1D * eff_LL_old = m_runep->EffVSCuts( signal_def_old, 1 );//->Draw("HIST");
     TH1D * pur_LL_old = m_runep->PurVSCuts( signal_def_old, 1 );//->Draw("HISTSAME");
-    TH1D * eff_LL_mic = m_runep->EffVSCuts( (signal_def_new + " && truth_pi_michel == 1", 1 );//->Draw("HIST");
-    TH1D * pur_LL_mic = m_runep->PurVSCuts( (signal_def_new + " && truth_pi_michel == 1", 1 );//->Draw("HISTSAME");
+    TH1D * eff_LL_mic = m_runep->EffVSCuts( (signal_def_new + " && truth_pi_michel == 1"), 1 );//->Draw("HIST");
+    TH1D * pur_LL_mic = m_runep->PurVSCuts( (signal_def_new + " && truth_pi_michel == 1"), 1 );//->Draw("HISTSAME");
 
     eff_LL_new->Draw("HIST");
     pur_LL_new->Draw("HISTSAME");
