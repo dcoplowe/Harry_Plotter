@@ -692,11 +692,13 @@ void ProducePlots::MakePlots(){
     
     MakeDir("Efficiency/Cuts/LL");
 
-    m_runep->Debug();
-
     TCanvas * eff_pur_cuts_LL = new TCanvas("eff_pur_cuts_LL","", 600, 800);
     eff_pur_cuts_LL->cd();
+
+    m_runep->Debug();
     TH1D * eff_LL_new = m_runep->EffVSCuts( signal_def_new, 1 );//->Draw("HIST");
+    m_runep->Debug();
+
     TH1D * pur_LL_new = m_runep->PurVSCuts( signal_def_new, 1 );//->Draw("HISTSAME");
     TH1D * eff_LL_old = m_runep->EffVSCuts( signal_def_old, 1 );//->Draw("HIST");
     TH1D * pur_LL_old = m_runep->PurVSCuts( signal_def_old, 1 );//->Draw("HISTSAME");

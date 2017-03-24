@@ -136,7 +136,7 @@ TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
     }
 
     m_effhcounter++;
-    TH1D * effcuts = DrawRatioVSCuts(num, den, "Efficiency", Form("h_effic%.3d", m_effhcounter));
+    TH1D * effcuts = DrawRatioVSCuts(num, den, "Efficiency (%)", Form("h_effic%.3d", m_effhcounter));
     effcuts->SetLineColor(Blue);
     
     delete num;
@@ -185,7 +185,7 @@ TH1D * EffPurTools::PurVSCuts(std::string signal, int branch, std::string cuts){
     }
     
     m_purhcounter++;
-    TH1D * purcuts = DrawRatioVSCuts(num, den, "Purity", Form("h_purity%.3d", m_purhcounter));
+    TH1D * purcuts = DrawRatioVSCuts(num, den, "Purity (%)", Form("h_purity%.3d", m_purhcounter));
     purcuts->SetLineColor(Yellow);
     
     delete num;
@@ -200,7 +200,7 @@ TH1D * EffPurTools::EffVSVar(std::string var, int nbins, Double_t * xbins, std::
     TH1D * effvar = RatioVSVar(m_truth, var, nbins, xbins, signal, cuts, x_title);
     m_effvarcounter++;
     effvar->SetName(Form("effvar%.3d", m_effvarcounter));
-    effvar->GetYaxis()->SetTitle("Efficiency");
+    effvar->GetYaxis()->SetTitle("Efficiency (%)");
     return effvar;
 }
 
@@ -230,7 +230,7 @@ TH1D * EffPurTools::PurVSVar(std::string var, int nbins, Double_t * xbins, std::
     TH1D * purvar = RatioVSVar(m_recon, var, nbins, xbins, cuts, signal, x_title);
     m_purvarcounter++;
     purvar->SetName(Form("purvar%.3d", m_purvarcounter));
-    purvar->GetYaxis()->SetTitle("Purity");
+    purvar->GetYaxis()->SetTitle("Purity (%)");
     return purvar;
 }
 
@@ -296,8 +296,9 @@ TH1D * EffPurTools::EventsVSCuts(TTree * intree, std::string cuts, int branch, i
 TH1D * EffPurTools::DrawRatioVSCuts(TH1D * num, TH1D * den, std::string y_title, std::string h_name){
     if(m_debug) cout << "EffPurTools::DrawRatioVSCuts" << endl;
     TH1D * ratio = new TH1D(h_name.c_str(), (";;" + y_title).c_str(),den->GetNbinsX(),den->GetXaxis()->GetXmin(),den->GetXaxis()->GetXmax());
+    ratio->GetYaxis()->SetRangeUser(0.,110.);
     ratio->Divide(num, den);
-    ratio->GetYaxis()->SetRangeUser(0,1.1);
+    ratop->Scale(100);
     
     if(m_debug){
         for(int i = 0; i < ratio->GetNbinsX(); i++){
@@ -407,12 +408,15 @@ TH1D * EffPurTools::RatioVSVar(TTree * intree, std::string var, int nbins, Doubl
     
     m_ghcounter1D++;
     TH1D * ratio = new TH1D(Form("ratio_1D_%.3d", m_ghcounter1D), (";" + x_title + ";Ratio").c_str(), nbins, xbins);
+    ratio->GetYaxis()->SetRangeUser(0., 110.);
     ratio->Divide(num, den);
     
     for(int i = 1; i < ratio->GetNbinsX() + 1; i++){
         cout << "Bin: " << i << "/" << ratio->GetNbinsX() << ": Ratio = " << ratio->GetBinContent(i);
         cout << " Num = " << num->GetBinContent(i) << " Den = " << den->GetBinContent(i) << endl;
     }
+
+    ratio->Scale(100);
 
     delete num;
     delete den;
