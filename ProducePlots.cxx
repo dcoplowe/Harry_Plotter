@@ -77,8 +77,7 @@ public:
     void ProduceGroup(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts);
     
     void EffPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string signal_def, std::string cuts = "");
-    void TruthPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts = "");
-    
+    void TruthPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts = "", int ac_lev = -1, int branch = 0);
     
     void MakeDir(std::string name);
     void cdDir(std::string name = ""){  m_outfile->cd((m_savename + ":/" + name).c_str()); }//Default is the root dir.
@@ -354,7 +353,7 @@ void ProducePlots::EffPart(Variable var, Int_t nbins, Double_t low, Double_t hig
     }
 }
 
-void ProducePlots::TruthPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts){
+void ProducePlots::TruthPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts, int ac_lev, int branch){
     
     if(m_outfile->IsOpen()){
         int colour = DrawingStyle::Other;
@@ -369,7 +368,25 @@ void ProducePlots::TruthPart(Variable var, Int_t nbins, Double_t low, Double_t h
         tmp_truth->SetFillColor( colour );
         tmp_truth->SetLineColor( kBlack );
         tmp_truth->Draw();
-        
+
+        TLegend * leg = m_runbd->Legend(0.2,0.1);
+        TH1D * tmp_passcuts;
+
+        if(ac_lev != -1){
+            stringstream sac_lev, sbranch;
+            sac_lev << ac_lev;
+            sbranch << branch;
+            string pass_cuts = cuts + " && truth_accum_level[" + sbranch.str() + "] > " sac_lev.str();
+            tmp_passcuts = m_runtruthbd->GetHisto(var.name, nbins, low, high, (var.symbol + " (" + var.units + ")"), pass_cuts);
+            tmp_passcuts->SetLineStyle( 2 );//Dashed
+            tmp_passcuts->SetLineColor( kWhite );
+            tmp_passcuts->Draw("SAME");
+
+            TLegend * leg = m_runbd->Legend(0.2,0.1);
+            leg->AddEntry(tmp_truth,    "Sig. Def.",      "f");
+            leg->AddEntry(tmp_passcuts, "w/ Cuts Passed", "l");
+        }
+
         TLatex * sig = GetSignal();
         sig->Draw();
         
@@ -379,6 +396,8 @@ void ProducePlots::TruthPart(Variable var, Int_t nbins, Double_t low, Double_t h
         
         delete sig;
         delete tmp_truth;
+        if(tmp_passcuts) delete tmp_passcuts;
+        delete leg;
         delete truthdists;
     }
 }
@@ -666,6 +685,8 @@ void ProducePlots::MakePlots(){
     TH1D * pur_EX_new = m_runep->PurVSCuts( signal_def_new );//->Draw("HISTSAME");
     TH1D * eff_EX_old = m_runep->EffVSCuts( signal_def_old );//->Draw("HIST");
     TH1D * pur_EX_old = m_runep->PurVSCuts( signal_def_old );//->Draw("HISTSAME");
+    TH1D * eff_EX_mic = m_runep->EffVSCuts( (signal_def_new + " && truth_pi_EX_michel == 1") );//->Draw("HIST");
+    TH1D * pur_EX_mic = m_runep->PurVSCuts( (signal_def_new + " && truth_pi_EX_michel == 1") );//->Draw("HISTSAME");    
     
     eff_EX_new->Draw("HIST");
     pur_EX_new->Draw("HISTSAME");
@@ -673,12 +694,18 @@ void ProducePlots::MakePlots(){
     pur_EX_old->SetLineStyle(7);
     eff_EX_old->Draw("HISTSAME");
     pur_EX_old->Draw("HISTSAME");
+    eff_EX_mic->SetLineStyle(7);
+    pur_EX_mic->SetLineStyle(7);
+    eff_EX_mic->Draw("HISTSAME");
+    pur_EX_mic->Draw("HISTSAME");
 
     TLegend * eff_pur_cuts_EX_leg = m_runbd->Legend(0.2,0.1);
     eff_pur_cuts_EX_leg->AddEntry(eff_EX_new, "Efficiency (New)", "l");
     eff_pur_cuts_EX_leg->AddEntry(pur_EX_new, "Purity (New)", "l");
     eff_pur_cuts_EX_leg->AddEntry(eff_EX_old, "Efficiency (Old)", "l");
     eff_pur_cuts_EX_leg->AddEntry(pur_EX_old, "Purity (Old)", "l");
+    eff_pur_cuts_EX_leg->AddEntry(eff_EX_mic, "Eff. (New w #pi ME tag)", "l");
+    eff_pur_cuts_EX_leg->AddEntry(pur_EX_mic, "Pur. (New w #pi ME tag)", "l");
     eff_pur_cuts_EX_leg->Draw();
     
     eff_pur_cuts_EX->Write();
@@ -687,6 +714,8 @@ void ProducePlots::MakePlots(){
     delete pur_EX_new;
     delete eff_EX_old;
     delete pur_EX_old;
+    delete eff_EX_mic;
+    delete pur_EX_mic;
     delete eff_pur_cuts_EX_leg;
     delete eff_pur_cuts_EX;
     
@@ -698,24 +727,30 @@ void ProducePlots::MakePlots(){
     m_runep->Debug();
     TH1D * eff_LL_new = m_runep->EffVSCuts( signal_def_new, 1 );//->Draw("HIST");
     m_runep->Debug();
-
     TH1D * pur_LL_new = m_runep->PurVSCuts( signal_def_new, 1 );//->Draw("HISTSAME");
     TH1D * eff_LL_old = m_runep->EffVSCuts( signal_def_old, 1 );//->Draw("HIST");
     TH1D * pur_LL_old = m_runep->PurVSCuts( signal_def_old, 1 );//->Draw("HISTSAME");
-    
+    TH1D * eff_LL_mic = m_runep->EffVSCuts( (signal_def_new + " && truth_pi_michel == 1", 1 );//->Draw("HIST");
+    TH1D * pur_LL_mic = m_runep->PurVSCuts( (signal_def_new + " && truth_pi_michel == 1", 1 );//->Draw("HISTSAME");
+
     eff_LL_new->Draw("HIST");
     pur_LL_new->Draw("HISTSAME");
     eff_LL_old->SetLineStyle(7);
     pur_LL_old->SetLineStyle(7);
-
     eff_LL_old->Draw("HISTSAME");
     pur_LL_old->Draw("HISTSAME");
+    eff_LL_mic->SetLineStyle(4);
+    pur_LL_mic->SetLineStyle(4);
+    eff_LL_mic->Draw("HISTSAME");
+    pur_LL_mic->Draw("HISTSAME");
 
     TLegend * eff_pur_cuts_LL_leg = m_runbd->Legend(0.2,0.1);
     eff_pur_cuts_LL_leg->AddEntry(eff_LL_new, "Efficiency (New)", "l");
     eff_pur_cuts_LL_leg->AddEntry(pur_LL_new, "Purity (New)", "l");
     eff_pur_cuts_LL_leg->AddEntry(eff_LL_old, "Efficiency (Old)", "l");
     eff_pur_cuts_LL_leg->AddEntry(pur_LL_old, "Purity (Old)", "l");
+    eff_pur_cuts_LL_leg->AddEntry(eff_LL_mic, "Eff. (New w #pi ME tag)", "l");
+    eff_pur_cuts_LL_leg->AddEntry(pur_LL_mic, "Pur. (New w #pi ME tag)", "l");
     eff_pur_cuts_LL_leg->Draw();
     
     eff_pur_cuts_LL->Write();
@@ -724,6 +759,8 @@ void ProducePlots::MakePlots(){
     delete pur_LL_new; 
     delete eff_LL_old;
     delete pur_LL_old;
+    delete eff_LL_mic;
+    delete pur_LL_mic;
     delete eff_pur_cuts_LL_leg;
     delete eff_pur_cuts_LL;
     
@@ -803,11 +840,11 @@ void ProducePlots::MakePlots(){
     trueW.name = "mc_w";
     trueW.symbol = "W";
     MakeDir("Truth/W");
-    TruthPart(trueW, 40, 0, 3000, signal_def_new);
+    TruthPart(trueW, 40, 0, 3000, signal_def_new, 5);
     MakeDir("Truth/W/EX");
-    TruthPart(trueW, 40, 0, 3000, (signal_def_new + " && truth_accum_level[0] > 5"));
+    TruthPart(trueW, 40, 0, 3000, signal_def_new, 5);
     MakeDir("Truth/W/LL");
-    TruthPart(trueW, 40, 0, 3000, (signal_def_new + " && truth_accum_level[1] > 5"));
+    TruthPart(trueW, 40, 0, 3000, signal_def_new, 5, 1);
     
     //*****************************************************************************************//
     //**************************************** VS eff. END ************************************//
