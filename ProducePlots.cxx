@@ -41,7 +41,7 @@ const string testing_mc("/pnfs/minerva/persistent/users/dcoplowe/CC1P1Pi_PL13C_0
 class ProducePlots {
 
 public:
-    ProducePlots(EXP::EXP exp, std::string filename, bool debug);
+    ProducePlots(EXP::EXP exp, std::string filename, bool debug, bool realdata);
     ~ProducePlots();
     
     void SetSaveName(std::string var){ m_savename = var; }
@@ -85,7 +85,8 @@ public:
 private:
     EXP::EXP m_experiment;
     std::string m_infilename;
-    
+    bool m_realdata;
+
     KinematicVars * m_recovars;
     
     std::string m_savename;
@@ -117,7 +118,8 @@ private:
     EffPurTools     * m_runep;
 };
 
-ProducePlots::ProducePlots(EXP::EXP exp, std::string filename, bool debug) : m_experiment(exp), m_infilename(filename) {
+ProducePlots::ProducePlots(EXP::EXP exp, std::string filename, bool debug, realdata) : m_experiment(exp), m_infilename(filename),
+m_realdata(realdata) {
     
     cout << "Experiment: " <<  EXP::ToString(exp) << endl;
     
@@ -668,101 +670,103 @@ void ProducePlots::MakePlots(){
     
     //*****************************************************************************************//
     //*************************************** VS cuts START ***********************************//
+
+    if(!m_realdata){
+
+        MakeDir("Efficiency/Cuts/dEdX");
+        std::string signal_def_new = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
+        signal_def_new += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25. && TMath::RadToDeg()*truth_mu_Theta >= 0.";
+        signal_def_new += " && truth_true_target_region == 1 && truth_mu_E < 20000. && truth_mu_E > 0.";
+
+        std::string signal_def_old = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
+        signal_def_old += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25. && TMath::RadToDeg()*truth_mu_Theta >= 0.";
+
+        m_runep->Debug();
+
+        TCanvas * eff_pur_cuts_EX = new TCanvas("eff_pur_cuts_dEdX","", 600, 800);
+        eff_pur_cuts_EX->cd();
+        TH1D * eff_EX_new = m_runep->EffVSCuts( signal_def_new );//->Draw("HIST");
+        TH1D * pur_EX_new = m_runep->PurVSCuts( signal_def_new );//->Draw("HISTSAME");
+        TH1D * eff_EX_old = m_runep->EffVSCuts( signal_def_old );//->Draw("HIST");
+        TH1D * pur_EX_old = m_runep->PurVSCuts( signal_def_old );//->Draw("HISTSAME");
+        TH1D * eff_EX_mic = m_runep->EffVSCuts( (signal_def_new + " && truth_pi_EX_michel == 1") );//->Draw("HIST");
+        TH1D * pur_EX_mic = m_runep->PurVSCuts( (signal_def_new + " && truth_pi_EX_michel == 1") );//->Draw("HISTSAME");    
     
-    MakeDir("Efficiency/Cuts/dEdX");
-    std::string signal_def_new = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
-    signal_def_new += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25. && TMath::RadToDeg()*truth_mu_Theta >= 0.";
-    signal_def_new += " && truth_true_target_region == 1 && truth_mu_E < 20000. && truth_mu_E > 0.";
+        eff_EX_new->Draw("HIST");
+        pur_EX_new->Draw("HISTSAME");
+        eff_EX_old->SetLineStyle(7);
+        pur_EX_old->SetLineStyle(7);
+        eff_EX_old->Draw("HISTSAME");
+        pur_EX_old->Draw("HISTSAME");
+        eff_EX_mic->SetLineStyle(7);
+        pur_EX_mic->SetLineStyle(7);
+        eff_EX_mic->Draw("HISTSAME");
+        pur_EX_mic->Draw("HISTSAME");
 
-    std::string signal_def_old = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
-    signal_def_old += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25. && TMath::RadToDeg()*truth_mu_Theta >= 0.";
+        TLegend * eff_pur_cuts_EX_leg = m_runbd->Legend(0.2,0.1);
+        eff_pur_cuts_EX_leg->AddEntry(eff_EX_new, "Efficiency (New)", "l");
+        eff_pur_cuts_EX_leg->AddEntry(pur_EX_new, "Purity (New)", "l");
+        eff_pur_cuts_EX_leg->AddEntry(eff_EX_old, "Efficiency (Old)", "l");
+        eff_pur_cuts_EX_leg->AddEntry(pur_EX_old, "Purity (Old)", "l");
+        eff_pur_cuts_EX_leg->AddEntry(eff_EX_mic, "Eff. (New w #pi ME tag)", "l");
+        eff_pur_cuts_EX_leg->AddEntry(pur_EX_mic, "Pur. (New w #pi ME tag)", "l");
+        eff_pur_cuts_EX_leg->Draw();
     
-    m_runep->Debug();
-
-    TCanvas * eff_pur_cuts_EX = new TCanvas("eff_pur_cuts_dEdX","", 600, 800);
-    eff_pur_cuts_EX->cd();
-    TH1D * eff_EX_new = m_runep->EffVSCuts( signal_def_new );//->Draw("HIST");
-    TH1D * pur_EX_new = m_runep->PurVSCuts( signal_def_new );//->Draw("HISTSAME");
-    TH1D * eff_EX_old = m_runep->EffVSCuts( signal_def_old );//->Draw("HIST");
-    TH1D * pur_EX_old = m_runep->PurVSCuts( signal_def_old );//->Draw("HISTSAME");
-    TH1D * eff_EX_mic = m_runep->EffVSCuts( (signal_def_new + " && truth_pi_EX_michel == 1") );//->Draw("HIST");
-    TH1D * pur_EX_mic = m_runep->PurVSCuts( (signal_def_new + " && truth_pi_EX_michel == 1") );//->Draw("HISTSAME");    
+        eff_pur_cuts_EX->Write();
     
-    eff_EX_new->Draw("HIST");
-    pur_EX_new->Draw("HISTSAME");
-    eff_EX_old->SetLineStyle(7);
-    pur_EX_old->SetLineStyle(7);
-    eff_EX_old->Draw("HISTSAME");
-    pur_EX_old->Draw("HISTSAME");
-    eff_EX_mic->SetLineStyle(7);
-    pur_EX_mic->SetLineStyle(7);
-    eff_EX_mic->Draw("HISTSAME");
-    pur_EX_mic->Draw("HISTSAME");
-
-    TLegend * eff_pur_cuts_EX_leg = m_runbd->Legend(0.2,0.1);
-    eff_pur_cuts_EX_leg->AddEntry(eff_EX_new, "Efficiency (New)", "l");
-    eff_pur_cuts_EX_leg->AddEntry(pur_EX_new, "Purity (New)", "l");
-    eff_pur_cuts_EX_leg->AddEntry(eff_EX_old, "Efficiency (Old)", "l");
-    eff_pur_cuts_EX_leg->AddEntry(pur_EX_old, "Purity (Old)", "l");
-    eff_pur_cuts_EX_leg->AddEntry(eff_EX_mic, "Eff. (New w #pi ME tag)", "l");
-    eff_pur_cuts_EX_leg->AddEntry(pur_EX_mic, "Pur. (New w #pi ME tag)", "l");
-    eff_pur_cuts_EX_leg->Draw();
+        delete eff_EX_new;
+        delete pur_EX_new;
+        delete eff_EX_old;
+        delete pur_EX_old;
+        delete eff_EX_mic;
+        delete pur_EX_mic;
+        delete eff_pur_cuts_EX_leg;
+        delete eff_pur_cuts_EX;
     
-    eff_pur_cuts_EX->Write();
+        MakeDir("Efficiency/Cuts/LL");
+
+        TCanvas * eff_pur_cuts_LL = new TCanvas("eff_pur_cuts_LL","", 600, 800);
+        eff_pur_cuts_LL->cd();
+
+        m_runep->Debug();
+        TH1D * eff_LL_new = m_runep->EffVSCuts( signal_def_new, 1 );//->Draw("HIST");
+        m_runep->Debug();
+        TH1D * pur_LL_new = m_runep->PurVSCuts( signal_def_new, 1 );//->Draw("HISTSAME");
+        TH1D * eff_LL_old = m_runep->EffVSCuts( signal_def_old, 1 );//->Draw("HIST");
+        TH1D * pur_LL_old = m_runep->PurVSCuts( signal_def_old, 1 );//->Draw("HISTSAME");
+        TH1D * eff_LL_mic = m_runep->EffVSCuts( (signal_def_new + " && truth_pi_michel == 1"), 1 );//->Draw("HIST");
+        TH1D * pur_LL_mic = m_runep->PurVSCuts( (signal_def_new + " && truth_pi_michel == 1"), 1 );//->Draw("HISTSAME");
+
+        eff_LL_new->Draw("HIST");
+        pur_LL_new->Draw("HISTSAME");
+        eff_LL_old->SetLineStyle(7);
+        pur_LL_old->SetLineStyle(7);
+        eff_LL_old->Draw("HISTSAME");
+        pur_LL_old->Draw("HISTSAME");
+        eff_LL_mic->SetLineStyle(4);
+        pur_LL_mic->SetLineStyle(4);
+        eff_LL_mic->Draw("HISTSAME");
+        pur_LL_mic->Draw("HISTSAME");
+
+        TLegend * eff_pur_cuts_LL_leg = m_runbd->Legend(0.2,0.1);
+        eff_pur_cuts_LL_leg->AddEntry(eff_LL_new, "Efficiency (New)", "l");
+        eff_pur_cuts_LL_leg->AddEntry(pur_LL_new, "Purity (New)", "l");
+        eff_pur_cuts_LL_leg->AddEntry(eff_LL_old, "Efficiency (Old)", "l");
+        eff_pur_cuts_LL_leg->AddEntry(pur_LL_old, "Purity (Old)", "l");
+        eff_pur_cuts_LL_leg->AddEntry(eff_LL_mic, "Eff. (New w #pi ME tag)", "l");
+        eff_pur_cuts_LL_leg->AddEntry(pur_LL_mic, "Pur. (New w #pi ME tag)", "l");
+        eff_pur_cuts_LL_leg->Draw();
     
-    delete eff_EX_new;
-    delete pur_EX_new;
-    delete eff_EX_old;
-    delete pur_EX_old;
-    delete eff_EX_mic;
-    delete pur_EX_mic;
-    delete eff_pur_cuts_EX_leg;
-    delete eff_pur_cuts_EX;
-    
-    MakeDir("Efficiency/Cuts/LL");
+        eff_pur_cuts_LL->Write();
 
-    TCanvas * eff_pur_cuts_LL = new TCanvas("eff_pur_cuts_LL","", 600, 800);
-    eff_pur_cuts_LL->cd();
-
-    m_runep->Debug();
-    TH1D * eff_LL_new = m_runep->EffVSCuts( signal_def_new, 1 );//->Draw("HIST");
-    m_runep->Debug();
-    TH1D * pur_LL_new = m_runep->PurVSCuts( signal_def_new, 1 );//->Draw("HISTSAME");
-    TH1D * eff_LL_old = m_runep->EffVSCuts( signal_def_old, 1 );//->Draw("HIST");
-    TH1D * pur_LL_old = m_runep->PurVSCuts( signal_def_old, 1 );//->Draw("HISTSAME");
-    TH1D * eff_LL_mic = m_runep->EffVSCuts( (signal_def_new + " && truth_pi_michel == 1"), 1 );//->Draw("HIST");
-    TH1D * pur_LL_mic = m_runep->PurVSCuts( (signal_def_new + " && truth_pi_michel == 1"), 1 );//->Draw("HISTSAME");
-
-    eff_LL_new->Draw("HIST");
-    pur_LL_new->Draw("HISTSAME");
-    eff_LL_old->SetLineStyle(7);
-    pur_LL_old->SetLineStyle(7);
-    eff_LL_old->Draw("HISTSAME");
-    pur_LL_old->Draw("HISTSAME");
-    eff_LL_mic->SetLineStyle(4);
-    pur_LL_mic->SetLineStyle(4);
-    eff_LL_mic->Draw("HISTSAME");
-    pur_LL_mic->Draw("HISTSAME");
-
-    TLegend * eff_pur_cuts_LL_leg = m_runbd->Legend(0.2,0.1);
-    eff_pur_cuts_LL_leg->AddEntry(eff_LL_new, "Efficiency (New)", "l");
-    eff_pur_cuts_LL_leg->AddEntry(pur_LL_new, "Purity (New)", "l");
-    eff_pur_cuts_LL_leg->AddEntry(eff_LL_old, "Efficiency (Old)", "l");
-    eff_pur_cuts_LL_leg->AddEntry(pur_LL_old, "Purity (Old)", "l");
-    eff_pur_cuts_LL_leg->AddEntry(eff_LL_mic, "Eff. (New w #pi ME tag)", "l");
-    eff_pur_cuts_LL_leg->AddEntry(pur_LL_mic, "Pur. (New w #pi ME tag)", "l");
-    eff_pur_cuts_LL_leg->Draw();
-    
-    eff_pur_cuts_LL->Write();
-
-    delete eff_LL_new;
-    delete pur_LL_new; 
-    delete eff_LL_old;
-    delete pur_LL_old;
-    delete eff_LL_mic;
-    delete pur_LL_mic;
-    delete eff_pur_cuts_LL_leg;
-    delete eff_pur_cuts_LL;
+        delete eff_LL_new;
+        delete pur_LL_new; 
+        delete eff_LL_old;
+        delete pur_LL_old;
+        delete eff_LL_mic;
+        delete pur_LL_mic;
+        delete eff_pur_cuts_LL_leg;
+        delete eff_pur_cuts_LL;
     
     //*****************************************************************************************//
     //**************************************** VS cuts END ************************************//
@@ -771,80 +775,80 @@ void ProducePlots::MakePlots(){
     //*****************************************************************************************//
     //*************************************** VS eff. START ***********************************//
     
-    for(int build = 0; build < 2; build++){
-        
-        string mom_type = "dEdX";
-        if(build == 1) mom_type = "LL";
-        
-        string cut_dEdX = "truth_accum_level[" + string(build == 0 ? "0" : "1") + "] > 5";// && truth_pi_michel == 1";
-        
-        Int_t truemom_bins[3] = {40, 40, 40};
-        Double_t truemom_low[3] = {0., 0., 1500.};
-        Double_t truemom_hig[3] = {2000., 2000., 20000.};
-        
-        string true_sym[3] = {"p", "#pi^{+}", "#mu^{-}"};
-        string true_nam[3] = {"pr", "pi", "mu"};
-        
-        Variable truemom;
-        truemom.units = "MeV/#it{c}";
-        for(int p = 0; p < 3; p++){
-            truemom.name = "truth_" + true_nam[p] + "_mom";
-            truemom.symbol = "#it{p}_{" + true_sym[p] + "}";
-            
-            if(p == 2) m_runep->Debug();//ON
+        for(int build = 0; build < 2; build++){
 
-            MakeDir("Efficiency/" + mom_type + "/Mom");
-            EffPart(truemom, truemom_bins[p], truemom_low[p], truemom_hig[p], signal_def_new, cut_dEdX);
+            string mom_type = "dEdX";
+            if(build == 1) mom_type = "LL";
 
-            if(p == 2) m_runep->Debug();//OFF
-                        
-            if(build == 0){
-                MakeDir("Truth/Mom");
-                TruthPart(truemom, truemom_bins[p], truemom_low[p], truemom_hig[p], signal_def_new);
+            string cut_dEdX = "truth_accum_level[" + string(build == 0 ? "0" : "1") + "] > 5";// && truth_pi_michel == 1";
+        
+            Int_t truemom_bins[3] = {40, 40, 40};
+            Double_t truemom_low[3] = {0., 0., 1500.};
+            Double_t truemom_hig[3] = {2000., 2000., 20000.};
+
+            string true_sym[3] = {"p", "#pi^{+}", "#mu^{-}"};
+            string true_nam[3] = {"pr", "pi", "mu"};
+
+            Variable truemom;
+            truemom.units = "MeV/#it{c}";
+            for(int p = 0; p < 3; p++){
+                truemom.name = "truth_" + true_nam[p] + "_mom";
+                truemom.symbol = "#it{p}_{" + true_sym[p] + "}";
+
+                if(p == 2) m_runep->Debug();//ON
+
+                MakeDir("Efficiency/" + mom_type + "/Mom");
+                EffPart(truemom, truemom_bins[p], truemom_low[p], truemom_hig[p], signal_def_new, cut_dEdX);
+
+                if(p == 2) m_runep->Debug();//OFF
+
+                if(build == 0){
+                    MakeDir("Truth/Mom");
+                    TruthPart(truemom, truemom_bins[p], truemom_low[p], truemom_hig[p], signal_def_new);
+                }
+            }
+        
+            Variable truetheta;//Is this range between 0 and pi?
+            truetheta.units = "Rad.";
+            for(int p = 0; p < 3; p++){
+                truetheta.name = "truth_" + true_nam[p] + "_Theta";
+                truetheta.symbol = "#theta_{" + true_sym[p] + "}";
+
+                MakeDir("Efficiency/" + mom_type + "/Theta");
+                EffPart(truetheta, 25, 0., TMath::Pi(), signal_def_new, cut_dEdX);
+
+                if(build == 0){
+                    MakeDir("Truth/Theta");
+                    TruthPart(truetheta, 25, 0, TMath::Pi(), signal_def_new);
+                }
+            }
+        
+            Variable truephi;
+            truephi.units = "Rad.";
+            for(int p = 0; p < 3; p++){
+                truephi.name = "truth_" + true_nam[p] + "_Phi";
+                truephi.symbol = "#phi_{" + true_sym[p] + "}";
+
+                MakeDir("Efficiency/" + mom_type + "/Phi");
+                EffPart(truephi, 25, -TMath::Pi(), TMath::Pi(), signal_def_new, cut_dEdX);
+
+                if(build == 0){
+                    MakeDir("Truth/Phi");
+                    TruthPart(truephi, 25, -TMath::Pi(), TMath::Pi(), signal_def_new);
+                }
             }
         }
-        
-        Variable truetheta;//Is this range between 0 and pi?
-        truetheta.units = "Rad.";
-        for(int p = 0; p < 3; p++){
-            truetheta.name = "truth_" + true_nam[p] + "_Theta";
-            truetheta.symbol = "#theta_{" + true_sym[p] + "}";
-
-            MakeDir("Efficiency/" + mom_type + "/Theta");
-            EffPart(truetheta, 25, 0., TMath::Pi(), signal_def_new, cut_dEdX);
-            
-            if(build == 0){
-            MakeDir("Truth/Theta");
-            TruthPart(truetheta, 25, 0, TMath::Pi(), signal_def_new);
-            }
-        }
-        
-        Variable truephi;
-        truephi.units = "Rad.";
-        for(int p = 0; p < 3; p++){
-            truephi.name = "truth_" + true_nam[p] + "_Phi";
-            truephi.symbol = "#phi_{" + true_sym[p] + "}";
-            
-            MakeDir("Efficiency/" + mom_type + "/Phi");
-            EffPart(truephi, 25, -TMath::Pi(), TMath::Pi(), signal_def_new, cut_dEdX);
-            
-            if(build == 0){
-                MakeDir("Truth/Phi");
-                TruthPart(truephi, 25, -TMath::Pi(), TMath::Pi(), signal_def_new);
-            }
-        }
-    }
     
-    Variable trueW;
-    trueW.units = "MeV";
-    trueW.name = "mc_w";
-    trueW.symbol = "W";
-    MakeDir("Truth/W");
-    TruthPart(trueW, 40, 0, 3000, signal_def_new, 5);
-    MakeDir("Truth/W/EX");
-    TruthPart(trueW, 40, 0, 3000, signal_def_new, 5);
-    MakeDir("Truth/W/LL");
-    TruthPart(trueW, 40, 0, 3000, signal_def_new, 5, 1);
+        Variable trueW;
+        trueW.units = "MeV";
+        trueW.name = "mc_w";
+        trueW.symbol = "W";
+        MakeDir("Truth/W");
+        TruthPart(trueW, 40, 0, 3000, signal_def_new, 5);
+        MakeDir("Truth/W/EX");
+        TruthPart(trueW, 40, 0, 3000, signal_def_new, 5);
+        MakeDir("Truth/W/LL");
+        TruthPart(trueW, 40, 0, 3000, signal_def_new, 5, 1);
     
     //*****************************************************************************************//
     //**************************************** VS eff. END ************************************//
@@ -904,6 +908,7 @@ void ProducePlots::MakePlots(){
     //****************************************** Truth END ************************************//
     //*****************************************************************************************//
     
+    }
     //CLOSE THE DIRECTORY
     if(m_outfile->IsOpen()) m_outfile->Close();
     if(m_outfile) delete m_outfile;
@@ -912,7 +917,7 @@ void ProducePlots::MakePlots(){
 
 
 std::string ProducePlots::GetDate(){
-    
+
     TDatime today;
     int day = today.GetDay();
     int mon = today.GetMonth();
@@ -939,21 +944,23 @@ TLatex * ProducePlots::GetSignal(){
 
 int main(int argc, char *argv[])
 {
-    
+
     string filename = testing_mc;
     string savename = "";// = "CC1P1PiP_Plots_" + sday.str() + smon.str() + syear.str() + ".root";
     bool debug = false;
-    
     EXP::EXP experiment = EXP::UNKNOWN;
-    
+    bool realdata = false;
+
     char cc;
-    while((cc = getopt(argc, argv, "i:o:d::t::m::")) != -1){
+    while((cc = getopt(argc, argv, "i:o:d::t::m::r::")) != -1){
         switch (cc){
             case 'i': filename = std::string(optarg); break;
             case 'o': savename = optarg; break;
             case 'd': debug = true; break;
             case 't': experiment = EXP::T2K; break;
             case 'm': experiment = EXP::MIN; break;
+            case 'r': realdata = true; break;
+
             default: return 1;
         }
     }
@@ -965,7 +972,7 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    ProducePlots * plots = new ProducePlots(experiment, filename, debug);
+    ProducePlots * plots = new ProducePlots(experiment, filename, debug, realdata);
     
     if(!savename.empty()) plots->SetSaveName(savename);
     
