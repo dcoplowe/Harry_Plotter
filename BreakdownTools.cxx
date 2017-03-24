@@ -844,7 +844,7 @@ TCanvas * BreakdownTools::TARGETSingle(Variable var, Int_t nbins, Double_t low, 
     return TARGETSingle(var, nbins, SetBinning(nbins, low, high), cuts);
 }
 
-TLegend * BreakdownTools::RatioStats(THStack * ratio_tot)
+TLegend * BreakdownTools::RatioStats(const THStack * ratio_tot)
 {
 //Get the ratio histograms, make them into one histogram and determine the rms and mean:
     TList * rlist = ratio_tot->GetHists();

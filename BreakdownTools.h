@@ -165,7 +165,7 @@ private:
     std::vector<TOPSTYPE::TOPSTYPE> m_toplist_minBD;
 
     Int_t m_statcounter;
-    TLegend * RatioStats(THStack * ratio_tot);    
+    TLegend * RatioStats(const THStack * ratio_tot);    
 
 };
 #endif
