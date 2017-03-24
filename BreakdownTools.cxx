@@ -868,7 +868,7 @@ TLegend * BreakdownTools::RatioStats(THStack * ratio_tot)
     ratio_stats->AddEntry((TObject*)0, Form(" RMS = %.3f", (double)ratio_sum.GetRMS() ), "");
 
     TF1 * cauchy = new TF1("cauchy","([2]*[1])/(TMath::Pi()*([1]*[1] + (x-[0])*(x-[0]) ) )", ratio_low, ratio_high);
-    delete hfirst;
+    // delete hfirst;
 
     cauchy->SetParameter(0, (double)ratio_sum.GetXaxis()->GetBinCenter(ratio_sum.GetMaximumBin() ) );
     cauchy->SetParameter(1, (double)ratio_sum.GetRMS()  );
@@ -884,7 +884,7 @@ TLegend * BreakdownTools::RatioStats(THStack * ratio_tot)
     }
 
     delete rlist;
-    delete cauchy;
+    // delete cauchy;
     delete rhist_tmp;
 
     return ratio_stats;
