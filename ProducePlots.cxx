@@ -414,231 +414,231 @@ void ProducePlots::MakePlots(){
     //**************************************** Mom START ****************************************//
     
     //Proton:
-    MakeDir("Mom/dEdX/Proton");
-    MakeMomPlots(m_proton, 40, 0, 2000, EX_base_cut);
+    // MakeDir("Mom/dEdX/Proton");
+    // MakeMomPlots(m_proton, 40, 0, 2000, EX_base_cut);
     
-    //Pion:
-    MakeDir("Mom/dEdX/Pion");
-    MakeMomPlots(m_pion, 40, 0, 2000, EX_base_cut);
+    // //Pion:
+    // MakeDir("Mom/dEdX/Pion");
+    // MakeMomPlots(m_pion, 40, 0, 2000, EX_base_cut);
     
-    //Muon:
-    MakeDir("Mom/dEdX/Muon");
-    MakeMomPlots(m_muon, 40, 0, 6000, EX_base_cut);
+    // //Muon:
+    // MakeDir("Mom/dEdX/Muon");
+    // MakeMomPlots(m_muon, 40, 0, 6000, EX_base_cut);
     
-    //Proton:
-    MakeDir("Mom/LL/Proton");
-    MakeMomPlots(m_proton_alt, 40, 0, 2000, LL_base_cut);
+    // //Proton:
+    // MakeDir("Mom/LL/Proton");
+    // MakeMomPlots(m_proton_alt, 40, 0, 2000, LL_base_cut);
     
-    //Pion:
-    MakeDir("Mom/LL/Pion");
-    MakeMomPlots(m_pion_alt, 40, 0, 2000, LL_base_cut);
+    // //Pion:
+    // MakeDir("Mom/LL/Pion");
+    // MakeMomPlots(m_pion_alt, 40, 0, 2000, LL_base_cut);
     
-    //**************************************** Mom END ****************************************//
-    //*****************************************************************************************//
-    //*****************************************************************************************//
-    //*****************************************************************************************//
-    //**************************************** Theta START ************************************//
+    // //**************************************** Mom END ****************************************//
+    // //*****************************************************************************************//
+    // //*****************************************************************************************//
+    // //*****************************************************************************************//
+    // //**************************************** Theta START ************************************//
     
-    //Proton:
-    MakeDir("Theta/dEdX/Proton");
-    MakeThetaPlots(m_proton, 40, 0, TMath::TwoPi(), EX_base_cut);
+    // //Proton:
+    // MakeDir("Theta/dEdX/Proton");
+    // MakeThetaPlots(m_proton, 40, 0, TMath::TwoPi(), EX_base_cut);
     
-    //Pion:
-    MakeDir("Theta/dEdX/Pion");
-    MakeThetaPlots(m_pion, 40, 0, TMath::TwoPi(), EX_base_cut);
+    // //Pion:
+    // MakeDir("Theta/dEdX/Pion");
+    // MakeThetaPlots(m_pion, 40, 0, TMath::TwoPi(), EX_base_cut);
 
-    //Muon:
-    MakeDir("Theta/dEdX/Muon");
-    MakeThetaPlots(m_muon, 40, 0, TMath::TwoPi(), EX_base_cut);
+    // //Muon:
+    // MakeDir("Theta/dEdX/Muon");
+    // MakeThetaPlots(m_muon, 40, 0, TMath::TwoPi(), EX_base_cut);
     
-    //Proton:
-    MakeDir("Theta/LL/Proton");
-    MakeThetaPlots(m_proton_alt, 40, 0, TMath::TwoPi(), LL_base_cut);
+    // //Proton:
+    // MakeDir("Theta/LL/Proton");
+    // MakeThetaPlots(m_proton_alt, 40, 0, TMath::TwoPi(), LL_base_cut);
     
-    //Pion:
-    MakeDir("Theta/LL/Pion");
-    MakeThetaPlots(m_pion_alt, 40, 0, TMath::TwoPi(), LL_base_cut);
+    // //Pion:
+    // MakeDir("Theta/LL/Pion");
+    // MakeThetaPlots(m_pion_alt, 40, 0, TMath::TwoPi(), LL_base_cut);
     
-    //**************************************** Theta END **************************************//
-    //*****************************************************************************************//
-    //*****************************************************************************************//
-    //*****************************************************************************************//
-    //**************************************** Phi START ************************************//
+    // //**************************************** Theta END **************************************//
+    // //*****************************************************************************************//
+    // //*****************************************************************************************//
+    // //*****************************************************************************************//
+    // //**************************************** Phi START ************************************//
 
-    //Proton:
-    MakeDir("Phi/dEdX/Proton");
-    MakePhiPlots(m_proton, 40, -TMath::Pi(), TMath::Pi(), EX_base_cut);
+    // //Proton:
+    // MakeDir("Phi/dEdX/Proton");
+    // MakePhiPlots(m_proton, 40, -TMath::Pi(), TMath::Pi(), EX_base_cut);
     
-    //Pion:
-    MakeDir("Phi/dEdX/Pion");
-    MakePhiPlots(m_pion, 40, -TMath::Pi(), TMath::Pi(), EX_base_cut);
+    // //Pion:
+    // MakeDir("Phi/dEdX/Pion");
+    // MakePhiPlots(m_pion, 40, -TMath::Pi(), TMath::Pi(), EX_base_cut);
     
-    //Muon:
-    MakeDir("Phi/dEdX/Muon");
-    MakePhiPlots(m_muon, 40, -TMath::Pi(), TMath::Pi(), EX_base_cut);
+    // //Muon:
+    // MakeDir("Phi/dEdX/Muon");
+    // MakePhiPlots(m_muon, 40, -TMath::Pi(), TMath::Pi(), EX_base_cut);
 
-    //Proton:
-    MakeDir("Phi/LL/Proton");
-    MakePhiPlots(m_proton_alt, 40, -TMath::Pi(), TMath::Pi(), LL_base_cut);
+    // //Proton:
+    // MakeDir("Phi/LL/Proton");
+    // MakePhiPlots(m_proton_alt, 40, -TMath::Pi(), TMath::Pi(), LL_base_cut);
     
-    //Pion:
-    MakeDir("Phi/LL/Pion");
-    MakePhiPlots(m_pion_alt, 40, -TMath::Pi(), TMath::Pi(), EX_base_cut);
+    // //Pion:
+    // MakeDir("Phi/LL/Pion");
+    // MakePhiPlots(m_pion_alt, 40, -TMath::Pi(), TMath::Pi(), EX_base_cut);
     
-    //**************************************** Theta END **************************************//
-    //*****************************************************************************************//
-    //*****************************************************************************************//
-    //*****************************************************************************************//
-    //**************************************** DPTT START ************************************//
+    // //**************************************** Theta END **************************************//
+    // //*****************************************************************************************//
+    // //*****************************************************************************************//
+    // //*****************************************************************************************//
+    // //**************************************** DPTT START ************************************//
     
-    Variable dpTT;
-    dpTT.units = "MeV/#it{c}";
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT;
+    // Variable dpTT;
+    // dpTT.units = "MeV/#it{c}";
+    // dpTT.symbol = "#deltap_{TT}";
+    // dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT;
     
-    MakeDir("dpTT/dEdX/normal");
-    dpTT.savename = m_recovars->dpTT;// + "300";
-    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    // MakeDir("dpTT/dEdX/normal");
+    // dpTT.savename = m_recovars->dpTT;// + "300";
+    // ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
    
-    MakeDir("dpTT/dEdX/pm1000");
-    dpTT.savename = m_recovars->dpTT + "1000";
-    ProduceGroup(dpTT, 99, -1000, 1000, (EX_base_cut + " && " + m_recovars->dpTT + " != -999."));
+    // MakeDir("dpTT/dEdX/pm1000");
+    // dpTT.savename = m_recovars->dpTT + "1000";
+    // ProduceGroup(dpTT, 99, -1000, 1000, (EX_base_cut + " && " + m_recovars->dpTT + " != -999."));
     
-    MakeDir("dpTT/dEdX/pm7000");
-    dpTT.savename = m_recovars->dpTT + "7000";
-    ProduceGroup(dpTT, 199, -7000, 7000, (EX_base_cut + " && " + m_recovars->dpTT + " != -999."));
+    // MakeDir("dpTT/dEdX/pm7000");
+    // dpTT.savename = m_recovars->dpTT + "7000";
+    // ProduceGroup(dpTT, 199, -7000, 7000, (EX_base_cut + " && " + m_recovars->dpTT + " != -999."));
 
-    MakeDir("dpTT/dEdX/tmumom");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tmumom;
-    dpTT.savename = m_recovars->dpTT_tmumom;
-    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    // MakeDir("dpTT/dEdX/tmumom");
+    // dpTT.symbol = "#deltap_{TT}";
+    // dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tmumom;
+    // dpTT.savename = m_recovars->dpTT_tmumom;
+    // ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
     
-    MakeDir("dpTT/dEdX/tmumom");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tpimom;
-    dpTT.savename = m_recovars->dpTT_tpimom;
-    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    // MakeDir("dpTT/dEdX/tmumom");
+    // dpTT.symbol = "#deltap_{TT}";
+    // dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tpimom;
+    // dpTT.savename = m_recovars->dpTT_tpimom;
+    // ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
     
-    MakeDir("dpTT/dEdX/tprmom");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tprmom;
-    dpTT.savename = m_recovars->dpTT_tprmom;
-    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    // MakeDir("dpTT/dEdX/tprmom");
+    // dpTT.symbol = "#deltap_{TT}";
+    // dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tprmom;
+    // dpTT.savename = m_recovars->dpTT_tprmom;
+    // ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
     
-    MakeDir("dpTT/dEdX/tnudir");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tnudir;
-    dpTT.savename = m_recovars->dpTT_tnudir;
-    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    // MakeDir("dpTT/dEdX/tnudir");
+    // dpTT.symbol = "#deltap_{TT}";
+    // dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tnudir;
+    // dpTT.savename = m_recovars->dpTT_tnudir;
+    // ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
     
-    MakeDir("dpTT/dEdX/pimom");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pi;
-    dpTT.savename = m_recovars->dpTT_pi;
-    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    // MakeDir("dpTT/dEdX/pimom");
+    // dpTT.symbol = "#deltap_{TT}";
+    // dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pi;
+    // dpTT.savename = m_recovars->dpTT_pi;
+    // ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
     
-    MakeDir("dpTT/dEdX/prmom");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pr;
-    dpTT.savename = m_recovars->dpTT_pr;
-    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    // MakeDir("dpTT/dEdX/prmom");
+    // dpTT.symbol = "#deltap_{TT}";
+    // dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pr;
+    // dpTT.savename = m_recovars->dpTT_pr;
+    // ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
     
-    MakeDir("dpTT/dEdX/pidir");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pidir;
-    dpTT.savename = m_recovars->dpTT_pidir;
-    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    // MakeDir("dpTT/dEdX/pidir");
+    // dpTT.symbol = "#deltap_{TT}";
+    // dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pidir;
+    // dpTT.savename = m_recovars->dpTT_pidir;
+    // ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
     
-    MakeDir("dpTT/dEdX/prdir");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_prdir;
-    dpTT.savename = m_recovars->dpTT_prdir;
-    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    // MakeDir("dpTT/dEdX/prdir");
+    // dpTT.symbol = "#deltap_{TT}";
+    // dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_prdir;
+    // dpTT.savename = m_recovars->dpTT_prdir;
+    // ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
     
-    //LL Method
-    MakeDir("dpTT/LL");
-    dpTT.savename = m_recovars->dpTT_alt;// + "300";
-    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    // //LL Method
+    // MakeDir("dpTT/LL");
+    // dpTT.savename = m_recovars->dpTT_alt;// + "300";
+    // ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
     
-    MakeDir("dpTT/LL/pm1000");
-    dpTT.savename = m_recovars->dpTT_alt + "1000";
-    ProduceGroup(dpTT, 99, -1000, 1000, (LL_base_cut + " && " + m_recovars->dpTT_alt + " != -999."));
+    // MakeDir("dpTT/LL/pm1000");
+    // dpTT.savename = m_recovars->dpTT_alt + "1000";
+    // ProduceGroup(dpTT, 99, -1000, 1000, (LL_base_cut + " && " + m_recovars->dpTT_alt + " != -999."));
     
-    MakeDir("dpTT/LL/pm7000");
-    dpTT.savename = m_recovars->dpTT_alt + "7000";
-    ProduceGroup(dpTT, 199, -7000, 7000, (LL_base_cut + " && " + m_recovars->dpTT_alt + " != -999."));
+    // MakeDir("dpTT/LL/pm7000");
+    // dpTT.savename = m_recovars->dpTT_alt + "7000";
+    // ProduceGroup(dpTT, 199, -7000, 7000, (LL_base_cut + " && " + m_recovars->dpTT_alt + " != -999."));
     
-    MakeDir("dpTT/LL/tmumom");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tmumom_alt;
-    dpTT.savename = m_recovars->dpTT_tmumom_alt;
-    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    // MakeDir("dpTT/LL/tmumom");
+    // dpTT.symbol = "#deltap_{TT}";
+    // dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tmumom_alt;
+    // dpTT.savename = m_recovars->dpTT_tmumom_alt;
+    // ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
     
-    MakeDir("dpTT/LL/tmumom");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tpimom_alt;
-    dpTT.savename = m_recovars->dpTT_tpimom_alt;
-    ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
+    // MakeDir("dpTT/LL/tmumom");
+    // dpTT.symbol = "#deltap_{TT}";
+    // dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tpimom_alt;
+    // dpTT.savename = m_recovars->dpTT_tpimom_alt;
+    // ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
     
-    MakeDir("dpTT/LL/tprmom");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tprmom_alt;
-    dpTT.savename = m_recovars->dpTT_tprmom_alt;
-    ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
+    // MakeDir("dpTT/LL/tprmom");
+    // dpTT.symbol = "#deltap_{TT}";
+    // dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tprmom_alt;
+    // dpTT.savename = m_recovars->dpTT_tprmom_alt;
+    // ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
     
-    MakeDir("dpTT/LL/tnudir");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tnudir_alt;
-    dpTT.savename = m_recovars->dpTT_tnudir_alt;
-    ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
+    // MakeDir("dpTT/LL/tnudir");
+    // dpTT.symbol = "#deltap_{TT}";
+    // dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tnudir_alt;
+    // dpTT.savename = m_recovars->dpTT_tnudir_alt;
+    // ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
     
-    MakeDir("dpTT/LL/pimom");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pi_alt;
-    dpTT.savename = m_recovars->dpTT_pi_alt;
-    ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
+    // MakeDir("dpTT/LL/pimom");
+    // dpTT.symbol = "#deltap_{TT}";
+    // dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pi_alt;
+    // dpTT.savename = m_recovars->dpTT_pi_alt;
+    // ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
     
-    MakeDir("dpTT/LL/prmom");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pr_alt;
-    dpTT.savename = m_recovars->dpTT_pr_alt;
-    ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
+    // MakeDir("dpTT/LL/prmom");
+    // dpTT.symbol = "#deltap_{TT}";
+    // dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pr_alt;
+    // dpTT.savename = m_recovars->dpTT_pr_alt;
+    // ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
     
-    MakeDir("dpTT/LL/pidir");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pidir_alt;
-    dpTT.savename = m_recovars->dpTT_pidir_alt;
-    ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
+    // MakeDir("dpTT/LL/pidir");
+    // dpTT.symbol = "#deltap_{TT}";
+    // dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pidir_alt;
+    // dpTT.savename = m_recovars->dpTT_pidir_alt;
+    // ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
     
-    MakeDir("dpTT/LL/prdir");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_prdir_alt;
-    dpTT.savename = m_recovars->dpTT_prdir_alt;
-    ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
+    // MakeDir("dpTT/LL/prdir");
+    // dpTT.symbol = "#deltap_{TT}";
+    // dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_prdir_alt;
+    // dpTT.savename = m_recovars->dpTT_prdir_alt;
+    // ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
 
-    //**************************************** DPTT END ***************************************//
-    //*****************************************************************************************//
-    //*****************************************************************************************//
-    //*****************************************************************************************//
-    //************************************** W Mass Start *************************************//
+    // //**************************************** DPTT END ***************************************//
+    // //*****************************************************************************************//
+    // //*****************************************************************************************//
+    // //*****************************************************************************************//
+    // //************************************** W Mass Start *************************************//
 
-    MakeDir("W");
+    // MakeDir("W");
 
-    Variable W_mass;
-    W_mass.units = "MeV";
-    W_mass.symbol = "W";
-    W_mass.name = "mc_w";
-    W_mass.savename = "W_EX";
+    // Variable W_mass;
+    // W_mass.units = "MeV";
+    // W_mass.symbol = "W";
+    // W_mass.name = "mc_w";
+    // W_mass.savename = "W_EX";
 
-    TCanvas * w_dist_EL = m_runbd->TARGETSingle(W_mass, 200, 0, 3000, EX_base_cut);
-    PrintLogo(w_dist_EL);
-    w_dist_EL->Write();
+    // TCanvas * w_dist_EL = m_runbd->TARGETSingle(W_mass, 200, 0, 3000, EX_base_cut);
+    // PrintLogo(w_dist_EL);
+    // w_dist_EL->Write();
     
-    W_mass.savename = "W_LL";
-    TCanvas * w_dist_LL = m_runbd->TARGETSingle(W_mass, 200, 0, 3000, LL_base_cut);
-    PrintLogo(w_dist_LL);
-    w_dist_LL->Write();
+    // W_mass.savename = "W_LL";
+    // TCanvas * w_dist_LL = m_runbd->TARGETSingle(W_mass, 200, 0, 3000, LL_base_cut);
+    // PrintLogo(w_dist_LL);
+    // w_dist_LL->Write();
     
     //**************************************** W Mass END *************************************//
     //*****************************************************************************************//
@@ -658,12 +658,14 @@ void ProducePlots::MakePlots(){
     std::string signal_def_old = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
     signal_def_old += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25. && TMath::RadToDeg()*truth_mu_Theta >= 0.";
     
+    m_runep->Debug();
+
     TCanvas * eff_pur_cuts_EX = new TCanvas("eff_pur_cuts_dEdX","", 600, 800);
     eff_pur_cuts_EX->cd();
     TH1D * eff_EX_new = m_runep->EffVSCuts( signal_def_new );//->Draw("HIST");
     TH1D * pur_EX_new = m_runep->PurVSCuts( signal_def_new );//->Draw("HISTSAME");
-    TH1D * eff_EX_old = m_runep->EffVSCuts( signal_def_new );//->Draw("HIST");
-    TH1D * pur_EX_old = m_runep->PurVSCuts( signal_def_new );//->Draw("HISTSAME");
+    TH1D * eff_EX_old = m_runep->EffVSCuts( signal_def_old );//->Draw("HIST");
+    TH1D * pur_EX_old = m_runep->PurVSCuts( signal_def_old );//->Draw("HISTSAME");
     
     eff_EX_new->Draw("HIST");
     pur_EX_new->Draw("HISTSAME");
@@ -675,7 +677,7 @@ void ProducePlots::MakePlots(){
     TLegend * eff_pur_cuts_EX_leg = m_runbd->Legend(0.2,0.1);
     eff_pur_cuts_EX_leg->AddEntry(eff_EX_new, "Efficiency (New)", "l");
     eff_pur_cuts_EX_leg->AddEntry(pur_EX_new, "Purity (New)", "l");
-    eff_pur_cuts_EX_leg->AddEntry(pur_EX_old, "Efficiency (Old)", "l");
+    eff_pur_cuts_EX_leg->AddEntry(eff_EX_old, "Efficiency (Old)", "l");
     eff_pur_cuts_EX_leg->AddEntry(pur_EX_old, "Purity (Old)", "l");
     eff_pur_cuts_EX_leg->Draw();
     
@@ -689,6 +691,8 @@ void ProducePlots::MakePlots(){
     delete eff_pur_cuts_EX;
     
     MakeDir("Efficiency/Cuts/LL");
+
+    m_runep->Debug();
 
     TCanvas * eff_pur_cuts_LL = new TCanvas("eff_pur_cuts_LL","", 600, 800);
     eff_pur_cuts_LL->cd();
@@ -748,9 +752,13 @@ void ProducePlots::MakePlots(){
             truemom.name = "truth_" + true_nam[p] + "_mom";
             truemom.symbol = "#it{p}_{" + true_sym[p] + "}";
             
+            if(p == 2) m_runep->Debug();//ON
+
             MakeDir("Efficiency/" + mom_type + "/Mom");
             EffPart(truemom, truemom_bins[p], truemom_low[p], truemom_hig[p], signal_def_new, cut_dEdX);
-            
+
+            if(p == 2) m_runep->Debug();//OFF
+                        
             if(build == 0){
                 MakeDir("Truth/Mom");
                 TruthPart(truemom, truemom_bins[p], truemom_low[p], truemom_hig[p], signal_def_new);
@@ -764,11 +772,11 @@ void ProducePlots::MakePlots(){
             truetheta.symbol = "#theta_{" + true_sym[p] + "}";
 
             MakeDir("Efficiency/" + mom_type + "/Theta");
-            EffPart(truetheta, 40, 0., TMath::TwoPi(), signal_def_new, cut_dEdX);
+            EffPart(truetheta, 25, 0., TMath::Pi(), signal_def_new, cut_dEdX);
             
             if(build == 0){
             MakeDir("Truth/Theta");
-            TruthPart(truetheta, 40, 0, TMath::TwoPi(), signal_def_new);
+            TruthPart(truetheta, 25, 0, TMath::Pi(), signal_def_new);
             }
         }
         
@@ -776,14 +784,14 @@ void ProducePlots::MakePlots(){
         truephi.units = "Rad.";
         for(int p = 0; p < 3; p++){
             truephi.name = "truth_" + true_nam[p] + "_Phi";
-            truephi.symbol = "#theta_{" + true_sym[p] + "}";
+            truephi.symbol = "#phi_{" + true_sym[p] + "}";
             
             MakeDir("Efficiency/" + mom_type + "/Phi");
-            EffPart(truephi, 40, -TMath::Pi(), TMath::Pi(), signal_def_new, cut_dEdX);
+            EffPart(truephi, 25, -TMath::Pi(), TMath::Pi(), signal_def_new, cut_dEdX);
             
             if(build == 0){
                 MakeDir("Truth/Phi");
-                TruthPart(truephi, 40, -TMath::Pi(), TMath::Pi(), signal_def_new);
+                TruthPart(truephi, 25, -TMath::Pi(), TMath::Pi(), signal_def_new);
             }
         }
     }

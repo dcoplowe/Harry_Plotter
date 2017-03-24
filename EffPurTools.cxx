@@ -25,7 +25,6 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
     m_ghcounter2D = -1;
     m_effvarcounter = -1;
     m_purvarcounter = -1;
-
     
     m_file = new TFile(filename.c_str(), "READ");
     
@@ -64,7 +63,6 @@ EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_name
     m_ghcounter2D = -1;
     m_effvarcounter = -1;
     m_purvarcounter = -1;
-    
     
     m_file = new TFile(filename.c_str(), "READ");
     
@@ -411,6 +409,11 @@ TH1D * EffPurTools::RatioVSVar(TTree * intree, std::string var, int nbins, Doubl
     TH1D * ratio = new TH1D(Form("ratio_1D_%.3d", m_ghcounter1D), (";" + x_title + ";Ratio").c_str(), nbins, xbins);
     ratio->Divide(num, den);
     
+    for(int i = 1; i < ratio->GetNbinsX() + 1; i++){
+        cout << "Bin: " << i << "/" << ratio->GetNbinsX() << ": Ratio = " << ratio->GetBinContent(i);
+        cout << " Num = " << num->GetBinContent(i) << " Den = " << den->GetBinContent(i) << endl;
+    }
+
     delete num;
     delete den;
     
