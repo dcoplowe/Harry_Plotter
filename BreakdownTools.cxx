@@ -870,21 +870,21 @@ TLegend * BreakdownTools::RatioStats(const THStack * ratio_tot)
     ratio_stats->AddEntry((TObject*)0, Form("Mean = %.3f", (double)ratio_sum.GetMean()), "");
     ratio_stats->AddEntry((TObject*)0, Form(" RMS = %.3f", (double)ratio_sum.GetRMS() ), "");
 
-    // TF1 * cauchy = new TF1("cauchy","([2]*[1])/(TMath::Pi()*([1]*[1] + (x-[0])*(x-[0]) ) )", ratio_low, ratio_high);
-    // delete hfirst;
+    TF1 * cauchy = new TF1("cauchy","([2]*[1])/(TMath::Pi()*([1]*[1] + (x-[0])*(x-[0]) ) )", ratio_low, ratio_high);
+    delete hfirst;
 
-    // cauchy->SetParameter(0, (double)ratio_sum.GetXaxis()->GetBinCenter(ratio_sum.GetMaximumBin() ) );
-    // cauchy->SetParameter(1, (double)ratio_sum.GetRMS()  );
-    // cauchy->SetParameter(2, (double)ratio_sum.Integral());
-    // TFitResultPtr r = ratio_sum.Fit(cauchy,"RLN");
-    // Int_t fitStatus = r;
-    // cout << "(double)cauchy->GetParameter(0) = " << (double)cauchy->GetParameter(0) << endl;
-    // cout << "(double)cauchy->GetParameter(1) = " << (double)cauchy->GetParameter(1) << endl;
+    cauchy->SetParameter(0, (double)ratio_sum.GetXaxis()->GetBinCenter(ratio_sum.GetMaximumBin() ) );
+    cauchy->SetParameter(1, (double)ratio_sum.GetRMS()  );
+    cauchy->SetParameter(2, (double)ratio_sum.Integral());
+    TFitResultPtr r = ratio_sum.Fit(cauchy,"RLN");
+    Int_t fitStatus = r;
+    cout << "(double)cauchy->GetParameter(0) = " << (double)cauchy->GetParameter(0) << endl;
+    cout << "(double)cauchy->GetParameter(1) = " << (double)cauchy->GetParameter(1) << endl;
 
-    // if(fitStatus == 0){//Fit status successful add the parameters:
-    //     ratio_stats->AddEntry((TObject*)0, Form("Cauchy Mean = %.3f", (double)cauchy->GetParameter(0)), "");
-    //     ratio_stats->AddEntry((TObject*)0, Form("Cauchy #sigma = %.3f", (double)cauchy->GetParameter(1)), "");
-    // }
+    if(fitStatus == 0){//Fit status successful add the parameters:
+        ratio_stats->AddEntry((TObject*)0, Form("Cauchy Mean = %.3f", (double)cauchy->GetParameter(0)), "");
+        ratio_stats->AddEntry((TObject*)0, Form("Cauchy #sigma = %.3f", (double)cauchy->GetParameter(1)), "");
+    }
 
     // delete rlist;
     // delete cauchy;
