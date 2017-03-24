@@ -865,7 +865,7 @@ TLegend * BreakdownTools::RatioStats(THStack * ratio_tot)
     
     TLegend * ratio_stats = Legend(0.25, 0.8, 0.05, 0.1);
     ratio_stats->AddEntry((TObject*)0, Form("Mean = %.3f", (double)ratio_sum.GetMean()), "");
-    ratio_stats->AddEntry((TObject*)0, Form(" RMS = %.3f", (double)ratio_sum.GetMaximumBin () ) ), "");
+    ratio_stats->AddEntry((TObject*)0, Form(" RMS = %.3f", (double)ratio_sum.GetMaximumBin () ) , "");
 
     TF1 * cauchy = new TF1("cauchy","([2]*[1])/(TMath::Pi()*([1]*[1] + (x-[0])*(x-[0]) ) )", ratio_low, ratio_high);
     delete hfirst;
