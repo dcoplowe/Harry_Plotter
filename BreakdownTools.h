@@ -14,6 +14,7 @@ class TH1D;
 class TH2D;
 class TCanvas;
 class TLegend;
+class THStack;
 
 //class Particle;
 //class KinematicVars;
@@ -163,9 +164,8 @@ private:
     std::vector<TOPS> m_toplist;
     std::vector<TOPSTYPE::TOPSTYPE> m_toplist_minBD;
 
-    TLegend * RatioStats(THStack * ratio_tot);
     Int_t m_statcounter;
-    
+    TLegend * RatioStats(THStack * ratio_tot);    
 
 };
 #endif
