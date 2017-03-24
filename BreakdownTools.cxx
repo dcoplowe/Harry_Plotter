@@ -407,6 +407,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     cans.ratio->cd();
     ratio_tot->Draw();
     ratio_leg->Draw();
+    cout << "Drawing ratio stats" << endl;
     ratio_stats->Draw();
     TLegend * ratio_pot = GetPOT(0.1,0.1);
     ratio_pot->Draw();
@@ -848,7 +849,7 @@ TLegend * BreakdownTools::RatioStats(const THStack * ratio_tot)
 {
 //Get the ratio histograms, make them into one histogram and determine the rms and mean:
     TList * rlist = ratio_tot->GetHists();
-    TH1D * hfirst = (TH1D*)rlist->First();
+    TH1D * hfirst = (TH1D*)rlist->First()->Clone( (string(rlist->First()->GetName()) + "_clone").c_str() );
     cout << "FOund hfirst" << endl;
     Int_t ratio_nbins = hfirst->GetNbinsX();
     Double_t ratio_low = hfirst->GetXaxis()->GetXmin();
@@ -868,7 +869,7 @@ TLegend * BreakdownTools::RatioStats(const THStack * ratio_tot)
     ratio_stats->AddEntry((TObject*)0, Form(" RMS = %.3f", (double)ratio_sum.GetRMS() ), "");
 
     TF1 * cauchy = new TF1("cauchy","([2]*[1])/(TMath::Pi()*([1]*[1] + (x-[0])*(x-[0]) ) )", ratio_low, ratio_high);
-    // delete hfirst;
+    delete hfirst;
 
     cauchy->SetParameter(0, (double)ratio_sum.GetXaxis()->GetBinCenter(ratio_sum.GetMaximumBin() ) );
     cauchy->SetParameter(1, (double)ratio_sum.GetRMS()  );
