@@ -512,18 +512,18 @@ void ProducePlots::MakePlots(){
     // //*****************************************************************************************//
     // //**************************************** DPTT START ************************************//
     
-    // Variable dpTT;
-    // dpTT.units = "MeV/#it{c}";
-    // dpTT.symbol = "#deltap_{TT}";
-    // dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT;
-    
-    // MakeDir("dpTT/dEdX/normal");
-    // dpTT.savename = m_recovars->dpTT;// + "300";
-    // ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-
     Variable dpTT;
     dpTT.units = "MeV/#it{c}";
     dpTT.symbol = "#deltap_{TT}";
+    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT;
+    
+    // MakeDir("dpTT/dEdX/normal");
+    dpTT.savename = m_recovars->dpTT;
+    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+
+    // Variable dpTT;
+    // dpTT.units = "MeV/#it{c}";
+    // dpTT.symbol = "#deltap_{TT}";
     dpTT.name = m_recovars->truedpTT + ":dpTT1";
     dpTT.savename = "dpTT1";// + "300";
     ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
