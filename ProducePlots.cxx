@@ -161,7 +161,7 @@ m_realdata(realdata) {
     cout << "Saving file as " << m_savename << endl;
     
     m_runbd = new BreakdownTools(m_infilename, m_reconame);
-    m_runtruthbd = new BreakdownTools(m_infilename, m_truename);
+    if(!m_realdata) m_runtruthbd = new BreakdownTools(m_infilename, m_truename);
     
     std::vector<std::string> selection_cuts;
     selection_cuts.push_back("Vertex");
@@ -171,7 +171,7 @@ m_realdata(realdata) {
     selection_cuts.push_back("PID: p/#pi^{+}");
     selection_cuts.push_back("Michel Sense");
     
-    m_runep = new EffPurTools(m_infilename, selection_cuts);
+    if(!m_realdata) m_runep = new EffPurTools(m_infilename, selection_cuts);
     
     m_outfile = new TFile(m_savename.c_str(), "RECREATE");
 }
