@@ -541,23 +541,23 @@ void ProducePlots::MakePlots(){
     // dpTT.savename = m_recovars->dpTT + "7000";
     // ProduceGroup(dpTT, 199, -7000, 7000, (EX_base_cut + " && " + m_recovars->dpTT + " != -999."));
 
-    // MakeDir("dpTT/dEdX/tmumom");
-    // dpTT.symbol = "#deltap_{TT}";
-    // dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tmumom;
-    // dpTT.savename = m_recovars->dpTT_tmumom;
-    // ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    MakeDir("dpTT/dEdX/tmumom");
+    dpTT.symbol = "#deltap_{TT}";
+    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tmumom;
+    dpTT.savename = m_recovars->dpTT_tmumom;
+    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
     
-    // MakeDir("dpTT/dEdX/tmumom");
-    // dpTT.symbol = "#deltap_{TT}";
-    // dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tpimom;
-    // dpTT.savename = m_recovars->dpTT_tpimom;
-    // ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    MakeDir("dpTT/dEdX/tpimom");
+    dpTT.symbol = "#deltap_{TT}";
+    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tpimom;
+    dpTT.savename = m_recovars->dpTT_tpimom;
+    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
     
-    // MakeDir("dpTT/dEdX/tprmom");
-    // dpTT.symbol = "#deltap_{TT}";
-    // dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tprmom;
-    // dpTT.savename = m_recovars->dpTT_tprmom;
-    // ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    MakeDir("dpTT/dEdX/tprmom");
+    dpTT.symbol = "#deltap_{TT}";
+    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tprmom;
+    dpTT.savename = m_recovars->dpTT_tprmom;
+    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
     
     // MakeDir("dpTT/dEdX/tnudir");
     // dpTT.symbol = "#deltap_{TT}";
