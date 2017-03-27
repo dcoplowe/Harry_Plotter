@@ -876,10 +876,10 @@ TLegend * BreakdownTools::RatioStats(const THStack * ratio_tot)
     cauchy->SetParameter(0, (double)ratio_sum.GetXaxis()->GetBinCenter(ratio_sum.GetMaximumBin() ) );
     cauchy->SetParameter(1, (double)ratio_sum.GetRMS()  );
     cauchy->SetParameter(2, (double)ratio_sum.Integral());
-    TFitResultPtr r = ratio_sum.Fit(cauchy,"RLN");
+    TFitResultPtr r = ratio_sum.Fit(cauchy,"RLNQ");
     Int_t fitStatus = r;
-    cout << "(double)cauchy->GetParameter(0) = " << (double)cauchy->GetParameter(0) << endl;
-    cout << "(double)cauchy->GetParameter(1) = " << (double)cauchy->GetParameter(1) << endl;
+    // cout << "(double)cauchy->GetParameter(0) = " << (double)cauchy->GetParameter(0) << endl;
+    // cout << "(double)cauchy->GetParameter(1) = " << (double)cauchy->GetParameter(1) << endl;
 
     if(fitStatus == 0){//Fit status successful add the parameters:
         ratio_stats->AddEntry((TObject*)0, Form("Cauchy Mean = %.3f", (double)cauchy->GetParameter(0)), "");
