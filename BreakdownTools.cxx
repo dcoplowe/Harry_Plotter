@@ -386,7 +386,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     }
     
     TLegend * ratio_stats = RatioStats(ratio_tot);
-    cout << "TLegend * ratio_stats = RatioStats(ratio_tot)" << endl;
+    // cout << "TLegend * ratio_stats = RatioStats(ratio_tot)" << endl;
 
 
     BDCans cans;
