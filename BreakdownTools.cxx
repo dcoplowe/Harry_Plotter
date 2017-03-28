@@ -410,7 +410,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     cans.ratio->cd();
     ratio_tot->Draw();
     ratio_leg->Draw();
-    cout << "Drawing ratio stats" << endl;
+    // cout << "Drawing ratio stats" << endl;
     ratio_stats->Draw();
     TLegend * ratio_pot = GetPOT(0.1,0.1);
     ratio_pot->Draw();
