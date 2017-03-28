@@ -396,11 +396,11 @@ void ProducePlots::TruthPart(Variable var, Int_t nbins, Double_t low, Double_t h
         
         truthdists->Write();
         
-        delete sig;
-        delete tmp_truth;
-        if(tmp_passcuts) delete tmp_passcuts;
-        delete leg;
-        delete truthdists;
+        // delete sig;
+        // delete tmp_truth;
+        // // if(tmp_passcuts) delete tmp_passcuts;
+        // delete leg;
+        // delete truthdists;
     }
 }
 
@@ -431,7 +431,7 @@ void ProducePlots::MakePlots(){
     string LL_base_cut = "accum_level[1] > 5 && " + m_pion_alt->michel + " == 1 && target_region == 1";//Alt michel too
     //**************************************** Mom START ****************************************//
     
-    Proton:
+    // Proton:
     MakeDir("Mom/dEdX/Proton");
     MakeMomPlots(m_proton, 40, 0, 2000, EX_base_cut);
     
@@ -710,7 +710,7 @@ void ProducePlots::MakePlots(){
         std::string signal_def_old = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
         signal_def_old += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25. && TMath::RadToDeg()*truth_mu_Theta >= 0.";
 
-        m_runep->Debug();
+        // m_runep->Debug();
 
         TCanvas * eff_pur_cuts_EX = new TCanvas("eff_pur_cuts_dEdX","", 600, 800);
         eff_pur_cuts_EX->cd();
@@ -718,8 +718,8 @@ void ProducePlots::MakePlots(){
         TH1D * pur_EX_new = m_runep->PurVSCuts( signal_def_new );//->Draw("HISTSAME");
         TH1D * eff_EX_old = m_runep->EffVSCuts( signal_def_old );//->Draw("HIST");
         TH1D * pur_EX_old = m_runep->PurVSCuts( signal_def_old );//->Draw("HISTSAME");
-        TH1D * eff_EX_mic = m_runep->EffVSCuts( (signal_def_new + " && truth_pi_EX_michel == 1") );//->Draw("HIST");
-        TH1D * pur_EX_mic = m_runep->PurVSCuts( (signal_def_new + " && truth_pi_EX_michel == 1") );//->Draw("HISTSAME");    
+        // TH1D * eff_EX_mic = m_runep->EffVSCuts( (signal_def_new + " && truth_pi_EX_michel == 1") );//->Draw("HIST");
+        // TH1D * pur_EX_mic = m_runep->PurVSCuts( (signal_def_new + " && truth_pi_EX_michel == 1") );//->Draw("HISTSAME");    
     
         eff_EX_new->Draw("HIST");
         pur_EX_new->Draw("HISTSAME");
@@ -727,18 +727,18 @@ void ProducePlots::MakePlots(){
         pur_EX_old->SetLineStyle(7);
         eff_EX_old->Draw("HISTSAME");
         pur_EX_old->Draw("HISTSAME");
-        eff_EX_mic->SetLineStyle(7);
-        pur_EX_mic->SetLineStyle(7);
-        eff_EX_mic->Draw("HISTSAME");
-        pur_EX_mic->Draw("HISTSAME");
+        // eff_EX_mic->SetLineStyle(7);
+        // pur_EX_mic->SetLineStyle(7);
+        // eff_EX_mic->Draw("HISTSAME");
+        // pur_EX_mic->Draw("HISTSAME");
 
         TLegend * eff_pur_cuts_EX_leg = m_runbd->Legend(0.2,0.1);
         eff_pur_cuts_EX_leg->AddEntry(eff_EX_new, "Efficiency (New)", "l");
         eff_pur_cuts_EX_leg->AddEntry(pur_EX_new, "Purity (New)", "l");
         eff_pur_cuts_EX_leg->AddEntry(eff_EX_old, "Efficiency (Old)", "l");
         eff_pur_cuts_EX_leg->AddEntry(pur_EX_old, "Purity (Old)", "l");
-        eff_pur_cuts_EX_leg->AddEntry(eff_EX_mic, "Eff. (New w #pi ME tag)", "l");
-        eff_pur_cuts_EX_leg->AddEntry(pur_EX_mic, "Pur. (New w #pi ME tag)", "l");
+        // eff_pur_cuts_EX_leg->AddEntry(eff_EX_mic, "Eff. (New w #pi ME tag)", "l");
+        // eff_pur_cuts_EX_leg->AddEntry(pur_EX_mic, "Pur. (New w #pi ME tag)", "l");
         eff_pur_cuts_EX_leg->Draw();
     
         eff_pur_cuts_EX->Write();
@@ -747,8 +747,8 @@ void ProducePlots::MakePlots(){
         delete pur_EX_new;
         delete eff_EX_old;
         delete pur_EX_old;
-        delete eff_EX_mic;
-        delete pur_EX_mic;
+        // delete eff_EX_mic;
+        // delete pur_EX_mic;
         delete eff_pur_cuts_EX_leg;
         delete eff_pur_cuts_EX;
     
@@ -757,14 +757,14 @@ void ProducePlots::MakePlots(){
         TCanvas * eff_pur_cuts_LL = new TCanvas("eff_pur_cuts_LL","", 600, 800);
         eff_pur_cuts_LL->cd();
 
-        m_runep->Debug();
+        // m_runep->Debug();
         TH1D * eff_LL_new = m_runep->EffVSCuts( signal_def_new, 1 );//->Draw("HIST");
-        m_runep->Debug();
+        // m_runep->Debug();
         TH1D * pur_LL_new = m_runep->PurVSCuts( signal_def_new, 1 );//->Draw("HISTSAME");
         TH1D * eff_LL_old = m_runep->EffVSCuts( signal_def_old, 1 );//->Draw("HIST");
         TH1D * pur_LL_old = m_runep->PurVSCuts( signal_def_old, 1 );//->Draw("HISTSAME");
-        TH1D * eff_LL_mic = m_runep->EffVSCuts( (signal_def_new + " && truth_pi_michel == 1"), 1 );//->Draw("HIST");
-        TH1D * pur_LL_mic = m_runep->PurVSCuts( (signal_def_new + " && truth_pi_michel == 1"), 1 );//->Draw("HISTSAME");
+        // TH1D * eff_LL_mic = m_runep->EffVSCuts( (signal_def_new + " && truth_pi_LL_michel == 1"), 1 );//->Draw("HIST");
+        // TH1D * pur_LL_mic = m_runep->PurVSCuts( (signal_def_new + " && truth_pi_LL_michel == 1"), 1 );//->Draw("HISTSAME");
 
         eff_LL_new->Draw("HIST");
         pur_LL_new->Draw("HISTSAME");
@@ -772,18 +772,18 @@ void ProducePlots::MakePlots(){
         pur_LL_old->SetLineStyle(7);
         eff_LL_old->Draw("HISTSAME");
         pur_LL_old->Draw("HISTSAME");
-        eff_LL_mic->SetLineStyle(4);
-        pur_LL_mic->SetLineStyle(4);
-        eff_LL_mic->Draw("HISTSAME");
-        pur_LL_mic->Draw("HISTSAME");
+        // eff_LL_mic->SetLineStyle(4);
+        // pur_LL_mic->SetLineStyle(4);
+        // eff_LL_mic->Draw("HISTSAME");
+        // pur_LL_mic->Draw("HISTSAME");
 
         TLegend * eff_pur_cuts_LL_leg = m_runbd->Legend(0.2,0.1);
         eff_pur_cuts_LL_leg->AddEntry(eff_LL_new, "Efficiency (New)", "l");
         eff_pur_cuts_LL_leg->AddEntry(pur_LL_new, "Purity (New)", "l");
         eff_pur_cuts_LL_leg->AddEntry(eff_LL_old, "Efficiency (Old)", "l");
         eff_pur_cuts_LL_leg->AddEntry(pur_LL_old, "Purity (Old)", "l");
-        eff_pur_cuts_LL_leg->AddEntry(eff_LL_mic, "Eff. (New w #pi ME tag)", "l");
-        eff_pur_cuts_LL_leg->AddEntry(pur_LL_mic, "Pur. (New w #pi ME tag)", "l");
+        // eff_pur_cuts_LL_leg->AddEntry(eff_LL_mic, "Eff. (New w #pi ME tag)", "l");
+        // eff_pur_cuts_LL_leg->AddEntry(pur_LL_mic, "Pur. (New w #pi ME tag)", "l");
         eff_pur_cuts_LL_leg->Draw();
     
         eff_pur_cuts_LL->Write();
@@ -792,8 +792,8 @@ void ProducePlots::MakePlots(){
         delete pur_LL_new; 
         delete eff_LL_old;
         delete pur_LL_old;
-        delete eff_LL_mic;
-        delete pur_LL_mic;
+        // delete eff_LL_mic;
+        // delete pur_LL_mic;
         delete eff_pur_cuts_LL_leg;
         delete eff_pur_cuts_LL;
     
@@ -824,12 +824,12 @@ void ProducePlots::MakePlots(){
                 truemom.name = "truth_" + true_nam[p] + "_mom";
                 truemom.symbol = "#it{p}_{" + true_sym[p] + "}";
 
-                if(p == 2) m_runep->Debug();//ON
+                // if(p == 2) m_runep->Debug();//ON
 
                 MakeDir("Efficiency/" + mom_type + "/Mom");
                 EffPart(truemom, truemom_bins[p], truemom_low[p], truemom_hig[p], signal_def_new, cut_dEdX);
 
-                if(p == 2) m_runep->Debug();//OFF
+                // if(p == 2) m_runep->Debug();//OFF
 
                 if(build == 0){
                     MakeDir("Truth/Mom");

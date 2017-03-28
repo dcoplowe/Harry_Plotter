@@ -48,6 +48,7 @@ TOPS::TOPS(TOPSTYPE::TOPSTYPE topo_type) : type(topo_type), name(TOPSTYPE::ToStr
         
         if(type == TOPSTYPE::HCC1P1PiPlus){
             signal += " && mc_targetZ == 1 && true_target_region == 1 && truth_mu_E < 20000. && truth_mu_E > 0.";
+            // signal += " && truth_pi_EX_michel == 1";
             line_style = 2;
             line_colour = 1;
             fill_style = 0;
