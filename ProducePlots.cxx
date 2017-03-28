@@ -423,15 +423,12 @@ void ProducePlots::MakeDir(std::string name){
 }
 
 void ProducePlots::MakePlots(){
-    
     //dEdX (0) and LL mom. (1) reco plots:
     //W/WO michel tag.
-    
     //Pass all cuts check://Only consider dEdX ( accum_level[0]) recon for now:
 //    string base_dir = "dEdX";
-
-    string EX_base_cut = "accum_level[0] > 5 && " + m_pion->michel + " == 1";
-    string LL_base_cut = "accum_level[1] > 5 && " + m_pion_alt->michel + " == 1";//Alt michel too
+    string EX_base_cut = "accum_level[0] > 5 && " + m_pion->michel + " == 1 && target_region == 1";
+    string LL_base_cut = "accum_level[1] > 5 && " + m_pion_alt->michel + " == 1 && target_region == 1";//Alt michel too
     //**************************************** Mom START ****************************************//
     
     Proton:
