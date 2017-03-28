@@ -743,6 +743,31 @@ void ProducePlots::MakePlots(){
     
         eff_pur_cuts_EX->Write();
     
+        TCanvas * pur_cuts_EX = new TCanvas("pur_cuts_dEdX","", 600, 800);
+        pur_cuts_EX->cd();
+        pur_EX_new->Draw("HIST");
+        pur_EX_old->SetLineStyle(7);
+        pur_EX_old->Draw("HISTSAME");
+
+        TLegend * pur_cuts_EX_leg = m_runbd->Legend(0.2,0.1);
+        pur_cuts_EX_leg->AddEntry(pur_EX_new, "Purity (New)", "l");
+        pur_cuts_EX_leg->AddEntry(pur_EX_old, "Purity (Old)", "l");
+        pur_cuts_EX_leg->Draw();
+
+        pur_cuts_EX->Write();
+
+        TCanvas * eff_cuts_EX = new TCanvas("eff_cuts_dEdX","", 600, 800);
+        eff_cuts_EX->cd();
+        eff_EX_new->Draw("HIST");
+        eff_EX_old->SetLineStyle(7);
+        eff_EX_old->Draw("HISTSAME");
+
+        TLegend * eff_cuts_EX_leg = m_runbd->Legend(0.2,0.1);
+        eff_cuts_EX_leg->AddEntry(eff_EX_new, "Eff. (New)", "l");
+        eff_cuts_EX_leg->AddEntry(eff_EX_old, "Eff. (Old)", "l");
+        eff_cuts_EX_leg->Draw();
+        eff_cuts_EX->Write();
+
         delete eff_EX_new;
         delete pur_EX_new;
         delete eff_EX_old;
@@ -751,7 +776,7 @@ void ProducePlots::MakePlots(){
         // delete pur_EX_mic;
         delete eff_pur_cuts_EX_leg;
         delete eff_pur_cuts_EX;
-    
+
         MakeDir("Efficiency/Cuts/LL");
 
         TCanvas * eff_pur_cuts_LL = new TCanvas("eff_pur_cuts_LL","", 600, 800);
