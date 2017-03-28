@@ -521,6 +521,15 @@ void ProducePlots::MakePlots(){
     dpTT.savename = m_recovars->dpTT;
     ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
 
+    dpTT.savename = m_recovars->dpTT + "nb29";
+    ProduceGroup(dpTT, 29, -300, 300, EX_base_cut);
+
+    dpTT.savename = m_recovars->dpTT + "nb19";
+    ProduceGroup(dpTT, 19, -300, 300, EX_base_cut);
+
+    dpTT.savename = m_recovars->dpTT + "nb25";
+    ProduceGroup(dpTT, 25, -300, 300, EX_base_cut);
+
     // // Variable dpTT;
     // // dpTT.units = "MeV/#it{c}";
     // // dpTT.symbol = "#deltap_{TT}";
@@ -582,6 +591,17 @@ void ProducePlots::MakePlots(){
     dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pidir;
     dpTT.savename = m_recovars->dpTT_pidir;
     ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+
+    dpTT.symbol = "#deltap_{TT}";
+    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pidir;
+    dpTT.savename = m_recovars->dpTT_pidir + "nb29";
+    ProduceGroup(dpTT, 29, -300, 300, EX_base_cut);
+
+    dpTT.savename = m_recovars->dpTT_pidir + "nb19";
+    ProduceGroup(dpTT, 19, -300, 300, EX_base_cut);
+
+    dpTT.savename = m_recovars->dpTT_pidir + "nb25";
+    ProduceGroup(dpTT, 25, -300, 300, EX_base_cut);
     
     MakeDir("dpTT/dEdX/prdir");
     dpTT.symbol = "#deltap_{TT}";
