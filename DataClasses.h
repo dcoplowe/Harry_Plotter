@@ -160,7 +160,7 @@ public:
     Experiment(Name exp);
     ~Experiment();
     
-    inline std::string ToString(Name name){
+    static inline std::string ToString(Name name){
         std::string sname = "Unknown";
         if(name == T2K) sname = "T2K";
         else if(name == MIN) sname = "MINERvA";
