@@ -43,7 +43,7 @@ const string test_t2k_mc("/data/t2k/coplowe/numuCC1P1PiOutput/march17/neutP6BWA/
 class ProducePlots {
 
 public:
-    ProducePlots(EXP::EXP exp, std::string filename, bool debug, bool realdata);
+    ProducePlots(Experiment::Name exp, std::string filename, bool debug, bool realdata);
     ~ProducePlots();
     
     void SetSaveName(std::string var){ m_savename = var; }
@@ -83,7 +83,7 @@ public:
     void cdDir(std::string name = ""){  m_outfile->cd((m_savename + ":/" + name).c_str()); }//Default is the root dir.
     
 private:
-    EXP::EXP m_experiment;
+    Experiment::Name m_experiment;
     std::string m_infilename;
     bool m_realdata;
 
@@ -106,7 +106,6 @@ private:
     Particle * m_proton;
     Particle * m_pion;
     
-    Particle * m_muon_alt;
     Particle * m_proton_alt;
     Particle * m_pion_alt;
     
@@ -115,17 +114,17 @@ private:
     EffPurTools     * m_runep;
 };
 
-ProducePlots::ProducePlots(EXP::EXP exp, std::string filename, bool debug, bool realdata) : m_experiment(exp), m_infilename(filename),
+ProducePlots::ProducePlots(Experiment::Name exp, std::string filename, bool debug, bool realdata) : m_experiment(exp), m_infilename(filename),
 m_realdata(realdata) {
     
-    cout << "Experiment: " <<  EXP::ToString(exp) << endl;
+    cout << "Experiment: " <<  Experiment::ToString(exp) << endl;
     
     m_detector = new Experiment(exp);
     
-    if(exp == EXP::T2K){
+    if(exp == Experiment::T2K){
         m_getPOT = false;
     }
-    else if(exp == EXP::MIN){
+    else if(exp == Experiment::MIN){
         m_getPOT = true;
     }
     
@@ -136,13 +135,12 @@ m_realdata(realdata) {
     m_proton = m_recovars->proton;
     m_pion = m_recovars->pion;
     
-    if(exp == EXP::MIN){
-        m_muon_alt = m_recovars->muon_alt;
+    if(exp == Experiment::MIN){
         m_proton_alt = m_recovars->proton_alt;
         m_pion_alt = m_recovars->pion_alt;
     }
     
-    m_savename = EXP::ToString(exp) + "_CC1P1PiPlus_Plots_" + GetDate() + ".root";
+    m_savename = Experiment::ToString(exp) + "_CC1P1PiPlus_Plots_" + GetDate() + ".root";
     
     cout << "Saving file as " << m_savename << endl;
     
@@ -988,7 +986,7 @@ int main(int argc, char *argv[])
     string filename = "";//test_min_mc;
     string savename = "";// = "CC1P1PiP_Plots_" + sday.str() + smon.str() + syear.str() + ".root";
     bool debug = false;
-    EXP::EXP experiment = EXP::UNKNOWN;
+    Experiment::Name experiment = Experiment::UNKNOWN;
     bool realdata = false;
 
     char cc;
@@ -997,15 +995,15 @@ int main(int argc, char *argv[])
             case 'i': filename = std::string(optarg); break;
             case 'o': savename = optarg; break;
             case 'd': debug = true; break;
-            case 't': experiment = EXP::T2K; break;
-            case 'm': experiment = EXP::MIN; break;
+            case 't': experiment = Experiment::T2K; break;
+            case 'm': experiment = Experiment::MIN; break;
             case 'r': realdata = true; break;
 
             default: return 1;
         }
     }
 
-    if(experiment == EXP::UNKNOWN){
+    if(experiment == Experiment::UNKNOWN){
         cout << "**** Experiment not defined ****" << endl;
         cout << "For     T2K : -t" << endl;
         cout << "For MINERvA : -m" << endl;
@@ -1013,7 +1011,7 @@ int main(int argc, char *argv[])
     }
 
     if(filename.empty()){
-        if(experiment == EXP::MIN) filename = test_min_mc;
+        if(experiment == Experiment::MIN) filename = test_min_mc;
         else filename = test_t2k_mc;
         cout << "Note: Running on test file." << endl;
         cout << "      To run on specific file use (-i filename)." << endl;

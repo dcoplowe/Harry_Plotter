@@ -3,13 +3,13 @@
 #ifndef _EXPERIMENT_CXX
 #define _EXPERIMENT_CXX
 
-Experiment::Experiment(EXP exp)
+Experiment::Experiment(Name exp)
 {
     m_topologies = new Topologies();
     m_intmodes.clear();
     m_cuts.clear();
 
-    if(exp == EXP::MIN){
+    if(exp == Experiment::MIN){
 
         m_name = "MINERvA";
         m_logo = m_name + " Preliminary";
@@ -27,7 +27,7 @@ Experiment::Experiment(EXP exp)
 
         m_tarvarname = "mc_targetZ";
     }
-    else if(exp == EXP::T2K){
+    else if(exp == Experiment::T2K){
 
         m_name = "T2K";
         m_logo = m_name + " Work In Progress";
@@ -56,9 +56,9 @@ Experiment::~Experiment()
     m_cuts.clear();
 }
 
-void Experiment::SetTopologies(EXP::EXP exp)
+void Experiment::SetTopologies(Experiment::Name exp)
 {
-    if(exp == EXP::MIN){
+    if(exp == Experiment::MIN){
 
     	m_topologies->AddTopology(		  Topology::CC1P1PiPlus, "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1");
     	m_topologies->AddSignalToTopology(Topology::CC1P1PiPlus, "truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0");
@@ -127,34 +127,34 @@ void Experiment::SetTopologies(EXP::EXP exp)
     	m_topologies->Add2DrawList( Topology::Other              );
 
     }
-    else if(exp == EXP::T2K){
+    else if(exp == Experiment::T2K){
 
     }
     else{
-        cout << "Experiment::SetTopologies(EXP::EXP exp) : Warning : Topologies not set!" << endl;
+        cout << "Experiment::SetTopologies(Experiment::Name exp) : Warning : Topologies not set!" << endl;
     }
 }
 
-void Experiment::SetIntModes(EXP::EXP exp)
+void Experiment::SetIntModes(Experiment::Name exp)
 {
     m_intmodes.clear();
 
-    if(exp == EXP::MIN){
+    if(exp == Experiment::MIN){
         m_intmodes.push_back("SomeMode");
     }
-    else if(exp == EXP::T2K){//T2K has lots of different possible selections -- need in include this here. 
+    else if(exp == Experiment::T2K){//T2K has lots of different possible selections -- need in include this here. 
         m_intmodes.push_back("SomeMode");
     }
     else{
-        cout << "Experiment::SetIntModes(EXP::EXP exp) : Warning : Interaction modes not set!" << endl;
+        cout << "Experiment::SetIntModes(Experiment::Name exp) : Warning : Interaction modes not set!" << endl;
     }
 
 }
 
-void Experiment::SetCutNames(EXP::EXP exp)
+void Experiment::SetCutNames(Experiment::Name exp)
 {
     m_cuts.clear();
-    if(exp == EXP::MIN){
+    if(exp == Experiment::MIN){
         m_cuts.push_back("Vertex");
         m_cuts.push_back("3 Tracks");
         m_cuts.push_back("Muon Track");
@@ -162,7 +162,7 @@ void Experiment::SetCutNames(EXP::EXP exp)
         m_cuts.push_back("PID: p/#pi^{+}");
         m_cuts.push_back("Michel Sense");
     }
-    else if(exp == EXP::T2K){//T2K has lots of different possible selections -- need in include this here. 
+    else if(exp == Experiment::T2K){//T2K has lots of different possible selections -- need in include this here. 
         m_cuts.push_back("Event quality");
         m_cuts.push_back("> 0 tracks");
         m_cuts.push_back("Quality and fiducial");
@@ -171,7 +171,7 @@ void Experiment::SetCutNames(EXP::EXP exp)
         m_cuts.push_back("+ve TPC tracks PID");
     }
     else{
-        cout << "Experiment::SetCutNames(EXP::EXP exp) : Warning : Cut names not set!" << endl;
+        cout << "Experiment::SetCutNames(Experiment::Name exp) : Warning : Cut names not set!" << endl;
     }
 }
 
@@ -195,7 +195,7 @@ std::string Experiment::GetBaseCuts(int accum_level, int branch, std::string cut
 #ifndef _PARTICLE_CXX
 #define _PARTICLE_CXX
 
-Particle::Particle(EXP::EXP exp, std::string name, std::string tag) : m_tag(tag) {
+Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_tag(tag) {
     
     if(name.find("mu") != std::string::npos){ 
         m_name = "Muon";
@@ -216,7 +216,7 @@ Particle::Particle(EXP::EXP exp, std::string name, std::string tag) : m_tag(tag)
 
     m_label = "";
 
-    if(exp == EXP::T2K){
+    if(exp == Experiment::T2K){
         //Reco vars: Common:
         P =         m_tag + name + "_mom";
         pT =        m_tag + name + "_pT";
@@ -260,7 +260,7 @@ Particle::Particle(EXP::EXP exp, std::string name, std::string tag) : m_tag(tag)
         //T2K: Reco vars:
         truectheta =    name + "_truecostheta";
     }
-    else if(exp == EXP::MIN){
+    else if(exp == Experiment::MIN){
         
         std::string tmpname = name;
         if(name.find("LL") != std::string::npos){
@@ -370,9 +370,9 @@ Particle::Particle(EXP::EXP exp, std::string name, std::string tag) : m_tag(tag)
 #ifndef _KINEMATICVARS_CXX
 #define _KINEMATICVARS_CXX
 
-KinematicVars::KinematicVars(EXP::EXP exp){
+KinematicVars::KinematicVars(Experiment::Name exp){
     
-    if(exp == EXP::T2K){
+    if(exp == Experiment::T2K){
         muon = new Particle(    exp, "mu");
         proton = new Particle(  exp, "p");
         pion = new Particle(    exp, "pi");
@@ -392,7 +392,7 @@ KinematicVars::KinematicVars(EXP::EXP exp){
         truedalphaT = "truedalphaT";
         truedphiT = "truedphiT";
     }
-    else if(exp == EXP::MIN){
+    else if(exp == Experiment::MIN){
         
         muon = new Particle(    exp, "mu", "sel_");
         proton = new Particle(  exp, "pr_EX", "sel_");

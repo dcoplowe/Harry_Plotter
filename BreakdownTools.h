@@ -10,18 +10,11 @@
 #include "DataClasses.h"
 
 //Forward declarations:
-//class DrawingTools;
 class TH1D;
 class TH2D;
 class TCanvas;
 class TLegend;
 class THStack;
-
-// class Topologies; 
-// class Toplogy;
-
-//class Particle;
-//class KinematicVars;
 
 struct BDCans {
     TCanvas * recon;
