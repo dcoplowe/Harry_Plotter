@@ -91,7 +91,7 @@ public:
     void AddSignalToTopology(Topology::Name name, std::string add2def, bool reset = false);
     std::vector<Topology> GetList();
 
-    Topology GetTopolgy(Topology::Name name);
+    Topology GetTopology(Topology::Name name);
     
     Topology::Name GetSignal(){ return m_signal; }    
 

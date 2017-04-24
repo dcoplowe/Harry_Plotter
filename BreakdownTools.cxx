@@ -39,7 +39,7 @@ m_printPOT(false), m_fullbreakdown(true) {
 
     m_target = target_name;
     
-    m_toplist.push_back( Other_Tops );
+    m_toplist = m_topologies->GetList();
     ResetTOPBDlist();
 
     m_statcounter = -1;
@@ -51,7 +51,7 @@ BreakdownTools::~BreakdownTools(){
 
     ClearPDGBDlist();
     ClearTOPBDlist();
-    
+
     delete m_topologies;
 }
 
@@ -288,9 +288,7 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
     std::vector<DrawingTools::KinMap> kinmap_list;
     
     std::string tmp_cuts_1 = cuts;
-    if(!cuts.empty()){
-        tmp_cuts_1 += " && ";
-    }
+    if(!cuts.empty()) tmp_cuts_1 += " && ";
     
     for(int i = 0; i < (int)m_toplist.size(); i++){
         
@@ -302,22 +300,13 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         
         std::string tmp_cuts = tmp_cuts_1;
         tmp_cuts += topology.GetSignal();
-//        cout << "tmp_cuts: " << tmp_cuts << endl;
-        
-//        cout << "Working -2" << endl;
         
         DrawingTools::KinMap tmp_kinmap = KinArray(var.name, nbins, bins, var.symbol, tmp_cuts);
         
-//        cout << "Working -1" << endl;
-        
         SetColors(tmp_kinmap, topology.GetFillColor(), topology.GetLineColor(), topology.GetFillStyle(), topology.GetLineStyle());
         
-//        cout << "Working 0" << endl;
-
         kinmap_list.push_back(tmp_kinmap);
     }
-    
-//    cout << "Working 1" << endl;
     
     THStack * recon_tot = new THStack( (var.savename + "_TOP_recon").c_str(), Form(";%s (%s);%s", kinmap_list[0].recon->GetXaxis()->GetTitle(), var.units.c_str(),
                                                                                         kinmap_list[0].recon->GetYaxis()->GetTitle() ) );
@@ -356,30 +345,24 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
     std::vector<double> truth_percent = GetPercentage(kinmap_list, 1);
     std::vector<double> ratio_percent = GetPercentage(kinmap_list, 2);
 
-//    cout << "Working 2" << endl;
-
     if(m_fullbreakdown){
-        
-//        cout << "Working 3a" << endl;
         
         for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
             //            cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
             
             recon_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].recon);
-            recon_leg->AddEntry(kinmap_list[ (i - 1) ].recon, Form("%s (%.2f%%)", m_toplist[(i - 1)].symbol.c_str(), recon_percent[ i - 1 ]), "f");
+            recon_leg->AddEntry(kinmap_list[ (i - 1) ].recon, Form("%s (%.2f%%)", m_toplist[(i - 1)].GetSymbol().c_str(), recon_percent[ i - 1 ]), "f");
             
             truth_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].truth);
-            truth_leg->AddEntry(kinmap_list[ (i - 1) ].truth, Form("%s (%.2f%%)", m_toplist[(i - 1)].symbol.c_str(), truth_percent[ i - 1 ]), "f");
+            truth_leg->AddEntry(kinmap_list[ (i - 1) ].truth, Form("%s (%.2f%%)", m_toplist[(i - 1)].GetSymbol().c_str(), truth_percent[ i - 1 ]), "f");
             
             ratio_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].ratio);
-            ratio_leg->AddEntry(kinmap_list[ (i - 1) ].ratio, Form("%s (%.2f%%)", m_toplist[(i - 1)].symbol.c_str(), ratio_percent[ i - 1 ]), "f");
+            ratio_leg->AddEntry(kinmap_list[ (i - 1) ].ratio, Form("%s (%.2f%%)", m_toplist[(i - 1)].GetSymbol().c_str(), ratio_percent[ i - 1 ]), "f");
             
             if(i < (int)kinmap_list.size()) smear_tot->Add(kinmap_list[ i ].smear);
         }
     }
     else{
-        
-//        cout << "Working 3b" << endl;
 
         double recon_other_percent = 0.;
         double truth_other_percent = 0.;
@@ -388,11 +371,10 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         std::vector<int> plot_by_self;
         
         for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
-//            cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
-            
+    
             bool in_other = true;
             for(int j = 0; j < (int)m_pdglist_minBD.size(); j++){
-                if(m_toplist_minBD[j] == m_toplist[(i - 1)].type){
+                if(m_toplist_minBD[j] == m_toplist[(i - 1)].GetType()){
                     in_other = false;
                     plot_by_self.push_back((i - 1));
                     break;
@@ -422,13 +404,13 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         
         for(int i = 0; i < (int)plot_by_self.size(); i++){
             recon_tot->Add(kinmap_list[ plot_by_self[i] ].recon);
-            recon_leg->AddEntry(kinmap_list[ plot_by_self[i] ].recon, Form("%s (%.2f%%)", m_toplist[ plot_by_self[i] ].symbol.c_str(), recon_percent[ plot_by_self[i] ]), "f");
+            recon_leg->AddEntry(kinmap_list[ plot_by_self[i] ].recon, Form("%s (%.2f%%)", m_toplist[ plot_by_self[i] ].GetSymbol().c_str(), recon_percent[ plot_by_self[i] ]), "f");
             
             truth_tot->Add(kinmap_list[ plot_by_self[i] ].truth);
-            truth_leg->AddEntry(kinmap_list[ plot_by_self[i] ].truth, Form("%s (%.2f%%)", m_toplist[ plot_by_self[i] ].symbol.c_str(), truth_percent[ plot_by_self[i] ]), "f");
+            truth_leg->AddEntry(kinmap_list[ plot_by_self[i] ].truth, Form("%s (%.2f%%)", m_toplist[ plot_by_self[i] ].GetSymbol().c_str(), truth_percent[ plot_by_self[i] ]), "f");
             
             ratio_tot->Add(kinmap_list[ plot_by_self[i] ].ratio);
-            ratio_leg->AddEntry(kinmap_list[ plot_by_self[i] ].ratio, Form("%s (%.2f%%)", m_toplist[ plot_by_self[i] ].symbol.c_str(), ratio_percent[ plot_by_self[i] ]), "f");
+            ratio_leg->AddEntry(kinmap_list[ plot_by_self[i] ].ratio, Form("%s (%.2f%%)", m_toplist[ plot_by_self[i] ].GetSymbol().c_str(), ratio_percent[ plot_by_self[i] ]), "f");
         }
         
         recon_leg->AddEntry(kinmap_list.back().recon, Form("Other (%.2f%%)", recon_other_percent), "f");
@@ -436,22 +418,8 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         ratio_leg->AddEntry(kinmap_list.back().ratio, Form("Other (%.2f%%)", ratio_other_percent), "f");
     }
     
-    TList * rlist = ratio_tot->GetHists();
-    Int_t ratio_nbins = kinmap_list[0].ratio->GetNbinsX();
-    Double_t ratio_low = kinmap_list[0].ratio->GetXaxis()->GetXmin();
-    Double_t ratio_high = kinmap_list[0].ratio->GetXaxis()->GetXmax();
-    
-    TIter next(rlist);
-    TH1D ratio_sum( (var.savename + "_PID_ratio_sum").c_str(), "", ratio_nbins, ratio_low, ratio_high);
-    TH1D * rhist_tmp;
-    while ( (rhist_tmp = (TH1D*)next()) ) {
-        ratio_sum.Add(rhist_tmp);
-    }
-    
-    TLegend * ratio_stats = Legend(0.25, 0.8, 0.05, 0.1);
-    ratio_stats->AddEntry((TObject*)0, Form("Mean = %.3f", (double)ratio_sum.GetMean()), "");
-    ratio_stats->AddEntry((TObject*)0, Form(" RMS = %.3f", (double)ratio_sum.GetRMS()), "");
-    
+    TLegend * ratio_stats = RatioStats(ratio_tot);
+
     BDCans cans;
     
     cans.recon = new TCanvas( recon_tot->GetName(), "", 500, 500);
