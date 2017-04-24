@@ -1,4 +1,4 @@
-#include "TCanvas.h"
+¢#include "TCanvas.h"
 #include "TObject.h"
 
 //#include "TDirectory.h"
@@ -36,7 +36,8 @@
 
 using namespace std;
 
-const string testing_mc("/pnfs/minerva/persistent/users/dcoplowe/CC1P1Pi_PL13C_030317/grid/central_value/minerva/ana/v10r8p9/00/01/32/00/SIM_minerva_00013200_Subruns_0001-0002-0003-0004_CC1P1PiAnalysis_Ana_Tuple_v10r8p9-dcoplowe.root");
+const string test_min_mc("/pnfs/minerva/persistent/users/dcoplowe/CC1P1Pi_PL13C_030317/grid/central_value/minerva/ana/v10r8p9/00/01/32/00/SIM_minerva_00013200_Subruns_0001-0002-0003-0004_CC1P1PiAnalysis_Ana_Tuple_v10r8p9-dcoplowe.root");
+const string test_t2k_mc("/data/t2k/coplowe/numuCC1P1PiOutput/march17/neutP6BWA/FGD1/nall_data_070417_wome/allTree.root");
 
 class ProducePlots {
 
@@ -45,8 +46,6 @@ public:
     ~ProducePlots();
     
     void SetSaveName(std::string var){ m_savename = var; }
-    void SetTrueTreeName(std::string var){ m_truename = var; }
-    void SetRecoTreeName(std::string var){ m_reconame = var; }
     
 //    void ProduceGroup();
 
@@ -87,16 +86,13 @@ private:
     std::string m_infilename;
     bool m_realdata;
 
+    Experiment * m_detector;
+
     KinematicVars * m_recovars;
     
     std::string m_savename;
     
     TFile * m_outfile;// = new TFile(m_savename.c_str(), "RECREATE");
-
-    std::string m_truename;
-    std::string m_reconame;
-    std::string m_exper_logo;
-    std::string m_exper_signal;
     
     std::string GetDate();
     
@@ -123,25 +119,14 @@ m_realdata(realdata) {
     
     cout << "Experiment: " <<  EXP::ToString(exp) << endl;
     
-    m_exper_logo = EXP::ToString(exp);
+    m_detector = new Experiment(exp);
     
     if(exp == EXP::T2K){
-        m_truename = "truth";
-        m_reconame = "default";
         m_getPOT = false;
-        m_exper_logo += " Work In Progress";
     }
     else if(exp == EXP::MIN){
-        m_truename = "Truth";
-        m_reconame = "sel";
         m_getPOT = true;
-        m_exper_logo += " Preliminary";
     }
-//    else{
-//        
-//    }
-    
-    m_exper_signal = "H-CC1p1#pi^{+} (1.5 < E_{#mu} GeV < 20,  #theta_{#mu} < 25 Deg.)";
     
     m_recovars = new KinematicVars(exp);//Setup reco var names
     //For truth tree seems like all we need is the following form: 'truth_pi_E'
@@ -160,8 +145,8 @@ m_realdata(realdata) {
     
     cout << "Saving file as " << m_savename << endl;
     
-    m_runbd = new BreakdownTools(m_infilename, m_reconame);
-    if(!m_realdata) m_runtruthbd = new BreakdownTools(m_infilename, m_truename);
+    m_runbd = new BreakdownTools(m_infilename, m_detector->GetRecoName());
+    if(!m_realdata) m_runtruthbd = new BreakdownTools(m_infilename, m_detector->GetTrueName());
     
     std::vector<std::string> selection_cuts;
     selection_cuts.push_back("Vertex");
@@ -989,17 +974,17 @@ std::string ProducePlots::GetDate(){
 }
 
 TLatex * ProducePlots::GetLogo(){
-    return new TLatex(0.0, 0.1, ("#font[62]{" + m_exper_logo + "}").c_str() );
+    return new TLatex(0.0, 0.1, ("#font[62]{" + m_detector->GetLogo() + "}").c_str() );
 }
 
 TLatex * ProducePlots::GetSignal(){
-    return new TLatex(0.0, 0.1, ("#font[62]{#it{" + m_exper_signal + "}}").c_str() );
+    return new TLatex(0.0, 0.1, ("#font[62]{#it{" + m_detector->GetSigDef() + "}}").c_str() );
 }
 
 int main(int argc, char *argv[])
 {
 
-    string filename = testing_mc;
+    string filename = "";//test_min_mc;
     string savename = "";// = "CC1P1PiP_Plots_" + sday.str() + smon.str() + syear.str() + ".root";
     bool debug = false;
     EXP::EXP experiment = EXP::UNKNOWN;
@@ -1018,12 +1003,19 @@ int main(int argc, char *argv[])
             default: return 1;
         }
     }
-    
+
     if(experiment == EXP::UNKNOWN){
         cout << "**** Experiment not defined ****" << endl;
         cout << "For     T2K : -t" << endl;
         cout << "For MINERvA : -m" << endl;
         return 0;
+    }
+
+    if(filename.empty()){
+        if(experiment == EXP::MIN) filename = test_min_mc;
+        else filename = test_t2k_mc;
+        cout << "Note: Running on test file." << endl;
+        cout << "      To run on specific file use (-i filename)." << endl;
     }
 
     ProducePlots * plots = new ProducePlots(experiment, filename, debug, realdata);
