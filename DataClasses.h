@@ -82,7 +82,7 @@ private:
 
 class Topologies {
 public:
-    Topologies(Topology::Name signal == Topology::HCC1P1PiPlus);//Contains all the topologies signal defs.
+    Topologies(Topology::Name signal = Topology::HCC1P1PiPlus);//Contains all the topologies signal defs.
     ~Topologies(){};
 
     void AddTopology(Topology::Name name, std::string definition);
@@ -178,20 +178,12 @@ public:
 
     std::string GetBaseCuts(int accum_level, int branch);
 
-    Topologies * GetTopologies(){ m_topologies; }
-    std::vector<std::string> GetIntModes(){ m_intmodes; }
-    std::vector<std::string> GetCutNames(){ m_cuts; }
+    Topologies * GetTopologies(){ return m_topologies; }
+    std::vector<std::string> GetIntModes(){ return m_intmodes; }
+    std::vector<std::string> GetCutNames(){ return m_cuts; }
     std::string GetTag(){ return m_tag; }
 
     std::string GetTarVarName(){ return m_tarvarname; }
-
-    //Add kinematic ranges for binning and N bins?
-
-    // enum Name {
-    //     T2K = 0,
-    //     MIN,
-    //     UNKNOWN
-    // };
 
 private: 
 
@@ -211,9 +203,9 @@ private:
     std::string m_tag;
     std:: m_tarvarname;
 
-    void SetTopologies(EXP::EXP exp);
-    void SetIntModes(EXP::EXP exp);
-    void SetCutNames(EXP::EXP exp);
+    void SetTopologies(Name exp);
+    void SetIntModes(Name exp);
+    void SetCutNames(Name exp);
 };
 
 #endif
