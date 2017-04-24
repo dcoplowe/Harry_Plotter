@@ -494,10 +494,10 @@ BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::s
 
     //The signal bit:
     std::string hsignal = tmp_cuts_1;
-    Topology sig_top(TOPSTYPE::HCC1P1PiPlus);
-    hsignal += sig_top.signal;
+    Topology sig_top = m_topologies->GetTopology(m_signal);
+    hsignal += sig_top.GetSignal();
     DrawingTools::KinMap signal_kinmap = KinArray(var.name, nbins, bins, var.symbol, hsignal);
-    SetColors(signal_kinmap, sig_top.fill_colour, sig_top.line_colour, sig_top.fill_style, sig_top.line_style);
+    SetColors(signal_kinmap, sig_top.GetFillColor(), sig_top.GetLineColor(), sig_top.GetFillStyle(), sig_top.GetLineStyle());
     signal_kinmap.recon->SetLineWidth(2);
     signal_kinmap.truth->SetLineWidth(2);
     signal_kinmap.ratio->SetLineWidth(2);
@@ -526,9 +526,9 @@ BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::s
     std::vector<double> truth_percent = GetPercentage(kinmap_list, 1);
     std::vector<double> ratio_percent = GetPercentage(kinmap_list, 2);
     
-    recon_leg->AddEntry(signal_kinmap.recon, ("H-" + m_toplist[0].symbol).c_str(), "l");
-    truth_leg->AddEntry(signal_kinmap.truth, ("H-" + m_toplist[0].symbol).c_str(), "l");
-    ratio_leg->AddEntry(signal_kinmap.ratio, ("H-" + m_toplist[0].symbol).c_str(), "l");
+    recon_leg->AddEntry(signal_kinmap.recon, sig_top.GetSymbol().c_str(), "l");
+    truth_leg->AddEntry(signal_kinmap.truth, sig_top.GetSymbol().c_str(), "l");
+    ratio_leg->AddEntry(signal_kinmap.ratio, sig_top.GetSymbol().c_str(), "l");
     
     recon_leg->AddEntry(kinmap_list[2].recon, Form("Hydrogen (%.2f%%)", recon_percent[2]), "f");
     truth_leg->AddEntry(kinmap_list[2].truth, Form("Hydrogen (%.2f%%)", truth_percent[2]), "f");
@@ -625,12 +625,12 @@ TCanvas * BreakdownTools::TARGETSingle(Variable var, Int_t nbins, Double_t * bin
     TH1D * other_kinmap = GetHisto(var.name, nbins, bins, var.symbol, osig);
     SetColors(other_kinmap, DrawingStyle::Other);
     
-    //The signal bit:
+    //The GetSignal() bit:
     std::string hsignal = tmp_cuts_1;
-    Topology sig_top(TOPSTYPE::HCC1P1PiPlus);
-    hsignal += sig_top.signal;
+    Topology sig_top = m_topologies->GetTopology(m_signal);
+    hsignal += sig_top.GetSignal();
     TH1D * signal_kinmap = GetHisto(var.name, nbins, bins, var.symbol, hsignal);
-    SetColors(signal_kinmap, sig_top.fill_colour, sig_top.line_colour, sig_top.fill_style, sig_top.line_style);
+    SetColors(signal_kinmap, sig_top.GetFillColor(), sig_top.GetLineColor(), sig_top.GetFillStyle(), sig_top.GetLineStyle());
     signal_kinmap->SetLineWidth(2);
     
     std::vector<TH1D*> kinmap_list;
@@ -645,7 +645,7 @@ TCanvas * BreakdownTools::TARGETSingle(Variable var, Int_t nbins, Double_t * bin
     
     std::vector<double> recon_percent = GetPercentage(kinmap_list);
     
-    recon_leg->AddEntry(signal_kinmap, ("H-" + m_toplist[0].symbol).c_str(), "l");
+    recon_leg->AddEntry(signal_kinmap, sig_top.GetSymbol().c_str(), "l");
     
     recon_leg->AddEntry(kinmap_list[2], Form("Hydrogen (%.2f%%)", recon_percent[2]), "f");
     
