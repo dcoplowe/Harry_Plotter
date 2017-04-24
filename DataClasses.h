@@ -9,6 +9,7 @@ using namespace std;
 
 class Topology {
 public:
+    
     enum Name{
         HCC1P1PiPlus = 0,
         CC1P1PiPlus,
@@ -25,7 +26,7 @@ public:
         CCNPiNPNN, //N pions, N Protons N Neutrons
         //CCNucBreakUp, -- may be nice in the future
         Other,
-        Unknown = -999;
+        Unknown = -999
     };
 
     Topology(Name name, std::string definition);
