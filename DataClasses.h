@@ -4,130 +4,6 @@
 
 using namespace std;
 
-#ifndef _PARTICLE_
-#define _PARTICLE_
-
-class Particle {
-public:
-    Particle(EXP::EXP exp, std::string name, std::string symbol, std::string tag = "");//; : m_tag {};
-    ~Particle(){};
-    
-    //Reco vars: Common:
-    std::string P;
-    std::string theta;
-    std::string pT;
-    std::string pTMag;
-    std::string pTT;
-    std::string startdir;
-    std::string endpos;
-    
-    //True vars: Common:
-    std::string trueP;
-    std::string truetheta;
-    std::string truepT;
-    std::string truepTMag;
-    std::string truepTT;
-    std::string truestartdir;
-    std::string trueendpos;
-    std::string pdg;
-    
-    //MIN: Reco vars:
-    std::string E;
-    std::string P4;
-    std::string T;//KE
-    std::string startpos;
-    std::string michel;
-    std::string score;
-    std::string phi;
-    
-    //MIN: True vars:
-    std::string trueE;
-    std::string trueP4;
-    std::string trueT;//KE
-    std::string truestartpos;
-    std::string truephi;
-    
-    //T2K: Reco vars:
-    std::string ctheta;
-    std::string ctheta_nudir;
-    
-    //T2K: Reco vars:
-    std::string truectheta;
-    
-    std::string GetSymbol(){ return m_symbol; }
-    std::string GetName(){ return m_name; }
-    std::string GetLabel(){ return m_label; }
-    
-private:
-    std::string m_tag;
-    std::string m_symbol;
-    std::string m_name;
-    std::string m_label;
-};
-
-#endif
-
-#ifndef _KINEMATICVARS_
-#define _KINEMATICVARS_
-
-class KinematicVars {
-public:
-    KinematicVars(EXP::EXP exp);
-    ~KinematicVars();
-    
-    Particle * muon;
-    Particle * proton;
-    Particle * pion;
-    
-    //For alt mom. reco:
-    // Particle * muon_alt;
-    Particle * proton_alt;
-    Particle * pion_alt;
-    
-    //Transverse Variables:
-    std::string dpTT;
-    std::string dpTT_tmumom;
-    std::string dpTT_tpimom;
-    std::string dpTT_tprmom;
-    std::string dpTT_tnudir;
-    
-    std::string dpTT_pi;
-    std::string dpTT_pr;
-    
-    std::string dpTT_pidir;
-    std::string dpTT_prdir;
-    
-    std::string dpT;
-    std::string dalphaT;
-    std::string dphiT;
-    
-    std::string truedpTT;
-    std::string truedpT;
-    std::string truedalphaT;
-    std::string truedphiT;
-    
-    //Vars for LL/dEdX comp.
-    
-    std::string dpTT_alt;
-    std::string dpTT_tmumom_alt;
-    std::string dpTT_tpimom_alt;
-    std::string dpTT_tprmom_alt;
-    std::string dpTT_tnudir_alt;
-    
-    std::string dpTT_pi_alt;
-    std::string dpTT_pr_alt;
-    
-    std::string dpTT_pidir_alt;
-    std::string dpTT_prdir_alt;
-    
-    std::string dpT_alt;
-    std::string dalphaT_alt;
-    std::string dphiT_alt;
-    
-};
-
-#endif
-
 #ifndef _TOPOLOGY_
 #define _TOPOLOGY_
 
@@ -277,6 +153,19 @@ public:
     Experiment(EXP::EXP exp);
     ~Experiment();
 
+    enum Name {
+        T2K = 0,
+        MIN,
+        UNKNOWN
+    };
+    
+    inline std::string ToString(Name name){
+        std::string sname = "Unknown";
+        if(name == T2K) sname = "T2K";
+        else if(name == MIN) sname = "MINERvA";
+        return sname;
+    }
+
     std::string GetName(){ return m_name; }
     std::string GetLogo(){ return m_logo; }
 
@@ -328,3 +217,126 @@ private:
 
 #endif
 
+#ifndef _PARTICLE_
+#define _PARTICLE_
+
+class Particle {
+public:
+    Particle(Experiment::Name exp, std::string name, std::string symbol, std::string tag = "");//; : m_tag {};
+    ~Particle(){};
+    
+    //Reco vars: Common:
+    std::string P;
+    std::string theta;
+    std::string pT;
+    std::string pTMag;
+    std::string pTT;
+    std::string startdir;
+    std::string endpos;
+    
+    //True vars: Common:
+    std::string trueP;
+    std::string truetheta;
+    std::string truepT;
+    std::string truepTMag;
+    std::string truepTT;
+    std::string truestartdir;
+    std::string trueendpos;
+    std::string pdg;
+    
+    //MIN: Reco vars:
+    std::string E;
+    std::string P4;
+    std::string T;//KE
+    std::string startpos;
+    std::string michel;
+    std::string score;
+    std::string phi;
+    
+    //MIN: True vars:
+    std::string trueE;
+    std::string trueP4;
+    std::string trueT;//KE
+    std::string truestartpos;
+    std::string truephi;
+    
+    //T2K: Reco vars:
+    std::string ctheta;
+    std::string ctheta_nudir;
+    
+    //T2K: Reco vars:
+    std::string truectheta;
+    
+    std::string GetSymbol(){ return m_symbol; }
+    std::string GetName(){ return m_name; }
+    std::string GetLabel(){ return m_label; }
+    
+private:
+    std::string m_tag;
+    std::string m_symbol;
+    std::string m_name;
+    std::string m_label;
+};
+
+#endif
+
+#ifndef _KINEMATICVARS_
+#define _KINEMATICVARS_
+
+class KinematicVars {
+public:
+    KinematicVars(Experiment::Name exp);
+    ~KinematicVars();
+    
+    Particle * muon;
+    Particle * proton;
+    Particle * pion;
+    
+    //For alt mom. reco:
+    // Particle * muon_alt;
+    Particle * proton_alt;
+    Particle * pion_alt;
+    
+    //Transverse Variables:
+    std::string dpTT;
+    std::string dpTT_tmumom;
+    std::string dpTT_tpimom;
+    std::string dpTT_tprmom;
+    std::string dpTT_tnudir;
+    
+    std::string dpTT_pi;
+    std::string dpTT_pr;
+    
+    std::string dpTT_pidir;
+    std::string dpTT_prdir;
+    
+    std::string dpT;
+    std::string dalphaT;
+    std::string dphiT;
+    
+    std::string truedpTT;
+    std::string truedpT;
+    std::string truedalphaT;
+    std::string truedphiT;
+    
+    //Vars for LL/dEdX comp.
+    
+    std::string dpTT_alt;
+    std::string dpTT_tmumom_alt;
+    std::string dpTT_tpimom_alt;
+    std::string dpTT_tprmom_alt;
+    std::string dpTT_tnudir_alt;
+    
+    std::string dpTT_pi_alt;
+    std::string dpTT_pr_alt;
+    
+    std::string dpTT_pidir_alt;
+    std::string dpTT_prdir_alt;
+    
+    std::string dpT_alt;
+    std::string dalphaT_alt;
+    std::string dphiT_alt;
+    
+};
+
+#endif
