@@ -151,7 +151,7 @@ namespace EXP {
 class Experiment
 {
 public:
-    Experiment(EXP::EXP exp);
+    Experiment(Name exp);
     ~Experiment();
 
     enum Name {
