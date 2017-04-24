@@ -144,8 +144,8 @@ m_realdata(realdata) {
     
     cout << "Saving file as " << m_savename << endl;
     
-    m_runbd = new BreakdownTools(m_infilename, m_detector->GetRecoName());
-    if(!m_realdata) m_runtruthbd = new BreakdownTools(m_infilename, m_detector->GetTrueName());
+    m_runbd = new BreakdownTools( m_infilename, m_detector->GetRecoName(), m_detector->GetTopologies(), m_detector->GetTarVarName() );
+    if(!m_realdata) m_runtruthbd = new BreakdownTools(m_infilename, m_detector->GetTrueName(), m_detector->GetTopologies(), m_detector->GetTarVarName());
     
     std::vector<std::string> selection_cuts;
     selection_cuts.push_back("Vertex");
@@ -362,7 +362,7 @@ void ProducePlots::TruthPart(Variable var, Int_t nbins, Double_t low, Double_t h
             stringstream sac_lev, sbranch;
             sac_lev << ac_lev;
             sbranch << branch;
-            string pass_cuts = cuts + " && truth_accum_level[" + sbranch.str() + "] > " + sac_lev.str();
+            string pass_cuts = cuts + " && truth_accum_level[" + sbranch.str() + "] > " + sac_lev.str();//TODO: Will need to add experiment base cuts 
             tmp_passcuts = m_runtruthbd->GetHisto(var.name, nbins, low, high, (var.symbol + " (" + var.units + ")"), pass_cuts);
             tmp_passcuts->SetLineStyle( 2 );//Dashed
             tmp_passcuts->SetLineColor( kWhite );
