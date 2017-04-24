@@ -188,7 +188,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
             
             bool in_other = true;
             for(int j = 0; j < (int)m_pdglist_minBD.size(); j++){
-                if(m_pdglist_minBD[j] == m_pdglist[(i - 1)].pdg){
+                if(m_pdglist_minBD[j] == m_pdglist[(i - 1)].GetPDG()){
                     in_other = false;
                     plot_by_self.push_back((i - 1));
                     break;
