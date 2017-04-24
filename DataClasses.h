@@ -201,7 +201,7 @@ private:
     std::vector<std::string> m_cuts;
     
     std::string m_tag;
-    std:: m_tarvarname;
+    std::string m_tarvarname;
 
     void SetTopologies(Name exp);
     void SetIntModes(Name exp);
