@@ -151,14 +151,14 @@ namespace EXP {
 class Experiment
 {
 public:
-    Experiment(Name exp);
-    ~Experiment();
-
     enum Name {
         T2K = 0,
         MIN,
         UNKNOWN
     };
+
+    Experiment(Name exp);
+    ~Experiment();
     
     inline std::string ToString(Name name){
         std::string sname = "Unknown";
