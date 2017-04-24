@@ -328,7 +328,7 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
     Topology sig_top = m_topologies->GetTopology(m_signal);
     hsignal += sig_top.GetSignal();//    cout << "hsignal: " << hsignal << endl;
     DrawingTools::KinMap signal_kinmap = KinArray(var.name, nbins, bins, var.symbol, hsignal);
-    SetColors(signal_kinmap, sig_top.GetFillColor(), sig_top.GetLineColor(), sig_top.GetFillStyle(), sig_top.GetLineStyle()
+    SetColors(signal_kinmap, sig_top.GetFillColor(), sig_top.GetLineColor(), sig_top.GetFillStyle(), sig_top.GetLineStyle());
 //    signal_kinmap.recon->SetLineColor(1);
 //    signal_kinmap.truth->SetLineColor(1);
 //    signal_kinmap.recon->SetLineStyle(2);
