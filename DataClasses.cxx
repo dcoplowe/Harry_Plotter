@@ -1,5 +1,7 @@
 #include "DataClasses.h"
 
+#include <iostream>//cout/endl headers
+
 #ifndef _EXPERIMENT_CXX
 #define _EXPERIMENT_CXX
 
