@@ -4,86 +4,6 @@
 
 using namespace std;
 
-#ifndef _EXP_
-#define _EXP_
-
-namespace EXP {
-    enum EXP{
-        T2K = 0,
-        MIN,
-        UNKNOWN
-    };
-    
-    inline std::string ToString(EXP name){
-        std::string sname = "Unknown";
-        if(name == T2K) sname = "T2K";
-        else if(name == MIN) sname = "MINERvA";
-        return sname;
-    }
-}
-
-#endif
-
-#ifndef _EXPERIMENT_
-#define _EXPERIMENT_
-
-class Experiment
-{
-public:
-    Experiment(EXP::EXP exp);
-    ~Experiment();
-
-    std::string GetName(){ return m_name; }
-    std::string GetLogo(){ return m_logo; }
-
-    std::string GetRecoName(){ return m_reconame; }
-    std::string GetTrueName(){ return m_truename; }
-
-    std::string GetSignal(){ return m_signal; }
-    std::string GetSigDef(){ return m_signaldef; }
-
-    std::string GetBaseCuts(int accum_level, int branch);
-
-    Topologies * GetTopologies(){ m_topologies; }
-    std::vector<std::string> GetIntModes(){ m_intmodes; }
-    std::vector<std::string> GetCutNames(){ m_cuts; }
-    std::string GetTag(){ return m_tag; }
-
-    std::string GetTarVarName(){ return m_tarvarname; }
-
-    //Add kinematic ranges for binning and N bins?
-
-    // enum Name {
-    //     T2K = 0,
-    //     MIN,
-    //     UNKNOWN
-    // };
-
-private: 
-
-    std::string m_name;
-    std::string m_logo;
-
-    std::string m_reconame;
-    std::string m_truename;
-
-    std::string m_signal;
-    std::string m_signaldef;
-
-    Topologies * m_topologies;
-    std::vector<std::string> m_intmodes;
-    std::vector<std::string> m_cuts;
-    
-    std::string m_tag;
-    std:: m_tarvarname;
-
-    void SetTopologies(EXP::EXP exp);
-    void SetIntModes(EXP::EXP exp);
-    void SetCutNames(EXP::EXP exp);
-};
-
-#endif
-
 #ifndef _PARTICLE_
 #define _PARTICLE_
 
@@ -300,7 +220,7 @@ public:
 
 private:
     Topology::Name m_signal;
-    
+
     Topology m_other; 
 
     std::vector<Topology> m_original;//This is the list prior to adding the other topology    
@@ -326,5 +246,85 @@ public:
     Int_t  line_colour;
     Int_t  line_style;
 };
+#endif
+
+#ifndef _EXP_
+#define _EXP_
+
+namespace EXP {
+    enum EXP{
+        T2K = 0,
+        MIN,
+        UNKNOWN
+    };
+    
+    inline std::string ToString(EXP name){
+        std::string sname = "Unknown";
+        if(name == T2K) sname = "T2K";
+        else if(name == MIN) sname = "MINERvA";
+        return sname;
+    }
+}
+
+#endif
+
+#ifndef _EXPERIMENT_
+#define _EXPERIMENT_
+
+class Experiment
+{
+public:
+    Experiment(EXP::EXP exp);
+    ~Experiment();
+
+    std::string GetName(){ return m_name; }
+    std::string GetLogo(){ return m_logo; }
+
+    std::string GetRecoName(){ return m_reconame; }
+    std::string GetTrueName(){ return m_truename; }
+
+    std::string GetSignal(){ return m_signal; }
+    std::string GetSigDef(){ return m_signaldef; }
+
+    std::string GetBaseCuts(int accum_level, int branch);
+
+    Topologies * GetTopologies(){ m_topologies; }
+    std::vector<std::string> GetIntModes(){ m_intmodes; }
+    std::vector<std::string> GetCutNames(){ m_cuts; }
+    std::string GetTag(){ return m_tag; }
+
+    std::string GetTarVarName(){ return m_tarvarname; }
+
+    //Add kinematic ranges for binning and N bins?
+
+    // enum Name {
+    //     T2K = 0,
+    //     MIN,
+    //     UNKNOWN
+    // };
+
+private: 
+
+    std::string m_name;
+    std::string m_logo;
+
+    std::string m_reconame;
+    std::string m_truename;
+
+    std::string m_signal;
+    std::string m_signaldef;
+
+    Topologies * m_topologies;
+    std::vector<std::string> m_intmodes;
+    std::vector<std::string> m_cuts;
+    
+    std::string m_tag;
+    std:: m_tarvarname;
+
+    void SetTopologies(EXP::EXP exp);
+    void SetIntModes(EXP::EXP exp);
+    void SetCutNames(EXP::EXP exp);
+};
+
 #endif
 
