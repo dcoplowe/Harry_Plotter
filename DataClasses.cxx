@@ -537,11 +537,16 @@ void Topology::Reset()
 #ifndef _TOPOLOGIES_CXX
 #define _TOPOLOGIES_CXX
 
-Topologies::Topologies(Topology::Name signal) : m_signal(signal)
+Topologies::Topologies(Topology::Name signal) : m_signal(signal), m_other(Topology::Other, "")
 {
-	m_other(Topology::Other, "");
     m_original.clear();
     m_list2draw.clear();
+}
+
+Topologies::Topologies(Topologies * topologies) : m_signal( topologies->GetSignal() ), m_other(Topology::Other, "")
+{
+    m_original = topologies->GetOriginal();
+    m_list2draw = topologies->GetList2Draw();
 }
 
 Topologies::~Topologies()

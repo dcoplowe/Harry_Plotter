@@ -76,6 +76,8 @@ private:
     bool m_printPOT;
     bool m_fullbreakdown;
     
+    Topologies * m_topologies;
+
     std::string m_target;
     std::string m_nFSParts;
 

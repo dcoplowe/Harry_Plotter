@@ -30,7 +30,7 @@ m_printPOT(false), m_fullbreakdown(true) {
     //Miminum particles to define in breakdown:
     ResetPDGBDlist();
 
-    m_topologies = topologies;
+    m_topologies = new Topologies( topologies );
 
     if(!m_topologies->GetList2Draw().empty()){
         ClearTOPBDlist();
@@ -51,6 +51,8 @@ BreakdownTools::~BreakdownTools(){
 
     ClearPDGBDlist();
     ClearTOPBDlist();
+    
+    delete m_topologies;
 }
 
 void BreakdownTools::ResetPDGBDlist(){

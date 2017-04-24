@@ -85,15 +85,21 @@ public:
     Topologies(Topology::Name signal = Topology::HCC1P1PiPlus);//Contains all the topologies signal defs.
     ~Topologies(){};
 
+    Topologies(Topologies * topologies);
+
     void AddTopology(Topology::Name name, std::string definition);
     void AddSignalToTopology(Topology::Name name, std::string add2def, bool reset = false);
     std::vector<Topology> GetList();
 
     Topology GetTopolgy(Topology::Name name);
+    
+    Topology::Name GetSignal(){ return m_signal; }    
 
     std::vector<Topology::Name> GetList2Draw(){ return m_list2draw; };
     void Add2DrawList(Topology::Name name){ m_list2draw.push_back(name); };
     void ResetList2Draw(){ m_list2draw.clear(); }
+
+    std::vector<Topology> GetOriginal(){ return m_original; }
 
 private:
     Topology::Name m_signal;
