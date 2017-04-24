@@ -7,6 +7,7 @@
 #include <sstream>
 
 #include "DrawingTools.h"
+#include "DataClasses.h"
 
 //Forward declarations:
 //class DrawingTools;
@@ -16,8 +17,8 @@ class TCanvas;
 class TLegend;
 class THStack;
 
-class Topologies; 
-
+// class Topologies; 
+// class Toplogy;
 
 //class Particle;
 //class KinematicVars;
