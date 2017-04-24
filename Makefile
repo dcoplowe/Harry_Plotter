@@ -4,7 +4,7 @@ ROOTFLAGS = `root-config --cflags --glibs`
 
 #DC Added:
 #SRC_DIR = src
-SRCS = ProducePlots.cxx EffPurTools.cxx  BreakdownTools.cxx DrawingTools.cxx #DrawingStyle.h
+SRCS = ProducePlots.cxx EffPurTools.cxx BreakdownTools.cxx DataClasses.cxx DrawingTools.cxx
 OBJS = $(SRCS:.c=.o)
 
 MAIN = ProducePlots
