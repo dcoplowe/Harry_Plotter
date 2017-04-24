@@ -2,9 +2,8 @@
 
 #include <iostream>//cout/endl headers
 
-using std::cout
-using std::endl
-
+using std::cout;
+using std::endl;
 
 #ifndef _EXPERIMENT_CXX
 #define _EXPERIMENT_CXX
