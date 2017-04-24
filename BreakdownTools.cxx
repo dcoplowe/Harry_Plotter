@@ -17,16 +17,16 @@
 BreakdownTools::BreakdownTools(std::string filename, std::string treename, Topologies * topologies, std::string target_name) : DrawingTools(filename, treename, ("BD" + treename).c_str()),
 m_printPOT(false), m_fullbreakdown(true) {
 
-//    PDGs proton;
-    m_pdglist.push_back( PDGs(2212, "proton",   "p"));
-    m_pdglist.push_back( PDGs(211,  "piplus",   "#pi^{+}") );
-    m_pdglist.push_back( PDGs(-211, "piminus",  "#pi^{-}") );
-    m_pdglist.push_back( PDGs(2112, "neutron",  "n") );
-    m_pdglist.push_back( PDGs(13,   "muon",     "#mu^{-}") );
-    m_pdglist.push_back( PDGs(-13,  "amuon",    "#mu^{+}") );
-    m_pdglist.push_back( PDGs(111,  "pizero",   "#pi^{0}") );
-    m_pdglist.push_back( PDGs(321,  "kapm",     "K^{#pm}") );
-    m_pdglist.push_back( PDGs(311,  "kazero",   "K^{0}") );
+//    PDGInfo proton;
+    m_pdglist.push_back( PDGInfo(2212, "proton",   "p"));
+    m_pdglist.push_back( PDGInfo(211,  "piplus",   "#pi^{+}") );
+    m_pdglist.push_back( PDGInfo(-211, "piminus",  "#pi^{-}") );
+    m_pdglist.push_back( PDGInfo(2112, "neutron",  "n") );
+    m_pdglist.push_back( PDGInfo(13,   "muon",     "#mu^{-}") );
+    m_pdglist.push_back( PDGInfo(-13,  "amuon",    "#mu^{+}") );
+    m_pdglist.push_back( PDGInfo(111,  "pizero",   "#pi^{0}") );
+    m_pdglist.push_back( PDGInfo(321,  "kapm",     "K^{#pm}") );
+    m_pdglist.push_back( PDGInfo(311,  "kazero",   "K^{0}") );
     //Miminum particles to define in breakdown:
     ResetPDGBDlist();
 
@@ -92,28 +92,28 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     
     for(int i = 0; i < (int)m_pdglist.size(); i++){
     
-        PDGs particle = m_pdglist[i];
+        PDGInfo particle = m_pdglist[i];
         
         std::string tmp_cuts = tmp_cuts_1;
         tmp_cuts += pdgvar;
         tmp_cuts += " == ";
-        tmp_cuts += particle.pdg_s;
+        tmp_cuts += particle.GetPDGStr();
                 
         if(other_cut.empty()){
             other_cut = pdgvar;
             other_cut += " != ";
-            other_cut += particle.pdg_s;
+            other_cut += particle.GetPDGStr();
         }
         else{
             other_cut += " && ";
             other_cut += pdgvar;
             other_cut += " != ";
-            other_cut += particle.pdg_s;
+            other_cut += particle.GetPDGStr();
         }
             
         DrawingTools::KinMap tmp_kinmap = KinArray(var.name, nbins, bins, var.symbol, tmp_cuts);
         
-        SetColors(tmp_kinmap, particle.colour);
+        SetColors(tmp_kinmap, particle.GetColor());
         
         kinmap_list.push_back(tmp_kinmap);
     }
@@ -161,13 +161,13 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
 //            cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
             
             recon_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].recon);
-            recon_leg->AddEntry(kinmap_list[ (i - 1) ].recon, Form("%s (%.2f%%)", m_pdglist[(i - 1)].symbol.c_str(), recon_percent[ i - 1 ]), "f");
+            recon_leg->AddEntry(kinmap_list[ (i - 1) ].recon, Form("%s (%.2f%%)", m_pdglist[(i - 1)].GetSymbol().c_str(), recon_percent[ i - 1 ]), "f");
             
             truth_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].truth);
-            truth_leg->AddEntry(kinmap_list[ (i - 1) ].truth, Form("%s (%.2f%%)", m_pdglist[(i - 1)].symbol.c_str(), truth_percent[ i - 1 ]), "f");
+            truth_leg->AddEntry(kinmap_list[ (i - 1) ].truth, Form("%s (%.2f%%)", m_pdglist[(i - 1)].GetSymbol().c_str(), truth_percent[ i - 1 ]), "f");
             
             ratio_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].ratio);
-            ratio_leg->AddEntry(kinmap_list[ (i - 1) ].ratio, Form("%s (%.2f%%)", m_pdglist[(i - 1)].symbol.c_str(), ratio_percent[ i - 1 ]), "f");
+            ratio_leg->AddEntry(kinmap_list[ (i - 1) ].ratio, Form("%s (%.2f%%)", m_pdglist[(i - 1)].GetSymbol().c_str(), ratio_percent[ i - 1 ]), "f");
             
             if(i < (int)kinmap_list.size()) smear_tot->Add(kinmap_list[ i ].smear);
         }
@@ -217,13 +217,13 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
         
         for(int i = 0; i < (int)plot_by_self.size(); i++){
                 recon_tot->Add(kinmap_list[ plot_by_self[i] ].recon);
-                recon_leg->AddEntry(kinmap_list[ plot_by_self[i] ].recon, Form("%s (%.2f%%)", m_pdglist[ plot_by_self[i] ].symbol.c_str(), recon_percent[ plot_by_self[i] ]), "f");
+                recon_leg->AddEntry(kinmap_list[ plot_by_self[i] ].recon, Form("%s (%.2f%%)", m_pdglist[ plot_by_self[i] ].GetSymbol().c_str(), recon_percent[ plot_by_self[i] ]), "f");
                 
                 truth_tot->Add(kinmap_list[ plot_by_self[i] ].truth);
-                truth_leg->AddEntry(kinmap_list[ plot_by_self[i] ].truth, Form("%s (%.2f%%)", m_pdglist[ plot_by_self[i] ].symbol.c_str(), truth_percent[ plot_by_self[i] ]), "f");
+                truth_leg->AddEntry(kinmap_list[ plot_by_self[i] ].truth, Form("%s (%.2f%%)", m_pdglist[ plot_by_self[i] ].GetSymbol().c_str(), truth_percent[ plot_by_self[i] ]), "f");
                 
                 ratio_tot->Add(kinmap_list[ plot_by_self[i] ].ratio);
-                ratio_leg->AddEntry(kinmap_list[ plot_by_self[i] ].ratio, Form("%s (%.2f%%)", m_pdglist[ plot_by_self[i] ].symbol.c_str(), ratio_percent[ plot_by_self[i] ]), "f");
+                ratio_leg->AddEntry(kinmap_list[ plot_by_self[i] ].ratio, Form("%s (%.2f%%)", m_pdglist[ plot_by_self[i] ].GetSymbol().c_str(), ratio_percent[ plot_by_self[i] ]), "f");
         }
         
         recon_leg->AddEntry(other_kinmap.recon, Form("Other (%.2f%%)", recon_other_percent), "f");

@@ -113,22 +113,32 @@ private:
 #endif
 
 
-#ifndef _PARTPDGS_
-#define _PARTPDGS_
+#ifndef _PARTPDGInfo_
+#define _PARTPDGInfo_
 
-class PDGs {
+class PDGInfo {
 public:
-    PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol);
-    ~PDGs(){};
-    
-    Int_t pdg;
-    std::string name;
-    std::string symbol;
-    std::string pdg_s;
-    Int_t  colour;//Fill colour
-    Int_t  line_colour;
-    Int_t  line_style;
+    PDGInfo(Int_t part_pdg, std::string part_name, std::string part_symbol);
+    ~PDGInfo(){};
+
+    Int_t GetPDGNo(){ return m_pdg; }
+    std::string GetName(){ return m_name;}
+    std::string GetSymbol(){ return m_symbol;}
+    std::string GetPDGStr(){ return m_pdg_s;}
+    Int_t  GetColor(){ return m_colour; }//Fill colour}
+    Int_t  GetLineColor(){ return m_line_colour;}
+    Int_t  GetLineStyle(){ return m_line_style; }
+
+private:    
+    Int_t m_pdg;
+    std::string m_name;
+    std::string m_symbol;
+    std::string m_pdg_s;
+    Int_t  m_colour;//Fill colour
+    Int_t  m_line_colour;
+    Int_t  m_line_style;
 };
+
 #endif
 
 #ifndef _EXP_

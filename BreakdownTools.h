@@ -81,7 +81,7 @@ private:
     std::string m_target;
     std::string m_nFSParts;
 
-    std::vector<PDGs> m_pdglist;
+    std::vector<PDGInfo> m_pdglist;
     std::vector<Int_t> m_pdglist_minBD;
 
     std::vector<Topology> m_toplist;

@@ -616,24 +616,23 @@ Topology Topologies::GetTopolgy(Topology::Name name)
 
 #endif
 
-#ifndef _PARTPDGS_CXX
-#define _PARTPDGS_CXX
+#ifndef _PARTPDGInfo_CXX
+#define _PARTPDGInfo_CXX
 
-PDGs::PDGs(Int_t part_pdg, std::string part_name, std::string part_symbol) : pdg(part_pdg), name(part_name), symbol(part_symbol), line_colour(1), line_style(1) {
+PDGInfo::PDGInfo(Int_t part_pdg, std::string part_name, std::string part_symbol) : m_pdg(part_pdg), m_name(part_name), m_symbol(part_symbol), m_line_colour(1), m_line_style(1) {
     stringstream ss;
     ss << pdg;
     pdg_s = ss.str();
     
-    if(name.find("proton") != std::string::npos)        colour = (Int_t)DrawingStyle::Proton;//Proton
-    else if(name.find("piplus") != std::string::npos)   colour = (Int_t)DrawingStyle::PionP;//PionP
-    else if(name.find("piminus") != std::string::npos)  colour = (Int_t)DrawingStyle::PionM;
-    else if(name.find("pion") != std::string::npos)     colour = (Int_t)DrawingStyle::Pion;
-    else if(name.find("amuon") != std::string::npos)    colour = (Int_t)DrawingStyle::MuonP;//PionP
-    else if(name.find("muon") != std::string::npos)     colour = (Int_t)DrawingStyle::MuonM;
-    else if(name.find("pizero") != std::string::npos)   colour = (Int_t)DrawingStyle::Pi0;
-    else if(name.find("kapm") != std::string::npos)     colour = (Int_t)DrawingStyle::Kaon;
-    else if(name.find("kazero") != std::string::npos)   colour = (Int_t)DrawingStyle::Ka0;
-    else colour = (Int_t)DrawingStyle::Other;
-    
+    if(name.find("proton") != std::string::npos)        m_colour = (Int_t)DrawingStyle::Proton;//Proton
+    else if(name.find("piplus") != std::string::npos)   m_colour = (Int_t)DrawingStyle::PionP;//PionP
+    else if(name.find("piminus") != std::string::npos)  m_colour = (Int_t)DrawingStyle::PionM;
+    else if(name.find("pion") != std::string::npos)     m_colour = (Int_t)DrawingStyle::Pion;
+    else if(name.find("amuon") != std::string::npos)    m_colour = (Int_t)DrawingStyle::MuonP;//PionP
+    else if(name.find("muon") != std::string::npos)     m_colour = (Int_t)DrawingStyle::MuonM;
+    else if(name.find("pizero") != std::string::npos)   m_colour = (Int_t)DrawingStyle::Pi0;
+    else if(name.find("kapm") != std::string::npos)     m_colour = (Int_t)DrawingStyle::Kaon;
+    else if(name.find("kazero") != std::string::npos)   m_colour = (Int_t)DrawingStyle::Ka0;
+    else m_colour = (Int_t)DrawingStyle::Other; 
 }
 #endif
