@@ -38,7 +38,7 @@ DrawingTools::DrawingTools(std::string filename, std::string treename, std::stri
     empty_kinmap.ratio = 0x0;
     empty_kinmap.smear = 0x0;
     
-    // SetPOT();
+    SetPOT();
 }
 
 DrawingTools::~DrawingTools(){
@@ -404,6 +404,7 @@ TLegend * DrawingTools::GetPOT(double x_pos, double y_pos){
 
 void DrawingTools::SetPOT(){
     TTree * tmp_meta_tree = (TTree*)m_file->Get("Meta");
+    assert(tmp_meta_tree);
     assert(tmp_meta_tree->GetEntries()==1);
     tmp_meta_tree->GetEntry(0);
     TLeaf * lpot= tmp_meta_tree->GetLeaf("POT_Used");
