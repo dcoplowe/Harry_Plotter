@@ -58,8 +58,8 @@ public:
     TLatex * GetSignal();
     
     //Particle kinematic variables:
-    // void MakeMomPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts);
-    // void MakeMomPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts);
+    void MakeMomPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts);
+    void MakeMomPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts);
     
     // void MakeThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts);
     // void MakeThetaPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts);
