@@ -178,7 +178,7 @@ void ProducePlots::PrintLogo(TCanvas *& can){
 }
 
 void ProducePlots::ProduceGroup(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts){
-    ProduceGroup(var, nbins, m_runbd->SetBinning(nbins, low, high), cuts);
+    ProduceGroup(var, nbins, DrawingTools::SetBinning(nbins, low, high), cuts);
 }
 
 void ProducePlots::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std::string cuts){//, Int_t setsave = 11111??
@@ -251,7 +251,7 @@ void ProducePlots::MakeMomPlots(Particle * part, Int_t nbins, Double_t * bins, s
 }
 
 void ProducePlots::MakeMomPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
-    MakeMomPlots(part, nbins, m_runbd->SetBinning(nbins, low, high), cuts);
+    MakeMomPlots(part, nbins, DrawingTools::SetBinning(nbins, low, high), cuts);
 }
 
 void ProducePlots::MakeThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
@@ -267,7 +267,7 @@ void ProducePlots::MakeThetaPlots(Particle * part, Int_t nbins, Double_t * bins,
 }
 
 void ProducePlots::MakeThetaPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
-    MakeThetaPlots(part, nbins, m_runbd->SetBinning(nbins, low, high), cuts);
+    MakeThetaPlots(part, nbins, DrawingTools::SetBinning(nbins, low, high), cuts);
 }
 
 void ProducePlots::MakePhiPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
@@ -283,7 +283,7 @@ void ProducePlots::MakePhiPlots(Particle * part, Int_t nbins, Double_t * bins, s
 }
 
 void ProducePlots::MakePhiPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
-    MakePhiPlots(part, nbins, m_runbd->SetBinning(nbins, low, high), cuts);
+    MakePhiPlots(part, nbins, DrawingTools::SetBinning(nbins, low, high), cuts);
 }
 
 void ProducePlots::MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
@@ -299,7 +299,7 @@ void ProducePlots::MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t * bi
 }
 
 void ProducePlots::MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
-    MakeCosThetaPlots(part, nbins, m_runbd->SetBinning(nbins, low, high), cuts);
+    MakeCosThetaPlots(part, nbins, DrawingTools::SetBinning(nbins, low, high), cuts);
 }
 
 void ProducePlots::MakeScorePlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
@@ -307,7 +307,7 @@ void ProducePlots::MakeScorePlots(Particle * part, Int_t nbins, Double_t * bins,
 }
 
 void ProducePlots::MakeScorePlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
-    MakeScorePlots(part, nbins, m_runbd->SetBinning(nbins, low, high), cuts);
+    MakeScorePlots(part, nbins, DrawingTools::SetBinning(nbins, low, high), cuts);
 }
 
 void ProducePlots::EffPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string signal_def, std::string cuts){
@@ -315,14 +315,14 @@ void ProducePlots::EffPart(Variable var, Int_t nbins, Double_t low, Double_t hig
     if(m_outfile->IsOpen()){
         
         int colour = DrawingStyle::Other;
-        if(var.name.find("mu") != std::string::npos) colour = DrawingStyle::MuonM;
-        else if(var.name.find("pi") != std::string::npos) colour = DrawingStyle::PionP;
-        else if(var.name.find("pr") != std::string::npos) colour = DrawingStyle::Proton;
+        if(var.GetName().find("mu") != std::string::npos) colour = DrawingStyle::MuonM;
+        else if(var.GetName().find("pi") != std::string::npos) colour = DrawingStyle::PionP;
+        else if(var.GetName().find("pr") != std::string::npos) colour = DrawingStyle::Proton;
         else colour = DrawingStyle::Other;
         
-        TCanvas * effdists = new TCanvas( (var.name + "_eff").c_str(), "", 900,800);
+        TCanvas * effdists = new TCanvas( (var.GetName() + "_eff").c_str(), "", 900,800);
         effdists->cd();
-        TH1D * tmp_eff = m_runep->EffVSVar(var.name.c_str(), nbins, low, high, signal_def, cuts, (var.symbol + " (" + var.units + ")")/*.c_str()*/ );//->Draw();
+        TH1D * tmp_eff = m_runep->EffVSVar(var.GetName().c_str(), nbins, low, high, signal_def, cuts, (var.GetSymbol() + " (" + var.GetUnits() + ")")/*.c_str()*/ );//->Draw();
         tmp_eff->SetLineColor(colour);
         tmp_eff->Draw();
     
@@ -343,14 +343,14 @@ void ProducePlots::TruthPart(Variable var, Int_t nbins, Double_t low, Double_t h
     
     if(m_outfile->IsOpen()){
         int colour = DrawingStyle::Other;
-        if(var.name.find("mu") != std::string::npos) colour = DrawingStyle::MuonM;
-        else if(var.name.find("pi") != std::string::npos) colour = DrawingStyle::PionP;
-        else if(var.name.find("pr") != std::string::npos) colour = DrawingStyle::Proton;
+        if(var.GetName().find("mu") != std::string::npos) colour = DrawingStyle::MuonM;
+        else if(var.GetName().find("pi") != std::string::npos) colour = DrawingStyle::PionP;
+        else if(var.GetName().find("pr") != std::string::npos) colour = DrawingStyle::Proton;
         else colour = DrawingStyle::Other;
         
-        TCanvas * truthdists = new TCanvas( (var.name + "_truth").c_str(), "", 900,800);
+        TCanvas * truthdists = new TCanvas( (var.GetName() + "_truth").c_str(), "", 900,800);
         truthdists->cd();
-        TH1D * tmp_truth = m_runtruthbd->GetHisto(var.name, nbins, low, high, (var.symbol + " (" + var.units + ")"), cuts);
+        TH1D * tmp_truth = m_runtruthbd->GetHisto(var.GetName(), nbins, low, high, (var.GetSymbol() + " (" + var.GetUnits() + ")"), cuts);
         tmp_truth->SetFillColor( colour );
         tmp_truth->SetLineColor( kBlack );
         tmp_truth->Draw();
@@ -363,7 +363,7 @@ void ProducePlots::TruthPart(Variable var, Int_t nbins, Double_t low, Double_t h
             sac_lev << ac_lev;
             sbranch << branch;
             string pass_cuts = cuts + " && truth_accum_level[" + sbranch.str() + "] > " + sac_lev.str();//TODO: Will need to add experiment base cuts 
-            tmp_passcuts = m_runtruthbd->GetHisto(var.name, nbins, low, high, (var.symbol + " (" + var.units + ")"), pass_cuts);
+            tmp_passcuts = m_runtruthbd->GetHisto(var.GetName(), nbins, low, high, (var.GetSymbol() + " (" + var.GetUnits() + ")"), pass_cuts);
             tmp_passcuts->SetLineStyle( 2 );//Dashed
             tmp_passcuts->SetLineColor( kWhite );
             tmp_passcuts->Draw("SAME");

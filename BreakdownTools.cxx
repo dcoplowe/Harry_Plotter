@@ -112,7 +112,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
             other_cut += particle.GetPDGStr();
         }
             
-        DrawingTools::KinMap tmp_kinmap = KinArray(var.name, nbins, bins, var.symbol, tmp_cuts);
+        DrawingTools::KinMap tmp_kinmap = KinArray(var.GetName(), nbins, bins, var.GetSymbol(), tmp_cuts);
         
         SetColors(tmp_kinmap, particle.GetColor());
         
@@ -123,21 +123,21 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     
 //    cout << "other_cut: " << other_cut << endl;
     
-    DrawingTools::KinMap other_kinmap = KinArray(var.name, nbins, bins, var.symbol, other_cut);
+    DrawingTools::KinMap other_kinmap = KinArray(var.GetName(), nbins, bins, var.GetSymbol(), other_cut);
     SetColors(other_kinmap, DrawingStyle::Other);
 
     //Make outputs:
     
-    THStack * recon_tot = new THStack( (var.savename + "_PID_recon").c_str(), Form(";%s (%s);%s", kinmap_list[0].recon->GetXaxis()->GetTitle(), var.units.c_str(),
+    THStack * recon_tot = new THStack( (var.GetSName() + "_PID_recon").c_str(), Form(";%s (%s);%s", kinmap_list[0].recon->GetXaxis()->GetTitle(), var.GetUnits().c_str(),
                                                                                 kinmap_list[0].recon->GetYaxis()->GetTitle() ) );
     
-    THStack * truth_tot = new THStack( (var.savename + "_PID_truth").c_str(), Form(";%s (%s);%s", kinmap_list[0].truth->GetXaxis()->GetTitle(), var.units.c_str(),
+    THStack * truth_tot = new THStack( (var.GetSName() + "_PID_truth").c_str(), Form(";%s (%s);%s", kinmap_list[0].truth->GetXaxis()->GetTitle(), var.GetUnits().c_str(),
                                                                                kinmap_list[0].truth->GetYaxis()->GetTitle() ) );
     
-    THStack * ratio_tot = new THStack( (var.savename + "_PID_ratio").c_str(), Form(";%s (%s);%s", kinmap_list[0].ratio->GetXaxis()->GetTitle(), var.units.c_str(),
+    THStack * ratio_tot = new THStack( (var.GetSName() + "_PID_ratio").c_str(), Form(";%s (%s);%s", kinmap_list[0].ratio->GetXaxis()->GetTitle(), var.GetUnits().c_str(),
                                                                                kinmap_list[0].ratio->GetYaxis()->GetTitle() ) );
     
-    TH2D * smear_tot = (TH2D*)kinmap_list[0].smear->Clone( (var.savename + "_PID_smear").c_str() );//Just add all of these histos.
+    TH2D * smear_tot = (TH2D*)kinmap_list[0].smear->Clone( (var.GetSName() + "_PID_smear").c_str() );//Just add all of these histos.
     
     TLegend * recon_leg = Legend(0.25, 0.4, 0.551, 0.362);
     TLegend * truth_leg = Legend(0.25, 0.4, 0.551, 0.362);
@@ -319,23 +319,23 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         std::string tmp_cuts = tmp_cuts_1;
         tmp_cuts += topology.GetSignal();
         
-        DrawingTools::KinMap tmp_kinmap = KinArray(var.name, nbins, bins, var.symbol, tmp_cuts);
+        DrawingTools::KinMap tmp_kinmap = KinArray(var.GetName(), nbins, bins, var.GetSymbol(), tmp_cuts);
         
         SetColors(tmp_kinmap, topology.GetFillColor(), topology.GetLineColor(), topology.GetFillStyle(), topology.GetLineStyle());
         
         kinmap_list.push_back(tmp_kinmap);
     }
     
-    THStack * recon_tot = new THStack( (var.savename + "_TOP_recon").c_str(), Form(";%s (%s);%s", kinmap_list[0].recon->GetXaxis()->GetTitle(), var.units.c_str(),
+    THStack * recon_tot = new THStack( (var.GetSName() + "_TOP_recon").c_str(), Form(";%s (%s);%s", kinmap_list[0].recon->GetXaxis()->GetTitle(), var.GetUnits().c_str(),
                                                                                         kinmap_list[0].recon->GetYaxis()->GetTitle() ) );
     
-    THStack * truth_tot = new THStack( (var.savename + "_TOP_truth").c_str(), Form(";%s (%s);%s", kinmap_list[0].truth->GetXaxis()->GetTitle(), var.units.c_str(),
+    THStack * truth_tot = new THStack( (var.GetSName() + "_TOP_truth").c_str(), Form(";%s (%s);%s", kinmap_list[0].truth->GetXaxis()->GetTitle(), var.GetUnits().c_str(),
                                                                                         kinmap_list[0].truth->GetYaxis()->GetTitle() ) );
     
-    THStack * ratio_tot = new THStack( (var.savename + "_TOP_ratio").c_str(), Form(";%s (%s);%s", kinmap_list[0].ratio->GetXaxis()->GetTitle(), var.units.c_str(),
+    THStack * ratio_tot = new THStack( (var.GetSName() + "_TOP_ratio").c_str(), Form(";%s (%s);%s", kinmap_list[0].ratio->GetXaxis()->GetTitle(), var.GetUnits().c_str(),
                                                                                         kinmap_list[0].ratio->GetYaxis()->GetTitle() ) );
     
-    TH2D * smear_tot = (TH2D*)kinmap_list[0].smear->Clone( (var.savename + "_TOP_smear").c_str() );//Just add all of these histos.
+    TH2D * smear_tot = (TH2D*)kinmap_list[0].smear->Clone( (var.GetSName() + "_TOP_smear").c_str() );//Just add all of these histos.
 
     TLegend * recon_leg = Legend(0.25, 0.4, 0.551, 0.362);
     TLegend * truth_leg = Legend(0.25, 0.4, 0.551, 0.362);
@@ -345,7 +345,7 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
     std::string hsignal = tmp_cuts_1;// + " && ";
     Topology sig_top = m_topologies->GetTopology(m_signal);
     hsignal += sig_top.GetSignal();//    cout << "hsignal: " << hsignal << endl;
-    DrawingTools::KinMap signal_kinmap = KinArray(var.name, nbins, bins, var.symbol, hsignal);
+    DrawingTools::KinMap signal_kinmap = KinArray(var.GetName(), nbins, bins, var.GetSymbol(), hsignal);
     SetColors(signal_kinmap, sig_top.GetFillColor(), sig_top.GetLineColor(), sig_top.GetFillStyle(), sig_top.GetLineStyle());
 //    signal_kinmap.recon->SetLineColor(1);
 //    signal_kinmap.truth->SetLineColor(1);
@@ -497,24 +497,24 @@ BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::s
     
     //Hydrogen:
     std::string hsig = tmp_cuts_1 + m_target + " == 1";
-    DrawingTools::KinMap hydrogen_kinmap = KinArray(var.name, nbins, bins, var.symbol, hsig);
+    DrawingTools::KinMap hydrogen_kinmap = KinArray(var.GetName(), nbins, bins, var.GetSymbol(), hsig);
     SetColors(hydrogen_kinmap, DrawingStyle::HYDROGEN);
     
     //Carbon:
     std::string csig = tmp_cuts_1 + m_target + " == 6";
-    DrawingTools::KinMap carbon_kinmap = KinArray(var.name, nbins, bins, var.symbol, csig);
+    DrawingTools::KinMap carbon_kinmap = KinArray(var.GetName(), nbins, bins, var.GetSymbol(), csig);
     SetColors(carbon_kinmap, DrawingStyle::CARBON);
 
     //Other:
     std::string osig = tmp_cuts_1 + m_target + " != 1 && " + m_target + " != 6";
-    DrawingTools::KinMap other_kinmap = KinArray(var.name, nbins, bins, var.symbol, osig);
+    DrawingTools::KinMap other_kinmap = KinArray(var.GetName(), nbins, bins, var.GetSymbol(), osig);
     SetColors(other_kinmap, DrawingStyle::Other);
 
     //The signal bit:
     std::string hsignal = tmp_cuts_1;
     Topology sig_top = m_topologies->GetTopology(m_signal);
     hsignal += sig_top.GetSignal();
-    DrawingTools::KinMap signal_kinmap = KinArray(var.name, nbins, bins, var.symbol, hsignal);
+    DrawingTools::KinMap signal_kinmap = KinArray(var.GetName(), nbins, bins, var.GetSymbol(), hsignal);
     SetColors(signal_kinmap, sig_top.GetFillColor(), sig_top.GetLineColor(), sig_top.GetFillStyle(), sig_top.GetLineStyle());
     signal_kinmap.recon->SetLineWidth(2);
     signal_kinmap.truth->SetLineWidth(2);
@@ -525,16 +525,16 @@ BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::s
     kinmap_list.push_back( carbon_kinmap );
     kinmap_list.push_back( hydrogen_kinmap );
     
-    THStack * recon_tot = new THStack( (var.savename + "_TAR_recon").c_str(), Form(";%s (%s);%s", kinmap_list[0].recon->GetXaxis()->GetTitle(), var.units.c_str(),
+    THStack * recon_tot = new THStack( (var.GetSName() + "_TAR_recon").c_str(), Form(";%s (%s);%s", kinmap_list[0].recon->GetXaxis()->GetTitle(), var.GetUnits().c_str(),
                                                                                    kinmap_list[0].recon->GetYaxis()->GetTitle() ) );
     
-    THStack * truth_tot = new THStack( (var.savename + "_TAR_truth").c_str(), Form(";%s (%s);%s", kinmap_list[0].truth->GetXaxis()->GetTitle(), var.units.c_str(),
+    THStack * truth_tot = new THStack( (var.GetSName() + "_TAR_truth").c_str(), Form(";%s (%s);%s", kinmap_list[0].truth->GetXaxis()->GetTitle(), var.GetUnits().c_str(),
                                                                                    kinmap_list[0].truth->GetYaxis()->GetTitle() ) );
     
-    THStack * ratio_tot = new THStack( (var.savename + "_TAR_ratio").c_str(), Form(";%s (%s);%s", kinmap_list[0].ratio->GetXaxis()->GetTitle(), var.units.c_str(),
+    THStack * ratio_tot = new THStack( (var.GetSName() + "_TAR_ratio").c_str(), Form(";%s (%s);%s", kinmap_list[0].ratio->GetXaxis()->GetTitle(), var.GetUnits().c_str(),
                                                                                    kinmap_list[0].ratio->GetYaxis()->GetTitle() ) );
     
-    TH2D * smear_tot = (TH2D*)kinmap_list[0].smear->Clone( (var.savename + "_TAR_smear").c_str() );//Just add all of these histos.
+    TH2D * smear_tot = (TH2D*)kinmap_list[0].smear->Clone( (var.GetSName() + "_TAR_smear").c_str() );//Just add all of these histos.
     
     TLegend * recon_leg = Legend(0.25, 0.4, 0.551, 0.362);
     TLegend * truth_leg = Legend(0.25, 0.4, 0.551, 0.362);
@@ -634,24 +634,24 @@ TCanvas * BreakdownTools::TARGETSingle(Variable var, Int_t nbins, Double_t * bin
     
     //Hydrogen:
     std::string hsig = tmp_cuts_1 + m_target + " == 1";
-    TH1D * hydrogen_kinmap = GetHisto(var.name, nbins, bins, var.symbol, hsig);
+    TH1D * hydrogen_kinmap = GetHisto(var.GetName(), nbins, bins, var.GetSymbol(), hsig);
     SetColors(hydrogen_kinmap, DrawingStyle::HYDROGEN);
     
     //Carbon:
     std::string csig = tmp_cuts_1 + m_target + " == 6";
-    TH1D * carbon_kinmap = GetHisto(var.name, nbins, bins, var.symbol, csig);
+    TH1D * carbon_kinmap = GetHisto(var.GetName(), nbins, bins, var.GetSymbol(), csig);
     SetColors(carbon_kinmap, DrawingStyle::CARBON);
     
     //Other:
     std::string osig = tmp_cuts_1 + m_target + " != 1 && " + m_target + " != 6";
-    TH1D * other_kinmap = GetHisto(var.name, nbins, bins, var.symbol, osig);
+    TH1D * other_kinmap = GetHisto(var.GetName(), nbins, bins, var.GetSymbol(), osig);
     SetColors(other_kinmap, DrawingStyle::Other);
     
     //The GetSignal() bit:
     std::string hsignal = tmp_cuts_1;
     Topology sig_top = m_topologies->GetTopology(m_signal);
     hsignal += sig_top.GetSignal();
-    TH1D * signal_kinmap = GetHisto(var.name, nbins, bins, var.symbol, hsignal);
+    TH1D * signal_kinmap = GetHisto(var.GetName(), nbins, bins, var.GetSymbol(), hsignal);
     SetColors(signal_kinmap, sig_top.GetFillColor(), sig_top.GetLineColor(), sig_top.GetFillStyle(), sig_top.GetLineStyle());
     signal_kinmap->SetLineWidth(2);
     
@@ -660,7 +660,7 @@ TCanvas * BreakdownTools::TARGETSingle(Variable var, Int_t nbins, Double_t * bin
     kinmap_list.push_back( carbon_kinmap );
     kinmap_list.push_back( hydrogen_kinmap );
     
-    THStack * recon_tot = new THStack( (var.savename + "_TAR").c_str(), Form(";%s (%s);%s", kinmap_list[0]->GetXaxis()->GetTitle(), var.units.c_str(),
+    THStack * recon_tot = new THStack( (var.GetSName() + "_TAR").c_str(), Form(";%s (%s);%s", kinmap_list[0]->GetXaxis()->GetTitle(), var.GetUnits().c_str(),
                                                                                    kinmap_list[0]->GetYaxis()->GetTitle() ) );
     
     TLegend * recon_leg = Legend(0.25, 0.4, 0.551, 0.362);

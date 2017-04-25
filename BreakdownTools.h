@@ -16,6 +16,7 @@ class TH2D;
 class TCanvas;
 class TLegend;
 class THStack;
+class Variable;
 
 struct BDCans {
     TCanvas * recon;
@@ -25,13 +26,13 @@ struct BDCans {
     TCanvas * ratio;
 };
 
-struct Variable {
-    std::string name;
-    std::string symbol;
-    std::string units;
-    std::string savename;
-    std::string pdg;
-};
+// struct Variable {
+//     std::string name;
+//     std::string symbol;
+//     std::string units;
+//     std::string savename;
+//     std::string pdg;
+// };
 
 class BreakdownTools : public DrawingTools {
 public:

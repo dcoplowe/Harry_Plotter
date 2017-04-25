@@ -1,6 +1,7 @@
 #include <string>
 #include <sstream>
 #include "TDatime.h"
+#include "DrawingTools.h"
 
 using namespace std;
 
@@ -244,6 +245,48 @@ private:
 
 #endif
 
+#ifndef _VARIABLE_
+#define _VARIABLE_
+class Variable {
+
+public: 
+    Variable(std::string name, std::string symbol, std::string units) : m_name(name), m_symbol(symbol), m_units(units), m_savename(""), m_pdg(""){;}
+    Variable(std::string name, int nbins, Double_t low, Double_t high) : m_name(name), m_symbol(""), m_units(""), m_savename(""), m_pdg(""), m_nbins(nbins), m_binning(DrawingTools::SetBinning(m_nbins, low, high){;}
+
+    ~Variable(){;}//delete m_binning;}
+
+    void SetName(std::string var){ m_name = var; }
+    void SetSymbol(std::string var){ m_symbol = var; }
+    void SetUnits(std::string var){ m_units = var; }
+    void SetPDG(std::string var){ m_pdg = var; }
+    void SetSName(std::string var){ m_savename = var; }
+    
+    std::string GetName(){ return m_name; }
+    std::string GetSymbol(){ return m_symbol; }
+    std::string GetUnits(){ return m_units; }
+    std::string GetSName(){ return m_savename; }
+    std::string GetPDG(){ return m_pdg; }
+
+    void SetNBins(int var){ m_nbins = var;}
+    void SetBinning(int nbins, Double_t * binning){ m_nbins = nbins; m_binning = binning; }
+
+    void SetBinning(int nbins, Double_t low, Double_t high){ m_nbins = nbins; m_binning = DrawingTools::SetBinning(m_nbins, low, high); }
+    int GetNBins(){ return m_nbins; }
+    Double_t * GetBinning(){ return m_binning; }
+
+private:
+    std::string m_name;
+    std::string m_symbol;
+    std::string m_units;
+    std::string m_savename;
+    std::string m_pdg;
+
+    Int_t m_nbins;
+    Double_t * m_binning;
+};
+
+#endif
+
 #ifndef _PARTICLE_
 #define _PARTICLE_
 
@@ -251,48 +294,48 @@ class Particle {
 public:
     Particle(Experiment::Name exp, std::string name, std::string tag = "");//; : m_tag {};
     ~Particle(){};
-    
+
     //Reco vars: Common:
-    std::string P;
-    std::string theta;
-    std::string pT;
-    std::string pTMag;
-    std::string pTT;
-    std::string startdir;
-    std::string endpos;
+    Variable P;
+    Variable theta;
+    Variable pT;
+    Variable pTMag;
+    Variable pTT;
+    Variable startdir;
+    Variable endpos;
     
     //True vars: Common:
-    std::string trueP;
-    std::string truetheta;
-    std::string truepT;
-    std::string truepTMag;
-    std::string truepTT;
-    std::string truestartdir;
-    std::string trueendpos;
-    std::string pdg;
+    Variable trueP;
+    Variable truetheta;
+    Variable truepT;
+    Variable truepTMag;
+    Variable truepTT;
+    Variable truestartdir;
+    Variable trueendpos;
+    Variable pdg;
     
     //MIN: Reco vars:
-    std::string E;
-    std::string P4;
-    std::string T;//KE
-    std::string startpos;
-    std::string michel;
-    std::string score;
-    std::string phi;
+    Variable E;
+    Variable P4;
+    Variable T;//KE
+    Variable startpos;
+    Variable michel;
+    Variable score;
+    Variable phi;
     
     //MIN: True vars:
-    std::string trueE;
-    std::string trueP4;
-    std::string trueT;//KE
-    std::string truestartpos;
-    std::string truephi;
+    Variable trueE;
+    Variable trueP4;
+    Variable trueT;//KE
+    Variable truestartpos;
+    Variable truephi;
     
     //T2K: Reco vars:
-    std::string ctheta;
-    std::string ctheta_nudir;
+    Variable ctheta;
+    Variable ctheta_nudir;
     
     //T2K: Reco vars:
-    std::string truectheta;
+    Variable truectheta;
     
     std::string GetSymbol(){ return m_symbol; }
     std::string GetName(){ return m_name; }
