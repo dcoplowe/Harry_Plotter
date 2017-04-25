@@ -91,6 +91,7 @@ private:
     bool m_verbose;
     bool m_getPOT;
     
+    bool m_bad_POT;
     double m_POT;
     
     KinMap empty_kinmap;
