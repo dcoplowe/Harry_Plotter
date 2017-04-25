@@ -441,14 +441,27 @@ void ProducePlots::MakePlots(){
 
     for(int br = 0; br < nbranches; br++){
 
-
-        //**************************************** Mom START ****************************************//
-        for(int ptls = 0; ptls < 3; ptls++){
-            MakeDir("Mom" + branchnames[br] + "/" + m_proton->GetName());
-            MakeMomPlots(m_proton, 40, 0, 2000, basecuts[br]);
+        Particle * list;
+        int nparticles = 3;
+        if(br == 1 && m_experiment->GetType() == Experiment::MIN){
+            nparticles = 2;
+            list = new Particle[ nparticles ];
+            list[0] = m_proton_alt;
+            list[1] = m_pion_alt;        
+        }
+        else{
+            list = new Particle[ nparticles ];
+            list[0] = m_proton;
+            list[1] = m_pion;
+            list[2] = m_muon;
         }
 
-
+        //**************************************** Mom START ****************************************//
+        for(int ptls = 0; ptls < nparticles; ptls++){
+            Particle party = list[ptls];
+            MakeDir("Mom" + branchnames[br] + "/" + party->GetName() );
+            MakeMomPlots(party, 40, 0, 2000, basecuts[br]);
+        }
     }
     
     
