@@ -321,7 +321,7 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
         startpos = "";
         phi = "";
         
-        michel = "";
+        michel = "1";
         score = "";
         
         //MIN: True vars:
