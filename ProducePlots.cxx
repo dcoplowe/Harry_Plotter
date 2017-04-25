@@ -453,17 +453,17 @@ void ProducePlots::MakePlots(){
     
 
 
-    // Proton:
-    MakeDir("Mom/dEdX/Proton");
-    MakeMomPlots(m_proton, 40, 0, 2000, EX_base_cut);
+    // // Proton:
+    // MakeDir("Mom/dEdX/Proton");
+    // MakeMomPlots(m_proton, 40, 0, 2000, EX_base_cut);
     
-    //Pion:
-    MakeDir("Mom/dEdX/Pion");
-    MakeMomPlots(m_pion, 40, 0, 2000, EX_base_cut);
+    // //Pion:
+    // MakeDir("Mom/dEdX/Pion");
+    // MakeMomPlots(m_pion, 40, 0, 2000, EX_base_cut);
     
-    //Muon:
-    MakeDir("Mom/dEdX/Muon");
-    MakeMomPlots(m_muon, 40, 0, 6000, EX_base_cut);
+    // //Muon:
+    // MakeDir("Mom/dEdX/Muon");
+    // MakeMomPlots(m_muon, 40, 0, 6000, EX_base_cut);
     
     //Proton:
     // MakeDir("Mom/LL/Proton");

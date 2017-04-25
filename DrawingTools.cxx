@@ -221,7 +221,7 @@ Double_t * DrawingTools::SetBinning(int nbins, Double_t low, Double_t high){
     
     for (int i=0; i < nbins + 1; i++) {
         bins[i] = low + binwidth*i;
-        if(m_verbose) cout << "Array Element: " << i << " : " << bins[i] << endl;
+        // if(m_verbose) cout << "Array Element: " << i << " : " << bins[i] << endl;
     }
     
     return bins;
