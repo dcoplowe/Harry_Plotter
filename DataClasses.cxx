@@ -526,6 +526,8 @@ m_symbol(ToString(m_type ,1)), m_fill_style(1001), m_line_colour(1), m_line_styl
     	m_fill_colour = (Int_t)DrawingStyle::T1Pi1Pi0;
     	m_fill_style = 3024;
     }
+
+    cout << "Post : " << "Color = " << m_fill_colour << endl;
 }
 
 void Topology::AddToSignal(std::string add2def, bool reset)
