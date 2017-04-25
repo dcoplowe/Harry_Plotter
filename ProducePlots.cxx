@@ -441,9 +441,10 @@ void ProducePlots::MakePlots(){
 
     for(int br = 0; br < nbranches; br++){
 
+
         //**************************************** Mom START ****************************************//
         for(int ptls = 0; ptls < 3; ptls++){
-            MakeDir("Mom/dEdX/Proton");
+            MakeDir("Mom" + branchnames[br] + "/" + m_proton->GetName());
             MakeMomPlots(m_proton, 40, 0, 2000, basecuts[br]);
         }
 
