@@ -4,6 +4,8 @@
 
 using namespace std;
 
+extern VERBOSE = true;
+
 #ifndef _TOPOLOGY_
 #define _TOPOLOGY_
 
