@@ -25,6 +25,7 @@ public:
     
     enum Name{
         HCC1P1PiPlus = 0,
+        HCC1P1PiPlusOOPS,
         CC1P1PiPlus,
         CCNPNPiMinus,
         CCNP,

@@ -173,16 +173,37 @@ void Experiment::SetTopologies(Experiment::Name exp)
 
         if(print_level::quiet) cout << " Adding Topology = " << Topology::ToString(Topology::CC1P1PiPlus) << endl;
 
-        m_topologies->AddTopology(        Topology::CC1P1PiPlus, "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1");
-        m_topologies->AddSignalToTopology(Topology::CC1P1PiPlus, "truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0");
-        m_topologies->AddSignalToTopology(Topology::CC1P1PiPlus, "truth_n_piP == 1 && truth_n_pro == 1 && truth_n_tau == 0 && mc_nFSPart == 3");
+        m_topologies->AddTopology(        Topology::CC1P1PiPlus, "true_ntracks == 3 && truemu_ntracks == 1 && truep_ntracks == 1 && truepi_ntracks == 1");
 
         if(print_level::quiet) cout << " Adding Topology = " << Topology::ToString(Topology::HCC1P1PiPlus) << endl;
 
         m_topologies->AddTopology(        Topology::HCC1P1PiPlus,  m_topologies->GetTopology(Topology::CC1P1PiPlus).GetSignal() );
-        m_topologies->AddSignalToTopology(Topology::HCC1P1PiPlus, "mc_targetZ == 1 && true_target_region == 1 && truth_mu_E < 20000.");
-        m_topologies->AddSignalToTopology(Topology::HCC1P1PiPlus, "truth_mu_E > 0.");
+        m_topologies->AddSignalToTopology(Topology::HCC1P1PiPlus, "target == 1 && selmu_mom > 250 && selp_mom > 450 && selpi_mom > 250");
 
+        // if(print_level::quiet) cout << " Adding Topology = " << Topology::ToString(Topology::HCC1P1PiPlusOOPS) << endl;
+        // m_topologies->AddTopology(        Topology::HCC1P1PiPlusOOPS,  m_topologies->GetTopology(Topology::HCC1P1PiPlusOOPS).GetSignal() );
+        // m_topologies->AddSignalToTopology(Topology::HCC1P1PiPlusOOPS, "target == 1 && (selmu_mom < 250 || selp_mom < 450 || selpi_mom < 250)");
+
+        if(print_level::quiet) cout << " Adding Topology = " << Topology::ToString(Topology::HCC1P1PiPlus) << endl;
+        m_topologies->AddTopology(        Topology::CCNP, "true_ntracks > 0 && truemu_ntracks == 1 && truep_ntracks > 0 && truepi_ntracks == 0" );
+
+        if(print_level::quiet) cout << " Adding Topology = " << Topology::ToString(Topology::HCC1P1PiPlus) << endl;
+        m_topologies->AddTopology(   Topology::CCNPiPlus, "true_ntracks > 0 && truemu_ntracks == 1 && truep_ntracks == 0 && truepi_ntracks > 0" );
+
+        // CC1P1PiPlus,
+        // CCNPNPiMinus,
+        // CCNP,
+        // CCNPiPlus,
+        // CCNPNPiZero,
+        // CCNPiZeroNPiPlus,
+        // //Added topos (200217):
+        // CCKaonsOth,
+        // CCNN,//N Neutrons
+        // CCNPNN,//N Protons, N Neutrons
+        // CCNPiNN, //N pions, N Neutrons
+        // CCNPiNPNN, //N pions, N Protons N Neutrons
+        // //CCNucBreakUp, -- may be nice in the future
+        // Other,
 
     }
     else{
@@ -582,11 +603,11 @@ m_symbol(ToString(m_type ,1)), m_fill_colour(0), m_fill_style(1001), m_line_colo
 void Topology::AddToSignal(std::string add2def, bool reset)
 {
 	if(reset) m_signal = add2def;
-	else if(m_signal.empty()) m_signal = add2def;
-	else{
-		m_signal += " && ";
-		m_signal += add2def;
-	}
+	else if(!add2def.empty() && m_signal.empty()) m_signal = add2def;
+    else{
+        m_signal += " && ";
+        m_signal += add2def;
+    }
 }
 
 void Topology::Reset()
