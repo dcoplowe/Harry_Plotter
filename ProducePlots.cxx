@@ -415,8 +415,10 @@ void ProducePlots::MakePlots(){
     string LL_base_cut = "accum_level[1] > 5 && " + m_pion_alt->michel + " == 1 && target_region == 1";//Alt michel too
     //**************************************** Mom START ****************************************//
     
+
+
     // Proton:
-    MakeDir("Mom/dEdX/Proton");
+    MakeDir("Mom//Proton");
     MakeMomPlots(m_proton, 40, 0, 2000, EX_base_cut);
     
     //Pion:
@@ -522,134 +524,138 @@ void ProducePlots::MakePlots(){
     // ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
 
     // "accum_level[0] > 5"
-   
-    MakeDir("dpTT/dEdX/pm1000");
-    dpTT.savename = m_recovars->dpTT + "1000";
-    ProduceGroup(dpTT, 99, -1000, 1000, (EX_base_cut + " && " + m_recovars->dpTT + " != -999."));
-    
-    MakeDir("dpTT/dEdX/pm7000");
-    dpTT.savename = m_recovars->dpTT + "7000";
-    ProduceGroup(dpTT, 199, -7000, 7000, (EX_base_cut + " && " + m_recovars->dpTT + " != -999."));
 
-    MakeDir("dpTT/dEdX/tmumom");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tmumom;
-    dpTT.savename = m_recovars->dpTT_tmumom;
-    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-    
-    MakeDir("dpTT/dEdX/tpimom");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tpimom;
-    dpTT.savename = m_recovars->dpTT_tpimom;
-    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-    
-    MakeDir("dpTT/dEdX/tprmom");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tprmom;
-    dpTT.savename = m_recovars->dpTT_tprmom;
-    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-    
-    MakeDir("dpTT/dEdX/tnudir");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tnudir;
-    dpTT.savename = m_recovars->dpTT_tnudir;
-    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-    
-    MakeDir("dpTT/dEdX/pimom");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pi;
-    dpTT.savename = m_recovars->dpTT_pi;
-    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-    
-    MakeDir("dpTT/dEdX/prmom");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pr;
-    dpTT.savename = m_recovars->dpTT_pr;
-    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-    
-    MakeDir("dpTT/dEdX/pidir");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pidir;
-    dpTT.savename = m_recovars->dpTT_pidir;
-    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+    if(exp == Experiment::MIN){
 
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pidir;
-    dpTT.savename = m_recovars->dpTT_pidir + "nb29";
-    ProduceGroup(dpTT, 29, -300, 300, EX_base_cut);
 
-    dpTT.savename = m_recovars->dpTT_pidir + "nb19";
-    ProduceGroup(dpTT, 19, -300, 300, EX_base_cut);
+        MakeDir("dpTT/dEdX/pm1000");
+        dpTT.savename = m_recovars->dpTT + "1000";
+        ProduceGroup(dpTT, 99, -1000, 1000, (EX_base_cut + " && " + m_recovars->dpTT + " != -999."));
 
-    dpTT.savename = m_recovars->dpTT_pidir + "nb25";
-    ProduceGroup(dpTT, 25, -300, 300, EX_base_cut);
-    
-    MakeDir("dpTT/dEdX/prdir");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_prdir;
-    dpTT.savename = m_recovars->dpTT_prdir;
-    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-    
+        MakeDir("dpTT/dEdX/pm7000");
+        dpTT.savename = m_recovars->dpTT + "7000";
+        ProduceGroup(dpTT, 199, -7000, 7000, (EX_base_cut + " && " + m_recovars->dpTT + " != -999."));
+
+        MakeDir("dpTT/dEdX/tmumom");
+        dpTT.symbol = "#deltap_{TT}";
+        dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tmumom;
+        dpTT.savename = m_recovars->dpTT_tmumom;
+        ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+
+        MakeDir("dpTT/dEdX/tpimom");
+        dpTT.symbol = "#deltap_{TT}";
+        dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tpimom;
+        dpTT.savename = m_recovars->dpTT_tpimom;
+        ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+
+        MakeDir("dpTT/dEdX/tprmom");
+        dpTT.symbol = "#deltap_{TT}";
+        dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tprmom;
+        dpTT.savename = m_recovars->dpTT_tprmom;
+        ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+
+        MakeDir("dpTT/dEdX/tnudir");
+        dpTT.symbol = "#deltap_{TT}";
+        dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tnudir;
+        dpTT.savename = m_recovars->dpTT_tnudir;
+        ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+
+        MakeDir("dpTT/dEdX/pimom");
+        dpTT.symbol = "#deltap_{TT}";
+        dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pi;
+        dpTT.savename = m_recovars->dpTT_pi;
+        ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+
+        MakeDir("dpTT/dEdX/prmom");
+        dpTT.symbol = "#deltap_{TT}";
+        dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pr;
+        dpTT.savename = m_recovars->dpTT_pr;
+        ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+
+        MakeDir("dpTT/dEdX/pidir");
+        dpTT.symbol = "#deltap_{TT}";
+        dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pidir;
+        dpTT.savename = m_recovars->dpTT_pidir;
+        ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+
+        dpTT.symbol = "#deltap_{TT}";
+        dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pidir;
+        dpTT.savename = m_recovars->dpTT_pidir + "nb29";
+        ProduceGroup(dpTT, 29, -300, 300, EX_base_cut);
+
+        dpTT.savename = m_recovars->dpTT_pidir + "nb19";
+        ProduceGroup(dpTT, 19, -300, 300, EX_base_cut);
+
+        dpTT.savename = m_recovars->dpTT_pidir + "nb25";
+        ProduceGroup(dpTT, 25, -300, 300, EX_base_cut);
+
+        MakeDir("dpTT/dEdX/prdir");
+        dpTT.symbol = "#deltap_{TT}";
+        dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_prdir;
+        dpTT.savename = m_recovars->dpTT_prdir;
+        ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+
     //LL Method
-    MakeDir("dpTT/LL");
-    dpTT.savename = m_recovars->dpTT_alt;// + "300";
-    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-    
-    MakeDir("dpTT/LL/pm1000");
-    dpTT.savename = m_recovars->dpTT_alt + "1000";
-    ProduceGroup(dpTT, 99, -1000, 1000, (LL_base_cut + " && " + m_recovars->dpTT_alt + " != -999."));
-    
-    MakeDir("dpTT/LL/pm7000");
-    dpTT.savename = m_recovars->dpTT_alt + "7000";
-    ProduceGroup(dpTT, 199, -7000, 7000, (LL_base_cut + " && " + m_recovars->dpTT_alt + " != -999."));
-    
-    MakeDir("dpTT/LL/tmumom");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tmumom_alt;
-    dpTT.savename = m_recovars->dpTT_tmumom_alt;
-    ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
-    
-    MakeDir("dpTT/LL/tmumom");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tpimom_alt;
-    dpTT.savename = m_recovars->dpTT_tpimom_alt;
-    ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
-    
-    MakeDir("dpTT/LL/tprmom");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tprmom_alt;
-    dpTT.savename = m_recovars->dpTT_tprmom_alt;
-    ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
-    
-    MakeDir("dpTT/LL/tnudir");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tnudir_alt;
-    dpTT.savename = m_recovars->dpTT_tnudir_alt;
-    ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
-    
-    MakeDir("dpTT/LL/pimom");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pi_alt;
-    dpTT.savename = m_recovars->dpTT_pi_alt;
-    ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
-    
-    MakeDir("dpTT/LL/prmom");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pr_alt;
-    dpTT.savename = m_recovars->dpTT_pr_alt;
-    ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
-    
-    MakeDir("dpTT/LL/pidir");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pidir_alt;
-    dpTT.savename = m_recovars->dpTT_pidir_alt;
-    ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
-    
-    MakeDir("dpTT/LL/prdir");
-    dpTT.symbol = "#deltap_{TT}";
-    dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_prdir_alt;
-    dpTT.savename = m_recovars->dpTT_prdir_alt;
-    ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
+        MakeDir("dpTT/LL");
+        dpTT.savename = m_recovars->dpTT_alt;
+        ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+
+        MakeDir("dpTT/LL/pm1000");
+        dpTT.savename = m_recovars->dpTT_alt + "1000";
+        ProduceGroup(dpTT, 99, -1000, 1000, (LL_base_cut + " && " + m_recovars->dpTT_alt + " != -999."));
+
+        MakeDir("dpTT/LL/pm7000");
+        dpTT.savename = m_recovars->dpTT_alt + "7000";
+        ProduceGroup(dpTT, 199, -7000, 7000, (LL_base_cut + " && " + m_recovars->dpTT_alt + " != -999."));
+
+        MakeDir("dpTT/LL/tmumom");
+        dpTT.symbol = "#deltap_{TT}";
+        dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tmumom_alt;
+        dpTT.savename = m_recovars->dpTT_tmumom_alt;
+        ProduceGroup(dpTT, 39, -300, 300, EX_base_cut);
+
+        MakeDir("dpTT/LL/tmumom");
+        dpTT.symbol = "#deltap_{TT}";
+        dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tpimom_alt;
+        dpTT.savename = m_recovars->dpTT_tpimom_alt;
+        ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
+
+        MakeDir("dpTT/LL/tprmom");
+        dpTT.symbol = "#deltap_{TT}";
+        dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tprmom_alt;
+        dpTT.savename = m_recovars->dpTT_tprmom_alt;
+        ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
+
+        MakeDir("dpTT/LL/tnudir");
+        dpTT.symbol = "#deltap_{TT}";
+        dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_tnudir_alt;
+        dpTT.savename = m_recovars->dpTT_tnudir_alt;
+        ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
+
+        MakeDir("dpTT/LL/pimom");
+        dpTT.symbol = "#deltap_{TT}";
+        dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pi_alt;
+        dpTT.savename = m_recovars->dpTT_pi_alt;
+        ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
+
+        MakeDir("dpTT/LL/prmom");
+        dpTT.symbol = "#deltap_{TT}";
+        dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pr_alt;
+        dpTT.savename = m_recovars->dpTT_pr_alt;
+        ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
+
+        MakeDir("dpTT/LL/pidir");
+        dpTT.symbol = "#deltap_{TT}";
+        dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_pidir_alt;
+        dpTT.savename = m_recovars->dpTT_pidir_alt;
+        ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
+
+        MakeDir("dpTT/LL/prdir");
+        dpTT.symbol = "#deltap_{TT}";
+        dpTT.name = m_recovars->truedpTT + ":" + m_recovars->dpTT_prdir_alt;
+        dpTT.savename = m_recovars->dpTT_prdir_alt;
+        ProduceGroup(dpTT, 39, -300, 300, LL_base_cut);
+    }
 
     //**************************************** DPTT END ***************************************//
     //*****************************************************************************************//
