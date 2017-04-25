@@ -430,6 +430,6 @@ void DrawingTools::SetPOT(){
             }
             cout << "POT counted : " << m_POT << endl;
             m_bad_POT = false;
-        }
+        } 
     }
 }
