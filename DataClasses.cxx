@@ -519,6 +519,8 @@ m_symbol(ToString(m_type ,1)), m_fill_colour(40), m_fill_style(1001), m_line_col
 {
 	m_signal = definition;
 
+    cout << "Post : " << "FC = " << m_fill_colour << " LC = " << m_line_colour << " FS = " << m_fill_style << " LS = " << m_line_style << endl;
+
 	if(m_type == HCC1P1PiPlus){
 		m_line_style = 2;
 		m_line_colour = 1;
@@ -550,7 +552,6 @@ m_symbol(ToString(m_type ,1)), m_fill_colour(40), m_fill_style(1001), m_line_col
     	m_fill_colour = (Int_t)DrawingStyle::T1Pi1Pi0;
     	m_fill_style = 3024;
     }
-
     cout << "Post : " << "FC = " << m_fill_colour << " LC = " << m_line_colour << " FS = " << m_fill_style << " LS = " << m_line_style << endl;
 }
 
