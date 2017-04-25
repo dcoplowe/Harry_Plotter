@@ -403,10 +403,23 @@ TLegend * DrawingTools::GetPOT(double x_pos, double y_pos){
 }
 
 void DrawingTools::SetPOT(){
-    TTree * tmp_meta_tree = (TTree*)m_file->Get("Meta");
-    assert(tmp_meta_tree);
-    assert(tmp_meta_tree->GetEntries()==1);
-    tmp_meta_tree->GetEntry(0);
-    TLeaf * lpot= tmp_meta_tree->GetLeaf("POT_Used");
-    if(lpot) m_POT = lpot->GetValue();
+    
+    m_bad_POT = true;
+
+    TTree * tmp_POT_tree = (TTree*)m_file->Get("Meta");
+    if(tmp_POT_tree){
+        assert(tmp_POT_tree->GetEntries()==1);
+        tmp_POT_tree->GetEntry(0);
+        TLeaf * lpot= tmp_POT_tree->GetLeaf("POT_Used");
+        if(lpot) m_POT = lpot->GetValue();
+        m_bad_POT = false;
+    }
+
+    tmp_POT_tree = (TTree*)m_file->Get("header");
+    if(tmp_POT_tree){
+        int entries = tmp_POT_tree->GetEntries();
+        cout << "Entires = " << entries << endl;
+        m_bad_POT = false;
+    }
+
 }
