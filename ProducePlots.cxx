@@ -440,7 +440,7 @@ void ProducePlots::MakePlots(){
     }
 
     for(int br = 0; br < nbranches; br++){
-        std::vector<Particle> list;
+        std::vector<Particle*> list;
 
         if(br == 1 && m_experiment->GetType() == Experiment::MIN){
             list.push_back( m_proton_alt );
