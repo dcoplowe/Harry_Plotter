@@ -81,7 +81,7 @@ private:
     int m_effvarcounter;
     int m_purvarcounter;
     
-    Double_t * EvenArray(int nbins, Double_t x_low, Double_t x_high);
+    // Double_t * EvenArray(int nbins, Double_t x_low, Double_t x_high);
 
 };
 

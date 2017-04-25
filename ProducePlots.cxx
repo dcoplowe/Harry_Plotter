@@ -158,7 +158,6 @@ m_realdata(realdata) {
     
     m_outfile = new TFile(m_savename.c_str(), "RECREATE");
 
-    cout << "Initilised" << endl;
 }
 
 ProducePlots::~ProducePlots(){
@@ -413,17 +412,45 @@ void ProducePlots::MakePlots(){
     //Pass all cuts check://Only consider dEdX ( accum_level[0]) recon for now:
 //    string base_dir = "dEdX";
 
+    // T2K only has one reco type
+    // MIN has 2
+
+    string * basecuts;
+    string * branchnames;
+    int nbranches = 1;
+
+    if(m_experiment->GetType() == Experiment::MIN && m_pion_alt && m_proton_alt){
+
+        nbranches = 2;
+        basecuts = new string[ nbranches ];
+
+        branchnames = new string[ nbranches ];
+        branchnames[0] = "/dEdX";
+        branchnames[1] = "/LL";
+
+        basecuts[0] = m_experiment->GetBaseCuts(5, 0, m_pion->michel + " == 1 && target_region == 1");//"accum_level[0] > 5 && " + m_pion->michel + " == 1 && target_region == 1";
+        basecuts[1] = m_experiment->GetBaseCuts(5, 1, m_pion_alt->michel + " == 1 && target_region == 1");//"accum_level[1] > 5 && " + m_pion_alt->michel + " == 1 && target_region == 1";
+    }
+    else{
+        branchnames = new string[ nbranches ];
+        branchnames[0] = "";
+
+        basecuts = new string[ nbranches ];
+        basecuts[0] = m_experiment->GetBaseCuts(6, 0);
+    }
+
+    for(int br = 0; br < nbranches; br++){
+
+        //**************************************** Mom START ****************************************//
+        for(int ptls = 0; ptls < 3; ptls++){
+            MakeDir("Mom/dEdX/Proton");
+            MakeMomPlots(m_proton, 40, 0, 2000, basecuts[br]);
+        }
 
 
-    string EX_base_cut = "accum_level[0] > 5 && " + m_pion->michel + " == 1 && target_region == 1";
-    // string LL_base_cut = "accum_level[1] > 5 && " + m_pion_alt->michel + " == 1 && target_region == 1";//Alt michel too
-    //**************************************** Mom START ****************************************//
+    }
     
-    // for(int i = 0; i < 3; i++){
-
-        MakeDir("Mom/dEdX/Proton");
-        MakeMomPlots(m_proton, 40, 0, 2000, EX_base_cut);
-    // }
+    
 
 
     // Proton:
@@ -958,7 +985,7 @@ void ProducePlots::MakePlots(){
 //    }
 //    
 
-    
+
     //****************************************** Truth END ************************************//
     //*****************************************************************************************//
     

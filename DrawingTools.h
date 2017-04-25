@@ -52,7 +52,7 @@ public:
     void Verbose(){ m_verbose = true; }
     void SetRatioInfo(Int_t nbins, Double_t range){ m_ratiobins = nbins; m_ratiorange = range; }
     
-    Double_t * SetBinning(int nbins, Double_t low, Double_t high);
+    static Double_t * SetBinning(int nbins, Double_t low, Double_t high);
     
     TLegend * Legend(Double_t x_size, Double_t y_size, Double_t x_start = 0.1, Double_t y_start = 0.1);
     

@@ -6,6 +6,7 @@
 #include "TLeaf.h"
 
 #include "DataClasses.h"
+#include "DrawingTools.h"
 
 //Forward declarations;
 #include "TFile.h"
@@ -211,7 +212,7 @@ TH1D * EffPurTools::EffVSVar(std::string var, int nbins, Double_t * xbins, std::
 
 TH1D * EffPurTools::EffVSVar(std::string var, int nbins, Double_t x_low, Double_t x_high, std::string signal, std::string cuts, std::string x_title){
     if(m_debug) cout << "EffPurTools::EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString cuts, const TString x_title)" << endl;
-    return EffVSVar(var, nbins, EvenArray(nbins, x_low, x_high), signal, cuts, x_title);
+    return EffVSVar(var, nbins, DrawingTools::SetBinning(nbins, x_low, x_high), signal, cuts, x_title);
 }
 
 TH2D * EffPurTools::EffVSVar(std::string var_yx, int x_nbins, Double_t * x_bins, int y_nbins, Double_t * y_bins, std::string signal, std::string cuts, std::string xy_title){
@@ -225,7 +226,7 @@ TH2D * EffPurTools::EffVSVar(std::string var_yx, int x_nbins, Double_t * x_bins,
 }
 
 TH2D * EffPurTools::EffVSVar(std::string var_yx, int x_nbins, Double_t x_low, Double_t x_high, int y_nbins, Double_t y_low, Double_t y_high, std::string signal, std::string cuts, std::string xy_title){
-    return EffVSVar(var_yx, x_nbins, EvenArray(x_nbins, x_low, x_high), y_nbins, EvenArray(y_nbins, y_low, y_high), signal, cuts, xy_title);
+    return EffVSVar(var_yx, x_nbins, DrawingTools::SetBinning(x_nbins, x_low, x_high), y_nbins, DrawingTools::SetBinning(y_nbins, y_low, y_high), signal, cuts, xy_title);
 }
 
 TH1D * EffPurTools::PurVSVar(std::string var, int nbins, Double_t * xbins, std::string signal, std::string  x_title, std::string cuts){
@@ -241,7 +242,7 @@ TH1D * EffPurTools::PurVSVar(std::string var, int nbins, Double_t * xbins, std::
 
 TH1D * EffPurTools::PurVSVar(std::string var, int nbins, Double_t x_low, Double_t x_high, std::string signal, std::string x_title, std::string cuts){
     if(m_debug) cout << "EffPurTools::PurVSVar()" << endl;
-    return PurVSVar(var, nbins, EvenArray(nbins, x_low, x_high), signal, x_title, cuts);
+    return PurVSVar(var, nbins, DrawingTools::SetBinning(nbins, x_low, x_high), signal, x_title, cuts);
 }
 
 TH2D * EffPurTools::PurVSVar(std::string var_yx, int x_nbins, Double_t * x_bins, int y_nbins, Double_t * y_bins, std::string signal, std::string  xy_title, std::string cuts){
@@ -257,7 +258,7 @@ TH2D * EffPurTools::PurVSVar(std::string var_yx, int x_nbins, Double_t * x_bins,
 
 TH2D * EffPurTools::PurVSVar(std::string var_yx, int x_nbins, Double_t x_low, Double_t x_high, int y_nbins, Double_t y_low, Double_t y_high, std::string signal, std::string  xy_title, std::string cuts){
     if(m_debug) cout << "EffPurTools::PurVSVar()" << endl;
-    return PurVSVar(var_yx, x_nbins, EvenArray(x_nbins, x_low, x_high), y_nbins, EvenArray(y_nbins, y_low, y_high), signal, xy_title, cuts);
+    return PurVSVar(var_yx, x_nbins, DrawingTools::SetBinning(x_nbins, x_low, x_high), y_nbins, DrawingTools::SetBinning(y_nbins, y_low, y_high), signal, xy_title, cuts);
 }
 
 TH1D * EffPurTools::EventsVSCuts(TTree * intree, std::string cuts, int branch, int ncuts, std::string name){
@@ -460,16 +461,16 @@ TH2D * EffPurTools::RatioVSVar(TTree * intree, std::string var_yx, int x_nbins, 
     return ratio;
 }
 
-Double_t * EffPurTools::EvenArray(int nbins, Double_t x_low, Double_t x_high){
-    Double_t * xbins = new Double_t[ nbins + 1 ];
+// Double_t * EffPurTools::DrawingTools::SetBinning(int nbins, Double_t x_low, Double_t x_high){
+//     Double_t * xbins = new Double_t[ nbins + 1 ];
     
-    Double_t range = x_high - x_low;
-    Double_t binwidth = range/(Double_t)nbins;
+//     Double_t range = x_high - x_low;
+//     Double_t binwidth = range/(Double_t)nbins;
     
-    for (int i=0; i < nbins + 1; i++) {
-        xbins[i] = x_low + binwidth*i;
-        //cout << "Array Element: " << i << " : " << xbins[i] << endl;
-    }
-    return xbins;
-}
+//     for (int i=0; i < nbins + 1; i++) {
+//         xbins[i] = x_low + binwidth*i;
+//         //cout << "Array Element: " << i << " : " << xbins[i] << endl;
+//     }
+//     return xbins;
+// }
 
