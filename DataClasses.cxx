@@ -585,14 +585,13 @@ void Topologies::AddSignalToTopology(Topology::Name name, std::string add2def, b
 	}
 }
 
-std::vector<Topology> Topologies::GetList();
+std::vector<Topology> Topologies::GetList()
 { 
 	std::vector<Topology> list;
 	m_other.Reset();
 	for(unsigned int i = 0; i < m_original.size(); i++){ 
 		list.push_back(m_original[i]);
-        // if(m_original[i].Type() != m_signal)
-        m_other.AddToSignal( ("!(" + m_original[i].GetSignal() + ")") ); 
+        if(m_original[i].Type() != m_signal) m_other.AddToSignal( ("!(" + m_original[i].GetSignal() + ")") ); 
 	}
 	list.push_back( m_other );
 	return list;
