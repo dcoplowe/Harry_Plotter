@@ -37,7 +37,7 @@ DrawingTools::DrawingTools(std::string filename, std::string treename, std::stri
     empty_kinmap.ratio = 0x0;
     empty_kinmap.smear = 0x0;
     
-    SetPOT();
+    // SetPOT();
 }
 
 DrawingTools::~DrawingTools(){

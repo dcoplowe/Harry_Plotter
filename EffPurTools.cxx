@@ -53,7 +53,7 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
 
 }
 
-EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_names, std::string reconame, std::string truename) : m_debug(false) {
+EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_names, std::string reconame, std::string truename) : m_debug(print_level::effpurtools) {
     
     if(m_debug){
         cout << "    Filename: " << filename << endl;
