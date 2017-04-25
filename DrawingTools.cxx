@@ -397,7 +397,7 @@ TH2D * DrawingTools::NormalHist(TH2D *hraw, Double_t thres, bool kmax){
 
 TLegend * DrawingTools::GetPOT(double x_pos, double y_pos){
     TLegend * pot = Legend(x_pos, y_pos);
-    pot->AddEntry((TObject*)0, Form(" %.2e POT", m_POT),"");
+    pot->AddEntry((TObject*)0, ( m_bad_POT ? "7.0x10^{21}" : Form(" %.2e POT", m_POT) ),"");
     pot->SetTextSize(0.042);
     return pot;
 }
