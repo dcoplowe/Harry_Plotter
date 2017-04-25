@@ -411,11 +411,13 @@ TH1D * EffPurTools::RatioVSVar(TTree * intree, std::string var, int nbins, Doubl
     ratio->GetYaxis()->SetRangeUser(0., 110.);
     ratio->Divide(num, den);
     
-    for(int i = 1; i < ratio->GetNbinsX() + 1; i++){
-        cout << "Bin: " << i << "/" << ratio->GetNbinsX() << ": Ratio = " << ratio->GetBinContent(i);
-        cout << " Num = " << num->GetBinContent(i) << " Den = " << den->GetBinContent(i) << endl;
+    if(m_debug){
+        for(int i = 1; i < ratio->GetNbinsX() + 1; i++){
+            cout << "Bin: " << i << "/" << ratio->GetNbinsX() << ": Ratio = " << ratio->GetBinContent(i);
+            cout << " Num = " << num->GetBinContent(i) << " Den = " << den->GetBinContent(i) << endl;
+        }
     }
-
+    
     ratio->Scale(100);
 
     delete num;
