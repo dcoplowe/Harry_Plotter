@@ -413,7 +413,7 @@ void ProducePlots::MakePlots(){
     //Pass all cuts check://Only consider dEdX ( accum_level[0]) recon for now:
 //    string base_dir = "dEdX";
     string EX_base_cut = "accum_level[0] > 5 && " + m_pion->michel + " == 1 && target_region == 1";
-    string LL_base_cut = "accum_level[1] > 5 && " + m_pion_alt->michel + " == 1 && target_region == 1";//Alt michel too
+    // string LL_base_cut = "accum_level[1] > 5 && " + m_pion_alt->michel + " == 1 && target_region == 1";//Alt michel too
     //**************************************** Mom START ****************************************//
     
 
@@ -423,6 +423,8 @@ void ProducePlots::MakePlots(){
     MakeDir("Mom/dEdX/Proton");
     MakeMomPlots(m_proton, 40, 0, 2000, EX_base_cut);
     
+    return;
+
     //Pion:
     MakeDir("Mom/dEdX/Pion");
     MakeMomPlots(m_pion, 40, 0, 2000, EX_base_cut);
