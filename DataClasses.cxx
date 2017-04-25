@@ -485,6 +485,11 @@ KinematicVars::~KinematicVars(){
 #ifndef _TOPOLOGY_CXX
 #define _TOPOLOGY_CXX
 
+Topology::Topology() : m_type(Unknown), m_name(ToString(m_type ,0)), m_symbol(ToString(m_type ,1)), 
+m_fill_style(1001), m_line_colour(1), m_line_style(1)
+{
+}
+
 Topology::Topology(Name topo_type, std::string definition) : m_type(topo_type), m_name(ToString(m_type ,0)),
 m_symbol(ToString(m_type ,1)), m_fill_style(1001), m_line_colour(1), m_line_style(1)
 {
@@ -591,7 +596,7 @@ std::vector<Topology> Topologies::GetList()
 	m_other.Reset();
 	for(unsigned int i = 0; i < m_original.size(); i++){ 
 		list.push_back(m_original[i]);
-        if(m_original[i].Type() != m_signal) m_other.AddToSignal( ("!(" + m_original[i].GetSignal() + ")") ); 
+        if(m_original[i].GetType() != m_signal) m_other.AddToSignal( ("!(" + m_original[i].GetSignal() + ")") ); 
 	}
 	list.push_back( m_other );
 	return list;
@@ -615,6 +620,10 @@ Topology Topologies::GetTopology(Topology::Name name)
 
 	if(name == Topology::Other) top = m_other;
 
+    if(name == Topology::Unknown) cout << "!!!!!! ------------- Top not changes for initialisation ------------- !!!!!!" << endl;
+
+    cout << " top = " << top.GetName() << " signal = " << top.GetSignal() << endl;
+
 	return top;
 }
 
@@ -626,7 +635,7 @@ Topology Topologies::GetTopology(Topology::Name name)
 PDGInfo::PDGInfo(Int_t part_pdg, std::string part_name, std::string part_symbol) : m_pdg(part_pdg), m_name(part_name), m_symbol(part_symbol), m_line_colour(1), m_line_style(1) {
     stringstream ss;
     ss << pdg;
-    pdg_s = ss.str();
+    m_pdg_s = ss.str();
     
     if(name.find("proton") != std::string::npos)        m_colour = (Int_t)DrawingStyle::Proton;//Proton
     else if(name.find("piplus") != std::string::npos)   m_colour = (Int_t)DrawingStyle::PionP;//PionP

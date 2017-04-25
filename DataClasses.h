@@ -29,6 +29,7 @@ public:
         Unknown = -999
     };
 
+    Topology();
     Topology(Name name, std::string definition);
     ~Topology();
 
