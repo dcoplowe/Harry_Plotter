@@ -66,51 +66,75 @@ void Experiment::SetTopologies(Experiment::Name exp)
 {
     if(exp == Experiment::MIN){
 
+        cout << " Adding Topology = " << Topology::ToString(Topology::CC1P1PiPlus) << endl;
+
     	m_topologies->AddTopology(		  Topology::CC1P1PiPlus, "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1");
     	m_topologies->AddSignalToTopology(Topology::CC1P1PiPlus, "truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0");
     	m_topologies->AddSignalToTopology(Topology::CC1P1PiPlus, "truth_n_piP == 1 && truth_n_pro == 1 && truth_n_tau == 0 && mc_nFSPart == 3");
+
+        cout << " Adding Topology = " << Topology::ToString(Topology::HCC1P1PiPlus) << endl;
 
     	m_topologies->AddTopology(		  Topology::HCC1P1PiPlus,  m_topologies->GetTopology(Topology::CC1P1PiPlus).GetSignal() );
     	m_topologies->AddSignalToTopology(Topology::HCC1P1PiPlus, "mc_targetZ == 1 && true_target_region == 1 && truth_mu_E < 20000.");
     	m_topologies->AddSignalToTopology(Topology::HCC1P1PiPlus, "truth_mu_E > 0.");
 
+        cout << " Adding Topology = " << Topology::ToString(Topology::CCNPNPiMinus) << endl;
+
     	m_topologies->AddTopology(		  Topology::CCNPNPiMinus, "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1");
     	m_topologies->AddSignalToTopology(Topology::CCNPNPiMinus, "truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM > 0");
     	m_topologies->AddSignalToTopology(Topology::CCNPNPiMinus, "truth_n_piP == 0 && truth_n_pro > 0 && truth_n_tau == 0 &&  mc_nFSPart > 0");
+
+        cout << " Adding Topology = " << Topology::ToString(Topology::CCNP) << endl;
 
     	m_topologies->AddTopology(		  Topology::CCNP, "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1 ");
     	m_topologies->AddSignalToTopology(Topology::CCNP, "truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0 ");
     	m_topologies->AddSignalToTopology(Topology::CCNP, "truth_n_piP == 0 && truth_n_pro > 0 && truth_n_tau == 0 && mc_nFSPart > 0");
 
+        cout << " Adding Topology = " << Topology::ToString(Topology::CCNPiPlus) << endl;
+
     	m_topologies->AddTopology(		  Topology::CCNPiPlus, "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1");
     	m_topologies->AddSignalToTopology(Topology::CCNPiPlus, "truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0");
     	m_topologies->AddSignalToTopology(Topology::CCNPiPlus, "truth_n_piP > 0 && truth_n_pro == 0 && truth_n_tau == 0 && mc_nFSPart > 0");
+
+        cout << " Adding Topology = " << Topology::ToString(Topology::CCNPNPiZero) << endl;
 
 		m_topologies->AddTopology(		  Topology::CCNPNPiZero, "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1");
     	m_topologies->AddSignalToTopology(Topology::CCNPNPiZero, "truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 > 0 && truth_n_piM == 0");
     	m_topologies->AddSignalToTopology(Topology::CCNPNPiZero, "truth_n_piP == 0 && truth_n_pro > 0 && truth_n_tau == 0 && mc_nFSPart > 0");
 
+        cout << " Adding Topology = " << Topology::ToString(Topology::CCNPiZeroNPiPlus) << endl;
+
 		m_topologies->AddTopology(		  Topology::CCNPiZeroNPiPlus, "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1");
     	m_topologies->AddSignalToTopology(Topology::CCNPiZeroNPiPlus, "truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 > 0 && truth_n_piM == 0");
     	m_topologies->AddSignalToTopology(Topology::CCNPiZeroNPiPlus, "truth_n_piP > 0 && truth_n_pro == 0 && truth_n_tau == 0 && mc_nFSPart > 0");
+
+        cout << " Adding Topology = " << Topology::ToString(Topology::CCKaonsOth) << endl;
 
 		m_topologies->AddTopology(		  Topology::CCKaonsOth, "truth_n_ele == 0 && (truth_n_kPM > 0 || truth_n_kaO > 0) && truth_n_muo == 1");
     	m_topologies->AddSignalToTopology(Topology::CCKaonsOth, "(truth_n_ntn > 0 || truth_n_pho > 0 || truth_n_pi0 > 0 || truth_n_piM > 0 ");
     	m_topologies->AddSignalToTopology(Topology::CCKaonsOth, "truth_n_piP > 0 && truth_n_pro == 0 && truth_n_tau == 0 && mc_nFSPart > 0 || truth_n_piP > 0 || truth_n_pro > 0)");
     	m_topologies->AddSignalToTopology(Topology::CCKaonsOth, "truth_n_tau == 0 && mc_nFSPart > 0");
 
+        cout << " Adding Topology = " << Topology::ToString(Topology::CCNN) << endl;
+
     	m_topologies->AddTopology(        Topology::CCNN, "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1");
     	m_topologies->AddSignalToTopology(Topology::CCNN, "truth_n_ntn > 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0");
     	m_topologies->AddSignalToTopology(Topology::CCNN, "truth_n_piP == 0 && truth_n_pro == 0 && truth_n_tau == 0 && mc_nFSPart > 0");
+
+        cout << " Adding Topology = " << Topology::ToString(Topology::CCNPNN) << endl;
 
     	m_topologies->AddTopology(        Topology::CCNPNN, "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1");
     	m_topologies->AddSignalToTopology(Topology::CCNPNN, "truth_n_ntn > 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0");
     	m_topologies->AddSignalToTopology(Topology::CCNPNN, "truth_n_piP == 0 && truth_n_pro > 0 && truth_n_tau == 0 && mc_nFSPart > 0");
 
+        cout << " Adding Topology = " << Topology::ToString(Topology::CCNPiNN) << endl;
+
     	m_topologies->AddTopology(        Topology::CCNPiNN, "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1");
     	m_topologies->AddSignalToTopology(Topology::CCNPiNN, "truth_n_ntn > 0 && truth_n_pho == 0");
     	m_topologies->AddSignalToTopology(Topology::CCNPiNN, "(truth_n_pi0 > 0 || truth_n_piM > 0 || truth_n_piP > 0)");
     	m_topologies->AddSignalToTopology(Topology::CCNPiNN, "truth_n_pro == 0 && truth_n_tau == 0 && mc_nFSPart > 0");
+
+        cout << " Adding Topology = " << Topology::ToString(Topology::CCNPiNPNN) << endl;
 
     	m_topologies->AddTopology(        Topology::CCNPiNPNN, "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1");
     	m_topologies->AddSignalToTopology(Topology::CCNPiNPNN, "truth_n_ntn > 0 && truth_n_pho == 0");
@@ -491,7 +515,7 @@ m_fill_style(1001), m_line_colour(1), m_line_style(1)
 }
 
 Topology::Topology(Name topo_type, std::string definition) : m_type(topo_type), m_name(ToString(m_type ,0)),
-m_symbol(ToString(m_type ,1)), m_fill_style(1001), m_line_colour(1), m_line_style(1)
+m_symbol(ToString(m_type ,1)), m_fill_colour(40), m_fill_style(1001), m_line_colour(1), m_line_style(1)
 {
 	m_signal = definition;
 
@@ -527,7 +551,7 @@ m_symbol(ToString(m_type ,1)), m_fill_style(1001), m_line_colour(1), m_line_styl
     	m_fill_style = 3024;
     }
 
-    cout << "Post : " << "Color = " << m_fill_colour << endl;
+    cout << "Post : " << "FC = " << m_fill_colour << " LC = " << m_line_colour << " FS = " << m_fill_style << " LS = " << m_line_style << endl;
 }
 
 void Topology::AddToSignal(std::string add2def, bool reset)
