@@ -195,6 +195,7 @@ public:
         return sname;
     }
 
+    Name GetType(){ return m_type; }
     std::string GetName(){ return m_name; }
     std::string GetLogo(){ return m_logo; }
 
@@ -214,6 +215,8 @@ public:
     std::string GetTarVarName(){ return m_tarvarname; }
 
 private: 
+
+    Name m_type;
 
     std::string m_name;
     std::string m_logo;

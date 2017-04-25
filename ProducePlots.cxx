@@ -83,11 +83,10 @@ public:
     void cdDir(std::string name = ""){  m_outfile->cd((m_savename + ":/" + name).c_str()); }//Default is the root dir.
     
 private:
-    Experiment::Name m_experiment;
     std::string m_infilename;
     bool m_realdata;
 
-    Experiment * m_detector;
+    Experiment * m_experiment;
 
     KinematicVars * m_recovars;
     
@@ -114,12 +113,12 @@ private:
     EffPurTools     * m_runep;
 };
 
-ProducePlots::ProducePlots(Experiment::Name exp, std::string filename, bool debug, bool realdata) : m_experiment(exp), m_infilename(filename),
+ProducePlots::ProducePlots(Experiment::Name exp, std::string filename, bool debug, bool realdata) : m_infilename(filename),
 m_realdata(realdata) {
     
     cout << "Experiment: " <<  Experiment::ToString(exp) << endl;
     
-    m_detector = new Experiment(exp);
+    m_experiment = new Experiment(exp);
     
     if(exp == Experiment::T2K){
         m_getPOT = false;
@@ -144,8 +143,8 @@ m_realdata(realdata) {
     
     cout << "Saving file as " << m_savename << endl;
     
-    m_runbd = new BreakdownTools( m_infilename, m_detector->GetRecoName(), m_detector->GetTopologies(), m_detector->GetTarVarName() );
-    if(!m_realdata) m_runtruthbd = new BreakdownTools(m_infilename, m_detector->GetTrueName(), m_detector->GetTopologies(), m_detector->GetTarVarName());
+    m_runbd = new BreakdownTools( m_infilename, m_experiment->GetRecoName(), m_experiment->GetTopologies(), m_experiment->GetTarVarName() );
+    if(!m_realdata) m_runtruthbd = new BreakdownTools(m_infilename, m_experiment->GetTrueName(), m_experiment->GetTopologies(), m_experiment->GetTarVarName());
     
     std::vector<std::string> selection_cuts;
     selection_cuts.push_back("Vertex");
@@ -525,7 +524,7 @@ void ProducePlots::MakePlots(){
 
     // "accum_level[0] > 5"
 
-    if(exp == Experiment::MIN){
+    if(m_experiment == Experiment::MIN){
 
 
         MakeDir("dpTT/dEdX/pm1000");
@@ -979,11 +978,11 @@ std::string ProducePlots::GetDate(){
 }
 
 TLatex * ProducePlots::GetLogo(){
-    return new TLatex(0.0, 0.1, ("#font[62]{" + m_detector->GetLogo() + "}").c_str() );
+    return new TLatex(0.0, 0.1, ("#font[62]{" + m_experiment->GetLogo() + "}").c_str() );
 }
 
 TLatex * ProducePlots::GetSignal(){
-    return new TLatex(0.0, 0.1, ("#font[62]{#it{" + m_detector->GetSigDef() + "}}").c_str() );
+    return new TLatex(0.0, 0.1, ("#font[62]{#it{" + m_experiment->GetSigDef() + "}}").c_str() );
 }
 
 int main(int argc, char *argv[])

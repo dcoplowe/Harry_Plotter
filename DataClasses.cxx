@@ -21,7 +21,7 @@ namespace print_level {
 #ifndef _EXPERIMENT_CXX
 #define _EXPERIMENT_CXX
 
-Experiment::Experiment(Name exp)
+Experiment::Experiment(Name exp) : m_type(exp), m_name( ToString(m_type) )
 {
     m_topologies = new Topologies();
     m_intmodes.clear();
@@ -29,7 +29,6 @@ Experiment::Experiment(Name exp)
 
     if(exp == Experiment::MIN){
 
-        m_name = "MINERvA";
         m_logo = m_name + " Preliminary";
 
         m_reconame = "sel";
