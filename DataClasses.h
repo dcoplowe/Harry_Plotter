@@ -11,6 +11,7 @@ namespace print_level {
     extern bool debug;// = true;// = true;
     extern bool quiet;
     extern bool effpurtools;
+    extern bool drawingtools;
     // extern bool debug;
 }
 

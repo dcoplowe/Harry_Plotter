@@ -13,6 +13,7 @@ namespace print_level {
     bool debug = true;// = true;// = true;
     bool quiet = false;
     bool effpurtools = true;
+    bool drawingtools = true;
 }
 
 #endif

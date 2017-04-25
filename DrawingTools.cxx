@@ -12,10 +12,11 @@
 #include "TH1D.h"
 #include "TH2D.h"
 #include "TMath.h"
+#include "DataClasses.h"
 
 using namespace std;
 
-DrawingTools::DrawingTools(std::string filename, std::string treename, std::string uniquename) : m_filename(filename), m_treename(treename), m_uniquename(uniquename), m_weight("1"), m_verbose(false), m_getPOT(true) {
+DrawingTools::DrawingTools(std::string filename, std::string treename, std::string uniquename) : m_filename(filename), m_treename(treename), m_uniquename(uniquename), m_weight("1"), m_verbose(print_level::drawingtools), m_getPOT(true) {
     
     m_file = new TFile(m_filename.c_str(), "READ");
     
