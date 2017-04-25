@@ -192,7 +192,7 @@ public:
     std::string GetSignal(){ return m_signal; }
     std::string GetSigDef(){ return m_signaldef; }
 
-    std::string GetBaseCuts(int accum_level, int branch);
+    std::string GetBaseCuts(int accum_level, int branch, std::string cuts = "");
 
     Topologies * GetTopologies(){ return m_topologies; }
     std::vector<std::string> GetIntModes(){ return m_intmodes; }
@@ -231,7 +231,7 @@ private:
 
 class Particle {
 public:
-    Particle(Experiment::Name exp, std::string name, std::string symbol, std::string tag = "");//; : m_tag {};
+    Particle(Experiment::Name exp, std::string name, std::string tag = "");//; : m_tag {};
     ~Particle(){};
     
     //Reco vars: Common:
