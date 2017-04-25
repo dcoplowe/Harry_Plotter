@@ -45,7 +45,7 @@ public:
     Int_t GetLineColor(){ return m_line_colour; }
     Int_t GetLineStyle(){ return m_line_style; }
 
-    inline std::string ToString(Name name, int form){
+    static inline std::string ToString(Name name, int form = 0){
         std::string sname = "Unknown";
         if(name == HCC1P1PiPlus)            sname = (form == 0) ? "HCC1P1PiPlus"        : "CC1p1#pi^{+} on H";
         else if(name == CC1P1PiPlus)        sname = (form == 0) ? "CC1P1PiPlus"         : "CC1p1#pi^{+}";
@@ -83,7 +83,7 @@ private:
 class Topologies {
 public:
     Topologies(Topology::Name signal = Topology::HCC1P1PiPlus);//Contains all the topologies signal defs.
-    ~Topologies(){};
+    ~Topologies();
 
     Topologies(Topologies * topologies);
 
