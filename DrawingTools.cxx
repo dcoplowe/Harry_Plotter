@@ -432,4 +432,7 @@ void DrawingTools::SetPOT(){
             m_bad_POT = false;
         } 
     }
+
+    cout << "POT is bad" << endl;
+
 }
