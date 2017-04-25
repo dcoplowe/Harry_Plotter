@@ -449,9 +449,9 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
 KinematicVars::KinematicVars(Experiment::Name exp){
     
     if(exp == Experiment::T2K){
-        muon = new Particle(    exp, "mu");
-        proton = new Particle(  exp, "p");
-        pion = new Particle(    exp, "pi");
+        muon = new Particle(    exp, "mu", "sel");
+        proton = new Particle(  exp, "p",  "sel");
+        pion = new Particle(    exp, "pi", "sel");
         
         // muon_alt = 0x0;
         proton_alt = 0x0;

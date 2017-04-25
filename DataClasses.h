@@ -156,23 +156,23 @@ private:
 
 #endif
 
-#ifndef _EXP_
-#define _EXP_
+// #ifndef _EXP_
+// #define _EXP_
 
-namespace EXP {
-    enum EXP{
-        T2K = 0,
-        MIN,
-        UNKNOWN
-    };
+// namespace EXP {
+//     enum EXP{
+//         T2K = 0,
+//         MIN,
+//         UNKNOWN
+//     };
     
-    inline std::string ToString(EXP name){
-        std::string sname = "Unknown";
-        if(name == T2K) sname = "T2K";
-        else if(name == MIN) sname = "MINERvA";
-        return sname;
-    }
-}
+//     inline std::string ToString(EXP name){
+//         std::string sname = "Unknown";
+//         if(name == T2K) sname = "T2K";
+//         else if(name == MIN) sname = "MINERvA";
+//         return sname;
+//     }
+// }
 
 #endif
 
