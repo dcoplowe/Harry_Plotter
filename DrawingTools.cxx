@@ -417,9 +417,19 @@ void DrawingTools::SetPOT(){
 
     tmp_POT_tree = (TTree*)m_file->Get("header");
     if(tmp_POT_tree){
-        int entries = tmp_POT_tree->GetEntries();
-        cout << "Entires = " << entries << endl;
-        m_bad_POT = false;
-    }
+        if(!tmp_POT_tree->FindLeaf("Spill_GoodBeamGoodND280")) m_bad_POT = true;
+        else{
+            m_POT = 0.;
+            double tmp_POT = 0;
+            tmp_POT_tree->SetBranchAddress("Spill_GoodBeamGoodND280", &tmp_POT);
+            int entries = tmp_POT_tree->GetEntries();
 
+            for(int i = 0; i < entries; i++){
+                tmp_POT_tree->GetEntry(i);
+                m_POT += tmp_POT;
+            }
+            cout << "POT counted : " << m_POT << endl;
+            m_bad_POT = false;
+        }
+    }
 }
