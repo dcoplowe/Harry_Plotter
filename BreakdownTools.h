@@ -93,5 +93,6 @@ private:
     Int_t m_statcounter;
     TLegend * RatioStats(const THStack * ratio_tot);   
     void DrawZeroPointLine(TH1 * histo); 
+    void DrawZeroPointLine(THStack * histo); 
 };
 #endif

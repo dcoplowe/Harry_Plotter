@@ -742,3 +742,10 @@ void BreakdownTools::DrawZeroPointLine(TH1 * histo){
     z_line->SetLineStyle(2);
     z_line->Draw(); 
 }
+
+void BreakdownTools::DrawZeroPointLine(THStack * histo){
+
+    TList * rlist = histo->GetHists();
+    TH1D * hfirst = (TH1D*)rlist->First()->Clone( (string(rlist->First()->GetName()) + "_clone").c_str() );
+    DrawZeroPointLine(hfirst);
+}
