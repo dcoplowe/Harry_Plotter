@@ -611,7 +611,7 @@ Topology Topologies::GetTopology(Topology::Name name)
 
 	for(unsigned int i = 0; i < m_original.size(); i++){
 		
-		if(name == Topology::Other && m_original.GetType() != m_signal) m_other.AddToSignal( "!(" + m_original[i].GetSignal() + ")" );
+		if(name == Topology::Other && m_original[i].GetType() != m_signal) m_other.AddToSignal( "!(" + m_original[i].GetSignal() + ")" );
 		else if(m_original[i].GetType() == name){ 
 			top = m_original[i];
 			break; 
