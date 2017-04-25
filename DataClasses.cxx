@@ -524,7 +524,7 @@ m_symbol(ToString(m_type ,1)), m_fill_colour(40), m_fill_style(1001), m_line_col
 		m_line_colour = 1;
 		m_fill_style = 0;
 	}
-    else if(CC1P1PiPlus) m_fill_colour = (Int_t)DrawingStyle::T1P1PiP;//Proton
+    else if(m_type == CC1P1PiPlus) m_fill_colour = (Int_t)DrawingStyle::T1P1PiP;//Proton
     else if(m_type == CCNPNPiMinus) m_fill_colour = (Int_t)DrawingStyle::T1P1PiM;
 	else if(m_type == CCNP) m_fill_colour = (Int_t)DrawingStyle::T2Pr;
     else if(m_type == CCNPiPlus) m_fill_colour = (Int_t)DrawingStyle::T2PiP;
