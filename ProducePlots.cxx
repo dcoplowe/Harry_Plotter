@@ -453,9 +453,9 @@ void ProducePlots::MakePlots(){
         }
 
         //**************************************** Mom START ****************************************//
-        for(int ptls = 0; ptls < nparticles; ptls++){
+        for(unsigned int ptls = 0; ptls < list.size(); ptls++){
             Particle party = list[ptls];
-            MakeDir("Mom" + branchnames[br] + "/" + party->GetName() );
+            MakeDir("Mom" + branchnames[br] + "/" + party.GetName() );
             MakeMomPlots(party, 40, 0, 2000, basecuts[br]);
         }
 
