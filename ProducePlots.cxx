@@ -58,20 +58,20 @@ public:
     TLatex * GetSignal();
     
     //Particle kinematic variables:
-    void MakeMomPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts);
-    void MakeMomPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts);
+    // void MakeMomPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts);
+    // void MakeMomPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts);
     
-    void MakeThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts);
-    void MakeThetaPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts);
+    // void MakeThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts);
+    // void MakeThetaPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts);
 
-    void MakePhiPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts);
-    void MakePhiPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts);
+    // void MakePhiPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts);
+    // void MakePhiPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts);
 
-    void MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts);
-    void MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts);
+    // void MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts);
+    // void MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts);
 
-    void MakeScorePlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts);
-    void MakeScorePlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts);
+    // void MakeScorePlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts);
+    // void MakeScorePlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts);
     
     void ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std::string cuts);
     void ProduceGroup(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts);
@@ -189,51 +189,51 @@ void ProducePlots::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std:
         BDCans var_tar = m_runbd->TARGET(var, nbins, bins, cuts);
         
         BDCans var_pid;
-        if(!var.pdg.empty()) var_pid = m_runbd->PID(var, nbins, bins, var.pdg, cuts);
+        if(!var.GetPDG().empty()) var_pid = m_runbd->PID(var, nbins, bins, var.GetPDG(), cuts);
         
         //Recon Vars:
         PrintLogo(var_top.recon);
         PrintLogo(var_tar.recon);
-        if(!var.pdg.empty()) PrintLogo(var_pid.recon);
+        if(!var.GetPDG().empty()) PrintLogo(var_pid.recon);
         
         var_top.recon->Write();
         var_tar.recon->Write();
-        if(!var.pdg.empty()) var_pid.recon->Write();
+        if(!var.GetPDG().empty()) var_pid.recon->Write();
         
         //Truth Vars:
         PrintLogo(var_top.truth);
         PrintLogo(var_tar.truth);
-        if(!var.pdg.empty()) PrintLogo(var_pid.truth);
+        if(!var.GetPDG().empty()) PrintLogo(var_pid.truth);
         
         var_top.truth->Write();
         var_tar.truth->Write();
-        if(!var.pdg.empty()) var_pid.truth->Write();
+        if(!var.GetPDG().empty()) var_pid.truth->Write();
         
         //Ratio Vars:
         PrintLogo(var_top.ratio);
         PrintLogo(var_tar.ratio);
-        if(!var.pdg.empty()) PrintLogo(var_pid.ratio);
+        if(!var.GetPDG().empty()) PrintLogo(var_pid.ratio);
         
         var_top.ratio->Write();
         var_tar.ratio->Write();
-        if(!var.pdg.empty()) var_pid.ratio->Write();
+        if(!var.GetPDG().empty()) var_pid.ratio->Write();
         
         //Smear Vars:
         PrintLogo(var_top.smear);
 //        PrintLogo(var_tar.smear);
-//        if(!var.pdg.empty()) PrintLogo(var_pid.smear);
+//        if(!var.GetPDG().empty()) PrintLogo(var_pid.smear);
         
         PrintLogo(var_top.smearSN);
 //        PrintLogo(var_tar.smearSN);
-//        if(!var.pdg.empty()) PrintLogo(var_pid.smearSN);
+//        if(!var.GetPDG().empty()) PrintLogo(var_pid.smearSN);
         
         var_top.smear->Write();
 //        var_tar.smear->Write();
-//        if(!var.pdg.empty()) var_pid.smear->Write();
+//        if(!var.GetPDG().empty()) var_pid.smear->Write();
         
         var_top.smearSN->Write();
 //        var_tar.smearSN->Write();
-//        if(!var.pdg.empty()) var_pid.smearSN->Write();
+//        if(!var.GetPDG().empty()) var_pid.smearSN->Write();
         
     }
     else std::cout << "ProducePlots::ProduceGroup : ERROR : File is not open..." << std::endl;
@@ -241,12 +241,10 @@ void ProducePlots::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std:
 }
 
 void ProducePlots::MakeMomPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
-    Variable mom;
-    mom.units = "MeV/#it{c}";
-    mom.name = part->trueP + ":" + part->P;
-    mom.symbol = "#it{p}_{" + part->GetSymbol() + "}";
-    mom.savename = part->P;
-    mom.pdg = part->pdg;
+    // Variable(std::string name, std::string symbol, std::string units)
+    Variable mom(part->trueP.GetName() + ":" + part->P.GetName(), "#it{p}_{" + part->GetSymbol() + "}", "MeV/#it{c}");
+    mom.SetSName(part->P.GetName());
+    mom.SetPDG(part->pdg.GetName());
     ProduceGroup(mom, nbins, bins, cuts);
 }
 
@@ -254,61 +252,58 @@ void ProducePlots::MakeMomPlots(Particle * part, Int_t nbins, Double_t low, Doub
     MakeMomPlots(part, nbins, DrawingTools::SetBinning(nbins, low, high), cuts);
 }
 
-void ProducePlots::MakeThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
-    Variable theta;
-    //    theta.units = "degrees";
-    //    theta.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
-    theta.units = "rad";
-    theta.symbol = "#theta_{" + part->GetSymbol() + "}";
-    theta.name = part->truetheta + ":" + part->theta;//This probably wont work as the code looks for :: to make a split... Add fix.
-    theta.savename = part->theta;
-    theta.pdg = part->pdg;
-    ProduceGroup(theta, nbins, bins, cuts);
-}
+// void ProducePlots::MakeThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
+//     Variable theta(part->truetheta + ":" + part->theta, "#theta_{" + part->GetSymbol() + "}", "rad");
+//     //    theta.units = "degrees";
+//     //    theta.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
+//     theta.SetSName(part->theta);
+//     theta.SetPDG(part->pdg);
+//     ProduceGroup(theta, nbins, bins, cuts);
+// }
 
-void ProducePlots::MakeThetaPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
-    MakeThetaPlots(part, nbins, DrawingTools::SetBinning(nbins, low, high), cuts);
-}
+// void ProducePlots::MakeThetaPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
+//     MakeThetaPlots(part, nbins, DrawingTools::SetBinning(nbins, low, high), cuts);
+// }
 
-void ProducePlots::MakePhiPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
-    Variable phi;
-    //    phi.units = "degrees";
-    //    phi.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
-    phi.units = "rad";
-    phi.symbol = "#phi_{" + part->GetSymbol() + "}";
-    phi.name = part->truephi + ":" + part->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
-    phi.savename = part->phi;
-    phi.pdg = part->pdg;
-    ProduceGroup(phi, nbins, bins, cuts);
-}
+// void ProducePlots::MakePhiPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
+//     Variable phi(part->truephi + ":" + part->phi, );
+//     //    phi.units = "degrees";
+//     //    phi.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
+//     phi.units = "rad";
+//     phi.symbol = "#phi_{" + part->GetSymbol() + "}";
+//     phi.name = part->truephi + ":" + part->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
+//     phi.savename = part->phi;
+//     phi.pdg = part->pdg;
+//     ProduceGroup(phi, nbins, bins, cuts);
+// }
 
-void ProducePlots::MakePhiPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
-    MakePhiPlots(part, nbins, DrawingTools::SetBinning(nbins, low, high), cuts);
-}
+// void ProducePlots::MakePhiPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
+//     MakePhiPlots(part, nbins, DrawingTools::SetBinning(nbins, low, high), cuts);
+// }
 
-void ProducePlots::MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
-    Variable phi;
-    //    phi.units = "degrees";
-    //    phi.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
-    phi.units = "rad";
-    phi.symbol = "#phi_{" + part->GetSymbol() + "}";
-    phi.name = part->truephi + ":" + part->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
-    phi.savename = part->phi;
-    phi.pdg = part->pdg;
-    ProduceGroup(phi, nbins, bins, cuts);
-}
+// void ProducePlots::MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
+//     Variable phi;
+//     //    phi.units = "degrees";
+//     //    phi.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
+//     phi.units = "rad";
+//     phi.symbol = "#phi_{" + part->GetSymbol() + "}";
+//     phi.name = part->truephi + ":" + part->phi;//This probably wont work as the code looks for :: to make a split... Add fix.
+//     phi.savename = part->phi;
+//     phi.pdg = part->pdg;
+//     ProduceGroup(phi, nbins, bins, cuts);
+// }
 
-void ProducePlots::MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
-    MakeCosThetaPlots(part, nbins, DrawingTools::SetBinning(nbins, low, high), cuts);
-}
+// void ProducePlots::MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
+//     MakeCosThetaPlots(part, nbins, DrawingTools::SetBinning(nbins, low, high), cuts);
+// }
 
-void ProducePlots::MakeScorePlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
-    ;
-}
+// void ProducePlots::MakeScorePlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
+//     ;
+// }
 
-void ProducePlots::MakeScorePlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
-    MakeScorePlots(part, nbins, DrawingTools::SetBinning(nbins, low, high), cuts);
-}
+// void ProducePlots::MakeScorePlots(Particle * part, Int_t nbins, Double_t low, Double_t high, std::string cuts){
+//     MakeScorePlots(part, nbins, DrawingTools::SetBinning(nbins, low, high), cuts);
+// }
 
 void ProducePlots::EffPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string signal_def, std::string cuts){
     //Produce eff. and truth dist from truth tree.
@@ -456,6 +451,7 @@ void ProducePlots::MakePlots(){
         for(unsigned int ptls = 0; ptls < list.size(); ptls++){
             Particle * party = list[ptls];
             MakeDir("Mom" + branchnames[br] + "/" + party->GetName() );
+
             MakeMomPlots(party, 40, 0, 2000, basecuts[br]);
         }
 

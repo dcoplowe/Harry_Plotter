@@ -355,7 +355,7 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
         }
         
         //Reco vars: Common:
-        P(m_tag + name + "_mom",  0., 2000.)
+        P(m_tag + name + "_mom",  0., 2000.);
         // pT =        m_tag + name + "_pT";
         // pTMag =     m_tag + name + "_pTMag";
         // startdir =  m_tag + tmpname + "_startdir";
