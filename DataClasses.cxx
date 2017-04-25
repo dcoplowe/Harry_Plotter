@@ -1,6 +1,7 @@
 #include "DataClasses.h"
 
 #include <iostream>//cout/endl headers
+#include "DrawingStyle.h"
 
 using std::cout;
 using std::endl;
