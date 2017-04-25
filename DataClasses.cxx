@@ -11,7 +11,7 @@ using std::endl;
 
 namespace print_level {
     bool debug = true;// = true;// = true;
-    bool quiet = true;
+    bool quiet = false;
     // extern bool debug;
 }
 
