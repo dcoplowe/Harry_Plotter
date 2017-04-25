@@ -299,10 +299,11 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         cout << "Topology = " << topology.GetName();
 
         if(topology.GetType() == m_signal){ 
-            cout << " (Is signal) -- Skipping.";
+            cout << " (Is signal) -- Skipping." << endl;
             continue;
         }
-        cout << endl;
+        cout << "FC = " << topology.GetFillColor() << " LC = " << topology.GetLineColor();
+        cout << "FS = " << topology.GetFillStyle() << " LS = " << topology.GetLineStyle() << endl;
         
         std::string tmp_cuts = tmp_cuts_1;
         tmp_cuts += topology.GetSignal();
