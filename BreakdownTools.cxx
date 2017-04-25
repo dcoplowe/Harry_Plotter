@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 
+#include "TH1.h"
 #include "TH1D.h"
 #include "TH2D.h"
 #include "TLegend.h"
@@ -593,8 +594,12 @@ BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::s
     cans.ratio = new TCanvas( ratio_tot->GetName(), "", 500, 500);
     cans.ratio->cd();
     ratio_tot->Draw();
-    TLine * z_line = new TLine(0.0, ratio_tot->GetYaxis()->GetXmin(), 0.0, ratio_tot->GetYaxis()->GetXmax());
-    z_line->Draw(); 
+    DrawZeroPointLine(ratio_tot);
+    // TLine * z_line = new TLine(0.0, ratio_tot->GetYaxis()->GetXmin(), 0.0, ratio_tot->GetYaxis()->GetXmax());
+    // // TLine * z_line = new TLine(0.0, ratio_tot->GetYaxis()->GetXmin(), 0.0, ratio_tot->GetYaxis()->GetXmax());
+    // z_line->SetLineColor(1);
+    // z_line->SetLineStyle(2);
+    // z_line->Draw(); 
     ratio_leg->Draw();
     ratio_stats->Draw();
     signal_kinmap.ratio->Draw("SAME");
@@ -728,4 +733,12 @@ TLegend * BreakdownTools::RatioStats(const THStack * ratio_tot)
     }
 
     return ratio_stats;
+}
+
+void BreakdownTools::DrawZeroPointLine(TH1 * histo){
+
+    TLine * z_line = new TLine(0.0, histo->GetMinimum(), 0.0, histo->GetMaximum());
+    z_line->SetLineColor(1);
+    z_line->SetLineStyle(2);
+    z_line->Draw(); 
 }

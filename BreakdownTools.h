@@ -10,6 +10,7 @@
 #include "DataClasses.h"
 
 //Forward declarations:
+class TH1;
 class TH1D;
 class TH2D;
 class TCanvas;
@@ -90,6 +91,7 @@ private:
     Topology::Name m_signal;
 
     Int_t m_statcounter;
-    TLegend * RatioStats(const THStack * ratio_tot);    
+    TLegend * RatioStats(const THStack * ratio_tot);   
+    void DrawZeroPointLine(TH1 * histo); 
 };
 #endif
