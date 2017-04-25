@@ -303,12 +303,12 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
         endpos =    m_tag + name + "_endpos";
         
         //True vars: Common:
-        trueP =         name + "_truemom";
-        truepT =        name + "_truepT";
-        truepTMag =     name + "_truepTMag";
-        truestartdir =  name + "_truedir";
-        trueendpos =    name + "_endpos";
-        pdg =           name + "_pdg";
+        trueP =         m_tag + name + "_truemom";
+        truepT =        m_tag + name + "_truepT";
+        truepTMag =     m_tag + name + "_truepTMag";
+        truestartdir =  m_tag + name + "_truedir";
+        trueendpos =    m_tag + name + "_endpos";
+        pdg =           m_tag + name + "_pdg";
         
         //MIN: Reco vars:
         E = "";
