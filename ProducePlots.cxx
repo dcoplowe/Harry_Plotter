@@ -440,20 +440,16 @@ void ProducePlots::MakePlots(){
     }
 
     for(int br = 0; br < nbranches; br++){
+        std::vector<Particle> list;
 
-        Particle * list;
-        int nparticles = 3;
         if(br == 1 && m_experiment->GetType() == Experiment::MIN){
-            nparticles = 2;
-            list = new Particle[ nparticles ];
-            list[0] = m_proton_alt;
-            list[1] = m_pion_alt;        
+            list.push_back( m_proton_alt );
+            list.push_back( m_pion_alt );        
         }
         else{
-            list = new Particle[ nparticles ];
-            list[0] = m_proton;
-            list[1] = m_pion;
-            list[2] = m_muon;
+            list.push_back( m_proton );
+            list.push_back( m_pion );
+            list.push_back( m_muon );
         }
 
         //**************************************** Mom START ****************************************//
@@ -462,6 +458,8 @@ void ProducePlots::MakePlots(){
             MakeDir("Mom" + branchnames[br] + "/" + party->GetName() );
             MakeMomPlots(party, 40, 0, 2000, basecuts[br]);
         }
+
+        list.clear();
     }
     
     
