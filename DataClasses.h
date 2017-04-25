@@ -10,6 +10,7 @@ using namespace std;
 namespace print_level {
     extern bool debug;// = true;// = true;
     extern bool quiet;
+    extern bool effpurtools;
     // extern bool debug;
 }
 

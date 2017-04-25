@@ -5,13 +5,15 @@
 //ROOT Includes:
 #include "TLeaf.h"
 
+#include "DataClasses.h"
+
 //Forward declarations;
 #include "TFile.h"
 #include "TH1D.h"
 #include "TH2D.h"
 #include "TTree.h"
 
-EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string truename) : m_debug(false) {
+EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string truename) : m_debug(print_level::effpurtools) {
     
     if(m_debug){
         cout << "    Filename: " << filename << endl;

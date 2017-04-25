@@ -12,7 +12,7 @@ using std::endl;
 namespace print_level {
     bool debug = true;// = true;// = true;
     bool quiet = false;
-    // extern bool debug;
+    bool effpurtools = true;
 }
 
 #endif
