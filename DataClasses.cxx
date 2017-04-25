@@ -557,7 +557,6 @@ Topologies::Topologies(Topologies * topologies) : m_signal( topologies->GetSigna
 
 Topologies::~Topologies()
 {
-	m_other(Topology::Other, "");
     m_original.clear();
     m_list2draw.clear();
 }
@@ -580,7 +579,7 @@ void Topologies::AddSignalToTopology(Topology::Name name, std::string add2def, b
 {
 	for(unsigned int i = 0; i < m_original.size(); i++){
 		if(m_original[i].GetType() == name){ 
-			m_original[i].AddSignalToTopology(add2def, reset); 
+			m_original[i].AddToSignal(add2def, reset); 
 			break; 
 		}
 	}
