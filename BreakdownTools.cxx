@@ -296,7 +296,13 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         
         Topology topology = m_toplist[i];
 
-        if(topology.GetType() == m_signal) continue;
+        cout << "Topology = " << topology.GetName();
+
+        if(topology.GetType() == m_signal){ 
+            cout << " (Is signal) -- Skipping.";
+            continue;
+        }
+        cout << endl;
         
         std::string tmp_cuts = tmp_cuts_1;
         tmp_cuts += topology.GetSignal();
