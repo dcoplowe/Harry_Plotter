@@ -6,6 +6,18 @@
 using std::cout;
 using std::endl;
 
+#ifndef _PRINT_LEVEL_CXX
+#define _PRINT_LEVEL_CXX
+
+namespace print_level {
+    bool debug = true;// = true;// = true;
+    bool quiet = true;
+    // extern bool debug;
+}
+
+#endif
+
+
 #ifndef _EXPERIMENT_CXX
 #define _EXPERIMENT_CXX
 
@@ -66,7 +78,7 @@ void Experiment::SetTopologies(Experiment::Name exp)
 {
     if(exp == Experiment::MIN){
 
-        cout << " Adding Topology = " << Topology::ToString(Topology::CC1P1PiPlus) << endl;
+        if(print_level::debug) cout << " Adding Topology = " << Topology::ToString(Topology::CC1P1PiPlus) << endl;
 
     	m_topologies->AddTopology(		  Topology::CC1P1PiPlus, "truth_n_ele == 0 && truth_n_kPM == 0 && truth_n_kaO == 0 && truth_n_muo == 1");
     	m_topologies->AddSignalToTopology(Topology::CC1P1PiPlus, "truth_n_ntn == 0 && truth_n_pho == 0 && truth_n_pi0 == 0 && truth_n_piM == 0");

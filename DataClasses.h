@@ -8,7 +8,7 @@ using namespace std;
 #define _PRINT_LEVEL_
 
 namespace print_level {
-    extern bool debug = true;// = true;
+    extern bool debug;// = true;// = true;
     extern bool quiet;
     // extern bool debug;
 }
