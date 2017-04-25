@@ -187,7 +187,7 @@ std::string Experiment::GetBaseCuts(int accum_level, int branch, std::string cut
     br << branch;
     ac << accum_level;
 
-    std::string basecuts = "accum_level[" + br.str() + "] > " ac.str(); 
+    std::string basecuts = "accum_level[" + br.str() + "] > " + ac.str(); 
     if(!cuts.empty()){
         basecuts += " && ";
         basecuts += cuts;
