@@ -524,8 +524,7 @@ void ProducePlots::MakePlots(){
 
     // "accum_level[0] > 5"
 
-    if(m_experiment == Experiment::MIN){
-
+    if(m_experiment->GetType() == Experiment::MIN){
 
         MakeDir("dpTT/dEdX/pm1000");
         dpTT.savename = m_recovars->dpTT + "1000";
