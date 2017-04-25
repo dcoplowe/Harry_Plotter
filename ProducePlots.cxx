@@ -157,6 +157,8 @@ m_realdata(realdata) {
     if(!m_realdata) m_runep = new EffPurTools(m_infilename, selection_cuts);
     
     m_outfile = new TFile(m_savename.c_str(), "RECREATE");
+
+    cout << "Initilised" << endl;
 }
 
 ProducePlots::~ProducePlots(){
@@ -416,8 +418,9 @@ void ProducePlots::MakePlots(){
     
 
 
+
     // Proton:
-    MakeDir("Mom//Proton");
+    MakeDir("Mom/dEdX/Proton");
     MakeMomPlots(m_proton, 40, 0, 2000, EX_base_cut);
     
     //Pion:
