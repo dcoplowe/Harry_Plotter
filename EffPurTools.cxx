@@ -33,11 +33,14 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
         exit(0);
     }
     
-//    m_truth = static_cast<TTree*>(m_file->Get(truename.c_str()));
-//    m_recon = static_cast<TTree*>(m_file->Get(reconame.c_str()));
+   m_truth = static_cast<TTree*>(m_file->Get(truename.c_str()));
+   m_recon = static_cast<TTree*>(m_file->Get(reconame.c_str()));
 
-    m_truth = (TTree*)m_file->Get(truename.c_str());
-    m_recon = (TTree*)m_file->Get(reconame.c_str());
+   assert(m_truth);
+   assert(m_recon);
+
+    // m_truth = (TTree*)m_file->Get(truename.c_str());
+    // m_recon = (TTree*)m_file->Get(reconame.c_str());
     
     if(!m_truth || !m_recon){
         cout << "Could not access truth/recon tree(s)." << endl;

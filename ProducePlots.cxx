@@ -146,15 +146,15 @@ m_realdata(realdata) {
     m_runbd = new BreakdownTools( m_infilename, m_experiment->GetRecoName(), m_experiment->GetTopologies(), m_experiment->GetTarVarName() );
     if(!m_realdata) m_runtruthbd = new BreakdownTools(m_infilename, m_experiment->GetTrueName(), m_experiment->GetTopologies(), m_experiment->GetTarVarName());
     
-    std::vector<std::string> selection_cuts;
-    selection_cuts.push_back("Vertex");
-    selection_cuts.push_back("3 Tracks");
-    selection_cuts.push_back("Muon Track");
-    selection_cuts.push_back("Contained Vtx");
-    selection_cuts.push_back("PID: p/#pi^{+}");
-    selection_cuts.push_back("Michel Sense");
+    // std::vector<std::string> selection_cuts;
+    // selection_cuts.push_back("Vertex");
+    // selection_cuts.push_back("3 Tracks");
+    // selection_cuts.push_back("Muon Track");
+    // selection_cuts.push_back("Contained Vtx");
+    // selection_cuts.push_back("PID: p/#pi^{+}");
+    // selection_cuts.push_back("Michel Sense");
     
-    if(!m_realdata) m_runep = new EffPurTools(m_infilename, selection_cuts);
+    if(!m_realdata) m_runep = new EffPurTools(m_infilename, m_experiment->GetCutNames(), m_experiment->GetRecoName(), m_experiment->GetTrueName() );
     
     m_outfile = new TFile(m_savename.c_str(), "RECREATE");
 
