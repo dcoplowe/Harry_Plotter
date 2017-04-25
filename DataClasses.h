@@ -1,7 +1,7 @@
 #include <string>
 #include <sstream>
 #include "TDatime.h"
-// #include "DrawingTools.h"
+#include "DrawingTools.h"
 
 using namespace std;
 
@@ -18,15 +18,15 @@ namespace print_level {
 
 #endif
 
-namespace utilities {
-    inline Double_t * SetBinning(int nbins, Double_t low, Double_t high){
-        Double_t * bins = new Double_t[ nbins + 1 ];
-        Double_t range = high - low;
-        Double_t binwidth = range/(Double_t)nbins;
-        for (int i=0; i < nbins + 1; i++) bins[i] = low + binwidth*i;
-        return bins;
-    }
-}
+// namespace utilities {
+//     inline Double_t * SetBinning(int nbins, Double_t low, Double_t high){
+//         Double_t * bins = new Double_t[ nbins + 1 ];
+//         Double_t range = high - low;
+//         Double_t binwidth = range/(Double_t)nbins;
+//         for (int i=0; i < nbins + 1; i++) bins[i] = low + binwidth*i;
+//         return bins;
+//     }
+// }
 
 #ifndef _TOPOLOGY_
 #define _TOPOLOGY_
@@ -262,7 +262,7 @@ class Variable {
 
 public: 
     Variable(std::string name, std::string symbol, std::string units) : m_name(name), m_symbol(symbol), m_units(units), m_savename(""), m_pdg(""){;}
-    Variable(std::string name, int nbins, Double_t low, Double_t high) : m_name(name), m_symbol(""), m_units(""), m_savename(""), m_pdg(""), m_nbins(nbins), m_binning( utilities::SetBinning(m_nbins, low, high) ) {;}
+    Variable(std::string name, int nbins, Double_t low, Double_t high) : m_name(name), m_symbol(""), m_units(""), m_savename(""), m_pdg(""), m_nbins(nbins), m_binning( DrawingTools::SetBinning(m_nbins, low, high) ) {;}
 
     ~Variable(){;}//delete m_binning;}
 
@@ -281,7 +281,7 @@ public:
     void SetNBins(int var){ m_nbins = var;}
     void SetBinning(int nbins, Double_t * binning){ m_nbins = nbins; m_binning = binning; }
 
-    void SetBinning(int nbins, Double_t low, Double_t high){ m_nbins = nbins; m_binning = utilities::SetBinning(m_nbins, low, high); }
+    void SetBinning(int nbins, Double_t low, Double_t high){ m_nbins = nbins; m_binning = DrawingTools::SetBinning(m_nbins, low, high); }
     int GetNBins(){ return m_nbins; }
     Double_t * GetBinning(){ return m_binning; }
 
