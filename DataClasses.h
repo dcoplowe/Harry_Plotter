@@ -262,7 +262,7 @@ class Variable {
 
 public: 
     Variable(std::string name, std::string symbol, std::string units) : m_name(name), m_symbol(symbol), m_units(units), m_savename(""), m_pdg(""){;}
-    Variable(std::string name, int nbins, Double_t low, Double_t high) : m_name(name), m_symbol(""), m_units(""), m_savename(""), m_pdg(""), m_nbins(nbins), m_binning(DrawingTools::SetBinning(m_nbins, low, high){;}
+    Variable(std::string name, int nbins, Double_t low, Double_t high) : m_name(name), m_symbol(""), m_units(""), m_savename(""), m_pdg(""), m_nbins(nbins), m_binning( utilities::SetBinning(m_nbins, low, high) ) {;}
 
     ~Variable(){;}//delete m_binning;}
 
