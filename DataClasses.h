@@ -4,7 +4,16 @@
 
 using namespace std;
 
-extern VERBOSE = true;
+#ifndef _PRINT_LEVEL_
+#define _PRINT_LEVEL_
+
+namespace print_level {
+    extern bool debug = true;// = true;
+    extern bool quiet;
+    // extern bool debug;
+}
+
+#endif
 
 #ifndef _TOPOLOGY_
 #define _TOPOLOGY_
