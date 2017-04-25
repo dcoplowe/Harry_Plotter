@@ -31,7 +31,7 @@ public:
 
     Topology();
     Topology(Name name, std::string definition);
-    ~Topology();
+    ~Topology(){;}
 
     void AddToSignal(std::string add2def, bool reset = false);
 
