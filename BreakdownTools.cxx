@@ -286,6 +286,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t low, Double_t hig
 BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::string cuts){
     
     std::vector<DrawingTools::KinMap> kinmap_list;
+    std::vector<Int_t> top2draw;
     
     std::string tmp_cuts_1 = cuts;
     if(!cuts.empty()) tmp_cuts_1 += " && ";
@@ -299,14 +300,19 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         // if(print_level::quiet) 
         cout << "Topology = " << topology.GetName() << endl;
 
-        if(topology.GetType() == Topology::Other){
-            cout << "Signal = " << topology.GetSignal() << endl;
-        }
+        // if(topology.GetType() == Topology::Other){
+        //     cout << "Signal = " << topology.GetSignal() << endl;
+        // }
 
         if(topology.GetType() == m_signal){ 
             if(print_level::quiet)cout << " (Is signal) -- Skipping." << endl;
             continue;
         }
+
+        top2draw.push_back(i);
+
+        //Check that other doesn't include signal not signal: -- this does matter! -- So do we need to remove it from others signal? NO? 
+
         if(print_level::quiet) cout << "FC = " << topology.GetFillColor() << " LC = " << topology.GetLineColor();
         if(print_level::quiet) cout << "FS = " << topology.GetFillStyle() << " LS = " << topology.GetLineStyle() << endl;
         
@@ -363,13 +369,13 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
             //            cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
             
             recon_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].recon);
-            recon_leg->AddEntry(kinmap_list[ (i - 1) ].recon, Form("%s (%.2f%%)", m_toplist[(i - 1)].GetSymbol().c_str(), recon_percent[ i - 1 ]), "f");
+            recon_leg->AddEntry(kinmap_list[ (i - 1) ].recon, Form("%s (%.2f%%)", m_toplist[ top2draw[(i - 1)] ].GetSymbol().c_str(), recon_percent[ i - 1 ]), "f");
             
             truth_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].truth);
-            truth_leg->AddEntry(kinmap_list[ (i - 1) ].truth, Form("%s (%.2f%%)", m_toplist[(i - 1)].GetSymbol().c_str(), truth_percent[ i - 1 ]), "f");
+            truth_leg->AddEntry(kinmap_list[ (i - 1) ].truth, Form("%s (%.2f%%)", m_toplist[ top2draw[(i - 1)] ].GetSymbol().c_str(), truth_percent[ i - 1 ]), "f");
             
             ratio_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].ratio);
-            ratio_leg->AddEntry(kinmap_list[ (i - 1) ].ratio, Form("%s (%.2f%%)", m_toplist[(i - 1)].GetSymbol().c_str(), ratio_percent[ i - 1 ]), "f");
+            ratio_leg->AddEntry(kinmap_list[ (i - 1) ].ratio, Form("%s (%.2f%%)", m_toplist[ top2draw[(i - 1)] ].GetSymbol().c_str(), ratio_percent[ i - 1 ]), "f");
             
             if(i < (int)kinmap_list.size()) smear_tot->Add(kinmap_list[ i ].smear);
         }
@@ -386,7 +392,7 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
     
             bool in_other = true;
             for(int j = 0; j < (int)m_pdglist_minBD.size(); j++){
-                if(m_toplist_minBD[j] == m_toplist[(i - 1)].GetType()){
+                if(m_toplist_minBD[j] == m_toplist[ top2draw[(i - 1)] ].GetType()){
                     in_other = false;
                     plot_by_self.push_back((i - 1));
                     break;
