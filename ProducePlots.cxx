@@ -438,7 +438,7 @@ void ProducePlots::MakePlots(){
         branchnames[0] = "";
 
         basecuts = new string[ nbranches ];
-        basecuts[0] = m_experiment->GetBaseCuts(6, 0);
+        basecuts[0] = m_experiment->GetBaseCuts(5, 0);
     }
 
     for(int br = 0; br < nbranches; br++){
