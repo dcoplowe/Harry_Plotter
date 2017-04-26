@@ -459,7 +459,7 @@ void ProducePlots::MakePlots(){
             Particle * party = list[ptls];
             MakeDir("Mom" + branchnames[br] + "/" + party->GetName() );
 
-            MakeMomPlots(party, 40, 0, 2000, basecuts[br]);
+            MakeMomPlots(party, party->P.GetNBins(), party->P.GetBinning(), basecuts[br]);
         }
 
         list.clear();
