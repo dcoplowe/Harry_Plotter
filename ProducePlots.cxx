@@ -254,10 +254,10 @@ void ProducePlots::MakeMomPlots(Particle * part, Int_t nbins, Double_t low, Doub
 }
 
 void ProducePlots::MakeThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
-    Variable theta(part->truetheta + ":" + part->theta, "#theta_{" + part->GetSymbol() + "}", "rad");
+    Variable theta(part->truetheta.GetName() + ":" + part->theta.GetName(), "#theta_{" + part->GetSymbol() + "}", "rad");
     //    theta.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
-    theta.SetSName(part->theta);
-    theta.SetPDG(part->pdg);
+    theta.SetSName(part->theta.GetName());
+    theta.SetPDG(part->pdg.GetName());
     ProduceGroup(theta, nbins, bins, cuts);
 }
 
@@ -266,11 +266,11 @@ void ProducePlots::MakeThetaPlots(Particle * part, Int_t nbins, Double_t low, Do
 }
 
 void ProducePlots::MakePhiPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
-    Variable phi(part->truephi + ":" + part->phi, "#phi_{" + part->GetSymbol() + "}", "rad");
+    Variable phi(part->truephi.GetName() + ":" + part->phi.GetName(), "#phi_{" + part->GetSymbol() + "}", "rad");
     //    phi.units = "degrees";
     //    phi.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
-    phi.SetSName(part->phi);
-    phi.SetPDG(part->pdg);
+    phi.SetSName(part->phi.GetName());
+    phi.SetPDG(part->pdg.GetName());
     ProduceGroup(phi, nbins, bins, cuts);
 }
 
@@ -279,9 +279,9 @@ void ProducePlots::MakePhiPlots(Particle * part, Int_t nbins, Double_t low, Doub
 }
 
 void ProducePlots::MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts, bool nudir){
-    Variable var(part->truectheta + ":" + (nudir ? part->ctheta_nudir : part->ctheta), "cos#theta_{" + part->GetSymbol() + "}", "");
-    var.SetSName( (nudir ? part->ctheta_nudir : part->ctheta) );
-    var.SetPDG(part->pdg);
+    Variable var(part->truectheta.GetName() + ":" + (nudir ? part->ctheta_nudir.GetName() : part->ctheta.GetName()), "cos#theta_{" + part->GetSymbol() + "}", "");
+    var.SetSName( (nudir ? part->ctheta_nudir.GetName() : part->ctheta.GetName()) );
+    var.SetPDG(part->pdg.GetName());
     ProduceGroup(var, nbins, bins, cuts);
 }
 
