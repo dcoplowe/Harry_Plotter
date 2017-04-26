@@ -35,7 +35,7 @@ public:
         gStyle->SetPadBottomMargin(0.15);
         gStyle->SetPadLeftMargin(0.15);
         //gStyle->SetLegendTextSize(0.15);
-        gROOT->SetMaxDigits(2);
+        gStyle->SetMaxDigits(2);
         gROOT->cd(0);
     }
     
