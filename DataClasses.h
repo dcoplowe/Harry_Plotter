@@ -312,7 +312,7 @@ public:
         PionP = 211,
         MuonM = 13,
         Unknown = -999
-    }
+    };
 
     //Reco vars: Common:
     Variable P;
