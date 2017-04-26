@@ -18,16 +18,6 @@ namespace print_level {
 
 #endif
 
-// namespace utilities {
-//     inline Double_t * SetBinning(int nbins, Double_t low, Double_t high){
-//         Double_t * bins = new Double_t[ nbins + 1 ];
-//         Double_t range = high - low;
-//         Double_t binwidth = range/(Double_t)nbins;
-//         for (int i=0; i < nbins + 1; i++) bins[i] = low + binwidth*i;
-//         return bins;
-//     }
-// }
-
 #ifndef _TOPOLOGY_
 #define _TOPOLOGY_
 
@@ -228,6 +218,8 @@ public:
 
     std::string GetTarVarName(){ return m_tarvarname; }
 
+    std::string GetWgt(){ return m_weight; }
+
 private: 
 
     Name m_type;
@@ -247,6 +239,8 @@ private:
     
     std::string m_tag;
     std::string m_tarvarname;
+
+    std::string m_weight;
 
     void SetTopologies(Name exp);
     void SetIntModes(Name exp);

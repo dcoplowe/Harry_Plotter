@@ -44,6 +44,8 @@ Experiment::Experiment(Name exp) : m_type(exp), m_name( ToString(m_type) )
         m_tag = "sel";
 
         m_tarvarname = "mc_targetZ";
+
+        m_weight = "1";
     }
     else if(exp == Experiment::T2K){
 
@@ -60,6 +62,8 @@ Experiment::Experiment(Name exp) : m_type(exp), m_name( ToString(m_type) )
         m_tag = "";
 
         m_tarvarname = "target";
+
+        m_weight = "1";
     }
 
     SetTopologies(exp);
@@ -446,10 +450,10 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
         }
 
         pdg =           Variable(m_tag + tmpname + "_PDG", 40, 0., 2000.);
-        theta = Variable(m_tag + name + "_Theta", 40, -1., 1.);
-        phi =   Variable(m_tag + name + "_Phi", 40, -1., 1.);
-        truetheta =     Variable(m_tag + tmpname + "_trueTheta", 40, -1., 1.);
-        truephi =       Variable(m_tag + tmpname + "_truePhi", 40, -1., 1.);
+        theta =         Variable(m_tag + name + "_Theta", 40, 0, TMath::TwoPi());
+        phi =           Variable(m_tag + name + "_Phi", 40, -TMath::Pi(), TMath::Pi());
+        truetheta =     Variable(m_tag + tmpname + "_trueTheta", 40, 0, TMath::TwoPi());
+        truephi =       Variable(m_tag + tmpname + "_truePhi", 40, -TMath::Pi(), TMath::Pi());
         
         michel =    Variable(m_tag + name + "_michel", 2, 0., 2000.);
         score =     Variable(m_tag + name + "_score", 40, -100., -100.);
