@@ -423,8 +423,8 @@ void ProducePlots::MakePlots(){
         branchnames[0] = "/dEdX";
         branchnames[1] = "/LL";
 
-        basecuts[0] = m_experiment->GetBaseCuts(5, 0, m_pion->michel + " == 1 && target_region == 1");//"accum_level[0] > 5 && " + m_pion->michel + " == 1 && target_region == 1";
-        basecuts[1] = m_experiment->GetBaseCuts(5, 1, m_pion_alt->michel + " == 1 && target_region == 1");//"accum_level[1] > 5 && " + m_pion_alt->michel + " == 1 && target_region == 1";
+        basecuts[0] = m_experiment->GetBaseCuts(5, 0, m_pion->michel.GetName() + " == 1 && target_region == 1");//"accum_level[0] > 5 && " + m_pion->michel + " == 1 && target_region == 1";
+        basecuts[1] = m_experiment->GetBaseCuts(5, 1, m_pion_alt->michel.GetName() + " == 1 && target_region == 1");//"accum_level[1] > 5 && " + m_pion_alt->michel + " == 1 && target_region == 1";
     }
     else{
         branchnames = new string[ nbranches ];
