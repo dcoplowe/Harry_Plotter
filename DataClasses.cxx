@@ -2,6 +2,7 @@
 
 #include <iostream>//cout/endl headers
 #include "DrawingStyle.h"
+#include "TMath.h"
 
 using std::cout;
 using std::endl;
