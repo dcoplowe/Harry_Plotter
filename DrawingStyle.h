@@ -20,7 +20,7 @@ class DrawingStyle {
 
 public:
     DrawingStyle(){
-        gStyle->Reset();
+        // gStyle->Reset();
 
         gStyle->SetOptStat(0);
         gStyle->SetHistLineWidth(2.5);
