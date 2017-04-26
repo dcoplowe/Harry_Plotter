@@ -371,7 +371,7 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
         ctheta_nudir =  Variable(m_tag + name + "_nudir_costheta", 20, -1., 1);
         
         //T2K: Reco vars:
-        truectheta =    Variable(name + "_truecostheta", 20, -1., 1.);
+        truectheta =    Variable(m_tag + name + "_truecostheta", 20, -1., 1.);
     }
     else if(exp == Experiment::MIN){
         
