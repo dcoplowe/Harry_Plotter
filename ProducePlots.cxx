@@ -422,7 +422,7 @@ void ProducePlots::MakePlots(){
         branchnames[0] = "";
 
         basecuts = new string[ nbranches ];
-        basecuts[0] = m_experiment->GetBaseCuts(5, 0);
+        basecuts[0] = m_experiment->GetBaseCuts(4, 0);//Change back to 5
     }
 
     for(int br = 0; br < nbranches; br++){
@@ -466,8 +466,6 @@ void ProducePlots::MakePlots(){
                 MakeCosThetaPlots(party, party->ctheta.GetNBins(), party->ctheta.GetBinning(), basecuts[br]);
                 MakeCosThetaPlots(party, party->ctheta_nudir.GetNBins(), party->ctheta_nudir.GetBinning(), basecuts[br], true);
                 //**************************************** cosTheta END **************************************//
-
-
 
 
             }
