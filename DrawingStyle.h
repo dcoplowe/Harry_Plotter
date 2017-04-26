@@ -7,7 +7,7 @@
 
 #include <TROOT.h>
 #include <TStyle.h>
-//#include <TGaxis.h>
+#include <TGaxis.h>
 //#include <TColor.h> TColor
 
 using namespace std;
@@ -20,6 +20,8 @@ class DrawingStyle {
 
 public:
     DrawingStyle(){
+        gStyle->Reset();
+
         gStyle->SetOptStat(0);
         gStyle->SetHistLineWidth(2.5);
         gStyle->SetHistLineColor(Blue);
@@ -35,7 +37,7 @@ public:
         gStyle->SetPadBottomMargin(0.15);
         gStyle->SetPadLeftMargin(0.15);
         //gStyle->SetLegendTextSize(0.15);
-        gStyle->SetMaxDigits(2);
+        TGaxis::SetMaxDigits(2);
         gROOT->cd(0);
     }
     
