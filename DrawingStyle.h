@@ -36,8 +36,16 @@ public:
         gStyle->SetPadRightMargin(0.10);
         gStyle->SetPadBottomMargin(0.15);
         gStyle->SetPadLeftMargin(0.15);
+
+        gStyle->SetFrameBorderMode(0);
+        gStyle->SetCanvasBorderMode(0);
+        gStyle->SetPadBorderMode(0);
+        gStyle->SetPadColor(0);
+        gStyle->SetCanvasColor(0);
+        gStyle->SetStatColor(0);
+
         //gStyle->SetLegendTextSize(0.15);
-        // TGaxis::SetMaxDigits(2);
+        TGaxis::SetMaxDigits(2);
 
         gROOT->ForceStyle();
         // gROOT->cd(0);
