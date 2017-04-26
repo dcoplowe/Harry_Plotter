@@ -460,12 +460,14 @@ void ProducePlots::MakePlots(){
             }
 
             if(m_experiment->GetType() == Experiment::T2K){
-                cout << "CPDDLSSS  _----" << endl;
+
                 //**************************************** cosTheta START ************************************//
                 MakeDir("cTheta" + branchnames[br] + "/" + party->GetName() );
-                MakeCosThetaPlots(party, party->cTheta.GetNBins(), party->cTheta.GetBinning(), basecuts[br]);
-                MakeCosThetaPlots(party, party->cTheta_nudir.GetNBins(), party->cTheta_nudir.GetBinning(), basecuts[br], true);
+                MakeCosThetaPlots(party, party->ctheta.GetNBins(), party->ctheta.GetBinning(), basecuts[br]);
+                MakeCosThetaPlots(party, party->ctheta_nudir.GetNBins(), party->ctheta_nudir.GetBinning(), basecuts[br], true);
                 //**************************************** cosTheta END **************************************//
+
+
 
 
             }
