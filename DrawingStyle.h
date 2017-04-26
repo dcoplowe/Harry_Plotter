@@ -38,7 +38,9 @@ public:
         gStyle->SetPadLeftMargin(0.15);
         //gStyle->SetLegendTextSize(0.15);
         TGaxis::SetMaxDigits(2);
-        gROOT->cd(0);
+
+        gROOT->ForceStyle();
+        // gROOT->cd(0);
     }
     
     ~DrawingStyle(){;}
