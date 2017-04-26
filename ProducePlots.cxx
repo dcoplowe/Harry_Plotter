@@ -267,8 +267,7 @@ void ProducePlots::MakeThetaPlots(Particle * part, Int_t nbins, Double_t low, Do
 
 void ProducePlots::MakePhiPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
     Variable phi(part->truephi.GetName() + ":" + part->phi.GetName(), "#phi_{" + part->GetSymbol() + "}", "rad");
-    //    phi.units = "degrees";
-    //    phi.name = m_proton->trueP + "*TMath::RadToDeg():" + m_proton->P + "*TMath::RadToDeg()";//This probably wont work as the code looks for :: to make a split... Add fix.
+    // This probably wont work as the code looks for :: to make a split... Add fix.
     phi.SetSName(part->phi.GetName());
     phi.SetPDG(part->pdg.GetName());
     ProduceGroup(phi, nbins, bins, cuts);
@@ -461,6 +460,7 @@ void ProducePlots::MakePlots(){
             }
 
             if(m_experiment->GetType() == Experiment::T2K){
+                cout << "CPDDLSSS  _----" << endl;
                 //**************************************** Phi START ************************************//
                 MakeDir("cTheta" + branchnames[br] + "/" + party->GetName() );
                 MakeCosThetaPlots(party, party->phi.GetNBins(), party->phi.GetBinning(), basecuts[br]);
@@ -471,7 +471,6 @@ void ProducePlots::MakePlots(){
             }
 
         }
-
         // Variable dpTT;
         // MakeDir("dpTT" + branchnames[br]);
         // Variable dpTT(m_recovars->truedpTT + ":" + m_recovars->dpTT, "#delta#it{p}_{TT}", "MeV/#it{c}");
