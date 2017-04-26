@@ -477,13 +477,16 @@ void ProducePlots::MakePlots(){
         dpTT.SetSName(m_recovars->dpTT);
         ProduceGroup(dpTT, 39, -300, 300, basecuts[br]);
 
-        dpTT.SetSName(m_recovars->dpTT + "_nd29");
+        MakeDir("dpTT" + branchnames[br] + "/nb29");
+        dpTT.SetSName(m_recovars->dpTT + "_nb29");
         ProduceGroup(dpTT, 29, -300, 300, basecuts[br]);
 
-        dpTT.SetSName(m_recovars->dpTT + "_nd25");
+        MakeDir("dpTT" + branchnames[br] + "/nb25");
+        dpTT.SetSName(m_recovars->dpTT + "_nb25");
         ProduceGroup(dpTT, 25, -300, 300, basecuts[br]);
 
-        dpTT.SetSName(m_recovars->dpTT + "_nd19");
+        MakeDir("dpTT" + branchnames[br] + "/nb19");
+        dpTT.SetSName(m_recovars->dpTT + "_nb19");
         ProduceGroup(dpTT, 19, -300, 300, basecuts[br]);
 
         if(m_experiment->GetType() == Experiment::MIN){
