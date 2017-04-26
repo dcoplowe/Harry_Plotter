@@ -355,7 +355,7 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
         }
         
         //Reco vars: Common:
-        P = Veriable(m_tag + name + "_mom", 40,  0., 2000.);
+        P = Variable(m_tag + name + "_mom", 40,  0., 2000.);
         // pT =        m_tag + name + "_pT";
         // pTMag =     m_tag + name + "_pTMag";
         // startdir =  m_tag + tmpname + "_startdir";
