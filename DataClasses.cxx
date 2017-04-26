@@ -280,14 +280,19 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
     if(name.find("mu") != std::string::npos){ 
         m_name = "Muon";
         m_symbol = "#mu^{-}";
+
+        m_pdg = Particle::MuonM;
     }
     else if(name.find("pi") != std::string::npos){ 
         m_name = "Pion"; 
         m_symbol = "#pi^{+}";
+        m_pdg = Particle::PionP;
     }
     else if(name.find("p") != std::string::npos){ 
         m_name = "Proton"; 
         m_symbol = "p";
+        m_pdg = Particle::Proton;
+
     }
     else{ 
         m_name = "Unknown";
@@ -298,47 +303,70 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
 
     if(exp == Experiment::T2K){
         //Reco vars: Common:
-        P = Variable(m_tag + name + "_mom", 20, 0., 2000.);
-        // pT =        m_tag + name + "_pT";
-        // pTMag =     m_tag + name + "_pTMag";
-        // startdir =  m_tag + name + "_dir";
-        // endpos =    m_tag + name + "_endpos";
+        if(m_pdg == Particle::Proton || m_pdg == Particle::PionP){            
+            P           = Variable(m_tag + name + "_mom", 20, 0., 2000.);
+                // Varaible ranges/binning need improving:
+            pT          = Variable(m_tag + name + "_pT", 20, 0., 2000.);
+            pTMag       = Variable(m_tag + name + "_pTMag", 20, 0., 2000.);
+            startdir    = Variable(m_tag + name + "_dir", 20, 0., 2000.);
+            endpos      = Variable(m_tag + name + "_endpos", 20, 0., 2000.);
+
+                //True vars: Common:
+            trueP           = Variable(m_tag + name + "_truemom", 20, 0., 2000.);
+            truepT          = Variable(m_tag + name + "_truepT", 20, 0., 2000.);
+            truepTMag       = Variable(m_tag + name + "_truepTMag", 20, 0., 2000.);
+            truestartdir    = Variable(m_tag + name + "_truedir", 20, 0., 2000.);
+            trueendpos      = Variable(m_tag + name + "_endpos", 20, 0., 2000.);
+        }
+        else if(m_pdg == Particle::MuonM){
+            P           = Variable(m_tag + name + "_mom", 20, 0., 2000.);
+                // Varaible ranges/binning need improving:
+            pT          = Variable(m_tag + name + "_pT", 20, 0., 2000.);
+            pTMag       = Variable(m_tag + name + "_pTMag", 20, 0., 2000.);
+            startdir    = Variable(m_tag + name + "_dir", 20, 0., 2000.);
+            endpos      = Variable(m_tag + name + "_endpos", 20, 0., 2000.);
+
+                //True vars: Common:
+            trueP           = Variable(m_tag + name + "_truemom", 20, 0., 2000.);
+            truepT          = Variable(m_tag + name + "_truepT", 20, 0., 2000.);
+            truepTMag       = Variable(m_tag + name + "_truepTMag", 20, 0., 2000.);
+            truestartdir    = Variable(m_tag + name + "_truedir", 20, 0., 2000.);
+            trueendpos      = Variable(m_tag + name + "_endpos", 20, 0., 2000.);
+
+
+        }
+
+        pdg = Variable(m_tag + name + "_pdg", 20, 0., 2000.);
         
-        // //True vars: Common:
-        // trueP =         m_tag + name + "_truemom";
-        // truepT =        m_tag + name + "_truepT";
-        // truepTMag =     m_tag + name + "_truepTMag";
-        // truestartdir =  m_tag + name + "_truedir";
-        // trueendpos =    m_tag + name + "_endpos";
-        // pdg =           m_tag + name + "_pdg";
+        // Varaible ranges/binning need improving:
+
+        //MIN: Reco vars:
+        E = Variable();
+        P4 = Variable();
+        T = Variable();//KE
+        pTT = Variable();
+        theta = Variable();
+        startpos = Variable();
+        phi = Variable();
         
-        // //MIN: Reco vars:
-        // E = "";
-        // P4 = "";
-        // T = "";//KE
-        // pTT = "";
-        // theta = "";
-        // startpos = "";
-        // phi = "";
+        michel = "1";
+        score = Variable();
         
-        // michel = "1";
-        // score = "";
+        //MIN: True vars:
+        trueE = Variable();
+        trueP4 = Variable();
+        trueT = Variable();//KE
+        truepTT = Variable();
+        truetheta = Variable();
+        truestartpos = Variable();
+        truephi = Variable();
         
-        // //MIN: True vars:
-        // trueE = "";
-        // trueP4 = "";
-        // trueT = "";//KE
-        // truepTT = "";
-        // truetheta = "";
-        // truestartpos = "";
-        // truephi = "";
+        //T2K: Reco vars:
+        ctheta       =  Variable(m_tag + name + "_costheta", 20, -1., 1.);
+        ctheta_nudir =  Variable(m_tag + name + "_nudir_costheta", 20, -1., 1);
         
-        // //T2K: Reco vars:
-        // ctheta =        m_tag + name + "_costheta";
-        // ctheta_nudir =  m_tag + name + "_nudir_costheta";
-        
-        // //T2K: Reco vars:
-        // truectheta =    name + "_truecostheta";
+        //T2K: Reco vars:
+        truectheta =    Variable(name + "_truecostheta", 20, -1., 1.);
     }
     else if(exp == Experiment::MIN){
         
@@ -355,91 +383,127 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
         }
         
         //Reco vars: Common:
-        P = Variable(m_tag + name + "_mom", 40,  0., 2000.);
-        // pT =        m_tag + name + "_pT";
-        // pTMag =     m_tag + name + "_pTMag";
-        // startdir =  m_tag + tmpname + "_startdir";
-        // endpos =    m_tag + tmpname + "_endpos";
+
+        if(m_pdg == Particle::Proton || m_pdg == Particle::PionP){        
+            P = Variable(m_tag + name + "_mom", 40,  0., 2000.);
+            pT =        Variable(m_tag + name + "_pT", 40, 0., 2000.);
+            pTMag =     Variable(m_tag + name + "_pTMag", 40, 0., 2000.);
+
+                // True vars: Common:
+            trueP =         Variable(m_tag + tmpname + "_truemom", 40, 0., 2000.);
+            truepT =        Variable(m_tag + tmpname + "_truepT", 40, 0., 2000.);
+            truepTMag =     Variable(m_tag + tmpname + "_truepTMag", 40, 0., 2000.);
+
+            startdir =  Variable(m_tag + tmpname + "_startdir", 40, 0., 2000.);
+            endpos =    Variable(m_tag + tmpname + "_endpos", 40, 0., 2000.);
+            
+            truestartdir =  Variable(m_tag + tmpname + "_truestartdir", 40, 0., 2000.);
+            trueendpos =    Variable(m_tag + tmpname + "_endpos", 40, 0., 2000.);
+            
+                //MIN: Reco vars:
+            E =     Variable(m_tag + name + "_E", 40, 0., 2000.);
+            P4 =    Variable(m_tag + name + "_4mom", 40, 0., 2000.);
+            T =     Variable(m_tag + name + "_KE", 40, 0., 2000.);//KE
+            pTT =   Variable(m_tag + name + "_pTT", 40, 0., 2000.);
+            startpos = Variable(m_tag + tmpname + "_startpos", 40, 0., 2000.);
+            truestartpos =  Variable(m_tag + tmpname + "_truestartpos", 40, 0., 2000.);
+
+                //MIN: True vars:
+            trueE =         Variable(m_tag + tmpname + "_trueE", 40, 0., 2000.);
+            trueP4 =        Variable(m_tag + tmpname + "_true4mom", 40, 0., 2000.);
+            trueT =         Variable(m_tag + tmpname + "_trueKE", 40, 0., 2000.);//KE
+            truepTT =       Variable(m_tag + tmpname + "_truepTT", 40, 0., 2000.);
+        }
+        else if(m_pdg == Particle::MuonM){        
+            P = Variable(m_tag + name + "_mom", 40,  0., 20000.);
+            pT =        Variable(m_tag + name + "_pT", 40, 0., 2000.);
+            pTMag =     Variable(m_tag + name + "_pTMag", 40, 0., 2000.);
+
+                // True vars: Common:
+            trueP =         Variable(m_tag + tmpname + "_truemom", 40, 0., 2000.);
+            truepT =        Variable(m_tag + tmpname + "_truepT", 40, 0., 2000.);
+            truepTMag =     Variable(m_tag + tmpname + "_truepTMag", 40, 0., 2000.);
+
+            startdir =  Variable(m_tag + tmpname + "_startdir", 40, 0., 2000.);
+            endpos =    Variable(m_tag + tmpname + "_endpos", 40, 0., 2000.);
+            
+            truestartdir =  Variable(m_tag + tmpname + "_truestartdir", 40, 0., 2000.);
+            trueendpos =    Variable(m_tag + tmpname + "_endpos", 40, 0., 2000.);
+            
+                //MIN: Reco vars:
+            E =     Variable(m_tag + name + "_E", 40, 0., 2000.);
+            P4 =    Variable(m_tag + name + "_4mom", 40, 0., 2000.);
+            T =     Variable(m_tag + name + "_KE", 40, 0., 2000.);//KE
+            pTT =   Variable(m_tag + name + "_pTT", 40, 0., 2000.);
+            startpos = Variable(m_tag + tmpname + "_startpos", 40, 0., 2000.);
+            truestartpos =  Variable(m_tag + tmpname + "_truestartpos", 40, 0., 2000.);
+
+                //MIN: True vars:
+            trueE =         Variable(m_tag + tmpname + "_trueE", 40, 0., 2000.);
+            trueP4 =        Variable(m_tag + tmpname + "_true4mom", 40, 0., 2000.);
+            trueT =         Variable(m_tag + tmpname + "_trueKE", 40, 0., 2000.);//KE
+            truepTT =       Variable(m_tag + tmpname + "_truepTT", 40, 0., 2000.);
+        }
+
+        pdg =           Variable(m_tag + tmpname + "_PDG", 40, 0., 2000.);
+        theta = Variable(m_tag + name + "_Theta", 40, -1., 1.);
+        phi =   Variable(m_tag + name + "_Phi", 40, -1., 1.);
+        truetheta =     Variable(m_tag + tmpname + "_trueTheta", 40, -1., 1.);
+        truephi =       Variable(m_tag + tmpname + "_truePhi", 40, -1., 1.);
         
-        // //True vars: Common:
-        // trueP =         m_tag + tmpname + "_truemom";
-        // truepT =        m_tag + tmpname + "_truepT";
-        // truepTMag =     m_tag + tmpname + "_truepTMag";
-        // truestartdir =  m_tag + tmpname + "_truestartdir";
-        // trueendpos =    m_tag + tmpname + "_endpos";
-        // pdg =           m_tag + tmpname + "_PDG";
+        michel =    Variable(m_tag + name + "_michel", 2, 0., 2000.);
+        score =     Variable(m_tag + name + "_score", 40, -100., -100.);
+
+        //T2K: Reco vars:
+        ctheta = Variable();
+        ctheta_nudir = Variable();
         
-        // //MIN: Reco vars:
-        // E =     m_tag + name + "_E";
-        // P4 =    m_tag + name + "_4mom";
-        // T =     m_tag + name + "_KE";//KE
-        // pTT =   m_tag + name + "_pTT";
-        // theta = m_tag + name + "_Theta";
-        // phi =   m_tag + name + "_Phi";
-        // startpos = m_tag + tmpname + "_startpos";
-        
-        // michel =    m_tag + name + "_michel";
-        // score =     m_tag + name + "_score";
-        
-        // //MIN: True vars:
-        // trueE =         m_tag + tmpname + "_trueE";
-        // trueP4 =        m_tag + tmpname + "_true4mom";
-        // trueT =         m_tag + tmpname + "_trueKE";//KE
-        // truepTT =       m_tag + tmpname + "_truepTT";
-        // truetheta =     m_tag + tmpname + "_trueTheta";
-        // truephi =       m_tag + tmpname + "_truePhi";
-        // truestartpos =  m_tag + tmpname + "_truestartpos";
-        
-        // //T2K: Reco vars:
-        // ctheta = "";
-        // ctheta_nudir = "";
-        
-        // //T2K: Reco vars:
-        // truectheta = "";
+        //T2K: Reco vars:
+        truectheta = Variable();
     }
     else{
         //Reco vars: Common:
-        // P = "";
-        // pT = "";
-        // pTMag = "";
-        // startdir = "";
-        // endpos = "";
-        
-        // //True vars: Common:
-        // trueP = "";
-        // truepT = "";
-        // truepTMag = "";
-        // truestartdir = "";
-        // trueendpos = "";
-        // pdg = "";
-        
-        // //MIN: Reco vars:
-        // E = "";
-        // P4 = "";
-        // T = "";//KE
-        // pTT = "";
-        // theta = "";
-        // startpos = "";
-        // phi = "";
-        
-        // michel = "";
-        // score = "";
-        
-        // //MIN: True vars:
-        // trueE = "";
-        // trueP4 = "";
-        // trueT = "";//KE
-        // truepTT = "";
-        // truetheta = "";
-        // truestartpos = "";
-        // truephi = "";
-        
-        // //T2K: Reco vars:
-        // ctheta = "";
-        // ctheta_nudir = "";
-        
-        // //T2K: Reco vars:
-        // truectheta = "";
+        P = Variable();
+        pT = Variable();
+        pTMag = Variable();
+        startdir = Variable();
+        endpos = Variable();
+
+        //True vars: Common:
+        trueP = Variable();
+        truepT = Variable();
+        truepTMag = Variable();
+        truestartdir = Variable();
+        trueendpos = Variable();
+        pdg = Variable();
+
+        //MIN: Reco vars:
+        E = Variable();
+        P4 = Variable();
+        T = Variable();//KE
+        pTT = Variable();
+        theta = Variable();
+        startpos = Variable();
+        phi = Variable();
+
+        michel = Variable();
+        score = Variable();
+
+        //MIN: True vars:
+        trueE = Variable();
+        trueP4 = Variable();
+        trueT = Variable();//KE
+        truepTT = Variable();
+        truetheta = Variable();
+        truestartpos = Variable();
+        truephi = Variable();
+
+        //T2K: Reco vars:
+        ctheta = Variable();
+        ctheta_nudir = Variable();
+
+        //T2K: Reco vars:
+        truectheta = Variable();
     }
     
 }

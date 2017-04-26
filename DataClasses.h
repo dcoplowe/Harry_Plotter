@@ -307,6 +307,13 @@ public:
     Particle(Experiment::Name exp, std::string name, std::string tag = "");//; : m_tag {};
     ~Particle(){};
 
+    enum PDG {
+        Proton = 2212,
+        PionP = 211,
+        MuonM = 13,
+        Unknown = -999
+    }
+
     //Reco vars: Common:
     Variable P;
     Variable theta;
@@ -354,6 +361,8 @@ public:
     std::string GetLabel(){ return m_label; }
     
 private:
+    Particle::PDG m_pdg; 
+
     std::string m_tag;
     std::string m_symbol;
     std::string m_name;
