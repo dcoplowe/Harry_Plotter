@@ -500,13 +500,13 @@ void ProducePlots::MakePlots(){
             dptt_list.push_back( m_recovars->dpTT_prdir );
 
             for(unsigned int dptt_loop = 0; dptt_loop < dptt_list.size(); dptt_loop++){
-                MakeDir("dpTT" + branchnames[br] + "/" + dptt_list[i] );
-                dpTT.SetName( m_recovars->truedpTT + ":" + dptt_list[i] );
-                dpTT.SetSName(dptt_list[i]);
+                MakeDir("dpTT" + branchnames[br] + "/" + dptt_list[dptt_loop] );
+                dpTT.SetName( m_recovars->truedpTT + ":" + dptt_list[dptt_loop] );
+                dpTT.SetSName(dptt_list[dptt_loop]);
                 ProduceGroup(dpTT, 39, -300, 300, basecuts[br]);
             }
         }
-        
+
         list.clear();
     }
     
