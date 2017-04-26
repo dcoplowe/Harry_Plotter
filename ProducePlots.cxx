@@ -185,9 +185,13 @@ void ProducePlots::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std:
 
     if(m_outfile->IsOpen()){
         
+        cout << "Topology" << endl;
         BDCans var_top = m_runbd->TOPO(var, nbins, bins, cuts);
+
+        cout << "Target" << endl;
         BDCans var_tar = m_runbd->TARGET(var, nbins, bins, cuts);
         
+        cout << "PID" << endl;
         BDCans var_pid;
         if(!var.GetPDG().empty()) var_pid = m_runbd->PID(var, nbins, bins, var.GetPDG(), cuts);
         
@@ -245,6 +249,9 @@ void ProducePlots::MakeMomPlots(Particle * part, Int_t nbins, Double_t * bins, s
     Variable mom(part->trueP.GetName() + ":" + part->P.GetName(), "#it{p}_{" + part->GetSymbol() + "}", "MeV/#it{c}");
     mom.SetSName(part->P.GetName());
     mom.SetPDG(part->pdg.GetName());
+
+    cout << "ProducePlots::MakeMomPlots : PDG = " << part->pdg.GetName() << endl; 
+
     ProduceGroup(mom, nbins, bins, cuts);
 }
 
