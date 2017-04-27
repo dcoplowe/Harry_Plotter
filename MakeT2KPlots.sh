@@ -12,6 +12,6 @@ dir=${infile}
 
 dir=$(echo ${dir} | rev | cut -c 13- | rev)
 
-echo "${dir}"
+cd ${dir}
 
-# ./ProducePlots -t -i ${infile}
+./ProducePlots -t -i ${infile}

@@ -636,15 +636,12 @@ void ProducePlots::MakePlots(){
             eff_pur_cuts_leg->AddEntry(eff_CC1P1Pi, ("Efficiency (" + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol() + ")").c_str(), "l");
             eff_pur_cuts_leg->AddEntry(pur_CC1P1Pi, ("Purity ("     + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol() + ")").c_str(), "l");
 
-            TH1D * eff_old;
-            TH1D * pur_old;
-
             if(m_experiment->GetType() == Experiment::MIN){
                 std::string signal_def_old = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
                 signal_def_old += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25. && TMath::RadToDeg()*truth_mu_Theta >= 0.";
             
-                eff_old = m_runep->EffVSCuts( signal_def_old, br);
-                pur_old = m_runep->PurVSCuts( signal_def_old, br);
+                TH1D * eff_old = m_runep->EffVSCuts( signal_def_old, br);
+                TH1D * pur_old = m_runep->PurVSCuts( signal_def_old, br);
             
                 eff_old->SetLineStyle(7);
                 pur_old->SetLineStyle(7);
@@ -653,17 +650,22 @@ void ProducePlots::MakePlots(){
 
                 eff_pur_cuts_leg->AddEntry(eff_old, "Efficiency (Old Sig. Def.)", "l");
                 eff_pur_cuts_leg->AddEntry(pur_old, "Purity (Old Sig. Def.)", "l");
-            }
 
-            eff_pur_cuts_leg->Draw();            
-            eff_pur_cuts->Write();
+                eff_pur_cuts_leg->Draw();            
+                eff_pur_cuts->Write();
+
+                delete eff_old;
+                delete pur_old;
+            }
+            else{
+                eff_pur_cuts_leg->Draw();            
+                eff_pur_cuts->Write();
+            }
 
             delete eff_new;
             delete pur_new;
             delete eff_CC1P1Pi;
             delete pur_CC1P1Pi;
-            if(eff_old) delete eff_old;
-            if(pur_old) delete pur_old;
             delete eff_pur_cuts_leg;
             delete eff_pur_cuts;
 
