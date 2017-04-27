@@ -133,7 +133,7 @@ TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
         while( tmp_br == 0x0 ){
             cout << "Loooping through : " << ncuts << endl;
             ncuts++;
-            tmp_br = m_truth->GetBranch( Form("cut%d", ncuts) );
+            tmp_br = m_truth->GetLeaf( Form("cut%d", ncuts) );
         }
 
         cout << "N cuts found to be " << ncuts << endl;
