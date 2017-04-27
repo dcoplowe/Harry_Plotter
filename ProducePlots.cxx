@@ -521,7 +521,7 @@ void ProducePlots::MakePlots(){
                 // GetHisto(std::string var, Int_t nbins, Double_t * bins, std::string xy_title = "", std::string cuts = "");
 
                 TH1D * startfgd_h = m_runbd->GetHisto(startfgd.GetName(), startfgd.GetNBins(), startfgd.GetBinning(), startfgd.GetSymbol(), basecuts[br]);
-                startfgd_h->SetFillColor(party->info.GetFillColor());
+                startfgd_h->SetFillColor(party->info.GetColor());
 
                 TCanvas * startfgd_c = new TCanvas(party->fgd_start.GetName().c_str(), 400, 400);
                 startfgd_h->Draw();
