@@ -74,6 +74,8 @@ private:
     TH1D * GetHisto(TTree * intree, std::string var, int nbins, Double_t * xbins, std::string cuts);
     TH2D * GetHisto(TTree * intree, std::string var_yx, int x_nbins, Double_t * xbins, int y_nbins, Double_t * ybins, std::string cuts);
     
+    int GetNCuts();
+
     int m_purhcounter;
     int m_effhcounter;
     int m_ghcounter1D;

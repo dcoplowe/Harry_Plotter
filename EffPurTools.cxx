@@ -120,24 +120,7 @@ TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
     
     if(m_debug) cout << "Read tree " << m_truth->GetName() << endl;
 
-    assert( m_truth->GetEntries() > 1 );
-    m_truth->GetEntry(0);
-    TLeaf * lused = m_truth->GetLeaf("truth_ncuts");
-    int ncuts;
-    if(lused) ncuts = lused->GetValue();
-    else {
-        ncuts = 0;
-        cout << "Form(\"cuts%d\", ncuts) = " << Form("cut%d", ncuts) << endl;
-        TLeaf * tmp_br = m_recon->GetLeaf( Form("cut%d", ncuts) );
-        if(tmp_br) cout << "tmp_br ---- Exists " << endl;
-        while( tmp_br != 0x0 ){
-            cout << "Loooping through : " << ncuts << endl;
-            ncuts++;
-            tmp_br = m_recon->GetLeaf( Form("cut%d", ncuts) );
-        }
-
-        cout << "N cuts found to be " << ncuts << endl;
-    }
+    int ncuts = GetNCuts();
 
     if(m_debug) cout << "Found and Filled ncuts histogram " << endl;
 
@@ -475,16 +458,20 @@ TH2D * EffPurTools::RatioVSVar(TTree * intree, std::string var_yx, int x_nbins, 
     return ratio;
 }
 
-// Double_t * EffPurTools::DrawingTools::SetBinning(int nbins, Double_t x_low, Double_t x_high){
-//     Double_t * xbins = new Double_t[ nbins + 1 ];
-    
-//     Double_t range = x_high - x_low;
-//     Double_t binwidth = range/(Double_t)nbins;
-    
-//     for (int i=0; i < nbins + 1; i++) {
-//         xbins[i] = x_low + binwidth*i;
-//         //cout << "Array Element: " << i << " : " << xbins[i] << endl;
-//     }
-//     return xbins;
-// }
-
+int EffPurTools::GetNCuts()
+{
+    assert( m_truth->GetEntries() > 1 );
+    m_truth->GetEntry(0);
+    TLeaf * lused = m_truth->GetLeaf("truth_ncuts");
+    int ncuts = 0;
+    if(lused) ncuts = lused->GetValue();
+    else {
+        ncuts = 0;
+        TBranch * tmp_br = m_recon->GetBranch( Form("cut%d", ncuts) );
+        while( tmp_br != 0x0 ){
+            ncuts++;
+            tmp_br = m_recon->GetBranch( Form("cut%d", ncuts) );
+        }
+    }
+    return ncuts;
+}
