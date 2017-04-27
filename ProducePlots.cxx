@@ -581,9 +581,9 @@ void ProducePlots::MakePlots(){
             segcuts += " != -999";
 
             TH1D * nfgdsegments_h = m_runbd->GetHisto(nfgdsegments.GetName(), 3, 0., 3., "N tracks with FGD Segments", segcuts);
-            nfgdsegments_h->SetFillColor(party->info.GetColor());
+            nfgdsegments_h->SetFillColor(DrawingStyle::Yellow);
 
-            TCanvas * nfgdsegments_c = new TCanvas(party->fgd_start.GetName().c_str(), "", 400, 400);
+            TCanvas * nfgdsegments_c = new TCanvas("NFGDSegments", "", 400, 400);
             nfgdsegments_h->Draw();
             PrintLogo(nfgdsegments_c);
             nfgdsegments_c->Write();
@@ -600,7 +600,43 @@ void ProducePlots::MakePlots(){
             PrintLogo(w_dist);
             w_dist->Write();
             //**************************************** W Mass END *************************************//
+        }
 
+
+        if(!m_realdata){
+            //******************************** Efficiency/Purity START ********************************//
+
+            MakeDir("Efficiency/Cuts" + branchnames[br]);
+
+            TCanvas * eff_pur_cuts_EX = new TCanvas("eff_pur_cuts_dEdX","", 600, 800);
+            eff_pur_cuts_EX->cd();
+            TH1D * eff_new = m_runep->EffVSCuts( m_experiment->GetSignal(), br);
+            TH1D * pur_new = m_runep->PurVSCuts( m_experiment->GetSignal(), br);
+
+            eff_new->Draw("HIST");
+            pur_new->Draw("HISTSAME");
+
+            TLegend * eff_pur_cuts_leg = m_runbd->Legend(0.2,0.1);
+            eff_pur_cuts_leg->AddEntry(eff_new, "Efficiency (New)", "l");
+            eff_pur_cuts_leg->AddEntry(pur_new, "Purity (New)", "l");
+
+            if(m_experiment->GetType() == Experiment::MIN){
+                std::string signal_def_old = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
+                signal_def_old += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25. && TMath::RadToDeg()*truth_mu_Theta >= 0.";
+            
+                TH1D * eff_old = m_runep->EffVSCuts( signal_def_old, br);
+                TH1D * pur_old = m_runep->PurVSCuts( signal_def_old, br);
+            
+                eff_old->SetLineStyle(7);
+                pur_old->SetLineStyle(7);
+                eff_old->Draw("HISTSAME");
+                pur_old->Draw("HISTSAME");
+
+                eff_pur_cuts_leg->AddEntry(eff_old, "Efficiency (Old)", "l");
+                eff_pur_cuts_leg->AddEntry(pur_old, "Purity (Old)", "l");
+                
+            }
+            //******************************** Efficiency/Purity END ********************************//
 
         }
 
@@ -621,18 +657,7 @@ void ProducePlots::MakePlots(){
 
     // if(!m_realdata){
 
-    //     MakeDir("Efficiency/Cuts/dEdX");
-    //     std::string signal_def_new = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
-    //     signal_def_new += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25. && TMath::RadToDeg()*truth_mu_Theta >= 0.";
-    //     signal_def_new += " && truth_true_target_region == 1 && truth_mu_E < 20000. && truth_mu_E > 0.";
-
-    //     std::string signal_def_old = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
-    //     signal_def_old += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25. && TMath::RadToDeg()*truth_mu_Theta >= 0.";
-
-    //     // m_runep->Debug();
-
-    //     TCanvas * eff_pur_cuts_EX = new TCanvas("eff_pur_cuts_dEdX","", 600, 800);
-    //     eff_pur_cuts_EX->cd();
+   
     //     TH1D * eff_EX_new = m_runep->EffVSCuts( signal_def_new );//->Draw("HIST");
     //     TH1D * pur_EX_new = m_runep->PurVSCuts( signal_def_new );//->Draw("HISTSAME");
     //     TH1D * eff_EX_old = m_runep->EffVSCuts( signal_def_old );//->Draw("HIST");
