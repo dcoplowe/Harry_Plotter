@@ -15,4 +15,6 @@ dir=$(dirname ${infile})
 cd ${dir}
 pwd
 
+echo "Starting to produce plots."
 ProducePlots -t -i ${infile}
+echo "Finished making plots."
