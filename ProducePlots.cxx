@@ -574,7 +574,7 @@ void ProducePlots::MakePlots(){
         //************************************** No. FGD Segments Start *************************************//
 
         if(m_experiment->GetType() == Experiment::T2K){            
-            Variable nfgdsegments(m_muon->fgd_start.GetName() + " + " + m_proton->fgd_start.GetName() + " + " + m_pion->fgd_start.GetName()),"","");
+            Variable nfgdsegments(m_muon->fgd_start.GetName() + " + " + m_proton->fgd_start.GetName() + " + " + m_pion->fgd_start.GetName(),"","");
             string segcuts = basecuts[br] + " && " + m_muon->fgd_start.GetName() + "!= -999 && " + m_proton->fgd_start.GetName() " != -999";
             segcuts += " && ";
             segcuts += m_pion->fgd_start.GetName();
@@ -600,7 +600,8 @@ void ProducePlots::MakePlots(){
             PrintLogo(w_dist);
             w_dist->Write();
             //**************************************** W Mass END *************************************//
-            
+
+
         }
 
         list.clear();
