@@ -30,8 +30,8 @@ Experiment::Experiment(Name exp) : m_type(exp), m_name( ToString(m_type) )
     m_cuts.clear();
 
     SetTopologies(exp);
-    m_signal  = m_topologies.GetTopology(m_topologies.GetSignal());
-    
+    m_signal  = m_topologies->GetTopology(m_topologies->GetSignal());
+
     SetIntModes(exp);
     SetCutNames(exp);
 
