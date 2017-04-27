@@ -127,6 +127,7 @@ TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
     if(lused) ncuts = lused->GetValue();
     else {
         ncuts = 0;
+        cout << "Form(\"cuts%d\", ncuts) = " << Form("cuts%d", ncuts) << endl;
         TBranch * tmp_br = m_truth->GetBranch( Form("cuts%d", ncuts) );
         while( tmp_br != NULL ){
             cout << "Loooping through : " << ncuts << endl;
