@@ -183,7 +183,7 @@ void Experiment::SetTopologies(Experiment::Name exp)
         if(print_level::quiet) cout << " Adding Topology = " << Topology::ToString(Topology::HCC1P1PiPlus) << endl;
 
         m_topologies->AddTopology(        Topology::HCC1P1PiPlus,  m_topologies->GetTopology(Topology::CC1P1PiPlus).GetSignal() );
-        m_topologies->AddSignalToTopology(Topology::HCC1P1PiPlus, "target == 1 && selmu_mom > 250 && selp_mom > 450 && selpi_mom > 250");
+        m_topologies->AddSignalToTopology(Topology::HCC1P1PiPlus, "target == 1");// && selmu_mom > 250 && selp_mom > 450 && selpi_mom > 250");
 
         // if(print_level::quiet) cout << " Adding Topology = " << Topology::ToString(Topology::HCC1P1PiPlusOOPS) << endl;
         // m_topologies->AddTopology(        Topology::HCC1P1PiPlusOOPS,  m_topologies->GetTopology(Topology::HCC1P1PiPlusOOPS).GetSignal() );
