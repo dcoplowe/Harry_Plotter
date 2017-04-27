@@ -84,6 +84,8 @@ public:
     void MakeDir(std::string name);
     void cdDir(std::string name = ""){  m_outfile->cd((m_savename + ":/" + name).c_str()); }//Default is the root dir.
     
+    void Verbose(bool var){ m_verbose = var; }
+
 private:
     std::string m_infilename;
     bool m_realdata;
@@ -113,11 +115,13 @@ private:
     BreakdownTools  * m_runbd;
     BreakdownTools  * m_runtruthbd;
     EffPurTools     * m_runep;
+
+    bool m_verbose;
 };
 
 ProducePlots::ProducePlots(Experiment::Name exp, std::string filename, bool debug, bool realdata) : m_infilename(filename),
 m_realdata(realdata) {
-    
+
     cout << "Experiment: " <<  Experiment::ToString(exp) << endl;
     
     m_experiment = new Experiment(exp);
@@ -160,10 +164,11 @@ m_realdata(realdata) {
     
     m_outfile = new TFile(m_savename.c_str(), "RECREATE");
 
+    m_verbose = false;
 }
 
 ProducePlots::~ProducePlots(){
-    
+
     if(m_outfile){
         if(m_outfile->IsOpen()) m_outfile->Close();
         delete m_outfile;
@@ -186,7 +191,7 @@ void ProducePlots::ProduceGroup(Variable var, Int_t nbins, Double_t low, Double_
 void ProducePlots::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std::string cuts){//, Int_t setsave = 11111??
 
     if(m_outfile->IsOpen()){
-        
+
         BDCans var_top = m_runbd->TOPO(var, nbins, bins, cuts);
 
         BDCans var_tar = m_runbd->TARGET(var, nbins, bins, cuts);
@@ -301,7 +306,7 @@ void ProducePlots::MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t low,
 void ProducePlots::EffPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string signal_def, std::string cuts){
     //Produce eff. and truth dist from truth tree.
     if(m_outfile->IsOpen()){
-        
+
         int colour = DrawingStyle::Other;
         if(var.GetName().find("mu") != std::string::npos) colour = DrawingStyle::MuonM;
         else if(var.GetName().find("pi") != std::string::npos) colour = DrawingStyle::PionP;
@@ -313,7 +318,7 @@ void ProducePlots::EffPart(Variable var, Int_t nbins, Double_t low, Double_t hig
         TH1D * tmp_eff = m_runep->EffVSVar(var.GetName().c_str(), nbins, low, high, signal_def, cuts, (var.GetSymbol() + " (" + var.GetUnits() + ")")/*.c_str()*/ );//->Draw();
         tmp_eff->SetLineColor(colour);
         tmp_eff->Draw();
-    
+
         TLatex * sig = GetSignal();
         sig->Draw();
         
@@ -330,7 +335,7 @@ void ProducePlots::EffPart(Variable var, Int_t nbins, Double_t low, Double_t hig
 void ProducePlots::PurPart(Variable var, std::string signal_def, std::string cuts){
     //Produce purity. and reco dists. from truth tree.
     if(m_outfile->IsOpen()){
-        
+
         int colour = DrawingStyle::Other;
         if(var.GetName().find("mu") != std::string::npos) colour = DrawingStyle::MuonM;
         else if(var.GetName().find("pi") != std::string::npos) colour = DrawingStyle::PionP;
@@ -342,7 +347,7 @@ void ProducePlots::PurPart(Variable var, std::string signal_def, std::string cut
         TH1D * tmp_pur = m_runep->PurVSVar(var.GetName().c_str(), var.GetNBins(), var.GetBinning(), signal_def, (var.GetSymbol() + " (" + var.GetUnits() + ")"), cuts);
         tmp_pur->SetLineColor(colour);
         tmp_pur->Draw();
-    
+
         TLatex * sig = GetSignal();
         sig->Draw();
         
@@ -357,7 +362,7 @@ void ProducePlots::PurPart(Variable var, std::string signal_def, std::string cut
 }
 
 void ProducePlots::TruthPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts, int ac_lev, int branch){
-    
+
     if(m_outfile->IsOpen()){
         int colour = DrawingStyle::Other;
         if(var.GetName().find("mu") != std::string::npos) colour = DrawingStyle::MuonM;
@@ -456,8 +461,12 @@ void ProducePlots::MakePlots(){
         basecuts[0] = m_experiment->GetBaseCuts(4, 0);//Change back to 5
     }
 
+    if(m_verbose) cout << "Running on Particles:" << endl;
+
     for(int br = 0; br < nbranches; br++){
         std::vector<Particle*> list;
+
+
 
         if(br == 1 && m_experiment->GetType() == Experiment::MIN){
             list.push_back( m_proton_alt );
@@ -471,6 +480,8 @@ void ProducePlots::MakePlots(){
 
         for(unsigned int ptls = 0; ptls < list.size(); ptls++){
             Particle * party = list[ptls];
+
+            if(m_verbose) cout << party->GetName() << " plots being produced" << endl;
             
             //**************************************** Mom START ****************************************//
             MakeDir("Mom" + branchnames[br] + "/" + party->GetName() );
@@ -482,14 +493,17 @@ void ProducePlots::MakePlots(){
                 MakeDir("Theta" + branchnames[br] + "/" + party->GetName() );
                 MakeThetaPlots(party, party->theta.GetNBins(), party->theta.GetBinning(), basecuts[br]);
                 //**************************************** Theta END **************************************//
-            
+
                 //**************************************** Phi START ************************************//
                 MakeDir("Phi" + branchnames[br] + "/" + party->GetName() );
                 MakePhiPlots(party, party->phi.GetNBins(), party->phi.GetBinning(), basecuts[br]);
                 //**************************************** Phi END **************************************//                
+                if(m_verbose) cout << "Making MINERva specific plots" << endl;
             }
 
             if(m_experiment->GetType() == Experiment::T2K){
+
+                if(m_verbose) cout << "Making T2K specific plots" << endl;
 
                 //**************************************** cosTheta START ************************************//
                 MakeDir("cTheta/" + party->GetName() );
@@ -531,6 +545,7 @@ void ProducePlots::MakePlots(){
 
         }
 
+        if(m_verbose) cout << "Now producing dpTT plots." << endl;
         //************************************** dpTT Start *************************************//
         MakeDir("dpTT" + branchnames[br]);
         Variable dpTT(m_recovars->truedpTT + ":" + m_recovars->dpTT, "#delta#it{p}_{TT}", "MeV/#it{c}");
@@ -550,6 +565,7 @@ void ProducePlots::MakePlots(){
         ProduceGroup(dpTT, 19, -300, 300, basecuts[br]);
 
         if(m_experiment->GetType() == Experiment::MIN){
+            if(m_verbose) cout << "Making MINERva specific plots" << endl;
 
             std::vector<std::string> dptt_list;
             dptt_list.push_back( m_recovars->dpTT_tmumom );
@@ -572,9 +588,10 @@ void ProducePlots::MakePlots(){
         //************************************** dpTT End *************************************//
 
         if(m_experiment->GetType() == Experiment::T2K){ 
+            if(m_verbose) cout << "Making T2K specific plots" << endl;
             //************************************** No. FGD Segments Start *************************************//
             cdDir("FGDSegments");
-           
+
             Variable nfgdsegments(m_muon->fgd_start.GetName() + " + " + m_proton->fgd_start.GetName() + " + " + m_pion->fgd_start.GetName(),"","");
             string segcuts = basecuts[br] + " && " + m_muon->fgd_start.GetName() + "!= -999 && " + m_proton->fgd_start.GetName() + " != -999";
             segcuts += " && ";
@@ -593,6 +610,8 @@ void ProducePlots::MakePlots(){
 
 
         if(m_experiment->GetType() == Experiment::MIN){
+            if(m_verbose) cout << "Making W dists for MINERvA" << endl;
+
             //************************************** W Mass Start *************************************//
             MakeDir("W");
             Variable W_mass("mc_w", "W", "MeV");
@@ -607,6 +626,8 @@ void ProducePlots::MakePlots(){
 
         if(!m_realdata){
             //******************************** Efficiency/Purity START ********************************//
+
+            if(m_verbose) cout << "Producing truth plots" << endl;
 
             MakeDir("Efficiency/Cuts" + branchnames[br]);
 
@@ -641,10 +662,10 @@ void ProducePlots::MakePlots(){
             if(m_experiment->GetType() == Experiment::MIN){
                 std::string signal_def_old = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
                 signal_def_old += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25. && TMath::RadToDeg()*truth_mu_Theta >= 0.";
-            
+
                 TH1D * eff_old = m_runep->EffVSCuts( signal_def_old, br);
                 TH1D * pur_old = m_runep->PurVSCuts( signal_def_old, br);
-            
+
                 eff_old->SetLineStyle(7);
                 pur_old->SetLineStyle(7);
                 eff_old->Draw("HISTSAME");
@@ -677,7 +698,9 @@ void ProducePlots::MakePlots(){
 
         list.clear();
     }
-        
+
+    if(m_verbose) cout << "Finished Making Plots" << endl;
+
     // //*****************************************************************************************//
     // //*************************************** VS eff. START ***********************************//
     
@@ -858,9 +881,10 @@ int main(int argc, char *argv[])
     bool debug = false;
     Experiment::Name experiment = Experiment::UNKNOWN;
     bool realdata = false;
+    bool verbose = false;
 
     char cc;
-    while((cc = getopt(argc, argv, "i:o:d::t::m::r::")) != -1){
+    while((cc = getopt(argc, argv, "i:o:d::t::m::r::v::")) != -1){
         switch (cc){
             case 'i': filename = std::string(optarg); break;
             case 'o': savename = optarg; break;
@@ -868,6 +892,7 @@ int main(int argc, char *argv[])
             case 't': experiment = Experiment::T2K; break;
             case 'm': experiment = Experiment::MIN; break;
             case 'r': realdata = true; break;
+            case 'v': verbose = true; break;
 
             default: return 1;
         }
@@ -888,7 +913,8 @@ int main(int argc, char *argv[])
     }
 
     ProducePlots * plots = new ProducePlots(experiment, filename, debug, realdata);
-    
+    plots->Verbose(verbose);
+
     if(!savename.empty()) plots->SetSaveName(savename);
     
     plots->MakePlots();
