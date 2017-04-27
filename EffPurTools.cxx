@@ -123,8 +123,16 @@ TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
     assert( m_truth->GetEntries() > 1 );
     m_truth->GetEntry(0);
     TLeaf * lused = m_truth->GetLeaf("truth_ncuts");
-    int ncuts = lused->GetValue();
-    
+    int ncuts;
+    if(lused) ncuts = lused->GetValue();
+    else {
+        ncuts = 0;
+        while( m_truth->GetLeaf( Form("cuts%d",ncuts) ){
+            ncuts++;
+        }
+        cout << "N cuts found to be " << ncuts << endl;
+    }
+
     if(m_debug) cout << "Found and Filled ncuts histogram " << endl;
 
     if(m_debug) cout << "Number of cuts found to be " << ncuts << endl;
