@@ -610,8 +610,8 @@ void ProducePlots::MakePlots(){
 
             TCanvas * eff_pur_cuts = new TCanvas("eff_pur_cuts","", 600, 800);
             eff_pur_cuts->cd();
-            TH1D * eff_new = m_runep->EffVSCuts( m_experiment->GetSignal(), br);
-            TH1D * pur_new = m_runep->PurVSCuts( m_experiment->GetSignal(), br);
+            TH1D * eff_new = m_runep->EffVSCuts( m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), br);
+            TH1D * pur_new = m_runep->PurVSCuts( m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), br);
 
             TH1D * eff_CC1P1Pi = m_runep->EffVSCuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), br);
             TH1D * pur_CC1P1Pi = m_runep->PurVSCuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), br);
