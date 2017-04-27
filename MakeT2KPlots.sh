@@ -8,9 +8,9 @@ PATH=${PATH}:${plotter}
 
 infile=$1
 
-dir=${infile}
+echo $PATH
 
-dir=$(echo ${dir} | rev | cut -c 13- | rev)
+dir=$(dirname ${infile})
 
 cd ${dir}
 pwd

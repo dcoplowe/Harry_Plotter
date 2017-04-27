@@ -571,9 +571,10 @@ void ProducePlots::MakePlots(){
         }
         //************************************** dpTT End *************************************//
 
-        //************************************** No. FGD Segments Start *************************************//
-
-        if(m_experiment->GetType() == Experiment::T2K){            
+        if(m_experiment->GetType() == Experiment::T2K){ 
+            //************************************** No. FGD Segments Start *************************************//
+            cdDir("FGDSegments");
+           
             Variable nfgdsegments(m_muon->fgd_start.GetName() + " + " + m_proton->fgd_start.GetName() + " + " + m_pion->fgd_start.GetName(),"","");
             string segcuts = basecuts[br] + " && " + m_muon->fgd_start.GetName() + "!= -999 && " + m_proton->fgd_start.GetName() + " != -999";
             segcuts += " && ";
@@ -587,8 +588,9 @@ void ProducePlots::MakePlots(){
             nfgdsegments_h->Draw();
             PrintLogo(nfgdsegments_c);
             nfgdsegments_c->Write();
-        }
         //************************************** No. FGD Segments End *************************************//
+        }
+
 
         if(m_experiment->GetType() == Experiment::MIN){
             //************************************** W Mass Start *************************************//
