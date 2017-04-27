@@ -339,7 +339,7 @@ void ProducePlots::PurPart(Variable var, std::string signal_def, std::string cut
         
         TCanvas * purdists = new TCanvas( (var.GetName() + "_pur").c_str(), "", 900,800);
         purdists->cd();
-        TH1D * tmp_pur = m_runep->PurVSVar(var.GetName().c_str(), var.GetNBins(), var.GetBinning(), signal_def, (var.GetSymbol() + " (" + var.GetUnits() + ")", cuts);
+        TH1D * tmp_pur = m_runep->PurVSVar(var.GetName().c_str(), var.GetNBins(), var.GetBinning(), signal_def, (var.GetSymbol() + " (" + var.GetUnits() + ")"), cuts);
         tmp_pur->SetLineColor(colour);
         tmp_pur->Draw();
     
@@ -352,7 +352,7 @@ void ProducePlots::PurPart(Variable var, std::string signal_def, std::string cut
 
         delete sig;
         delete tmp_pur;
-        delete effdists;
+        delete purdists;
     }
 }
 
