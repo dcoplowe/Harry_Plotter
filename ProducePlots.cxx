@@ -617,15 +617,15 @@ void ProducePlots::MakePlots(){
             TH1D * pur_CC1P1Pi = m_runep->PurVSCuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), br);
 
             eff_CC1P1Pi->SetLineColor(DrawingStyle::Red);
-            // eff_CC1P1Pi->SetLineStyle(DrawingStyle::Red);
+            // eff_CC1P1Pi->SetLineStyle(7);
             pur_CC1P1Pi->SetLineColor(DrawingStyle::Red);
-            // pur_CC1P1Pi->SetLineStyle(DrawingStyle::Red);
+            pur_CC1P1Pi->SetLineStyle(7);
 
             eff_new->Draw("HIST");
             pur_new->Draw("HISTSAME");
 
-            eff_new->Draw("HIST");
-            pur_new->Draw("HISTSAME");
+            eff_CC1P1Pi->Draw("HIST");
+            pur_CC1P1Pi->Draw("HISTSAME");
 
 
             TLegend * eff_pur_cuts_leg = m_runbd->Legend(0.2,0.1);
