@@ -617,7 +617,7 @@ void ProducePlots::MakePlots(){
             TH1D * pur_CC1P1Pi = m_runep->PurVSCuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), br);
 
             eff_CC1P1Pi->SetLineColor(DrawingStyle::Red);
-            // eff_CC1P1Pi->SetLineStyle(7);
+            eff_CC1P1Pi->SetLineStyle(7);
             pur_CC1P1Pi->SetLineColor(DrawingStyle::Red);
             pur_CC1P1Pi->SetLineStyle(7);
 
