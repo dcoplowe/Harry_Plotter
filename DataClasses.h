@@ -134,6 +134,7 @@ private:
 
 class PDGInfo {
 public:
+    PDGInfo() : m_pdg(-999), m_name(""), m_signal(""), m_pdg_s(""), m_colour(1), m_line_colour(1), m_line_style(1) {;}
     PDGInfo(Int_t part_pdg, std::string part_name, std::string part_symbol);
     ~PDGInfo(){};
 
