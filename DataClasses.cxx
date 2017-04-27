@@ -29,6 +29,12 @@ Experiment::Experiment(Name exp) : m_type(exp), m_name( ToString(m_type) )
     m_intmodes.clear();
     m_cuts.clear();
 
+    SetTopologies(exp);
+    m_signal  = m_topologies.GetTopology(m_topologies.GetSignal());
+    
+    SetIntModes(exp);
+    SetCutNames(exp);
+
     if(exp == Experiment::MIN){
 
         m_logo = m_name + " Preliminary";
@@ -36,9 +42,9 @@ Experiment::Experiment(Name exp) : m_type(exp), m_name( ToString(m_type) )
         m_reconame = "sel";
         m_truename = "Truth";
 
-        m_signal  = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
-        m_signal += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25. && TMath::RadToDeg()*truth_mu_Theta >= 0.";
-        m_signal += " && truth_true_target_region == 1 && truth_mu_E < 20000. && truth_mu_E > 0.";
+        // m_signal  = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
+        // m_signal += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25. && TMath::RadToDeg()*truth_mu_Theta >= 0.";
+        // m_signal += " && truth_true_target_region == 1 && truth_mu_E < 20000. && truth_mu_E > 0.";
 
         m_signaldef = "H-CC1p1#pi^{+} (1.5 < E_{#mu} GeV < 20,  #theta_{#mu} < 25 Deg.)"; 
 
@@ -56,8 +62,6 @@ Experiment::Experiment(Name exp) : m_type(exp), m_name( ToString(m_type) )
         m_reconame = "default";
         m_truename = "truth";
 
-        m_signal  = "";
-
         m_signaldef = "H-CC1p1#pi^{+}"; 
 
         m_tag = "";
@@ -66,10 +70,6 @@ Experiment::Experiment(Name exp) : m_type(exp), m_name( ToString(m_type) )
 
         m_weight = "1";
     }
-
-    SetTopologies(exp);
-    SetIntModes(exp);
-    SetCutNames(exp);
 }
 
 Experiment::~Experiment()
@@ -337,12 +337,16 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
             truepTMag       = Variable(m_tag + name + "_truepTMag", 20, 0., 2000.);
             truestartdir    = Variable(m_tag + name + "_truedir", 20, 0., 2000.);
             trueendpos      = Variable(m_tag + name + "_endpos", 20, 0., 2000.);
-
-
         }
 
         pdg = Variable(m_tag + name + "_pdg", 20, 0., 2000.);
         
+        // truecross_angle = Variable(m_tag + name + "_", 20, 0., 180.);
+        cross_angle = Variable(m_tag + name + "_", 20, 0., 180.);
+        cross_angle.SetSymbol("Crossing Angle");
+        cross_angle.SetUnits("Deg.");
+
+
         // Varaible ranges/binning need improving:
 
         //MIN: Reco vars:

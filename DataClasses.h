@@ -206,7 +206,7 @@ public:
     std::string GetRecoName(){ return m_reconame; }
     std::string GetTrueName(){ return m_truename; }
 
-    std::string GetSignal(){ return m_signal; }
+    std::string GetSignal(){ return m_signal.GetSignal(); }
     std::string GetSigDef(){ return m_signaldef; }
 
     std::string GetBaseCuts(int accum_level, int branch, std::string cuts = "");
@@ -230,7 +230,7 @@ private:
     std::string m_reconame;
     std::string m_truename;
 
-    std::string m_signal;
+    Topology m_signal;
     std::string m_signaldef;
 
     Topologies * m_topologies;
@@ -346,13 +346,17 @@ public:
     //T2K: Reco vars:
     Variable ctheta;
     Variable ctheta_nudir;
+    Variable cross_angle;
     
-    //T2K: Reco vars:
+    //T2K: True vars:
     Variable truectheta;
+    // Variable truecrossing_angle;
     
     std::string GetSymbol(){ return m_symbol; }
     std::string GetName(){ return m_name; }
     std::string GetLabel(){ return m_label; }
+    Particle::PDG GetPDG(){ return m_pdg; }
+    bool IsPDG(Particle::PDG var){ var == m_pdg ? true : false; }
     
 private:
     Particle::PDG m_pdg; 

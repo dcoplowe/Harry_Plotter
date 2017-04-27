@@ -77,6 +77,8 @@ public:
     void ProduceGroup(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts);
     
     void EffPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string signal_def, std::string cuts = "");
+    void PurPart(Variable var, std::string signal_def, std::string cuts);
+
     void TruthPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts = "", int ac_lev = -1, int branch = 0);
     
     void MakeDir(std::string name);
@@ -325,6 +327,35 @@ void ProducePlots::EffPart(Variable var, Int_t nbins, Double_t low, Double_t hig
     }
 }
 
+void ProducePlots::PurPart(Variable var, std::string signal_def, std::string cuts){
+    //Produce purity. and reco dists. from truth tree.
+    if(m_outfile->IsOpen()){
+        
+        int colour = DrawingStyle::Other;
+        if(var.IsPDG(Particle::MuonM)) colour = DrawingStyle::MuonM;
+        else if(var.IsPDG(Particle::PionP)) colour = DrawingStyle::PionP;
+        else if(var.IsPDG(Particle::Proton)) colour = DrawingStyle::Proton;
+        else colour = DrawingStyle::Other;
+        
+        TCanvas * purdists = new TCanvas( (var.GetName() + "_pur").c_str(), "", 900,800);
+        purdists->cd();
+        TH1D * tmp_pur = m_runep->PurVSVar(var.GetName().c_str(), var.GetNBins(), var.GetBinning(), signal_def, (var.GetSymbol() + " (" + var.GetUnits() + ")", cuts);
+        tmp_pur->SetLineColor(colour);
+        tmp_pur->Draw();
+    
+        TLatex * sig = GetSignal();
+        sig->Draw();
+        
+        PrintLogo(purdists);
+        
+        purdists->Write();
+
+        delete sig;
+        delete tmp_pur;
+        delete effdists;
+    }
+}
+
 void ProducePlots::TruthPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts, int ac_lev, int branch){
     
     if(m_outfile->IsOpen()){
@@ -456,16 +487,25 @@ void ProducePlots::MakePlots(){
                 MakeDir("Phi" + branchnames[br] + "/" + party->GetName() );
                 MakePhiPlots(party, party->phi.GetNBins(), party->phi.GetBinning(), basecuts[br]);
                 //**************************************** Phi END **************************************//                
-
             }
 
             if(m_experiment->GetType() == Experiment::T2K){
 
                 //**************************************** cosTheta START ************************************//
-                MakeDir("cTheta" + branchnames[br] + "/" + party->GetName() );
+                MakeDir("cTheta/" + party->GetName() );
                 MakeCosThetaPlots(party, party->ctheta.GetNBins(), party->ctheta.GetBinning(), basecuts[br]);
                 MakeCosThetaPlots(party, party->ctheta_nudir.GetNBins(), party->ctheta_nudir.GetBinning(), basecuts[br], true);
                 //**************************************** cosTheta END **************************************//
+
+                //**************************************** Crossing Angle START ************************************//
+                MakeDir("CrossingAngle/" + party->GetName() );
+                
+                ProduceGroup(party->cross_angle, party->cross_angle.GetNBins(), party->cross_angle.GetBinning(), basecuts[br]);
+
+                // Purity of the crossing angle:
+                PurPart(party->cross_angle, m_experiment->GetSignal(), basecuts[br]); 
+
+                //**************************************** Crossing Angle END **************************************//
 
 
             }
