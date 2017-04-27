@@ -332,9 +332,9 @@ void ProducePlots::PurPart(Variable var, std::string signal_def, std::string cut
     if(m_outfile->IsOpen()){
         
         int colour = DrawingStyle::Other;
-        if(var.IsPDG(Particle::MuonM)) colour = DrawingStyle::MuonM;
-        else if(var.IsPDG(Particle::PionP)) colour = DrawingStyle::PionP;
-        else if(var.IsPDG(Particle::Proton)) colour = DrawingStyle::Proton;
+        if(var.GetName().find("mu") != std::string::npos) colour = DrawingStyle::MuonM;
+        else if(var.GetName().find("pi") != std::string::npos) colour = DrawingStyle::PionP;
+        else if(var.GetName().find("pr") != std::string::npos) colour = DrawingStyle::Proton;
         else colour = DrawingStyle::Other;
         
         TCanvas * purdists = new TCanvas( (var.GetName() + "_pur").c_str(), "", 900,800);
