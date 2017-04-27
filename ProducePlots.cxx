@@ -518,8 +518,6 @@ void ProducePlots::MakePlots(){
                 MakeDir("FGDSegments");
 
                 Variable startfgd = party->fgd_start;
-                // GetHisto(std::string var, Int_t nbins, Double_t * bins, std::string xy_title = "", std::string cuts = "");
-
                 TH1D * startfgd_h = m_runbd->GetHisto(startfgd.GetName(), startfgd.GetNBins(), startfgd.GetBinning(), startfgd.GetSymbol(), basecuts[br]);
                 startfgd_h->SetFillColor(party->info.GetColor());
 
@@ -528,16 +526,12 @@ void ProducePlots::MakePlots(){
                 PrintLogo(startfgd_c);
                 startfgd_c->Write();
 
-                // Purity of the crossing angle:
-                PurPart(party->cross_angle, m_experiment->GetSignal(), basecuts[br]); 
-
                 //**************************************** FGD Segment END **************************************//
-
-
             }
 
         }
-        // Variable dpTT;
+
+        //************************************** dpTT Start *************************************//
         MakeDir("dpTT" + branchnames[br]);
         Variable dpTT(m_recovars->truedpTT + ":" + m_recovars->dpTT, "#delta#it{p}_{TT}", "MeV/#it{c}");
         dpTT.SetSName(m_recovars->dpTT);
@@ -575,29 +569,45 @@ void ProducePlots::MakePlots(){
                 ProduceGroup(dpTT, 39, -300, 300, basecuts[br]);
             }
         }
+        //************************************** dpTT End *************************************//
+
+        //************************************** No. FGD Segments Start *************************************//
+
+        if(m_experiment->GetType() == Experiment::T2K){            
+            Variable nfgdsegments(m_muon->fgd_start.GetName() + " + " + m_proton->fgd_start.GetName() + " + " + m_pion->fgd_start.GetName()),"","");
+            string segcuts = basecuts[br] + " && " + m_muon->fgd_start.GetName() + "!= -999 && " + m_proton->fgd_start.GetName() " != -999";
+            segcuts += " && ";
+            segcuts += m_pion->fgd_start.GetName();
+            segcuts += " != -999";
+
+            TH1D * nfgdsegments_h = m_runbd->GetHisto(nfgdsegments.GetName(), 3, 0., 3., "N tracks with FGD Segments", segcuts);
+            nfgdsegments_h->SetFillColor(party->info.GetColor());
+
+            TCanvas * nfgdsegments_c = new TCanvas(party->fgd_start.GetName().c_str(), "", 400, 400);
+            nfgdsegments_h->Draw();
+            PrintLogo(nfgdsegments_c);
+            nfgdsegments_c->Write();
+        }
+        //************************************** No. FGD Segments End *************************************//
+
+        if(m_experiment->GetType() == Experiment::MIN){
+            //************************************** W Mass Start *************************************//
+            MakeDir("W");
+            Variable W_mass("mc_w", "W", "MeV");
+            W_mass.SetSName(br == 0 ? "W_EX" : "W_LL");
+
+            TCanvas * w_dist = m_runbd->TARGETSingle(W_mass, 200, 0, 3000, basecuts[br]);
+            PrintLogo(w_dist);
+            w_dist->Write();
+            //**************************************** W Mass END *************************************//
+            
+        }
 
         list.clear();
     }
     
     // //************************************** W Mass Start *************************************//
 
-    // MakeDir("W");
-
-    // Variable W_mass;
-    // W_mass.units = "MeV";
-    // W_mass.symbol = "W";
-    // W_mass.name = "mc_w";
-    // W_mass.savename = "W_EX";
-
-    // TCanvas * w_dist_EL = m_runbd->TARGETSingle(W_mass, 200, 0, 3000, EX_base_cut);
-    // PrintLogo(w_dist_EL);
-    // w_dist_EL->Write();
-    
-    // W_mass.savename = "W_LL";
-    // TCanvas * w_dist_LL = m_runbd->TARGETSingle(W_mass, 200, 0, 3000, LL_base_cut);
-    // PrintLogo(w_dist_LL);
-    // w_dist_LL->Write();
-    
     // //**************************************** W Mass END *************************************//
     // //*****************************************************************************************//
     // //*****************************************************************************************//

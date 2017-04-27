@@ -349,7 +349,7 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
         cross_angle.SetSymbol("Crossing Angle");
         cross_angle.SetUnits("Deg.");
 
-        fgd_start = Variable(m_tag + name + "_fgd_startin", 2, 0., 1.);
+        fgd_start = Variable(m_tag + name + "_fgd_startin", 2, 0., 2.);
         fgd_start.SetSymbol("Starts in FGD");
 
         // Varaible ranges/binning need improving:
@@ -549,6 +549,8 @@ KinematicVars::KinematicVars(Experiment::Name exp){
         truedpT = "truedpT";
         truedalphaT = "truedalphaT";
         truedphiT = "truedphiT";
+
+        // W_mass("");
     }
     else if(exp == Experiment::MIN){
         

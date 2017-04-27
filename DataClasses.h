@@ -430,6 +430,8 @@ public:
     std::string dalphaT_alt;
     std::string dphiT_alt;
     
+    // Variable W_mass;
+
 };
 
 #endif
