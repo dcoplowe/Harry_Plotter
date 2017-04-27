@@ -575,7 +575,7 @@ void ProducePlots::MakePlots(){
 
         if(m_experiment->GetType() == Experiment::T2K){            
             Variable nfgdsegments(m_muon->fgd_start.GetName() + " + " + m_proton->fgd_start.GetName() + " + " + m_pion->fgd_start.GetName(),"","");
-            string segcuts = basecuts[br] + " && " + m_muon->fgd_start.GetName() + "!= -999 && " + m_proton->fgd_start.GetName() " != -999";
+            string segcuts = basecuts[br] + " && " + m_muon->fgd_start.GetName() + "!= -999 && " + m_proton->fgd_start.GetName() + " != -999";
             segcuts += " && ";
             segcuts += m_pion->fgd_start.GetName();
             segcuts += " != -999";
@@ -648,13 +648,12 @@ void ProducePlots::MakePlots(){
                 eff_old->Draw("HISTSAME");
                 pur_old->Draw("HISTSAME");
 
-                eff_pur_cuts_leg->AddEntry(eff_old, "Efficiency (Old)", "l");
-                eff_pur_cuts_leg->AddEntry(pur_old, "Purity (Old)", "l");
-
+                eff_pur_cuts_leg->AddEntry(eff_old, "Efficiency (Old Sig. Def.)", "l");
+                eff_pur_cuts_leg->AddEntry(pur_old, "Purity (Old Sig. Def.)", "l");
             }
 
-            eff_pur_cuts_EX_leg->Draw();            
-            eff_pur_cuts_EX->Write();
+            eff_pur_cuts_leg->Draw();            
+            eff_pur_cuts->Write();
 
             //******************************** Efficiency/Purity END ********************************//
 
