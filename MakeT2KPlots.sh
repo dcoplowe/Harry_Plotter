@@ -15,4 +15,4 @@ dir=$(echo ${dir} | rev | cut -c 13- | rev)
 cd ${dir}
 pwd
 
-./ProducePlots -t -i ${infile}
+ProducePlots -t -i ${infile}
