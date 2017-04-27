@@ -273,7 +273,7 @@ TH1D * EffPurTools::EventsVSCuts(TTree * intree, std::string cuts, int branch, i
 
     std::stringstream sbranch;
     sbranch << branch;
-    tmp_cuts += "accum_level[0][" + sbranch.str() + "]>";
+    tmp_cuts += "accum_level[" + sbranch.str() + "]>";
     
     if(m_debug) cout << "Cut set as: " << tmp_cuts << endl;
     
