@@ -287,6 +287,9 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
         m_symbol = "#mu^{-}";
 
         m_pdg = Particle::MuonM;
+
+        info = PDGInfo((Int_t)m_pdg, m_name, m_symbol);
+
     }
     else if(name.find("pi") != std::string::npos){ 
         m_name = "Pion"; 
@@ -346,6 +349,8 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
         cross_angle.SetSymbol("Crossing Angle");
         cross_angle.SetUnits("Deg.");
 
+        fgd_start = Variable(m_tag + name + "_fgd_startin", 2, 0., 1.);
+        fgd_start.SetSymbol("Starts in FGD");
 
         // Varaible ranges/binning need improving:
 

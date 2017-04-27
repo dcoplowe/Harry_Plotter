@@ -308,6 +308,8 @@ public:
         Unknown = -999
     };
 
+    PDGInfo info;
+
     //Reco vars: Common:
     Variable P;
     Variable theta;
@@ -347,6 +349,7 @@ public:
     Variable ctheta;
     Variable ctheta_nudir;
     Variable cross_angle;
+    Variable fgd_start;
     
     //T2K: True vars:
     Variable truectheta;

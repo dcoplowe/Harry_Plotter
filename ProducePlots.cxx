@@ -498,8 +498,9 @@ void ProducePlots::MakePlots(){
                 //**************************************** cosTheta END **************************************//
 
                 //**************************************** Crossing Angle START ************************************//
-                MakeDir("CrossingAngle/" + party->GetName() );
-                
+                MakeDir("CrossingAngle");
+                party->cross_angle.SetSName(party->cross_angle.GetName());
+
                 // ProduceGroup(party->cross_angle, party->cross_angle.GetNBins(), party->cross_angle.GetBinning(), basecuts[br]);
                 TCanvas * ca_can = m_runbd->TARGETSingle(party->cross_angle, party->cross_angle.GetNBins(), party->cross_angle.GetBinning(), basecuts[br]);
                 PrintLogo(ca_can);
@@ -509,6 +510,28 @@ void ProducePlots::MakePlots(){
                 PurPart(party->cross_angle, m_experiment->GetSignal(), basecuts[br]); 
 
                 //**************************************** Crossing Angle END **************************************//
+
+                //**************************************** FGD Segment START ************************************//
+                // 1) Particle type FGD segment
+                // 2) Tot. No. of segments (1,2,3)
+
+                MakeDir("FGDSegments");
+
+                Variable startfgd = party->fgd_start;
+                // GetHisto(std::string var, Int_t nbins, Double_t * bins, std::string xy_title = "", std::string cuts = "");
+
+                TH1D * startfgd_h = m_runbd->GetHisto(startfgd.GetName(), startfgd.GetNBins(), startfgd.GetBinning(), startfgd.GetSymbol(), basecuts[br]);
+                startfgd_h->SetFillColor(party->info.GetFillColor());
+
+                TCanvas * startfgd_c = new TCanvas(party->fgd_start.GetName().c_str(), 400, 400);
+                startfgd_h->Draw();
+                PrintLogo(startfgd_c);
+                startfgd_c->Write();
+
+                // Purity of the crossing angle:
+                PurPart(party->cross_angle, m_experiment->GetSignal(), basecuts[br]); 
+
+                //**************************************** FGD Segment END **************************************//
 
 
             }
