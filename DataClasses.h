@@ -356,7 +356,7 @@ public:
     std::string GetName(){ return m_name; }
     std::string GetLabel(){ return m_label; }
     Particle::PDG GetPDG(){ return m_pdg; }
-    bool IsPDG(Particle::PDG var){ return var == m_pdg ? true : false; }
+    bool IsPDG(Particle::PDG var){ return (var == m_pdg); }
     
 private:
     Particle::PDG m_pdg; 
