@@ -608,8 +608,8 @@ void ProducePlots::MakePlots(){
 
             MakeDir("Efficiency/Cuts" + branchnames[br]);
 
-            TCanvas * eff_pur_cuts_EX = new TCanvas("eff_pur_cuts_dEdX","", 600, 800);
-            eff_pur_cuts_EX->cd();
+            TCanvas * eff_pur_cuts = new TCanvas("eff_pur_cuts","", 600, 800);
+            eff_pur_cuts->cd();
             TH1D * eff_new = m_runep->EffVSCuts( m_experiment->GetSignal(), br);
             TH1D * pur_new = m_runep->PurVSCuts( m_experiment->GetSignal(), br);
 
