@@ -500,7 +500,10 @@ void ProducePlots::MakePlots(){
                 //**************************************** Crossing Angle START ************************************//
                 MakeDir("CrossingAngle/" + party->GetName() );
                 
-                ProduceGroup(party->cross_angle, party->cross_angle.GetNBins(), party->cross_angle.GetBinning(), basecuts[br]);
+                // ProduceGroup(party->cross_angle, party->cross_angle.GetNBins(), party->cross_angle.GetBinning(), basecuts[br]);
+                TCanvas * ca_can = m_runbd->TARGETSingle(party->cross_angle, party->cross_angle.GetNBins(), party->cross_angle.GetBinning(), basecuts[br]);
+                PrintLogo(ca_can);
+                ca_can->Write();
 
                 // Purity of the crossing angle:
                 PurPart(party->cross_angle, m_experiment->GetSignal(), basecuts[br]); 
