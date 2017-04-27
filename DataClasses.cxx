@@ -342,7 +342,7 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
         pdg = Variable(m_tag + name + "_pdg", 20, 0., 2000.);
         
         // truecross_angle = Variable(m_tag + name + "_", 20, 0., 180.);
-        cross_angle = Variable(m_tag + name + "_", 20, 0., 180.);
+        cross_angle = Variable(m_tag + name + "_vtx_angle", 20, 0., 180.);
         cross_angle.SetSymbol("Crossing Angle");
         cross_angle.SetUnits("Deg.");
 
