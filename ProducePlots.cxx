@@ -621,6 +621,7 @@ void ProducePlots::MakePlots(){
             pur_CC1P1Pi->SetLineColor(DrawingStyle::Red);
             pur_CC1P1Pi->SetLineStyle(7);
 
+            eff_new->GetYaxis()->SetTitle("Pur/Eff. (%)");
             eff_new->Draw("HIST");
             pur_new->Draw("HISTSAME");
 
@@ -635,13 +636,15 @@ void ProducePlots::MakePlots(){
             eff_pur_cuts_leg->AddEntry(eff_CC1P1Pi, ("Efficiency (" + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol() + ")").c_str(), "l");
             eff_pur_cuts_leg->AddEntry(pur_CC1P1Pi, ("Purity ("     + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol() + ")").c_str(), "l");
 
+            TH1D * eff_old;
+            TH1D * pur_old;
 
             if(m_experiment->GetType() == Experiment::MIN){
                 std::string signal_def_old = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
                 signal_def_old += " && mc_current == 1 && TMath::RadToDeg()*truth_mu_Theta < 25. && TMath::RadToDeg()*truth_mu_Theta >= 0.";
             
-                TH1D * eff_old = m_runep->EffVSCuts( signal_def_old, br);
-                TH1D * pur_old = m_runep->PurVSCuts( signal_def_old, br);
+                eff_old = m_runep->EffVSCuts( signal_def_old, br);
+                pur_old = m_runep->PurVSCuts( signal_def_old, br);
             
                 eff_old->SetLineStyle(7);
                 pur_old->SetLineStyle(7);
@@ -655,140 +658,22 @@ void ProducePlots::MakePlots(){
             eff_pur_cuts_leg->Draw();            
             eff_pur_cuts->Write();
 
+            delete eff_new;
+            delete pur_new;
+            delete eff_CC1P1Pi;
+            delete pur_CC1P1Pi;
+            if(eff_old) delete eff_old;
+            if(pur_old) delete pur_old;
+            delete eff_pur_cuts_leg;
+            delete eff_pur_cuts;
+
             //******************************** Efficiency/Purity END ********************************//
 
         }
 
         list.clear();
     }
-    
-    // //************************************** W Mass Start *************************************//
-
-    // //**************************************** W Mass END *************************************//
-    // //*****************************************************************************************//
-    // //*****************************************************************************************//
-    // //*****************************************************************************************//
-    // //******************************** Efficiency/Purity START ********************************//
-    
-    
-    // //*****************************************************************************************//
-    // //*************************************** VS cuts START ***********************************//
-
-    // if(!m_realdata){
-
-   
-    //     TH1D * eff_EX_new = m_runep->EffVSCuts( signal_def_new );//->Draw("HIST");
-    //     TH1D * pur_EX_new = m_runep->PurVSCuts( signal_def_new );//->Draw("HISTSAME");
-    //     TH1D * eff_EX_old = m_runep->EffVSCuts( signal_def_old );//->Draw("HIST");
-    //     TH1D * pur_EX_old = m_runep->PurVSCuts( signal_def_old );//->Draw("HISTSAME");
-    //     // TH1D * eff_EX_mic = m_runep->EffVSCuts( (signal_def_new + " && truth_pi_EX_michel == 1") );//->Draw("HIST");
-    //     // TH1D * pur_EX_mic = m_runep->PurVSCuts( (signal_def_new + " && truth_pi_EX_michel == 1") );//->Draw("HISTSAME");    
-    
-    //     eff_EX_new->Draw("HIST");
-    //     pur_EX_new->Draw("HISTSAME");
-    //     eff_EX_old->SetLineStyle(7);
-    //     pur_EX_old->SetLineStyle(7);
-    //     eff_EX_old->Draw("HISTSAME");
-    //     pur_EX_old->Draw("HISTSAME");
-    //     // eff_EX_mic->SetLineStyle(7);
-    //     // pur_EX_mic->SetLineStyle(7);
-    //     // eff_EX_mic->Draw("HISTSAME");
-    //     // pur_EX_mic->Draw("HISTSAME");
-
-    //     TLegend * eff_pur_cuts_EX_leg = m_runbd->Legend(0.2,0.1);
-    //     eff_pur_cuts_EX_leg->AddEntry(eff_EX_new, "Efficiency (New)", "l");
-    //     eff_pur_cuts_EX_leg->AddEntry(pur_EX_new, "Purity (New)", "l");
-    //     eff_pur_cuts_EX_leg->AddEntry(eff_EX_old, "Efficiency (Old)", "l");
-    //     eff_pur_cuts_EX_leg->AddEntry(pur_EX_old, "Purity (Old)", "l");
-    //     // eff_pur_cuts_EX_leg->AddEntry(eff_EX_mic, "Eff. (New w #pi ME tag)", "l");
-    //     // eff_pur_cuts_EX_leg->AddEntry(pur_EX_mic, "Pur. (New w #pi ME tag)", "l");
-    //     eff_pur_cuts_EX_leg->Draw();
-    
-    //     eff_pur_cuts_EX->Write();
-    
-    //     TCanvas * pur_cuts_EX = new TCanvas("pur_cuts_dEdX","", 600, 800);
-    //     pur_cuts_EX->cd();
-    //     pur_EX_new->Draw("HIST");
-    //     pur_EX_old->SetLineStyle(7);
-    //     pur_EX_old->Draw("HISTSAME");
-
-    //     TLegend * pur_cuts_EX_leg = m_runbd->Legend(0.2,0.1);
-    //     pur_cuts_EX_leg->AddEntry(pur_EX_new, "Purity (New)", "l");
-    //     pur_cuts_EX_leg->AddEntry(pur_EX_old, "Purity (Old)", "l");
-    //     pur_cuts_EX_leg->Draw();
-
-    //     pur_cuts_EX->Write();
-
-    //     TCanvas * eff_cuts_EX = new TCanvas("eff_cuts_dEdX","", 600, 800);
-    //     eff_cuts_EX->cd();
-    //     eff_EX_new->Draw("HIST");
-    //     eff_EX_old->SetLineStyle(7);
-    //     eff_EX_old->Draw("HISTSAME");
-
-    //     TLegend * eff_cuts_EX_leg = m_runbd->Legend(0.2,0.1);
-    //     eff_cuts_EX_leg->AddEntry(eff_EX_new, "Eff. (New)", "l");
-    //     eff_cuts_EX_leg->AddEntry(eff_EX_old, "Eff. (Old)", "l");
-    //     eff_cuts_EX_leg->Draw();
-    //     eff_cuts_EX->Write();
-
-    //     delete eff_EX_new;
-    //     delete pur_EX_new;
-    //     delete eff_EX_old;
-    //     delete pur_EX_old;
-    //     // delete eff_EX_mic;
-    //     // delete pur_EX_mic;
-    //     delete eff_pur_cuts_EX_leg;
-    //     delete eff_pur_cuts_EX;
-
-    //     MakeDir("Efficiency/Cuts/LL");
-
-    //     TCanvas * eff_pur_cuts_LL = new TCanvas("eff_pur_cuts_LL","", 600, 800);
-    //     eff_pur_cuts_LL->cd();
-
-    //     // m_runep->Debug();
-    //     TH1D * eff_LL_new = m_runep->EffVSCuts( signal_def_new, 1 );//->Draw("HIST");
-    //     // m_runep->Debug();
-    //     TH1D * pur_LL_new = m_runep->PurVSCuts( signal_def_new, 1 );//->Draw("HISTSAME");
-    //     TH1D * eff_LL_old = m_runep->EffVSCuts( signal_def_old, 1 );//->Draw("HIST");
-    //     TH1D * pur_LL_old = m_runep->PurVSCuts( signal_def_old, 1 );//->Draw("HISTSAME");
-    //     // TH1D * eff_LL_mic = m_runep->EffVSCuts( (signal_def_new + " && truth_pi_LL_michel == 1"), 1 );//->Draw("HIST");
-    //     // TH1D * pur_LL_mic = m_runep->PurVSCuts( (signal_def_new + " && truth_pi_LL_michel == 1"), 1 );//->Draw("HISTSAME");
-
-    //     eff_LL_new->Draw("HIST");
-    //     pur_LL_new->Draw("HISTSAME");
-    //     eff_LL_old->SetLineStyle(7);
-    //     pur_LL_old->SetLineStyle(7);
-    //     eff_LL_old->Draw("HISTSAME");
-    //     pur_LL_old->Draw("HISTSAME");
-    //     // eff_LL_mic->SetLineStyle(4);
-    //     // pur_LL_mic->SetLineStyle(4);
-    //     // eff_LL_mic->Draw("HISTSAME");
-    //     // pur_LL_mic->Draw("HISTSAME");
-
-    //     TLegend * eff_pur_cuts_LL_leg = m_runbd->Legend(0.2,0.1);
-    //     eff_pur_cuts_LL_leg->AddEntry(eff_LL_new, "Efficiency (New)", "l");
-    //     eff_pur_cuts_LL_leg->AddEntry(pur_LL_new, "Purity (New)", "l");
-    //     eff_pur_cuts_LL_leg->AddEntry(eff_LL_old, "Efficiency (Old)", "l");
-    //     eff_pur_cuts_LL_leg->AddEntry(pur_LL_old, "Purity (Old)", "l");
-    //     // eff_pur_cuts_LL_leg->AddEntry(eff_LL_mic, "Eff. (New w #pi ME tag)", "l");
-    //     // eff_pur_cuts_LL_leg->AddEntry(pur_LL_mic, "Pur. (New w #pi ME tag)", "l");
-    //     eff_pur_cuts_LL_leg->Draw();
-    
-    //     eff_pur_cuts_LL->Write();
-
-    //     delete eff_LL_new;
-    //     delete pur_LL_new; 
-    //     delete eff_LL_old;
-    //     delete pur_LL_old;
-    //     // delete eff_LL_mic;
-    //     // delete pur_LL_mic;
-    //     delete eff_pur_cuts_LL_leg;
-    //     delete eff_pur_cuts_LL;
-    
-    // //*****************************************************************************************//
-    // //**************************************** VS cuts END ************************************//
-
-    
+        
     // //*****************************************************************************************//
     // //*************************************** VS eff. START ***********************************//
     
