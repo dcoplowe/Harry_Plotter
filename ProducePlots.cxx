@@ -624,7 +624,7 @@ void ProducePlots::MakePlots(){
             eff_new->Draw("HIST");
             pur_new->Draw("HISTSAME");
 
-            eff_CC1P1Pi->Draw("HIST");
+            eff_CC1P1Pi->Draw("HISTSAME");
             pur_CC1P1Pi->Draw("HISTSAME");
 
 
