@@ -170,10 +170,7 @@ TH1D * EffPurTools::PurVSCuts(std::string signal, int branch, std::string cuts){
     
     if(m_debug) cout << "Read tree " << m_recon->GetName() << endl;
     
-    assert( m_recon->GetEntries() > 1 );
-    m_recon->GetEntry(0);
-    TLeaf * lused = m_truth->GetLeaf("truth_ncuts");
-    int ncuts = lused->GetValue();
+    int ncuts = GetNCuts();
     
     if(m_debug) cout << "Number of cuts found to be " << ncuts << endl;
     
