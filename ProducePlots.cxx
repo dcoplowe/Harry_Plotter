@@ -523,7 +523,7 @@ void ProducePlots::MakePlots(){
                 TH1D * startfgd_h = m_runbd->GetHisto(startfgd.GetName(), startfgd.GetNBins(), startfgd.GetBinning(), startfgd.GetSymbol(), basecuts[br]);
                 startfgd_h->SetFillColor(party->info.GetColor());
 
-                TCanvas * startfgd_c = new TCanvas(party->fgd_start.GetName().c_str(), 400, 400);
+                TCanvas * startfgd_c = new TCanvas(party->fgd_start.GetName().c_str(), "", 400, 400);
                 startfgd_h->Draw();
                 PrintLogo(startfgd_c);
                 startfgd_c->Write();
