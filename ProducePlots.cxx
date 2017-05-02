@@ -558,10 +558,10 @@ void ProducePlots::MakePlots(){
                     stringstream dimss; 
                     dimss << dim;
 
-                    Variable start_pos(part->truestartpos.GetName() + "[" + dimss.str() + "]:" + part->startpos.GetName()  + "[" + dimss.str() + "]", part->GetSymbol() + " " + m_NameXYZ[dim] + " Start Position", "mm");
+                    Variable start_pos(party->truestartpos.GetName() + "[" + dimss.str() + "]:" + party->startpos.GetName()  + "[" + dimss.str() + "]", party->GetSymbol() + " " + m_NameXYZ[dim] + " Start Position", "mm");
                     // This probably wont work as the code looks for :: to make a split... Add fix.
-                    start_pos.SetSName(part->startpos.GetName() + m_NameXYZ[dim] );
-                    start_pos.SetPDG(part->pdg.GetName());
+                    start_pos.SetSName(party->startpos.GetName() + m_NameXYZ[dim] );
+                    start_pos.SetPDG(party->pdg.GetName());
                     ProduceGroup(start_pos, dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim], basecuts[br]);
                 }
                 //**************************************** Start Position END ************************************//
