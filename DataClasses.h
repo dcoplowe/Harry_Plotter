@@ -18,6 +18,39 @@ namespace print_level {
 
 #endif
 
+#ifndef _T2KGEOM_
+#define _T2KGEOM_
+
+namespace t2kgeometry {
+    extern double fgd1min[3];
+    extern double fgd1max[3];
+    extern double fgd2min[3];
+    extern double fgd2max[3];
+
+    extern double fgd1min_offset[3];
+    extern double fgd1max_offset[3];
+    extern double fgd2min_offset[3];
+    extern double fgd2max_offset[3];
+
+    extern double fgd1tpcmin[3];
+    extern double fgd1tpcmax[3];
+    extern double fgd2tpcmin[3];
+    extern double fgd2tpcmax[3];
+
+    extern double fgd1tpcmin_offset[3];
+    extern double fgd1tpcmax_offset[3];
+    extern double fgd2tpcmin_offset[3];
+    extern double fgd2tpcmax_offset[3];
+
+    extern double fgd1FV[3];
+    extern double fgd2FV[3];
+
+    extern double tpcXYmin[2];
+    extern double tpcXYmax[2];
+}
+
+#endif
+
 #ifndef _TOPOLOGY_
 #define _TOPOLOGY_
 
@@ -257,6 +290,7 @@ class Variable {
 
 public: 
     Variable() : m_name(""), m_symbol(""), m_units(""), m_savename(""), m_pdg(""){;}
+    Variable(std::string name) : m_name(name), m_symbol(name), m_units(""), m_savename(name), m_pdg(""){;}
     Variable(std::string name, std::string symbol, std::string units) : m_name(name), m_symbol(symbol), m_units(units), m_savename(""), m_pdg(""){;}
     Variable(std::string name, int nbins, Double_t low, Double_t high) : m_name(name), m_symbol(""), m_units(""), m_savename(""), m_pdg(""), m_nbins(nbins), m_binning( DrawingTools::SetBinning(m_nbins, low, high) ) {;}
 
@@ -318,6 +352,7 @@ public:
     Variable pTMag;
     Variable pTT;
     Variable startdir;
+    Variable startpos;
     Variable endpos;
     
     //True vars: Common:
@@ -329,12 +364,12 @@ public:
     Variable truestartdir;
     Variable trueendpos;
     Variable pdg;
+    Variable truestartpos;
     
     //MIN: Reco vars:
     Variable E;
     Variable P4;
     Variable T;//KE
-    Variable startpos;
     Variable michel;
     Variable score;
     Variable phi;
@@ -343,7 +378,6 @@ public:
     Variable trueE;
     Variable trueP4;
     Variable trueT;//KE
-    Variable truestartpos;
     Variable truephi;
     
     //T2K: Reco vars:
@@ -430,6 +464,8 @@ public:
     std::string dalphaT_alt;
     std::string dphiT_alt;
     
+    Variable vtx_pos;
+    Variable truthvtx_pos;
     // Variable W_mass;
 
 };

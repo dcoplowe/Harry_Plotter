@@ -644,10 +644,8 @@ KinematicVars::KinematicVars(Experiment::Name exp){
         dalphaT_alt = "sel_dalphaT_LL";
         dphiT_alt = "sel_dphiT_LL";
 
-
         vtx_pos = Variable();
         truthvtx_pos = Variable();
-        
     }
     else{
         //Transverse Variables:
