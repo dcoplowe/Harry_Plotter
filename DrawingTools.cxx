@@ -446,7 +446,7 @@ void DrawingTools::DrawLine(TH1 * histo, double pos){
     z_line->Draw(); 
 }
 
-TH1D * DrawingTools::GetHistFromStack(THStack stack){
+TH1D * DrawingTools::GetHistFromStack(THStack * stack){
 
     TList * slist = stack->GetHists();
     TH1D * hfirst = (TH1D*)slist->First()->Clone( (string(slist->First()->GetName()) + "_clone").c_str() );

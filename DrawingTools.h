@@ -51,7 +51,7 @@ public:
     
     TH1D * GetRTRatio(std::string vars_tr, std::string x_title, std::string cuts);
     
-    TH1D * GetHistFromStack(THStack stack);
+    TH1D * GetHistFromStack(THStack * stack);
 
     void Verbose(){ m_verbose = true; }
     void SetRatioInfo(Int_t nbins, Double_t range){ m_ratiobins = nbins; m_ratiorange = range; }
