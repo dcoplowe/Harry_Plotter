@@ -486,7 +486,7 @@ TObject * DrawingTools::GetObjectFromCanvas(TCanvas * can, std::string name)
     TObject *obj;
     TIter next(can->GetListOfPrimitives());
     while ((obj=next())) {
-        if(print_level::drawingtools)cout << "Reading: " << obj->GetName() << endl;
+        if(print_level::drawingtools) cout << "Reading: " << obj->GetName() << endl;
         if ( obj->InheritsFrom(name.c_str()) ) {
           if(print_level::drawingtools) cout << "Found Object of type " << name << ": " << obj->GetName() << endl;
           return obj->Clone();

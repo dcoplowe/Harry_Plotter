@@ -268,10 +268,23 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
 
         BDCans var_top = m_runbd->TOPO(var, nbins, bins, cuts);
 
+        THStack * stack = m_runbd->GetObjectFromCanvas(var_pid.recon, "THStack")
+        if(stack){
+            TH1D * hist = m_runbd->GetHistFromStack(stack);
+            if(hist){
+                m_runbd->DrawLine(hist, t2kgeometry::fgd1max[xyz]);
+                // m_NameXYZ[xyz];
+
+            }
+        }
+
         BDCans var_tar = m_runbd->TARGET(var, nbins, bins, cuts);
         
         BDCans var_pid;
-        if(!var.GetPDG().empty()) var_pid = m_runbd->PID(var, nbins, bins, var.GetPDG(), cuts);
+        if(!var.GetPDG().empty()){
+            var_pid = m_runbd->PID(var, nbins, bins, var.GetPDG(), cuts);
+            // GetObjectFromCanvas(var_pid.recon);
+        }
         
         //Recon Vars:
         PrintLogo(var_top.recon);
