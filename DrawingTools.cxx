@@ -397,7 +397,7 @@ TH2D * DrawingTools::NormalHist(TH2D *hraw, Double_t thres, bool kmax){
 
 TLegend * DrawingTools::GetPOT(double x_pos, double y_pos){
     TLegend * pot = Legend(x_pos, y_pos);
-    pot->AddEntry((TObject*)0, ( m_bad_POT ? "7.0x10^{21}" : Form(" %.2e POT", m_POT) ),"");
+    pot->AddEntry((TObject*)0, ( m_bad_POT ? "7.0x10^{21} POT" : Form(" %.2e POT", m_POT) ),"");
     pot->SetTextSize(0.042);
     return pot;
 }
@@ -436,5 +436,11 @@ void DrawingTools::SetPOT(){
     }
     
     if(m_bad_POT) cout << "POT is bad" << endl;
+}
 
+void DrawingTools::DrawLine(TH1 * histo, double pos){
+    TLine * z_line = new TLine(pos, histo->GetMinimum(), pos, histo->GetMaximum());
+    z_line->SetLineColor(1);
+    z_line->SetLineStyle(2);
+    z_line->Draw(); 
 }

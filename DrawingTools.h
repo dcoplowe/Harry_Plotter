@@ -12,6 +12,7 @@ class TTree;
 class TLegend;
 class TH1D;
 class TH2D;
+class TH1;
 
 //using namespace PlotUtils;
 
@@ -71,6 +72,8 @@ public:
     
     void SetWghtName(std::string var = "1"){ m_weight = var; }//Or 1 in initialisation -- weight for MINERvA and wgt for T2K?
  
+    void DrawLine(TH1 * histo, double pos);
+
 private:
     //File and directory info:
     std::string m_filename;

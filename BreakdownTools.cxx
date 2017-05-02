@@ -734,13 +734,13 @@ TLegend * BreakdownTools::RatioStats(const THStack * ratio_tot)
     return ratio_stats;
 }
 
-void BreakdownTools::DrawZeroPointLine(TH1 * histo){
+// void BreakdownTools::DrawZeroPointLine(TH1 * histo){
 
-    TLine * z_line = new TLine(0.0, histo->GetMinimum(), 0.0, histo->GetMaximum());
-    z_line->SetLineColor(1);
-    z_line->SetLineStyle(2);
-    z_line->Draw(); 
-}
+//     TLine * z_line = new TLine(0.0, histo->GetMinimum(), 0.0, histo->GetMaximum());
+//     z_line->SetLineColor(1);
+//     z_line->SetLineStyle(2);
+//     z_line->Draw(); 
+// }
 
 void BreakdownTools::DrawZeroPointLine(THStack * histo){
 

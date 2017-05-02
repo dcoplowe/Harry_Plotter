@@ -76,6 +76,9 @@ public:
     void ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std::string cuts);
     void ProduceGroup(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts);
     
+    void PositionPlot(Variable var, Int_t nbins, Double_t * bins, std::string cuts);
+    void PositionPlot(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts);
+
     void EffPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string signal_def, std::string cuts = "");
     void PurPart(Variable var, std::string signal_def, std::string cuts);
 
@@ -196,6 +199,70 @@ void ProducePlots::ProduceGroup(Variable var, Int_t nbins, Double_t low, Double_
 }
 
 void ProducePlots::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std::string cuts){//, Int_t setsave = 11111??
+
+    if(m_outfile->IsOpen()){
+
+        BDCans var_top = m_runbd->TOPO(var, nbins, bins, cuts);
+
+        BDCans var_tar = m_runbd->TARGET(var, nbins, bins, cuts);
+        
+        BDCans var_pid;
+        if(!var.GetPDG().empty()) var_pid = m_runbd->PID(var, nbins, bins, var.GetPDG(), cuts);
+        
+        //Recon Vars:
+        PrintLogo(var_top.recon);
+        PrintLogo(var_tar.recon);
+        if(!var.GetPDG().empty()) PrintLogo(var_pid.recon);
+        
+        var_top.recon->Write();
+        var_tar.recon->Write();
+        if(!var.GetPDG().empty()) var_pid.recon->Write();
+        
+        //Truth Vars:
+        PrintLogo(var_top.truth);
+        PrintLogo(var_tar.truth);
+        if(!var.GetPDG().empty()) PrintLogo(var_pid.truth);
+        
+        var_top.truth->Write();
+        var_tar.truth->Write();
+        if(!var.GetPDG().empty()) var_pid.truth->Write();
+        
+        //Ratio Vars:
+        PrintLogo(var_top.ratio);
+        PrintLogo(var_tar.ratio);
+        if(!var.GetPDG().empty()) PrintLogo(var_pid.ratio);
+        
+        var_top.ratio->Write();
+        var_tar.ratio->Write();
+        if(!var.GetPDG().empty()) var_pid.ratio->Write();
+        
+        //Smear Vars:
+        PrintLogo(var_top.smear);
+//        PrintLogo(var_tar.smear);
+//        if(!var.GetPDG().empty()) PrintLogo(var_pid.smear);
+        
+        PrintLogo(var_top.smearSN);
+//        PrintLogo(var_tar.smearSN);
+//        if(!var.GetPDG().empty()) PrintLogo(var_pid.smearSN);
+        
+        var_top.smear->Write();
+//        var_tar.smear->Write();
+//        if(!var.GetPDG().empty()) var_pid.smear->Write();
+        
+        var_top.smearSN->Write();
+//        var_tar.smearSN->Write();
+//        if(!var.GetPDG().empty()) var_pid.smearSN->Write();
+        
+    }
+    else std::cout << "ProducePlots::ProduceGroup : ERROR : File is not open..." << std::endl;
+    
+}
+
+void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts){
+    PositionPlot(var, nbins, DrawingTools::SetBinning(nbins, low, high), cuts);
+}
+
+void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std::string cuts, int xyz){//, Int_t setsave = 11111??
 
     if(m_outfile->IsOpen()){
 
