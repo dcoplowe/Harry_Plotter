@@ -169,7 +169,9 @@ m_realdata(realdata) {
 
     m_verbose = false;
 
-    m_NameXYZ = {"X", "Y", "Z"};
+    m_NameXYZ[0] = "X";
+    m_NameXYZ[1] = "Y";
+    m_NameXYZ[2] = "Z";
 }
 
 ProducePlots::~ProducePlots(){
