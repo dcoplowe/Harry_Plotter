@@ -546,7 +546,7 @@ void ProducePlots::MakePlots(){
         if(m_verbose) cout << "Now producing dpTT plots." << endl;
         //************************************** dpTT Start *************************************//
         // MakeDir("dpTT" + branchnames[br]);
-        // Variable dpTT(m_recovars->truedpTT + ":" + m_recovars->dpTT, "#delta#it{p}_{TT}", "MeV/#it{c}");
+        Variable dpTT(m_recovars->truedpTT + ":" + m_recovars->dpTT, "#delta#it{p}_{TT}", "MeV/#it{c}");
         // dpTT.SetSName(m_recovars->dpTT);
         // ProduceGroup(dpTT, 39, -300, 300, basecuts[br]);
 
