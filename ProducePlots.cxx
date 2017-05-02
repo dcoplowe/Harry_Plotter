@@ -425,7 +425,6 @@ void ProducePlots::MakeDir(std::string name){
         if (!tmp_dir) {
             m_outfile->mkdir(name.c_str());
             cdDir(name);
-//            m_outfile->cd((m_savename + ":/" + name).c_str());
         }
         else{
 //            cout << "ProducePlots::MakeDir : Directory exists, entering : " << name << endl;
@@ -495,13 +494,13 @@ void ProducePlots::MakePlots(){
 
             if(m_experiment->GetType() == Experiment::MIN){
                 //**************************************** Theta START ************************************//
-                // MakeDir("Theta" + branchnames[br] + "/" + party->GetName() );
-                // MakeThetaPlots(party, party->theta.GetNBins(), party->theta.GetBinning(), basecuts[br]);
+                MakeDir("Theta" + branchnames[br] + "/" + party->GetName() );
+                MakeThetaPlots(party, party->theta.GetNBins(), party->theta.GetBinning(), basecuts[br]);
                 //**************************************** Theta END **************************************//
 
                 //**************************************** Phi START ************************************//
-                // MakeDir("Phi" + branchnames[br] + "/" + party->GetName() );
-                // MakePhiPlots(party, party->phi.GetNBins(), party->phi.GetBinning(), basecuts[br]);
+                MakeDir("Phi" + branchnames[br] + "/" + party->GetName() );
+                MakePhiPlots(party, party->phi.GetNBins(), party->phi.GetBinning(), basecuts[br]);
                 //**************************************** Phi END **************************************//                
                 if(m_verbose) cout << "Making MINERva specific plots" << endl;
             }
@@ -511,9 +510,9 @@ void ProducePlots::MakePlots(){
                 if(m_verbose) cout << "Making T2K specific plots" << endl;
 
                 //**************************************** cosTheta START ************************************//
-                // MakeDir("cTheta/" + party->GetName() );
-                // MakeCosThetaPlots(party, party->ctheta.GetNBins(), party->ctheta.GetBinning(), basecuts[br]);
-                // MakeCosThetaPlots(party, party->ctheta_nudir.GetNBins(), party->ctheta_nudir.GetBinning(), basecuts[br], true);
+                MakeDir("cTheta/" + party->GetName() );
+                MakeCosThetaPlots(party, party->ctheta.GetNBins(), party->ctheta.GetBinning(), basecuts[br]);
+                MakeCosThetaPlots(party, party->ctheta_nudir.GetNBins(), party->ctheta_nudir.GetBinning(), basecuts[br], true);
                 //**************************************** cosTheta END **************************************//
 
                 //**************************************** Crossing Angle START ************************************//
@@ -526,7 +525,7 @@ void ProducePlots::MakePlots(){
                 ca_can->Write();
 
                 // Purity of the crossing angle:
-                // PurPart(party->cross_angle, m_experiment->GetSignal(), basecuts[br]); 
+                PurPart(party->cross_angle, m_experiment->GetSignal(), basecuts[br]); 
 
                 //**************************************** Crossing Angle END **************************************//
 
@@ -534,7 +533,7 @@ void ProducePlots::MakePlots(){
                 // 1) Particle type FGD segment
                 // 2) Tot. No. of segments (1,2,3)
 
-                // MakeDir("FGDSegments");
+                MakeDir("FGDSegments");
 
                 Variable startfgd = party->fgd_start;
                 TH1D * startfgd_h = m_runbd->GetHisto(startfgd.GetName(), startfgd.GetNBins(), startfgd.GetBinning(), startfgd.GetSymbol(), basecuts[br]);
@@ -549,7 +548,7 @@ void ProducePlots::MakePlots(){
 
                 //**************************************** Start Position START ************************************//
                 MakeDir("StartPosition");
-                int dimnbins[3] = {40, 40, 400};
+                int dimnbins[3] = {40, 40, 40};
 
                 // if(which_fgd){
                 // }
@@ -572,22 +571,22 @@ void ProducePlots::MakePlots(){
 
         if(m_verbose) cout << "Now producing dpTT plots." << endl;
         //************************************** dpTT Start *************************************//
-        // MakeDir("dpTT" + branchnames[br]);
+        MakeDir("dpTT" + branchnames[br]);
         Variable dpTT(m_recovars->truedpTT + ":" + m_recovars->dpTT, "#delta#it{p}_{TT}", "MeV/#it{c}");
-        // dpTT.SetSName(m_recovars->dpTT);
-        // ProduceGroup(dpTT, 39, -300, 300, basecuts[br]);
+        dpTT.SetSName(m_recovars->dpTT);
+        ProduceGroup(dpTT, 39, -300, 300, basecuts[br]);
 
-        // MakeDir("dpTT" + branchnames[br] + "/nb29");
-        // dpTT.SetSName(m_recovars->dpTT + "_nb29");
-        // ProduceGroup(dpTT, 29, -300, 300, basecuts[br]);
+        MakeDir("dpTT" + branchnames[br] + "/nb29");
+        dpTT.SetSName(m_recovars->dpTT + "_nb29");
+        ProduceGroup(dpTT, 29, -300, 300, basecuts[br]);
 
-        // MakeDir("dpTT" + branchnames[br] + "/nb25");
-        // dpTT.SetSName(m_recovars->dpTT + "_nb25");
-        // ProduceGroup(dpTT, 25, -300, 300, basecuts[br]);
+        MakeDir("dpTT" + branchnames[br] + "/nb25");
+        dpTT.SetSName(m_recovars->dpTT + "_nb25");
+        ProduceGroup(dpTT, 25, -300, 300, basecuts[br]);
 
-        // MakeDir("dpTT" + branchnames[br] + "/nb19");
-        // dpTT.SetSName(m_recovars->dpTT + "_nb19");
-        // ProduceGroup(dpTT, 19, -300, 300, basecuts[br]);
+        MakeDir("dpTT" + branchnames[br] + "/nb19");
+        dpTT.SetSName(m_recovars->dpTT + "_nb19");
+        ProduceGroup(dpTT, 19, -300, 300, basecuts[br]);
 
         if(m_experiment->GetType() == Experiment::MIN){
             if(m_verbose) cout << "Making MINERva specific plots" << endl;
@@ -636,7 +635,7 @@ void ProducePlots::MakePlots(){
 
             //**************************************** Start Position START ************************************//
             MakeDir("VtxPosition");
-            int dimnbins[3] = {40, 40, 400};
+            int dimnbins[3] = {40, 40, 40};
                 // if(which_fgd){
                 // }
             for(int dim = 0; dim < 3; dim++){
@@ -649,11 +648,7 @@ void ProducePlots::MakePlots(){
                 ProduceGroup(vtx_pos, dimnbins[dim], t2kgeometry::fgd1min_offset[dim], t2kgeometry::fgd1max_offset[dim], basecuts[br]);
             }
                 //**************************************** Start Position END ************************************//
-
-            
-
         }
-
 
         if(m_experiment->GetType() == Experiment::MIN){
             if(m_verbose) cout << "Making W dists for MINERvA" << endl;
@@ -668,7 +663,6 @@ void ProducePlots::MakePlots(){
             w_dist->Write();
             //**************************************** W Mass END *************************************//
         }
-
 
         if(!m_realdata){
             //******************************** Efficiency/Purity START ********************************//
