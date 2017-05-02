@@ -452,11 +452,13 @@ TH1D * DrawingTools::GetHistFromStack(THStack stack){
     TH1D * hfirst = (TH1D*)slist->First()->Clone( (string(slist->First()->GetName()) + "_clone").c_str() );
 
     TIter next(rlist);
-    m_statcounter++;
-    TH1D * sum = new TH1D(Form("%s_sum%.3d", hfirst->GetName(), m_statcounter), "", hfirst->GetXaxis()->GetNbins(), hfirst->GetXaxis()->GetXbins()->GetArray());
+    m_1Dcounter++;
+    TH1D * sum = new TH1D(Form("%s_sum%.3d", hfirst->GetName(), m_1Dcounter), "", hfirst->GetXaxis()->GetNbins(), hfirst->GetXaxis()->GetXbins()->GetArray());
     TH1D * rhist_tmp;
     while ( (rhist_tmp = (TH1D*)next()) ) {
         sum->Add(rhist_tmp);
     }
+    delete hfirst;
+    delete rhist_tmp;
     return sum;
 }
