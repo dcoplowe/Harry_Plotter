@@ -531,7 +531,7 @@ void ProducePlots::MakePlots(){
 
                 Variable startfgd = party->fgd_start;
                 TH1D * startfgd_h = m_runbd->GetHisto(startfgd.GetName(), startfgd.GetNBins(), startfgd.GetBinning(), startfgd.GetSymbol(), basecuts[br]);
-                startfgd_h->SetFillColor(party->info.GetColor());
+                startfgd_h->SetFillColor( party->info.GetColor() );
 
                 TCanvas * startfgd_c = new TCanvas(party->fgd_start.GetName().c_str(), "", 400, 400);
                 startfgd_h->Draw();
@@ -539,6 +539,27 @@ void ProducePlots::MakePlots(){
                 startfgd_c->Write();
 
                 //**************************************** FGD Segment END **************************************//
+
+                //**************************************** Start Position START ************************************//
+                MakeDir("StartPosition");
+                dimstring[3] = {"X", "Y", "Z"};
+                int dimnbins[3] = {40, 40, 400};
+
+                // if(which_fgd){
+                // }
+
+                for(int dim = 0; dim < 3; dim++){
+                    stringstream dimss; 
+                    dimss << dim;
+
+                    Variable start_pos(part->truestartpos.GetName() + "[" + dimss.str() + "]:" + part->startpos.GetName()  + "[" + dimss.str() + "]", part->GetSymbol() + " " + dimstring[dim] + " Start Position", "mm");
+                    // This probably wont work as the code looks for :: to make a split... Add fix.
+                    start_pos.SetSName(part->startpos.GetName() + dimstring[dim] );
+                    start_pos.SetPDG(part->pdg.GetName());
+                    ProduceGroup(start_pos, dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim], basecuts[br]);
+                }
+                //**************************************** Start Position END ************************************//
+
             }
 
         }
@@ -586,24 +607,46 @@ void ProducePlots::MakePlots(){
         //************************************** dpTT End *************************************//
 
         if(m_experiment->GetType() == Experiment::T2K){ 
-            // if(m_verbose) cout << "Making T2K specific plots" << endl;
+            if(m_verbose) cout << "Making T2K specific plots" << endl;
             //************************************** No. FGD Segments Start *************************************//
-            // cdDir("FGDSegments");
+            cdDir("FGDSegments");
 
-            // Variable nfgdsegments(m_muon->fgd_start.GetName() + " + " + m_proton->fgd_start.GetName() + " + " + m_pion->fgd_start.GetName(),"","");
-            // string segcuts = basecuts[br] + " && " + m_muon->fgd_start.GetName() + "!= -999 && " + m_proton->fgd_start.GetName() + " != -999";
-            // segcuts += " && ";
-            // segcuts += m_pion->fgd_start.GetName();
-            // segcuts += " != -999";
+            Variable nfgdsegments(m_muon->fgd_start.GetName() + " + " + m_proton->fgd_start.GetName() + " + " + m_pion->fgd_start.GetName(),"","");
+            string segcuts = basecuts[br] + " && " + m_muon->fgd_start.GetName() + "!= -999 && " + m_proton->fgd_start.GetName() + " != -999";
+            segcuts += " && ";
+            segcuts += m_pion->fgd_start.GetName();
+            segcuts += " != -999";
 
-            // TH1D * nfgdsegments_h = m_runbd->GetHisto(nfgdsegments.GetName(), 3, 0., 3., "N tracks with FGD Segments", segcuts);
-            // nfgdsegments_h->SetFillColor(DrawingStyle::Yellow);
+            TH1D * nfgdsegments_h = m_runbd->GetHisto(nfgdsegments.GetName(), 3, 1., 4., "N tracks with FGD Segments", segcuts);
+            for(int nloop = 0; nloop < nfgdsegments_h->GetNbinsX(); nloop++) nfgdsegments_h->GetXAxis()->SetBinLabel(nloop+1, Form("%d", nloop+1) );
+            nfgdsegments_h->SetFillColor(DrawingStyle::Yellow);
 
-            // TCanvas * nfgdsegments_c = new TCanvas("NFGDSegments", "", 400, 400);
-            // nfgdsegments_h->Draw();
-            // PrintLogo(nfgdsegments_c);
-            // nfgdsegments_c->Write();
+            TCanvas * nfgdsegments_c = new TCanvas("NFGDSegments", "", 400, 400);
+            nfgdsegments_h->Draw();
+            PrintLogo(nfgdsegments_c);
+            nfgdsegments_c->Write();
         //************************************** No. FGD Segments End *************************************//
+
+
+            //**************************************** Start Position START ************************************//
+            MakeDir("VtxPosition");
+            dimstring[3] = {"X", "Y", "Z"};
+            int dimnbins[3] = {40, 40, 400};
+                // if(which_fgd){
+                // }
+            for(int dim = 0; dim < 3; dim++){
+                stringstream dimss; 
+                dimss << dim;
+                Variable vtx_pos(m_recovars->vtx_truepos.GetName() + "[" + dimss.str() + "]:" + m_recovars->vtx_pos.GetName() + "[" + dimss.str() + "]", m_recovars->vtx_pos.GetSymbol(), m_recovars->vtx_pos.GetUnits());
+                    // This probably wont work as the code looks for :: to make a split... Add fix.
+                vtx_pos.SetSName(m_recovars->vtx_pos.GetName() + dimstring[dim] );
+                // start_pos.SetPDG(part->pdg.GetName());
+                ProduceGroup(vtx_pos, dimnbins[dim], t2kgeometry::fgd1min_offset[dim], t2kgeometry::fgd1max_offset[dim], basecuts[br]);
+            }
+                //**************************************** Start Position END ************************************//
+
+            
+
         }
 
 

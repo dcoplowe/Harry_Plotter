@@ -19,6 +19,50 @@ namespace print_level {
 
 #endif
 
+#ifndef _T2KGEOM_CXX
+#define _T2KGEOM_CXX
+
+namespace t2kgeometry {
+
+    double fgd1zmin = 120.85 - (9.61/2.) - 0.232 - 0.188;
+    double fgd1zmax = 442.15 + (9.61/2.) + 0.232 + 0.188;
+
+    double fgd1min[3] = {-932.17, -877.17, fgd1zmin};
+    double fgd1max[3] = { 932.17,  877.17, fgd1zmax};
+
+    double fgd2zmin = 1478.85 - (9.61/2.) - 0.232 - 0.188;
+    double fgd2zmax = 1802.15 + (9.61/2.) + 0.232 + 0.188;
+
+    double fgd2min[3] = {-932.17, -877.17, fgd2zmin};
+    double fgd2max[3] = { 932.17,  877.17, fgd2zmax};
+
+    double fgd1min_offset[3] = {fgd1min[0] - 50.0, fgd1min[1] - 50.0, fgd1min[2] - 50.0};
+    double fgd1max_offset[3] = {fgd1max[0] + 50.0, fgd1max[1] + 50.0, fgd1max[2] + 50.0};
+
+    double fgd2min_offset[3] = {fgd2min[0] - 50.0, fgd2min[1] - 50.0, fgd2min[2] - 50.0};
+    double fgd2max_offset[3] = {fgd2max[0] + 50.0, fgd2max[1] + 50.0, fgd2max[2] + 50.0};
+
+
+    double fgd1FV[3] = {0., 0., 0.};
+    double fgd2FV[3] = {0., 0., 0.};
+
+    double fgd1tpcmin[3] = {fgd1min[0], fgd1min[1], fgd1min[2]};
+    double fgd1tpcmax[3] = {fgd1max[0], fgd1max[1], 1448.0};
+    double fgd2tpcmin[3] = {fgd2min[0], fgd2min[1], fgd2min[2]};
+    double fgd2tpcmax[3] = {fgd2max[0], fgd2max[1], 2807.0};
+
+    double tpcXYmin[2] = {-1150.00, -1170.0};
+    double tpcXYmax[2] = { 1150.00,  1230.0};
+ 
+    double fgd1tpcmin_offset[3] = {fgd1tpcmin[0] - 50.0., fgd1tpcmin[1] - 50.0, fgd1tpcmin[2] - 50.0};
+    double fgd1tpcmax_offset[3] = {fgd1tpcmax[0] + 50.0., fgd1tpcmax[1] + 50.0, fgd1tpcmax[2] + 50.0};
+    double fgd2tpcmin_offset[3] = {fgd2tpcmin[0] - 50.0., fgd2tpcmin[1] - 50.0, fgd2tpcmin[2] - 50.0};
+    double fgd2tpcmax_offset[3] = {fgd2tpcmax[0] + 50.0., fgd2tpcmax[1] + 50.0, fgd2tpcmax[2] + 50.0};
+
+
+}
+
+#endif
 
 #ifndef _EXPERIMENT_CXX
 #define _EXPERIMENT_CXX
@@ -289,7 +333,6 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
         m_pdg = Particle::MuonM;
 
         info = PDGInfo((Int_t)m_pdg, m_name, m_symbol);
-
     }
     else if(name.find("pi") != std::string::npos){ 
         m_name = "Pion"; 
@@ -352,6 +395,9 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
         fgd_start = Variable(m_tag + name + "_fgd_startin", 2, 0., 2.);
         fgd_start.SetSymbol("Starts in FGD");
 
+        startpos = Variable(m_tag + name + "_startpos", "Start Pos.", "mm");
+        truestartpos =  Variable(m_tag + name + "_truestartpos", "Start Pos.", "mm");
+
         // Varaible ranges/binning need improving:
 
         //MIN: Reco vars:
@@ -360,7 +406,6 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
         T = Variable();//KE
         pTT = Variable();
         theta = Variable();
-        startpos = Variable();
         phi = Variable();
         
         michel = Variable();
@@ -372,14 +417,13 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
         trueT = Variable();//KE
         truepTT = Variable();
         truetheta = Variable();
-        truestartpos = Variable();
         truephi = Variable();
         
         //T2K: Reco vars:
         ctheta       =  Variable(m_tag + name + "_costheta", 20, -1., 1.);
         ctheta_nudir =  Variable(m_tag + name + "_nudir_costheta", 20, -1., 1);
-        
-        //T2K: Reco vars:
+
+        //T2K: True vars:
         truectheta =    Variable(m_tag + name + "_truecostheta", 20, -1., 1.);
     }
     else if(exp == Experiment::MIN){
@@ -549,6 +593,9 @@ KinematicVars::KinematicVars(Experiment::Name exp){
         truedpT = "truedpT";
         truedalphaT = "truedalphaT";
         truedphiT = "truedphiT";
+
+        vtx_pos = Variable("selvtx_pos", "Vertex Pos.", "(mm)");
+        truthvtx_pos = Variable("selvtx_truepos", " True Vertex Pos.", "(mm)");
 
         // W_mass("");
     }
