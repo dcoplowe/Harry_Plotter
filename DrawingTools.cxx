@@ -491,6 +491,8 @@ TObject * DrawingTools::GetObjectFromCanvas(TCanvas * can, std::string name)
           if(print_level::drawingtools) cout << "Found Object of type " << name << ": " << obj->GetName() << endl;
           return obj->Clone();
         }
-    }  
+    }
+    cout << "DrawingTools::GetObjectFromCanvas : Warning could not find any objects of type" << name << endl;
+    return 0x0;
 }
 
