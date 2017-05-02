@@ -76,8 +76,8 @@ public:
     void ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std::string cuts);
     void ProduceGroup(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts);
     
-    void PositionPlot(Variable var, Int_t nbins, Double_t * bins, std::string cuts);
-    void PositionPlot(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts);
+    void PositionPlot(Variable var, Int_t nbins, Double_t * bins, std::string cuts, int xyz);
+    void PositionPlot(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts, int xyz);
 
     void EffPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string signal_def, std::string cuts = "");
     void PurPart(Variable var, std::string signal_def, std::string cuts);
@@ -258,8 +258,8 @@ void ProducePlots::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std:
     
 }
 
-void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts){
-    PositionPlot(var, nbins, DrawingTools::SetBinning(nbins, low, high), cuts);
+void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts, int xyz){
+    PositionPlot(var, nbins, DrawingTools::SetBinning(nbins, low, high), cuts, xyz);
 }
 
 void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std::string cuts, int xyz){//, Int_t setsave = 11111??
