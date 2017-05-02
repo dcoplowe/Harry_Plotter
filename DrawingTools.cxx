@@ -13,6 +13,7 @@
 #include "TH2D.h"
 #include "TMath.h"
 #include "DataClasses.h"
+#include "THStack.h"
 
 using namespace std;
 
@@ -443,4 +444,19 @@ void DrawingTools::DrawLine(TH1 * histo, double pos){
     z_line->SetLineColor(1);
     z_line->SetLineStyle(2);
     z_line->Draw(); 
+}
+
+TH1D * DrawingTools::GetHistFromStack(THStack stack){
+
+    TList * slist = stack->GetHists();
+    TH1D * hfirst = (TH1D*)slist->First()->Clone( (string(slist->First()->GetName()) + "_clone").c_str() );
+
+    TIter next(rlist);
+    m_statcounter++;
+    TH1D * sum = new TH1D(Form("%s_sum%.3d", hfirst->GetName(), m_statcounter), "", hfirst->GetXaxis()->GetNbins(), hfirst->GetXaxis()->GetXbins()->GetArray());
+    TH1D * rhist_tmp;
+    while ( (rhist_tmp = (TH1D*)next()) ) {
+        sum->Add(rhist_tmp);
+    }
+    return sum;
 }

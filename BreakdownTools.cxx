@@ -734,6 +734,48 @@ TLegend * BreakdownTools::RatioStats(const THStack * ratio_tot)
     return ratio_stats;
 }
 
+// void BreakdownTools::RatioStats(const THStack * ratio_tot)
+// {
+// //Get the ratio histograms, make them into one histogram and determine the rms and mean:
+//     TList * rlist = ratio_tot->GetHists();
+//     TH1D * hfirst = (TH1D*)rlist->First()->Clone( (string(rlist->First()->GetName()) + "_clone").c_str() );
+//     // cout << "FOund hfirst" << endl;
+//     Int_t ratio_nbins = hfirst->GetNbinsX();
+//     Double_t ratio_low = hfirst->GetXaxis()->GetXmin();
+//     Double_t ratio_high = hfirst->GetXaxis()->GetXmax();
+//     // cout << "Range : Bins = " << ratio_nbins << " low = " << ratio_low << " high = " << ratio_high << endl;
+    
+//     TIter next(rlist);
+//     m_statcounter++;
+//     TH1D ratio_sum( Form("%s_ratio_sum%.3d", hfirst->GetName(), m_statcounter), "", ratio_nbins, ratio_low, ratio_high);
+//     TH1D * rhist_tmp;
+//     while ( (rhist_tmp = (TH1D*)next()) ) {
+//         ratio_sum.Add(rhist_tmp);
+//     }
+    
+//     TLegend * ratio_stats = Legend(0.25, 0.8, 0.05, 0.1);
+//     ratio_stats->AddEntry((TObject*)0, Form("Mean = %.3f", (double)ratio_sum.GetMean()), "");
+//     ratio_stats->AddEntry((TObject*)0, Form(" RMS = %.3f", (double)ratio_sum.GetRMS() ), "");
+
+//     TF1 * cauchy = new TF1("cauchy","([2]*[1])/(TMath::Pi()*([1]*[1] + (x-[0])*(x-[0]) ) )", ratio_low, ratio_high);
+//     delete hfirst;
+
+//     cauchy->SetParameter(0, (double)ratio_sum.GetXaxis()->GetBinCenter(ratio_sum.GetMaximumBin() ) );
+//     cauchy->SetParameter(1, (double)ratio_sum.GetRMS()  );
+//     cauchy->SetParameter(2, (double)ratio_sum.Integral());
+//     TFitResultPtr r = ratio_sum.Fit(cauchy,"RLNQ");
+//     Int_t fitStatus = r;
+//     // cout << "(double)cauchy->GetParameter(0) = " << (double)cauchy->GetParameter(0) << endl;
+//     // cout << "(double)cauchy->GetParameter(1) = " << (double)cauchy->GetParameter(1) << endl;
+
+//     if(fitStatus == 0){//Fit status successful add the parameters:
+//         ratio_stats->AddEntry((TObject*)0, Form("Cauchy Mean = %.3f", (double)cauchy->GetParameter(0)), "");
+//         ratio_stats->AddEntry((TObject*)0, Form("Cauchy #sigma = %.3f", (double)cauchy->GetParameter(1)), "");
+//     }
+
+//     return ratio_stats;
+// }
+
 // void BreakdownTools::DrawZeroPointLine(TH1 * histo){
 
 //     TLine * z_line = new TLine(0.0, histo->GetMinimum(), 0.0, histo->GetMaximum());
