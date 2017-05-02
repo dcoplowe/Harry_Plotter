@@ -116,6 +116,9 @@ private:
     BreakdownTools  * m_runtruthbd;
     EffPurTools     * m_runep;
 
+    std::string m_NameXYZ[3];
+
+
     bool m_verbose;
 };
 
@@ -165,6 +168,8 @@ m_realdata(realdata) {
     m_outfile = new TFile(m_savename.c_str(), "RECREATE");
 
     m_verbose = false;
+
+    m_NameXYZ = {"X", "Y", "Z"};
 }
 
 ProducePlots::~ProducePlots(){
@@ -542,7 +547,6 @@ void ProducePlots::MakePlots(){
 
                 //**************************************** Start Position START ************************************//
                 MakeDir("StartPosition");
-                dimstring[3] = {"X", "Y", "Z"};
                 int dimnbins[3] = {40, 40, 400};
 
                 // if(which_fgd){
@@ -552,9 +556,9 @@ void ProducePlots::MakePlots(){
                     stringstream dimss; 
                     dimss << dim;
 
-                    Variable start_pos(part->truestartpos.GetName() + "[" + dimss.str() + "]:" + part->startpos.GetName()  + "[" + dimss.str() + "]", part->GetSymbol() + " " + dimstring[dim] + " Start Position", "mm");
+                    Variable start_pos(part->truestartpos.GetName() + "[" + dimss.str() + "]:" + part->startpos.GetName()  + "[" + dimss.str() + "]", part->GetSymbol() + " " + m_NameXYZ[dim] + " Start Position", "mm");
                     // This probably wont work as the code looks for :: to make a split... Add fix.
-                    start_pos.SetSName(part->startpos.GetName() + dimstring[dim] );
+                    start_pos.SetSName(part->startpos.GetName() + m_NameXYZ[dim] );
                     start_pos.SetPDG(part->pdg.GetName());
                     ProduceGroup(start_pos, dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim], basecuts[br]);
                 }
@@ -630,7 +634,6 @@ void ProducePlots::MakePlots(){
 
             //**************************************** Start Position START ************************************//
             MakeDir("VtxPosition");
-            dimstring[3] = {"X", "Y", "Z"};
             int dimnbins[3] = {40, 40, 400};
                 // if(which_fgd){
                 // }
@@ -639,7 +642,7 @@ void ProducePlots::MakePlots(){
                 dimss << dim;
                 Variable vtx_pos(m_recovars->vtx_truepos.GetName() + "[" + dimss.str() + "]:" + m_recovars->vtx_pos.GetName() + "[" + dimss.str() + "]", m_recovars->vtx_pos.GetSymbol(), m_recovars->vtx_pos.GetUnits());
                     // This probably wont work as the code looks for :: to make a split... Add fix.
-                vtx_pos.SetSName(m_recovars->vtx_pos.GetName() + dimstring[dim] );
+                vtx_pos.SetSName(m_recovars->vtx_pos.GetName() + m_NameXYZ[dim] );
                 // start_pos.SetPDG(part->pdg.GetName());
                 ProduceGroup(vtx_pos, dimnbins[dim], t2kgeometry::fgd1min_offset[dim], t2kgeometry::fgd1max_offset[dim], basecuts[br]);
             }

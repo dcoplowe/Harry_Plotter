@@ -58,8 +58,6 @@ namespace t2kgeometry {
     double fgd1tpcmax_offset[3] = {fgd1tpcmax[0] + 50.0, fgd1tpcmax[1] + 50.0, fgd1tpcmax[2] + 50.0};
     double fgd2tpcmin_offset[3] = {fgd2tpcmin[0] - 50.0, fgd2tpcmin[1] - 50.0, fgd2tpcmin[2] - 50.0};
     double fgd2tpcmax_offset[3] = {fgd2tpcmax[0] + 50.0, fgd2tpcmax[1] + 50.0, fgd2tpcmax[2] + 50.0};
-
-
 }
 
 #endif
