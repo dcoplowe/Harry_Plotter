@@ -624,7 +624,7 @@ void ProducePlots::MakePlots(){
             segcuts += " != -999";
 
             TH1D * nfgdsegments_h = m_runbd->GetHisto(nfgdsegments.GetName(), 3, 1., 4., "N tracks with FGD Segments", segcuts);
-            for(int nloop = 0; nloop < nfgdsegments_h->GetNbinsX(); nloop++) nfgdsegments_h->GetXAxis()->SetBinLabel(nloop+1, Form("%d", nloop+1) );
+            for(int nloop = 0; nloop < nfgdsegments_h->GetNbinsX(); nloop++) nfgdsegments_h->GetXaxis()->SetBinLabel(nloop+1, Form("%d", nloop+1) );
             nfgdsegments_h->SetFillColor(DrawingStyle::Yellow);
 
             TCanvas * nfgdsegments_c = new TCanvas("NFGDSegments", "", 400, 400);
