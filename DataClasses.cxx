@@ -593,7 +593,7 @@ KinematicVars::KinematicVars(Experiment::Name exp){
         truedphiT = "truedphiT";
 
         vtx_pos = Variable("selvtx_pos", "Vertex Pos.", "(mm)");
-        truthvtx_pos = Variable("selvtx_truepos", " True Vertex Pos.", "(mm)");
+        truevtx_pos = Variable("selvtx_truepos", " True Vertex Pos.", "(mm)");
 
         // W_mass("");
     }
@@ -645,7 +645,7 @@ KinematicVars::KinematicVars(Experiment::Name exp){
         dphiT_alt = "sel_dphiT_LL";
 
         vtx_pos = Variable();
-        truthvtx_pos = Variable();
+        truevtx_pos = Variable();
     }
     else{
         //Transverse Variables:
@@ -671,7 +671,7 @@ KinematicVars::KinematicVars(Experiment::Name exp){
         dphiT_alt = "";
 
         vtx_pos = Variable();
-        truthvtx_pos = Variable();
+        truevtx_pos = Variable();
     }
 }
 

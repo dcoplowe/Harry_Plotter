@@ -465,7 +465,7 @@ public:
     std::string dphiT_alt;
     
     Variable vtx_pos;
-    Variable truthvtx_pos;
+    Variable truevtx_pos;
     // Variable W_mass;
 
 };
