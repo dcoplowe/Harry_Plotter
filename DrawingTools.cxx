@@ -15,6 +15,8 @@
 #include "DataClasses.h"
 #include "THStack.h"
 #include "TList.h"
+#include "TCanvas.h"
+#include "TObject.h"
 
 using namespace std;
 
@@ -447,7 +449,8 @@ void DrawingTools::DrawLine(TH1 * histo, double pos){
     z_line->Draw(); 
 }
 
-TH1D * DrawingTools::GetHistFromStack(THStack * stack){
+TH1D * DrawingTools::GetHistFromStack(THStack * stack)
+{
 
     TList * slist = stack->GetHists();
     TH1D * hfirst = (TH1D*)slist->First()->Clone( (string(slist->First()->GetName()) + "_clone").c_str() );
@@ -463,3 +466,31 @@ TH1D * DrawingTools::GetHistFromStack(THStack * stack){
     delete shist_tmp;
     return sum;
 }
+
+// TH1D * DrawingTools::GetHistFromCanvas(TCanvas * can)
+// {
+//    TObject *obj; 
+//    TH1F *hFra40;
+//    TIter next(can->GetListOfPrimitives());
+//    while ((obj=next())) {
+//      cout << "Reading: " << obj->GetName() << endl;
+//        if (obj->InheritsFrom("TH1")) {
+//        if(print_level::drawingtools) cout << "histo: " << obj->GetName() << endl;
+//        hFra40 = (TH1F*)obj->Clone();
+//        }
+//   }  
+// }
+
+TObject * DrawingTools::GetObjectFromCanvas(TCanvas * can, std::string name)
+{
+    TObject *obj;
+    TIter next(can->GetListOfPrimitives());
+    while ((obj=next())) {
+        if(print_level::drawingtools)cout << "Reading: " << obj->GetName() << endl;
+        if ( obj->InheritsFrom(name.c_str()) ) {
+          if(print_level::drawingtools) cout << "Found Object of type " << name << ": " << obj->GetName() << endl;
+          return obj->Clone();
+        }
+    }  
+}
+

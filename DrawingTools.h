@@ -14,6 +14,8 @@ class TH1D;
 class TH2D;
 class TH1;
 class THStack;
+class TCanvas;
+class TObject;
 
 //using namespace PlotUtils;
 
@@ -52,6 +54,8 @@ public:
     TH1D * GetRTRatio(std::string vars_tr, std::string x_title, std::string cuts);
     
     TH1D * GetHistFromStack(THStack * stack);
+
+    TObject * GetObjectFromCanvas(TCanvas * can, std::string name);
 
     void Verbose(){ m_verbose = true; }
     void SetRatioInfo(Int_t nbins, Double_t range){ m_ratiobins = nbins; m_ratiorange = range; }
