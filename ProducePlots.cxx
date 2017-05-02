@@ -458,15 +458,13 @@ void ProducePlots::MakePlots(){
         branchnames[0] = "";
 
         basecuts = new string[ nbranches ];
-        basecuts[0] = m_experiment->GetBaseCuts(4, 0);//Change back to 5
+        basecuts[0] = m_experiment->GetBaseCuts(5, 0);//Change back to 5
     }
 
     if(m_verbose) cout << "Running on Particles:" << endl;
 
     for(int br = 0; br < nbranches; br++){
         std::vector<Particle*> list;
-
-
 
         if(br == 1 && m_experiment->GetType() == Experiment::MIN){
             list.push_back( m_proton_alt );
@@ -484,19 +482,19 @@ void ProducePlots::MakePlots(){
             if(m_verbose) cout << party->GetName() << " plots being produced" << endl;
             
             //**************************************** Mom START ****************************************//
-            MakeDir("Mom" + branchnames[br] + "/" + party->GetName() );
-            MakeMomPlots(party, party->P.GetNBins(), party->P.GetBinning(), basecuts[br]);
+            // MakeDir("Mom" + branchnames[br] + "/" + party->GetName() );
+            // MakeMomPlots(party, party->P.GetNBins(), party->P.GetBinning(), basecuts[br]);
             //**************************************** Mom END ****************************************//
 
             if(m_experiment->GetType() == Experiment::MIN){
                 //**************************************** Theta START ************************************//
-                MakeDir("Theta" + branchnames[br] + "/" + party->GetName() );
-                MakeThetaPlots(party, party->theta.GetNBins(), party->theta.GetBinning(), basecuts[br]);
+                // MakeDir("Theta" + branchnames[br] + "/" + party->GetName() );
+                // MakeThetaPlots(party, party->theta.GetNBins(), party->theta.GetBinning(), basecuts[br]);
                 //**************************************** Theta END **************************************//
 
                 //**************************************** Phi START ************************************//
-                MakeDir("Phi" + branchnames[br] + "/" + party->GetName() );
-                MakePhiPlots(party, party->phi.GetNBins(), party->phi.GetBinning(), basecuts[br]);
+                // MakeDir("Phi" + branchnames[br] + "/" + party->GetName() );
+                // MakePhiPlots(party, party->phi.GetNBins(), party->phi.GetBinning(), basecuts[br]);
                 //**************************************** Phi END **************************************//                
                 if(m_verbose) cout << "Making MINERva specific plots" << endl;
             }
@@ -506,9 +504,9 @@ void ProducePlots::MakePlots(){
                 if(m_verbose) cout << "Making T2K specific plots" << endl;
 
                 //**************************************** cosTheta START ************************************//
-                MakeDir("cTheta/" + party->GetName() );
-                MakeCosThetaPlots(party, party->ctheta.GetNBins(), party->ctheta.GetBinning(), basecuts[br]);
-                MakeCosThetaPlots(party, party->ctheta_nudir.GetNBins(), party->ctheta_nudir.GetBinning(), basecuts[br], true);
+                // MakeDir("cTheta/" + party->GetName() );
+                // MakeCosThetaPlots(party, party->ctheta.GetNBins(), party->ctheta.GetBinning(), basecuts[br]);
+                // MakeCosThetaPlots(party, party->ctheta_nudir.GetNBins(), party->ctheta_nudir.GetBinning(), basecuts[br], true);
                 //**************************************** cosTheta END **************************************//
 
                 //**************************************** Crossing Angle START ************************************//
@@ -521,7 +519,7 @@ void ProducePlots::MakePlots(){
                 ca_can->Write();
 
                 // Purity of the crossing angle:
-                PurPart(party->cross_angle, m_experiment->GetSignal(), basecuts[br]); 
+                // PurPart(party->cross_angle, m_experiment->GetSignal(), basecuts[br]); 
 
                 //**************************************** Crossing Angle END **************************************//
 
@@ -529,7 +527,7 @@ void ProducePlots::MakePlots(){
                 // 1) Particle type FGD segment
                 // 2) Tot. No. of segments (1,2,3)
 
-                MakeDir("FGDSegments");
+                // MakeDir("FGDSegments");
 
                 Variable startfgd = party->fgd_start;
                 TH1D * startfgd_h = m_runbd->GetHisto(startfgd.GetName(), startfgd.GetNBins(), startfgd.GetBinning(), startfgd.GetSymbol(), basecuts[br]);
@@ -547,22 +545,22 @@ void ProducePlots::MakePlots(){
 
         if(m_verbose) cout << "Now producing dpTT plots." << endl;
         //************************************** dpTT Start *************************************//
-        MakeDir("dpTT" + branchnames[br]);
-        Variable dpTT(m_recovars->truedpTT + ":" + m_recovars->dpTT, "#delta#it{p}_{TT}", "MeV/#it{c}");
-        dpTT.SetSName(m_recovars->dpTT);
-        ProduceGroup(dpTT, 39, -300, 300, basecuts[br]);
+        // MakeDir("dpTT" + branchnames[br]);
+        // Variable dpTT(m_recovars->truedpTT + ":" + m_recovars->dpTT, "#delta#it{p}_{TT}", "MeV/#it{c}");
+        // dpTT.SetSName(m_recovars->dpTT);
+        // ProduceGroup(dpTT, 39, -300, 300, basecuts[br]);
 
-        MakeDir("dpTT" + branchnames[br] + "/nb29");
-        dpTT.SetSName(m_recovars->dpTT + "_nb29");
-        ProduceGroup(dpTT, 29, -300, 300, basecuts[br]);
+        // MakeDir("dpTT" + branchnames[br] + "/nb29");
+        // dpTT.SetSName(m_recovars->dpTT + "_nb29");
+        // ProduceGroup(dpTT, 29, -300, 300, basecuts[br]);
 
-        MakeDir("dpTT" + branchnames[br] + "/nb25");
-        dpTT.SetSName(m_recovars->dpTT + "_nb25");
-        ProduceGroup(dpTT, 25, -300, 300, basecuts[br]);
+        // MakeDir("dpTT" + branchnames[br] + "/nb25");
+        // dpTT.SetSName(m_recovars->dpTT + "_nb25");
+        // ProduceGroup(dpTT, 25, -300, 300, basecuts[br]);
 
-        MakeDir("dpTT" + branchnames[br] + "/nb19");
-        dpTT.SetSName(m_recovars->dpTT + "_nb19");
-        ProduceGroup(dpTT, 19, -300, 300, basecuts[br]);
+        // MakeDir("dpTT" + branchnames[br] + "/nb19");
+        // dpTT.SetSName(m_recovars->dpTT + "_nb19");
+        // ProduceGroup(dpTT, 19, -300, 300, basecuts[br]);
 
         if(m_experiment->GetType() == Experiment::MIN){
             if(m_verbose) cout << "Making MINERva specific plots" << endl;
@@ -588,23 +586,23 @@ void ProducePlots::MakePlots(){
         //************************************** dpTT End *************************************//
 
         if(m_experiment->GetType() == Experiment::T2K){ 
-            if(m_verbose) cout << "Making T2K specific plots" << endl;
+            // if(m_verbose) cout << "Making T2K specific plots" << endl;
             //************************************** No. FGD Segments Start *************************************//
-            cdDir("FGDSegments");
+            // cdDir("FGDSegments");
 
-            Variable nfgdsegments(m_muon->fgd_start.GetName() + " + " + m_proton->fgd_start.GetName() + " + " + m_pion->fgd_start.GetName(),"","");
-            string segcuts = basecuts[br] + " && " + m_muon->fgd_start.GetName() + "!= -999 && " + m_proton->fgd_start.GetName() + " != -999";
-            segcuts += " && ";
-            segcuts += m_pion->fgd_start.GetName();
-            segcuts += " != -999";
+            // Variable nfgdsegments(m_muon->fgd_start.GetName() + " + " + m_proton->fgd_start.GetName() + " + " + m_pion->fgd_start.GetName(),"","");
+            // string segcuts = basecuts[br] + " && " + m_muon->fgd_start.GetName() + "!= -999 && " + m_proton->fgd_start.GetName() + " != -999";
+            // segcuts += " && ";
+            // segcuts += m_pion->fgd_start.GetName();
+            // segcuts += " != -999";
 
-            TH1D * nfgdsegments_h = m_runbd->GetHisto(nfgdsegments.GetName(), 3, 0., 3., "N tracks with FGD Segments", segcuts);
-            nfgdsegments_h->SetFillColor(DrawingStyle::Yellow);
+            // TH1D * nfgdsegments_h = m_runbd->GetHisto(nfgdsegments.GetName(), 3, 0., 3., "N tracks with FGD Segments", segcuts);
+            // nfgdsegments_h->SetFillColor(DrawingStyle::Yellow);
 
-            TCanvas * nfgdsegments_c = new TCanvas("NFGDSegments", "", 400, 400);
-            nfgdsegments_h->Draw();
-            PrintLogo(nfgdsegments_c);
-            nfgdsegments_c->Write();
+            // TCanvas * nfgdsegments_c = new TCanvas("NFGDSegments", "", 400, 400);
+            // nfgdsegments_h->Draw();
+            // PrintLogo(nfgdsegments_c);
+            // nfgdsegments_c->Write();
         //************************************** No. FGD Segments End *************************************//
         }
 
