@@ -54,10 +54,10 @@ namespace t2kgeometry {
     double tpcXYmin[2] = {-1150.00, -1170.0};
     double tpcXYmax[2] = { 1150.00,  1230.0};
  
-    double fgd1tpcmin_offset[3] = {fgd1tpcmin[0] - 50.0., fgd1tpcmin[1] - 50.0, fgd1tpcmin[2] - 50.0};
-    double fgd1tpcmax_offset[3] = {fgd1tpcmax[0] + 50.0., fgd1tpcmax[1] + 50.0, fgd1tpcmax[2] + 50.0};
-    double fgd2tpcmin_offset[3] = {fgd2tpcmin[0] - 50.0., fgd2tpcmin[1] - 50.0, fgd2tpcmin[2] - 50.0};
-    double fgd2tpcmax_offset[3] = {fgd2tpcmax[0] + 50.0., fgd2tpcmax[1] + 50.0, fgd2tpcmax[2] + 50.0};
+    double fgd1tpcmin_offset[3] = {fgd1tpcmin[0] - 50.0, fgd1tpcmin[1] - 50.0, fgd1tpcmin[2] - 50.0};
+    double fgd1tpcmax_offset[3] = {fgd1tpcmax[0] + 50.0, fgd1tpcmax[1] + 50.0, fgd1tpcmax[2] + 50.0};
+    double fgd2tpcmin_offset[3] = {fgd2tpcmin[0] - 50.0, fgd2tpcmin[1] - 50.0, fgd2tpcmin[2] - 50.0};
+    double fgd2tpcmax_offset[3] = {fgd2tpcmax[0] + 50.0, fgd2tpcmax[1] + 50.0, fgd2tpcmax[2] + 50.0};
 
 
 }
@@ -645,6 +645,10 @@ KinematicVars::KinematicVars(Experiment::Name exp){
         dpT_alt = "sel_dpT_LL";
         dalphaT_alt = "sel_dalphaT_LL";
         dphiT_alt = "sel_dphiT_LL";
+
+
+        vtx_pos = Variable();
+        truthvtx_pos = Variable();
         
     }
     else{
@@ -669,6 +673,9 @@ KinematicVars::KinematicVars(Experiment::Name exp){
         dpT_alt = "";
         dalphaT_alt = "";
         dphiT_alt = "";
+
+        vtx_pos = Variable();
+        truthvtx_pos = Variable();
     }
 }
 
