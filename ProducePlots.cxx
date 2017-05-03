@@ -76,8 +76,8 @@ public:
     void ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std::string cuts);
     void ProduceGroup(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts);
     
-    void PositionPlot(Variable var, Int_t nbins, Double_t * bins, std::string cuts, int xyz, int fgd);
-    void PositionPlot(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts, int xyz, int fgd);
+    void PositionPlot(Variable var, Int_t nbins, Double_t * bins, std::string cuts, int fgd);
+    void PositionPlot(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts, int fgd);
 
     void EffPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string signal_def, std::string cuts = "");
     void PurPart(Variable var, std::string signal_def, std::string cuts);
