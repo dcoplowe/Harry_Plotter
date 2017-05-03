@@ -459,6 +459,16 @@ void DrawingTools::DrawLine(TH1 * histo, double pos, int color){
     z_line->Draw(); 
 }
 
+void DrawingTools::DrawLine(TCanvas * can, double pos, int color)
+{
+    can->cd();
+    TLine * z_line = new TLine(pos, 0., pos, 100.);
+    z_line->SetLineColor(color);
+    z_line->SetLineStyle(2);
+    z_line->SetLineWidth(2);
+    z_line->Draw();
+}
+
 TH1D * DrawingTools::GetHistFromStack(THStack * stack)
 {
 

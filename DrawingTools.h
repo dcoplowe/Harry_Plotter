@@ -81,6 +81,7 @@ public:
  
     void DrawLine(TH1 * histo, double pos, int color = kGray + 2);
     void DrawLine(THStack * stack, double pos, int color = kGray + 2);
+    void DrawLine(TCanvas * can, double pos, int color = kGray + 2);
 
 private:
     //File and directory info:
