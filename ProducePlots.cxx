@@ -268,7 +268,7 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
 
         BDCans var_top = m_runbd->TOPO(var, nbins, bins, cuts);
 
-        THStack * stack = m_runbd->GetObjectFromCanvas(var_pid.recon, "THStack")
+        THStack * stack = m_runbd->GetObjectFromCanvas(var_pid.recon, "THStack");
         if(stack){
             TH1D * hist = m_runbd->GetHistFromStack(stack);
             if(hist){
