@@ -286,7 +286,7 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
          m_runbd->DrawLine(stack, t2kgeometry::tpc2max[xyz]);
 
                //Draw a name of detector in between lines:
-         double x_range = (TH1D*)(stack->GetHistogram())->GetXaxis()->GetXmax() - (TH1D*)(stack->GetHistogram())->GetXaxis()->GetXmin();
+         double x_range = ((TH1D*)stack->GetHistogram())->GetXaxis()->GetXmax() - ((TH1D*)stack->GetHistogram())->GetXaxis()->GetXmin();
          cout << "x_range = " << x_range << endl;
          double x_width = 0.8*(t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
          double x_center = t2kgeometry::fgd1min[xyz] + (t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
