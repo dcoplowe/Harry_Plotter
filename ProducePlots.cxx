@@ -285,8 +285,8 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
                //Draw a name of detector in between lines:
                double x_width = 0.8*(t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
                double x_center = t2kgeometry::fgd1min[xyz] + (t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
-               double y_width =  0.2*(histo->GetMaximum() - histo->GetMinimum())/2;
-               double y_center = histo->GetMinimum() + (histo->GetMaximum() - histo->GetMinimum())/2;;
+               double y_width =  0.2*(hist->GetMaximum() - hist->GetMinimum())/2;
+               double y_center = hist->GetMinimum() + (hist->GetMaximum() - hist->GetMinimum())/2;;
 
 
                TLegend * leg = new TLegend(x_center - x_width, y_center - y_width, x_center + x_width, y_center - y_width);
