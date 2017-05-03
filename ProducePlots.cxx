@@ -298,7 +298,7 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
 
          x_width *= 1/x_range;
          x_center *= 1/x_range;
-         cout << "x_width = " << x_width << "x_center = " << x_center << endl;
+         cout << "x_width = " << x_width << " x_center = " << x_center << endl;
 
          double y_range = m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmax() - m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmin();
          cout << "y_range = " << y_range << endl;
@@ -311,10 +311,10 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
 
          y_width *= 1/y_range;
          y_center *= 1/y_range;
-         cout << "y_width = " << y_width << "y_center = " << y_center << endl;
+         cout << "y_width = " << y_width << " y_center = " << y_center << endl;
 
-         // TLegend * leg = new TLegend(x_center - x_width, y_center - y_width, x_center + x_width, y_center - y_width);
-         TLegend * leg = new TLegend(0.1, 0.1, 0.2, 0.2);
+         TLegend * leg = new TLegend(x_center - x_width, y_center - y_width, x_center + x_width, y_center - y_width);
+         // TLegend * leg = new TLegend(0.1, 0.1, 0.2, 0.2);
          leg->AddEntry((TObject*)0, "FGD1","");
          leg->SetFillStyle(0);
          leg->SetTextColor(kGray + 2);
