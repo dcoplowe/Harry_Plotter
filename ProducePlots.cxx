@@ -287,8 +287,7 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
                double x_center = t2kgeometry::fgd1min[xyz] + (t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
                double y_width =  0.2*(hist->GetMaximum() - hist->GetMinimum())/2;
                double y_center = hist->GetMinimum() + (hist->GetMaximum() - hist->GetMinimum())/2;;
-
-
+               var_top.recon->cd();
                TLegend * leg = new TLegend(x_center - x_width, y_center - y_width, x_center + x_width, y_center - y_width);
                leg->AddEntry((TObject*)0, "FGD1","");
                leg->SetTextColor(kGray + 2);
