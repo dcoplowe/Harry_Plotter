@@ -442,16 +442,16 @@ void DrawingTools::SetPOT(){
     if(m_bad_POT) cout << "POT is bad" << endl;
 }
 
-void DrawingTools::DrawLine(THStack * stack, double pos, int color)
+void DrawingTools::DrawLine(THStack * stack, double pos, int color, int style)
 {
-    TLine * z_line = new TLine(pos, 0 /*stack->GetMinimum("nostack")*/, pos, 1/*stack->GetMaximum("nostack")*/);
+    TLine * z_line = new TLine(pos, stack->GetMinimum("nostack"), pos,stack->GetMaximum("nostack"));
     z_line->SetLineColor(color);
     z_line->SetLineStyle(2);
     z_line->SetLineWidth(2);
     z_line->Draw();
 }
 
-void DrawingTools::DrawLine(TH1 * histo, double pos, int color){
+void DrawingTools::DrawLine(TH1 * histo, double pos, int color, int style){
     TLine * z_line = new TLine(pos, histo->GetMinimum(), pos, histo->GetMaximum());
     z_line->SetLineColor(color);
     z_line->SetLineStyle(2);
@@ -459,7 +459,7 @@ void DrawingTools::DrawLine(TH1 * histo, double pos, int color){
     z_line->Draw(); 
 }
 
-void DrawingTools::DrawLine(TCanvas * can, double pos, int color)
+void DrawingTools::DrawLine(TCanvas * can, double pos, int color, int style)
 {
     can->cd();
     cout << "pos = " << pos << endl;
