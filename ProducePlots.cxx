@@ -275,7 +275,7 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
         }
 
         BDCans var_top = m_runbd->TOPO(var, nbins, bins, cuts);
-
+        cout << "Filling UP" << endl;
         m_runbd->DrawLine(var_top.recon, t2kgeometry::fgd1min[xyz]);
 
         THStack * stack = (THStack*)m_runbd->GetObjectFromCanvas(var_top.recon, "THStack");
