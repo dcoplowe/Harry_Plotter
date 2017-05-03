@@ -297,7 +297,7 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
          double y_width =  0.2*(stack->GetMaximum("nostack") - stack->GetMinimum("nostack"))/2;
          double y_center = stack->GetMinimum("nostack") + (stack->GetMaximum("nostack") - stack->GetMinimum("nostack"))/2;
          cout << "stack->GetMaximum(nostack) = " << stack->GetMaximum("nostack") <<endl;
-         y_center *= 1/stack->GetMaximum("nostack");
+         // y_center *= 1/stack->GetMaximum("nostack");
          TLegend * leg = new TLegend(x_center - x_width, y_center - y_width, x_center + x_width, y_center - y_width);
          leg->AddEntry((TObject*)0, "FGD1","");
          leg->SetTextColor(kGray + 2);
