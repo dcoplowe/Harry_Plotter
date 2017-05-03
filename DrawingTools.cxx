@@ -474,6 +474,7 @@ TH1D * DrawingTools::GetHistFromStack(THStack * stack)
 {
     TH1D * hfirst = GetFirstHistFromStack(stack);
 
+    TList * slist = stack->GetHists();
     TIter next(slist);
     m_1Dcounter++;
     TH1D * sum = new TH1D(Form("%s_sum%.3d", hfirst->GetName(), m_1Dcounter), "", hfirst->GetXaxis()->GetNbins(), hfirst->GetXaxis()->GetXbins()->GetArray());
