@@ -47,6 +47,16 @@ namespace t2kgeometry {
 
     extern double tpcXYmin[2];
     extern double tpcXYmax[2];
+
+    extern double tpc1min[3];
+    extern double tpc1max[3];
+
+    extern double tpc2min[3];
+    extern double tpc2max[3];
+
+    extern double tpc3min[3];
+    extern double tpc3max[3];
+
 }
 
 #endif
