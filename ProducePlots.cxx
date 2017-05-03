@@ -259,7 +259,7 @@ void ProducePlots::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std:
 }
 
 void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts, int xyz, int fgd){
-    PositionPlot(var, nbins, DrawingTools::SetBinning(nbins, low, high), cuts, xyz);
+    PositionPlot(var, nbins, DrawingTools::SetBinning(nbins, low, high), cuts, xyz, fgd);
 }
 
 void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std::string cuts, int xyz, int fgd){//, Int_t setsave = 11111??

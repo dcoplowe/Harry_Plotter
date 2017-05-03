@@ -467,20 +467,6 @@ TH1D * DrawingTools::GetHistFromStack(THStack * stack)
     return sum;
 }
 
-// TH1D * DrawingTools::GetHistFromCanvas(TCanvas * can)
-// {
-//    TObject *obj; 
-//    TH1F *hFra40;
-//    TIter next(can->GetListOfPrimitives());
-//    while ((obj=next())) {
-//      cout << "Reading: " << obj->GetName() << endl;
-//        if (obj->InheritsFrom("TH1")) {
-//        if(print_level::drawingtools) cout << "histo: " << obj->GetName() << endl;
-//        hFra40 = (TH1F*)obj->Clone();
-//        }
-//   }  
-// }
-
 TObject * DrawingTools::GetObjectFromCanvas(TCanvas * can, std::string name)
 {
     TObject *obj;
