@@ -472,9 +472,7 @@ void DrawingTools::DrawLine(TCanvas * can, double pos, int color, int style)
 
 TH1D * DrawingTools::GetHistFromStack(THStack * stack)
 {
-
-    TList * slist = stack->GetHists();
-    TH1D * hfirst = (TH1D*)slist->First()->Clone( (string(slist->First()->GetName()) + "_clone").c_str() );
+    TH1D * hfirst = GetFirstHistFromStack(stack);
 
     TIter next(slist);
     m_1Dcounter++;
@@ -486,6 +484,12 @@ TH1D * DrawingTools::GetHistFromStack(THStack * stack)
     delete hfirst;
     delete shist_tmp;
     return sum;
+}
+
+TH1D * DrawingTools::GetFirstHistFromStack(THStack * stack)
+{
+    TList * slist = stack->GetHists();
+    return (TH1D*)slist->First()->Clone( (string(slist->First()->GetName()) + "_clone").c_str() );
 }
 
 TObject * DrawingTools::GetObjectFromCanvas(TCanvas * can, std::string name)

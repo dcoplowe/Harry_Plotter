@@ -54,7 +54,8 @@ public:
     TH1D * GetRTRatio(std::string vars_tr, std::string x_title, std::string cuts);
     
     TH1D * GetHistFromStack(THStack * stack);
-
+    TH1D * GetFirstHistFromStack(THStack * stack);
+    
     TObject * GetObjectFromCanvas(TCanvas * can, std::string name);
 
     void Verbose(){ m_verbose = true; }
