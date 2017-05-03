@@ -38,7 +38,7 @@
 using namespace std;
 
 const string test_min_mc("/pnfs/minerva/persistent/users/dcoplowe/CC1P1Pi_PL13C_030317/grid/central_value/minerva/ana/v10r8p9/00/01/32/00/SIM_minerva_00013200_Subruns_0001-0002-0003-0004_CC1P1PiAnalysis_Ana_Tuple_v10r8p9-dcoplowe.root");
-const string test_t2k_mc("/data/t2k/coplowe/numuCC1P1PiOutput/march17/neutP6BWA/FGD1/nall_data_070417_wome/allTree.root");
+const string test_t2k_mc("/data/t2k/coplowe/numuCC1P1PiOutput/march17/neutP6BWA/FGD1/nall_data_020517_wome/AnaOut_sub10000.root");
 
 class ProducePlots {
 
@@ -281,6 +281,15 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
             TH1D * hist = m_runbd->GetHistFromStack(stack);
             if(hist){
                m_runbd->DrawLine(hist, t2kgeometry::fgd1min[xyz]);
+
+               //Draw a name of detector in between lines:
+               double x_width = 0.8*(t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
+               double x_center = t2kgeometry::fgd1min[xyz] + (t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
+                   hist->
+
+               TLegend * leg = new TLegend() 
+
+
                m_runbd->DrawLine(hist, t2kgeometry::fgd1max[xyz]);
                m_runbd->DrawLine(hist, t2kgeometry::tpc2min[xyz]);
                m_runbd->DrawLine(hist, t2kgeometry::tpc2max[xyz]);
