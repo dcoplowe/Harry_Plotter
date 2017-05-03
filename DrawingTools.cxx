@@ -444,11 +444,14 @@ void DrawingTools::SetPOT(){
 
 void DrawingTools::DrawLine(THStack * stack, double pos, int color, int style, int width)
 {
-    TLine * z_line = new TLine(pos, 0. /*stack->GetMinimum("nostack")*/, pos, 1. /*stack->GetMaximum("nostack")*/);
+    TH1D * hfirst = GetFirstHistFromStack(stack);
+
+    TLine * z_line = new TLine(pos, hfirst->GetYaxis()->GetXmin(), pos, hfirst->GetYaxis()->GetXmax());
     z_line->SetLineColor(color);
     z_line->SetLineStyle(style);
     z_line->SetLineWidth(width);
     z_line->Draw();
+    delete hfirst;
 }
 
 void DrawingTools::DrawLine(TH1 * histo, double pos, int color, int style, int width){
