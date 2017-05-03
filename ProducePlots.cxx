@@ -281,6 +281,9 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
         THStack * stack = (THStack*)m_runbd->GetObjectFromCanvas(var_top.recon, "THStack");
         if(stack){
 
+            cout << "Stack exists. " << endl;
+
+
          var_top.recon->cd();
          m_runbd->DrawLine(stack, t2kgeometry::fgd1min[xyz]);                
          m_runbd->DrawLine(stack, t2kgeometry::fgd1max[xyz]);
