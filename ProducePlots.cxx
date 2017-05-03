@@ -258,13 +258,21 @@ void ProducePlots::ProduceGroup(Variable var, Int_t nbins, Double_t * bins, std:
     
 }
 
-void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts, int xyz, int fgd){
-    PositionPlot(var, nbins, DrawingTools::SetBinning(nbins, low, high), cuts, xyz, fgd);
+void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts, int fgd){
+    PositionPlot(var, nbins, DrawingTools::SetBinning(nbins, low, high), cuts, fgd);
 }
 
-void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std::string cuts, int xyz, int fgd){//, Int_t setsave = 11111??
+void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std::string cuts, int fgd){//, Int_t setsave = 11111??
 
     if(m_outfile->IsOpen()){
+        // Check which dimension we are working in:
+        int xyz = 0;
+        for(int i = 0; i < 3; i++){
+            if(var.GetName().find(Form("[%d]", i)) != std::string::npos){
+                xyz = i;
+                break;
+            }
+        }
 
         BDCans var_top = m_runbd->TOPO(var, nbins, bins, cuts);
 
@@ -272,9 +280,10 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
         if(stack){
             TH1D * hist = m_runbd->GetHistFromStack(stack);
             if(hist){
-                m_runbd->DrawLine(hist, t2kgeometry::fgd1max[xyz]);
-                // m_NameXYZ[xyz];
-
+               m_runbd->DrawLine(hist, t2kgeometry::fgd1min[xyz]);
+               m_runbd->DrawLine(hist, t2kgeometry::fgd1max[xyz]);
+               m_runbd->DrawLine(hist, t2kgeometry::tpc2min[xyz]);
+               m_runbd->DrawLine(hist, t2kgeometry::tpc2max[xyz]);
             }
         }
 

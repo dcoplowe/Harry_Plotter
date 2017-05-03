@@ -79,7 +79,7 @@ public:
     
     void SetWghtName(std::string var = "1"){ m_weight = var; }//Or 1 in initialisation -- weight for MINERvA and wgt for T2K?
  
-    void DrawLine(TH1 * histo, double pos);
+    void DrawLine(TH1 * histo, double pos, int color = kGray + 2);
 
 private:
     //File and directory info:

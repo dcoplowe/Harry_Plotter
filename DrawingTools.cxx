@@ -442,10 +442,11 @@ void DrawingTools::SetPOT(){
     if(m_bad_POT) cout << "POT is bad" << endl;
 }
 
-void DrawingTools::DrawLine(TH1 * histo, double pos){
+void DrawingTools::DrawLine(TH1 * histo, double pos, int color){
     TLine * z_line = new TLine(pos, histo->GetMinimum(), pos, histo->GetMaximum());
-    z_line->SetLineColor(1);
+    z_line->SetLineColor(color);
     z_line->SetLineStyle(2);
+    z_line->SetLineWidth(2);
     z_line->Draw(); 
 }
 
