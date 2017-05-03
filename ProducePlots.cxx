@@ -662,7 +662,7 @@ void ProducePlots::MakePlots(){
                     start_pos.SetSName(party->startpos.GetName() + m_NameXYZ[dim] );
                     start_pos.SetPDG(party->pdg.GetName());
                     // cout << "fgd1tpc_offset " << m_NameXYZ[dim] << " min  = " << t2kgeometry::fgd1tpcmin_offset[dim] << " max  = " << t2kgeometry::fgd1tpcmax_offset[dim] << endl; 
-                    ProduceGroup(start_pos, dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim], basecuts[br]);
+                    PositionPlot(start_pos, dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim], basecuts[br]);
                 }
                 //**************************************** Start Position END ************************************//
 
