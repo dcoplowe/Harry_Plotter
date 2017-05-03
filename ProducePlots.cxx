@@ -278,27 +278,24 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
 
         THStack * stack = (THStack*)m_runbd->GetObjectFromCanvas(var_top.recon, "THStack");
         if(stack){
-            TH1D * hist = m_runbd->GetHistFromStack(stack);
-            if(hist){
-               var_top.recon->cd();                
-               m_runbd->DrawLine(hist, t2kgeometry::fgd1min[xyz]);
-               m_runbd->DrawLine(hist, t2kgeometry::fgd1max[xyz]);
-               m_runbd->DrawLine(hist, t2kgeometry::tpc2min[xyz]);
-               m_runbd->DrawLine(hist, t2kgeometry::tpc2max[xyz]);
+
+         var_top.recon->cd();                
+         m_runbd->DrawLine(stack, t2kgeometry::fgd1min[xyz]);
+         m_runbd->DrawLine(stack, t2kgeometry::fgd1max[xyz]);
+         m_runbd->DrawLine(stack, t2kgeometry::tpc2min[xyz]);
+         m_runbd->DrawLine(stack, t2kgeometry::tpc2max[xyz]);
 
                //Draw a name of detector in between lines:
-               double x_width = 0.8*(t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
-               double x_center = t2kgeometry::fgd1min[xyz] + (t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
-               double y_width =  0.2*(hist->GetMaximum() - hist->GetMinimum())/2;
-               double y_center = hist->GetMinimum() + (hist->GetMaximum() - hist->GetMinimum())/2;;
-               TLegend * leg = new TLegend(x_center - x_width, y_center - y_width, x_center + x_width, y_center - y_width);
-               leg->AddEntry((TObject*)0, "FGD1","");
-               leg->SetTextColor(kGray + 2);
-               leg->Draw(); 
+         double x_width = 0.8*(t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
+         double x_center = t2kgeometry::fgd1min[xyz] + (t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
+         double y_width =  0.2*(stack->GetMaximum("nostack") - stack->GetMinimum("nostack"))/2;
+         double y_center = stack->GetMinimum("nostack") + (stack->GetMaximum("nostack") - stack->GetMinimum("nostack"))/2;;
+         TLegend * leg = new TLegend(x_center - x_width, y_center - y_width, x_center + x_width, y_center - y_width);
+         leg->AddEntry((TObject*)0, "FGD1","");
+         leg->SetTextColor(kGray + 2);
+         leg->Draw(); 
 
-
-            }
-        }
+     }
 
         BDCans var_tar = m_runbd->TARGET(var, nbins, bins, cuts);
         
