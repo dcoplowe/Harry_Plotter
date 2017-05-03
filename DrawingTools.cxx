@@ -446,12 +446,15 @@ void DrawingTools::DrawLine(THStack * stack, double pos, int color, int style, i
 {
     TH1D * hfirst = GetFirstHistFromStack(stack);
 
-    TLine * z_line = new TLine(pos, hfirst->GetYaxis()->GetXmin(), pos, hfirst->GetYaxis()->GetXmax());
-    z_line->SetLineColor(color);
-    z_line->SetLineStyle(style);
-    z_line->SetLineWidth(width);
-    z_line->Draw();
-    delete hfirst;
+    if(pos > hfirst->GetYaxis()->GetXmin() && pos < hfirst->GetYaxis()->GetXmax()){
+        TLine * z_line = new TLine(pos, hfirst->GetYaxis()->GetXmin(), pos, hfirst->GetYaxis()->GetXmax());
+        z_line->SetLineColor(color);
+        z_line->SetLineStyle(style);
+        z_line->SetLineWidth(width);
+        z_line->Draw();
+        delete hfirst;
+    }
+    else cout << "DrawingTools::DrawLine : Warning : X position of line out of range" << endl;
 }
 
 void DrawingTools::DrawLine(TH1 * histo, double pos, int color, int style, int width){

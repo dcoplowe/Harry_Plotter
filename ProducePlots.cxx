@@ -307,8 +307,8 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
 
          double y_center = m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmin() + y_width;
          y_center *= 1/m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmax();
-         TLegend * leg = new TLegend(x_center - x_width, y_center - y_width, x_center + x_width, y_center - y_width);
-         // TLegend * leg = new TLegend(0.1, 0.1, 0.1, 0.1);
+         // TLegend * leg = new TLegend(x_center - x_width, y_center - y_width, x_center + x_width, y_center - y_width);
+         TLegend * leg = new TLegend(0.1, 0.1, 0.1, 0.1);
          leg->AddEntry((TObject*)0, "FGD1","");
          leg->SetTextColor(kGray + 2);
          leg->Draw(); 
