@@ -301,12 +301,14 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
          double y_range = m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmax() - m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmin();
          cout << "y_range = " << y_range << endl;
 
-         double y_width =  0.2*(stack->GetMaximum("nostack") - stack->GetMinimum("nostack"))/2;
-         double y_center = stack->GetMinimum("nostack") + (stack->GetMaximum("nostack") - stack->GetMinimum("nostack"))/2;
-         cout << "stack->GetMaximum(nostack) = " << stack->GetMaximum("nostack") <<endl;
-         // y_center *= 1/stack->GetMaximum("nostack");
-         // TLegend * leg = new TLegend(x_center - x_width, y_center - y_width, x_center + x_width, y_center - y_width);
-         TLegend * leg = new TLegend(0.1, 0.1, 0.1, 0.1);
+         double y_width = m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmax();
+         y_width -= m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmin();
+         y_width *= 1/2.;
+
+         double y_center = m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmin() + y_width;
+         y_center *= 1/m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmax();
+         TLegend * leg = new TLegend(x_center - x_width, y_center - y_width, x_center + x_width, y_center - y_width);
+         // TLegend * leg = new TLegend(0.1, 0.1, 0.1, 0.1);
          leg->AddEntry((TObject*)0, "FGD1","");
          leg->SetTextColor(kGray + 2);
          leg->Draw(); 
