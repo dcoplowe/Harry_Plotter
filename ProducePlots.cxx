@@ -291,6 +291,9 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
          double x_width = 0.8*(t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
          double x_center = t2kgeometry::fgd1min[xyz] + (t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
 
+         x_width *= 1/x_range;
+         x_center *= 1/x_range;
+
          double y_width =  0.2*(stack->GetMaximum("nostack") - stack->GetMinimum("nostack"))/2;
          double y_center = stack->GetMinimum("nostack") + (stack->GetMaximum("nostack") - stack->GetMinimum("nostack"))/2;
          y_center *= 1/stack->GetMaximum("nostack");
