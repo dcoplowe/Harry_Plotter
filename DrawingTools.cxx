@@ -444,7 +444,7 @@ void DrawingTools::SetPOT(){
 
 void DrawingTools::DrawLine(THStack * stack, double pos, int color)
 {
-    Line * z_line = new TLine(pos, stack->GetMinimum("nostack"), pos, stack->GetMaximum("nostack"));
+    TLine * z_line = new TLine(pos, stack->GetMinimum("nostack"), pos, stack->GetMaximum("nostack"));
     z_line->SetLineColor(color);
     z_line->SetLineStyle(2);
     z_line->SetLineWidth(2);
