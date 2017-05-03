@@ -462,6 +462,7 @@ void DrawingTools::DrawLine(TH1 * histo, double pos, int color){
 void DrawingTools::DrawLine(TCanvas * can, double pos, int color)
 {
     can->cd();
+    cout << "pos = " << pos << endl;
     TLine * z_line = new TLine(pos, 0., pos, 100.);
     z_line->SetLineColor(color);
     z_line->SetLineStyle(2);
