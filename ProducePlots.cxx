@@ -314,7 +314,7 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
          y_center *= 1/y_range;
          cout << "y_width = " << y_width << " y_center = " << y_center << endl;
 
-         TLegend * leg = new TLegend(x_center - x_width, y_center - y_width, x_center + x_width, y_center + y_width);
+         TLegend * leg = new TLegend(x_center - 0.2*x_width, y_center - 0.2*y_width, x_center + 0.2*x_width, y_center + 0.1*y_width);
          // TLegend * leg = new TLegend(0.1, 0.1, 0.2, 0.2);
          leg->AddEntry((TObject*)0, "FGD1","");
          leg->SetFillStyle(0);
