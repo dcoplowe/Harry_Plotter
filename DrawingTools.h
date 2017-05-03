@@ -55,7 +55,7 @@ public:
     
     TH1D * GetHistFromStack(THStack * stack);
     TH1D * GetFirstHistFromStack(THStack * stack);
-    
+
     TObject * GetObjectFromCanvas(TCanvas * can, std::string name);
 
     void Verbose(){ m_verbose = true; }
@@ -80,9 +80,9 @@ public:
     
     void SetWghtName(std::string var = "1"){ m_weight = var; }//Or 1 in initialisation -- weight for MINERvA and wgt for T2K?
  
-    void DrawLine(TH1 * histo, double pos, int color = kGray + 2, int style = 1);
-    void DrawLine(THStack * stack, double pos, int color = kGray + 2, int style = 1);
-    void DrawLine(TCanvas * can, double pos, int color = kGray + 2, int style = 1);
+    void DrawLine(TH1 * histo, double pos, int color = kGray + 2, int style = 1, int width = 2);
+    void DrawLine(THStack * stack, double pos, int color = kGray + 2, int style = 1, int width = 2);
+    void DrawLine(TCanvas * can, double pos, int color = kGray + 2, int style = 1, int width = 2);
 
 private:
     //File and directory info:
