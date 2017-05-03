@@ -276,6 +276,8 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
 
         BDCans var_top = m_runbd->TOPO(var, nbins, bins, cuts);
 
+        cout << "Fun Times " << endl;
+
         THStack * stack = (THStack*)m_runbd->GetObjectFromCanvas(var_top.recon, "THStack");
         if(stack){
 
@@ -285,23 +287,23 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
          m_runbd->DrawLine(stack, t2kgeometry::tpc2min[xyz]);
          m_runbd->DrawLine(stack, t2kgeometry::tpc2max[xyz]);
 
-               //Draw a name of detector in between lines:
-         double x_range = m_runbd->GetFirstHistFromStack(stack)->GetXaxis()->GetXmax() - m_runbd->GetFirstHistFromStack(stack)->GetXaxis()->GetXmin();
-         cout << "x_range = " << x_range << endl;
-         double x_width = 0.8*(t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
-         double x_center = t2kgeometry::fgd1min[xyz] + (t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
+         //       //Draw a name of detector in between lines:
+         // double x_range = m_runbd->GetFirstHistFromStack(stack)->GetXaxis()->GetXmax() - m_runbd->GetFirstHistFromStack(stack)->GetXaxis()->GetXmin();
+         // cout << "x_range = " << x_range << endl;
+         // double x_width = 0.8*(t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
+         // double x_center = t2kgeometry::fgd1min[xyz] + (t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
 
-         x_width *= 1/x_range;
-         x_center *= 1/x_range;
+         // x_width *= 1/x_range;
+         // x_center *= 1/x_range;
 
-         double y_width =  0.2*(stack->GetMaximum("nostack") - stack->GetMinimum("nostack"))/2;
-         double y_center = stack->GetMinimum("nostack") + (stack->GetMaximum("nostack") - stack->GetMinimum("nostack"))/2;
-         cout << "stack->GetMaximum(nostack) = " << stack->GetMaximum("nostack") <<endl;
-         // y_center *= 1/stack->GetMaximum("nostack");
-         TLegend * leg = new TLegend(x_center - x_width, y_center - y_width, x_center + x_width, y_center - y_width);
-         leg->AddEntry((TObject*)0, "FGD1","");
-         leg->SetTextColor(kGray + 2);
-         leg->Draw(); 
+         // double y_width =  0.2*(stack->GetMaximum("nostack") - stack->GetMinimum("nostack"))/2;
+         // double y_center = stack->GetMinimum("nostack") + (stack->GetMaximum("nostack") - stack->GetMinimum("nostack"))/2;
+         // cout << "stack->GetMaximum(nostack) = " << stack->GetMaximum("nostack") <<endl;
+         // // y_center *= 1/stack->GetMaximum("nostack");
+         // TLegend * leg = new TLegend(x_center - x_width, y_center - y_width, x_center + x_width, y_center - y_width);
+         // leg->AddEntry((TObject*)0, "FGD1","");
+         // leg->SetTextColor(kGray + 2);
+         // leg->Draw(); 
 
      }
 
