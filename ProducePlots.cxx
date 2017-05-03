@@ -292,11 +292,13 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
                //Draw a name of detector in between lines:
          double x_range = m_runbd->GetFirstHistFromStack(stack)->GetXaxis()->GetXmax() - m_runbd->GetFirstHistFromStack(stack)->GetXaxis()->GetXmin();
          cout << "x_range = " << x_range << endl;
-         double x_width = 0.8*(t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
-         double x_center = t2kgeometry::fgd1min[xyz] + (t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
+         
+         double x_width = (t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
+         double x_center = t2kgeometry::fgd1min[xyz] + x_width;
 
          x_width *= 1/x_range;
          x_center *= 1/x_range;
+         cout << "x_range = " << x_range << "x_center = " << x_center << endl;
 
          double y_range = m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmax() - m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmin();
          cout << "y_range = " << y_range << endl;
@@ -306,11 +308,16 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
          y_width *= 1/2.;
 
          double y_center = m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmin() + y_width;
-         y_center *= 1/m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmax();
+
+         y_width *= 1/y_range;
+         y_center *= 1/y_range;
+         cout << "y_range = " << y_range << "y_center = " << y_center << endl;
+
          // TLegend * leg = new TLegend(x_center - x_width, y_center - y_width, x_center + x_width, y_center - y_width);
          TLegend * leg = new TLegend(0.1, 0.1, 0.2, 0.2);
          leg->AddEntry((TObject*)0, "FGD1","");
-         // leg->SetTextColor(kGray + 2);
+         leg->SetFillStyle(0);
+         leg->SetTextColor(kGray + 2);
          leg->Draw(); 
 
      }
