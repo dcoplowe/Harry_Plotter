@@ -310,7 +310,7 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
          // TLegend * leg = new TLegend(x_center - x_width, y_center - y_width, x_center + x_width, y_center - y_width);
          TLegend * leg = new TLegend(0.1, 0.1, 0.1, 0.1);
          leg->AddEntry((TObject*)0, "FGD1","");
-         leg->SetTextColor(kGray + 2);
+         // leg->SetTextColor(kGray + 2);
          leg->Draw(); 
 
      }

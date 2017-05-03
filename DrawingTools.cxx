@@ -446,7 +446,7 @@ void DrawingTools::DrawLine(THStack * stack, double pos, int color, int style, i
 {
     TH1D * hfirst = GetFirstHistFromStack(stack);
 
-    if(pos > hfirst->GetYaxis()->GetXmin() && pos < hfirst->GetYaxis()->GetXmax()){
+    if(pos > hfirst->GetXaxis()->GetXmin() && pos < hfirst->GetXaxis()->GetXmax()){
         TLine * z_line = new TLine(pos, hfirst->GetYaxis()->GetXmin(), pos, hfirst->GetYaxis()->GetXmax());
         z_line->SetLineColor(color);
         z_line->SetLineStyle(style);
