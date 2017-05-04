@@ -685,6 +685,7 @@ void ProducePlots::MakePlots(){
                 // }
 
                 for(int dim = 0; dim < 3; dim++){
+                //**************************************** Single START ************************************//
                     stringstream dimss; 
                     dimss << dim;
 
@@ -694,7 +695,85 @@ void ProducePlots::MakePlots(){
                     start_pos.SetPDG(party->pdg.GetName());
                     // cout << "fgd1tpc_offset " << m_NameXYZ[dim] << " min  = " << t2kgeometry::fgd1tpcmin_offset[dim] << " max  = " << t2kgeometry::fgd1tpcmax_offset[dim] << endl; 
                     PositionPlot(start_pos, dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim], basecuts[br]);
+                //**************************************** Single END ************************************//
+                
+                //**************************************** Single Purity START ************************************//
+
+                TH1D * start_pos_H_pur = m_runep->PurVSVar(start_pos.GetName(), dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
+                    m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(),
+                    start_pos.GetSymbol() + " (" + start_pos.GetUnits() ")", basecuts[br]);
+
+                TH1D * start_pos_CH_pur = m_runep->PurVSVar(start_pos.GetName(), dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
+                    m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(),
+                    start_pos.GetSymbol() + " (" + start_pos.GetUnits() ")", basecuts[br]);
+
+                TCanvas * start_pos_pur_c = new TCanvas((party->startpos.GetName() + "_pur").c_str(), "", 400, 400);
+                start_pos_pur_c->cd();
+
+                start_pos_H_pur->SetLineColor(DrawingStyle::Blue);
+                start_pos_H_pur->Draw();
+
+                start_pos_CH_pur->SetLineColor(DrawingStyle::Yellow);
+                start_pos_CH_pur->Draw("SAME");
+
+                TLegend * start_pos_pur_leg = m_runbd->Legend(0.6, 0.8);
+                start_pos_pur_leg->AddEntry(start_pos_H_pur, m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol().c_str(), "l" );
+                start_pos_pur_leg->AddEntry(start_pos_CH_pur, m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol().c_str(), "l" );
+                start_pos_pur_leg->Draw();
+
+                PrintLogo(start_pos_pur_c);
+
+                start_pos_pur_c->Write();
+
+                delete start_pos_H_pur;
+                delete start_pos_CH_pur;
+                delete start_pos_pur_leg;
+                delete start_pos_pur_c;
+
+                //**************************************** Single Purity END ************************************//
                 }
+
+                //**************************************** XY START ************************************//
+
+                Variable start_posXY(party->startpos.GetName() + "[0]:" + party->startpos.GetName()  + "[1]",
+                    party->GetSymbol() + " " + m_NameXYZ[0] + m_NameXYZ[1] + " Start Position", "mm");
+                    // This probably wont work as the code looks for :: to make a split... Add fix.
+                start_posXY.SetSName(party->startpos.GetName() + m_NameXYZ[0] + m_NameXYZ[1] );
+                start_posXY.SetPDG(party->pdg.GetName());
+
+                TH2D * start_posXY_h = m_runbd->GetHist(start_posXY.GetName(), dimnbins[0], t2kgeometry::fgd1tpcmin_offset[0], 
+                    t2kgeometry::fgd1tpcmax_offset[0], dimnbins[1], t2kgeometry::fgd1tpcmin_offset[1], 
+                    t2kgeometry::fgd1tpcmax_offset[1], "Start Position X (mm);Start Position Y (mm)", basecuts[br]);
+
+                TCanvas * start_posXY_c = new TCanvas(start_posXY.GetSName().c_str(), "", 400, 400);
+                start_posXY_c->cd();
+                start_posXY_h->Draw("COLZ");
+
+                PrintLogo(start_posXY_c);
+
+                start_posXY_c->Write();
+
+                delete start_posXY_h;
+                delete start_posXY_c;
+                //**************************************** XY END ************************************//
+
+                //**************************************** XY Purity ************************************//
+
+                TH2D * start_posXY_pur_h = m_runbd->PurVSVar(start_pos.GetName(), dimnbins[0], t2kgeometry::fgd1tpcmin_offset[0], 
+                    t2kgeometry::fgd1tpcmax_offset[0], dimnbins[1], t2kgeometry::fgd1tpcmin_offset[1], 
+                    t2kgeometry::fgd1tpcmax_offset[1], "Start Position X (mm);Start Position Y (mm)", basecuts[br]);
+
+                TCanvas * start_posXY_pur_c = new TCanvas( (start_posXY.GetSName() + "_pur").c_str(), "", 400, 400);
+                start_posXY_pur_c->cd();
+                start_posXY_pur_h->Draw("COLZ");
+
+                PrintLogo(start_posXY_pur_c);
+
+                start_posXY_pur_c->Write();
+
+                delete start_posXY_pur_h;
+                delete start_posXY_pur_c;
+
                 //**************************************** Start Position END ************************************//
 
             }
