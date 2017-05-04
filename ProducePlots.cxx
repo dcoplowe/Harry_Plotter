@@ -713,6 +713,8 @@ void ProducePlots::MakePlots(){
                 
                 //**************************************** Single Purity START ************************************//
 
+                if(m_verbose) cout << " plots made, now producing purity dists.";
+
                 TH1D * start_pos_H_pur = m_runep->PurVSVar(start_pos.GetName(), dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
                     m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(),
                     start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")", basecuts[br]);
@@ -743,6 +745,8 @@ void ProducePlots::MakePlots(){
                 delete start_pos_CH_pur;
                 delete start_pos_pur_leg;
                 delete start_pos_pur_c;
+
+                if(m_verbose) cout << " -- Done" << endl;
 
                 //**************************************** Single Purity END ************************************//
                 }
