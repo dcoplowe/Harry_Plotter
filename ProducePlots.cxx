@@ -747,7 +747,7 @@ void ProducePlots::MakePlots(){
 
                     // cout << " 2 made " << endl;
 
-                    TCanvas * start_pos_pur_c = new TCanvas((party->startpos.GetName() + "_pur").c_str(), "", 400, 400);
+                    TCanvas * start_pos_pur_c = new TCanvas((start_pos.GetSName() + "_pur").c_str(), "", 400, 400);
                     start_pos_pur_c->cd();
 
                     // cout << " 3 made " << endl;

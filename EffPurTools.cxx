@@ -225,7 +225,6 @@ TH2D * EffPurTools::EffVSVar(std::string var_yx, int x_nbins, Double_t x_low, Do
 
 TH1D * EffPurTools::PurVSVar(std::string var, int nbins, Double_t * xbins, std::string signal, std::string cuts, std::string x_title){
     if(m_debug) cout << "EffPurTools::PurVSVar()" << endl;
-    //TTree * intree = (TTree*)_file->Get(_reconame.Data());
     
     TH1D * purvar = RatioVSVar(m_recon, var, nbins, xbins, cuts, signal, x_title);
     m_purvarcounter++;
@@ -236,12 +235,11 @@ TH1D * EffPurTools::PurVSVar(std::string var, int nbins, Double_t * xbins, std::
 
 TH1D * EffPurTools::PurVSVar(std::string var, int nbins, Double_t x_low, Double_t x_high, std::string signal, std::string cuts, std::string x_title){
     if(m_debug) cout << "EffPurTools::PurVSVar()" << endl;
-    return PurVSVar(var, nbins, DrawingTools::SetBinning(nbins, x_low, x_high), signal, x_title, cuts);
+    return PurVSVar(var, nbins, DrawingTools::SetBinning(nbins, x_low, x_high), signal, cuts, x_title);
 }
 
 TH2D * EffPurTools::PurVSVar(std::string var_yx, int x_nbins, Double_t * x_bins, int y_nbins, Double_t * y_bins, std::string signal, std::string cuts, std::string  xy_title){
     if(m_debug) cout << "EffPurTools::PurVSVar()" << endl;
-    //TTree * intree = (TTree*)_file->Get(_reconame.Data());
     
     TH2D * purvar = RatioVSVar(m_recon, var_yx, x_nbins, x_bins, y_nbins, y_bins, cuts, signal, xy_title);
     m_purvarcounter++;
