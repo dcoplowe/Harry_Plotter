@@ -379,7 +379,7 @@ void ProducePlots::DrawDetectorLines(TCanvas * can, int xyz){
         // // cout << "y_width = " << y_width << " y_center = " << y_center << endl;
 
         // TLegend * leg = new TLegend(x_center - 0.2*x_width, y_center - 0.2*y_width, x_center + 0.2*x_width, y_center + 0.1*y_width);
-         TLegend * leg = new TLegend(0.5, 0.5, 0.6, 0.0.6);
+         TLegend * leg = new TLegend(0.5, 0.5, 0.6, 0.6);
         leg->AddEntry((TObject*)0, "Sub Det.","");
         leg->SetFillStyle(0);
         leg->SetTextColor(kGray + 2);
