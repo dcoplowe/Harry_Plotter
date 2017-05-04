@@ -646,7 +646,7 @@ void ProducePlots::MakePlots(){
                 MakeCosThetaPlots(party, party->ctheta.GetNBins(), party->ctheta.GetBinning(), basecuts[br]);
                 MakeCosThetaPlots(party, party->ctheta_nudir.GetNBins(), party->ctheta_nudir.GetBinning(), basecuts[br], true);
 
-                if(m_verbose) cout << " -- Done"; << endl;
+                if(m_verbose) cout << " -- Done";
                 //**************************************** cosTheta END **************************************//
 
                 //**************************************** Crossing Angle START ************************************//
@@ -663,7 +663,7 @@ void ProducePlots::MakePlots(){
                 // Purity of the crossing angle:
                 PurPart(party->cross_angle, m_experiment->GetSignal(), basecuts[br]); 
 
-                if(m_verbose) cout << " -- Done"; << endl;
+                if(m_verbose) cout << " -- Done";
                 //**************************************** Crossing Angle END **************************************//
 
                 //**************************************** FGD Segment START ************************************//
@@ -683,7 +683,7 @@ void ProducePlots::MakePlots(){
                 PrintLogo(startfgd_c);
                 startfgd_c->Write();
 
-                if(m_verbose) cout << " -- Done"; << endl;
+                if(m_verbose) cout << " -- Done";
 
                 //**************************************** FGD Segment END **************************************//
 
@@ -787,7 +787,7 @@ void ProducePlots::MakePlots(){
                 delete start_posXY_pur_h;
                 delete start_posXY_pur_c;
 
-                if(m_verbose) cout << " -- Done"; << endl;
+                if(m_verbose) cout << " -- Done";
 
                 //**************************************** Start Position END ************************************//
 
