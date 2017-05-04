@@ -758,7 +758,7 @@ void ProducePlots::MakePlots(){
 
                 //**************************************** XY Purity ************************************//
 
-                TH2D * start_posXY_pur_h = m_runep->PurVSVar(start_pos.GetName(), dimnbins[0], t2kgeometry::fgd1tpcmin_offset[0], 
+                TH2D * start_posXY_pur_h = m_runep->PurVSVar(start_posXY.GetName(), dimnbins[0], t2kgeometry::fgd1tpcmin_offset[0], 
                     t2kgeometry::fgd1tpcmax_offset[0], dimnbins[1], t2kgeometry::fgd1tpcmin_offset[1], 
                     t2kgeometry::fgd1tpcmax_offset[1], "Start Position X (mm);Start Position Y (mm)", basecuts[br]);
 
