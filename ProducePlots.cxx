@@ -290,6 +290,8 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
             DrawDetectorLines(var_pid.truth, xyz);
         }
         
+        cout << "ProducePlots::PositionPlot : Now saving" << endl;
+
         //Recon Vars:
         PrintLogo(var_top.recon);
         PrintLogo(var_tar.recon);
@@ -351,33 +353,33 @@ void ProducePlots::DrawDetectorLines(TCanvas * can, int xyz){
         m_runbd->DrawLine(stack, t2kgeometry::tpc2min[xyz]);
         m_runbd->DrawLine(stack, t2kgeometry::tpc2max[xyz]);
 
-               //Draw a name of detector in between lines:
-        double x_range = m_runbd->GetFirstHistFromStack(stack)->GetXaxis()->GetXmax() - m_runbd->GetFirstHistFromStack(stack)->GetXaxis()->GetXmin();
-        double x_scale = TMath::Abs(m_runbd->GetFirstHistFromStack(stack)->GetXaxis()->GetXmin())/x_range;
-        // cout << "x_range = " << x_range << " x_scale = " << x_scale << endl;
+        //        //Draw a name of detector in between lines:
+        // double x_range = m_runbd->GetFirstHistFromStack(stack)->GetXaxis()->GetXmax() - m_runbd->GetFirstHistFromStack(stack)->GetXaxis()->GetXmin();
+        // double x_scale = TMath::Abs(m_runbd->GetFirstHistFromStack(stack)->GetXaxis()->GetXmin())/x_range;
+        // // cout << "x_range = " << x_range << " x_scale = " << x_scale << endl;
 
-        double x_width = (t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
-        double x_center = t2kgeometry::fgd1min[xyz] + x_width + x_scale;
+        // double x_width = (t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
+        // double x_center = t2kgeometry::fgd1min[xyz] + x_width + x_scale;
 
-        x_width *= 1/x_range;
-        x_center *= 1/x_range;
-        // cout << "x_width = " << x_width << " x_center = " << x_center << endl;
+        // x_width *= 1/x_range;
+        // x_center *= 1/x_range;
+        // // cout << "x_width = " << x_width << " x_center = " << x_center << endl;
 
-        double y_range = m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmax() - m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmin();
-        // cout << "y_range = " << y_range << endl;
+        // double y_range = m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmax() - m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmin();
+        // // cout << "y_range = " << y_range << endl;
 
-        double y_width = m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmax();
-        y_width -= m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmin();
-        y_width *= 1/2.;
+        // double y_width = m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmax();
+        // y_width -= m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmin();
+        // y_width *= 1/2.;
 
-        double y_center = m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmin() + y_width;
+        // double y_center = m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmin() + y_width;
 
-        y_width *= 1/y_range;
-        y_center *= 1/y_range;
-        // cout << "y_width = " << y_width << " y_center = " << y_center << endl;
+        // y_width *= 1/y_range;
+        // y_center *= 1/y_range;
+        // // cout << "y_width = " << y_width << " y_center = " << y_center << endl;
 
-        TLegend * leg = new TLegend(x_center - 0.2*x_width, y_center - 0.2*y_width, x_center + 0.2*x_width, y_center + 0.1*y_width);
-         // TLegend * leg = new TLegend(0.1, 0.1, 0.2, 0.2);
+        // TLegend * leg = new TLegend(x_center - 0.2*x_width, y_center - 0.2*y_width, x_center + 0.2*x_width, y_center + 0.1*y_width);
+         TLegend * leg = new TLegend(0.5, 0.5, 0.6, 0.0.6);
         leg->AddEntry((TObject*)0, "Sub Det.","");
         leg->SetFillStyle(0);
         leg->SetTextColor(kGray + 2);
@@ -646,7 +648,7 @@ void ProducePlots::MakePlots(){
                 MakeCosThetaPlots(party, party->ctheta.GetNBins(), party->ctheta.GetBinning(), basecuts[br]);
                 MakeCosThetaPlots(party, party->ctheta_nudir.GetNBins(), party->ctheta_nudir.GetBinning(), basecuts[br], true);
 
-                if(m_verbose) cout << " -- Done";
+                if(m_verbose) cout << " -- Done" << endl;
                 //**************************************** cosTheta END **************************************//
 
                 //**************************************** Crossing Angle START ************************************//
@@ -663,7 +665,7 @@ void ProducePlots::MakePlots(){
                 // Purity of the crossing angle:
                 PurPart(party->cross_angle, m_experiment->GetSignal(), basecuts[br]); 
 
-                if(m_verbose) cout << " -- Done";
+                if(m_verbose) cout << " -- Done" << endl;
                 //**************************************** Crossing Angle END **************************************//
 
                 //**************************************** FGD Segment START ************************************//
@@ -683,7 +685,7 @@ void ProducePlots::MakePlots(){
                 PrintLogo(startfgd_c);
                 startfgd_c->Write();
 
-                if(m_verbose) cout << " -- Done";
+                if(m_verbose) cout << " -- Done" << endl;
 
                 //**************************************** FGD Segment END **************************************//
 
@@ -787,7 +789,7 @@ void ProducePlots::MakePlots(){
                 delete start_posXY_pur_h;
                 delete start_posXY_pur_c;
 
-                if(m_verbose) cout << " -- Done";
+                if(m_verbose) cout << " -- Done" << endl;
 
                 //**************************************** Start Position END ************************************//
 
