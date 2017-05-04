@@ -719,12 +719,20 @@ void ProducePlots::MakePlots(){
                     m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(),
                     start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")", basecuts[br]);
 
+                cout << endl;
+                cout << " 1 made " << endl;
+
+
                 TH1D * start_pos_CH_pur = m_runep->PurVSVar(start_pos.GetName(), dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
                     m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(),
                     start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")", basecuts[br]);
 
+                cout << " 2 made " << endl;
+
                 TCanvas * start_pos_pur_c = new TCanvas((party->startpos.GetName() + "_pur").c_str(), "", 400, 400);
                 start_pos_pur_c->cd();
+
+                cout << " 3 made " << endl;
 
                 start_pos_H_pur->SetLineColor(DrawingStyle::Blue);
                 start_pos_H_pur->Draw();
@@ -732,12 +740,16 @@ void ProducePlots::MakePlots(){
                 start_pos_CH_pur->SetLineColor(DrawingStyle::Yellow);
                 start_pos_CH_pur->Draw("SAME");
 
+                cout << " 4 made " << endl;
+
                 TLegend * start_pos_pur_leg = m_runbd->Legend(0.6, 0.8);
                 start_pos_pur_leg->AddEntry(start_pos_H_pur, m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol().c_str(), "l" );
                 start_pos_pur_leg->AddEntry(start_pos_CH_pur, m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol().c_str(), "l" );
                 start_pos_pur_leg->Draw();
 
                 PrintLogo(start_pos_pur_c);
+
+                cout << " 5 made " << endl;
 
                 start_pos_pur_c->Write();
 
@@ -753,7 +765,7 @@ void ProducePlots::MakePlots(){
 
                 //**************************************** XY START ************************************//
 
-                Variable start_posXY(party->startpos.GetName() + "[0]:" + party->startpos.GetName()  + "[1]",
+                Variable start_posXY(party->startpos.GetName() + "[1]:" + party->startpos.GetName()  + "[0]",
                     party->GetSymbol() + " " + m_NameXYZ[0] + m_NameXYZ[1] + " Start Position", "mm");
                     // This probably wont work as the code looks for :: to make a split... Add fix.
                 start_posXY.SetSName(party->startpos.GetName() + m_NameXYZ[0] + m_NameXYZ[1] );
