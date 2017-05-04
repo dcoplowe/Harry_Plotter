@@ -300,25 +300,39 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
         var_top.recon->Write();
         var_tar.recon->Write();
         if(!var.GetPDG().empty()) var_pid.recon->Write();
+
+        cout << "ProducePlots::PositionPlot : Done 5" << endl;
+
         
         //Truth Vars:
         PrintLogo(var_top.truth);
         PrintLogo(var_tar.truth);
         if(!var.GetPDG().empty()) PrintLogo(var_pid.truth);
+
+        cout << "ProducePlots::PositionPlot : Done 5" << endl;
+
         
         var_top.truth->Write();
         var_tar.truth->Write();
         if(!var.GetPDG().empty()) var_pid.truth->Write();
+
+        cout << "ProducePlots::PositionPlot : Done 5" << endl;
         
         //Ratio Vars:
         PrintLogo(var_top.ratio);
         PrintLogo(var_tar.ratio);
         if(!var.GetPDG().empty()) PrintLogo(var_pid.ratio);
         
+                cout << "ProducePlots::PositionPlot : Done 5" << endl;
+
+
         var_top.ratio->Write();
         var_tar.ratio->Write();
         if(!var.GetPDG().empty()) var_pid.ratio->Write();
         
+        cout << "ProducePlots::PositionPlot : Done 5" << endl;
+
+
         //Smear Vars:
         PrintLogo(var_top.smear);
 //        PrintLogo(var_tar.smear);
