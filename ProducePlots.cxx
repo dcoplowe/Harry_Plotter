@@ -735,7 +735,7 @@ void ProducePlots::MakePlots(){
                     // if(m_verbose) 
                     cout << " plots made, now producing purity dists." << endl;
 
-                    TH1D * start_pos_H_pur = m_runep->PurVSVar(start_pos.GetName(), dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
+                    TH1D * start_pos_H_pur = m_runep->PurVSVar(party->startpos.GetName()  + "[" + dimss.str() + "]", dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
                     m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br],
                     start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")");
 
