@@ -639,13 +639,19 @@ void ProducePlots::MakePlots(){
 
                 if(m_verbose) cout << "Making T2K specific plots" << endl;
 
+                if(m_verbose) cout << "Cos Theta";
+
                 //**************************************** cosTheta START ************************************//
                 MakeDir("cTheta/" + party->GetName() );
                 MakeCosThetaPlots(party, party->ctheta.GetNBins(), party->ctheta.GetBinning(), basecuts[br]);
                 MakeCosThetaPlots(party, party->ctheta_nudir.GetNBins(), party->ctheta_nudir.GetBinning(), basecuts[br], true);
+
+                if(m_verbose) cout << " -- Done"; << endl;
                 //**************************************** cosTheta END **************************************//
 
                 //**************************************** Crossing Angle START ************************************//
+                if(m_verbose) cout << "Crossing Angle";
+
                 MakeDir("CrossingAngle");
                 party->cross_angle.SetSName(party->cross_angle.GetName());
 
@@ -657,11 +663,14 @@ void ProducePlots::MakePlots(){
                 // Purity of the crossing angle:
                 PurPart(party->cross_angle, m_experiment->GetSignal(), basecuts[br]); 
 
+                if(m_verbose) cout << " -- Done"; << endl;
                 //**************************************** Crossing Angle END **************************************//
 
                 //**************************************** FGD Segment START ************************************//
                 // 1) Particle type FGD segment
                 // 2) Tot. No. of segments (1,2,3)
+
+                if(m_verbose) cout << "FGD Segments";
 
                 MakeDir("FGDSegments");
 
@@ -674,9 +683,13 @@ void ProducePlots::MakePlots(){
                 PrintLogo(startfgd_c);
                 startfgd_c->Write();
 
+                if(m_verbose) cout << " -- Done"; << endl;
+
                 //**************************************** FGD Segment END **************************************//
 
                 //**************************************** Start Position START ************************************//
+
+                if(m_verbose) cout << "Start Position";
                 MakeDir("StartPosition");
                 int dimnbins[3] = {40, 40, 40};
 
@@ -754,6 +767,7 @@ void ProducePlots::MakePlots(){
 
                 delete start_posXY_h;
                 delete start_posXY_c;
+
                 //**************************************** XY END ************************************//
 
                 //**************************************** XY Purity ************************************//
@@ -772,6 +786,8 @@ void ProducePlots::MakePlots(){
 
                 delete start_posXY_pur_h;
                 delete start_posXY_pur_c;
+
+                if(m_verbose) cout << " -- Done"; << endl;
 
                 //**************************************** Start Position END ************************************//
 
