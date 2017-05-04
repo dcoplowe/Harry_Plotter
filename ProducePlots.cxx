@@ -345,7 +345,7 @@ void ProducePlots::DrawDetectorLines(TCanvas * can, int xyz){
     if(stack){
         // cout << "Stack exists" << endl;
         can->cd();
-        
+
         m_runbd->DrawLine(stack, t2kgeometry::fgd1min[xyz]);                
         m_runbd->DrawLine(stack, t2kgeometry::fgd1max[xyz]);
         m_runbd->DrawLine(stack, t2kgeometry::tpc2min[xyz]);
@@ -700,11 +700,11 @@ void ProducePlots::MakePlots(){
 
                 TH1D * start_pos_H_pur = m_runep->PurVSVar(start_pos.GetName(), dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
                     m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(),
-                    start_pos.GetSymbol() + " (" + start_pos.GetUnits() ")", basecuts[br]);
+                    start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")", basecuts[br]);
 
                 TH1D * start_pos_CH_pur = m_runep->PurVSVar(start_pos.GetName(), dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
                     m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(),
-                    start_pos.GetSymbol() + " (" + start_pos.GetUnits() ")", basecuts[br]);
+                    start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")", basecuts[br]);
 
                 TCanvas * start_pos_pur_c = new TCanvas((party->startpos.GetName() + "_pur").c_str(), "", 400, 400);
                 start_pos_pur_c->cd();
