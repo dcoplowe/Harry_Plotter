@@ -782,48 +782,48 @@ void ProducePlots::MakePlots(){
 
                 //**************************************** XY START ************************************//
 
-                Variable start_posXY(party->startpos.GetName() + "[1]:" + party->startpos.GetName()  + "[0]",
-                    party->GetSymbol() + " " + m_NameXYZ[0] + m_NameXYZ[1] + " Start Position", "mm");
-                    // This probably wont work as the code looks for :: to make a split... Add fix.
-                start_posXY.SetSName(party->startpos.GetName() + m_NameXYZ[0] + m_NameXYZ[1] );
-                start_posXY.SetPDG(party->pdg.GetName());
+                // Variable start_posXY(party->startpos.GetName() + "[1]:" + party->startpos.GetName()  + "[0]",
+                //     party->GetSymbol() + " " + m_NameXYZ[0] + m_NameXYZ[1] + " Start Position", "mm");
+                //     // This probably wont work as the code looks for :: to make a split... Add fix.
+                // start_posXY.SetSName(party->startpos.GetName() + m_NameXYZ[0] + m_NameXYZ[1] );
+                // start_posXY.SetPDG(party->pdg.GetName());
 
-                TH2D * start_posXY_h = m_runbd->GetHisto(start_posXY.GetName(), dimnbins[0], t2kgeometry::fgd1tpcmin_offset[0], 
-                    t2kgeometry::fgd1tpcmax_offset[0], dimnbins[1], t2kgeometry::fgd1tpcmin_offset[1], 
-                    t2kgeometry::fgd1tpcmax_offset[1], "Start Position X (mm);Start Position Y (mm)", basecuts[br]);
+                // TH2D * start_posXY_h = m_runbd->GetHisto(start_posXY.GetName(), dimnbins[0], t2kgeometry::fgd1tpcmin_offset[0], 
+                //     t2kgeometry::fgd1tpcmax_offset[0], dimnbins[1], t2kgeometry::fgd1tpcmin_offset[1], 
+                //     t2kgeometry::fgd1tpcmax_offset[1], "Start Position X (mm);Start Position Y (mm)", basecuts[br]);
 
-                TCanvas * start_posXY_c = new TCanvas(start_posXY.GetSName().c_str(), "", 400, 400);
-                start_posXY_c->cd();
-                start_posXY_h->Draw("COLZ");
+                // TCanvas * start_posXY_c = new TCanvas(start_posXY.GetSName().c_str(), "", 400, 400);
+                // start_posXY_c->cd();
+                // start_posXY_h->Draw("COLZ");
 
-                PrintLogo(start_posXY_c);
+                // PrintLogo(start_posXY_c);
 
-                start_posXY_c->Write();
+                // start_posXY_c->Write();
 
-                delete start_posXY_h;
-                delete start_posXY_c;
+                // delete start_posXY_h;
+                // delete start_posXY_c;
 
-                //**************************************** XY END ************************************//
+                // //**************************************** XY END ************************************//
 
-                //**************************************** XY Purity ************************************//
+                // //**************************************** XY Purity ************************************//
 
-                TH2D * start_posXY_pur_h = m_runep->PurVSVar(start_posXY.GetName(), dimnbins[0], t2kgeometry::fgd1tpcmin_offset[0], 
-                    t2kgeometry::fgd1tpcmax_offset[0], dimnbins[1], t2kgeometry::fgd1tpcmin_offset[1], 
-                    t2kgeometry::fgd1tpcmax_offset[1], m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol(), 
-                    "Start Position X (mm);Start Position Y (mm)", basecuts[br]);
+                // TH2D * start_posXY_pur_h = m_runep->PurVSVar(start_posXY.GetName(), dimnbins[0], t2kgeometry::fgd1tpcmin_offset[0], 
+                //     t2kgeometry::fgd1tpcmax_offset[0], dimnbins[1], t2kgeometry::fgd1tpcmin_offset[1], 
+                //     t2kgeometry::fgd1tpcmax_offset[1], m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol(), 
+                //     "Start Position X (mm);Start Position Y (mm)", basecuts[br]);
 
-                TCanvas * start_posXY_pur_c = new TCanvas( (start_posXY.GetSName() + "_pur").c_str(), "", 400, 400);
-                start_posXY_pur_c->cd();
-                start_posXY_pur_h->Draw("COLZ");
+                // TCanvas * start_posXY_pur_c = new TCanvas( (start_posXY.GetSName() + "_pur").c_str(), "", 400, 400);
+                // start_posXY_pur_c->cd();
+                // start_posXY_pur_h->Draw("COLZ");
 
-                PrintLogo(start_posXY_pur_c);
+                // PrintLogo(start_posXY_pur_c);
 
-                start_posXY_pur_c->Write();
+                // start_posXY_pur_c->Write();
 
-                delete start_posXY_pur_h;
-                delete start_posXY_pur_c;
+                // delete start_posXY_pur_h;
+                // delete start_posXY_pur_c;
 
-                if(m_verbose) cout << " -- Done" << endl;
+                // if(m_verbose) cout << " -- Done" << endl;
 
                 //**************************************** Start Position END ************************************//
 
