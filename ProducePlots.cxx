@@ -121,6 +121,7 @@ private:
 
     std::string m_NameXYZ[3];
 
+    void DrawDetectorLines(TCanvas * can, int xyz);
 
     bool m_verbose;
 };
@@ -275,60 +276,18 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
         }
 
         BDCans var_top = m_runbd->TOPO(var, nbins, bins, cuts);
-
-        cout << "Fun Times " << endl;
-
-        THStack * stack = (THStack*)m_runbd->GetObjectFromCanvas(var_top.recon, "THStack");
-        if(stack){
-
-            cout << "Stack exists" << endl;
-
-         var_top.recon->cd();
-         m_runbd->DrawLine(stack, t2kgeometry::fgd1min[xyz]);                
-         m_runbd->DrawLine(stack, t2kgeometry::fgd1max[xyz]);
-         m_runbd->DrawLine(stack, t2kgeometry::tpc2min[xyz]);
-         m_runbd->DrawLine(stack, t2kgeometry::tpc2max[xyz]);
-
-               //Draw a name of detector in between lines:
-         double x_range = m_runbd->GetFirstHistFromStack(stack)->GetXaxis()->GetXmax() - m_runbd->GetFirstHistFromStack(stack)->GetXaxis()->GetXmin();
-         double x_scale = TMath::Abs(m_runbd->GetFirstHistFromStack(stack)->GetXaxis()->GetXmin())/x_range;
-         cout << "x_range = " << x_range << " x_scale = " << x_scale << endl;
-
-         double x_width = (t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
-         double x_center = t2kgeometry::fgd1min[xyz] + x_width - x_scale;
-
-         x_width *= 1/x_range;
-         x_center *= 1/x_range;
-         cout << "x_width = " << x_width << " x_center = " << x_center << endl;
-
-         double y_range = m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmax() - m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmin();
-         cout << "y_range = " << y_range << endl;
-
-         double y_width = m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmax();
-         y_width -= m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmin();
-         y_width *= 1/2.;
-
-         double y_center = m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmin() + y_width;
-
-         y_width *= 1/y_range;
-         y_center *= 1/y_range;
-         cout << "y_width = " << y_width << " y_center = " << y_center << endl;
-
-         TLegend * leg = new TLegend(x_center - 0.2*x_width, y_center - 0.2*y_width, x_center + 0.2*x_width, y_center + 0.1*y_width);
-         // TLegend * leg = new TLegend(0.1, 0.1, 0.2, 0.2);
-         leg->AddEntry((TObject*)0, "FGD1","");
-         leg->SetFillStyle(0);
-         leg->SetTextColor(kGray + 2);
-         leg->Draw(); 
-
-     }
+        DrawDetectorLines(var_top.recon, xyz);
+        DrawDetectorLines(var_top.truth, xyz);
 
         BDCans var_tar = m_runbd->TARGET(var, nbins, bins, cuts);
-        
+        DrawDetectorLines(var_tar.recon, xyz);
+        DrawDetectorLines(var_tar.truth, xyz);
+    
         BDCans var_pid;
         if(!var.GetPDG().empty()){
             var_pid = m_runbd->PID(var, nbins, bins, var.GetPDG(), cuts);
-            // GetObjectFromCanvas(var_pid.recon);
+            DrawDetectorLines(var_pid.recon, xyz);
+            DrawDetectorLines(var_pid.truth, xyz);
         }
         
         //Recon Vars:
@@ -378,6 +337,53 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
     }
     else std::cout << "ProducePlots::ProduceGroup : ERROR : File is not open..." << std::endl;
     
+}
+
+void ProducePlots::DrawDetectorLines(TCanvas * can, int xyz){
+
+    THStack * stack = (THStack*)m_runbd->GetObjectFromCanvas(var_top.recon, "THStack");
+    if(stack){
+
+        // cout << "Stack exists" << endl;
+
+        var_top.recon->cd();
+        m_runbd->DrawLine(stack, t2kgeometry::fgd1min[xyz]);                
+        m_runbd->DrawLine(stack, t2kgeometry::fgd1max[xyz]);
+        m_runbd->DrawLine(stack, t2kgeometry::tpc2min[xyz]);
+        m_runbd->DrawLine(stack, t2kgeometry::tpc2max[xyz]);
+
+               //Draw a name of detector in between lines:
+        double x_range = m_runbd->GetFirstHistFromStack(stack)->GetXaxis()->GetXmax() - m_runbd->GetFirstHistFromStack(stack)->GetXaxis()->GetXmin();
+        double x_scale = TMath::Abs(m_runbd->GetFirstHistFromStack(stack)->GetXaxis()->GetXmin())/x_range;
+        // cout << "x_range = " << x_range << " x_scale = " << x_scale << endl;
+
+        double x_width = (t2kgeometry::fgd1max[xyz] -  t2kgeometry::fgd1min[xyz])/2;
+        double x_center = t2kgeometry::fgd1min[xyz] + x_width + x_scale;
+
+        x_width *= 1/x_range;
+        x_center *= 1/x_range;
+        // cout << "x_width = " << x_width << " x_center = " << x_center << endl;
+
+        double y_range = m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmax() - m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmin();
+        // cout << "y_range = " << y_range << endl;
+
+        double y_width = m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmax();
+        y_width -= m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmin();
+        y_width *= 1/2.;
+
+        double y_center = m_runbd->GetFirstHistFromStack(stack)->GetYaxis()->GetXmin() + y_width;
+
+        y_width *= 1/y_range;
+        y_center *= 1/y_range;
+        // cout << "y_width = " << y_width << " y_center = " << y_center << endl;
+
+        TLegend * leg = new TLegend(x_center - 0.2*x_width, y_center - 0.2*y_width, x_center + 0.2*x_width, y_center + 0.1*y_width);
+         // TLegend * leg = new TLegend(0.1, 0.1, 0.2, 0.2);
+        leg->AddEntry((TObject*)0, "FGD1","");
+        leg->SetFillStyle(0);
+        leg->SetTextColor(kGray + 2);
+        leg->Draw(); 
+    }
 }
 
 void ProducePlots::MakeMomPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
