@@ -301,7 +301,7 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
         var_tar.recon->Write();
         if(!var.GetPDG().empty()) var_pid.recon->Write();
 
-        cout << "ProducePlots::PositionPlot : Done 5" << endl;
+        cout << "ProducePlots::PositionPlot : Done 1" << endl;
 
         
         //Truth Vars:
@@ -309,21 +309,21 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
         PrintLogo(var_tar.truth);
         if(!var.GetPDG().empty()) PrintLogo(var_pid.truth);
 
-        cout << "ProducePlots::PositionPlot : Done 5" << endl;
+        cout << "ProducePlots::PositionPlot : Done 2" << endl;
 
         
         var_top.truth->Write();
         var_tar.truth->Write();
         if(!var.GetPDG().empty()) var_pid.truth->Write();
 
-        cout << "ProducePlots::PositionPlot : Done 5" << endl;
+        cout << "ProducePlots::PositionPlot : Done 3" << endl;
         
         //Ratio Vars:
         PrintLogo(var_top.ratio);
         PrintLogo(var_tar.ratio);
         if(!var.GetPDG().empty()) PrintLogo(var_pid.ratio);
         
-                cout << "ProducePlots::PositionPlot : Done 5" << endl;
+                cout << "ProducePlots::PositionPlot : Done 4" << endl;
 
 
         var_top.ratio->Write();
@@ -346,9 +346,15 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
 //        var_tar.smear->Write();
 //        if(!var.GetPDG().empty()) var_pid.smear->Write();
         
+                cout << "ProducePlots::PositionPlot : Done 6" << endl;
+
+
         var_top.smearSN->Write();
 //        var_tar.smearSN->Write();
 //        if(!var.GetPDG().empty()) var_pid.smearSN->Write();
+
+        cout << "ProducePlots::PositionPlot : Done 7" << endl;
+
         
     }
     else std::cout << "ProducePlots::ProduceGroup : ERROR : File is not open..." << std::endl;
