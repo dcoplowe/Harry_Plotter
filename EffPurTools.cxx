@@ -401,14 +401,17 @@ TH1D * EffPurTools::RatioVSVar(TTree * intree, std::string var, int nbins, Doubl
     }
     else if(m_debug) cout << "    Numerator only cut(s): None" << endl;
     
+    if(m_debug) cout << "Producing den/num histograms" << endl;
     TH1D * num = GetHisto(intree, var, nbins, xbins, num_cut);
     TH1D * den = GetHisto(intree, var, nbins, xbins, common_cut);
-    
+
     m_ghcounter1D++;
     TH1D * ratio = new TH1D(Form("ratio_1D_%.3d", m_ghcounter1D), (";" + x_title + ";Ratio").c_str(), nbins, xbins);
     ratio->GetYaxis()->SetRangeUser(0., 110.);
     ratio->Divide(num, den);
     
+    if(m_debug) cout << "Finished making ratio vs variable" << endl;
+
     if(m_debug){
         for(int i = 1; i < ratio->GetNbinsX() + 1; i++){
             cout << "Bin: " << i << "/" << ratio->GetNbinsX() << ": Ratio = " << ratio->GetBinContent(i);
@@ -440,12 +443,15 @@ TH2D * EffPurTools::RatioVSVar(TTree * intree, std::string var_yx, int x_nbins, 
     }
     else if(m_debug) cout << "    Numerator only cut(s): None" << endl;
     
+    if(m_debug) cout << "Producing den/num histograms" << endl;
     TH2D * num = GetHisto(intree, var_yx, x_nbins, x_bins, y_nbins, y_bins, num_cut);
     TH2D * den = GetHisto(intree, var_yx, x_nbins, x_bins, y_nbins, y_bins, common_cut);
     
+    if(m_debug) cout << "Dividing histograms" << endl;
     m_ghcounter2D++;
     TH2D * ratio = new TH2D(Form("ratio_2D_%.3d", m_ghcounter2D), (";" + xy_title).c_str(), x_nbins, x_bins, y_nbins, y_bins);
     ratio->Divide(num, den);
+    if(m_debug) cout << "Finished making ratio vs variable" << endl;
     
     delete num;
     delete den;
