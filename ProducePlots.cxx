@@ -341,12 +341,11 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
 
 void ProducePlots::DrawDetectorLines(TCanvas * can, int xyz){
 
-    THStack * stack = (THStack*)m_runbd->GetObjectFromCanvas(var_top.recon, "THStack");
+    THStack * stack = (THStack*)m_runbd->GetObjectFromCanvas(can, "THStack");
     if(stack){
-
         // cout << "Stack exists" << endl;
-
-        var_top.recon->cd();
+        can->cd();
+        
         m_runbd->DrawLine(stack, t2kgeometry::fgd1min[xyz]);                
         m_runbd->DrawLine(stack, t2kgeometry::fgd1max[xyz]);
         m_runbd->DrawLine(stack, t2kgeometry::tpc2min[xyz]);
@@ -379,7 +378,7 @@ void ProducePlots::DrawDetectorLines(TCanvas * can, int xyz){
 
         TLegend * leg = new TLegend(x_center - 0.2*x_width, y_center - 0.2*y_width, x_center + 0.2*x_width, y_center + 0.1*y_width);
          // TLegend * leg = new TLegend(0.1, 0.1, 0.2, 0.2);
-        leg->AddEntry((TObject*)0, "FGD1","");
+        leg->AddEntry((TObject*)0, "Sub Det.","");
         leg->SetFillStyle(0);
         leg->SetTextColor(kGray + 2);
         leg->Draw(); 
