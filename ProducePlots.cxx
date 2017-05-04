@@ -740,7 +740,7 @@ void ProducePlots::MakePlots(){
                 start_posXY.SetSName(party->startpos.GetName() + m_NameXYZ[0] + m_NameXYZ[1] );
                 start_posXY.SetPDG(party->pdg.GetName());
 
-                TH2D * start_posXY_h = m_runbd->GetHist(start_posXY.GetName(), dimnbins[0], t2kgeometry::fgd1tpcmin_offset[0], 
+                TH2D * start_posXY_h = m_runbd->GetHisto(start_posXY.GetName(), dimnbins[0], t2kgeometry::fgd1tpcmin_offset[0], 
                     t2kgeometry::fgd1tpcmax_offset[0], dimnbins[1], t2kgeometry::fgd1tpcmin_offset[1], 
                     t2kgeometry::fgd1tpcmax_offset[1], "Start Position X (mm);Start Position Y (mm)", basecuts[br]);
 
