@@ -223,7 +223,7 @@ TH2D * EffPurTools::EffVSVar(std::string var_yx, int x_nbins, Double_t x_low, Do
     return EffVSVar(var_yx, x_nbins, DrawingTools::SetBinning(x_nbins, x_low, x_high), y_nbins, DrawingTools::SetBinning(y_nbins, y_low, y_high), signal, cuts, xy_title);
 }
 
-TH1D * EffPurTools::PurVSVar(std::string var, int nbins, Double_t * xbins, std::string signal, std::string cuts, std::string  x_title){
+TH1D * EffPurTools::PurVSVar(std::string var, int nbins, Double_t * xbins, std::string signal, std::string cuts, std::string x_title){
     if(m_debug) cout << "EffPurTools::PurVSVar()" << endl;
     //TTree * intree = (TTree*)_file->Get(_reconame.Data());
     
