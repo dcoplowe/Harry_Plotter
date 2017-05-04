@@ -41,8 +41,8 @@ public:
     TH2D * EffVSVar(std::string var_yx, int x_nbins, Double_t * x_bins, int y_nbins, Double_t * y_bins, std::string signal, std::string cuts, std::string xy_title = "");
     TH2D * EffVSVar(std::string var_yx, int x_nbins, Double_t x_low, Double_t x_high, int y_nbins, Double_t y_low, Double_t y_high, std::string signal, std::string cuts, std::string xy_title = "");
     
-    TH1D * PurVSVar(std::string var, int nbins, Double_t * xbins, std::string signal, std::string x_title = "", std::string cuts = "");
-    TH1D * PurVSVar(std::string var, int nbins, Double_t x_low, Double_t x_high, std::string signal, std::string x_title = "", std::string cuts = "");
+    TH1D * PurVSVar(std::string var, int nbins, Double_t * xbins, std::string signal, std::string cuts = "", std::string x_title = "");
+    TH1D * PurVSVar(std::string var, int nbins, Double_t x_low, Double_t x_high, std::string signal, std::string cuts = "", std::string x_title = "");
   
     TH2D * PurVSVar(std::string var_yx, int x_nbins, Double_t * x_bins, int y_nbins, Double_t * y_bins, std::string signal, std::string cuts, std::string xy_title = "");
     TH2D * PurVSVar(std::string var_yx, int x_nbins, Double_t x_low, Double_t x_high, int y_nbins, Double_t y_low, Double_t y_high, std::string signal, std::string cuts, std::string xy_title = "");

@@ -223,7 +223,7 @@ TH2D * EffPurTools::EffVSVar(std::string var_yx, int x_nbins, Double_t x_low, Do
     return EffVSVar(var_yx, x_nbins, DrawingTools::SetBinning(x_nbins, x_low, x_high), y_nbins, DrawingTools::SetBinning(y_nbins, y_low, y_high), signal, cuts, xy_title);
 }
 
-TH1D * EffPurTools::PurVSVar(std::string var, int nbins, Double_t * xbins, std::string signal, std::string  x_title, std::string cuts){
+TH1D * EffPurTools::PurVSVar(std::string var, int nbins, Double_t * xbins, std::string signal, std::string cuts, std::string  x_title){
     if(m_debug) cout << "EffPurTools::PurVSVar()" << endl;
     //TTree * intree = (TTree*)_file->Get(_reconame.Data());
     
@@ -234,12 +234,12 @@ TH1D * EffPurTools::PurVSVar(std::string var, int nbins, Double_t * xbins, std::
     return purvar;
 }
 
-TH1D * EffPurTools::PurVSVar(std::string var, int nbins, Double_t x_low, Double_t x_high, std::string signal, std::string x_title, std::string cuts){
+TH1D * EffPurTools::PurVSVar(std::string var, int nbins, Double_t x_low, Double_t x_high, std::string signal, std::string cuts, std::string x_title){
     if(m_debug) cout << "EffPurTools::PurVSVar()" << endl;
     return PurVSVar(var, nbins, DrawingTools::SetBinning(nbins, x_low, x_high), signal, x_title, cuts);
 }
 
-TH2D * EffPurTools::PurVSVar(std::string var_yx, int x_nbins, Double_t * x_bins, int y_nbins, Double_t * y_bins, std::string signal, std::string  xy_title, std::string cuts){
+TH2D * EffPurTools::PurVSVar(std::string var_yx, int x_nbins, Double_t * x_bins, int y_nbins, Double_t * y_bins, std::string signal, std::string cuts, std::string  xy_title){
     if(m_debug) cout << "EffPurTools::PurVSVar()" << endl;
     //TTree * intree = (TTree*)_file->Get(_reconame.Data());
     
@@ -250,7 +250,7 @@ TH2D * EffPurTools::PurVSVar(std::string var_yx, int x_nbins, Double_t * x_bins,
     return purvar;
 }
 
-TH2D * EffPurTools::PurVSVar(std::string var_yx, int x_nbins, Double_t x_low, Double_t x_high, int y_nbins, Double_t y_low, Double_t y_high, std::string signal, std::string  xy_title, std::string cuts){
+TH2D * EffPurTools::PurVSVar(std::string var_yx, int x_nbins, Double_t x_low, Double_t x_high, int y_nbins, Double_t y_low, Double_t y_high, std::string signal, std::string cuts, std::string  xy_title){
     if(m_debug) cout << "EffPurTools::PurVSVar()" << endl;
     return PurVSVar(var_yx, x_nbins, DrawingTools::SetBinning(x_nbins, x_low, x_high), y_nbins, DrawingTools::SetBinning(y_nbins, y_low, y_high), signal, xy_title, cuts);
 }

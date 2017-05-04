@@ -735,11 +735,10 @@ void ProducePlots::MakePlots(){
                     // if(m_verbose) cout << " plots made, now producing purity dists." << endl;
 
                     TH1D * start_pos_H_pur = m_runep->PurVSVar(start_pos.GetName(), dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
-                    m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(),
-                    start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")", basecuts[br]);
+                    m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br],
+                    start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")");
 
                     // cout << " 1 made " << endl;
-
 
                     // TH1D * start_pos_CH_pur = m_runep->PurVSVar(start_pos.GetName(), dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
                     //     m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(),
@@ -747,13 +746,13 @@ void ProducePlots::MakePlots(){
 
                     // cout << " 2 made " << endl;
 
-                    // TCanvas * start_pos_pur_c = new TCanvas((party->startpos.GetName() + "_pur").c_str(), "", 400, 400);
-                    // start_pos_pur_c->cd();
+                    TCanvas * start_pos_pur_c = new TCanvas((party->startpos.GetName() + "_pur").c_str(), "", 400, 400);
+                    start_pos_pur_c->cd();
 
                     // cout << " 3 made " << endl;
 
-                    // start_pos_H_pur->SetLineColor(DrawingStyle::Blue);
-                    // start_pos_H_pur->Draw();
+                    start_pos_H_pur->SetLineColor(DrawingStyle::Blue);
+                    start_pos_H_pur->Draw();
 
                     // start_pos_CH_pur->SetLineColor(DrawingStyle::Yellow);
                     // start_pos_CH_pur->Draw("SAME");
@@ -769,7 +768,7 @@ void ProducePlots::MakePlots(){
 
                     // cout << " 5 made " << endl;
 
-                    // start_pos_pur_c->Write();
+                    start_pos_pur_c->Write();
 
                     // delete start_pos_H_pur;
                     // delete start_pos_CH_pur;
