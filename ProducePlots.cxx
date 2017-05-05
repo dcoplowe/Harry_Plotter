@@ -697,7 +697,6 @@ void ProducePlots::MakePlots(){
 
                 if(m_verbose) cout << " -- Done" << endl;
 
-                cout << "m_experiment = " << #m_experiment << endl;
                 //**************************************** Crossing Angle END **************************************//
 
                 //**************************************** FGD Segment START ************************************//
