@@ -492,7 +492,7 @@ void ProducePlots::Make2DPlots(Variable x_var, Variable y_var, std::string saven
     delete var_h;
     delete var_c;
 
-    TH2D pur_h = m_runep->PurVSVar(y_var.GetName() + ":" + x_var.GetName(), x_var.GetNBins(), x_var.GetBinning(), y_var.GetNBins(), y_var.GetBinning(),
+    TH2D * pur_h = m_runep->PurVSVar(y_var.GetName() + ":" + x_var.GetName(), x_var.GetNBins(), x_var.GetBinning(), y_var.GetNBins(), y_var.GetBinning(),
         m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), cuts, x_var.GetAxisTitle() + ";" + y_var.GetAxisTitle());
 
     TCanvas * pur_c = new TCanvas( (savename + "_pur").c_str() , "", 400, 400);
