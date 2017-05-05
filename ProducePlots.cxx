@@ -691,8 +691,6 @@ void ProducePlots::MakePlots(){
 
             if(m_experiment->GetType() == Experiment::MIN){
 
-                (Variable x_var, Variable y_var, std::string savename, std::string cuts)
-
                 MakeDir("PTheta" + branchnames[br] + "/" + party->GetName() );
                 Make2DPlots(party->P, party->theta, "ptheta", basecuts[br]);
                 //**************************************** Theta START ************************************//
