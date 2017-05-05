@@ -445,24 +445,13 @@ void DrawingTools::SetPOT(){
 void DrawingTools::DrawLine(THStack * stack, double pos, int color, int style, int width)
 {
     TH1D * hfirst = GetFirstHistFromStack(stack);
-
-    if(pos > hfirst->GetXaxis()->GetXmin() && pos < hfirst->GetXaxis()->GetXmax()){
-        TLine * z_line = new TLine(pos, hfirst->GetYaxis()->GetXmin(), pos, hfirst->GetYaxis()->GetXmax());
-        z_line->SetLineColor(color);
-        z_line->SetLineStyle(style);
-        z_line->SetLineWidth(width);
-        z_line->Draw();
-        delete hfirst;
-    }
-    else cout << "DrawingTools::DrawLine : Warning : X position of line out of range" << endl;
+    DrawLine(hfirst, pos, color, style, width);
+    delete hfirst;
 }
 
 void DrawingTools::DrawLine(TH1 * histo, double pos, int color, int style, int width){
-    TLine * z_line = new TLine(pos, histo->GetMinimum(), pos, histo->GetMaximum());
-    z_line->SetLineColor(color);
-    z_line->SetLineStyle(style);
-    z_line->SetLineWidth(width);
-    z_line->Draw(); 
+    if(pos > histo->GetXaxis()->GetXmin() && pos < histo->GetXaxis()->GetXmax()) DrawLine(pos, histo->GetMinimum(), pos, histo->GetMaximum(), color, style, width);
+    else cout << "DrawingTools::DrawLine : Warning : X position of line out of range" << endl;
 }
 
 void DrawingTools::DrawLine(TCanvas * can, double pos, int color, int style, int width)
@@ -474,6 +463,23 @@ void DrawingTools::DrawLine(TCanvas * can, double pos, int color, int style, int
     z_line->SetLineStyle(style);
     z_line->SetLineWidth(width);
     z_line->Draw();
+}
+
+void DrawingTools::DrawLine(double x_low, double y_low, double x_high, double y_high, int color, int style, int width)
+{
+    TLine * line = new TLine(x_low, y_low, x_high, y_high);
+    line->SetLineColor(color);
+    line->SetLineStyle(style);
+    line->SetLineWidth(width);
+    line->Draw();
+}
+
+void DrawBox(double * low, double * high, int color, int style, int width)
+{
+    DrawLine( low[0],  low[1],  low[0], high[1], color, style, width);
+    DrawLine( low[0], high[1], high[0], high[1], color, style, width);
+    DrawLine(high[0], high[1], high[0],  low[1], color, style, width);
+    DrawLine(high[0],  low[1],  low[0],  low[1], color, style, width);
 }
 
 TH1D * DrawingTools::GetHistFromStack(THStack * stack)

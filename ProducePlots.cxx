@@ -725,16 +725,16 @@ void ProducePlots::MakePlots(){
                 //**************************************** Start Position START ************************************//
 
                 if(m_verbose) cout << "Start Position";
-                MakeDir("StartPosition");
+                MakeDir("StartPosition/" + party->GetName());
                 int dimnbins[3] = {40, 40, 40};
 
-                dump_array3(dimnbins);
-                dump_now(m_experiment);
+                // dump_array3(dimnbins);
+                // dump_now(m_experiment);
                 // if(which_fgd){
                 // }
 
                 for(int dim = 0; dim < 3; dim++){
-                //**************************************** Single START ************************************//
+                //**************************************** 1D START ************************************//
                     stringstream dimss; 
                     dimss << dim;
 
@@ -744,9 +744,9 @@ void ProducePlots::MakePlots(){
                     start_pos.SetPDG(party->pdg.GetName());
                     // cout << "fgd1tpc_offset " << m_NameXYZ[dim] << " min  = " << t2kgeometry::fgd1tpcmin_offset[dim] << " max  = " << t2kgeometry::fgd1tpcmax_offset[dim] << endl; 
                     PositionPlot(start_pos, dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim], basecuts[br]);
-                //**************************************** Single END ************************************//
+                //**************************************** 1D END ************************************//
                 
-                //**************************************** Single Purity START ************************************//
+                //**************************************** 1D Purity START ************************************//
 
                     // if(m_verbose) 
                     cout << " plots made, now producing purity dists." << endl;
@@ -776,7 +776,7 @@ void ProducePlots::MakePlots(){
 
                     // cout << " 4 made " << endl;
 
-                    TLegend * start_pos_pur_leg = m_runbd->Legend(0.6, 0.8);
+                    TLegend * start_pos_pur_leg = m_runbd->Legend(0.15, 0.1);
                     start_pos_pur_leg->AddEntry(start_pos_H_pur, m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol().c_str(), "l" );
                     start_pos_pur_leg->AddEntry(start_pos_CH_pur, m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol().c_str(), "l" );
                     start_pos_pur_leg->Draw();
@@ -794,53 +794,37 @@ void ProducePlots::MakePlots(){
 
                     if(m_verbose) cout << " -- Done" << endl;
 
-                //**************************************** Single Purity END ************************************//
+                //**************************************** 1D Purity END ************************************//
                 }
 
                 //**************************************** XY START ************************************//
 
-                // Variable start_posXY(party->startpos.GetName() + "[1]:" + party->startpos.GetName()  + "[0]",
-                //     party->GetSymbol() + " " + m_NameXYZ[0] + m_NameXYZ[1] + " Start Position", "mm");
-                //     // This probably wont work as the code looks for :: to make a split... Add fix.
-                // start_posXY.SetSName(party->startpos.GetName() + m_NameXYZ[0] + m_NameXYZ[1] );
-                // start_posXY.SetPDG(party->pdg.GetName());
+                Variable start_posXY(party->startpos.GetName() + "[1]:" + party->startpos.GetName()  + "[0]",
+                    party->GetSymbol() + " " + m_NameXYZ[0] + m_NameXYZ[1] + " Start Position", "mm");
+                    // This probably wont work as the code looks for :: to make a split... Add fix.
+                start_posXY.SetSName(party->startpos.GetName() + m_NameXYZ[0] + m_NameXYZ[1] );
+                start_posXY.SetPDG(party->pdg.GetName());
 
-                // TH2D * start_posXY_h = m_runbd->GetHisto(start_posXY.GetName(), dimnbins[0], t2kgeometry::fgd1tpcmin_offset[0], 
-                //     t2kgeometry::fgd1tpcmax_offset[0], dimnbins[1], t2kgeometry::fgd1tpcmin_offset[1], 
-                //     t2kgeometry::fgd1tpcmax_offset[1], "Start Position X (mm);Start Position Y (mm)", basecuts[br]);
+                TH2D * start_posXY_h = m_runbd->GetHisto(start_posXY.GetName(), dimnbins[0], t2kgeometry::fgd1tpcmin_offset[0], 
+                    t2kgeometry::fgd1tpcmax_offset[0], dimnbins[1], t2kgeometry::fgd1tpcmin_offset[1], 
+                    t2kgeometry::fgd1tpcmax_offset[1], "Start Position X (mm);Start Position Y (mm)", basecuts[br]);
 
-                // TCanvas * start_posXY_c = new TCanvas(start_posXY.GetSName().c_str(), "", 400, 400);
-                // start_posXY_c->cd();
-                // start_posXY_h->Draw("COLZ");
+                TCanvas * start_posXY_c = new TCanvas(start_posXY.GetSName().c_str(), "", 400, 400);
+                start_posXY_c->cd();
+                start_posXY_h->Draw("COLZ");
 
-                // PrintLogo(start_posXY_c);
+                PrintLogo(start_posXY_c);
 
-                // start_posXY_c->Write();
+                start_posXY_c->Write();
 
-                // delete start_posXY_h;
-                // delete start_posXY_c;
+                delete start_posXY_h;
+                delete start_posXY_c;
 
                 // //**************************************** XY END ************************************//
 
                 // //**************************************** XY Purity ************************************//
 
-                // TH2D * start_posXY_pur_h = m_runep->PurVSVar(start_posXY.GetName(), dimnbins[0], t2kgeometry::fgd1tpcmin_offset[0], 
-                //     t2kgeometry::fgd1tpcmax_offset[0], dimnbins[1], t2kgeometry::fgd1tpcmin_offset[1], 
-                //     t2kgeometry::fgd1tpcmax_offset[1], m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol(), 
-                //     "Start Position X (mm);Start Position Y (mm)", basecuts[br]);
-
-                // TCanvas * start_posXY_pur_c = new TCanvas( (start_posXY.GetSName() + "_pur").c_str(), "", 400, 400);
-                // start_posXY_pur_c->cd();
-                // start_posXY_pur_h->Draw("COLZ");
-
-                // PrintLogo(start_posXY_pur_c);
-
-                // start_posXY_pur_c->Write();
-
-                // delete start_posXY_pur_h;
-                // delete start_posXY_pur_c;
-
-                // if(m_verbose) cout << " -- Done" << endl;
+                if(m_verbose) cout << " -- Done" << endl;
 
                 //**************************************** Start Position END ************************************//
 
@@ -912,7 +896,7 @@ void ProducePlots::MakePlots(){
         //************************************** No. FGD Segments End *************************************//
 
 
-            //**************************************** Start Position START ************************************//
+            //**************************************** Vertex Position START ************************************//
             MakeDir("VtxPosition");
             int dimnbins[3] = {40, 40, 40};
                 // if(which_fgd){
@@ -924,9 +908,54 @@ void ProducePlots::MakePlots(){
                     // This probably wont work as the code looks for :: to make a split... Add fix.
                 vtx_pos.SetSName(m_recovars->vtx_pos.GetName() + m_NameXYZ[dim] );
                 // start_pos.SetPDG(part->pdg.GetName());
-                ProduceGroup(vtx_pos, dimnbins[dim], t2kgeometry::fgd1min_offset[dim], t2kgeometry::fgd1max_offset[dim], basecuts[br]);
+
+                //**************************************** 1D START ************************************//
+                ProduceGroup(vtx_pos, dimnbins[dim], t2kgeometry::fgd1min_offset[dim], t2kgeometry::fgd1max_offset[dim], basecuts[br]);//TODO: Add detector lines to this plot.
+                //**************************************** 1D END ************************************//
+
+                //**************************************** 1D Purity START ************************************//
+
+
+                //**************************************** 1D Purity END ************************************//
+
+                for(int dim2 = dim + 1; dim2 < 3; dim2++){
+                    stringstream dim2ss;
+                    dim2ss << dim2;
+
+                    string vtx_pos2D = m_recovars->vtx_pos.GetName() + "[" + dim2ss.str() + "]:" + m_recovars->vtx_pos.GetName() + "[" + dimss.str() + "]";
+                //**************************************** 2D START ************************************//
+                    TH2D * vtx_pos2D_h = m_runbd->GetHisto(vtx_pos2D, dimnbins[dim], t2kgeometry::fgd1min_offset[dim], 
+                        t2kgeometry::fgd1max_offset[dim], dimnbins[dim2], t2kgeometry::fgd1min_offset[dim2], 
+                        t2kgeometry::fgd1max_offset[dim2], "Start Position" + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] + " (mm)", basecuts[br]);
+
+                    m_runbd->DrawBox(t2kgeometry::fgd1min, t2kgeometry::fgd1max);
+
+                    // DrawLine(double x_low, double y_low, double x_high, double y_high, int color = kGray + 2, int style = 1, int width = 2);
+
+                    TCanvas * vtx_pos2D_c = new TCanvas((vtx_pos.GetSName() + m_NameXYZ[dim2]).c_str(), "", 400, 400);
+                    vtx_pos2D_c->cd();
+                    vtx_pos2D_h->Draw("COLZ");
+
+                    PrintLogo(vtx_pos2D_c);
+
+                    vtx_pos2D_c->Write();
+
+                    delete vtx_pos2D_h;
+                    delete vtx_pos2D_c;
+
+                //**************************************** 2D END ************************************//  
+
+                //**************************************** 2D Purity START ************************************//
+
+
+                //**************************************** 2D Purity END ************************************//
+
+
+
+                }
+
             }
-                //**************************************** Start Position END ************************************//
+                //**************************************** Vertex Position END ************************************//
         }
 
         if(m_experiment->GetType() == Experiment::MIN){
