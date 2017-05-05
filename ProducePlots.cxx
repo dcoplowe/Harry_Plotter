@@ -729,7 +729,7 @@ void ProducePlots::MakePlots(){
                 int dimnbins[3] = {40, 40, 40};
 
                 dump_array3(dimnbins);
-                dump_now(*m_experiment);
+                dump_now(m_experiment);
                 // if(which_fgd){
                 // }
 
