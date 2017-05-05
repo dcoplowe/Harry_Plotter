@@ -788,18 +788,12 @@ void ProducePlots::MakePlots(){
                         m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br],
                         start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")");
 
-                    // cout << " 1 made " << endl;
-
                     TH1D * start_pos_CH_pur = m_runep->PurVSVar(party->startpos.GetName()  + "[" + dimss.str() + "]", dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
                         m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), basecuts[br],
                         start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")");
 
-                    // cout << " 2 made " << endl;
-
                     TCanvas * start_pos_pur_c = new TCanvas((start_pos.GetSName() + "_pur").c_str(), "", 400, 400);
                     start_pos_pur_c->cd();
-
-                    // cout << " 3 made " << endl;
 
                     start_pos_H_pur->SetLineColor(DrawingStyle::Blue);
                     start_pos_H_pur->Draw();
@@ -807,16 +801,12 @@ void ProducePlots::MakePlots(){
                     start_pos_CH_pur->SetLineColor(DrawingStyle::Yellow);
                     start_pos_CH_pur->Draw("SAME");
 
-                    // cout << " 4 made " << endl;
-
                     TLegend * start_pos_pur_leg = m_runbd->Legend(0.15, 0.1);
                     start_pos_pur_leg->AddEntry(start_pos_H_pur, m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol().c_str(), "l" );
                     start_pos_pur_leg->AddEntry(start_pos_CH_pur, m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol().c_str(), "l" );
                     start_pos_pur_leg->Draw();
 
                     PrintLogo(start_pos_pur_c);
-
-                    // cout << " 5 made " << endl;
 
                     start_pos_pur_c->Write();
 
