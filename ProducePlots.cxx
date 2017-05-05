@@ -817,7 +817,7 @@ void ProducePlots::MakePlots(){
                         double tpc2_box_low[2] = { t2kgeometry::tpc2min[dim], t2kgeometry::tpc2min[dim2] };
                         double tpc2_box_hig[2] = { t2kgeometry::tpc2max[dim], t2kgeometry::tpc2max[dim2] };
 
-                        m_runbd->DrawBox(fgd_box_low, fgd_box_high);
+                        m_runbd->DrawBox(fgd_box_low, fgd_box_hig);
                         m_runbd->DrawBox(tpc2_box_low, tpc2_box_hig, DrawingStyle::Yellow);
 
                         m_runbd->GetPOT(0.1,0.1)->Draw();
@@ -832,7 +832,7 @@ void ProducePlots::MakePlots(){
                 
                         //**************************************** 2D Purity ************************************//
 
-                        TH2D * start_pos2D_pur_h = m_runbd->PurVSVar(start_pos2D.GetName(), dimnbins[0], t2kgeometry::fgd1tpcmin_offset[0], 
+                        TH2D * start_pos2D_pur_h = m_runep->PurVSVar(start_pos2D.GetName(), dimnbins[0], t2kgeometry::fgd1tpcmin_offset[0], 
                             t2kgeometry::fgd1tpcmax_offset[0], dimnbins[1], t2kgeometry::fgd1tpcmin_offset[1], t2kgeometry::fgd1tpcmax_offset[1],
                             start_pos_H_pur, m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol().c_str(),
                             basecuts[br], "Start Position " + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] +" (mm)");
