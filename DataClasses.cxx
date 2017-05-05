@@ -24,6 +24,8 @@ namespace print_level {
 
 namespace t2kgeometry {
 
+    double offset = 100.0;
+
     double fgd1zmin = 120.85 - (9.61/2.) - 0.232 - 0.188;
     double fgd1zmax = 442.15 + (9.61/2.) + 0.232 + 0.188;
 
@@ -36,11 +38,11 @@ namespace t2kgeometry {
     double fgd2min[3] = {-932.17, -877.17, fgd2zmin};
     double fgd2max[3] = { 932.17,  877.17, fgd2zmax};
 
-    double fgd1min_offset[3] = {fgd1min[0] - 50.0, fgd1min[1] - 50.0, fgd1min[2] - 50.0};
-    double fgd1max_offset[3] = {fgd1max[0] + 50.0, fgd1max[1] + 50.0, fgd1max[2] + 50.0};
+    double fgd1min_offset[3] = {fgd1min[0] - offset, fgd1min[1] - offset, fgd1min[2] - offset};
+    double fgd1max_offset[3] = {fgd1max[0] + offset, fgd1max[1] + offset, fgd1max[2] + offset};
 
-    double fgd2min_offset[3] = {fgd2min[0] - 50.0, fgd2min[1] - 50.0, fgd2min[2] - 50.0};
-    double fgd2max_offset[3] = {fgd2max[0] + 50.0, fgd2max[1] + 50.0, fgd2max[2] + 50.0};
+    double fgd2min_offset[3] = {fgd2min[0] - offset, fgd2min[1] - offset, fgd2min[2] - offset};
+    double fgd2max_offset[3] = {fgd2max[0] + offset, fgd2max[1] + offset, fgd2max[2] + offset};
 
 
     double fgd1FV[3] = {0., 0., 0.};
@@ -54,10 +56,10 @@ namespace t2kgeometry {
     double tpcXYmin[2] = {-1150.00, -1170.0};
     double tpcXYmax[2] = { 1150.00,  1230.0};
  
-    double fgd1tpcmin_offset[3] = {fgd1tpcmin[0] - 50.0, fgd1tpcmin[1] - 50.0, fgd1tpcmin[2] - 50.0};
-    double fgd1tpcmax_offset[3] = {fgd1tpcmax[0] + 50.0, fgd1tpcmax[1] + 50.0, fgd1tpcmax[2] + 50.0};
-    double fgd2tpcmin_offset[3] = {fgd2tpcmin[0] - 50.0, fgd2tpcmin[1] - 50.0, fgd2tpcmin[2] - 50.0};
-    double fgd2tpcmax_offset[3] = {fgd2tpcmax[0] + 50.0, fgd2tpcmax[1] + 50.0, fgd2tpcmax[2] + 50.0};
+    double fgd1tpcmin_offset[3] = {fgd1tpcmin[0] - offset, fgd1tpcmin[1] - offset, fgd1tpcmin[2] - offset};
+    double fgd1tpcmax_offset[3] = {fgd1tpcmax[0] + offset, fgd1tpcmax[1] + offset, fgd1tpcmax[2] + offset};
+    double fgd2tpcmin_offset[3] = {fgd2tpcmin[0] - offset, fgd2tpcmin[1] - offset, fgd2tpcmin[2] - offset};
+    double fgd2tpcmax_offset[3] = {fgd2tpcmax[0] + offset, fgd2tpcmax[1] + offset, fgd2tpcmax[2] + offset};
 
     double tpc1min[3] = { tpcXYmin[0], tpcXYmin[1], -885.0};
     double tpc1max[3] = { tpcXYmax[0], tpcXYmax[1], 89.0};

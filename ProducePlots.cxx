@@ -303,7 +303,7 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
             DrawDetectorLines(var_pid.truth, xyz);
         }
         
-        cout << "ProducePlots::PositionPlot : Now saving" << endl;
+        // cout << "ProducePlots::PositionPlot : Now saving" << endl;
 
         //Recon Vars:
         PrintLogo(var_top.recon);
@@ -314,7 +314,7 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
         var_tar.recon->Write();
         if(!var.GetPDG().empty()) var_pid.recon->Write();
 
-        cout << "ProducePlots::PositionPlot : Done 1" << endl;
+        // cout << "ProducePlots::PositionPlot : Done 1" << endl;
 
         
         //Truth Vars:
@@ -322,28 +322,28 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
         PrintLogo(var_tar.truth);
         if(!var.GetPDG().empty()) PrintLogo(var_pid.truth);
 
-        cout << "ProducePlots::PositionPlot : Done 2" << endl;
+        // cout << "ProducePlots::PositionPlot : Done 2" << endl;
 
         
         var_top.truth->Write();
         var_tar.truth->Write();
         if(!var.GetPDG().empty()) var_pid.truth->Write();
 
-        cout << "ProducePlots::PositionPlot : Done 3" << endl;
+        // cout << "ProducePlots::PositionPlot : Done 3" << endl;
         
         //Ratio Vars:
         PrintLogo(var_top.ratio);
         PrintLogo(var_tar.ratio);
         if(!var.GetPDG().empty()) PrintLogo(var_pid.ratio);
         
-                cout << "ProducePlots::PositionPlot : Done 4" << endl;
+                // cout << "ProducePlots::PositionPlot : Done 4" << endl;
 
 
         var_top.ratio->Write();
         var_tar.ratio->Write();
         if(!var.GetPDG().empty()) var_pid.ratio->Write();
         
-        cout << "ProducePlots::PositionPlot : Done 5" << endl;
+        // cout << "ProducePlots::PositionPlot : Done 5" << endl;
 
 
         //Smear Vars:
@@ -359,14 +359,14 @@ void ProducePlots::PositionPlot(Variable var, Int_t nbins, Double_t * bins, std:
 //        var_tar.smear->Write();
 //        if(!var.GetPDG().empty()) var_pid.smear->Write();
         
-                cout << "ProducePlots::PositionPlot : Done 6" << endl;
+                // cout << "ProducePlots::PositionPlot : Done 6" << endl;
 
 
         var_top.smearSN->Write();
 //        var_tar.smearSN->Write();
 //        if(!var.GetPDG().empty()) var_pid.smearSN->Write();
 
-        cout << "ProducePlots::PositionPlot : Done 7" << endl;
+        // cout << "ProducePlots::PositionPlot : Done 7" << endl;
 
     }
     else std::cout << "ProducePlots::ProduceGroup : ERROR : File is not open..." << std::endl;
@@ -812,6 +812,7 @@ void ProducePlots::MakePlots(){
                 TCanvas * start_posXY_c = new TCanvas(start_posXY.GetSName().c_str(), "", 400, 400);
                 start_posXY_c->cd();
                 start_posXY_h->Draw("COLZ");
+                m_runbd->GetPOT(0.1,0.1)->Draw();
 
                 PrintLogo(start_posXY_c);
 
@@ -933,9 +934,8 @@ void ProducePlots::MakePlots(){
                     TCanvas * vtx_pos2D_c = new TCanvas((vtx_pos.GetSName() + m_NameXYZ[dim2]).c_str(), "", 400, 400);
                     vtx_pos2D_c->cd();
                     vtx_pos2D_h->Draw("COLZ");
-                    m_runbd->DrawBox(t2kgeometry::fgd1min, t2kgeometry::fgd1max);
-
-
+                    m_runbd->DrawBox( &t2kgeometry::fgd1min[dim], &t2kgeometry::fgd1max[dim2]);
+                    m_runbd->GetPOT(0.1,0.1)->Draw();
                     PrintLogo(vtx_pos2D_c);
 
                     vtx_pos2D_c->Write();

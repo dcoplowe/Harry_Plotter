@@ -57,6 +57,8 @@ namespace t2kgeometry {
     extern double tpc3min[3];
     extern double tpc3max[3];
 
+    extern double offset;
+
 }
 
 #endif
