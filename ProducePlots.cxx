@@ -652,8 +652,8 @@ void ProducePlots::MakePlots(){
             if(m_verbose) cout << party->GetName() << " plots being produced" << endl;
             
             //**************************************** Mom START ****************************************//
-            // MakeDir("Mom" + branchnames[br] + "/" + party->GetName() );
-            // MakeMomPlots(party, party->P.GetNBins(), party->P.GetBinning(), basecuts[br]);
+            MakeDir("Mom" + branchnames[br] + "/" + party->GetName() );
+            MakeMomPlots(party, party->P.GetNBins(), party->P.GetBinning(), basecuts[br]);
             //**************************************** Mom END ****************************************//
 
             if(m_experiment->GetType() == Experiment::MIN){
@@ -727,11 +727,6 @@ void ProducePlots::MakePlots(){
                 if(m_verbose) cout << "Start Position";
                 MakeDir("StartPosition/" + party->GetName());
                 int dimnbins[3] = {40, 40, 40};
-
-                // dump_array3(dimnbins);
-                // dump_now(m_experiment);
-                // if(which_fgd){
-                // }
 
                 for(int dim = 0; dim < 3; dim++){
                 //**************************************** 1D START ************************************//
@@ -916,6 +911,38 @@ void ProducePlots::MakePlots(){
 
                 //**************************************** 1D Purity START ************************************//
 
+                TH1D * vtx_pos_H_pur = m_runep->PurVSVar(m_recovars->vtx_pos.GetName() + "[" + dimss.str() + "]", dimnbins[dim], t2kgeometry::fgd1min_offset[dim], t2kgeometry::fgd1max_offset[dim],
+                    m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br],
+                    m_recovars->vtx_pos.GetSymbol() + " " + m_NameXYZ[dim] + " (" + m_recovars->vtx_pos.GetUnits() + ")");
+
+                TH1D * vtx_pos_CH_pur = m_runep->PurVSVar(m_recovars->vtx_pos.GetName() + "[" + dimss.str() + "]", dimnbins[dim], t2kgeometry::fgd1min_offset[dim], t2kgeometry::fgd1max_offset[dim],
+                    m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), basecuts[br],
+                    m_recovars->vtx_pos.GetSymbol() + " " + m_NameXYZ[dim] + " (" + m_recovars->vtx_pos.GetUnits() + ")");
+
+                TCanvas * vtx_pos_pur_c = new TCanvas((m_recovars->vtx_pos.GetSName() + m_NameXYZ[dim] + "_pur").c_str(), "", 400, 400);
+                vtx_pos_pur_c->cd();
+
+                vtx_pos_H_pur->SetLineColor(DrawingStyle::Blue);
+                vtx_pos_H_pur->Draw();
+
+                vtx_pos_CH_pur->SetLineColor(DrawingStyle::Yellow);
+                vtx_pos_CH_pur->Draw("SAME");
+
+                TLegend * vtx_pos_pur_leg = m_runbd->Legend(0.15, 0.1);
+                vtx_pos_pur_leg->AddEntry(vtx_pos_H_pur, m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol().c_str(), "l" );
+                vtx_pos_pur_leg->AddEntry(vtx_pos_CH_pur, m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol().c_str(), "l" );
+                vtx_pos_pur_leg->Draw();
+
+                m_runbd->GetPOT(0.1, 0.1)->Draw();
+                PrintLogo(vtx_pos_pur_c);
+
+                vtx_pos_pur_c->Write();
+
+                delete vtx_pos_H_pur;
+                delete vtx_pos_CH_pur;
+                delete vtx_pos_pur_leg;
+                delete vtx_pos_pur_c;
+
 
                 //**************************************** 1D Purity END ************************************//
 
@@ -927,7 +954,7 @@ void ProducePlots::MakePlots(){
                 //**************************************** 2D START ************************************//
                     TH2D * vtx_pos2D_h = m_runbd->GetHisto(vtx_pos2D, dimnbins[dim], t2kgeometry::fgd1min_offset[dim], 
                         t2kgeometry::fgd1max_offset[dim], dimnbins[dim2], t2kgeometry::fgd1min_offset[dim2], 
-                        t2kgeometry::fgd1max_offset[dim2], "Start Position" + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] + " (mm)", basecuts[br]);
+                        t2kgeometry::fgd1max_offset[dim2], "Start Position " + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] + " (mm)", basecuts[br]);
 
                     // DrawLine(double x_low, double y_low, double x_high, double y_high, int color = kGray + 2, int style = 1, int width = 2);
 
@@ -948,6 +975,8 @@ void ProducePlots::MakePlots(){
                 //**************************************** 2D END ************************************//  
 
                 //**************************************** 2D Purity START ************************************//
+
+
 
 
                 //**************************************** 2D Purity END ************************************//
