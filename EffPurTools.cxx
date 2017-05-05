@@ -235,7 +235,7 @@ TH1D * EffPurTools::PurVSVar(std::string var, int nbins, Double_t * xbins, std::
 
 TH1D * EffPurTools::PurVSVar(std::string var, int nbins, Double_t x_low, Double_t x_high, std::string signal, std::string cuts, std::string x_title){
     if(m_debug) cout << "EffPurTools::PurVSVar()" << endl;
-    return PurVSVar(var, nbins, DrawingTools::SetBinning(nbins, x_low, x_high), signal, cuts, x_title);
+    return PurVSVar(var, nbins, DrawingTools::SetBinning(nbins, x_low, x_high), cuts, signal, x_title);
 }
 
 TH2D * EffPurTools::PurVSVar(std::string var_yx, int x_nbins, Double_t * x_bins, int y_nbins, Double_t * y_bins, std::string signal, std::string cuts, std::string  xy_title){
@@ -250,7 +250,7 @@ TH2D * EffPurTools::PurVSVar(std::string var_yx, int x_nbins, Double_t * x_bins,
 
 TH2D * EffPurTools::PurVSVar(std::string var_yx, int x_nbins, Double_t x_low, Double_t x_high, int y_nbins, Double_t y_low, Double_t y_high, std::string signal, std::string cuts, std::string  xy_title){
     if(m_debug) cout << "EffPurTools::PurVSVar()" << endl;
-    return PurVSVar(var_yx, x_nbins, DrawingTools::SetBinning(x_nbins, x_low, x_high), y_nbins, DrawingTools::SetBinning(y_nbins, y_low, y_high), signal, xy_title, cuts);
+    return PurVSVar(var_yx, x_nbins, DrawingTools::SetBinning(x_nbins, x_low, x_high), y_nbins, DrawingTools::SetBinning(y_nbins, y_low, y_high), cuts, signal, xy_title);
 }
 
 TH1D * EffPurTools::EventsVSCuts(TTree * intree, std::string cuts, int branch, int ncuts, std::string name){
