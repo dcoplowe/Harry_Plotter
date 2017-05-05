@@ -832,9 +832,9 @@ void ProducePlots::MakePlots(){
                 
                         //**************************************** 2D Purity ************************************//
 
-                        TH2D * start_pos2D_pur_h = m_runep->PurVSVar(start_pos2D.GetName(), dimnbins[0], t2kgeometry::fgd1tpcmin_offset[0], 
-                            t2kgeometry::fgd1tpcmax_offset[0], dimnbins[1], t2kgeometry::fgd1tpcmin_offset[1], t2kgeometry::fgd1tpcmax_offset[1],
-                            start_pos_H_pur, m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(),
+                        TH2D * start_pos2D_pur_h = m_runep->PurVSVar(start_pos2D.GetName(), dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], 
+                            t2kgeometry::fgd1tpcmax_offset[dim], dimnbins[dim2], t2kgeometry::fgd1tpcmin_offset[dim2], t2kgeometry::fgd1tpcmax_offset[dim2],
+                            m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(),
                             basecuts[br], "Start Position " + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] +" (mm)");
 
                         TCanvas * start_pos2D_pur_c = new TCanvas( (start_pos2D.GetSName() + "_pur").c_str(), "", 400, 400);
