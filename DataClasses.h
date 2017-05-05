@@ -319,6 +319,7 @@ public:
     std::string GetUnits(){ return m_units; }
     std::string GetSName(){ return m_savename; }
     std::string GetPDG(){ return m_pdg; }
+    std::string GetAxisTitle(){ return m_symbol + " (" + m_units + ")"; }
 
     void SetNBins(int var){ m_nbins = var;}
     void SetBinning(int nbins, Double_t * binning){ m_nbins = nbins; m_binning = binning; }

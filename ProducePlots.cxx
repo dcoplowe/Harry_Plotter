@@ -102,6 +102,8 @@ public:
     
     void Verbose(bool var){ m_verbose = var; }
 
+    void Make2DPlots(Variable x_var, Variable y_var, std::string savename, std::string cuts);
+
 private:
     std::string m_infilename;
     bool m_realdata;
@@ -474,6 +476,37 @@ void ProducePlots::MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t low,
 //     MakeScorePlots(part, nbins, DrawingTools::SetBinning(nbins, low, high), cuts);
 // }
 
+void ProducePlots::Make2DPlots(Variable x_var, Variable y_var, std::string savename, std::string cuts)
+{
+    
+    TH2D * var_h = m_runbd->GetHisto(y_var.GetName() + ":" + x_var.GetName(), x_var.GetNBins(), x_var.GetBinning(), y_var.GetNBins(), y_var.GetBinning(),
+        x_var.GetAxisTitle() + ";" + y_var.GetAxisTitle(), cuts);
+
+    TCanvas * var_c = new TCanvas(savename.c_str() , "", 400, 400);
+    var_c->cd();
+    var_h->Draw("COLZ");
+    m_runbd->GetPOT(0.1,0.1)->Draw();
+    PrintLogo(var_c);
+
+    var_c->Write();
+    delete var_h;
+    delete var_c;
+
+    TH2D pur_h = m_runbd->PurVSVar(y_var.GetName() + ":" + x_var.GetName(), x_var.GetNBins(), x_var.GetBinning(), y_var.GetNBins(), y_var.GetBinning(),
+        m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), cuts, x_var.GetAxisTitle() + ";" + y_var.GetAxisTitle());
+
+    TCanvas * pur_c = new TCanvas( (savename + "_pur").c_str() , "", 400, 400);
+    pur_c->cd();
+    pur_h->Draw("COLZ");
+    m_runbd->GetPOT(0.1,0.1)->Draw();
+    PrintLogo(pur_c);
+    GetSignal()->Draw();
+
+    pur_c->Write();
+    delete pur_h;
+    delete pur_c;
+}
+
 void ProducePlots::EffPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string signal_def, std::string cuts){
     //Produce eff. and truth dist from truth tree.
     if(m_outfile->IsOpen()){
@@ -657,6 +690,11 @@ void ProducePlots::MakePlots(){
             //**************************************** Mom END ****************************************//
 
             if(m_experiment->GetType() == Experiment::MIN){
+
+                (Variable x_var, Variable y_var, std::string savename, std::string cuts)
+
+                MakeDir("PTheta" + branchnames[br] + "/" + party->GetName() );
+                Make2DPlots(party->P, party->theta, "ptheta", basecuts[br]);
                 //**************************************** Theta START ************************************//
                 MakeDir("Theta" + branchnames[br] + "/" + party->GetName() );
                 MakeThetaPlots(party, party->theta.GetNBins(), party->theta.GetBinning(), basecuts[br]);
@@ -672,6 +710,9 @@ void ProducePlots::MakePlots(){
             if(m_experiment->GetType() == Experiment::T2K){
 
                 if(m_verbose) cout << "Making T2K specific plots" << endl;
+
+                MakeDir("PcTheta" + branchnames[br] + "/" + party->GetName() );
+                Make2DPlots(party->P, party->ctheta_nudir, "pcTheta", basecuts[br]);
 
                 if(m_verbose) cout << "Cos Theta";
 
@@ -843,6 +884,11 @@ void ProducePlots::MakePlots(){
                         m_runbd->GetPOT(0.1,0.1)->Draw();
                         GetSignal()->Draw();
 
+                        m_runbd->DrawBox(fgd_box_low, fgd_box_hig);
+                        m_runbd->DrawBox(tpc2_box_low, tpc2_box_hig, DrawingStyle::Yellow);
+
+                        m_runbd->GetPOT(0.1,0.1)->Draw();
+
                         PrintLogo(start_pos2D_pur_c);
 
                         start_pos2D_pur_c->Write();
@@ -952,7 +998,7 @@ void ProducePlots::MakePlots(){
                     m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), basecuts[br],
                     m_recovars->vtx_pos.GetSymbol() + " " + m_NameXYZ[dim] + " (" + m_recovars->vtx_pos.GetUnits() + ")");
 
-                TCanvas * vtx_pos_pur_c = new TCanvas((m_recovars->vtx_pos.GetSName() + m_NameXYZ[dim] + "_pur").c_str(), "", 400, 400);
+                TCanvas * vtx_pos_pur_c = new TCanvas((vtx_pos.GetSName() + m_NameXYZ[dim] + "_pur").c_str(), "", 400, 400);
                 vtx_pos_pur_c->cd();
 
                 vtx_pos_H_pur->SetLineColor(DrawingStyle::Blue);
