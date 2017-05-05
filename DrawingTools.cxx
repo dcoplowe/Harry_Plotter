@@ -474,7 +474,7 @@ void DrawingTools::DrawLine(double x_low, double y_low, double x_high, double y_
     line->Draw();
 }
 
-void DrawBox(double * low, double * high, int color, int style, int width)
+void DrawingTools::DrawBox(double * low, double * high, int color, int style, int width)
 {
     DrawLine( low[0],  low[1],  low[0], high[1], color, style, width);
     DrawLine( low[0], high[1], high[0], high[1], color, style, width);
