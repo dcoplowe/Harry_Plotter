@@ -936,7 +936,7 @@ void ProducePlots::MakePlots(){
                     vtx_pos2D_h->Draw("COLZ");
                     double box_low[2] = { t2kgeometry::fgd1min[dim], t2kgeometry::fgd1min[dim2] };
                     double box_hig[2] = { t2kgeometry::fgd1max[dim], t2kgeometry::fgd1max[dim2] };
-                    m_runbd->DrawBox( box_low, box_hig[2]);
+                    m_runbd->DrawBox( box_low, box_hig);
                     m_runbd->GetPOT(0.1,0.1)->Draw();
                     PrintLogo(vtx_pos2D_c);
 
