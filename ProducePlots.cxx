@@ -38,11 +38,13 @@
 
 //dumping of array
 #define dump_array3(par) std::cout << std::fixed    << \
-  // std::setw(10) << std::left   << #par   << ": \t"  << \
-  // std::setw(10) << std::right  << par[0] << " "     << \
-  // std::setw(10) << std::right  << par[1] << " "     << \
-  // std::setw(10) << std::right  << par[2] << std::endl;
-std::setw(10) << std::left   << #par   << ": \t"  << std::endl;
+  std::setw(10) << std::left   << #par   << ": \t"  << \
+  std::setw(10) << std::right  << par[0] << " "     << \
+  std::setw(10) << std::right  << par[1] << " "     << \
+  std::setw(10) << std::right  << par[2] << std::endl;
+
+#define dump_now(par) std::cout << std::fixed    << \
+  std::setw(10) << std::left   << #par   << ": \t"  << std::endl;
 
 //#include <TStyle.h>
 
@@ -726,7 +728,8 @@ void ProducePlots::MakePlots(){
                 MakeDir("StartPosition");
                 int dimnbins[3] = {40, 40, 40};
 
-                dump_array3(*m_experiment);
+                dump_array3(dimnbins);
+                dump_now(*m_experiment);
                 // if(which_fgd){
                 // }
 
