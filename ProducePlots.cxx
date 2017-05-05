@@ -685,6 +685,8 @@ void ProducePlots::MakePlots(){
                 PurPart(party->cross_angle, m_experiment->GetSignal(), basecuts[br]); 
 
                 if(m_verbose) cout << " -- Done" << endl;
+
+                cout << "m_experiment = " << #m_experiment << endl;
                 //**************************************** Crossing Angle END **************************************//
 
                 //**************************************** FGD Segment START ************************************//
