@@ -928,13 +928,13 @@ void ProducePlots::MakePlots(){
                         t2kgeometry::fgd1max_offset[dim], dimnbins[dim2], t2kgeometry::fgd1min_offset[dim2], 
                         t2kgeometry::fgd1max_offset[dim2], "Start Position" + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] + " (mm)", basecuts[br]);
 
-                    m_runbd->DrawBox(t2kgeometry::fgd1min, t2kgeometry::fgd1max);
-
                     // DrawLine(double x_low, double y_low, double x_high, double y_high, int color = kGray + 2, int style = 1, int width = 2);
 
                     TCanvas * vtx_pos2D_c = new TCanvas((vtx_pos.GetSName() + m_NameXYZ[dim2]).c_str(), "", 400, 400);
                     vtx_pos2D_c->cd();
                     vtx_pos2D_h->Draw("COLZ");
+                    m_runbd->DrawBox(t2kgeometry::fgd1min, t2kgeometry::fgd1max);
+
 
                     PrintLogo(vtx_pos2D_c);
 
