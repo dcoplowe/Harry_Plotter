@@ -736,14 +736,14 @@ void ProducePlots::MakePlots(){
                     cout << " plots made, now producing purity dists." << endl;
 
                     TH1D * start_pos_H_pur = m_runep->PurVSVar(party->startpos.GetName()  + "[" + dimss.str() + "]", dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
-                    m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br],
-                    start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")");
+                        m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br],
+                        start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")");
 
                     // cout << " 1 made " << endl;
 
-                    // TH1D * start_pos_CH_pur = m_runep->PurVSVar(start_pos.GetName(), dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
-                    //     m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(),
-                    //     start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")", basecuts[br]);
+                    TH1D * start_pos_CH_pur = m_runep->PurVSVar(start_pos.GetName(), dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
+                        m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), basecuts[br]
+                        start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")");
 
                     // cout << " 2 made " << endl;
 
@@ -755,26 +755,26 @@ void ProducePlots::MakePlots(){
                     start_pos_H_pur->SetLineColor(DrawingStyle::Blue);
                     start_pos_H_pur->Draw();
 
-                    // start_pos_CH_pur->SetLineColor(DrawingStyle::Yellow);
-                    // start_pos_CH_pur->Draw("SAME");
+                    start_pos_CH_pur->SetLineColor(DrawingStyle::Yellow);
+                    start_pos_CH_pur->Draw("SAME");
 
                     // cout << " 4 made " << endl;
 
-                    // TLegend * start_pos_pur_leg = m_runbd->Legend(0.6, 0.8);
-                    // start_pos_pur_leg->AddEntry(start_pos_H_pur, m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol().c_str(), "l" );
-                    // start_pos_pur_leg->AddEntry(start_pos_CH_pur, m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol().c_str(), "l" );
-                    // start_pos_pur_leg->Draw();
+                    TLegend * start_pos_pur_leg = m_runbd->Legend(0.6, 0.8);
+                    start_pos_pur_leg->AddEntry(start_pos_H_pur, m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol().c_str(), "l" );
+                    start_pos_pur_leg->AddEntry(start_pos_CH_pur, m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol().c_str(), "l" );
+                    start_pos_pur_leg->Draw();
 
-                    // PrintLogo(start_pos_pur_c);
+                    PrintLogo(start_pos_pur_c);
 
                     // cout << " 5 made " << endl;
 
                     start_pos_pur_c->Write();
 
-                    // delete start_pos_H_pur;
-                    // delete start_pos_CH_pur;
-                    // delete start_pos_pur_leg;
-                    // delete start_pos_pur_c;
+                    delete start_pos_H_pur;
+                    delete start_pos_CH_pur;
+                    delete start_pos_pur_leg;
+                    delete start_pos_pur_c;
 
                     if(m_verbose) cout << " -- Done" << endl;
 

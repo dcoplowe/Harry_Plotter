@@ -13,7 +13,7 @@ using std::endl;
 namespace print_level {
     bool debug = true;// = true;// = true;
     bool quiet = false;
-    bool effpurtools = true;
+    bool effpurtools = false;
     bool drawingtools = false;
 }
 
@@ -314,7 +314,7 @@ std::string Experiment::GetBaseCuts(int accum_level, int branch, std::string cut
     ac << accum_level;
 
     std::string basecuts = "accum_level";
-    basecuts += (m_type == Experiment::T2K ? "[0]" : "");
+    basecuts += (m_type == Experiment::T2K ? "[0]" : "");//TODO: Check that this is okay for T2K (purity).
     basecuts += "[" + br.str() + "] > " + ac.str(); 
 
     if(!cuts.empty()){
