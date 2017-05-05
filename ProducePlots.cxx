@@ -943,7 +943,6 @@ void ProducePlots::MakePlots(){
                 delete vtx_pos_pur_leg;
                 delete vtx_pos_pur_c;
 
-
                 //**************************************** 1D Purity END ************************************//
 
                 for(int dim2 = dim + 1; dim2 < 3; dim2++){
@@ -963,7 +962,7 @@ void ProducePlots::MakePlots(){
                     vtx_pos2D_h->Draw("COLZ");
                     double box_low[2] = { t2kgeometry::fgd1min[dim], t2kgeometry::fgd1min[dim2] };
                     double box_hig[2] = { t2kgeometry::fgd1max[dim], t2kgeometry::fgd1max[dim2] };
-                    m_runbd->DrawBox( box_low, box_hig);
+                    m_runbd->DrawBox(box_low, box_hig);
                     m_runbd->GetPOT(0.1,0.1)->Draw();
                     PrintLogo(vtx_pos2D_c);
 
@@ -976,7 +975,25 @@ void ProducePlots::MakePlots(){
 
                 //**************************************** 2D Purity START ************************************//
 
+    // TH2D * EffVSVar(std::string var_yx, int x_nbins, Double_t x_low, Double_t x_high, int y_nbins, Double_t y_low, Double_t y_high, std::string signal, std::string cuts, std::string xy_title = "");
 
+                    TH2D * vtx_pos2D_pur_h = m_runep->PurVSVar(vtx_pos2D, dimnbins[dim], t2kgeometry::fgd1min_offset[dim], 
+                        t2kgeometry::fgd1max_offset[dim], dimnbins[dim2], t2kgeometry::fgd1min_offset[dim2], 
+                        t2kgeometry::fgd1max_offset[dim2], m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(),
+                        basecuts[br] ,"Start Position " + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] + " (mm)");
+
+                    TCanvas * vtx_pos2D_pur_c = new TCanvas((vtx_pos.GetSName() + m_NameXYZ[dim2] + "_pur").c_str(), "", 400, 400);
+                    vtx_pos2D_pur_c->cd();
+                    vtx_pos2D_pur_h->Draw("COLZ");
+                    m_runbd->DrawBox(box_low, box_hig);
+                    m_runbd->GetPOT(0.1,0.1)->Draw();
+                    PrintLogo(vtx_pos2D_pur_c);
+                    GetSignal()->Draw();
+
+                    vtx_pos2D_pur_c->Write();
+
+                    delete vtx_pos2D_pur_h;
+                    delete vtx_pos2D_pur_c;
 
 
                 //**************************************** 2D Purity END ************************************//
