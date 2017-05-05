@@ -304,7 +304,8 @@ public:
     Variable() : m_name(""), m_symbol(""), m_units(""), m_savename(""), m_pdg(""){;}
     Variable(std::string name) : m_name(name), m_symbol(name), m_units(""), m_savename(name), m_pdg(""){;}
     Variable(std::string name, std::string symbol, std::string units) : m_name(name), m_symbol(symbol), m_units(units), m_savename(""), m_pdg(""){;}
-    Variable(std::string name, int nbins, Double_t low, Double_t high) : m_name(name), m_symbol(""), m_units(""), m_savename(""), m_pdg(""), m_nbins(nbins), m_binning( DrawingTools::SetBinning(m_nbins, low, high) ) {;}
+    Variable(std::string name, int nbins, Double_t low, Double_t high, std::string symbol= "", std::string units = "", std::string savename = "", std::string pdg = "") :
+        m_name(name), m_symbol(symbol), m_units(units), m_savename(savename), m_pdg(pdg), m_nbins(nbins), m_binning( DrawingTools::SetBinning(m_nbins, low, high) ) {;}
 
     ~Variable(){;}//delete m_binning;}
 
@@ -319,7 +320,7 @@ public:
     std::string GetUnits(){ return m_units; }
     std::string GetSName(){ return m_savename; }
     std::string GetPDG(){ return m_pdg; }
-    std::string GetAxisTitle(){ return m_symbol + " (" + m_units + ")"; }
+    std::string GetAxisTitle(){ return m_symbol + (m_units.empty() ? "" : " (" + m_units + ")"); }
 
     void SetNBins(int var){ m_nbins = var;}
     void SetBinning(int nbins, Double_t * binning){ m_nbins = nbins; m_binning = binning; }

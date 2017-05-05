@@ -364,32 +364,32 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
     if(exp == Experiment::T2K){
         //Reco vars: Common:
         if(m_pdg == Particle::Proton || m_pdg == Particle::PionP){            
-            P           = Variable(m_tag + name + "_mom", 20, 0., 2000.);
+            P           = Variable(m_tag + name + "_mom", 20, 0., 2000., "#it{p}", "MeV/#it{c}");
                 // Varaible ranges/binning need improving:
-            pT          = Variable(m_tag + name + "_pT", 20, 0., 2000.);
-            pTMag       = Variable(m_tag + name + "_pTMag", 20, 0., 2000.);
-            startdir    = Variable(m_tag + name + "_dir", 20, 0., 2000.);
-            endpos      = Variable(m_tag + name + "_endpos", 20, 0., 2000.);
+            pT          = Variable(m_tag + name + "_pT", 20, 0., 2000., "#it{p}", "MeV/#it{c}");
+            pTMag       = Variable(m_tag + name + "_pTMag", 20, 0., 2000., "#it{p}", "MeV/#it{c}");
+            startdir    = Variable(m_tag + name + "_dir", 20, 0., 2000., "Start Direction", "");
+            endpos      = Variable(m_tag + name + "_endpos", 20, 0., 2000., "End Postion", "mm");
 
                 //True vars: Common:
-            trueP           = Variable(m_tag + name + "_truemom", 20, 0., 2000.);
-            truepT          = Variable(m_tag + name + "_truepT", 20, 0., 2000.);
-            truepTMag       = Variable(m_tag + name + "_truepTMag", 20, 0., 2000.);
+            trueP           = Variable(m_tag + name + "_truemom", 20, 0., 2000., "#it{p}", "MeV/#it{c}");
+            truepT          = Variable(m_tag + name + "_truepT", 20, 0., 2000., "#it{p}", "MeV/#it{c}");
+            truepTMag       = Variable(m_tag + name + "_truepTMag", 20, 0., 2000., "#it{p}", "MeV/#it{c}");
             truestartdir    = Variable(m_tag + name + "_truedir", 20, 0., 2000.);
             trueendpos      = Variable(m_tag + name + "_endpos", 20, 0., 2000.);
         }
         else if(m_pdg == Particle::MuonM){
-            P           = Variable(m_tag + name + "_mom", 20, 0., 2000.);
+            P           = Variable(m_tag + name + "_mom", 20, 0., 2000., "#it{p}", "MeV/#it{c}");
                 // Varaible ranges/binning need improving:
-            pT          = Variable(m_tag + name + "_pT", 20, 0., 2000.);
-            pTMag       = Variable(m_tag + name + "_pTMag", 20, 0., 2000.);
+            pT          = Variable(m_tag + name + "_pT", 20, 0., 2000., "#it{p}", "MeV/#it{c}");
+            pTMag       = Variable(m_tag + name + "_pTMag", 20, 0., 2000., "#it{p}", "MeV/#it{c}");
             startdir    = Variable(m_tag + name + "_dir", 20, 0., 2000.);
             endpos      = Variable(m_tag + name + "_endpos", 20, 0., 2000.);
 
                 //True vars: Common:
-            trueP           = Variable(m_tag + name + "_truemom", 20, 0., 2000.);
-            truepT          = Variable(m_tag + name + "_truepT", 20, 0., 2000.);
-            truepTMag       = Variable(m_tag + name + "_truepTMag", 20, 0., 2000.);
+            trueP           = Variable(m_tag + name + "_truemom", 20, 0., 2000., "#it{p}", "MeV/#it{c}");
+            truepT          = Variable(m_tag + name + "_truepT", 20, 0., 2000., "#it{p}", "MeV/#it{c}");
+            truepTMag       = Variable(m_tag + name + "_truepTMag", 20, 0., 2000., "#it{p}", "MeV/#it{c}");
             truestartdir    = Variable(m_tag + name + "_truedir", 20, 0., 2000.);
             trueendpos      = Variable(m_tag + name + "_endpos", 20, 0., 2000.);
         }
@@ -397,12 +397,9 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
         pdg = Variable(m_tag + name + "_pdg", 20, 0., 2000.);
         
         // truecross_angle = Variable(m_tag + name + "_", 20, 0., 180.);
-        cross_angle = Variable(m_tag + name + "_Xing_angle", 20, 0., 180.);//_vtx_angle
-        cross_angle.SetSymbol("Crossing Angle");
-        cross_angle.SetUnits("Deg.");
+        cross_angle = Variable(m_tag + name + "_Xing_angle", 20, 0., 180., "Crossing Angle", "Deg.");//_vtx_angle
 
-        fgd_start = Variable(m_tag + name + "_fgd_startin", 2, 0., 2.);
-        fgd_start.SetSymbol("Starts in FGD");
+        fgd_start = Variable(m_tag + name + "_fgd_startin", 2, 0., 2., "Starts in FGD");
 
         startpos = Variable(m_tag + name + "_startpos", "Start Pos.", "mm");
         truestartpos =  Variable(m_tag + name + "_truestartpos", "Start Pos.", "mm");
@@ -429,11 +426,11 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
         truephi = Variable();
         
         //T2K: Reco vars:
-        ctheta       =  Variable(m_tag + name + "_costheta", 20, -1., 1.);
-        ctheta_nudir =  Variable(m_tag + name + "_nudir_costheta", 20, -1., 1);
+        ctheta       =  Variable(m_tag + name + "_costheta", 20, -1., 1., "cos#theta", "");
+        ctheta_nudir =  Variable(m_tag + name + "_nudir_costheta", 20, -1., 1, "cos#theta", "");
 
         //T2K: True vars:
-        truectheta =    Variable(m_tag + name + "_truecostheta", 20, -1., 1.);
+        truectheta =    Variable(m_tag + name + "_truecostheta", 20, -1., 1., "cos#theta", "");
     }
     else if(exp == Experiment::MIN){
         
