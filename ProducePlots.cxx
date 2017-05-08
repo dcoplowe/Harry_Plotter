@@ -878,7 +878,7 @@ void ProducePlots::MakePlots(){
                     start_pos_cuts += " < ";
                     start_pos_cuts += dim2th_high.str();
 
-                    cout << start_pos_cuts << endl;
+                    // cout << start_pos_cuts << endl;
 
                     Variable start_pos(party->truestartpos.GetName() + "[" + dimss.str() + "]:" + party->startpos.GetName()  + "[" + dimss.str() + "]", party->GetSymbol() + " " + m_NameXYZ[dim] + " Start Position", "mm");
                     // This probably wont work as the code looks for :: to make a split... Add fix.
@@ -1075,23 +1075,127 @@ void ProducePlots::MakePlots(){
             for(int dim = 0; dim < 3; dim++){
                 stringstream dimss; 
                 dimss << dim;
+
+
+                int dim1cut, dim2cut;
+                string dim1cuts, dim2cuts;
+
+                if(dim == 0){
+                    dim1cuts = "1";
+                    dim2cuts = "2";
+                    dim1cut = 1;
+                    dim2cut = 2;
+                }
+                else if(dim == 1){
+                    dim1cuts = "0";
+                    dim2cuts = "2";
+                    dim1cut = 0;
+                    dim2cut = 2; 
+                }
+                else{
+                    dim1cuts = "0";
+                    dim2cuts = "1";
+                    dim1cut = 0;
+                    dim2cut = 1; 
+                }
+
+                stringstream dim1th_low, dim2th_low, dim1th_high, dim2th_high;                    
+                dim1th_low << t2kgeometry::fgdmin_offset[dim1cut];
+                dim1th_high << t2kgeometry::fgdmax_offset[dim1cut];
+
+                dim2th_low << t2kgeometry::fgdmin_offset[dim2cut];
+                dim2th_high << t2kgeometry::fgdmax_offset[dim2cut];
+
+                string vtx_pos_cuts = basecuts[br];
+                    //1st Dim : True vars:
+                vtx_pos_cuts += " && ";
+                    //1st Dim : True vars min:
+                vtx_pos_cuts += dim1th_low.str();
+                vtx_pos_cuts += " < ";
+                vtx_pos_cuts += m_recovars->truevtx_pos.GetName();
+                vtx_pos_cuts += "[";
+                vtx_pos_cuts += dim1cuts;
+                vtx_pos_cuts += "]";
+                vtx_pos_cuts += " && ";
+                    //1st Dim : True vars min:
+                vtx_pos_cuts += m_recovars->truevtx_pos.GetName();
+                vtx_pos_cuts += "[";
+                vtx_pos_cuts += dim1cuts;
+                vtx_pos_cuts += "]";
+                vtx_pos_cuts += " < ";
+                vtx_pos_cuts += dim1th_high.str();
+
+                    //1st Dim : Reco vars:
+                vtx_pos_cuts += " && ";
+                    //1st Dim : Reco vars min:
+                vtx_pos_cuts += dim1th_low.str();
+                vtx_pos_cuts += " < ";
+                vtx_pos_cuts += m_recovars->vtx_pos.GetName();
+                vtx_pos_cuts += "[";
+                vtx_pos_cuts += dim1cuts;
+                vtx_pos_cuts += "]";
+                vtx_pos_cuts += " && ";
+                    //1st Dim : Reco vars min:
+                vtx_pos_cuts += m_recovars->vtx_pos.GetName();
+                vtx_pos_cuts += "[";
+                vtx_pos_cuts += dim1cuts;
+                vtx_pos_cuts += "]";
+                vtx_pos_cuts += " < ";
+                vtx_pos_cuts += dim1th_high.str();
+
+                    //2nd Dim : True vars:
+                vtx_pos_cuts += " && ";
+                    //2nd Dim : True vars min:
+                vtx_pos_cuts += dim2th_low.str();
+                vtx_pos_cuts += " < ";
+                vtx_pos_cuts += m_recovars->truevtx_pos.GetName();
+                vtx_pos_cuts += "[";
+                vtx_pos_cuts += dim2cuts;
+                vtx_pos_cuts += "]";
+                vtx_pos_cuts += " && ";
+                    //2nd Dim : True vars min:
+                vtx_pos_cuts += m_recovars->truevtx_pos.GetName();
+                vtx_pos_cuts += "[";
+                vtx_pos_cuts += dim2cuts;
+                vtx_pos_cuts += "]";
+                vtx_pos_cuts += " < ";
+                vtx_pos_cuts += dim2th_high.str();
+
+                    //2nd Dim : Reco vars:
+                vtx_pos_cuts += " && ";
+                    //2nd Dim : Reco vars min:
+                vtx_pos_cuts += dim2th_low.str();
+                vtx_pos_cuts += " < ";
+                vtx_pos_cuts += m_recovars->vtx_pos.GetName();
+                vtx_pos_cuts += "[";
+                vtx_pos_cuts += dim2cuts;
+                vtx_pos_cuts += "]";
+                vtx_pos_cuts += " && ";
+                    //2nd Dim : Reco vars min:
+                vtx_pos_cuts += m_recovars->vtx_pos.GetName();
+                vtx_pos_cuts += "[";
+                vtx_pos_cuts += dim2cuts;
+                vtx_pos_cuts += "]";
+                vtx_pos_cuts += " < ";
+                vtx_pos_cuts += dim2th_high.str();
+
                 Variable vtx_pos(m_recovars->truevtx_pos.GetName() + "[" + dimss.str() + "]:" + m_recovars->vtx_pos.GetName() + "[" + dimss.str() + "]", m_recovars->vtx_pos.GetSymbol(), m_recovars->vtx_pos.GetUnits());
                     // This probably wont work as the code looks for :: to make a split... Add fix.
                 vtx_pos.SetSName(m_recovars->vtx_pos.GetName() + m_NameXYZ[dim] );
                 // start_pos.SetPDG(part->pdg.GetName());
 
                 //**************************************** 1D START ************************************//
-                ProduceGroup(vtx_pos, dimnbins[dim], t2kgeometry::fgd1min_offset[dim], t2kgeometry::fgd1max_offset[dim], basecuts[br]);//TODO: Add detector lines to this plot.
+                ProduceGroup(vtx_pos, dimnbins[dim], t2kgeometry::fgd1min_offset[dim], t2kgeometry::fgd1max_offset[dim], vtx_pos_cuts);//TODO: Add detector lines to this plot.
                 //**************************************** 1D END ************************************//
 
                 //**************************************** 1D Purity START ************************************//
 
                 TH1D * vtx_pos_H_pur = m_runep->PurVSVar(m_recovars->vtx_pos.GetName() + "[" + dimss.str() + "]", dimnbins[dim], t2kgeometry::fgd1min_offset[dim], t2kgeometry::fgd1max_offset[dim],
-                    m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br],
+                    m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), vtx_pos_cuts,
                     m_recovars->vtx_pos.GetSymbol() + " " + m_NameXYZ[dim] + " (" + m_recovars->vtx_pos.GetUnits() + ")");
 
                 TH1D * vtx_pos_CH_pur = m_runep->PurVSVar(m_recovars->vtx_pos.GetName() + "[" + dimss.str() + "]", dimnbins[dim], t2kgeometry::fgd1min_offset[dim], t2kgeometry::fgd1max_offset[dim],
-                    m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), basecuts[br],
+                    m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), vtx_pos_cuts,
                     m_recovars->vtx_pos.GetSymbol() + " " + m_NameXYZ[dim] + " (" + m_recovars->vtx_pos.GetUnits() + ")");
 
                 TCanvas * vtx_pos_pur_c = new TCanvas((vtx_pos.GetSName() + m_NameXYZ[dim] + "_pur").c_str(), "", 400, 400);
@@ -1128,7 +1232,7 @@ void ProducePlots::MakePlots(){
                 //**************************************** 2D START ************************************//
                     TH2D * vtx_pos2D_h = m_runbd->GetHisto(vtx_pos2D, dimnbins[dim], t2kgeometry::fgd1min_offset[dim], 
                         t2kgeometry::fgd1max_offset[dim], dimnbins[dim2], t2kgeometry::fgd1min_offset[dim2], 
-                        t2kgeometry::fgd1max_offset[dim2], "Start Position " + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] + " (mm)", basecuts[br]);
+                        t2kgeometry::fgd1max_offset[dim2], "Start Position " + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] + " (mm)", vtx_pos_cuts);
 
                     // DrawLine(double x_low, double y_low, double x_high, double y_high, int color = kGray + 2, int style = 1, int width = 2);
 
@@ -1153,7 +1257,7 @@ void ProducePlots::MakePlots(){
                     TH2D * vtx_pos2D_pur_h = m_runep->PurVSVar(vtx_pos2D, dimnbins[dim], t2kgeometry::fgd1min_offset[dim], 
                         t2kgeometry::fgd1max_offset[dim], dimnbins[dim2], t2kgeometry::fgd1min_offset[dim2], 
                         t2kgeometry::fgd1max_offset[dim2], m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(),
-                        basecuts[br] ,"Start Position " + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] + " (mm)");
+                        vtx_pos_cuts ,"Start Position " + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] + " (mm)");
 
                     TCanvas * vtx_pos2D_pur_c = new TCanvas((vtx_pos.GetSName() + m_NameXYZ[dim2] + "_pur").c_str(), "", 400, 400);
                     vtx_pos2D_pur_c->cd();
