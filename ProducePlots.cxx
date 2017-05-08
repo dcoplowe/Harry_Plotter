@@ -892,12 +892,16 @@ void ProducePlots::MakePlots(){
 
                     if(m_verbose) cout << " plots made, now producing purity dists." << endl;
 
+                    // Variable start_pos_dim(party->startpos.GetName()  + "[" + dimss.str() + "]", dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim], start_pos.GetSymbol(), "mm", start_pos.GetSName() + "_pur", party->pdg.GetName());
+                    // PurPart: 
+
+                    //Old method: Doesn't seem to give the correct purity....
                     TH1D * start_pos_H_pur = m_runep->PurVSVar(party->startpos.GetName()  + "[" + dimss.str() + "]", dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
-                        m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), start_pos_cuts,
+                        m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br] /*start_pos_cuts*/,
                         start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")");
 
                     TH1D * start_pos_CH_pur = m_runep->PurVSVar(party->startpos.GetName()  + "[" + dimss.str() + "]", dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
-                        m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), start_pos_cuts,
+                        m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), basecuts[br] /*start_pos_cuts*/,
                         start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")");
 
                     TCanvas * start_pos_pur_c = new TCanvas((start_pos.GetSName() + "_pur").c_str(), "", 400, 400);
@@ -1179,7 +1183,7 @@ void ProducePlots::MakePlots(){
                 vtx_pos_cuts += " < ";
                 vtx_pos_cuts += dim2th_high.str();
 
-                cout << vtx_pos_cuts << endl;
+                // cout << vtx_pos_cuts << endl;
 
                 Variable vtx_pos(m_recovars->truevtx_pos.GetName() + "[" + dimss.str() + "]:" + m_recovars->vtx_pos.GetName() + "[" + dimss.str() + "]", m_recovars->vtx_pos.GetSymbol(), m_recovars->vtx_pos.GetUnits());
                     // This probably wont work as the code looks for :: to make a split... Add fix.
