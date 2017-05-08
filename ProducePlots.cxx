@@ -1100,11 +1100,11 @@ void ProducePlots::MakePlots(){
                 }
 
                 stringstream dim1th_low, dim2th_low, dim1th_high, dim2th_high;                    
-                dim1th_low << t2kgeometry::fgdmin_offset[dim1cut];
-                dim1th_high << t2kgeometry::fgdmax_offset[dim1cut];
+                dim1th_low << t2kgeometry::fgd1min_offset[dim1cut];
+                dim1th_high << t2kgeometry::fgd1max_offset[dim1cut];
 
-                dim2th_low << t2kgeometry::fgdmin_offset[dim2cut];
-                dim2th_high << t2kgeometry::fgdmax_offset[dim2cut];
+                dim2th_low << t2kgeometry::fgd1min_offset[dim2cut];
+                dim2th_high << t2kgeometry::fgd1max_offset[dim2cut];
 
                 string vtx_pos_cuts = basecuts[br];
                     //1st Dim : True vars:
