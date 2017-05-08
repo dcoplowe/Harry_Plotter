@@ -93,7 +93,7 @@ public:
     void PositionPlot(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts, int fgd = 1);
 
     void EffPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string signal_def, std::string cuts = "");
-    void PurPart(Variable var, std::string signal_def, std::string cuts);
+    void PurPart(Variable var, std::string cuts);
 
     void TruthPart(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts = "", int ac_lev = -1, int branch = 0);
     
@@ -536,31 +536,33 @@ void ProducePlots::EffPart(Variable var, Int_t nbins, Double_t low, Double_t hig
     }
 }
 
-void ProducePlots::PurPart(Variable var, std::string signal_def, std::string cuts){
+void ProducePlots::PurPart(Variable var, std::string cuts){
     //Produce purity. and reco dists. from truth tree.
     if(m_outfile->IsOpen()){
-
-        int colour = DrawingStyle::Other;
-        if(var.GetName().find("mu") != std::string::npos) colour = DrawingStyle::MuonM;
-        else if(var.GetName().find("pi") != std::string::npos) colour = DrawingStyle::PionP;
-        else if(var.GetName().find("pr") != std::string::npos) colour = DrawingStyle::Proton;
-        else colour = DrawingStyle::Other;
         
         TCanvas * purdists = new TCanvas( (var.GetName() + "_pur").c_str(), "", 900,800);
         purdists->cd();
-        TH1D * tmp_pur = m_runep->PurVSVar(var.GetName().c_str(), var.GetNBins(), var.GetBinning(), signal_def, cuts, var.GetSymbol() + " (" + var.GetUnits() + ")");
-        tmp_pur->SetLineColor(colour);
-        tmp_pur->Draw();
+        TH1D * H_pur = m_runep->PurVSVar(var.GetName().c_str(), var.GetNBins(), var.GetBinning(), m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), cuts, var.GetSymbol() + (var.GetUnits().empty() ? "" : " (" + var.GetUnits() + ")"));
+        H_pur->SetLineColor(DrawingStyle::HYDROGEN);
+        H_pur->Draw();
 
-        TLatex * sig = GetSignal();
-        sig->Draw();
+        TH1D * CH_pur = m_runep->PurVSVar(var.GetName().c_str(), var.GetNBins(), var.GetBinning(), m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), cuts, var.GetSymbol() + (var.GetUnits().empty() ? "" : " (" + var.GetUnits() + ")"));
+        CH_pur->SetLineColor(DrawingStyle::CARBON);
+        CH_pur->Draw();
+
+        TLegend * pur_leg = m_runbd->Legend(0.15, 0.1);
+        pur_leg->AddEntry(H_pur, m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol().c_str(), "l" );
+        pur_leg->AddEntry(CH_pur, m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol().c_str(), "l" );
+        pur_leg->Draw();
         
         PrintLogo(purdists);
-        
+        m_runbd->GetPOT(0.1, 0.1)->Draw();
+
         purdists->Write();
 
-        delete sig;
-        delete tmp_pur;
+        delete H_pur;
+        delete CH_pur;
+        delete pur_leg;
         delete purdists;
     }
 }
@@ -730,11 +732,13 @@ void ProducePlots::MakePlots(){
 
                 // ProduceGroup(party->cross_angle, party->cross_angle.GetNBins(), party->cross_angle.GetBinning(), basecuts[br]);
                 TCanvas * ca_can = m_runbd->TARGETSingle(party->cross_angle, party->cross_angle.GetNBins(), party->cross_angle.GetBinning(), basecuts[br]);
+                ca_can->cd();
+                m_runbd->GetHisto(party->cross_angle.GetName(), party->cross_angle.GetNBins(), party->cross_angle.GetBinning(), "", basecuts[br])->Draw();//TODO: This is actually for checking that the plotter is working correctly.
                 PrintLogo(ca_can);
                 ca_can->Write();
 
                 // Purity of the crossing angle:
-                PurPart(party->cross_angle, m_experiment->GetSignal(), basecuts[br]); 
+                PurPart(party->cross_angle, basecuts[br]); 
 
                 if(m_verbose) cout << " -- Done" << endl;
 
@@ -772,12 +776,116 @@ void ProducePlots::MakePlots(){
                     stringstream dimss; 
                     dimss << dim;
 
+                    int dim1cut, dim2cut;
+                    string dim1cuts, dim2cuts;
+
+                    if(dim == 0){
+                        dim1cuts = "1";
+                        dim2cuts = "2";
+                        dim1cut = 1;
+                        dim2cut = 2;
+                    }
+                    else if(dim == 1){
+                        dim1cuts = "0";
+                        dim2cuts = "2";
+                        dim1cut = 0;
+                        dim2cut = 2; 
+                    }
+                    else{
+                        dim1cuts = "0";
+                        dim2cuts = "1";
+                        dim1cut = 0;
+                        dim2cut = 1; 
+                    }
+
+                    stringstream dim1th_low, dim2th_low, dim1th_high, dim2th_high;                    
+                    dim1th_low << t2kgeometry::fgd1tpcmin_offset[dim1cut];
+                    dim1th_high << t2kgeometry::fgd1tpcmax_offset[dim1cut];
+
+                    dim2th_low << t2kgeometry::fgd1tpcmin_offset[dim2cut];
+                    dim2th_high << t2kgeometry::fgd1tpcmax_offset[dim2cut];
+
+                    string start_pos_cuts = basecuts[br];
+                    //1st Dim : True vars:
+                    start_pos_cuts += " && ";
+                    //1st Dim : True vars min:
+                    start_pos_cuts += dim1th_low.str();
+                    start_pos_cuts += " < ";
+                    start_pos_cuts += party->truestartpos.GetName();
+                    start_pos_cuts += "[";
+                    start_pos_cuts += dim1cuts;
+                    start_pos_cuts += "]";
+                    start_pos_cuts += " && ";
+                    //1st Dim : True vars min:
+                    start_pos_cuts += party->truestartpos.GetName();
+                    start_pos_cuts += "[";
+                    start_pos_cuts += dim1cuts;
+                    start_pos_cuts += "]";
+                    start_pos_cuts += " < ";
+                    start_pos_cuts += dim1th_high.str();
+
+                    //1st Dim : Reco vars:
+                    start_pos_cuts += " && ";
+                    //1st Dim : Reco vars min:
+                    start_pos_cuts += dim1th_low.str();
+                    start_pos_cuts += " < ";
+                    start_pos_cuts += party->startpos.GetName();
+                    start_pos_cuts += "[";
+                    start_pos_cuts += dim1cuts;
+                    start_pos_cuts += "]";
+                    start_pos_cuts += " && ";
+                    //1st Dim : Reco vars min:
+                    start_pos_cuts += party->startpos.GetName();
+                    start_pos_cuts += "[";
+                    start_pos_cuts += dim1cuts;
+                    start_pos_cuts += "]";
+                    start_pos_cuts += " < ";
+                    start_pos_cuts += dim1th_high.str();
+
+                    //2nd Dim : True vars:
+                    start_pos_cuts += " && ";
+                    //2nd Dim : True vars min:
+                    start_pos_cuts += dim2th_low.str();
+                    start_pos_cuts += " < ";
+                    start_pos_cuts += party->truestartpos.GetName();
+                    start_pos_cuts += "[";
+                    start_pos_cuts += dim2cuts;
+                    start_pos_cuts += "]";
+                    start_pos_cuts += " && ";
+                    //2nd Dim : True vars min:
+                    start_pos_cuts += party->truestartpos.GetName();
+                    start_pos_cuts += "[";
+                    start_pos_cuts += dim2cuts;
+                    start_pos_cuts += "]";
+                    start_pos_cuts += " < ";
+                    start_pos_cuts += dim2th_high.str();
+
+                    //2nd Dim : Reco vars:
+                    start_pos_cuts += " && ";
+                    //2nd Dim : Reco vars min:
+                    start_pos_cuts += dim2th_low.str();
+                    start_pos_cuts += " < ";
+                    start_pos_cuts += party->startpos.GetName();
+                    start_pos_cuts += "[";
+                    start_pos_cuts += dim2cuts;
+                    start_pos_cuts += "]";
+                    start_pos_cuts += " && ";
+                    //2nd Dim : Reco vars min:
+                    start_pos_cuts += party->startpos.GetName();
+                    start_pos_cuts += "[";
+                    start_pos_cuts += dim2cuts;
+                    start_pos_cuts += "]";
+                    start_pos_cuts += " < ";
+                    start_pos_cuts += dim2th_high.str();
+
+                    cout << start_pos_cuts << endl;
+
                     Variable start_pos(party->truestartpos.GetName() + "[" + dimss.str() + "]:" + party->startpos.GetName()  + "[" + dimss.str() + "]", party->GetSymbol() + " " + m_NameXYZ[dim] + " Start Position", "mm");
                     // This probably wont work as the code looks for :: to make a split... Add fix.
                     start_pos.SetSName(party->startpos.GetName() + m_NameXYZ[dim] );
                     start_pos.SetPDG(party->pdg.GetName());
                     // cout << "fgd1tpc_offset " << m_NameXYZ[dim] << " min  = " << t2kgeometry::fgd1tpcmin_offset[dim] << " max  = " << t2kgeometry::fgd1tpcmax_offset[dim] << endl; 
-                    PositionPlot(start_pos, dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim], basecuts[br]);
+                    PositionPlot(start_pos, dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim], start_pos_cuts);
                 //**************************************** 1D END ************************************//
                 
                 //**************************************** 1D Purity START ************************************//
@@ -785,11 +893,11 @@ void ProducePlots::MakePlots(){
                     if(m_verbose) cout << " plots made, now producing purity dists." << endl;
 
                     TH1D * start_pos_H_pur = m_runep->PurVSVar(party->startpos.GetName()  + "[" + dimss.str() + "]", dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
-                        m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br],
+                        m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), start_pos_cuts,
                         start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")");
 
                     TH1D * start_pos_CH_pur = m_runep->PurVSVar(party->startpos.GetName()  + "[" + dimss.str() + "]", dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
-                        m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), basecuts[br],
+                        m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), start_pos_cuts,
                         start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")");
 
                     TCanvas * start_pos_pur_c = new TCanvas((start_pos.GetSName() + "_pur").c_str(), "", 400, 400);
@@ -830,7 +938,7 @@ void ProducePlots::MakePlots(){
 
                         TH2D * start_pos2D_h = m_runbd->GetHisto(start_pos2D.GetName(), dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], 
                             t2kgeometry::fgd1tpcmax_offset[dim], dimnbins[dim2], t2kgeometry::fgd1tpcmin_offset[dim2], 
-                            t2kgeometry::fgd1tpcmax_offset[dim2], "Start Position " + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] + " (mm)", basecuts[br]);
+                            t2kgeometry::fgd1tpcmax_offset[dim2], "Start Position " + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] + " (mm)", start_pos_cuts);
 
                         TCanvas * start_pos2D_c = new TCanvas( (start_pos2D.GetSName() ).c_str(), "", 400, 400);
                         start_pos2D_c->cd();
@@ -864,7 +972,7 @@ void ProducePlots::MakePlots(){
                         TH2D * start_pos2D_pur_h = m_runep->PurVSVar(start_pos2D.GetName(), dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], 
                             t2kgeometry::fgd1tpcmax_offset[dim], dimnbins[dim2], t2kgeometry::fgd1tpcmin_offset[dim2], t2kgeometry::fgd1tpcmax_offset[dim2],
                             m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(),
-                            basecuts[br], "Start Position " + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] +" (mm)");
+                            start_pos_cuts, "Start Position " + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] +" (mm)");
 
                         TCanvas * start_pos2D_pur_c = new TCanvas( (start_pos2D.GetSName() + "_pur").c_str(), "", 400, 400);
                         start_pos2D_pur_c->cd();

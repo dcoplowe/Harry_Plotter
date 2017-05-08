@@ -397,7 +397,7 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
         pdg = Variable(m_tag + name + "_pdg", 20, 0., 2000.);
         
         // truecross_angle = Variable(m_tag + name + "_", 20, 0., 180.);
-        cross_angle = Variable(m_tag + name + "_Xing_angle", 20, 0., 180., "Crossing Angle", "Deg.");//_vtx_angle
+        cross_angle = Variable(m_tag + name + "_Xing_angle", 40, 0., 180., "Crossing Angle", "Deg.");//_vtx_angle
 
         fgd_start = Variable(m_tag + name + "_fgd_startin", 2, 0., 2., "Starts in FGD");
 
