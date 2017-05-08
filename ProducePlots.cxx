@@ -897,11 +897,11 @@ void ProducePlots::MakePlots(){
 
                     //Old method: Doesn't seem to give the correct purity....
                     TH1D * start_pos_H_pur = m_runep->PurVSVar(party->startpos.GetName()  + "[" + dimss.str() + "]", dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
-                        m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br] /*start_pos_cuts*/,
+                        m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), start_pos_cuts,
                         start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")");
 
                     TH1D * start_pos_CH_pur = m_runep->PurVSVar(party->startpos.GetName()  + "[" + dimss.str() + "]", dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
-                        m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), basecuts[br] /*start_pos_cuts*/,
+                        m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), start_pos_cuts,
                         start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")");
 
                     TCanvas * start_pos_pur_c = new TCanvas((start_pos.GetSName() + "_pur").c_str(), "", 400, 400);
@@ -1204,7 +1204,7 @@ void ProducePlots::MakePlots(){
                     m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), vtx_pos_cuts,
                     m_recovars->vtx_pos.GetSymbol() + " " + m_NameXYZ[dim] + " (" + m_recovars->vtx_pos.GetUnits() + ")");
 
-                TCanvas * vtx_pos_pur_c = new TCanvas((vtx_pos.GetSName() + m_NameXYZ[dim] + "_pur").c_str(), "", 400, 400);
+                TCanvas * vtx_pos_pur_c = new TCanvas((vtx_pos.GetSName() + "_pur").c_str(), "", 400, 400);
                 vtx_pos_pur_c->cd();
 
                 vtx_pos_H_pur->SetLineColor(DrawingStyle::Blue);
