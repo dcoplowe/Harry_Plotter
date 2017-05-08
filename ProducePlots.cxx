@@ -1179,6 +1179,8 @@ void ProducePlots::MakePlots(){
                 vtx_pos_cuts += " < ";
                 vtx_pos_cuts += dim2th_high.str();
 
+                cout << vtx_pos_cuts << endl;
+
                 Variable vtx_pos(m_recovars->truevtx_pos.GetName() + "[" + dimss.str() + "]:" + m_recovars->vtx_pos.GetName() + "[" + dimss.str() + "]", m_recovars->vtx_pos.GetSymbol(), m_recovars->vtx_pos.GetUnits());
                     // This probably wont work as the code looks for :: to make a split... Add fix.
                 vtx_pos.SetSName(m_recovars->vtx_pos.GetName() + m_NameXYZ[dim] );
