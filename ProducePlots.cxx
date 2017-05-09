@@ -104,7 +104,7 @@ public:
 
     void Make2DPlots(Variable x_var, Variable y_var, std::string savename, std::string cuts);
 
-    void SetBranchToPlot(int accum_level = -999, int branch = -999){ m_accum_level = accum_level; m_branch = branch; }
+    void SetBranchToPlot(int accum_level = -999, int branch = -999);
 
 private:
     std::string m_infilename;
