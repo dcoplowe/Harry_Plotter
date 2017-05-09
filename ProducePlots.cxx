@@ -223,22 +223,22 @@ void ProducePlots::SetBranchToPlot(int accum_level, int branch)
     m_accum_level = accum_level; 
     m_branch = branch; 
 
-    // cout << "ProducePlots::SetBranchToPlot: m_accum_level = " << m_accum_level << " m_branch = " << m_branch << endl;
+    cout << "ProducePlots::SetBranchToPlot: m_accum_level = " << m_accum_level << " m_branch = " << m_branch << endl;
 
-    // if(m_branch != -999 && m_experiment->GetType() == Experiment::T2K){
-    //     //For now assume type 1 run:
-    //     if(m_branch == 1){
-    //         std::vector<std::string> cut_list;
-    //         cut_list.push_back("Event Quality");
-    //         cut_list.push_back("> 0 Tracks");
-    //         cut_list.push_back("Quality and Fiducial");
-    //         cut_list.push_back("Veto");
-    //         cut_list.push_back("3 TPC Tracks (+2, -1)");
-    //         cut_list.push_back("Common Vertex");
-    //         m_runep->SetNCuts(6);
-    //         m_runep->SetCutNames(cut_list);
-    //     }
-    // }
+    if(m_branch != -999 && m_experiment->GetType() == Experiment::T2K){
+        //For now assume type 1 run:
+        if(m_branch == 1){
+            std::vector<std::string> cut_list;
+            cut_list.push_back("Event Quality");
+            cut_list.push_back("> 0 Tracks");
+            cut_list.push_back("Quality and Fiducial");
+            cut_list.push_back("Veto");
+            cut_list.push_back("3 TPC Tracks (+2, -1)");
+            cut_list.push_back("Common Vertex");
+            m_runep->SetNCuts(6);
+            m_runep->SetCutNames(cut_list);
+        }
+    }
 
     // if(m_accum_level != -999 && m_experiment->GetType() == Experiment::T2K){
     // }
