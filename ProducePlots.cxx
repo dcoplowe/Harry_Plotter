@@ -223,6 +223,8 @@ void ProducePlots::SetBranchToPlot(int accum_level, int branch)
     m_accum_level = accum_level; 
     m_branch = branch; 
 
+    cout << "ProducePlots::SetBranchToPlot: m_accum_level = " << m_accum_level << " m_branch = " << m_branch << endl;
+
     if(m_branch != -999 && m_experiment->GetType() == Experiment::T2K){
         //For now assume type 1 run:
         if(m_branch == 1){
