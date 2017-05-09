@@ -209,7 +209,7 @@ ProducePlots::~ProducePlots(){
     delete m_runbd;
 }
 
-void SetBranchToPlot(int accum_level, int branch)
+void ProducePlots::SetBranchToPlot(int accum_level, int branch)
 { 
     m_accum_level = accum_level; 
     m_branch = branch; 
