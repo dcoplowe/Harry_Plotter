@@ -931,7 +931,7 @@ void ProducePlots::MakePlots(){
                     //**************************************** 1D END ************************************//
                     for(int fgdseg = 0; fgdseg < 2; fgdseg++){
                         stringstream fgdsegs;
-                        fgdsegs << fgdseg; 
+                        fgdsegs << fgdseg;
                         string start_pos_fgdseg_cuts = start_pos_cuts + " && " + party->fgd_start.GetName() + " == " + fgdsegs.str();
                         Variable start_pos_fgdseg(start_pos);
                         start_pos_fgdseg.SetSName( start_pos_fgdseg.GetSName() + "_" + (fgdseg == 0 ? "nofgdseg" : "fgdseg") );
@@ -1021,6 +1021,47 @@ void ProducePlots::MakePlots(){
 
                         delete start_pos2D_h;
                         delete start_pos2D_c;
+
+                        //**************************************** NFGD Segs Start ************************************//
+
+                        for(int fgdseg = 0; fgdseg < 2; fgdseg++){
+                            stringstream fgdsegs;
+                            fgdsegs << fgdseg;
+                            string start_pos_fgdseg_cuts = start_pos_cuts + " && " + party->fgd_start.GetName() + " == " + fgdsegs.str();
+                            // Variable start_pos_fgdseg(start_pos);
+                            // start_pos_fgdseg.SetSName( start_pos_fgdseg.GetSName() + "_" + (fgdseg == 0 ? "nofgdseg" : "fgdseg") );
+                            
+                            TH2D * start_pos2D_fgdseg_h = m_runbd->GetHisto(start_pos2D.GetName(), dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], 
+                                t2kgeometry::fgd1tpcmax_offset[dim], dimnbins[dim2], t2kgeometry::fgd1tpcmin_offset[dim2], 
+                                t2kgeometry::fgd1tpcmax_offset[dim2], "Start Position " + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] + " (mm)", start_pos_fgdseg_cuts);
+
+                            TCanvas * start_pos2D_fgdseg_c = new TCanvas( (start_pos2D.GetSName() + "_" + (fgdseg == 0 ? "nofgdseg" : "fgdseg") ).c_str(), "", 400, 400);
+                            start_pos2D_fgdseg_c->cd();
+                            start_pos2D_fgdseg_h->Draw("COLZ");
+                            m_runbd->GetPOT(0.1,0.1)->Draw();
+
+                            double fgd_box_low[2] = { t2kgeometry::fgd1min[dim], t2kgeometry::fgd1min[dim2] };
+                            double fgd_box_hig[2] = { t2kgeometry::fgd1max[dim], t2kgeometry::fgd1max[dim2] };
+
+                        // double tpc1_box_low[2] = { t2kgeometry::tpc1min[dim], t2kgeometry::tpc1min[dim2] };
+                        // double tpc1_box_hig[2] = { t2kgeometry::tpc1max[dim], t2kgeometry::tpc1max[dim2] };
+
+                            double tpc2_box_low[2] = { t2kgeometry::tpc2min[dim], t2kgeometry::tpc2min[dim2] };
+                            double tpc2_box_hig[2] = { t2kgeometry::tpc2max[dim], t2kgeometry::tpc2max[dim2] };
+
+                            m_runbd->DrawBox(fgd_box_low, fgd_box_hig);
+                            m_runbd->DrawBox(tpc2_box_low, tpc2_box_hig, DrawingStyle::Yellow);
+
+                            m_runbd->GetPOT(0.1,0.1)->Draw();
+                            PrintLogo(start_pos2D_fgdseg_c);
+
+                            start_pos2D_fgdseg_c->Write();
+
+                            delete start_pos2D_fgdseg_h;
+                            delete start_pos2D_fgdseg_c;
+
+                        }
+                        //**************************************** NFGD Segs End ************************************//
 
                         //**************************************** 2D END ************************************//
                 
