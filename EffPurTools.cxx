@@ -463,7 +463,7 @@ TH2D * EffPurTools::RatioVSVar(TTree * intree, std::string var_yx, int x_nbins, 
 
 int EffPurTools::GetNCuts()
 {
-    cout << "EffPurTools::GetNCuts()" << endl;
+    cout << "EffPurTools::GetNCuts() m_ncuts = " << m_ncuts << endl;
 
     if(m_ncuts == -999){
         cout << "EffPurTools::GetNCuts() = " << m_ncuts << endl;
