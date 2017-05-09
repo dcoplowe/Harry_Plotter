@@ -28,6 +28,8 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
     m_ghcounter2D = -1;
     m_effvarcounter = -1;
     m_purvarcounter = -1;
+
+    m_ncuts = -999;
     
     m_file = new TFile(filename.c_str(), "READ");
     
@@ -461,18 +463,21 @@ TH2D * EffPurTools::RatioVSVar(TTree * intree, std::string var_yx, int x_nbins, 
 
 int EffPurTools::GetNCuts()
 {
-    assert( m_truth->GetEntries() > 1 );
-    m_truth->GetEntry(0);
-    TLeaf * lused = m_truth->GetLeaf("truth_ncuts");
-    int ncuts = 0;
-    if(lused) ncuts = lused->GetValue();
-    else {
-        ncuts = 0;
-        TBranch * tmp_br = m_recon->GetBranch( Form("cut%d", ncuts) );
-        while( tmp_br != 0x0 ){
-            ncuts++;
-            tmp_br = m_recon->GetBranch( Form("cut%d", ncuts) );
+    if(m_ncuts == -999){
+        assert( m_truth->GetEntries() > 1 );
+        m_truth->GetEntry(0);
+        TLeaf * lused = m_truth->GetLeaf("truth_ncuts");
+        int ncuts = 0;
+        if(lused) ncuts = lused->GetValue();
+        else {
+            ncuts = 0;
+            TBranch * tmp_br = m_recon->GetBranch( Form("cut%d", ncuts) );
+            while( tmp_br != 0x0 ){
+                ncuts++;
+                tmp_br = m_recon->GetBranch( Form("cut%d", ncuts) );
+            }
         }
+        return ncuts;
     }
-    return ncuts;
+    else return m_ncuts;
 }

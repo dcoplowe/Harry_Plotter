@@ -104,9 +104,14 @@ public:
 
     void Make2DPlots(Variable x_var, Variable y_var, std::string savename, std::string cuts);
 
+    void SetBranchToPlot(int accum_level = -999, int branch = -999){ m_accum_level = accum_level; m_branch = branch; }
+
 private:
     std::string m_infilename;
     bool m_realdata;
+
+    int m_accum_level;
+    int m_branch;
 
     Experiment * m_experiment;
 
@@ -142,7 +147,7 @@ private:
 };
 
 ProducePlots::ProducePlots(Experiment::Name exp, std::string filename, bool debug, bool realdata) : m_infilename(filename),
-m_realdata(realdata) {
+m_realdata(realdata), m_accum_level(-999), m_branch(-999) {
 
     cout << "Experiment: " <<  Experiment::ToString(exp) << endl;
     
@@ -202,6 +207,30 @@ ProducePlots::~ProducePlots(){
     
     delete m_recovars;
     delete m_runbd;
+}
+
+void SetBranchToPlot(int accum_level, int branch)
+{ 
+    m_accum_level = accum_level; 
+    m_branch = branch; 
+
+    if(m_branch != -999 && m_experiment->GetType() == Experiment::T2K){
+        //For now assume type 1 run:
+        if(m_branch == 1){
+            std::vector<std::string> cut_list;
+            cut_list.push_back("Event Quality");
+            cut_list.push_back("> 0 Tracks");
+            cut_list.push_back("Quality and Fiducial");
+            cut_list.push_back("Veto");
+            cut_list.push_back("3 TPC Tracks (+2, -1)");
+            cut_list.push_back("Common Vertex");
+            m_runep->SetNCuts(6);
+            m_runep->SetCutNames(cut_list);
+        }
+    }
+
+    // if(m_accum_level != -999 && m_experiment->GetType() == Experiment::T2K){
+    // }
 }
 
 void ProducePlots::PrintLogo(TCanvas *& can){
@@ -663,7 +692,10 @@ void ProducePlots::MakePlots(){
         branchnames[0] = "";
 
         basecuts = new string[ nbranches ];
-        basecuts[0] = m_experiment->GetBaseCuts(5, 0);//Change back to 5
+        if(m_accum_level != -999 &&  m_branch != -999) basecuts[0] = m_experiment->GetBaseCuts(m_accum_level, m_branch);//Change back to 5
+        else if(m_accum_level != -999) basecuts[0] = m_experiment->GetBaseCuts(m_accum_level, 0);//Change back to 5
+        else if(m_branch != -999) basecuts[0] = m_experiment->GetBaseCuts(5, m_branch);
+        else basecuts[0] = m_experiment->GetBaseCuts(5, 0);
     }
 
     if(m_verbose) cout << "Running on Particles:" << endl;
@@ -1079,7 +1111,6 @@ void ProducePlots::MakePlots(){
             for(int dim = 0; dim < 3; dim++){
                 stringstream dimss; 
                 dimss << dim;
-
 
                 int dim1cut, dim2cut;
                 string dim1cuts, dim2cuts;
@@ -1558,18 +1589,21 @@ int main(int argc, char *argv[])
     Experiment::Name experiment = Experiment::UNKNOWN;
     bool realdata = false;
     bool verbose = false;
+    int accum_level = -999;
+    int branch_no = -999;
 
     char cc;
     while((cc = getopt(argc, argv, "i:o:d::t::m::r::v::")) != -1){
         switch (cc){
-            case 'i': filename = std::string(optarg); break;
-            case 'o': savename = optarg; break;
-            case 'd': debug = true; break;
-            case 't': experiment = Experiment::T2K; break;
-            case 'm': experiment = Experiment::MIN; break;
-            case 'r': realdata = true; break;
-            case 'v': verbose = true; break;
-
+            case 'i': filename = std::string(optarg); break;//input file
+            case 'o': savename = optarg; break;             //output file
+            case 'd': debug = true; break;                  //Debug on
+            case 't': experiment = Experiment::T2K; break;  //Exp type
+            case 'm': experiment = Experiment::MIN; break;  //Exp type
+            case 'r': realdata = true; break;               //Running w/o truth tree
+            case 'v': verbose = true; break;                //Verbose on
+            case 'a': accum_level = atoi(optarg); break;    //Set the accum_level to plot from
+            case 'b': branch_no = atoi(optarg); break;      //Choose which branch you want to plot
             default: return 1;
         }
     }
@@ -1590,6 +1624,7 @@ int main(int argc, char *argv[])
 
     ProducePlots * plots = new ProducePlots(experiment, filename, debug, realdata);
     plots->Verbose(verbose);
+    plots->SetBranchToPlot(accum_level, branch_no);//Make this function better.
 
     if(!savename.empty()) plots->SetSaveName(savename);
     

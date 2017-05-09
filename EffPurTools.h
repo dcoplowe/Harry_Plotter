@@ -52,6 +52,7 @@ public:
     void SetCutNames(std::vector<std::string> var);
     void SetCutName(std::string var);//This must be written in order;
     void ResetCutNames();
+    void SetNCuts(int ncuts){ m_ncuts = ncuts;}
     
 private:
     //File and directory info:
@@ -84,8 +85,8 @@ private:
     int m_effvarcounter;
     int m_purvarcounter;
     
+    int m_ncuts;
     // Double_t * EvenArray(int nbins, Double_t x_low, Double_t x_high);
-
 };
 
 #endif
