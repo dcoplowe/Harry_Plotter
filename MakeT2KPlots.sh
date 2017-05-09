@@ -12,7 +12,7 @@ echo $PATH
 
 dir=$(dirname ${infile})
 
-savename="${dir##*/}"_plots.root
+savename="${dir##*/}"_${TODAY}_plots.root
 
 echo Outfile: $savename
 cd ${dir}

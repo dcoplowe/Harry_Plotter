@@ -56,10 +56,10 @@ const string test_t2k_mc("/data/t2k/coplowe/numuCC1P1PiOutput/march17/neutP6BWA/
 class ProducePlots {
 
 public:
-    ProducePlots(Experiment::Name exp, std::string filename, bool debug, bool realdata);
+    ProducePlots(Experiment::Name exp, std::string infilename, std::string outfilename, bool debug, bool realdata);
     ~ProducePlots();
     
-    void SetSaveName(std::string var){ m_savename = var; }
+    // void SetSaveName(std::string var){ m_savename = var; }
     
 //    void ProduceGroup();
 
@@ -146,8 +146,8 @@ private:
     bool m_verbose;
 };
 
-ProducePlots::ProducePlots(Experiment::Name exp, std::string filename, bool debug, bool realdata) : m_infilename(filename),
-m_realdata(realdata), m_accum_level(-999), m_branch(-999) {
+ProducePlots::ProducePlots(Experiment::Name exp, std::string infilename, std::string outfilename, bool debug, bool realdata) : m_infilename(filename),
+m_realdata(realdata), m_accum_level(-999), m_branch(-999), m_savename(outfilename) {
 
     cout << "Experiment: " <<  Experiment::ToString(exp) << endl;
     
@@ -172,8 +172,17 @@ m_realdata(realdata), m_accum_level(-999), m_branch(-999) {
         m_pion_alt = m_recovars->pion_alt;
     }
     
-    m_savename = Experiment::ToString(exp) + "_CC1P1PiPlus_Plots_" + GetDate() + ".root";
-    
+    if(m_savename.empty()) m_savename = Experiment::ToString(exp) + "_CC1P1PiPlus_Plots_" + GetDate() + ".root";
+    // else{
+    //     if(m_savename.find(".root") == std::string::npos){
+    //         //If no file extension add one:
+    //     } 
+    //     else if(m_savename.find( GetDate().c_str() ) == std::string::npos){
+    //         //Append 
+    //     }
+
+    // }
+
     cout << "Saving file as " << m_savename << endl;
     
     m_runbd = new BreakdownTools( m_infilename, m_experiment->GetRecoName(), m_experiment->GetTopologies(), m_experiment->GetTarVarName() );
@@ -1666,11 +1675,11 @@ int main(int argc, char *argv[])
         cout << "      To run on specific file use (-i filename)." << endl;
     }
 
-    ProducePlots * plots = new ProducePlots(experiment, filename, debug, realdata);
+    ProducePlots * plots = new ProducePlots(experiment, filename, savename, debug, realdata);
     plots->Verbose(verbose);
     plots->SetBranchToPlot(accum_level, branch_no);//Make this function better.
 
-    if(!savename.empty()) plots->SetSaveName(savename);
+    // if(!savename.empty()) plots->SetSaveName(savename);
     
     plots->MakePlots();
 
