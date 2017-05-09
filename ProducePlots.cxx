@@ -1087,12 +1087,11 @@ void ProducePlots::MakePlots(){
             cdDir("FGDSegments");
 
             Variable nfgdsegments(m_muon->fgd_start.GetName() + " + " + m_proton->fgd_start.GetName() + " + " + m_pion->fgd_start.GetName(),"","");
-            string segcuts = basecuts[br] + " && " + m_muon->fgd_start.GetName() + "!= -999 && " + m_proton->fgd_start.GetName() + " != -999";
-            segcuts += " && ";
+            string segcuts = m_muon->fgd_start.GetName() + "!= -999 && " + m_proton->fgd_start.GetName() + " != -999 && ";
             segcuts += m_pion->fgd_start.GetName();
             segcuts += " != -999";
 
-            TH1D * nfgdsegments_h = m_runbd->GetHisto(nfgdsegments.GetName(), 3, 1., 4., "N tracks with FGD Segments", segcuts);
+            TH1D * nfgdsegments_h = m_runbd->GetHisto(nfgdsegments.GetName(), 3, 1., 4., "N tracks with FGD Segments", basecuts[br] + " && " + segcuts);
             for(int nloop = 0; nloop < nfgdsegments_h->GetNbinsX(); nloop++) nfgdsegments_h->GetXaxis()->SetBinLabel(nloop+1, Form("%d", nloop+1) );
             nfgdsegments_h->SetFillColor(DrawingStyle::Yellow);
 
@@ -1100,6 +1099,7 @@ void ProducePlots::MakePlots(){
             nfgdsegments_h->Draw();
             PrintLogo(nfgdsegments_c);
             nfgdsegments_c->Write();
+
         //************************************** No. FGD Segments End *************************************//
 
 
@@ -1224,6 +1224,26 @@ void ProducePlots::MakePlots(){
                 //**************************************** 1D START ************************************//
                 ProduceGroup(vtx_pos, dimnbins[dim], t2kgeometry::fgd1min_offset[dim], t2kgeometry::fgd1max_offset[dim], vtx_pos_cuts);//TODO: Add detector lines to this plot.
                 //**************************************** 1D END ************************************//
+
+                //**************************************** 1D NFGD Segs VTX Pos START ************************************//
+
+                //Vertex Position for NFGD Segments: 1, 2, 3:
+                for(int nsegs = 1; nsegs < 4; nsegs++){
+                    stringstream snsegs; 
+                    snsegs << nsegs;
+                    string seg_vtx_cut = nfgdsegments.GetName() + " == " + snsegs.str() + " && " + vtx_pos_cuts + " && " + segcuts;
+
+                    Variable vtx_pos_fgdseg(vtx_pos);
+                    cout << "vtx_pos_fgdseg.GetSName() = " << vtx_pos_fgdseg.GetSName() << endl;
+
+                    vtx_pos_fgdseg.SetSName( vtx_pos_fgdseg.GetSName() + "_" + snsegs.str() + "fgdseg" );
+                    cout << "vtx_pos_fgdseg.GetSName() = " << vtx_pos_fgdseg.GetSName() << endl;
+
+                    ProduceGroup(vtx_pos_fgdseg, dimnbins[dim], t2kgeometry::fgd1min_offset[dim], t2kgeometry::fgd1max_offset[dim], seg_vtx_cut);
+                    //TODO: Add detector lines to this plot.
+                }
+                //**************************************** 1D NFGD Segs VTX Pos END ************************************//
+
 
                 //**************************************** 1D Purity START ************************************//
 

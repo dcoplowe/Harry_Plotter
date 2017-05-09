@@ -307,6 +307,16 @@ public:
     Variable(std::string name, int nbins, Double_t low, Double_t high, std::string symbol= "", std::string units = "", std::string savename = "", std::string pdg = "") :
         m_name(name), m_symbol(symbol), m_units(units), m_savename(savename), m_pdg(pdg), m_nbins(nbins), m_binning( DrawingTools::SetBinning(m_nbins, low, high) ) {;}
 
+    Variable(Variable &input){ 
+        m_name = input.GetName();
+        m_symbol = input.GetSymbol();
+        m_units = input.GetUnits();
+        m_savename = input.GetSName();
+        m_pdg = input.GetPDG();
+        m_nbins = input.GetNBins();
+        m_binning = input.GetBinnin();
+    }
+    
     ~Variable(){;}//delete m_binning;}
 
     void SetName(std::string var){ m_name = var; }
