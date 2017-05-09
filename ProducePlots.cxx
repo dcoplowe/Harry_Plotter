@@ -223,7 +223,7 @@ void ProducePlots::SetBranchToPlot(int accum_level, int branch)
     m_accum_level = accum_level; 
     m_branch = branch; 
 
-    cout << "ProducePlots::SetBranchToPlot: m_accum_level = " << m_accum_level << " m_branch = " << m_branch << endl;
+    // cout << "ProducePlots::SetBranchToPlot: m_accum_level = " << m_accum_level << " m_branch = " << m_branch << endl;
 
     if(m_branch != -999 && m_experiment->GetType() == Experiment::T2K){
         //For now assume type 1 run:
@@ -239,7 +239,6 @@ void ProducePlots::SetBranchToPlot(int accum_level, int branch)
             m_runep->SetCutNames(cut_list);
         }
     }
-
     // if(m_accum_level != -999 && m_experiment->GetType() == Experiment::T2K){
     // }
 }
