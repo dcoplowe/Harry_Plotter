@@ -12,9 +12,12 @@ echo $PATH
 
 dir=$(dirname ${infile})
 
+savename="${dir##*/}"_plots.root
+
+echo Outfile: $savename
 cd ${dir}
 pwd
 
 echo "Starting to produce plots."
-ProducePlots -t -i ${infile}
+ProducePlots -t -i ${infile} -v -o ${dir}/${savename}
 echo "Finished making plots."
