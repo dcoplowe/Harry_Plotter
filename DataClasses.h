@@ -85,6 +85,11 @@ public:
         CCNPiNN, //N pions, N Neutrons
         CCNPiNPNN, //N pions, N Protons N Neutrons
         //CCNucBreakUp, -- may be nice in the future
+        // Inclusive final state:
+        CC1P1PiPlusInc,
+        CCNPInc,
+        CCNPiPlusInc,
+
         Other,
         Unknown = -999
     };
@@ -110,9 +115,12 @@ public:
         std::string sname = "Unknown";
         if(name == HCC1P1PiPlus)            sname = (form == 0) ? "HCC1P1PiPlus"        : "CC1p1#pi^{+} on H";
         else if(name == CC1P1PiPlus)        sname = (form == 0) ? "CC1P1PiPlus"         : "CC1p1#pi^{+}";
+        else if(name == CC1P1PiPlusInc)     sname = (form == 0) ? "CC1P1PiPlusInc"      : "Inclusive CC1p1#pi^{+}";
         else if(name == CCNPNPiMinus)       sname = (form == 0) ? "CCNPNPiMinus"        : "CCNpN#pi^{-}";
         else if(name == CCNP)               sname = (form == 0) ? "CCNP"                : "CCNp";
+        else if(name == CCNPInc)            sname = (form == 0) ? "CCNPInc"             : "Inclusive CCNp";
         else if(name == CCNPiPlus)          sname = (form == 0) ? "CCNPiPlus"           : "CCN#pi^{+}";
+        else if(name == CCNPiPlusInc)       sname = (form == 0) ? "CCNPiPlusInc"        : "Inclusive CCN#pi^{+}";
         else if(name == CCNPNPiZero)        sname = (form == 0) ? "CCNPNPiZero"         : "CCNPN#pi^{0}";
         else if(name == CCNPiZeroNPiPlus)   sname = (form == 0) ? "CCNPiZeroNPiPlus"    : "CCN#pi^{0}N#pi^{+}";
         else if(name == CCKaonsOth)         sname = (form == 0) ? "CCKaonsOth"          : "CC Kaons Inc.";

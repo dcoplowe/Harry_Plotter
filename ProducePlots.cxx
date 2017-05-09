@@ -1143,7 +1143,34 @@ void ProducePlots::MakePlots(){
         }
         //************************************** dpTT End *************************************//
 
-        if(m_experiment->GetType() == Experiment::T2K){ 
+        if(m_experiment->GetType() == Experiment::T2K){
+
+
+            cdDir("dpTT" + branchnames[br]);   
+            for(int fgdseg = 1; fgdseg < 4; fgdseg++){
+                stringstream fgdsegs;
+                fgdsegs << fgdseg;
+                string start_pos_fgdseg_cuts = basecuts[br] + " && " + m_muon->fgd_start.GetName();
+                start_pos_fgdseg_cuts += " + ";
+                start_pos_fgdseg_cuts += m_proton->fgd_start.GetName();
+                start_pos_fgdseg_cuts += " + ";
+                start_pos_fgdseg_cuts += m_pion->fgd_start.GetName();
+                start_pos_fgdseg_cuts += " == ";
+                start_pos_fgdseg_cuts += fgdsegs.str();
+                start_pos_fgdseg_cuts += " && ";
+                start_pos_fgdseg_cuts += m_muon->fgd_start.GetName();
+                start_pos_fgdseg_cuts += " != -999";
+                start_pos_fgdseg_cuts += " && ";
+                start_pos_fgdseg_cuts += m_proton->fgd_start.GetName();
+                start_pos_fgdseg_cuts += " != -999";
+                start_pos_fgdseg_cuts += " && ";
+                start_pos_fgdseg_cuts += m_pion->fgd_start.GetName();
+                start_pos_fgdseg_cuts += " != -999";
+
+                dpTT.SetSName(m_recovars->dpTT + "_" + fgdseg.str() + "FGDSeg");
+                ProduceGroup(dpTT, 29, -300, 300, start_pos_fgdseg_cuts);
+            }
+
             if(m_verbose) cout << "Making T2K specific plots" << endl;
             //************************************** No. FGD Segments Start *************************************//
             cdDir("FGDSegments");
