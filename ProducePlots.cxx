@@ -1232,12 +1232,9 @@ void ProducePlots::MakePlots(){
                     stringstream snsegs; 
                     snsegs << nsegs;
                     string seg_vtx_cut = nfgdsegments.GetName() + " == " + snsegs.str() + " && " + vtx_pos_cuts + " && " + segcuts;
-                    cout << "seg_vtx_cut = " << seg_vtx_cut << endl;
                     Variable vtx_pos_fgdseg(vtx_pos);
-                    cout << "vtx_pos_fgdseg.GetSName() = " << vtx_pos_fgdseg.GetSName() << endl;
-
                     vtx_pos_fgdseg.SetSName( vtx_pos_fgdseg.GetSName() + "_" + snsegs.str() + "fgdseg" );
-                    cout << "vtx_pos_fgdseg.GetSName() = " << vtx_pos_fgdseg.GetSName() << endl;
+                    vtx_pos_fgdseg.SetSymbol( vtx_pos_fgdseg.GetSymbol() + " " + snsegs.str() + "FGD Segment(s)" );
 
                     ProduceGroup(vtx_pos_fgdseg, dimnbins[dim], t2kgeometry::fgd1min_offset[dim], t2kgeometry::fgd1max_offset[dim], seg_vtx_cut);
                     //TODO: Add detector lines to this plot.
@@ -1306,6 +1303,33 @@ void ProducePlots::MakePlots(){
 
                     delete vtx_pos2D_h;
                     delete vtx_pos2D_c;
+
+                    //Vertex Position for NFGD Segments: 1, 2, 3:
+                    for(int nsegs = 1; nsegs < 4; nsegs++){
+                        stringstream snsegs; 
+                        snsegs << nsegs;
+                        string seg_vtx_cut = nfgdsegments.GetName() + " == " + snsegs.str() + " && " + vtx_pos_cuts + " && " + segcuts;
+    
+                        TH2D * vtx_pos2D_fgdseg_h = m_runbd->GetHisto(vtx_pos2D, dimnbins[dim], t2kgeometry::fgd1min_offset[dim], 
+                        t2kgeometry::fgd1max_offset[dim], dimnbins[dim2], t2kgeometry::fgd1min_offset[dim2], 
+                        t2kgeometry::fgd1max_offset[dim2], "Start Position " + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] + " (mm)", seg_vtx_cut);
+
+                        TCanvas * vtx_pos2D_fgdseg_c = new TCanvas((vtx_pos.GetSName() + m_NameXYZ[dim2] + "_" + snsegs.str() + "fgdseg").c_str(), "", 400, 400);
+                        vtx_pos2D_fgdseg_c->cd();
+                        vtx_pos2D_fgdseg_h->Draw("COLZ");
+                        double box_low[2] = { t2kgeometry::fgd1min[dim], t2kgeometry::fgd1min[dim2] };
+                        double box_hig[2] = { t2kgeometry::fgd1max[dim], t2kgeometry::fgd1max[dim2] };
+                        m_runbd->DrawBox(box_low, box_hig);
+                        m_runbd->GetPOT(0.1,0.1)->Draw();
+                        PrintLogo(vtx_pos2D_fgdseg_c);
+
+                        vtx_pos2D_fgdseg_c->Write();
+
+                        delete vtx_pos2D_fgdseg_h;
+                        delete vtx_pos2D_fgdseg_c;
+
+                    }
+
 
                 //**************************************** 2D END ************************************//  
 
