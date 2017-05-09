@@ -1640,7 +1640,7 @@ int main(int argc, char *argv[])
     while((cc = getopt(argc, argv, "i:o:d::t::m::r::v::")) != -1){
         switch (cc){
             case 'i': filename = std::string(optarg); break;//input file
-            case 'o': savename = optarg; break;             //output file
+            case 'o': savename = std::string(optarg); break;//output file
             case 'd': debug = true; break;                  //Debug on
             case 't': experiment = Experiment::T2K; break;  //Exp type
             case 'm': experiment = Experiment::MIN; break;  //Exp type
