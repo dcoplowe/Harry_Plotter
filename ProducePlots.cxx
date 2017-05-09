@@ -146,7 +146,7 @@ private:
     bool m_verbose;
 };
 
-ProducePlots::ProducePlots(Experiment::Name exp, std::string infilename, std::string outfilename, bool debug, bool realdata) : m_infilename(filename),
+ProducePlots::ProducePlots(Experiment::Name exp, std::string infilename, std::string outfilename, bool debug, bool realdata) : m_infilename(infilename),
 m_realdata(realdata), m_accum_level(-999), m_branch(-999), m_savename(outfilename) {
 
     cout << "Experiment: " <<  Experiment::ToString(exp) << endl;
