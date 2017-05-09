@@ -927,6 +927,18 @@ void ProducePlots::MakePlots(){
                     start_pos.SetPDG(party->pdg.GetName());
                     // cout << "fgd1tpc_offset " << m_NameXYZ[dim] << " min  = " << t2kgeometry::fgd1tpcmin_offset[dim] << " max  = " << t2kgeometry::fgd1tpcmax_offset[dim] << endl; 
                     PositionPlot(start_pos, dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim], start_pos_cuts);
+
+                    //**************************************** 1D END ************************************//
+                    for(int fgdseg = 0; fgdseg < 2; fgdseg++){
+                        stringstream fgdsegs;
+                        fgdsegs << fgdseg; 
+                        string start_pos_fgdseg_cuts = start_pos_cuts + " && " + party->fgd_start.GetName() + " == " + fgdsegs.str();
+                        Variable start_pos_fgdseg(start_pos);
+                        start_pos_fgdseg.SetSName( start_pos_fgdseg.GetSName() + "_" + (fgdseg == 0 ? "nofgdseg" : "fgdseg") );
+                        PositionPlot(start_pos, dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim], start_pos_fgdseg_cuts);
+                    }
+                    //**************************************** 1D END ************************************//
+    
                 //**************************************** 1D END ************************************//
                 
                 //**************************************** 1D Purity START ************************************//
