@@ -314,7 +314,7 @@ public:
         m_savename = input.GetSName();
         m_pdg = input.GetPDG();
         m_nbins = input.GetNBins();
-        m_binning = input.GetBinnin();
+        m_binning = input.GetBinning();
     }
     
     ~Variable(){;}//delete m_binning;}
