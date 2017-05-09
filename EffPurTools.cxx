@@ -465,10 +465,10 @@ TH2D * EffPurTools::RatioVSVar(TTree * intree, std::string var_yx, int x_nbins, 
 
 int EffPurTools::GetNCuts()
 {
-    cout << "EffPurTools::GetNCuts() m_ncuts = " << m_ncuts << endl;
+    // cout << "EffPurTools::GetNCuts() m_ncuts = " << m_ncuts << endl;
 
     if(m_ncuts == -999){
-        cout << "EffPurTools::GetNCuts() = " << m_ncuts << endl;
+        // cout << "EffPurTools::GetNCuts() = " << m_ncuts << endl;
         assert( m_truth->GetEntries() > 1 );
         m_truth->GetEntry(0);
         TLeaf * lused = m_truth->GetLeaf("truth_ncuts");
@@ -482,7 +482,7 @@ int EffPurTools::GetNCuts()
                 tmp_br = m_recon->GetBranch( Form("cut%d", ncuts) );
             }
         }
-        cout << "EffPurTools::GetNCuts() = " << ncuts << endl;
+        // cout << "EffPurTools::GetNCuts() = " << ncuts << endl;
         return ncuts;
     }
     else return m_ncuts;
