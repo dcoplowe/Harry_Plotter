@@ -717,6 +717,8 @@ m_symbol(ToString(m_type ,1)), m_fill_colour(0), m_fill_style(1001), m_line_colo
 	m_signal = definition;
     // cout << "Post : " << "FC = " << m_fill_colour << " LC = " << m_line_colour << " FS = " << m_fill_style << " LS = " << m_line_style << endl;
 
+    int inclusive = 3144;
+
 	if(m_type == HCC1P1PiPlus){
 		m_line_style = 2;
 		m_line_colour = 1;
@@ -725,18 +727,18 @@ m_symbol(ToString(m_type ,1)), m_fill_colour(0), m_fill_style(1001), m_line_colo
     else if(m_type == CC1P1PiPlus) m_fill_colour = (Int_t)DrawingStyle::T1P1PiP;//Proton
     else if(m_type == CC1P1PiPlusInc){
         m_fill_colour = (Int_t)DrawingStyle::T1P1PiP;
-        m_fill_style = 3003;
+        m_fill_style = inclusive;
     }
     else if(m_type == CCNPNPiMinus) m_fill_colour = (Int_t)DrawingStyle::T1P1PiM;
 	else if(m_type == CCNP) m_fill_colour = (Int_t)DrawingStyle::T2Pr;
     else if(m_type == CCNPInc){
         m_fill_colour = (Int_t)DrawingStyle::T2Pr;
-        m_fill_style = 3003;
+        m_fill_style = inclusive;
     }
     else if(m_type == CCNPiPlus) m_fill_colour = (Int_t)DrawingStyle::T2PiP;
-    else if(m_type == CCNPiPlus){ 
+    else if(m_type == CCNPiPlusInc){ 
         m_fill_colour = (Int_t)DrawingStyle::T2PiP;
-        m_fill_style = 3003;
+        m_fill_style = inclusive;
     }
     else if(m_type == CCNPNPiZero) m_fill_colour = (Int_t)DrawingStyle::T1P1Pi0;
     else if(m_type == CCNPiZeroNPiPlus) m_fill_colour = (Int_t)DrawingStyle::T1Pi1Pi0;

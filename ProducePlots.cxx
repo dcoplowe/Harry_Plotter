@@ -1145,7 +1145,6 @@ void ProducePlots::MakePlots(){
 
         if(m_experiment->GetType() == Experiment::T2K){
 
-
             cdDir("dpTT" + branchnames[br]);   
             for(int fgdseg = 1; fgdseg < 4; fgdseg++){
                 stringstream fgdsegs;
