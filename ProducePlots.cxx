@@ -1167,7 +1167,7 @@ void ProducePlots::MakePlots(){
                 start_pos_fgdseg_cuts += m_pion->fgd_start.GetName();
                 start_pos_fgdseg_cuts += " != -999";
 
-                dpTT.SetSName(m_recovars->dpTT + "_" + fgdseg.str() + "FGDSeg");
+                dpTT.SetSName(m_recovars->dpTT + "_" + fgdsegs.str() + "FGDSeg");
                 ProduceGroup(dpTT, 29, -300, 300, start_pos_fgdseg_cuts);
             }
 
