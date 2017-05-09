@@ -1495,9 +1495,9 @@ void ProducePlots::MakePlots(){
             pur_CC1P1Pi->SetLineStyle(7);
 
 
-            eff_CC1P1PiInc->SetLineColor(DrawingStyle::Red);
+            eff_CC1P1PiInc->SetLineColor(DrawingStyle::Blue);
             // eff_CC1P1Pi->SetLineStyle(7);
-            pur_CC1P1PiInc->SetLineColor(DrawingStyle::Red);
+            pur_CC1P1PiInc->SetLineColor(DrawingStyle::Blue);
             pur_CC1P1PiInc->SetLineStyle(7);
 
             eff_new->GetYaxis()->SetTitle("Pur/Eff. (%)");
