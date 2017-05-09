@@ -20,7 +20,8 @@
 
 using namespace std;
 
-DrawingTools::DrawingTools(std::string filename, std::string treename, std::string uniquename) : m_filename(filename), m_treename(treename), m_uniquename(uniquename), m_weight("1"), m_verbose(print_level::drawingtools), m_bad_POT(true) {
+DrawingTools::DrawingTools(std::string filename, std::string treename, std::string uniquename) : m_filename(filename), m_treename(treename), m_uniquename(uniquename), m_weight("1"),
+    m_verbose(print_level::drawingtools), m_bad_POT(true), m_linewarning(true) {
     
     m_file = new TFile(m_filename.c_str(), "READ");
     
@@ -451,7 +452,10 @@ void DrawingTools::DrawLine(THStack * stack, double pos, int color, int style, i
 
 void DrawingTools::DrawLine(TH1 * histo, double pos, int color, int style, int width){
     if(pos > histo->GetXaxis()->GetXmin() && pos < histo->GetXaxis()->GetXmax()) DrawLine(pos, histo->GetMinimum(), pos, histo->GetMaximum(), color, style, width);
-    else cout << "DrawingTools::DrawLine : Warning : X position of line out of range" << endl;
+    else if(m_linewarning){ 
+        m_linewarning = false;
+        cout << "DrawingTools::DrawLine : Warning : X position of line out of range : Switching off" << endl; 
+    }
 }
 
 void DrawingTools::DrawLine(TCanvas * can, double pos, int color, int style, int width)

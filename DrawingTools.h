@@ -108,7 +108,8 @@ private:
     
     bool m_bad_POT;
     double m_POT;
-    
+    bool m_linewarning;
+
     KinMap empty_kinmap;
     
 };
