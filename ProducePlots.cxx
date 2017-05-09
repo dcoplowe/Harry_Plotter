@@ -1478,8 +1478,17 @@ void ProducePlots::MakePlots(){
             TH1D * eff_CC1P1Pi = m_runep->EffVSCuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), br);
             TH1D * pur_CC1P1Pi = m_runep->PurVSCuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), br);
 
+            TH1D * eff_CC1P1PiInc = m_runep->EffVSCuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSignal(), br);
+            TH1D * pur_CC1P1PiInc = m_runep->PurVSCuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSignal(), br);
+
+
+            eff_new->SetLineColor(DrawingStyle::Yellow);
+            // eff_new->SetLineStyle(7);
+            pur_new->SetLineColor(DrawingStyle::Yellow);
+            pur_new->SetLineStyle(7);
+
             eff_CC1P1Pi->SetLineColor(DrawingStyle::Red);
-            eff_CC1P1Pi->SetLineStyle(7);
+            // eff_CC1P1Pi->SetLineStyle(7);
             pur_CC1P1Pi->SetLineColor(DrawingStyle::Red);
             pur_CC1P1Pi->SetLineStyle(7);
 
@@ -1490,6 +1499,8 @@ void ProducePlots::MakePlots(){
             eff_CC1P1Pi->Draw("HISTSAME");
             pur_CC1P1Pi->Draw("HISTSAME");
 
+            eff_CC1P1PiInc->Draw("HISTSAME");
+            pur_CC1P1PiInc->Draw("HISTSAME");
 
             TLegend * eff_pur_cuts_leg = m_runbd->Legend(0.2,0.1);
             eff_pur_cuts_leg->AddEntry(eff_new, ("Efficiency (" + m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol() + ")").c_str(), "l");
@@ -1497,6 +1508,9 @@ void ProducePlots::MakePlots(){
 
             eff_pur_cuts_leg->AddEntry(eff_CC1P1Pi, ("Efficiency (" + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol() + ")").c_str(), "l");
             eff_pur_cuts_leg->AddEntry(pur_CC1P1Pi, ("Purity ("     + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol() + ")").c_str(), "l");
+
+            eff_pur_cuts_leg->AddEntry(eff_CC1P1PiInc, ("Efficiency (" + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSymbol() + ")").c_str(), "l");
+            eff_pur_cuts_leg->AddEntry(pur_CC1P1PiInc, ("Purity ("     + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSymbol() + ")").c_str(), "l");
 
             if(m_experiment->GetType() == Experiment::MIN){
                 std::string signal_def_old = "truth_n_pro == 1 && truth_n_piP == 1 && truth_n_muo == 1 && mc_nFSPart == 3 && mc_targetZ == 1";
