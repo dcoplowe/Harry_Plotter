@@ -71,6 +71,8 @@ EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_name
     m_ghcounter2D = -1;
     m_effvarcounter = -1;
     m_purvarcounter = -1;
+
+    m_ncuts = -999;
     
     m_file = new TFile(filename.c_str(), "READ");
     
