@@ -1232,7 +1232,7 @@ void ProducePlots::MakePlots(){
                     stringstream snsegs; 
                     snsegs << nsegs;
                     string seg_vtx_cut = nfgdsegments.GetName() + " == " + snsegs.str() + " && " + vtx_pos_cuts + " && " + segcuts;
-
+                    cout << "seg_vtx_cut = " << seg_vtx_cut << endl;
                     Variable vtx_pos_fgdseg(vtx_pos);
                     cout << "vtx_pos_fgdseg.GetSName() = " << vtx_pos_fgdseg.GetSName() << endl;
 
