@@ -1746,7 +1746,7 @@ int main(int argc, char *argv[])
     int branch_no = -999;
 
     char cc;
-    while((cc = getopt(argc, argv, "i:o:d::t::m::r::v::")) != -1){
+    while((cc = getopt(argc, argv, "i:o:d::t::m::r::v::a:b:")) != -1){
         switch (cc){
             case 'i': filename = std::string(optarg); break;//input file
             case 'o': savename = std::string(optarg); break;//output file
