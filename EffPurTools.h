@@ -80,6 +80,7 @@ private:
     TH2D * GetHisto(TTree * intree, std::string var_yx, int x_nbins, Double_t * xbins, int y_nbins, Double_t * ybins, std::string cuts);
     
     int GetNCuts();
+    int MaxCutsToDraw();
 
     double GetCutEntries(int ignore, std::string cuts, int branch);
 

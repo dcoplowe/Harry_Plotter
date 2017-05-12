@@ -500,13 +500,7 @@ TH1D * EffPurTools::EffVSN1Cuts(std::string signal, int branch, std::string cuts
 
     TH1D * histo = new TH1D("effN1cuts", "", GetNCuts() + 1, 0, GetNCuts() + 1);
 
-    int max_bins = GetNCuts(); 
-    if(max_bins > (int)m_cutnames.size()){
-        max_bins = (int)m_cutnames.size();
-    }
-    else{
-        cout << __FILE__ << ":" << __LINE__ << " : " << "WARNING : Number of cuts is less than dimension of cut name list." << endl;
-    }
+    int max_bins = MaxCutsToDraw();
 
     TH1D * denom_h = new TH1D("denom_h","", 1, 0., 1.);
 
@@ -548,13 +542,7 @@ TH1D * EffPurTools::PurVSN1Cuts(std::string signal, int branch, std::string cuts
 
     TH1D * histo = new TH1D("purN1cuts", "", GetNCuts() + 1, 0, GetNCuts() + 1);
 
-    int max_bins = GetNCuts(); 
-    if(max_bins > (int)m_cutnames.size()){
-        max_bins = (int)m_cutnames.size();
-    }
-    else if(max_bins != (int)m_cutnames.size()){
-        cout << __FILE__ << ":" << __LINE__ << " : " << "WARNING : Number of cuts (" << GetNCuts() << ") is less than dimension (" << (int)m_cutnames.size() << ") of cut name list." << endl;
-    }
+    int max_bins = MaxCutsToDraw();
 
     for(int ignore = 0; ignore < GetNCuts() + 1; ignore++){
 
@@ -596,3 +584,15 @@ double EffPurTools::GetCutEntries(int ignore, std::string cuts, int branch)
     delete histo;
     return integral;
 }
+
+int EffPurTools::MaxCutsToDraw(){
+    int max_bins = GetNCuts(); 
+    if(max_bins > (int)m_cutnames.size()){
+        max_bins = (int)m_cutnames.size();
+    }
+    else if(max_bins != (int)m_cutnames.size()){
+        cout << __FILE__ << ":" << __LINE__ << " : " << "WARNING : Number of cuts (" << GetNCuts() << ") is less than dimension (" << (int)m_cutnames.size() << ") of cut name list." << endl;
+    }
+    return max_bins;
+}
+
