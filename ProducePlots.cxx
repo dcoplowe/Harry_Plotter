@@ -1558,16 +1558,16 @@ void ProducePlots::MakePlots(){
                 TH1D * effN1_new = m_runep->EffVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), br);
                 TH1D * purN1_new = m_runep->PurVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), br);
 
-                effN1_new->SetLineColor(Yellow);
-                purN1_new->SetLineColor(Yellow);
+                effN1_new->SetLineColor(DrawingStyle::Yellow);
+                purN1_new->SetLineColor(DrawingStyle::Yellow);
                 purN1_new->SetLineStyle(7);
                 // TH1D * effN1_CC1P1Pi = m_runep->EffVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), br);
                 // TH1D * purN1_CC1P1Pi = m_runep->PurVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), br);
 
                 TH1D * effN1_CC1P1PiInc = m_runep->EffVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSignal(), br);
                 TH1D * purN1_CC1P1PiInc = m_runep->PurVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSignal(), br);
-                effN1_CC1P1PiInc->SetLineColor(Blue);
-                purN1_CC1P1PiInc->SetLineColor(Blue);
+                effN1_CC1P1PiInc->SetLineColor(DrawingStyle::Blue);
+                purN1_CC1P1PiInc->SetLineColor(DrawingStyle::Blue);
                 purN1_CC1P1PiInc->SetLineStyle(7);
 
                 TLegend * eff_pur_N1cuts_leg = m_runbd->Legend(0.2,0.1);
