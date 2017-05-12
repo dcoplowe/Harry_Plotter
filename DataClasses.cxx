@@ -413,6 +413,14 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
         startpos = Variable(m_tag + name + "_startpos", "Start Pos.", "mm");
         truestartpos =  Variable(m_tag + name + "_truestartpos", "Start Pos.", "mm");
 
+        int pid_binning = 20;
+        double pid_low = 0.;
+        double pid_high = 1.;
+        PIDScoreMu = Variable(m_tag + name + "_LL_mu", pid_binning, pid_low, pid_high, "Score");
+        PIDScoreEl = Variable(m_tag + name + "_LL_el", pid_binning, pid_low, pid_high, "Score");
+        PIDScorePr = Variable(m_tag + name + "_LL_pr", pid_binning, pid_low, pid_high, "Score");
+        PIDScorePi = Variable(m_tag + name + "_LL_pi", pid_binning, pid_low, pid_high, "Score");
+
         // Varaible ranges/binning need improving:
 
         //MIN: Reco vars:

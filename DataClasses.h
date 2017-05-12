@@ -420,6 +420,11 @@ public:
     Variable cross_angle;
     Variable fgd_start;
     
+    Variable PIDScoreMu;
+    Variable PIDScoreEl;
+    Variable PIDScorePr;
+    Variable PIDScorePi;
+
     //T2K: True vars:
     Variable truectheta;
     // Variable truecrossing_angle;

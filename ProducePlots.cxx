@@ -1092,8 +1092,19 @@ void ProducePlots::MakePlots(){
 
                 }
 
-                
+                Variable pid_scores[4] = { party->PIDScoreMu, party->PIDScoreEl, party->PIDScorePr, party->PIDScorePi };
 
+                MakeDir();
+                for(int npid = 0; npid < 4; npid++){
+                    Variable pid = pid_scores[npid];
+                    m_runbd->GetPID();
+
+                    // party->GetPDG();
+
+
+
+
+                }
             }
 
         }
@@ -1415,7 +1426,6 @@ void ProducePlots::MakePlots(){
 
                     }
 
-
                 //**************************************** 2D END ************************************//  
 
                 //**************************************** 2D Purity START ************************************//
@@ -1587,8 +1597,16 @@ void ProducePlots::MakePlots(){
                 effN1_CC1P1PiInc->Draw("HISTSAME");
                 purN1_CC1P1PiInc->Draw("HISTSAME");
                 eff_pur_N1cuts_leg->Draw();
-                
+
                 eff_pur_N1cuts->Write();
+
+                delete effN1_new;
+                delete purN1_new;
+                delete effN1_CC1P1PiInc;
+                delete purN1_CC1P1PiInc;
+                delete eff_pur_N1cuts_leg;
+                delete eff_pur_N1cuts;
+
             }
 
             //******************************** Efficiency/Purity N - 1 Cuts END ********************************//

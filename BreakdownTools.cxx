@@ -736,6 +736,86 @@ TLegend * BreakdownTools::RatioStats(const THStack * ratio_tot)
     return ratio_stats;
 }
 
+TCanvas * BreakdownTools::PID(Variable var, std::string pdgvar, std::string cuts, std::vector<PDGInfo> pdglist)
+{
+
+    std::vector<TH1D*> kinmap_list;
+    std::vector<std::string> name_list;
+
+    std::string other_cut = cuts;
+    
+    std::string tmp_cuts_1 = cuts;
+    if(!cuts.empty()){
+        tmp_cuts_1 += " && ";
+        other_cut += " && (";
+    }
+    
+    other_cut += pdgvar;
+    other_cut += " != -999";
+    
+    for(int i = 0; i < (int)pdglist.size(); i++){
+
+        PDGInfo particle = pdglist[i];
+        
+        std::string tmp_cuts = tmp_cuts_1;
+        if(particle.IsBoth()) tmp_cuts += "TMath::Abs(";
+        tmp_cuts += pdgvar;
+        if(particle.IsBoth()) tmp_cuts += ")";
+        tmp_cuts += " == ";
+        tmp_cuts += particle.GetPDGStr();
+
+        if(!other_cut.empty()) other_cut += " && ";
+        
+        if(particle.IsBoth()) other_cut += "TMath::Abs(";
+        other_cut += pdgvar;
+        if(particle.IsBoth()) other_cut += ")";
+        other_cut += " != ";
+        other_cut += particle.GetPDGStr();
+
+        TH1D * tmp_kinmap = GetHisto(var.GetName(), var.GetNBins(), var.GetBinning(), var.GetAxisTitle(), tmp_cuts);
+        
+        SetColors(tmp_kinmap, particle.GetColor());
+        
+        kinmap_list.push_back(tmp_kinmap);
+        name_list.push_back(particle.GetSymbol());
+    }
+    
+    if(!cuts.empty()) other_cut += ")";
+
+    TH1D * other_kinmap = GetHisto(var.GetName(), var.GetNBins(), var.GetBinning(), var.GetSymbol(), other_cut);
+    SetColors(other_kinmap, DrawingStyle::Other);
+
+    kinmap_list.push_back(other_kinmap);
+    name_list.push_back("Other");
+
+    //Make outputs:
+    
+    THStack * recon_tot = new THStack( (var.GetSName() + "_PID").c_str(), Form(";%s (%s);%s", var.GetAxisTitle().c_str(), var.GetUnits().c_str(),
+        kinmap_list[0]->GetYaxis()->GetTitle() ) );
+    
+    TLegend * recon_leg = Legend(0.25, 0.4, 0.551, 0.362);
+    
+    std::vector<double> recon_percent = GetPercentage(kinmap_list);
+    
+    int list_size = (int)kinmap_list.size();
+
+    for(int forwards = 0; forwards < list_size; forwards++){
+        int backwards = list_size - 1 - forwards;
+        //Add other first:
+        recon_tot->Add( kinmap_list[backwards] );
+        recon_leg->AddEntry( kinmap_list[forwards], name_list[forwards].c_str(), "f");
+    }
+
+    TCanvas * cans = new TCanvas( recon_tot->GetName(), "", 500, 500);
+    cans->cd();
+    recon_tot->Draw();
+    recon_leg->Draw();
+    GetPOT(0.1,0.1)->Draw();
+
+    return cans;
+}
+
+
 // void BreakdownTools::DrawZeroPointLine(TH1 * histo){
 
 //     TLine * z_line = new TLine(0.0, histo->GetMinimum(), 0.0, histo->GetMaximum());
