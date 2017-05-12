@@ -553,7 +553,7 @@ TH1D * EffPurTools::PurVSN1Cuts(std::string signal, int branch, std::string cuts
         max_bins = (int)m_cutnames.size();
     }
     else{
-        cout << __FILE__ << ":" << __LINE__ << " : " << "WARNING : Number of cuts is less than dimension of cut name list." << endl;
+        cout << __FILE__ << ":" << __LINE__ << " : " << "WARNING : Number of cuts (" << GetNCuts() << ") is less than dimension " << (int)m_cutnames.size() << "of cut name list." << endl;
     }
 
     for(int ignore = 0; ignore < GetNCuts() + 1; ignore++){
