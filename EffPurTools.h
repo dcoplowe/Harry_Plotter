@@ -48,6 +48,9 @@ public:
     TH2D * PurVSVar(std::string var_yx, int x_nbins, Double_t x_low, Double_t x_high, int y_nbins, Double_t y_low, Double_t y_high, std::string signal,
      std::string cuts, std::string xy_title = "");
     
+    TH1D * EffVSN1Cuts(std::string signal, int branch = 0, std::string cuts = "");
+    TH1D * PurVSN1Cuts(std::string signal, int branch = 0, std::string cuts = "");
+
     void Debug(){ if(m_debug) m_debug = false; else m_debug = true; }
     void SetCutNames(std::vector<std::string> var);
     void SetCutName(std::string var);//This must be written in order;
@@ -77,6 +80,8 @@ private:
     TH2D * GetHisto(TTree * intree, std::string var_yx, int x_nbins, Double_t * xbins, int y_nbins, Double_t * ybins, std::string cuts);
     
     int GetNCuts();
+
+    double GetCutEntries(int ignore, std::string cuts, int branch);
 
     int m_purhcounter;
     int m_effhcounter;

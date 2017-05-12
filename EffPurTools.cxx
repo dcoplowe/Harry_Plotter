@@ -482,8 +482,113 @@ int EffPurTools::GetNCuts()
                 tmp_br = m_recon->GetBranch( Form("cut%d", ncuts) );
             }
         }
+        m_ncuts = ncuts; // This will make the code run faster.
         // cout << "EffPurTools::GetNCuts() = " << ncuts << endl;
-        return ncuts;
+        return m_ncuts;
     }
     else return m_ncuts;
+}
+
+
+TH1D * EffPurTools::EffVSN1Cuts(std::string signal, int branch, std::string cuts)
+{
+// Want to do ncuts - 1: 
+    // For each cut turn all other cuts on
+    string joint_cut = signal;
+    if(!joint_cut.empty()) joint_cut += " && ";
+    joint_cut += cuts;
+
+    TH1D * histo = new TH1D("effN1cuts", "", GetNCuts() + 1, 0, GetNCuts + 1);
+
+    int max_bins = GetNCuts(); 
+    if(max_bins > (int)m_cutnames.size()){
+        max_bins = (int)m_cutnames.size();
+    }
+    else{
+        cout << __FILE__ << ":" << __LINE__ << " : " << "WARNING : Number of cuts is less than dimension of cut name list." << endl;
+    }
+
+    TH1D * denom_h = new TH1D("denom_h","", 1, 0., 1.);
+
+    m_truth->Project("denom_h", "0.5", joint_cut.c_str());
+
+    double denom = (double)denom_h->Integral();
+    delete denom_h;
+
+    for(int ignore = 0; ignore < GetNCuts() + 1; ignore++){
+
+        if(ignore < max_bins){
+            histo->GetXaxis()->SetBinLabel(ignore + 1, m_cutnames[i].c_str());
+        }
+        else histo->GetXaxis()->SetBinLabel(ignore + 1, Form("Cut %d", ignore));
+
+        double ratio = 0.;
+        if(ignore == GetNCuts()){
+            histo->GetXaxis()->SetBinLabel(ignore + 1, "All Cuts Passed");   
+            ratio = GetCutEntries(-1, joint_cut, branch);
+        }
+        else ratio = GetCutEntries(ignore, joint_cut, branch);
+        ratio *= 1/denom;
+        histo->SetBinContent(ignore + 1, ratio);
+    }
+    histo->SetLineColor(Blue);
+    return histo;
+}
+
+TH1D * EffPurTools::PurVSN1Cuts(std::string signal, int branch, std::string cuts)
+{
+    // Want to do ncuts - 1: 
+    // For each cut turn all other cuts on
+    string numer_cut = signal;
+    if(!numer_cut.empty()) numer_cut += " && ";
+    numer_cut += cuts;
+
+    TH1D * histo = new TH1D("purN1cuts", "", GetNCuts() + 1, 0, GetNCuts + 1);
+
+    int max_bins = GetNCuts(); 
+    if(max_bins > (int)m_cutnames.size()){
+        max_bins = (int)m_cutnames.size();
+    }
+    else{
+        cout << __FILE__ << ":" << __LINE__ << " : " << "WARNING : Number of cuts is less than dimension of cut name list." << endl;
+    }
+
+    for(int ignore = 0; ignore < GetNCuts() + 1; ignore++){
+
+        if(ignore < max_bins){
+            histo->GetXaxis()->SetBinLabel(ignore + 1, m_cutnames[i].c_str());
+        }
+        else histo->GetXaxis()->SetBinLabel(ignore + 1, Form("Cut %d", ignore));
+
+        double ratio = 0.;
+        if(ignore == GetNCuts()){
+            histo->GetXaxis()->SetBinLabel(ignore + 1, "All Cuts Passed");   
+            ratio = GetCutEntries(-1, numer_cut, branch)/GetCutEntries(-1, cuts, branch);
+        }
+        else ratio = GetCutEntries(ignore, numer_cut, branch)/GetCutEntries(ignore, cuts, branch);
+
+        histo->SetBinContent(ignore + 1, ratio);
+    }
+
+    histo->SetLineColor(Yellow);
+    return histo;
+}
+
+double EffPurTools::GetCutEntries(int ignore, std::string cuts, int branch)
+{
+    //For T2K this info is save in the recon tree.
+    string tmp_cuts = cuts;
+    for(int i = 0; i < GetNCuts(); i++){
+        if(i == ignore) continue;
+        if(!tmp_cuts.empty()) tmp_cuts += " && ";
+        tmp_cuts += Form("cut%d[%d] == 1", i, branch);
+    }
+
+    cout << __FILE__ << " : " << __LINE__ << endl;//<--- This is a sweet means of getting the file name and line number.
+    cout << " tmp_cuts = " << tmp_cuts << endl;
+    TH1D * histo = new TH1D(Form("cut%dh", ignore), "", 1, 0, 1);
+    m_recon->Project( Form("cut%dh", ignore), "0.5", tmp_cuts.c_str() );
+    double integral = (double)h_tmp->Integral();
+    delete histo;
+    return integral;
 }
