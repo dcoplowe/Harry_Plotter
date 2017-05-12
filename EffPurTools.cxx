@@ -498,7 +498,7 @@ TH1D * EffPurTools::EffVSN1Cuts(std::string signal, int branch, std::string cuts
     if(!joint_cut.empty() && !cuts.empty()) joint_cut += " && ";
     joint_cut += cuts;
 
-    TH1D * histo = new TH1D("effN1cuts", "", GetNCuts() + 1, 0, GetNCuts() + 1);
+    TH1D * histo = new TH1D(Form("effN1cuts%.3d", m_effhcounter++), "", GetNCuts() + 1, 0, GetNCuts() + 1);
 
     int max_bins = MaxCutsToDraw();
 
@@ -540,7 +540,7 @@ TH1D * EffPurTools::PurVSN1Cuts(std::string signal, int branch, std::string cuts
     if(!numer_cut.empty() && !cuts.empty()) numer_cut += " && ";
     numer_cut += cuts;
 
-    TH1D * histo = new TH1D("purN1cuts", "", GetNCuts() + 1, 0, GetNCuts() + 1);
+    TH1D * histo = new TH1D(Form("purN1cuts%.3d", m_purhcounter++), "", GetNCuts() + 1, 0, GetNCuts() + 1);
 
     int max_bins = MaxCutsToDraw();
 
