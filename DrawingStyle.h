@@ -73,6 +73,7 @@ public:
         Pi0 = kRed+1,
         Kaon = kBlue-5,
         Ka0 = kGreen-3,
+        Electron = kAzure+8,
         //Topologies:
         T2Pr = kOrange-2,
         T1P1PiP = kAzure+2,

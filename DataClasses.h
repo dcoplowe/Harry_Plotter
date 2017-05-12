@@ -187,8 +187,8 @@ private:
 
 class PDGInfo {
 public:
-    PDGInfo() : m_pdg(-999), m_name(""), m_symbol(""), m_pdg_s(""), m_colour(1), m_line_colour(1), m_line_style(1) {;}
-    PDGInfo(Int_t part_pdg, std::string part_name, std::string part_symbol);
+    PDGInfo() : m_pdg(-999), m_name(""), m_symbol(""), m_pdg_s(""), m_particle_antiparticle(false), m_colour(1), m_line_colour(1), m_line_style(1) {;}
+    PDGInfo(Int_t part_pdg, std::string part_name, std::string part_symbol, bool is_p_ap = false);
     ~PDGInfo(){};
 
     Int_t GetPDGNo(){ return m_pdg; }
@@ -198,12 +198,14 @@ public:
     Int_t  GetColor(){ return m_colour; }//Fill colour}
     Int_t  GetLineColor(){ return m_line_colour;}
     Int_t  GetLineStyle(){ return m_line_style; }
+    bool IsBoth(){ return m_particle_antiparticle; }
 
 private:    
     Int_t m_pdg;
     std::string m_name;
     std::string m_symbol;
     std::string m_pdg_s;
+    bool m_particle_antiparticle;
     Int_t  m_colour;//Fill colour
     Int_t  m_line_colour;
     Int_t  m_line_style;

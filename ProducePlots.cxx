@@ -33,9 +33,6 @@
 #include "TDirectory.h"
 #include "TMath.h"
 
-
-// #include <iomanip>
-
 //dumping of array
 #define dump_array3(par) std::cout << std::fixed    << \
   std::setw(10) << std::left   << #par   << ": \t"  << \
@@ -51,7 +48,7 @@
 using namespace std;
 
 const string test_min_mc("/pnfs/minerva/persistent/users/dcoplowe/CC1P1Pi_PL13C_030317/grid/central_value/minerva/ana/v10r8p9/00/01/32/00/SIM_minerva_00013200_Subruns_0001-0002-0003-0004_CC1P1PiAnalysis_Ana_Tuple_v10r8p9-dcoplowe.root");
-const string test_t2k_mc("/data/t2k/coplowe/numuCC1P1PiOutput/march17/neutP6BWA/FGD1/nall_data_FGD1_type2_wome_020517/AnaOut_sub10000.root");
+const string test_t2k_mc("/data/t2k/coplowe/numuCC1P1PiOutput/march17/neutP6BWA/FGD1/nall_data_FGD1_type2_wome_0/090517/AnaOut_sub10000.root");
 
 class ProducePlots {
 
