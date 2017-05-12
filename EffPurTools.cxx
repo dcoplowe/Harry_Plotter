@@ -498,7 +498,7 @@ TH1D * EffPurTools::EffVSN1Cuts(std::string signal, int branch, std::string cuts
     if(!joint_cut.empty()) joint_cut += " && ";
     joint_cut += cuts;
 
-    TH1D * histo = new TH1D("effN1cuts", "", GetNCuts() + 1, 0, GetNCuts + 1);
+    TH1D * histo = new TH1D("effN1cuts", "", GetNCuts() + 1, 0, GetNCuts() + 1);
 
     int max_bins = GetNCuts(); 
     if(max_bins > (int)m_cutnames.size()){
@@ -518,7 +518,7 @@ TH1D * EffPurTools::EffVSN1Cuts(std::string signal, int branch, std::string cuts
     for(int ignore = 0; ignore < GetNCuts() + 1; ignore++){
 
         if(ignore < max_bins){
-            histo->GetXaxis()->SetBinLabel(ignore + 1, m_cutnames[i].c_str());
+            histo->GetXaxis()->SetBinLabel(ignore + 1, m_cutnames[ignore].c_str());
         }
         else histo->GetXaxis()->SetBinLabel(ignore + 1, Form("Cut %d", ignore));
 
@@ -543,7 +543,7 @@ TH1D * EffPurTools::PurVSN1Cuts(std::string signal, int branch, std::string cuts
     if(!numer_cut.empty()) numer_cut += " && ";
     numer_cut += cuts;
 
-    TH1D * histo = new TH1D("purN1cuts", "", GetNCuts() + 1, 0, GetNCuts + 1);
+    TH1D * histo = new TH1D("purN1cuts", "", GetNCuts() + 1, 0, GetNCuts() + 1);
 
     int max_bins = GetNCuts(); 
     if(max_bins > (int)m_cutnames.size()){
@@ -556,7 +556,7 @@ TH1D * EffPurTools::PurVSN1Cuts(std::string signal, int branch, std::string cuts
     for(int ignore = 0; ignore < GetNCuts() + 1; ignore++){
 
         if(ignore < max_bins){
-            histo->GetXaxis()->SetBinLabel(ignore + 1, m_cutnames[i].c_str());
+            histo->GetXaxis()->SetBinLabel(ignore + 1, m_cutnames[ignore].c_str());
         }
         else histo->GetXaxis()->SetBinLabel(ignore + 1, Form("Cut %d", ignore));
 
@@ -588,7 +588,7 @@ double EffPurTools::GetCutEntries(int ignore, std::string cuts, int branch)
     cout << " tmp_cuts = " << tmp_cuts << endl;
     TH1D * histo = new TH1D(Form("cut%dh", ignore), "", 1, 0, 1);
     m_recon->Project( Form("cut%dh", ignore), "0.5", tmp_cuts.c_str() );
-    double integral = (double)h_tmp->Integral();
+    double integral = (double)histo->Integral();
     delete histo;
     return integral;
 }
