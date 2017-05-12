@@ -531,6 +531,8 @@ TH1D * EffPurTools::EffVSN1Cuts(std::string signal, int branch, std::string cuts
         ratio *= 1/denom;
         histo->SetBinContent(ignore + 1, ratio);
     }
+    histo->Scale(100.00);
+    histo->GetYaxis()->SetRangeUser(0,110.);
     histo->SetLineColor(Blue);
     histo->GetYaxis()->SetTitle("Efficiency");
     return histo;
@@ -570,6 +572,8 @@ TH1D * EffPurTools::PurVSN1Cuts(std::string signal, int branch, std::string cuts
 
         histo->SetBinContent(ignore + 1, ratio);
     }
+    histo->Scale(100.00);
+    histo->GetYaxis()->SetRangeUser(0,110.);
     histo->SetLineColor(Yellow);
     histo->GetYaxis()->SetTitle("Purity");
     return histo;
