@@ -187,18 +187,7 @@ private:
 
 class PDGInfo {
 public:
-
-    m_pdglist.push_back( PDGInfo(2212, "proton",        "p"));
-    m_pdglist.push_back( PDGInfo(211,  "piplus",        "#pi^{+}") );
-    m_pdglist.push_back( PDGInfo(-211, "piminus",       "#pi^{-}") );
-    m_pdglist.push_back( PDGInfo(2112, "neutron",       "n") );
-    m_pdglist.push_back( PDGInfo(11,   "electronpm",    "e^{#pm}", true) );
-    m_pdglist.push_back( PDGInfo(13,   "muon",          "#mu^{-}") );
-    m_pdglist.push_back( PDGInfo(-13,  "amuon",         "#mu^{+}") );
-    m_pdglist.push_back( PDGInfo(111,  "pizero",        "#pi^{0}") );
-    m_pdglist.push_back( PDGInfo(321,  "kapm",          "K^{#pm}", true) );
-    m_pdglist.push_back( PDGInfo(311,  "kazero",        "K^{0}") );
-
+    
     enum Type {
         Proton = 2212;
         PiPlus = 211,
