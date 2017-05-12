@@ -1103,8 +1103,8 @@ void ProducePlots::MakePlots(){
 
                 for(int npid = 0; npid < 4; npid++){
                     Variable pid = pid_scores[npid];
-                    pis.SetSName(pid.GetName());
-                    m_runbd->GetPID(pid, part->pdg.GetName(), basecuts[br], pdg_list)->Write();//Variable var, std::string pdgvar, std::string cuts, std::vector<PDGInfo> pdglist
+                    pid.SetSName(pid.GetName());
+                    m_runbd->GetPID(pid, party->pdg.GetName(), basecuts[br], pdg_list)->Write();//Variable var, std::string pdgvar, std::string cuts, std::vector<PDGInfo> pdglist
                 }
             }
 
