@@ -495,7 +495,7 @@ TH1D * EffPurTools::EffVSN1Cuts(std::string signal, int branch, std::string cuts
 // Want to do ncuts - 1: 
     // For each cut turn all other cuts on
     string joint_cut = signal;
-    if(!joint_cut.empty()) joint_cut += " && ";
+    if(!joint_cut.empty() && !cuts.empty()) joint_cut += " && ";
     joint_cut += cuts;
 
     TH1D * histo = new TH1D("effN1cuts", "", GetNCuts() + 1, 0, GetNCuts() + 1);
@@ -541,7 +541,7 @@ TH1D * EffPurTools::PurVSN1Cuts(std::string signal, int branch, std::string cuts
     // Want to do ncuts - 1: 
     // For each cut turn all other cuts on
     string numer_cut = signal;
-    if(!numer_cut.empty()) numer_cut += " && ";
+    if(!numer_cut.empty() && !cuts.empty()) numer_cut += " && ";
     numer_cut += cuts;
 
     TH1D * histo = new TH1D("purN1cuts", "", GetNCuts() + 1, 0, GetNCuts() + 1);
@@ -584,9 +584,8 @@ double EffPurTools::GetCutEntries(int ignore, std::string cuts, int branch)
         if(!tmp_cuts.empty()) tmp_cuts += " && ";
         tmp_cuts += Form("cut%d[%d] == 1", i, branch);
     }
-
-    cout << __FILE__ << " : " << __LINE__ << endl;//<--- This is a sweet means of getting the file name and line number.
-    cout << " tmp_cuts = " << tmp_cuts << endl;
+    // cout << __FILE__ << " : " << __LINE__ << endl;//<--- This is a sweet means of getting the file name and line number.
+    // cout << " tmp_cuts = " << tmp_cuts << endl;
     TH1D * histo = new TH1D(Form("cut%dh", ignore), "", 1, 0, 1);
     m_recon->Project( Form("cut%dh", ignore), "0.5", tmp_cuts.c_str() );
     double integral = (double)histo->Integral();
