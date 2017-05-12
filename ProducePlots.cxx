@@ -1094,17 +1094,17 @@ void ProducePlots::MakePlots(){
 
                 Variable pid_scores[4] = { party->PIDScoreMu, party->PIDScoreEl, party->PIDScorePr, party->PIDScorePi };
 
-                MakeDir();
-                for(int npid = 0; npid < 4; npid++){
-                    Variable pid = pid_scores[npid];
-                    m_runbd->GetPID();
+                // MakeDir();
+                // for(int npid = 0; npid < 4; npid++){
+                //     Variable pid = pid_scores[npid];
+                //     m_runbd->GetPID();
 
-                    // party->GetPDG();
-
-
+                //     // party->GetPDG();
 
 
-                }
+
+
+                // }
             }
 
         }
