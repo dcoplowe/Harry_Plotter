@@ -883,17 +883,31 @@ PDGInfo::PDGInfo(Int_t part_pdg, std::string part_name, std::string part_symbol,
     ss << m_pdg;
     m_pdg_s = ss.str();
     
-    if(m_name.find("proton") != std::string::npos)          m_colour = (Int_t)DrawingStyle::Proton;//Proton
-    else if(m_name.find("piplus") != std::string::npos)     m_colour = (Int_t)DrawingStyle::PionP;//PionP
-    else if(m_name.find("piminus") != std::string::npos)    m_colour = (Int_t)DrawingStyle::PionM;
-    else if(m_name.find("pion") != std::string::npos)       m_colour = (Int_t)DrawingStyle::Pion;
-    else if(m_name.find("amuon") != std::string::npos)      m_colour = (Int_t)DrawingStyle::MuonP;//PionP
-    else if(m_name.find("muon") != std::string::npos)       m_colour = (Int_t)DrawingStyle::MuonM;
-    else if(m_name.find("pizero") != std::string::npos)     m_colour = (Int_t)DrawingStyle::Pi0;
-    else if(m_name.find("kapm") != std::string::npos)       m_colour = (Int_t)DrawingStyle::Kaon;
-    else if(m_name.find("kazero") != std::string::npos)     m_colour = (Int_t)DrawingStyle::Ka0;
-    else if(m_name.find("neutron") != std::string::npos)    m_colour = (Int_t)DrawingStyle::Neutron;
-    else if(m_name.find("electron") != std::string::npos)   m_colour = (Int_t)DrawingStyle::Electron;
+    if(m_pdg == (Int_t)PDGInfo::Proton)          m_colour = (Int_t)DrawingStyle::Proton;//Proton
+    else if(m_pdg == (Int_t)PDGInfo::PiPlus)     m_colour = (Int_t)DrawingStyle::PionP;//PionP
+    else if(m_pdg == (Int_t)PDGInfo::PiMinus)    m_colour = (Int_t)DrawingStyle::PionM;
+    else if(m_pdg == (Int_t)PDGInfo::PiPlus)       m_colour = (Int_t)DrawingStyle::Pion;
+    else if(m_pdg == (Int_t)PDGInfo::AMuon)      m_colour = (Int_t)DrawingStyle::MuonP;//PionP
+    else if(m_pdg == (Int_t)PDGInfo::Muon)       m_colour = (Int_t)DrawingStyle::MuonM;
+    else if(m_pdg == (Int_t)PDGInfo::PiZero)     m_colour = (Int_t)DrawingStyle::Pi0;
+    else if(m_pdg == (Int_t)PDGInfo::Kaon)       m_colour = (Int_t)DrawingStyle::Kaon;
+    else if(m_pdg == (Int_t)PDGInfo::KaZero)     m_colour = (Int_t)DrawingStyle::Ka0;
+    else if(m_pdg == (Int_t)PDGInfo::Neutron)    m_colour = (Int_t)DrawingStyle::Neutron;
+    else if(m_pdg == (Int_t)PDGInfo::Electron)   m_colour = (Int_t)DrawingStyle::Electron;
     else m_colour = (Int_t)DrawingStyle::Other; 
+
+    //  if(m_name.find("proton") != std::string::npos)          m_colour = (Int_t)DrawingStyle::Proton;//Proton
+    // else if(m_name.find("piplus") != std::string::npos)     m_colour = (Int_t)DrawingStyle::PionP;//PionP
+    // else if(m_name.find("piminus") != std::string::npos)    m_colour = (Int_t)DrawingStyle::PionM;
+    // else if(m_name.find("pion") != std::string::npos)       m_colour = (Int_t)DrawingStyle::Pion;
+    // else if(m_name.find("amuon") != std::string::npos)      m_colour = (Int_t)DrawingStyle::MuonP;//PionP
+    // else if(m_name.find("muon") != std::string::npos)       m_colour = (Int_t)DrawingStyle::MuonM;
+    // else if(m_name.find("pizero") != std::string::npos)     m_colour = (Int_t)DrawingStyle::Pi0;
+    // else if(m_name.find("kapm") != std::string::npos)       m_colour = (Int_t)DrawingStyle::Kaon;
+    // else if(m_name.find("kazero") != std::string::npos)     m_colour = (Int_t)DrawingStyle::Ka0;
+    // else if(m_name.find("neutron") != std::string::npos)    m_colour = (Int_t)DrawingStyle::Neutron;
+    // else if(m_name.find("electron") != std::string::npos)   m_colour = (Int_t)DrawingStyle::Electron;
+    // else m_colour = (Int_t)DrawingStyle::Other; 
+
 }
 #endif

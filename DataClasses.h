@@ -187,6 +187,32 @@ private:
 
 class PDGInfo {
 public:
+
+    m_pdglist.push_back( PDGInfo(2212, "proton",        "p"));
+    m_pdglist.push_back( PDGInfo(211,  "piplus",        "#pi^{+}") );
+    m_pdglist.push_back( PDGInfo(-211, "piminus",       "#pi^{-}") );
+    m_pdglist.push_back( PDGInfo(2112, "neutron",       "n") );
+    m_pdglist.push_back( PDGInfo(11,   "electronpm",    "e^{#pm}", true) );
+    m_pdglist.push_back( PDGInfo(13,   "muon",          "#mu^{-}") );
+    m_pdglist.push_back( PDGInfo(-13,  "amuon",         "#mu^{+}") );
+    m_pdglist.push_back( PDGInfo(111,  "pizero",        "#pi^{0}") );
+    m_pdglist.push_back( PDGInfo(321,  "kapm",          "K^{#pm}", true) );
+    m_pdglist.push_back( PDGInfo(311,  "kazero",        "K^{0}") );
+
+    enum Type {
+        Proton = 2212;
+        PiPlus = 211,
+        PiMinus = -211,
+        Neutron = 2112,
+        Electron = 11,
+        Positron = -11,
+        Muon = 13,
+        AMuon = -13,
+        PiZero = 111,
+        Kaon = 321,
+        KaZero = 311
+    };
+
     PDGInfo() : m_pdg(-999), m_name(""), m_symbol(""), m_pdg_s(""), m_particle_antiparticle(false), m_colour(1), m_line_colour(1), m_line_style(1) {;}
     PDGInfo(Int_t part_pdg, std::string part_name, std::string part_symbol, bool is_p_ap = false);
     ~PDGInfo(){};
