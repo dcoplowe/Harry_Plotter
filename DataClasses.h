@@ -187,9 +187,9 @@ private:
 
 class PDGInfo {
 public:
-    
+
     enum Type {
-        Proton = 2212;
+        Proton = 2212,
         PiPlus = 211,
         PiMinus = -211,
         Neutron = 2112,
