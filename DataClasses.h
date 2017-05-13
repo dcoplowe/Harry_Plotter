@@ -414,6 +414,10 @@ public:
     Variable trueendpos;
     Variable pdg;
     Variable truestartpos;
+
+    Variable truth_startpos;
+    Variable truth_startdir;
+    Variable truth_endpos;
     
     //MIN: Reco vars:
     Variable E;

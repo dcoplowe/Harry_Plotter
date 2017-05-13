@@ -401,6 +401,10 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
             truepTMag       = Variable(m_tag + name + "_truepTMag", 20, 0., 2000., "#it{p}", "MeV/#it{c}");
             truestartdir    = Variable(m_tag + name + "_truedir", 20, 0., 2000.);
             trueendpos      = Variable(m_tag + name + "_endpos", 20, 0., 2000.);
+
+            truth_startpos = Variable("true" + name + "_startpos", "Start Pos.", "mm");
+            truth_startdir = Variable("true" + name + "_startdir", "Start Dir.", "mm");
+            truth_endpos = Variable("true" + name + "_endpos", "End Pos.", "mm");
         }
 
         pdg = Variable(m_tag + name + "_pdg", 20, 0., 2000.);
