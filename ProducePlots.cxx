@@ -1629,9 +1629,9 @@ void ProducePlots::MakePlots(){
 
                 delete effN1_new;
                 delete purN1_new;
-                delete effN1_CC1P1PiInc;
-                delete purN1_CC1P1PiInc;
-                delete eff_pur_N1cuts_leg;
+                // delete effN1_CC1P1PiInc;
+                // delete purN1_CC1P1PiInc;
+                // delete eff_pur_N1cuts_leg;
                 delete eff_pur_N1cuts;
 
             }
