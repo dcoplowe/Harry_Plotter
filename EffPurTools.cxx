@@ -557,7 +557,7 @@ TH1D * EffPurTools::PurVSN1Cuts(std::string signal, int branch, std::string cuts
             ratio = GetCutEntries(-1, numer_cut, branch)/GetCutEntries(-1, cuts, branch);
         }
         else ratio = GetCutEntries(ignore, numer_cut, branch)/GetCutEntries(ignore, cuts, branch);
-
+        cout << "cut" << ignore << " : R = " << ratio << endl;
         histo->SetBinContent(ignore + 1, ratio);
     }
     histo->Scale(100.00);
@@ -577,7 +577,7 @@ double EffPurTools::GetCutEntries(int ignore, std::string cuts, int branch)
         tmp_cuts += Form("cut%d[%d] == 1", i, branch);
     }
     // cout << __FILE__ << " : " << __LINE__ << endl;//<--- This is a sweet means of getting the file name and line number.
-    // cout << " tmp_cuts = " << tmp_cuts << endl;
+    cout << " cut" << ignore << " Cut = " << tmp_cuts << endl;
     TH1D * histo = new TH1D(Form("cut%dh", ignore), "", 1, 0, 1);
     m_recon->Project( Form("cut%dh", ignore), "0.5", tmp_cuts.c_str() );
     double integral = (double)histo->Integral();

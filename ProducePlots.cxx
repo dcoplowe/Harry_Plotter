@@ -1106,28 +1106,53 @@ void ProducePlots::MakePlots(){
         //             pid.SetSName(pid.GetName());
         //             m_runbd->PID(pid, party->pdg.GetName(), basecuts[br], pdg_list)->Write();//Variable var, std::string pdgvar, std::string cuts, std::vector<PDGInfo> pdglist
         //         }
+        //         pdg_list.clear();
         //     }
 
         // }
 
-        // if(m_verbose) cout << "Now producing dpTT plots." << endl;
-        // //************************************** dpTT Start *************************************//
-        // MakeDir("dpTT" + branchnames[br]);
-        // Variable dpTT(m_recovars->truedpTT + ":" + m_recovars->dpTT, "#delta#it{p}_{TT}", "MeV/#it{c}");
-        // dpTT.SetSName(m_recovars->dpTT);
-        // ProduceGroup(dpTT, 39, -300, 300, basecuts[br]);
+        if(m_verbose) cout << "Now producing dpTT plots." << endl;
+        //************************************** dpTT Start *************************************//
+        MakeDir("dpTT" + branchnames[br]);
+        Variable dpTT(m_recovars->truedpTT + ":" + m_recovars->dpTT, "#delta#it{p}_{TT}", "MeV/#it{c}");
+        dpTT.SetSName(m_recovars->dpTT);
+        ProduceGroup(dpTT, 39, -300, 300, basecuts[br]);
 
-        // MakeDir("dpTT" + branchnames[br] + "/nb29");
-        // dpTT.SetSName(m_recovars->dpTT + "_nb29");
-        // ProduceGroup(dpTT, 29, -300, 300, basecuts[br]);
+        TCanvas * dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
+        dpTT_pur->cd();
+        m_runep->PurVSVar(m_recovars->dpTT, 39, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br], dpTT.GetAxisTitle())->Draw("HIST");
+        dpTT_pur->Write();
+        delete dpTT_pur;
 
-        // MakeDir("dpTT" + branchnames[br] + "/nb25");
-        // dpTT.SetSName(m_recovars->dpTT + "_nb25");
-        // ProduceGroup(dpTT, 25, -300, 300, basecuts[br]);
+        MakeDir("dpTT" + branchnames[br] + "/nb29");
+        dpTT.SetSName(m_recovars->dpTT + "_nb29");
+        ProduceGroup(dpTT, 29, -300, 300, basecuts[br]);
 
-        // MakeDir("dpTT" + branchnames[br] + "/nb19");
-        // dpTT.SetSName(m_recovars->dpTT + "_nb19");
-        // ProduceGroup(dpTT, 19, -300, 300, basecuts[br]);
+        TCanvas * dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
+        dpTT_pur->cd();
+        m_runep->PurVSVar(m_recovars->dpTT, 29, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br], dpTT.GetAxisTitle())->Draw("HIST");
+        dpTT_pur->Write();
+        delete dpTT_pur;
+
+        MakeDir("dpTT" + branchnames[br] + "/nb25");
+        dpTT.SetSName(m_recovars->dpTT + "_nb25");
+        ProduceGroup(dpTT, 25, -300, 300, basecuts[br]);
+
+        TCanvas * dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
+        dpTT_pur->cd();
+        m_runep->PurVSVar(m_recovars->dpTT, 25, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br], dpTT.GetAxisTitle())->Draw("HIST");
+        dpTT_pur->Write();
+        delete dpTT_pur;
+
+        MakeDir("dpTT" + branchnames[br] + "/nb19");
+        dpTT.SetSName(m_recovars->dpTT + "_nb19");
+        ProduceGroup(dpTT, 19, -300, 300, basecuts[br]);
+
+        TCanvas * dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
+        dpTT_pur->cd();
+        m_runep->PurVSVar(m_recovars->dpTT, 19, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br], dpTT.GetAxisTitle())->Draw("HIST");
+        dpTT_pur->Write();
+        delete dpTT_pur;
 
         // if(m_experiment->GetType() == Experiment::MIN){
         //     if(m_verbose) cout << "Making MINERva specific plots" << endl;
@@ -1489,7 +1514,6 @@ void ProducePlots::MakePlots(){
             TH1D * eff_CC1P1PiInc = m_runep->EffVSCuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSignal(), br);
             TH1D * pur_CC1P1PiInc = m_runep->PurVSCuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSignal(), br);
 
-
             eff_new->SetLineColor(DrawingStyle::Yellow);
             // eff_new->SetLineStyle(7);
             pur_new->SetLineColor(DrawingStyle::Yellow);
@@ -1593,6 +1617,7 @@ void ProducePlots::MakePlots(){
 
                 TCanvas * eff_pur_N1cuts = new TCanvas("eff_pur_N1cuts","", 600, 800);
                 eff_pur_N1cuts->cd();
+                effN1_new->GetYaxis->SetTitle("Eff./Pur. (%)");
                 effN1_new->Draw("HIST");
                 purN1_new->Draw("HISTSAME");
                 effN1_CC1P1PiInc->Draw("HISTSAME");

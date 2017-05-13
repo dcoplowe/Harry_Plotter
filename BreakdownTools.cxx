@@ -104,13 +104,17 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
         tmp_cuts += particle.GetPDGStr();
                 
         if(other_cut.empty()){
+            if(particle.IsBoth()) other_cut += "TMath::Abs(";
             other_cut = pdgvar;
+            if(particle.IsBoth()) other_cut += ")";
             other_cut += " != ";
             other_cut += particle.GetPDGStr();
         }
         else{
             other_cut += " && ";
+            if(particle.IsBoth()) other_cut += "TMath::Abs(";
             other_cut += pdgvar;
+            if(particle.IsBoth()) other_cut += ")";
             other_cut += " != ";
             other_cut += particle.GetPDGStr();
         }
