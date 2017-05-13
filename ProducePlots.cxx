@@ -1139,11 +1139,11 @@ void ProducePlots::MakePlots(){
         dpTT.SetSName(m_recovars->dpTT + "_nb25");
         ProduceGroup(dpTT, 25, -300, 300, basecuts[br]);
 
-        // TCanvas * dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
-        // dpTT_pur->cd();
-        // m_runep->PurVSVar(m_recovars->dpTT, 25, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br], dpTT.GetAxisTitle())->Draw("HIST");
-        // dpTT_pur->Write();
-        // delete dpTT_pur;
+        dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
+        dpTT_pur->cd();
+        m_runep->PurVSVar(m_recovars->dpTT, 25, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br], dpTT.GetAxisTitle())->Draw("HIST");
+        dpTT_pur->Write();
+        delete dpTT_pur;
 
         MakeDir("dpTT" + branchnames[br] + "/nb19");
         dpTT.SetSName(m_recovars->dpTT + "_nb19");
@@ -1618,7 +1618,7 @@ void ProducePlots::MakePlots(){
 
                 TCanvas * eff_pur_N1cuts = new TCanvas("eff_pur_N1cuts","", 600, 800);
                 eff_pur_N1cuts->cd();
-                effN1_new->GetYaxis->SetTitle("Eff./Pur. (%)");
+                effN1_new->GetYaxis()->SetTitle("Eff./Pur. (%)");
                 effN1_new->Draw("HIST");
                 purN1_new->Draw("HISTSAME");
                 effN1_CC1P1PiInc->Draw("HISTSAME");
