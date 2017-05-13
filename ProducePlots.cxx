@@ -1128,7 +1128,8 @@ void ProducePlots::MakePlots(){
         dpTT.SetSName(m_recovars->dpTT + "_nb29");
         ProduceGroup(dpTT, 29, -300, 300, basecuts[br]);
 
-        TCanvas * dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
+        // TCanvas * 
+        dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
         dpTT_pur->cd();
         m_runep->PurVSVar(m_recovars->dpTT, 29, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br], dpTT.GetAxisTitle())->Draw("HIST");
         dpTT_pur->Write();
@@ -1138,21 +1139,21 @@ void ProducePlots::MakePlots(){
         dpTT.SetSName(m_recovars->dpTT + "_nb25");
         ProduceGroup(dpTT, 25, -300, 300, basecuts[br]);
 
-        TCanvas * dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
-        dpTT_pur->cd();
-        m_runep->PurVSVar(m_recovars->dpTT, 25, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br], dpTT.GetAxisTitle())->Draw("HIST");
-        dpTT_pur->Write();
-        delete dpTT_pur;
+        // TCanvas * dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
+        // dpTT_pur->cd();
+        // m_runep->PurVSVar(m_recovars->dpTT, 25, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br], dpTT.GetAxisTitle())->Draw("HIST");
+        // dpTT_pur->Write();
+        // delete dpTT_pur;
 
         MakeDir("dpTT" + branchnames[br] + "/nb19");
         dpTT.SetSName(m_recovars->dpTT + "_nb19");
         ProduceGroup(dpTT, 19, -300, 300, basecuts[br]);
 
-        TCanvas * dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
-        dpTT_pur->cd();
-        m_runep->PurVSVar(m_recovars->dpTT, 19, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br], dpTT.GetAxisTitle())->Draw("HIST");
-        dpTT_pur->Write();
-        delete dpTT_pur;
+        // TCanvas * dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
+        // dpTT_pur->cd();
+        // m_runep->PurVSVar(m_recovars->dpTT, 19, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br], dpTT.GetAxisTitle())->Draw("HIST");
+        // dpTT_pur->Write();
+        // delete dpTT_pur;
 
         // if(m_experiment->GetType() == Experiment::MIN){
         //     if(m_verbose) cout << "Making MINERva specific plots" << endl;
