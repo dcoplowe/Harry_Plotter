@@ -655,7 +655,11 @@ void ProducePlots::TruthPart(Variable var, Int_t nbins, Double_t low, Double_t h
 }
 
 std::string ProducePlots::GetPosCuts(Variable pos, int dim1cut, int dim2cut, std::string cuts){
-    stringstream dim1th_low, dim2th_low, dim1th_high, dim2th_high;                    
+    stringstream dim1cuts, dim2cuts, dim1th_low, dim2th_low, dim1th_high, dim2th_high;                    
+
+    dim1cuts << dim1cut;
+    dim2cuts << dim2cut;
+    
     dim1th_low << t2kgeometry::fgd1tpcmin_offset[dim1cut];
     dim1th_high << t2kgeometry::fgd1tpcmax_offset[dim1cut];
 
@@ -672,13 +676,13 @@ std::string ProducePlots::GetPosCuts(Variable pos, int dim1cut, int dim2cut, std
     start_pos_cuts += " < ";
     start_pos_cuts += pos.GetName();
     start_pos_cuts += "[";
-    start_pos_cuts += dim1cuts;
+    start_pos_cuts += dim1cuts.str();
     start_pos_cuts += "]";
     start_pos_cuts += " && ";
                     //1st Dim : Reco vars min:
     start_pos_cuts += pos.GetName();
     start_pos_cuts += "[";
-    start_pos_cuts += dim1cuts;
+    start_pos_cuts += dim1cuts.str();
     start_pos_cuts += "]";
     start_pos_cuts += " < ";
     start_pos_cuts += dim1th_high.str();
@@ -690,13 +694,13 @@ std::string ProducePlots::GetPosCuts(Variable pos, int dim1cut, int dim2cut, std
     start_pos_cuts += " < ";
     start_pos_cuts += pos.GetName();
     start_pos_cuts += "[";
-    start_pos_cuts += dim2cuts;
+    start_pos_cuts += dim2cuts.str();
     start_pos_cuts += "]";
     start_pos_cuts += " && ";
                     //2nd Dim : Reco vars min:
     start_pos_cuts += pos.GetName();
     start_pos_cuts += "[";
-    start_pos_cuts += dim2cuts;
+    start_pos_cuts += dim2cuts.str();
     start_pos_cuts += "]";
     start_pos_cuts += " < ";
     start_pos_cuts += dim2th_high.str();
