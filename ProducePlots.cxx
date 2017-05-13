@@ -892,87 +892,7 @@ void ProducePlots::MakePlots(){
                     }
 
                     string start_pos_cuts = GetPosCuts(party->startpos, dim1cut, dim2cut, GetPosCuts(party->truestartpos, dim1cut, dim2cut, basecuts[br]));
-                    cout << start_pos_cuts << endl;
-                    // stringstream dim1th_low, dim2th_low, dim1th_high, dim2th_high;                    
-                    // dim1th_low << t2kgeometry::fgd1tpcmin_offset[dim1cut];
-                    // dim1th_high << t2kgeometry::fgd1tpcmax_offset[dim1cut];
-
-                    // dim2th_low << t2kgeometry::fgd1tpcmin_offset[dim2cut];
-                    // dim2th_high << t2kgeometry::fgd1tpcmax_offset[dim2cut];
-
-                    // string start_pos_cuts = basecuts[br];
-                    // //1st Dim : True vars:
-                    // start_pos_cuts += " && ";
-                    // //1st Dim : True vars min:
-                    // start_pos_cuts += dim1th_low.str();
-                    // start_pos_cuts += " < ";
-                    // start_pos_cuts += party->truestartpos.GetName();
-                    // start_pos_cuts += "[";
-                    // start_pos_cuts += dim1cuts;
-                    // start_pos_cuts += "]";
-                    // start_pos_cuts += " && ";
-                    // //1st Dim : True vars min:
-                    // start_pos_cuts += party->truestartpos.GetName();
-                    // start_pos_cuts += "[";
-                    // start_pos_cuts += dim1cuts;
-                    // start_pos_cuts += "]";
-                    // start_pos_cuts += " < ";
-                    // start_pos_cuts += dim1th_high.str();
-
-                    // //1st Dim : Reco vars:
-                    // start_pos_cuts += " && ";
-                    // //1st Dim : Reco vars min:
-                    // start_pos_cuts += dim1th_low.str();
-                    // start_pos_cuts += " < ";
-                    // start_pos_cuts += party->startpos.GetName();
-                    // start_pos_cuts += "[";
-                    // start_pos_cuts += dim1cuts;
-                    // start_pos_cuts += "]";
-                    // start_pos_cuts += " && ";
-                    // //1st Dim : Reco vars min:
-                    // start_pos_cuts += party->startpos.GetName();
-                    // start_pos_cuts += "[";
-                    // start_pos_cuts += dim1cuts;
-                    // start_pos_cuts += "]";
-                    // start_pos_cuts += " < ";
-                    // start_pos_cuts += dim1th_high.str();
-
-                    // //2nd Dim : True vars:
-                    // start_pos_cuts += " && ";
-                    // //2nd Dim : True vars min:
-                    // start_pos_cuts += dim2th_low.str();
-                    // start_pos_cuts += " < ";
-                    // start_pos_cuts += party->truestartpos.GetName();
-                    // start_pos_cuts += "[";
-                    // start_pos_cuts += dim2cuts;
-                    // start_pos_cuts += "]";
-                    // start_pos_cuts += " && ";
-                    // //2nd Dim : True vars min:
-                    // start_pos_cuts += party->truestartpos.GetName();
-                    // start_pos_cuts += "[";
-                    // start_pos_cuts += dim2cuts;
-                    // start_pos_cuts += "]";
-                    // start_pos_cuts += " < ";
-                    // start_pos_cuts += dim2th_high.str();
-
-                    // //2nd Dim : Reco vars:
-                    // start_pos_cuts += " && ";
-                    // //2nd Dim : Reco vars min:
-                    // start_pos_cuts += dim2th_low.str();
-                    // start_pos_cuts += " < ";
-                    // start_pos_cuts += party->startpos.GetName();
-                    // start_pos_cuts += "[";
-                    // start_pos_cuts += dim2cuts;
-                    // start_pos_cuts += "]";
-                    // start_pos_cuts += " && ";
-                    // //2nd Dim : Reco vars min:
-                    // start_pos_cuts += party->startpos.GetName();
-                    // start_pos_cuts += "[";
-                    // start_pos_cuts += dim2cuts;
-                    // start_pos_cuts += "]";
-                    // start_pos_cuts += " < ";
-                    // start_pos_cuts += dim2th_high.str();
-
+                    
                     // cout << start_pos_cuts << endl;
 
                     Variable start_pos(party->truestartpos.GetName() + "[" + dimss.str() + "]:" + party->startpos.GetName()  + "[" + dimss.str() + "]", party->GetSymbol() + " " + m_NameXYZ[dim] + " Start Position", "mm");
@@ -1147,34 +1067,36 @@ void ProducePlots::MakePlots(){
 
                         //**************************************** 2D Efficiency Start ************************************//
                 
-                        // Variable truestart_pos2D(party->truth_startpos.GetName() + "[" + dim2ss.str() + "]:" + party->truth_startpos.GetName()  + "[" + dimss.str()+ "]",
-                        //     party->GetSymbol() + " " + m_NameXYZ[dim] + m_NameXYZ[dim2] + " Start Position", "mm");
-                        //             // This probably wont work as the code looks for :: to make a split... Add fix.
-                        // start_pos2D.SetSName(party->startpos.GetName() + m_NameXYZ[dim] + m_NameXYZ[dim2] );
-                        // start_pos2D.SetPDG(party->pdg.GetName());
+                        Variable truestart_pos2D(party->truth_startpos.GetName() + "[" + dim2ss.str() + "]:" + party->truth_startpos.GetName()  + "[" + dimss.str()+ "]",
+                            party->GetSymbol() + " " + m_NameXYZ[dim] + m_NameXYZ[dim2] + " Start Position", "mm");
+                                    // This probably wont work as the code looks for :: to make a split... Add fix.
+                        start_pos2D.SetSName(party->startpos.GetName() + m_NameXYZ[dim] + m_NameXYZ[dim2] );
+                        start_pos2D.SetPDG(party->pdg.GetName());
 
-                        // TH2D * start_pos2D_eff_h = m_runep->EffVSVar(start_pos2D.GetName(), dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], 
-                        //     t2kgeometry::fgd1tpcmax_offset[dim], dimnbins[dim2], t2kgeometry::fgd1tpcmin_offset[dim2], t2kgeometry::fgd1tpcmax_offset[dim2],
-                        //     m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(),
-                        //     start_pos_cuts, "Start Position " + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] +" (mm)");
+                        string truth_start_pos_cuts = GetPosCuts(party->truth_startpos, dim1cut, dim2cut, basecuts[br]);
 
-                        // TCanvas * start_pos2D_eff_c = new TCanvas( (start_pos2D.GetSName() + "_eff").c_str(), "", 400, 400);
-                        // start_pos2D_eff_c->cd();
-                        // start_pos2D_eff_h->Draw("COLZ");
-                        // m_runbd->GetPOT(0.1,0.1)->Draw();
-                        // GetSignal()->Draw();
+                        TH2D * start_pos2D_eff_h = m_runep->EffVSVar(truestart_pos2D.GetName(), dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], 
+                            t2kgeometry::fgd1tpcmax_offset[dim], dimnbins[dim2], t2kgeometry::fgd1tpcmin_offset[dim2], t2kgeometry::fgd1tpcmax_offset[dim2],
+                            m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(),
+                            truth_start_pos_cuts, "Start Position " + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] +" (mm)");
 
-                        // m_runbd->DrawBox(fgd_box_low, fgd_box_hig);
-                        // m_runbd->DrawBox(tpc2_box_low, tpc2_box_hig, DrawingStyle::Yellow);
+                        TCanvas * start_pos2D_eff_c = new TCanvas( (start_pos2D.GetSName() + "_eff").c_str(), "", 400, 400);
+                        start_pos2D_eff_c->cd();
+                        start_pos2D_eff_h->Draw("COLZ");
+                        m_runbd->GetPOT(0.1,0.1)->Draw();
+                        GetSignal()->Draw();
 
-                        // m_runbd->GetPOT(0.1,0.1)->Draw();
+                        m_runbd->DrawBox(fgd_box_low, fgd_box_hig);
+                        m_runbd->DrawBox(tpc2_box_low, tpc2_box_hig, DrawingStyle::Yellow);
 
-                        // PrintLogo(start_pos2D_eff_c);
+                        m_runbd->GetPOT(0.1,0.1)->Draw();
 
-                        // start_pos2D_eff_c->Write();
+                        PrintLogo(start_pos2D_eff_c);
 
-                        // delete start_pos2D_eff_h;
-                        // delete start_pos2D_eff_c;
+                        start_pos2D_eff_c->Write();
+
+                        delete start_pos2D_eff_h;
+                        delete start_pos2D_eff_c;
 
                         //**************************************** 2D Efficiency END ************************************//
 
