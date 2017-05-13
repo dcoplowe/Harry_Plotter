@@ -509,7 +509,7 @@ TH1D * EffPurTools::EffVSN1Cuts(std::string signal, int branch, std::string cuts
     double denom = (double)denom_h->Integral();
     delete denom_h;
 
-    cout << " denom = " << denom << endl;
+    if(m_debug) cout << " denom = " << denom << endl;
 
     for(int ignore = 0; ignore < GetNCuts() + 1; ignore++){
 
@@ -524,9 +524,9 @@ TH1D * EffPurTools::EffVSN1Cuts(std::string signal, int branch, std::string cuts
             ratio = GetCutEntries(-1, joint_cut, branch);
         }
         else ratio = GetCutEntries(ignore, joint_cut, branch);
-        cout << "cut" << ignore << " : R = " << ratio << "/" << denom << endl; 
+        if(m_debug) cout << "cut" << ignore << " : R = " << ratio << "/" << denom << endl; 
         ratio *= 1./denom;
-        cout << "EffPurTools::EffVSN1Cuts : cut" << ignore << " : R = " << ratio << endl;
+        if(m_debug) cout << "EffPurTools::EffVSN1Cuts : cut" << ignore << " : R = " << ratio << endl;
 
         histo->SetBinContent(ignore + 1, ratio);
     }
@@ -562,7 +562,7 @@ TH1D * EffPurTools::PurVSN1Cuts(std::string signal, int branch, std::string cuts
             ratio = GetCutEntries(-1, numer_cut, branch)/GetCutEntries(-1, cuts, branch);
         }
         else ratio = GetCutEntries(ignore, numer_cut, branch)/GetCutEntries(ignore, cuts, branch);
-        cout << "EffPurTools::PurVSN1Cuts : cut" << ignore << " : R = " << ratio << endl;
+        if(m_debug) cout << "EffPurTools::PurVSN1Cuts : cut" << ignore << " : R = " << ratio << endl;
         histo->SetBinContent(ignore + 1, ratio);
     }
     histo->Scale(100.00);
@@ -582,7 +582,7 @@ double EffPurTools::GetCutEntries(int ignore, std::string cuts, int branch)
         tmp_cuts += Form("cut%d[%d] == 1", i, branch);
     }
     // cout << __FILE__ << " : " << __LINE__ << endl;//<--- This is a sweet means of getting the file name and line number.
-    cout << " cut" << ignore << " Cut = " << tmp_cuts << endl;
+    if(m_debug) cout << " cut" << ignore << " Cut = " << tmp_cuts << endl;
     TH1D * histo = new TH1D(Form("cut%dh", ignore), "", 1, 0, 1);
     m_recon->Project( Form("cut%dh", ignore), "0.5", tmp_cuts.c_str() );
     double integral = (double)histo->Integral();
