@@ -509,6 +509,8 @@ TH1D * EffPurTools::EffVSN1Cuts(std::string signal, int branch, std::string cuts
     double denom = (double)denom_h->Integral();
     delete denom_h;
 
+    cout << " denom = " << denom << endl;
+
     for(int ignore = 0; ignore < GetNCuts() + 1; ignore++){
 
         if(ignore < max_bins){
@@ -522,7 +524,8 @@ TH1D * EffPurTools::EffVSN1Cuts(std::string signal, int branch, std::string cuts
             ratio = GetCutEntries(-1, joint_cut, branch);
         }
         else ratio = GetCutEntries(ignore, joint_cut, branch);
-        ratio *= 1/denom;
+        cout << "cut" << ignore << " : R = " << ratio << "/" << denom << endl; 
+        ratio *= 1./denom;
         cout << "EffPurTools::EffVSN1Cuts : cut" << ignore << " : R = " << ratio << endl;
 
         histo->SetBinContent(ignore + 1, ratio);
