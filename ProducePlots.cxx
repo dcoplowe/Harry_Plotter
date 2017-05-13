@@ -1600,30 +1600,30 @@ void ProducePlots::MakePlots(){
                 // TH1D * effN1_CC1P1Pi = m_runep->EffVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), br);
                 // TH1D * purN1_CC1P1Pi = m_runep->PurVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), br);
 
-                TH1D * effN1_CC1P1PiInc = m_runep->EffVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSignal(), br);
-                TH1D * purN1_CC1P1PiInc = m_runep->PurVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSignal(), br);
-                effN1_CC1P1PiInc->SetLineColor(DrawingStyle::Blue);
-                purN1_CC1P1PiInc->SetLineColor(DrawingStyle::Blue);
-                purN1_CC1P1PiInc->SetLineStyle(7);
+                // TH1D * effN1_CC1P1PiInc = m_runep->EffVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSignal(), br);
+                // TH1D * purN1_CC1P1PiInc = m_runep->PurVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSignal(), br);
+                // effN1_CC1P1PiInc->SetLineColor(DrawingStyle::Blue);
+                // purN1_CC1P1PiInc->SetLineColor(DrawingStyle::Blue);
+                // purN1_CC1P1PiInc->SetLineStyle(7);
 
-                TLegend * eff_pur_N1cuts_leg = m_runbd->Legend(0.2,0.1);
-                eff_pur_N1cuts_leg->AddEntry(effN1_new, ("Efficiency (" + m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol() + ")").c_str(), "l");
-                eff_pur_N1cuts_leg->AddEntry(purN1_new, ("Purity ("     + m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol() + ")").c_str(), "l");
+                // TLegend * eff_pur_N1cuts_leg = m_runbd->Legend(0.2,0.1);
+                // eff_pur_N1cuts_leg->AddEntry(effN1_new, ("Efficiency (" + m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol() + ")").c_str(), "l");
+                // eff_pur_N1cuts_leg->AddEntry(purN1_new, ("Purity ("     + m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol() + ")").c_str(), "l");
 
-                // eff_pur_N1cuts_leg->AddEntry(effN1_CC1P1Pi, ("Efficiency (" + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol() + ")").c_str(), "l");
-                // eff_pur_N1cuts_leg->AddEntry(purN1_CC1P1Pi, ("Purity ("     + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol() + ")").c_str(), "l");
+                // // eff_pur_N1cuts_leg->AddEntry(effN1_CC1P1Pi, ("Efficiency (" + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol() + ")").c_str(), "l");
+                // // eff_pur_N1cuts_leg->AddEntry(purN1_CC1P1Pi, ("Purity ("     + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol() + ")").c_str(), "l");
 
-                eff_pur_N1cuts_leg->AddEntry(effN1_CC1P1PiInc, ("Efficiency (" + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSymbol() + ")").c_str(), "l");
-                eff_pur_N1cuts_leg->AddEntry(purN1_CC1P1PiInc, ("Purity ("     + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSymbol() + ")").c_str(), "l");
+                // eff_pur_N1cuts_leg->AddEntry(effN1_CC1P1PiInc, ("Efficiency (" + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSymbol() + ")").c_str(), "l");
+                // eff_pur_N1cuts_leg->AddEntry(purN1_CC1P1PiInc, ("Purity ("     + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSymbol() + ")").c_str(), "l");
 
                 TCanvas * eff_pur_N1cuts = new TCanvas("eff_pur_N1cuts","", 600, 800);
                 eff_pur_N1cuts->cd();
                 effN1_new->GetYaxis()->SetTitle("Eff./Pur. (%)");
                 effN1_new->Draw("HIST");
                 purN1_new->Draw("HISTSAME");
-                effN1_CC1P1PiInc->Draw("HISTSAME");
-                purN1_CC1P1PiInc->Draw("HISTSAME");
-                eff_pur_N1cuts_leg->Draw();
+                // effN1_CC1P1PiInc->Draw("HISTSAME");
+                // purN1_CC1P1PiInc->Draw("HISTSAME");
+                // eff_pur_N1cuts_leg->Draw();
 
                 eff_pur_N1cuts->Write();
 

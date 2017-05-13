@@ -523,6 +523,8 @@ TH1D * EffPurTools::EffVSN1Cuts(std::string signal, int branch, std::string cuts
         }
         else ratio = GetCutEntries(ignore, joint_cut, branch);
         ratio *= 1/denom;
+        cout << "EffPurTools::EffVSN1Cuts : cut" << ignore << " : R = " << ratio << endl;
+
         histo->SetBinContent(ignore + 1, ratio);
     }
     histo->Scale(100.00);
@@ -557,7 +559,7 @@ TH1D * EffPurTools::PurVSN1Cuts(std::string signal, int branch, std::string cuts
             ratio = GetCutEntries(-1, numer_cut, branch)/GetCutEntries(-1, cuts, branch);
         }
         else ratio = GetCutEntries(ignore, numer_cut, branch)/GetCutEntries(ignore, cuts, branch);
-        cout << "cut" << ignore << " : R = " << ratio << endl;
+        cout << "EffPurTools::PurVSN1Cuts : cut" << ignore << " : R = " << ratio << endl;
         histo->SetBinContent(ignore + 1, ratio);
     }
     histo->Scale(100.00);
