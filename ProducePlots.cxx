@@ -121,6 +121,7 @@ public:
         if(ProducePlots::Mom == var) return std::string(GET_PAR_NAME(Mom));
         if(ProducePlots::All == var) return std::string(GET_PAR_NAME(All)); //28;
         if(ProducePlots::NotSet == var) return std::string(GET_PAR_NAME(NotSet));
+        else return "Unknown";
     }
 
     ProducePlots(Experiment::Name exp, std::string infilename, std::string outfilename, bool debug, bool realdata, RunOpts opts);
