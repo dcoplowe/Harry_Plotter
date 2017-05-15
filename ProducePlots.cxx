@@ -1231,14 +1231,14 @@ void ProducePlots::MakePlots(){
 
         }
 
+        Variable dpTT(m_recovars->truedpTT + ":" + m_recovars->dpTT, "#delta#it{p}_{TT}", "MeV/#it{c}");
+        dpTT.SetSName(m_recovars->dpTT);
 
         if(DrawPlot(ProducePlots::DPTT)){
-
+            MakeDir("dpTT" + branchnames[br]);
             if(m_verbose) cout << "Now producing dpTT plots." << endl;
             //************************************** dpTT Start *************************************//
-            MakeDir("dpTT" + branchnames[br]);
-            Variable dpTT(m_recovars->truedpTT + ":" + m_recovars->dpTT, "#delta#it{p}_{TT}", "MeV/#it{c}");
-            dpTT.SetSName(m_recovars->dpTT);
+           
             ProduceGroup(dpTT, 39, -300, 300, basecuts[br]);
 
             TCanvas * dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
@@ -1332,15 +1332,16 @@ void ProducePlots::MakePlots(){
                 }
             }
 
+            string segcuts = m_muon->fgd_start.GetName() + "!= -999 && " + m_proton->fgd_start.GetName() + " != -999 && ";
+            segcuts += m_pion->fgd_start.GetName();
+            segcuts += " != -999";
+
+            Variable nfgdsegments(m_muon->fgd_start.GetName() + " + " + m_proton->fgd_start.GetName() + " + " + m_pion->fgd_start.GetName(),"","");
+
             //************************************** No. FGD Segments Start *************************************//
             if(DrawPlot(ProducePlots::NFGDSegments)){
                 cdDir("FGDSegments");
-
-                Variable nfgdsegments(m_muon->fgd_start.GetName() + " + " + m_proton->fgd_start.GetName() + " + " + m_pion->fgd_start.GetName(),"","");
-                string segcuts = m_muon->fgd_start.GetName() + "!= -999 && " + m_proton->fgd_start.GetName() + " != -999 && ";
-                segcuts += m_pion->fgd_start.GetName();
-                segcuts += " != -999";
-
+                
                 TH1D * nfgdsegments_h = m_runbd->GetHisto(nfgdsegments.GetName(), 3, 1., 4., "N tracks with FGD Segments", basecuts[br] + " && " + segcuts);
                 for(int nloop = 0; nloop < nfgdsegments_h->GetNbinsX(); nloop++) nfgdsegments_h->GetXaxis()->SetBinLabel(nloop+1, Form("%d", nloop+1) );
                     nfgdsegments_h->SetFillColor(DrawingStyle::Yellow);
