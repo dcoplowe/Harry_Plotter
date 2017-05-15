@@ -90,7 +90,37 @@ public:
     };
 
     inline std::string ToString(ProducePlots::RunOpts var){
-        return std::string(GET_PAR_NAME(var));
+        if(ProducePlots::EffVSN1Cuts == var) return std::string(GET_PAR_NAME(EffVSN1Cuts));
+        if(ProducePlots::EffVSCuts == var) return std::string(GET_PAR_NAME(EffVSCuts));
+        if(ProducePlots::W == var) return std::string(GET_PAR_NAME(W));
+        if(ProducePlots::VtxPosition2DPur == var) return std::string(GET_PAR_NAME(VtxPosition2DPur));
+        if(ProducePlots::VtxPosition == var) return std::string(GET_PAR_NAME(VtxPosition));
+        if(ProducePlots::VtxPosition2DFGDSegs == var) return std::string(GET_PAR_NAME(VtxPosition2DFGDSegs));
+        if(ProducePlots::VtxPosition2D == var) return std::string(GET_PAR_NAME(VtxPosition2D));
+        if(ProducePlots::VtxPosition1DPur == var) return std::string(GET_PAR_NAME(VtxPosition1DPur));
+        if(ProducePlots::VtxPosition1DFGDSegs == var) return std::string(GET_PAR_NAME(VtxPosition1DFGDSegs));
+        if(ProducePlots::VtxPosition1D == var) return std::string(GET_PAR_NAME(VtxPosition1D));
+        if(ProducePlots::NFGDSegments == var) return std::string(GET_PAR_NAME(NFGDSegments));
+        if(ProducePlots::DPTTFGDSegs == var) return std::string(GET_PAR_NAME(DPTTFGDSegs));
+        if(ProducePlots::DPTT == var) return std::string(GET_PAR_NAME(DPTT));
+        if(ProducePlots::PIDScore == var) return std::string(GET_PAR_NAME(PIDScore));
+        if(ProducePlots::StartPosition1D == var) return std::string(GET_PAR_NAME(StartPosition1D));
+        if(ProducePlots::StartPosition2DEff == var) return std::string(GET_PAR_NAME(StartPosition2DEff));
+        if(ProducePlots::StartPositionAll == var) return std::string(GET_PAR_NAME(StartPositionAll));
+        if(ProducePlots::StartPosition2DPur == var) return std::string(GET_PAR_NAME(StartPosition2DPur));
+        if(ProducePlots::StartPosition2DFGDSegs == var) return std::string(GET_PAR_NAME(StartPosition2DFGDSegs));
+        if(ProducePlots::StartPosition2D == var) return std::string(GET_PAR_NAME(StartPosition2D));
+        if(ProducePlots::StartPositionPur1D == var) return std::string(GET_PAR_NAME(StartPositionPur1D));
+        if(ProducePlots::StartPosition1DFGDSegs == var) return std::string(GET_PAR_NAME(StartPosition1DFGDSegs));
+        if(ProducePlots::FGDSegments == var) return std::string(GET_PAR_NAME(FGDSegments));
+        if(ProducePlots::CrossingAngle == var) return std::string(GET_PAR_NAME(CrossingAngle));
+        if(ProducePlots::cTheta == var) return std::string(GET_PAR_NAME(cTheta));
+        if(ProducePlots::PTheta == var) return std::string(GET_PAR_NAME(PTheta));
+        if(ProducePlots::Phi == var) return std::string(GET_PAR_NAME(Phi));
+        if(ProducePlots::Theta == var) return std::string(GET_PAR_NAME(Theta));
+        if(ProducePlots::Mom == var) return std::string(GET_PAR_NAME(Mom));
+        if(ProducePlots::All == var) return std::string(GET_PAR_NAME(All)); //28;
+        if(ProducePlots::NotSet == var) return std::string(GET_PAR_NAME(NotSet));
     }
 
     ProducePlots(Experiment::Name exp, std::string infilename, std::string outfilename, bool debug, bool realdata, RunOpts opts);
