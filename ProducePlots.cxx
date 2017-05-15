@@ -67,8 +67,8 @@ public:
         VtxPosition1DFGDSegs, 
         VtxPosition1D,
         NFGDSegments, 
-        dpTTFGDSegs, 
-        dpTT, 
+        DPTTFGDSegs, 
+        DPTT, 
         PIDScore, 
         StartPosition1D,
         StartPosition2DEff, 
@@ -1136,6 +1136,15 @@ void ProducePlots::MakePlots(){
                             start_pos2D_pur_h->Draw("COLZ");
                             m_runbd->GetPOT(0.1,0.1)->Draw();
                             GetSignal()->Draw();
+
+                            double fgd_box_low[2] = { t2kgeometry::fgd1min[dim], t2kgeometry::fgd1min[dim2] };
+                            double fgd_box_hig[2] = { t2kgeometry::fgd1max[dim], t2kgeometry::fgd1max[dim2] };
+
+                            // double tpc1_box_low[2] = { t2kgeometry::tpc1min[dim], t2kgeometry::tpc1min[dim2] };
+                            // double tpc1_box_hig[2] = { t2kgeometry::tpc1max[dim], t2kgeometry::tpc1max[dim2] };
+
+                            double tpc2_box_low[2] = { t2kgeometry::tpc2min[dim], t2kgeometry::tpc2min[dim2] };
+                            double tpc2_box_hig[2] = { t2kgeometry::tpc2max[dim], t2kgeometry::tpc2max[dim2] };
 
                             m_runbd->DrawBox(fgd_box_low, fgd_box_hig);
                             m_runbd->DrawBox(tpc2_box_low, tpc2_box_hig, DrawingStyle::Yellow);
