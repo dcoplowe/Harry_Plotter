@@ -263,7 +263,7 @@ m_realdata(realdata), m_accum_level(-999), m_branch(-999), m_savename(outfilenam
 
     if(m_opts != ProducePlots::All){
         //Find .root, append ToString(ProducePlots::XXX) + ".root"
-        size_t ff = m_savename.find(".root")
+        size_t ff = m_savename.find(".root");
         if(ff != std::string::npos){
             m_savename = m_savename.substr(0,ff);
             cout << "m_savename = " << m_savename << endl; 
