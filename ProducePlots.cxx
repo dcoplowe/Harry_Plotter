@@ -1181,6 +1181,15 @@ void ProducePlots::MakePlots(){
                             m_runbd->GetPOT(0.1,0.1)->Draw();
                             GetSignal()->Draw();
 
+                            double fgd_box_low[2] = { t2kgeometry::fgd1min[dim], t2kgeometry::fgd1min[dim2] };
+                            double fgd_box_hig[2] = { t2kgeometry::fgd1max[dim], t2kgeometry::fgd1max[dim2] };
+
+                            // double tpc1_box_low[2] = { t2kgeometry::tpc1min[dim], t2kgeometry::tpc1min[dim2] };
+                            // double tpc1_box_hig[2] = { t2kgeometry::tpc1max[dim], t2kgeometry::tpc1max[dim2] };
+
+                            double tpc2_box_low[2] = { t2kgeometry::tpc2min[dim], t2kgeometry::tpc2min[dim2] };
+                            double tpc2_box_hig[2] = { t2kgeometry::tpc2max[dim], t2kgeometry::tpc2max[dim2] };
+
                             m_runbd->DrawBox(fgd_box_low, fgd_box_hig);
                             m_runbd->DrawBox(tpc2_box_low, tpc2_box_hig, DrawingStyle::Yellow);
 
@@ -1223,7 +1232,7 @@ void ProducePlots::MakePlots(){
         }
 
 
-        if(DrawPlot(ProducePlots::dpTT)){
+        if(DrawPlot(ProducePlots::DPTT)){
 
             if(m_verbose) cout << "Now producing dpTT plots." << endl;
             //************************************** dpTT Start *************************************//
@@ -1270,7 +1279,7 @@ void ProducePlots::MakePlots(){
             delete dpTT_pur;
         }
 
-        if(m_experiment->GetType() == Experiment::MIN && DrawPlot(ProducePlots::dpTT)){
+        if(m_experiment->GetType() == Experiment::MIN && DrawPlot(ProducePlots::DPTT)){
             if(m_verbose) cout << "Making MINERva specific plots" << endl;
 
             std::vector<std::string> dptt_list;
@@ -1296,7 +1305,7 @@ void ProducePlots::MakePlots(){
         if(m_experiment->GetType() == Experiment::T2K){
             if(m_verbose) cout << "Making T2K specific plots" << endl;
 
-            if(DrawPlot(ProducePlots::dpTTFGDSegs)){
+            if(DrawPlot(ProducePlots::DPTTFGDSegs)){
                 cdDir("dpTT" + branchnames[br]);   
                 for(int fgdseg = 1; fgdseg < 4; fgdseg++){
                     stringstream fgdsegs;
