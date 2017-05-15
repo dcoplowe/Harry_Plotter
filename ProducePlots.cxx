@@ -1561,6 +1561,9 @@ void ProducePlots::MakePlots(){
                         delete vtx_pos2D_c;
                     }
 
+                    double box_low[2] = { t2kgeometry::fgd1min[dim], t2kgeometry::fgd1min[dim2] };
+                    double box_hig[2] = { t2kgeometry::fgd1max[dim], t2kgeometry::fgd1max[dim2] };
+
                     if(DrawPlot(ProducePlots::VtxPosition2DFGDSegs, ProducePlots::VtxPosition)){
                     //Vertex Position for NFGD Segments: 1, 2, 3:
                         for(int nsegs = 1; nsegs < 4; nsegs++){
@@ -1575,8 +1578,7 @@ void ProducePlots::MakePlots(){
                             TCanvas * vtx_pos2D_fgdseg_c = new TCanvas((vtx_pos.GetSName() + m_NameXYZ[dim2] + "_" + snsegs.str() + "fgdseg").c_str(), "", 400, 400);
                             vtx_pos2D_fgdseg_c->cd();
                             vtx_pos2D_fgdseg_h->Draw("COLZ");
-                            double box_low[2] = { t2kgeometry::fgd1min[dim], t2kgeometry::fgd1min[dim2] };
-                            double box_hig[2] = { t2kgeometry::fgd1max[dim], t2kgeometry::fgd1max[dim2] };
+                           
                             m_runbd->DrawBox(box_low, box_hig);
                             m_runbd->GetPOT(0.1,0.1)->Draw();
                             PrintLogo(vtx_pos2D_fgdseg_c);
