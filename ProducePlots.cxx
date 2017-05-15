@@ -70,6 +70,7 @@ public:
         dpTTFGDSegs, 
         dpTT, 
         PIDScore, 
+        StartPosition1D,
         StartPosition2DEff, 
         StartPositionAll, 
         StartPosition2DPur, 
