@@ -89,7 +89,7 @@ public:
         NotSet       
     };
 
-    inline std::string ToString(ProducePlots::RunOpts var){
+    static inline std::string ToString(ProducePlots::RunOpts var){
         if(ProducePlots::EffVSN1Cuts == var) return std::string(GET_PAR_NAME(EffVSN1Cuts));
         if(ProducePlots::EffVSCuts == var) return std::string(GET_PAR_NAME(EffVSCuts));
         if(ProducePlots::W == var) return std::string(GET_PAR_NAME(W));
@@ -260,6 +260,15 @@ m_realdata(realdata), m_accum_level(-999), m_branch(-999), m_savename(outfilenam
     //     }
 
     // }
+
+    if(m_opts != ProducePlots::All){
+        //Find .root, append ToString(ProducePlots::XXX) + ".root"
+        size_t ff = m_savename.find(".root")
+        if(ff != std::string::npos){
+            m_savename = m_savename.substr(0,ff);
+            cout << "m_savename = " << m_savename << endl; 
+        }
+    }
 
     cout << "Saving file as " << m_savename << endl;
     
