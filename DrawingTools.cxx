@@ -77,7 +77,15 @@ TH1D * DrawingTools::GetHisto(std::string var, Int_t nbins, Double_t * bins, std
     //cout << tmp_cuts.Data() << endl;
     
     //    m_tree->Project(host_name.Data(), var.Data(), tmp_cuts.Data());
-    m_tree->Project(host_name.Data(), var.c_str(), (m_weight + "*(" + cuts + ")").c_str());
+
+    string selection = m_weight;
+    if(!cuts.empty()){ 
+        selection += "*(";
+        selection += cuts;
+        selection += ")";
+    }
+
+    m_tree->Project(host_name.Data(), var.c_str(), selection.c_str());
     
     return hist;
 }
@@ -92,20 +100,15 @@ TH2D * DrawingTools::GetHisto(std::string var_yx, Int_t x_nbins, Double_t * x_bi
     TString host_name = Form("h2Dvar%s%.5d", m_uniquename.c_str(), m_2Dcounter);
     
     TH2D * hist = new TH2D(host_name.Data(), Form(";%s", xy_title.c_str()), x_nbins, x_bins, y_nbins, y_bins);
-    //hist->GetYaxis()->Setmaxdigits(2);
-    //hist->GetXaxis()->Setmaxdigits(2);
+
+    string selection = m_weight;
+    if(!cuts.empty()){ 
+        selection += "*(";
+        selection += cuts;
+        selection += ")";
+    }
     
-    //Separate true and rec vars:
-//    TString y_var( vars_yx(0, vars_yx.First(":")) );
-//    TString x_var( vars_yx(vars_yx.First(":") + 1, vars_yx.Length()) );
-//    
-//    TString tmp_cuts = cuts.Data();
-//    if(!tmp_cuts.EqualTo("", TString::kExact)) tmp_cuts.Append(" && ");
-//    tmp_cuts.Append(Form("(%s != -999) && (%s != -999)", y_var.Data(), x_var.Data()));
-//    if(_DEBUG_) cout << tmp_cuts.Data() << endl;
-    
-    m_tree->Project(host_name.Data(), var_yx.c_str(), (m_weight + "*(" + cuts + ")").c_str());
-    
+    m_tree->Project(host_name.Data(), var_yx.c_str(), selection.c_str());    
     return hist;
 }
 
