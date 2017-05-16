@@ -526,6 +526,8 @@ public:
     Variable truevtx_pos;
     // Variable W_mass;
 
+    Variable ntracks;
+
 };
 
 #endif

@@ -85,43 +85,45 @@ public:
         Phi, 
         Theta, 
         Mom,
+        NTracks,
         All, //28
         NotSet       
     };
 
     static inline std::string ToString(ProducePlots::RunOpts var){
         if(ProducePlots::EffVSN1Cuts == var) return std::string(GET_PAR_NAME(EffVSN1Cuts));
-        if(ProducePlots::EffVSCuts == var) return std::string(GET_PAR_NAME(EffVSCuts));
-        if(ProducePlots::W == var) return std::string(GET_PAR_NAME(W));
-        if(ProducePlots::VtxPosition2DPur == var) return std::string(GET_PAR_NAME(VtxPosition2DPur));
-        if(ProducePlots::VtxPosition == var) return std::string(GET_PAR_NAME(VtxPosition));
-        if(ProducePlots::VtxPosition2DFGDSegs == var) return std::string(GET_PAR_NAME(VtxPosition2DFGDSegs));
-        if(ProducePlots::VtxPosition2D == var) return std::string(GET_PAR_NAME(VtxPosition2D));
-        if(ProducePlots::VtxPosition1DPur == var) return std::string(GET_PAR_NAME(VtxPosition1DPur));
-        if(ProducePlots::VtxPosition1DFGDSegs == var) return std::string(GET_PAR_NAME(VtxPosition1DFGDSegs));
-        if(ProducePlots::VtxPosition1D == var) return std::string(GET_PAR_NAME(VtxPosition1D));
-        if(ProducePlots::NFGDSegments == var) return std::string(GET_PAR_NAME(NFGDSegments));
-        if(ProducePlots::DPTTFGDSegs == var) return std::string(GET_PAR_NAME(DPTTFGDSegs));
-        if(ProducePlots::DPTT == var) return std::string(GET_PAR_NAME(DPTT));
-        if(ProducePlots::PIDScore == var) return std::string(GET_PAR_NAME(PIDScore));
-        if(ProducePlots::StartPosition1D == var) return std::string(GET_PAR_NAME(StartPosition1D));
-        if(ProducePlots::StartPosition2DEff == var) return std::string(GET_PAR_NAME(StartPosition2DEff));
-        if(ProducePlots::StartPositionAll == var) return std::string(GET_PAR_NAME(StartPositionAll));
-        if(ProducePlots::StartPosition2DPur == var) return std::string(GET_PAR_NAME(StartPosition2DPur));
-        if(ProducePlots::StartPosition2DFGDSegs == var) return std::string(GET_PAR_NAME(StartPosition2DFGDSegs));
-        if(ProducePlots::StartPosition2D == var) return std::string(GET_PAR_NAME(StartPosition2D));
-        if(ProducePlots::StartPositionPur1D == var) return std::string(GET_PAR_NAME(StartPositionPur1D));
-        if(ProducePlots::StartPosition1DFGDSegs == var) return std::string(GET_PAR_NAME(StartPosition1DFGDSegs));
-        if(ProducePlots::FGDSegments == var) return std::string(GET_PAR_NAME(FGDSegments));
-        if(ProducePlots::CrossingAngle == var) return std::string(GET_PAR_NAME(CrossingAngle));
-        if(ProducePlots::cTheta == var) return std::string(GET_PAR_NAME(cTheta));
-        if(ProducePlots::PTheta == var) return std::string(GET_PAR_NAME(PTheta));
-        if(ProducePlots::Phi == var) return std::string(GET_PAR_NAME(Phi));
-        if(ProducePlots::Theta == var) return std::string(GET_PAR_NAME(Theta));
-        if(ProducePlots::Mom == var) return std::string(GET_PAR_NAME(Mom));
-        if(ProducePlots::All == var) return std::string(GET_PAR_NAME(All)); //28;
-        if(ProducePlots::NotSet == var) return std::string(GET_PAR_NAME(NotSet));
-        else return "Unknown";
+        else if(ProducePlots::EffVSCuts == var) return std::string(GET_PAR_NAME(EffVSCuts));
+        else if(ProducePlots::W == var) return std::string(GET_PAR_NAME(W));
+        else if(ProducePlots::VtxPosition2DPur == var) return std::string(GET_PAR_NAME(VtxPosition2DPur));
+        else if(ProducePlots::VtxPosition == var) return std::string(GET_PAR_NAME(VtxPosition));
+        else if(ProducePlots::VtxPosition2DFGDSegs == var) return std::string(GET_PAR_NAME(VtxPosition2DFGDSegs));
+        else if(ProducePlots::VtxPosition2D == var) return std::string(GET_PAR_NAME(VtxPosition2D));
+        else if(ProducePlots::VtxPosition1DPur == var) return std::string(GET_PAR_NAME(VtxPosition1DPur));
+        else if(ProducePlots::VtxPosition1DFGDSegs == var) return std::string(GET_PAR_NAME(VtxPosition1DFGDSegs));
+        else if(ProducePlots::VtxPosition1D == var) return std::string(GET_PAR_NAME(VtxPosition1D));
+        else if(ProducePlots::NFGDSegments == var) return std::string(GET_PAR_NAME(NFGDSegments));
+        else if(ProducePlots::DPTTFGDSegs == var) return std::string(GET_PAR_NAME(DPTTFGDSegs));
+        else if(ProducePlots::DPTT == var) return std::string(GET_PAR_NAME(DPTT));
+        else if(ProducePlots::PIDScore == var) return std::string(GET_PAR_NAME(PIDScore));
+        else if(ProducePlots::StartPosition1D == var) return std::string(GET_PAR_NAME(StartPosition1D));
+        else if(ProducePlots::StartPosition2DEff == var) return std::string(GET_PAR_NAME(StartPosition2DEff));
+        else if(ProducePlots::StartPositionAll == var) return std::string(GET_PAR_NAME(StartPositionAll));
+        else if(ProducePlots::StartPosition2DPur == var) return std::string(GET_PAR_NAME(StartPosition2DPur));
+        else if(ProducePlots::StartPosition2DFGDSegs == var) return std::string(GET_PAR_NAME(StartPosition2DFGDSegs));
+        else if(ProducePlots::StartPosition2D == var) return std::string(GET_PAR_NAME(StartPosition2D));
+        else if(ProducePlots::StartPositionPur1D == var) return std::string(GET_PAR_NAME(StartPositionPur1D));
+        else if(ProducePlots::StartPosition1DFGDSegs == var) return std::string(GET_PAR_NAME(StartPosition1DFGDSegs));
+        else if(ProducePlots::FGDSegments == var) return std::string(GET_PAR_NAME(FGDSegments));
+        else if(ProducePlots::CrossingAngle == var) return std::string(GET_PAR_NAME(CrossingAngle));
+        else if(ProducePlots::cTheta == var) return std::string(GET_PAR_NAME(cTheta));
+        else if(ProducePlots::PTheta == var) return std::string(GET_PAR_NAME(PTheta));
+        else if(ProducePlots::Phi == var) return std::string(GET_PAR_NAME(Phi));
+        else if(ProducePlots::Theta == var) return std::string(GET_PAR_NAME(Theta));
+        else if(ProducePlots::Mom == var) return std::string(GET_PAR_NAME(Mom));
+        else if(ProducePlots::NTracks == var) return std::string(GET_PAR_NAME(NTracks));
+        else if(ProducePlots::All == var) return std::string(GET_PAR_NAME(All)); //28;
+        else if(ProducePlots::NotSet == var) return std::string(GET_PAR_NAME(NotSet));
+        else return std::string("Unknown");
     }
 
     ProducePlots(Experiment::Name exp, std::string infilename, std::string outfilename, bool debug, bool realdata, RunOpts opts);
@@ -1047,11 +1049,13 @@ void ProducePlots::MakePlots(){
                     // Variable start_pos_dim(party->startpos.GetName()  + "[" + dimss.str() + "]", dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim], start_pos.GetSymbol(), "mm", start_pos.GetSName() + "_pur", party->pdg.GetName());
                     // PurPart: 
                     if(DrawPlot(ProducePlots::StartPositionPur1D, ProducePlots::StartPositionAll)){
-                        TH1D * start_pos_H_pur = m_runep->PurVSVar(party->startpos.GetName()  + "[" + dimss.str() + "]", dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
+                        TH1D * start_pos_H_pur = m_runep->PurVSVar(party->startpos.GetName()  + "[" + dimss.str() + "]", dimnbins[dim],
+                            t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
                             m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), start_pos_cuts,
                             start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")");
 
-                        TH1D * start_pos_CH_pur = m_runep->PurVSVar(party->startpos.GetName()  + "[" + dimss.str() + "]", dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
+                        TH1D * start_pos_CH_pur = m_runep->PurVSVar(party->startpos.GetName()  + "[" + dimss.str() + "]", dimnbins[dim], 
+                            t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
                             m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), start_pos_cuts,
                             start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")");
 
@@ -1246,29 +1250,31 @@ void ProducePlots::MakePlots(){
                             delete start_pos2D_eff_c;
                         //**************************************** 2D Efficiency END ************************************//
                         }
-
                         //**************************************** Start Position END ************************************//
                     }
 
-                }
+                    if(DrawPlot(ProducePlots::PIDScore)){
+                        //**************************************** PID Score START ************************************//
+                        MakeDir("LLScores/" + party->GetName());
 
-                if(DrawPlot(ProducePlots::PIDScore)){
-                    MakeDir("LLScores/" + party->GetName());
+                        Variable pid_scores[4] = { party->PIDScoreMu, party->PIDScoreEl, party->PIDScorePr, party->PIDScorePi };
+                        std::vector<PDGInfo> pdg_list;
+                        pdg_list.push_back( PDGInfo(13,     "muon",     "#mu^{#pm}",    true) );
+                        pdg_list.push_back( PDGInfo(2212,   "proton",   "p",            true) );
+                        pdg_list.push_back( PDGInfo(211,    "pion",     "#pi^{#pm}",    true) );
+                        pdg_list.push_back( PDGInfo(11,     "electron", "e^{#pm}",      true) );
 
-                    Variable pid_scores[4] = { party->PIDScoreMu, party->PIDScoreEl, party->PIDScorePr, party->PIDScorePi };
-                    std::vector<PDGInfo> pdg_list;
-                    pdg_list.push_back( PDGInfo(13,     "muon",     "#mu^{#pm}",    true) );
-                    pdg_list.push_back( PDGInfo(2212,   "proton",   "p",            true) );
-                    pdg_list.push_back( PDGInfo(211,    "pion",     "#pi^{#pm}",    true) );
-                    pdg_list.push_back( PDGInfo(11,     "electron", "e^{#pm}",      true) );
-
-                    for(int npid = 0; npid < 4; npid++){
-                        Variable pid = pid_scores[npid];
-                        pid.SetSName(pid.GetName());
-                        m_runbd->PID(pid, party->pdg.GetName(), basecuts[br], pdg_list)->Write();
+                        for(int npid = 0; npid < 4; npid++){
+                            Variable pid = pid_scores[npid];
+                            pid.SetSName(pid.GetName());
+                            m_runbd->PID(pid, party->pdg.GetName(), basecuts[br], pdg_list)->Write();
                         //Variable var, std::string pdgvar, std::string cuts, std::vector<PDGInfo> pdglist
+                        }
+                        pdg_list.clear();
+                        //**************************************** PID Score START ************************************//
+
                     }
-                    pdg_list.clear();
+
                 }
             }
 
@@ -1349,7 +1355,8 @@ void ProducePlots::MakePlots(){
             if(m_verbose) cout << "Making T2K specific plots" << endl;
 
             if(DrawPlot(ProducePlots::DPTTFGDSegs)){
-                cdDir("dpTT" + branchnames[br]);   
+                MakeDir("dpTT" + branchnames[br] + "/NFGDSegments" );
+                // cdDir("dpTT" + branchnames[br]);   
                 for(int fgdseg = 1; fgdseg < 4; fgdseg++){
                     stringstream fgdsegs;
                     fgdsegs << fgdseg;
@@ -1383,7 +1390,7 @@ void ProducePlots::MakePlots(){
 
             //************************************** No. FGD Segments Start *************************************//
             if(DrawPlot(ProducePlots::NFGDSegments)){
-                cdDir("FGDSegments");
+                MakeDir("FGDSegments");
                 
                 TH1D * nfgdsegments_h = m_runbd->GetHisto(nfgdsegments.GetName(), 3, 1., 4., "N tracks with FGD Segments", basecuts[br] + " && " + segcuts);
                 for(int nloop = 0; nloop < nfgdsegments_h->GetNbinsX(); nloop++) nfgdsegments_h->GetXaxis()->SetBinLabel(nloop+1, Form("%d", nloop+1) );
@@ -1395,6 +1402,30 @@ void ProducePlots::MakePlots(){
                 nfgdsegments_c->Write();
             }
         //************************************** No. FGD Segments End *************************************//
+
+            if(DrawPlot(ProducePlots::NTracks)){
+                if(m_verbose) cout << "Producing NTPC Tracks" << endl;
+                MakeDir("NTPCTracks");
+                TH1D * no_tracks_h = m_runbd->GetHisto(m_recovars->ntracks.GetName(), 21,0,21, m_recovars->ntracks.GetAxisTitle());
+                no_tracks_h->SetLineColor(DrawingStyle::Blue);
+                //TH1D * GetHisto(std::string var, Int_t nbins, Double_t low, Double_t high, std::string xy_title = "", std::string cuts = "");
+                std::string tmp_ntrack = m_recovars->ntracks.GetName(); 
+                TH1D * no_tracks_h2 = m_runbd->GetHisto( "(" + tmp_ntrack + " > 20 ? 21 : " + tmp_ntrack + ")", 21,0,21, 
+                    m_recovars->ntracks.GetAxisTitle());
+                no_tracks_h2->SetLineColor(DrawingStyle::Yellow);
+
+                TCanvas * no_tracks_can = new TCanvas("NTPCTracks","", 400, 400);
+                no_tracks_can->cd();
+
+                no_tracks_h->Draw();
+                no_tracks_h2->Draw("SAME");
+
+                no_tracks_can->Write();
+
+                delete no_tracks_can;
+                delete no_tracks_h;
+                delete no_tracks_h2;
+            }
 
             //**************************************** Vertex Position START ************************************//
             MakeDir("VtxPosition");
@@ -1506,8 +1537,6 @@ void ProducePlots::MakePlots(){
                 vtx_pos_cuts += "]";
                 vtx_pos_cuts += " < ";
                 vtx_pos_cuts += dim2th_high.str();
-
-                // cout << vtx_pos_cuts << endl;
 
                 Variable vtx_pos(m_recovars->truevtx_pos.GetName() + "[" + dimss.str() + "]:" + m_recovars->vtx_pos.GetName() + "[" + dimss.str() + "]", m_recovars->vtx_pos.GetSymbol(), m_recovars->vtx_pos.GetUnits());
                     // This probably wont work as the code looks for :: to make a split... Add fix.

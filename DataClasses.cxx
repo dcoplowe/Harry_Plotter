@@ -624,6 +624,7 @@ KinematicVars::KinematicVars(Experiment::Name exp){
         vtx_pos = Variable("selvtx_pos", "Vertex Pos.", "(mm)");
         truevtx_pos = Variable("selvtx_truepos", " True Vertex Pos.", "(mm)");
 
+        ntracks = Variable("track_multiplicity", "N Tracks", "");   
         // W_mass("");
     }
     else if(exp == Experiment::MIN){

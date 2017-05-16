@@ -47,6 +47,8 @@ public:
         //gStyle->SetLegendTextSize(0.15);
         TGaxis::SetMaxDigits(2);
 
+        TastyPalette();
+
         gROOT->ForceStyle();
         // gROOT->cd(0);
     }
@@ -102,7 +104,25 @@ public:
         ARGON = kGray
     };
     
-    
+    static void TastyPalette(Float_t alpha = 1.0){
+        int nconts = 255;
+        const UInt_t Number = 9;
+        Double_t stops[Number] = { 0.0000, 0.1250, 0.2500, 0.3750, 0.5000, 0.6250, 0.7500, 0.8750, 1.0000};
+        Double_t red[Number]   = { 0.2082, 0.0592, 0.0780, 0.0232, 0.1802, 0.5301, 0.8186, 0.9956, 0.9764};
+        Double_t green[Number] = { 0.1664, 0.3599, 0.5041, 0.6419, 0.7178, 0.7492, 0.7328, 0.7862, 0.9832};
+        Double_t blue[Number]  = { 0.5293, 0.8684, 0.8385, 0.7914, 0.6425, 0.4662, 0.3499, 0.1968, 0.0539};
+        TColor::CreateGradientColorTable(Number, stops, red, green, blue, nconts, alpha);
+        gStyle->SetNumberContours(nconts);
+    }
+
+    //  const UInt_t Number = 5;
+    // Double_t Red[Number]    = { 0.00, 0.25, 1.00, 1.00, 0.50 };
+    // Double_t Green[Number]  = { 0.00, 0.25, 1.00, 0.25, 0.00 };
+    // Double_t Blue[Number]   = { 0.50, 1.00, 1.00, 0.25, 0.00 };
+    // Double_t Length[Number] = { 0.00, 0.25, 0.50, 0.75, 1.00 };
+    // Int_t nb=255;
+    // TColor::CreateGradientColorTable(Number,Length,Red,Green,Blue,nb);
+    // gStyle->SetNumberContours(nb);
 };
 
 #endif
