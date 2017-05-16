@@ -683,11 +683,12 @@ void ProducePlots::PurPart(Variable var, std::string cuts){
         purdists->cd();
         TH1D * H_pur = m_runep->PurVSVar(var.GetName().c_str(), var.GetNBins(), var.GetBinning(), m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), cuts, var.GetSymbol() + (var.GetUnits().empty() ? "" : " (" + var.GetUnits() + ")"));
         H_pur->SetLineColor(DrawingStyle::HYDROGEN);
-        H_pur->Draw();
 
         TH1D * CH_pur = m_runep->PurVSVar(var.GetName().c_str(), var.GetNBins(), var.GetBinning(), m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), cuts, var.GetSymbol() + (var.GetUnits().empty() ? "" : " (" + var.GetUnits() + ")"));
         CH_pur->SetLineColor(DrawingStyle::CARBON);
-        CH_pur->Draw();
+
+        H_pur->Draw();
+        CH_pur->Draw("SAME");
 
         TLegend * pur_leg = m_runbd->Legend(0.15, 0.1);
         pur_leg->AddEntry(H_pur, m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol().c_str(), "l" );
@@ -981,9 +982,28 @@ void ProducePlots::MakePlots(){
                 }
                 //**************************************** FGD Segment END **************************************//
 
-                //**************************************** Start Position START ************************************//
+                if(DrawPlot(ProducePlots::PIDScore)){
+                        //**************************************** PID Score START ************************************//
+                    MakeDir("LLScores/" + party->GetName());
 
-                
+                    Variable pid_scores[4] = { party->PIDScoreMu, party->PIDScoreEl, party->PIDScorePr, party->PIDScorePi };
+                    std::vector<PDGInfo> pdg_list;
+                    pdg_list.push_back( PDGInfo(13,     "muon",     "#mu^{#pm}",    true) );
+                    pdg_list.push_back( PDGInfo(2212,   "proton",   "p",            true) );
+                    pdg_list.push_back( PDGInfo(211,    "pion",     "#pi^{#pm}",    true) );
+                    pdg_list.push_back( PDGInfo(11,     "electron", "e^{#pm}",      true) );
+
+                    for(int npid = 0; npid < 4; npid++){
+                        Variable pid = pid_scores[npid];
+                        pid.SetSName(pid.GetName());
+                        m_runbd->PID(pid, party->pdg.GetName(), basecuts[br], pdg_list)->Write();
+                        //Variable var, std::string pdgvar, std::string cuts, std::vector<PDGInfo> pdglist
+                    }
+                    pdg_list.clear();
+                        //**************************************** PID Score END ************************************//
+                }
+
+                //**************************************** Start Position START ************************************//                
                 if(m_verbose) cout << "Start Position";
                 MakeDir("StartPosition/" + party->GetName());
                 int dimnbins[3] = {40, 40, 40};
@@ -1252,29 +1272,6 @@ void ProducePlots::MakePlots(){
                         }
                         //**************************************** Start Position END ************************************//
                     }
-
-                    if(DrawPlot(ProducePlots::PIDScore)){
-                        //**************************************** PID Score START ************************************//
-                        MakeDir("LLScores/" + party->GetName());
-
-                        Variable pid_scores[4] = { party->PIDScoreMu, party->PIDScoreEl, party->PIDScorePr, party->PIDScorePi };
-                        std::vector<PDGInfo> pdg_list;
-                        pdg_list.push_back( PDGInfo(13,     "muon",     "#mu^{#pm}",    true) );
-                        pdg_list.push_back( PDGInfo(2212,   "proton",   "p",            true) );
-                        pdg_list.push_back( PDGInfo(211,    "pion",     "#pi^{#pm}",    true) );
-                        pdg_list.push_back( PDGInfo(11,     "electron", "e^{#pm}",      true) );
-
-                        for(int npid = 0; npid < 4; npid++){
-                            Variable pid = pid_scores[npid];
-                            pid.SetSName(pid.GetName());
-                            m_runbd->PID(pid, party->pdg.GetName(), basecuts[br], pdg_list)->Write();
-                        //Variable var, std::string pdgvar, std::string cuts, std::vector<PDGInfo> pdglist
-                        }
-                        pdg_list.clear();
-                        //**************************************** PID Score START ************************************//
-
-                    }
-
                 }
             }
 
