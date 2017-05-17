@@ -94,9 +94,9 @@ public:
     };
 
     void DrawCutLine(double xpos, DrawingTools::LineDirection dir = DrawingTools::Unknown, double arrowpos = 0.5,
-        int color = kBlack, int style = 1, int width = 2);
+        int color = kBlack, int style = 1, int width = 3);
     
-    void DrawCutArrow(double xmin, double ymin, double xmax, double ymax, int color = kBlack, int style = 1, int width = 2);
+    void DrawCutArrow(double xmin, double ymin, double xmax, double ymax, int color = kBlack, int style = 1, int width = 3);
 
 private:
     //File and directory info:
