@@ -7,9 +7,14 @@ PATH=${PATH}:${plotter}
 
 infile=$1
 opt=$2
+cutson=$3
 
 if [[ ! -z ${opt} ]]; then
 	opt="-e ${opt}"
+fi
+
+if [[ ! -z ${cutson} ]]; then
+	cutson="-c ${cutson}"
 fi
 
 echo $PATH
@@ -23,5 +28,5 @@ cd ${dir}
 pwd
 
 echo "Starting to produce plots."
-ProducePlots -t -i ${infile} -v -o ${dir}/${savename} ${opt}
+ProducePlots -t -i ${infile} -v -o ${dir}/${savename} ${opt} ${cutson}
 echo "Finished making plots."
