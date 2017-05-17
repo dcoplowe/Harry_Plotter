@@ -374,6 +374,7 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
         //Reco vars: Common:
         if(m_pdg == Particle::Proton || m_pdg == Particle::PionP){            
             P           = Variable(m_tag + name + "_mom", 20, 0., 2000., "#it{p}", "MeV/#it{c}");
+            // P.SetSName(P.GetName());
                 // Varaible ranges/binning need improving:
             pT          = Variable(m_tag + name + "_pT", 20, 0., 2000., "#it{p}", "MeV/#it{c}");
             pTMag       = Variable(m_tag + name + "_pTMag", 20, 0., 2000., "#it{p}", "MeV/#it{c}");
@@ -425,6 +426,9 @@ Particle::Particle(Experiment::Name exp, std::string name, std::string tag) : m_
         PIDScorePr = Variable(m_tag + name + "_LL_pr", pid_binning, pid_low, pid_high, "Score");
         PIDScorePi = Variable(m_tag + name + "_LL_pi", pid_binning, pid_low, pid_high, "Score");
 
+        if(m_pdg == Particle::Proton) MyPID = PIDScorePr;
+        else if(m_pdg == Particle::PionP) MyPID = PIDScorePi;
+        else if(m_pdg == Particle::MuonM) MyPID = PIDScoreMu;
         // Varaible ranges/binning need improving:
 
         //MIN: Reco vars:

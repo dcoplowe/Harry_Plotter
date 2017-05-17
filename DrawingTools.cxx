@@ -533,13 +533,13 @@ void DrawingTools::DrawCutLine(double xpos, DrawingTools::LineDirection dir, dou
     DrawCutLine(xpos, (double)gPad->PadtoY(gPad->GetUymin()), xpos, (double)gPad->PadtoY(gPad->GetUymax()), color, style, width);
 
     if (dir != DrawingTools::Unknown) {
-        double deltax = xval-gPad->PadtoX( gPad->XtoPad(xval)-(gPad->GetUxmax()-gPad->GetUxmin())/20.);
+        double deltax = xpos-gPad->PadtoX( gPad->XtoPad(xpos)-(gPad->GetUxmax()-gPad->GetUxmin())/20.);
         if (dir == DrawingTools::Left) deltax *= -1;
 
             // It needs this to work in LogY scale
         double yarr = gPad->PadtoY((gPad->GetUymax()-gPad->GetUymin())*arrowpos+gPad->GetUymin());
-        double xarrmax = xval + deltax;
-        DrawCutArrow(xval, yarr, xarrmax, yarr, color, style, width);
+        double xarrmax = xpos + deltax;
+        DrawCutArrow(xpos, yarr, xarrmax, yarr, color, style, width);
     }
 }
 

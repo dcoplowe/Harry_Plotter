@@ -328,9 +328,9 @@ class Variable {
 public: 
     Variable() : m_name(""), m_symbol(""), m_units(""), m_savename(""), m_pdg(""){;}
     Variable(std::string name) : m_name(name), m_symbol(name), m_units(""), m_savename(name), m_pdg(""){;}
-    Variable(std::string name, std::string symbol, std::string units) : m_name(name), m_symbol(symbol), m_units(units), m_savename(""), m_pdg(""){;}
-    Variable(std::string name, int nbins, Double_t low, Double_t high, std::string symbol= "", std::string units = "", std::string savename = "", std::string pdg = "") :
-        m_name(name), m_symbol(symbol), m_units(units), m_savename(savename), m_pdg(pdg), m_nbins(nbins), m_binning( DrawingTools::SetBinning(m_nbins, low, high) ) {;}
+    Variable(std::string name, std::string symbol, std::string units) : m_name(name), m_symbol(symbol), m_units(units), m_savename(name), m_pdg(""){;}
+    Variable(std::string name, int nbins, Double_t low, Double_t high, std::string symbol = "", std::string units = "", std::string savename = "", std::string pdg = "") :
+        m_name(name), m_symbol(symbol), m_units(units), m_savename( (savename.empty() ? name : savename) ), m_pdg(pdg), m_nbins(nbins), m_binning( DrawingTools::SetBinning(m_nbins, low, high) ) {;}
 
     Variable(Variable &input){ 
         m_name = input.GetName();
@@ -443,6 +443,8 @@ public:
     Variable PIDScoreEl;
     Variable PIDScorePr;
     Variable PIDScorePi;
+
+    Variable MyPID;
 
     //T2K: True vars:
     Variable truectheta;

@@ -178,6 +178,10 @@ public:
 
     std::string GetPosCuts(Variable pos, int dim1cut, int dim2cut, std::string cuts);
 
+    void RunWithCuts(){ m_cut_onoff_high = 2; }
+    void RunWithCutsOnly(){  m_cut_onoff_low = 2; m_cut_onoff_high = 2; }
+
+
 private:
     std::string m_infilename;
     bool m_realdata;
@@ -192,6 +196,9 @@ private:
     std::string m_savename;
 
     RunOpts m_opts;
+
+    int m_cut_onoff_low;
+    int m_cut_onoff_high;
     
     TFile * m_outfile;// = new TFile(m_savename.c_str(), "RECREATE");
     
@@ -226,7 +233,7 @@ private:
 };
 
 ProducePlots::ProducePlots(Experiment::Name exp, std::string infilename, std::string outfilename, bool debug, bool realdata, RunOpts opts) : m_infilename(infilename),
-m_realdata(realdata), m_accum_level(-999), m_branch(-999), m_savename(outfilename), m_opts(opts) {
+m_realdata(realdata), m_accum_level(-999), m_branch(-999), m_savename(outfilename), m_opts(opts), m_cut_onoff_low(0), m_cut_onoff_high(1) {
 
     cout << "Experiment: " <<  Experiment::ToString(exp) << endl;
 
@@ -563,7 +570,7 @@ void ProducePlots::DrawDetectorLines(TCanvas * can, int xyz){
 void ProducePlots::MakeMomPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts){
     // Variable(std::string name, std::string symbol, std::string units)
     Variable mom(part->trueP.GetName() + ":" + part->P.GetName(), "#it{p}_{" + part->GetSymbol() + "}", "MeV/#it{c}");
-    mom.SetSName(part->P.GetName());
+    mom.SetSName(part->P.GetSName());
     mom.SetPDG(part->pdg.GetName());
     ProduceGroup(mom, nbins, bins, cuts);
 }
@@ -883,59 +890,122 @@ void ProducePlots::MakePlots(){
 
         for(unsigned int ptls = 0; ptls < list.size(); ptls++){
             Particle * party = list[ptls];
-
             if(m_verbose) cout << party->GetName() << " plots being produced" << endl;
-
+            //**************************************** Mom START ****************************************//
             if(DrawPlot(ProducePlots::Mom)){
-                        //**************************************** Mom START ****************************************//
-                MakeDir("Mom" + branchnames[br] + "/" + party->GetName() );
-                MakeMomPlots(party, party->P.GetNBins(), party->P.GetBinning(), basecuts[br]);
-                        //**************************************** Mom END ****************************************//
+                for(int cut_onoff = m_cut_onoff_low; cut_onoff < m_cut_onoff_high; cut_onoff++){
+                    MakeDir("Mom" + branchnames[br] + "/" + party->GetName() );
+                    string tmp_cuts = basecuts[br];
+                    if(cut_onoff == 1){ 
+                        tmp_cuts += " && 0.05 < ";
+                        tmp_cuts += party->MyPID.GetName();
+                        party->P.SetSName( party->P.GetSName() + "_PIDcut" );
+                        MakeDir("Mom" + branchnames[br] + "/" + party->GetName() + "/PIDcut");
+                    }
+                    MakeMomPlots(party, party->P.GetNBins(), party->P.GetBinning(),tmp_cuts);
+                }
             }
+            //**************************************** Mom END ****************************************//
             
             if(m_experiment->GetType() == Experiment::MIN){
+                if(m_verbose) cout << "Making MINERvA specific plots" << endl;
 
+                //**************************************** PTheta START ****************************************//
                 if(DrawPlot(ProducePlots::PTheta)){
                     MakeDir("PTheta" + branchnames[br] + "/" + party->GetName() );
-                    Make2DPlots(party->P, party->theta, "ptheta", basecuts[br]);
+                    // Make2DPlots(party->P, party->theta, "ptheta", basecuts[br]);
+                    for(int cut_onoff = m_cut_onoff_low; cut_onoff < m_cut_onoff_high; cut_onoff++){
+                        string tmp_cuts = basecuts[br];
+                        string tmp_sname = "ptheta";
+                        if(cut_onoff == 1){ 
+                            tmp_cuts += " && 0.05 < ";
+                            tmp_cuts += party->MyPID.GetName();
+                            tmp_sname += "_PIDcut";
+                            // party->theta.SetSName( party->theta.GetSName() + "_PIDcut" );
+                            MakeDir("PTheta" + branchnames[br] + "/" + party->GetName() + "/PIDcut");
+                        }
+                        Make2DPlots(party->P, party->theta, tmp_sname, tmp_cuts);
+                    }
                 }
+                //**************************************** PTheta END ****************************************//
 
-                if(DrawPlot(ProducePlots::Theta)){
                 //**************************************** Theta START ************************************//
-                    MakeDir("Theta" + branchnames[br] + "/" + party->GetName() );
-                    MakeThetaPlots(party, party->theta.GetNBins(), party->theta.GetBinning(), basecuts[br]);
-                //**************************************** Theta END **************************************//
+                if(DrawPlot(ProducePlots::Theta)){
+                    for(int cut_onoff = m_cut_onoff_low; cut_onoff < m_cut_onoff_high; cut_onoff++){
+                        MakeDir("Theta" + branchnames[br] + "/" + party->GetName() );
+                        string tmp_cuts = basecuts[br];
+                        if(cut_onoff == 1){ 
+                            tmp_cuts += " && 0.05 < ";
+                            tmp_cuts += party->MyPID.GetName();
+                            party->theta.SetSName( party->theta.GetSName() + "_PIDcut" );
+                            MakeDir("Theta" + branchnames[br] + "/" + party->GetName() + "/PIDcut");                            
+                        }
+                        MakeThetaPlots(party, party->theta.GetNBins(), party->theta.GetBinning(), tmp_cuts);
+                    }
                 }
+                //**************************************** Theta END **************************************//
 
                 if(DrawPlot(ProducePlots::Phi)){
                 //**************************************** Phi START ************************************//
-                    MakeDir("Phi" + branchnames[br] + "/" + party->GetName() );
-                    MakePhiPlots(party, party->phi.GetNBins(), party->phi.GetBinning(), basecuts[br]);
+                    // MakeDir("Phi" + branchnames[br] + "/" + party->GetName() );
+                    // MakePhiPlots(party, party->phi.GetNBins(), party->phi.GetBinning(), basecuts[br]);
                 //**************************************** Phi END **************************************//                
+                    for(int cut_onoff = m_cut_onoff_low; cut_onoff < m_cut_onoff_high; cut_onoff++){
+                        MakeDir("Phi" + branchnames[br] + "/" + party->GetName());
+                        string tmp_cuts = basecuts[br];
+                        if(cut_onoff == 1){ 
+                            tmp_cuts += " && 0.05 < ";
+                            tmp_cuts += party->MyPID.GetName();
+                            party->phi.SetSName( party->phi.GetSName() + "_PIDcut" );
+                            MakeDir("Phi" + branchnames[br] + "/" + party->GetName() + "/PIDcut");
+                        }
+                        //**************************************** Phi START ************************************//
+                        MakePhiPlots(party, party->phi.GetNBins(), party->phi.GetBinning(), tmp_cuts);
+                        //**************************************** Phi END **************************************// 
+                    }
                 }
-
-                if(m_verbose) cout << "Making MINERvA specific plots" << endl;
             }
 
             if(m_experiment->GetType() == Experiment::T2K){
 
                 if(m_verbose) cout << "Making T2K specific plots" << endl;
                 
+                //**************************************** Phi START ************************************//
                 if(DrawPlot(ProducePlots::PTheta)){
-                    MakeDir("PcTheta" + branchnames[br] + "/" + party->GetName() );
-                    Make2DPlots(party->P, party->ctheta_nudir, "pcTheta", basecuts[br]);
+                    for(int cut_onoff = m_cut_onoff_low; cut_onoff < m_cut_onoff_high; cut_onoff++){
+                        MakeDir("PcTheta" + branchnames[br] + "/" + party->GetName() );
+                        string tmp_cuts = basecuts[br];
+                        string tmp_sname = "pcTheta";
+                        if(cut_onoff == 1){ 
+                            tmp_cuts += " && 0.05 < ";
+                            tmp_cuts += party->MyPID.GetName();
+                            party->phi.SetSName( party->phi.GetSName() + "_PIDcut" );
+                            MakeDir("PcTheta" + branchnames[br] + "/" + party->GetName() + "/PIDcut");
+                            tmp_sname += "PIDcut";
+                        }
+                        Make2DPlots(party->P, party->ctheta_nudir, tmp_sname, tmp_cuts); 
+                    }
                 }
+                //**************************************** Phi END **************************************//
 
-
+                //**************************************** cosTheta START ************************************//
                 if(DrawPlot(ProducePlots::cTheta)){
                     if(m_verbose) cout << "Cos Theta";
-                //**************************************** cosTheta START ************************************//
-                    MakeDir("cTheta/" + party->GetName() );
-                    MakeCosThetaPlots(party, party->ctheta.GetNBins(), party->ctheta.GetBinning(), basecuts[br]);
-                    MakeCosThetaPlots(party, party->ctheta_nudir.GetNBins(), party->ctheta_nudir.GetBinning(), basecuts[br], true);
+
+                    for(int cut_onoff = m_cut_onoff_low; cut_onoff < m_cut_onoff_high; cut_onoff++){
+                        MakeDir("cTheta/" + party->GetName() );
+                        string tmp_cuts = basecuts[br];
+                        if(cut_onoff == 1){ 
+                            tmp_cuts += " && 0.05 < ";
+                            tmp_cuts += party->MyPID.GetName();
+                            party->ctheta.SetSName( party->ctheta.GetSName() + "_PIDcut" );
+                            MakeDir("cTheta/" + party->GetName() + "/PIDcut");
+                        }
+                        MakeCosThetaPlots(party, party->ctheta.GetNBins(), party->ctheta.GetBinning(), tmp_cuts);
+                        MakeCosThetaPlots(party, party->ctheta_nudir.GetNBins(), party->ctheta_nudir.GetBinning(), tmp_cuts, true);
+                    }
                     if(m_verbose) cout << " -- Done" << endl;
                 }
-
                 //**************************************** cosTheta END **************************************//
 
                 //**************************************** Crossing Angle START ************************************//
@@ -943,22 +1013,30 @@ void ProducePlots::MakePlots(){
                 if(DrawPlot(ProducePlots::CrossingAngle)){
                     if(m_verbose) cout << "Crossing Angle";
 
-                    MakeDir("CrossingAngle");
-                    party->cross_angle.SetSName(party->cross_angle.GetName());
-
-                // ProduceGroup(party->cross_angle, party->cross_angle.GetNBins(), party->cross_angle.GetBinning(), basecuts[br]);
-                    TCanvas * ca_can = m_runbd->TARGETSingle(party->cross_angle, party->cross_angle.GetNBins(), party->cross_angle.GetBinning(), basecuts[br]);
-                    ca_can->cd();
-                    m_runbd->GetHisto(party->cross_angle.GetName(), party->cross_angle.GetNBins(), party->cross_angle.GetBinning(), "", basecuts[br])->Draw();
-                //TODO: This is actually for checking that the plotter is working correctly.
-                    PrintLogo(ca_can);
-                    ca_can->Write();
-                    delete ca_can;
-                // Purity of the crossing angle:
-                    PurPart(party->cross_angle, basecuts[br]); 
+                    for(int cut_onoff = m_cut_onoff_low; cut_onoff < m_cut_onoff_high; cut_onoff++){
+                        MakeDir("CrossingAngle" + party->GetName());
+                        party->cross_angle.SetSName(party->cross_angle.GetName());
+                        string tmp_cuts = basecuts[br];
+                        if(cut_onoff == 1){ 
+                            tmp_cuts += " && 0.05 < ";
+                            tmp_cuts += party->MyPID.GetName();
+                            party->cross_angle.SetSName( party->cross_angle.GetSName() + "_PIDcut" );
+                            MakeDir("CrossingAngle/" + party->GetName() + "/PIDcut");
+                        }
+                        TCanvas * ca_can = m_runbd->TARGETSingle(party->cross_angle, party->cross_angle.GetNBins(),
+                           party->cross_angle.GetBinning(), tmp_cuts);
+                        ca_can->cd();
+                        // m_runbd->GetHisto(party->cross_angle.GetName(), party->cross_angle.GetNBins(),
+                        // party->cross_angle.GetBinning(), "", basecuts[br])->Draw();
+                        //TODO: This is actually for checking that the plotter is working correctly.
+                        PrintLogo(ca_can);
+                        ca_can->Write();
+                        delete ca_can;
+                        // Purity of the crossing angle:
+                        PurPart(party->cross_angle, tmp_cuts); 
+                    }
                     if(m_verbose) cout << " -- Done" << endl;
                 }   
-
                 //**************************************** Crossing Angle END **************************************//
 
                 if(DrawPlot(ProducePlots::FGDSegments)){
@@ -970,7 +1048,8 @@ void ProducePlots::MakePlots(){
                     MakeDir("FGDSegments");
 
                     Variable startfgd = party->fgd_start;
-                    TH1D * startfgd_h = m_runbd->GetHisto(startfgd.GetName(), startfgd.GetNBins(), startfgd.GetBinning(), startfgd.GetSymbol(), basecuts[br]);
+                    TH1D * startfgd_h = m_runbd->GetHisto(startfgd.GetName(), startfgd.GetNBins(), startfgd.GetBinning(), 
+                        startfgd.GetSymbol(), basecuts[br]);
                     startfgd_h->SetFillColor( party->info.GetColor() );
 
                     TCanvas * startfgd_c = new TCanvas(party->fgd_start.GetName().c_str(), "", 400, 400);
@@ -998,10 +1077,11 @@ void ProducePlots::MakePlots(){
                             Variable pid = pid_scores[npid];
                             pid.SetSName(pid.GetName() + (cutline == 0 ? "" : "_wCutLine"));
                             TCanvas * pid_can = m_runbd->PID(pid, party->pdg.GetName(), basecuts[br], pdg_list);
-                            if(npid > 0){
+                            if(cutline > 0){
                                 pid_can->cd();
                                 m_runbd->DrawCutLine(0.05, DrawingTools::Right);
                             }
+                            pid_can->Write();
                             delete pid_can;
                             //Variable var, std::string pdgvar, std::string cuts, std::vector<PDGInfo> pdglist
                         }
@@ -1012,7 +1092,6 @@ void ProducePlots::MakePlots(){
 
                 //**************************************** Start Position START ************************************//                
                 if(m_verbose) cout << "Start Position";
-                MakeDir("StartPosition/" + party->GetName());
                 int dimnbins[3] = {40, 40, 40};
 
                 for(int dim = 0; dim < 3; dim++){
@@ -1046,14 +1125,29 @@ void ProducePlots::MakePlots(){
                     
                     // cout << start_pos_cuts << endl;
 
-                    Variable start_pos(party->truestartpos.GetName() + "[" + dimss.str() + "]:" + party->startpos.GetName()  + "[" + dimss.str() + "]", party->GetSymbol() + " " + m_NameXYZ[dim] + " Start Position", "mm");
+                    Variable start_pos(party->truestartpos.GetName() + "[" + dimss.str() + "]:" + party->startpos.GetName()  + "[" + dimss.str() + "]",
+                        party->GetSymbol() + " " + m_NameXYZ[dim] + " Start Position", "mm");
                     // This probably wont work as the code looks for :: to make a split... Add fix.
-                    start_pos.SetSName(party->startpos.GetName() + m_NameXYZ[dim] );
                     start_pos.SetPDG(party->pdg.GetName());
-                    // cout << "fgd1tpc_offset " << m_NameXYZ[dim] << " min  = " << t2kgeometry::fgd1tpcmin_offset[dim] << " max  = " << t2kgeometry::fgd1tpcmax_offset[dim] << endl; 
+
                     if(DrawPlot(ProducePlots::StartPosition1D, ProducePlots::StartPositionAll)){
-                        PositionPlot(start_pos, dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim], start_pos_cuts);
+                        for(int cut_onoff = m_cut_onoff_low; cut_onoff < m_cut_onoff_high; cut_onoff++){  
+                            MakeDir("StartPosition/" + party->GetName() );  
+                            string tmp_cuts = start_pos_cuts;
+                            start_pos.SetSName(party->startpos.GetName() + m_NameXYZ[dim] );
+                            if(cut_onoff == 1){ 
+                                tmp_cuts += " && 0.05 < ";
+                                tmp_cuts += party->MyPID.GetName();
+                                MakeDir("StartPosition/" + party->GetName() + "/PIDcut");
+                                start_pos.SetSName( start_pos.GetSName() + "_PIDcut");
+                            }
+                            PositionPlot(start_pos, dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
+                            tmp_cuts);
+                        }
                     }
+
+                    start_pos.SetSName(party->startpos.GetName() + m_NameXYZ[dim] );
+
                     //**************************************** 1D END ************************************//
                     if(DrawPlot(ProducePlots::StartPosition1DFGDSegs, ProducePlots::StartPositionAll)){
                         for(int fgdseg = 0; fgdseg < 2; fgdseg++){
@@ -1061,8 +1155,20 @@ void ProducePlots::MakePlots(){
                             fgdsegs << fgdseg;
                             string start_pos_fgdseg_cuts = start_pos_cuts + " && " + party->fgd_start.GetName() + " == " + fgdsegs.str();
                             Variable start_pos_fgdseg(start_pos);
-                            start_pos_fgdseg.SetSName( start_pos_fgdseg.GetSName() + "_" + (fgdseg == 0 ? "nofgdseg" : "fgdseg") );
-                            PositionPlot(start_pos_fgdseg, dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim], start_pos_fgdseg_cuts);
+
+                            for(int cut_onoff = m_cut_onoff_low; cut_onoff < m_cut_onoff_high; cut_onoff++){  
+                                MakeDir("StartPosition/" + party->GetName() );  
+                                string tmp_cuts = start_pos_fgdseg_cuts;
+                                if(cut_onoff == 1){ 
+                                    tmp_cuts += " && 0.05 < ";
+                                    tmp_cuts += party->MyPID.GetName();
+                                    MakeDir("StartPosition/" + party->GetName() + "/PIDcut");
+                                }   
+                                start_pos_fgdseg.SetSName( start_pos_fgdseg.GetSName() + "_" + (fgdseg == 0 ? "nofgdseg" : "fgdseg")
+                                    + (cut_onoff == 0 ? "" : "_PIDcut") );
+                                PositionPlot(start_pos_fgdseg, dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], 
+                                    t2kgeometry::fgd1tpcmax_offset[dim], tmp_cuts);
+                            }  
                         }
                     }
                     //**************************************** 1D END ************************************//
@@ -1076,38 +1182,46 @@ void ProducePlots::MakePlots(){
                     // Variable start_pos_dim(party->startpos.GetName()  + "[" + dimss.str() + "]", dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim], start_pos.GetSymbol(), "mm", start_pos.GetSName() + "_pur", party->pdg.GetName());
                     // PurPart: 
                     if(DrawPlot(ProducePlots::StartPositionPur1D, ProducePlots::StartPositionAll)){
-                        TH1D * start_pos_H_pur = m_runep->PurVSVar(party->startpos.GetName()  + "[" + dimss.str() + "]", dimnbins[dim],
-                            t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
-                            m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), start_pos_cuts,
-                            start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")");
+                        for (int cut_onoff = m_cut_onoff_low; cut_onoff < m_cut_onoff_high; cut_onoff++){
+                            string tmp_cuts = start_pos_cuts;
+                            if(cut_onoff == 1){ 
+                                tmp_cuts += " && 0.05 < ";
+                                tmp_cuts += party->MyPID.GetName();
+                            }   
 
-                        TH1D * start_pos_CH_pur = m_runep->PurVSVar(party->startpos.GetName()  + "[" + dimss.str() + "]", dimnbins[dim], 
-                            t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
-                            m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), start_pos_cuts,
-                            start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")");
+                            TH1D * start_pos_H_pur = m_runep->PurVSVar(party->startpos.GetName()  + "[" + dimss.str() + "]", dimnbins[dim],
+                                t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
+                                m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), tmp_cuts,
+                                start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")");
 
-                        TCanvas * start_pos_pur_c = new TCanvas((start_pos.GetSName() + "_pur").c_str(), "", 400, 400);
-                        start_pos_pur_c->cd();
+                            TH1D * start_pos_CH_pur = m_runep->PurVSVar(party->startpos.GetName()  + "[" + dimss.str() + "]", dimnbins[dim], 
+                                t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
+                                m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), tmp_cuts,
+                                start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")");
 
-                        start_pos_H_pur->SetLineColor(DrawingStyle::Blue);
-                        start_pos_H_pur->Draw();
+                            TCanvas * start_pos_pur_c = new TCanvas((start_pos.GetSName() + (cut_onoff == 0 ? "" : "_PIDcut") + "_pur").c_str(), "", 400, 400);
+                            start_pos_pur_c->cd();
 
-                        start_pos_CH_pur->SetLineColor(DrawingStyle::Yellow);
-                        start_pos_CH_pur->Draw("SAME");
+                            start_pos_H_pur->SetLineColor(DrawingStyle::Blue);
+                            start_pos_H_pur->Draw();
 
-                        TLegend * start_pos_pur_leg = m_runbd->Legend(0.15, 0.1);
-                        start_pos_pur_leg->AddEntry(start_pos_H_pur, m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol().c_str(), "l" );
-                        start_pos_pur_leg->AddEntry(start_pos_CH_pur, m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol().c_str(), "l" );
-                        start_pos_pur_leg->Draw();
+                            start_pos_CH_pur->SetLineColor(DrawingStyle::Yellow);
+                            start_pos_CH_pur->Draw("SAME");
 
-                        PrintLogo(start_pos_pur_c);
+                            TLegend * start_pos_pur_leg = m_runbd->Legend(0.15, 0.1);
+                            start_pos_pur_leg->AddEntry(start_pos_H_pur, m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol().c_str(), "l" );
+                            start_pos_pur_leg->AddEntry(start_pos_CH_pur, m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol().c_str(), "l" );
+                            start_pos_pur_leg->Draw();
 
-                        start_pos_pur_c->Write();
+                            PrintLogo(start_pos_pur_c);
 
-                        delete start_pos_H_pur;
-                        delete start_pos_CH_pur;
-                        delete start_pos_pur_leg;
-                        delete start_pos_pur_c;
+                            start_pos_pur_c->Write();
+
+                            delete start_pos_H_pur;
+                            delete start_pos_CH_pur;
+                            delete start_pos_pur_leg;
+                            delete start_pos_pur_c;
+                        }
                     }
                 //**************************************** 1D Purity END ************************************//
                 
@@ -1123,34 +1237,44 @@ void ProducePlots::MakePlots(){
                         start_pos2D.SetPDG(party->pdg.GetName());
  
                         if(DrawPlot(ProducePlots::StartPosition2D, ProducePlots::StartPositionAll)){
-                            TH2D * start_pos2D_h = m_runbd->GetHisto(start_pos2D.GetName(), dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], 
-                                t2kgeometry::fgd1tpcmax_offset[dim], dimnbins[dim2], t2kgeometry::fgd1tpcmin_offset[dim2], 
-                                t2kgeometry::fgd1tpcmax_offset[dim2], "Start Position " + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] + " (mm)", start_pos_cuts);
+                            for (int cut_onoff = m_cut_onoff_low; cut_onoff < m_cut_onoff_high; cut_onoff++){
+                                string tmp_cuts = start_pos_cuts;
+                                if(cut_onoff == 1){ 
+                                    tmp_cuts += " && 0.05 < ";
+                                    tmp_cuts += party->MyPID.GetName();
+                                }  
 
-                            TCanvas * start_pos2D_c = new TCanvas( (start_pos2D.GetSName() ).c_str(), "", 400, 400);
-                            start_pos2D_c->cd();
-                            start_pos2D_h->Draw("COLZ");
-                            m_runbd->GetPOT(0.1,0.1)->Draw();
+                                TH2D * start_pos2D_h = m_runbd->GetHisto(start_pos2D.GetName(), dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], 
+                                    t2kgeometry::fgd1tpcmax_offset[dim], dimnbins[dim2], t2kgeometry::fgd1tpcmin_offset[dim2], 
+                                    t2kgeometry::fgd1tpcmax_offset[dim2], "Start Position " + m_NameXYZ[dim] + " (mm);Start Position " +
+                                        m_NameXYZ[dim2] + " (mm)", tmp_cuts);
 
-                            double fgd_box_low[2] = { t2kgeometry::fgd1min[dim], t2kgeometry::fgd1min[dim2] };
-                            double fgd_box_hig[2] = { t2kgeometry::fgd1max[dim], t2kgeometry::fgd1max[dim2] };
+                                TCanvas * start_pos2D_c = new TCanvas( (start_pos2D.GetSName() + (cut_onoff == 0 ? "" : "_PIDcut") ).c_str(), "", 400, 400);
+                                start_pos2D_c->cd();
+                                start_pos2D_h->Draw("COLZ");
+                                m_runbd->GetPOT(0.1,0.1)->Draw();
 
-                        // double tpc1_box_low[2] = { t2kgeometry::tpc1min[dim], t2kgeometry::tpc1min[dim2] };
-                        // double tpc1_box_hig[2] = { t2kgeometry::tpc1max[dim], t2kgeometry::tpc1max[dim2] };
+                                double fgd_box_low[2] = { t2kgeometry::fgd1min[dim], t2kgeometry::fgd1min[dim2] };
+                                double fgd_box_hig[2] = { t2kgeometry::fgd1max[dim], t2kgeometry::fgd1max[dim2] };
 
-                            double tpc2_box_low[2] = { t2kgeometry::tpc2min[dim], t2kgeometry::tpc2min[dim2] };
-                            double tpc2_box_hig[2] = { t2kgeometry::tpc2max[dim], t2kgeometry::tpc2max[dim2] };
+                                // double tpc1_box_low[2] = { t2kgeometry::tpc1min[dim], t2kgeometry::tpc1min[dim2] };
+                                // double tpc1_box_hig[2] = { t2kgeometry::tpc1max[dim], t2kgeometry::tpc1max[dim2] };
 
-                            m_runbd->DrawBox(fgd_box_low, fgd_box_hig);
-                            m_runbd->DrawBox(tpc2_box_low, tpc2_box_hig, DrawingStyle::Yellow);
+                                double tpc2_box_low[2] = { t2kgeometry::tpc2min[dim], t2kgeometry::tpc2min[dim2] };
+                                double tpc2_box_hig[2] = { t2kgeometry::tpc2max[dim], t2kgeometry::tpc2max[dim2] };
 
-                            m_runbd->GetPOT(0.1,0.1)->Draw();
-                            PrintLogo(start_pos2D_c);
+                                m_runbd->DrawBox(fgd_box_low, fgd_box_hig);
+                                m_runbd->DrawBox(tpc2_box_low, tpc2_box_hig, DrawingStyle::Yellow);
 
-                            start_pos2D_c->Write();
+                                m_runbd->GetPOT(0.1,0.1)->Draw();
+                                PrintLogo(start_pos2D_c);
 
-                            delete start_pos2D_h;
-                            delete start_pos2D_c;
+                                start_pos2D_c->Write();
+
+                                delete start_pos2D_h;
+                                delete start_pos2D_c;
+
+                            }
                         }
 
                         //**************************************** NFGD Segs Start ************************************//
@@ -1163,35 +1287,44 @@ void ProducePlots::MakePlots(){
                             // Variable start_pos_fgdseg(start_pos);
                             // start_pos_fgdseg.SetSName( start_pos_fgdseg.GetSName() + "_" + (fgdseg == 0 ? "nofgdseg" : "fgdseg") );
 
-                                TH2D * start_pos2D_fgdseg_h = m_runbd->GetHisto(start_pos2D.GetName(), dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], 
-                                    t2kgeometry::fgd1tpcmax_offset[dim], dimnbins[dim2], t2kgeometry::fgd1tpcmin_offset[dim2], 
-                                    t2kgeometry::fgd1tpcmax_offset[dim2], "Start Position " + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] + " (mm)", start_pos_fgdseg_cuts);
+                                for (int cut_onoff = m_cut_onoff_low; cut_onoff < m_cut_onoff_high; cut_onoff++){
+                                    string tmp_cuts = start_pos_fgdseg_cuts;
+                                    if(cut_onoff == 1){ 
+                                        tmp_cuts += " && 0.05 < ";
+                                        tmp_cuts += party->MyPID.GetName();
+                                    }
 
-                                TCanvas * start_pos2D_fgdseg_c = new TCanvas( (start_pos2D.GetSName() + "_" + (fgdseg == 0 ? "nofgdseg" : "fgdseg") ).c_str(), "", 400, 400);
-                                start_pos2D_fgdseg_c->cd();
-                                start_pos2D_fgdseg_h->Draw("COLZ");
-                                m_runbd->GetPOT(0.1,0.1)->Draw();
+                                    TH2D * start_pos2D_fgdseg_h = m_runbd->GetHisto(start_pos2D.GetName(), dimnbins[dim], 
+                                        t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim], dimnbins[dim2], 
+                                        t2kgeometry::fgd1tpcmin_offset[dim2], t2kgeometry::fgd1tpcmax_offset[dim2], "Start Position " +
+                                        m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] + " (mm)", tmp_cuts);
 
-                                double fgd_box_low[2] = { t2kgeometry::fgd1min[dim], t2kgeometry::fgd1min[dim2] };
-                                double fgd_box_hig[2] = { t2kgeometry::fgd1max[dim], t2kgeometry::fgd1max[dim2] };
+                                    TCanvas * start_pos2D_fgdseg_c = new TCanvas( (start_pos2D.GetSName() + "_" +
+                                        (fgdseg == 0 ? "nofgdseg" : "fgdseg") ).c_str(), "", 400, 400);
+                                    start_pos2D_fgdseg_c->cd();
+                                    start_pos2D_fgdseg_h->Draw("COLZ");
+                                    m_runbd->GetPOT(0.1,0.1)->Draw();
 
-                        // double tpc1_box_low[2] = { t2kgeometry::tpc1min[dim], t2kgeometry::tpc1min[dim2] };
-                        // double tpc1_box_hig[2] = { t2kgeometry::tpc1max[dim], t2kgeometry::tpc1max[dim2] };
+                                    double fgd_box_low[2] = { t2kgeometry::fgd1min[dim], t2kgeometry::fgd1min[dim2] };
+                                    double fgd_box_hig[2] = { t2kgeometry::fgd1max[dim], t2kgeometry::fgd1max[dim2] };
 
-                                double tpc2_box_low[2] = { t2kgeometry::tpc2min[dim], t2kgeometry::tpc2min[dim2] };
-                                double tpc2_box_hig[2] = { t2kgeometry::tpc2max[dim], t2kgeometry::tpc2max[dim2] };
+                                    // double tpc1_box_low[2] = { t2kgeometry::tpc1min[dim], t2kgeometry::tpc1min[dim2] };
+                                    // double tpc1_box_hig[2] = { t2kgeometry::tpc1max[dim], t2kgeometry::tpc1max[dim2] };
 
-                                m_runbd->DrawBox(fgd_box_low, fgd_box_hig);
-                                m_runbd->DrawBox(tpc2_box_low, tpc2_box_hig, DrawingStyle::Yellow);
+                                    double tpc2_box_low[2] = { t2kgeometry::tpc2min[dim], t2kgeometry::tpc2min[dim2] };
+                                    double tpc2_box_hig[2] = { t2kgeometry::tpc2max[dim], t2kgeometry::tpc2max[dim2] };
 
-                                m_runbd->GetPOT(0.1,0.1)->Draw();
-                                PrintLogo(start_pos2D_fgdseg_c);
+                                    m_runbd->DrawBox(fgd_box_low, fgd_box_hig);
+                                    m_runbd->DrawBox(tpc2_box_low, tpc2_box_hig, DrawingStyle::Yellow);
 
-                                start_pos2D_fgdseg_c->Write();
+                                    m_runbd->GetPOT(0.1,0.1)->Draw();
+                                    PrintLogo(start_pos2D_fgdseg_c);
 
-                                delete start_pos2D_fgdseg_h;
-                                delete start_pos2D_fgdseg_c;
+                                    start_pos2D_fgdseg_c->Write();
 
+                                    delete start_pos2D_fgdseg_h;
+                                    delete start_pos2D_fgdseg_c;
+                                }
                             }
                         }
                         //**************************************** NFGD Segs End ************************************//
@@ -1200,37 +1333,47 @@ void ProducePlots::MakePlots(){
                 
                         //**************************************** 2D Purity Start ************************************//
                         if(DrawPlot(ProducePlots::StartPosition2DPur, ProducePlots::StartPositionAll)){
-                            TH2D * start_pos2D_pur_h = m_runep->PurVSVar(start_pos2D.GetName(), dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], 
-                                t2kgeometry::fgd1tpcmax_offset[dim], dimnbins[dim2], t2kgeometry::fgd1tpcmin_offset[dim2], t2kgeometry::fgd1tpcmax_offset[dim2],
-                                m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(),
-                                start_pos_cuts, "Start Position " + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] +" (mm)");
 
-                            TCanvas * start_pos2D_pur_c = new TCanvas( (start_pos2D.GetSName() + "_pur").c_str(), "", 400, 400);
-                            start_pos2D_pur_c->cd();
-                            start_pos2D_pur_h->Draw("COLZ");
-                            m_runbd->GetPOT(0.1,0.1)->Draw();
-                            GetSignal()->Draw();
+                            for (int cut_onoff = m_cut_onoff_low; cut_onoff < m_cut_onoff_high; cut_onoff++){
+                                string tmp_cuts = start_pos_cuts;
+                                if(cut_onoff == 1){ 
+                                    tmp_cuts += " && 0.05 < ";
+                                    tmp_cuts += party->MyPID.GetName();
+                                }
 
-                            double fgd_box_low[2] = { t2kgeometry::fgd1min[dim], t2kgeometry::fgd1min[dim2] };
-                            double fgd_box_hig[2] = { t2kgeometry::fgd1max[dim], t2kgeometry::fgd1max[dim2] };
+                                TH2D * start_pos2D_pur_h = m_runep->PurVSVar(start_pos2D.GetName(), dimnbins[dim], 
+                                    t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim], 
+                                    dimnbins[dim2], t2kgeometry::fgd1tpcmin_offset[dim2], t2kgeometry::fgd1tpcmax_offset[dim2],
+                                    m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(),
+                                    tmp_cuts, "Start Position " + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] + " (mm)");
+
+                                TCanvas * start_pos2D_pur_c = new TCanvas( (start_pos2D.GetSName() + "_pur").c_str(), "", 400, 400);
+                                start_pos2D_pur_c->cd();
+                                start_pos2D_pur_h->Draw("COLZ");
+                                m_runbd->GetPOT(0.1,0.1)->Draw();
+                                GetSignal()->Draw();
+
+                                double fgd_box_low[2] = { t2kgeometry::fgd1min[dim], t2kgeometry::fgd1min[dim2] };
+                                double fgd_box_hig[2] = { t2kgeometry::fgd1max[dim], t2kgeometry::fgd1max[dim2] };
 
                             // double tpc1_box_low[2] = { t2kgeometry::tpc1min[dim], t2kgeometry::tpc1min[dim2] };
                             // double tpc1_box_hig[2] = { t2kgeometry::tpc1max[dim], t2kgeometry::tpc1max[dim2] };
 
-                            double tpc2_box_low[2] = { t2kgeometry::tpc2min[dim], t2kgeometry::tpc2min[dim2] };
-                            double tpc2_box_hig[2] = { t2kgeometry::tpc2max[dim], t2kgeometry::tpc2max[dim2] };
+                                double tpc2_box_low[2] = { t2kgeometry::tpc2min[dim], t2kgeometry::tpc2min[dim2] };
+                                double tpc2_box_hig[2] = { t2kgeometry::tpc2max[dim], t2kgeometry::tpc2max[dim2] };
 
-                            m_runbd->DrawBox(fgd_box_low, fgd_box_hig);
-                            m_runbd->DrawBox(tpc2_box_low, tpc2_box_hig, DrawingStyle::Yellow);
+                                m_runbd->DrawBox(fgd_box_low, fgd_box_hig);
+                                m_runbd->DrawBox(tpc2_box_low, tpc2_box_hig, DrawingStyle::Yellow);
 
-                            m_runbd->GetPOT(0.1,0.1)->Draw();
+                                m_runbd->GetPOT(0.1,0.1)->Draw();
 
-                            PrintLogo(start_pos2D_pur_c);
+                                PrintLogo(start_pos2D_pur_c);
 
-                            start_pos2D_pur_c->Write();
+                                start_pos2D_pur_c->Write();
 
-                            delete start_pos2D_pur_h;
-                            delete start_pos2D_pur_c;
+                                delete start_pos2D_pur_h;
+                                delete start_pos2D_pur_c;
+                            }
                         }
                         //**************************************** 2D Purity END ************************************//
 
@@ -1243,6 +1386,8 @@ void ProducePlots::MakePlots(){
                             start_pos2D.SetPDG(party->pdg.GetName());
 
                             string truth_start_pos_cuts = GetPosCuts(party->truth_startpos, dim1cut, dim2cut, basecuts[br]);
+
+                            // Can't add the PID cut here as we don't have the variable in the truth tree.... :(
 
                             TH2D * start_pos2D_eff_h = m_runep->EffVSVar(truestart_pos2D.GetName(), dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], 
                                 t2kgeometry::fgd1tpcmax_offset[dim], dimnbins[dim2], t2kgeometry::fgd1tpcmin_offset[dim2], t2kgeometry::fgd1tpcmax_offset[dim2],
@@ -1291,45 +1436,63 @@ void ProducePlots::MakePlots(){
             MakeDir("dpTT" + branchnames[br]);
             if(m_verbose) cout << "Now producing dpTT plots." << endl;
             //************************************** dpTT Start *************************************//
-           
-            ProduceGroup(dpTT, 39, -300, 300, basecuts[br]);
+            
+            for (int cut_onoff = m_cut_onoff_low; cut_onoff < m_cut_onoff_high; cut_onoff++){
+                string tmp_cuts = basecuts[br];
+                string tmp_sname = m_recovars->dpTT;
+                if(cut_onoff == 1){ 
+                    tmp_cuts += " && 0.05 < ";
+                    tmp_cuts += m_muon->MyPID.GetName();
+                    tmp_cuts += " && 0.05 < ";
+                    tmp_cuts += m_pion->MyPID.GetName();
+                    tmp_cuts += " && 0.05 < ";
+                    tmp_cuts += m_proton->MyPID.GetName();
+                    tmp_sname += "_PIDcut";
+                }
 
-            TCanvas * dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
-            dpTT_pur->cd();
-            m_runep->PurVSVar(m_recovars->dpTT, 39, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br], dpTT.GetAxisTitle())->Draw("HIST");
-            dpTT_pur->Write();
-            delete dpTT_pur;
+                ProduceGroup(dpTT, 39, -300, 300, basecuts[br]);
 
-            MakeDir("dpTT" + branchnames[br] + "/nb29");
-            dpTT.SetSName(m_recovars->dpTT + "_nb29");
-            ProduceGroup(dpTT, 29, -300, 300, basecuts[br]);
+                TCanvas * dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
+                dpTT_pur->cd();
+                m_runep->PurVSVar(m_recovars->dpTT, 39, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(),
+                    tmp_cuts, dpTT.GetAxisTitle())->Draw("HIST");
+                dpTT_pur->Write();
+                delete dpTT_pur;
+
+                MakeDir("dpTT" + branchnames[br] + "/nb29");
+                dpTT.SetSName(tmp_sname + "_nb29");
+                ProduceGroup(dpTT, 29, -300, 300, tmp_cuts);
 
             // TCanvas * 
-            dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
-            dpTT_pur->cd();
-            m_runep->PurVSVar(m_recovars->dpTT, 29, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br], dpTT.GetAxisTitle())->Draw("HIST");
-            dpTT_pur->Write();
-            delete dpTT_pur;
+                dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
+                dpTT_pur->cd();
+                m_runep->PurVSVar(m_recovars->dpTT, 29, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), 
+                    tmp_cuts, dpTT.GetAxisTitle())->Draw("HIST");
+                dpTT_pur->Write();
+                delete dpTT_pur;
 
-            MakeDir("dpTT" + branchnames[br] + "/nb25");
-            dpTT.SetSName(m_recovars->dpTT + "_nb25");
-            ProduceGroup(dpTT, 25, -300, 300, basecuts[br]);
+                MakeDir("dpTT" + branchnames[br] + "/nb25");
+                dpTT.SetSName(tmp_sname + "_nb25");
+                ProduceGroup(dpTT, 25, -300, 300, tmp_cuts);
 
-            dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
-            dpTT_pur->cd();
-            m_runep->PurVSVar(m_recovars->dpTT, 25, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br], dpTT.GetAxisTitle())->Draw("HIST");
-            dpTT_pur->Write();
-            delete dpTT_pur;
+                dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
+                dpTT_pur->cd();
+                m_runep->PurVSVar(m_recovars->dpTT, 25, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), 
+                    tmp_cuts, dpTT.GetAxisTitle())->Draw("HIST");
+                dpTT_pur->Write();
+                delete dpTT_pur;
 
-            MakeDir("dpTT" + branchnames[br] + "/nb19");
-            dpTT.SetSName(m_recovars->dpTT + "_nb19");
-            ProduceGroup(dpTT, 19, -300, 300, basecuts[br]);
+                MakeDir("dpTT" + branchnames[br] + "/nb19");
+                dpTT.SetSName(tmp_sname + "_nb19");
+                ProduceGroup(dpTT, 19, -300, 300, tmp_cuts);
 
-            dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
-            dpTT_pur->cd();
-            m_runep->PurVSVar(m_recovars->dpTT, 19, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), basecuts[br], dpTT.GetAxisTitle())->Draw("HIST");
-            dpTT_pur->Write();
-            delete dpTT_pur;
+                dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
+                dpTT_pur->cd();
+                m_runep->PurVSVar(m_recovars->dpTT, 19, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), 
+                    tmp_cuts, dpTT.GetAxisTitle())->Draw("HIST");
+                dpTT_pur->Write();
+                delete dpTT_pur;
+            }
         }
 
         if(m_experiment->GetType() == Experiment::MIN && DrawPlot(ProducePlots::DPTT)){
@@ -1381,8 +1544,21 @@ void ProducePlots::MakePlots(){
                     start_pos_fgdseg_cuts += m_pion->fgd_start.GetName();
                     start_pos_fgdseg_cuts += " != -999";
 
-                    dpTT.SetSName(m_recovars->dpTT + "_" + fgdsegs.str() + "FGDSeg");
-                    ProduceGroup(dpTT, 29, -300, 300, start_pos_fgdseg_cuts);
+                    for (int cut_onoff = m_cut_onoff_low; cut_onoff < m_cut_onoff_high; cut_onoff++){
+                        string tmp_cuts = basecuts[br];
+                        string tmp_sname = "";
+                        if(cut_onoff == 1){ 
+                            tmp_cuts += " && 0.05 < ";
+                            tmp_cuts += m_muon->MyPID.GetName();
+                            tmp_cuts += " && 0.05 < ";
+                            tmp_cuts += m_pion->MyPID.GetName();
+                            tmp_cuts += " && 0.05 < ";
+                            tmp_cuts += m_proton->MyPID.GetName();
+                            tmp_sname += "_PIDcut";
+                        }
+                        dpTT.SetSName(m_recovars->dpTT + "_" + fgdsegs.str() + "FGDSeg" + tmp_sname);
+                        ProduceGroup(dpTT, 29, -300, 300, start_pos_fgdseg_cuts);
+                    }
                 }
             }
 
@@ -2041,10 +2217,13 @@ int main(int argc, char *argv[])
     int accum_level = -999;
     int branch_no = -999;
 
+    //cuts_on : 0 - off, 1 - on, 2 - only cut with cuts on
+    int cuts_on = 0;   
+
     ProducePlots::RunOpts run_opt = ProducePlots::All;
 
     char cc;
-    while((cc = getopt(argc, argv, "i:o:d::t::m::r::v::a:b:e:")) != -1){
+    while((cc = getopt(argc, argv, "i:o:d::t::m::r::v::a:b:e:c:")) != -1){
         switch (cc){
             case 'i': filename = std::string(optarg); break;//input file
             case 'o': savename = std::string(optarg); break;//output file
@@ -2055,7 +2234,8 @@ int main(int argc, char *argv[])
             case 'v': verbose = true; break;                //Verbose on
             case 'a': accum_level = atoi(optarg); break;    //Set the accum_level to plot from
             case 'b': branch_no = atoi(optarg); break;      //Choose which branch you want to plot
-            case 'e': run_opt = (ProducePlots::RunOpts)atoi(optarg); break;
+            case 'e': run_opt = (ProducePlots::RunOpts)atoi(optarg); break; //Produce only plot of type in RunOpts
+            case 'c': cuts_on = atoi(optarg); break; //cuts_on : 0 - off, 1 - on, 2 - only cut with cuts on
             default: return 1;
         }
     }
@@ -2077,6 +2257,9 @@ int main(int argc, char *argv[])
     ProducePlots * plots = new ProducePlots(experiment, filename, savename, debug, realdata, run_opt);
     plots->Verbose(verbose);
     plots->SetBranchToPlot(accum_level, branch_no);//Make this function better.
+
+    if(cuts_on == 1) plots->RunWithCuts();
+    else if(cuts_only == 2) plots->RunWithCutsOnly();
 
     // if(!savename.empty()) plots->SetSaveName(savename);
     
