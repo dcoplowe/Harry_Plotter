@@ -1013,7 +1013,7 @@ void ProducePlots::MakePlots(){
                     if(m_verbose) cout << "Crossing Angle";
 
                     for(int cut_onoff = m_cut_onoff_low; cut_onoff < m_cut_onoff_high; cut_onoff++){
-                        MakeDir("CrossingAngle" + party->GetName());
+                        MakeDir("CrossingAngle/" + party->GetName());
                         party->cross_angle.SetSName(party->cross_angle.GetName());
                         string tmp_cuts = basecuts[br];
                         if(cut_onoff == 1){ 
