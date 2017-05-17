@@ -2259,7 +2259,7 @@ int main(int argc, char *argv[])
     plots->SetBranchToPlot(accum_level, branch_no);//Make this function better.
 
     if(cuts_on == 1) plots->RunWithCuts();
-    else if(cuts_only == 2) plots->RunWithCutsOnly();
+    else if(cuts_on == 2) plots->RunWithCutsOnly();
 
     // if(!savename.empty()) plots->SetSaveName(savename);
     
