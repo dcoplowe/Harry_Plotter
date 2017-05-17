@@ -530,7 +530,7 @@ TObject * DrawingTools::GetObjectFromCanvas(TCanvas * can, std::string name)
 
 void DrawingTools::DrawCutLine(double xpos, DrawingTools::LineDirection dir, double arrowpos, int color, int style, int width)
 {
-    DrawCutLine(xpos, (double)gPad->PadtoY(gPad->GetUymin()), xpos, (double)gPad->PadtoY(gPad->GetUymax()), color, style, width);
+    DrawLine(xpos, (double)gPad->PadtoY(gPad->GetUymin()), xpos, (double)gPad->PadtoY(gPad->GetUymax()), color, style, width);
 
     if (dir != DrawingTools::Unknown) {
         double deltax = xpos-gPad->PadtoX( gPad->XtoPad(xpos)-(gPad->GetUxmax()-gPad->GetUxmin())/20.);
