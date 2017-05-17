@@ -1432,11 +1432,10 @@ void ProducePlots::MakePlots(){
         dpTT.SetSName(m_recovars->dpTT);
 
         if(DrawPlot(ProducePlots::DPTT)){
-            MakeDir("dpTT" + branchnames[br]);
             if(m_verbose) cout << "Now producing dpTT plots." << endl;
-            //************************************** dpTT Start *************************************//
-            
+            //************************************** dpTT Start *************************************//            
             for (int cut_onoff = m_cut_onoff_low; cut_onoff < m_cut_onoff_high; cut_onoff++){
+                MakeDir("dpTT" + branchnames[br]);
                 string tmp_cuts = basecuts[br];
                 string tmp_sname = m_recovars->dpTT;
                 if(cut_onoff == 1){ 
@@ -1462,7 +1461,6 @@ void ProducePlots::MakePlots(){
                 dpTT.SetSName(tmp_sname + "_nb29");
                 ProduceGroup(dpTT, 29, -300, 300, tmp_cuts);
 
-            // TCanvas * 
                 dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
                 dpTT_pur->cd();
                 m_runep->PurVSVar(m_recovars->dpTT, 29, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), 
