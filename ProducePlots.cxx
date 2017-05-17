@@ -604,7 +604,7 @@ void ProducePlots::MakePhiPlots(Particle * part, Int_t nbins, Double_t low, Doub
 
 void ProducePlots::MakeCosThetaPlots(Particle * part, Int_t nbins, Double_t * bins, std::string cuts, bool nudir){
     Variable var(part->truectheta.GetName() + ":" + (nudir ? part->ctheta_nudir.GetName() : part->ctheta.GetName()), "cos#theta_{" + part->GetSymbol() + "}", "");
-    var.SetSName( (nudir ? part->ctheta_nudir.GetName() : part->ctheta.GetName()) );
+    var.SetSName( (nudir ? part->ctheta_nudir.GetSName() : part->ctheta.GetSName()) );
     var.SetPDG(part->pdg.GetName());
     ProduceGroup(var, nbins, bins, cuts);
 }
@@ -994,16 +994,25 @@ void ProducePlots::MakePlots(){
                     for(int cut_onoff = m_cut_onoff_low; cut_onoff < m_cut_onoff_high; cut_onoff++){
                         MakeDir("cTheta/" + party->GetName() );
                         string tmp_cuts = basecuts[br];
+                        string tmp_sname = "";
                         if(cut_onoff == 1){ 
                             tmp_cuts += " && 0.05 < ";
                             tmp_cuts += party->MyPID.GetName();
-                            party->ctheta.SetSName( party->ctheta.GetSName() + "_PIDcut" );
                             MakeDir("cTheta/" + party->GetName() + "/PIDcut");
+                            tmp_sname = "_PIDcut";
                         }
+                        // 
+                        party->ctheta.SetSName( party->ctheta.GetName() + tmp_sname );
+                        party->ctheta_nudir.SetSName( party->ctheta_nudir.GetName() + tmp_sname );
+
                         MakeCosThetaPlots(party, party->ctheta.GetNBins(), party->ctheta.GetBinning(), tmp_cuts);
                         MakeCosThetaPlots(party, party->ctheta_nudir.GetNBins(), party->ctheta_nudir.GetBinning(), tmp_cuts, true);
                     }
                     if(m_verbose) cout << " -- Done" << endl;
+
+                    party->ctheta.SetSName( party->ctheta.GetName() );
+                    party->ctheta_nudir.SetSName( party->ctheta_nudir.GetName() );
+
                 }
                 //**************************************** cosTheta END **************************************//
 
@@ -1450,6 +1459,8 @@ void ProducePlots::MakePlots(){
 
                 cout << "tmp_sname = " << tmp_sname << endl;
 
+                cout << "1) dpTT.GetSName() = " << dpTT.GetSName() << endl;
+
                 ProduceGroup(dpTT, 39, -300, 300, basecuts[br]);
 
                 TCanvas * dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
@@ -1463,6 +1474,8 @@ void ProducePlots::MakePlots(){
                 dpTT.SetSName(tmp_sname + "_nb29");
                 ProduceGroup(dpTT, 29, -300, 300, tmp_cuts);
 
+                cout << "2) dpTT.GetSName() = " << dpTT.GetSName() << endl;
+
                 dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
                 dpTT_pur->cd();
                 m_runep->PurVSVar(m_recovars->dpTT, 29, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), 
@@ -1474,6 +1487,9 @@ void ProducePlots::MakePlots(){
                 dpTT.SetSName(tmp_sname + "_nb25");
                 ProduceGroup(dpTT, 25, -300, 300, tmp_cuts);
 
+                cout << "3) dpTT.GetSName() = " << dpTT.GetSName() << endl;
+
+
                 dpTT_pur = new TCanvas( (tmp_sname + "_pur").c_str(), "", 400, 400);
                 dpTT_pur->cd();
                 m_runep->PurVSVar(m_recovars->dpTT, 25, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), 
@@ -1484,6 +1500,9 @@ void ProducePlots::MakePlots(){
                 MakeDir("dpTT" + branchnames[br] + "/nb19");
                 dpTT.SetSName(tmp_sname + "_nb19");
                 ProduceGroup(dpTT, 19, -300, 300, tmp_cuts);
+
+                cout << "4) dpTT.GetSName() = " << dpTT.GetSName() << endl;
+
 
                 dpTT_pur = new TCanvas( (tmp_sname + "_pur").c_str(), "", 400, 400);
                 dpTT_pur->cd();
