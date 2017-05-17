@@ -1459,7 +1459,9 @@ void ProducePlots::MakePlots(){
 
                 cout << "tmp_sname = " << tmp_sname << endl;
 
-                cout << "1) dpTT.GetSName() = " << dpTT.GetSName() << endl;
+                // cout << "1) dpTT.GetSName() = " << dpTT.GetSName() << endl;
+
+                dpTT.SetSName(tmp_sname + "_nb29");
 
                 ProduceGroup(dpTT, 39, -300, 300, basecuts[br]);
 
@@ -1474,7 +1476,7 @@ void ProducePlots::MakePlots(){
                 dpTT.SetSName(tmp_sname + "_nb29");
                 ProduceGroup(dpTT, 29, -300, 300, tmp_cuts);
 
-                cout << "2) dpTT.GetSName() = " << dpTT.GetSName() << endl;
+                // cout << "2) dpTT.GetSName() = " << dpTT.GetSName() << endl;
 
                 dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
                 dpTT_pur->cd();
@@ -1487,7 +1489,7 @@ void ProducePlots::MakePlots(){
                 dpTT.SetSName(tmp_sname + "_nb25");
                 ProduceGroup(dpTT, 25, -300, 300, tmp_cuts);
 
-                cout << "3) dpTT.GetSName() = " << dpTT.GetSName() << endl;
+                // cout << "3) dpTT.GetSName() = " << dpTT.GetSName() << endl;
 
 
                 dpTT_pur = new TCanvas( (tmp_sname + "_pur").c_str(), "", 400, 400);
@@ -1501,7 +1503,7 @@ void ProducePlots::MakePlots(){
                 dpTT.SetSName(tmp_sname + "_nb19");
                 ProduceGroup(dpTT, 19, -300, 300, tmp_cuts);
 
-                cout << "4) dpTT.GetSName() = " << dpTT.GetSName() << endl;
+                // cout << "4) dpTT.GetSName() = " << dpTT.GetSName() << endl;
 
 
                 dpTT_pur = new TCanvas( (tmp_sname + "_pur").c_str(), "", 400, 400);
