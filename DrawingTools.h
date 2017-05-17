@@ -86,6 +86,17 @@ public:
     void DrawLine(double x_low, double y_low, double x_high, double y_high, int color = kGray + 2, int style = 1, int width = 2);
     void DrawBox(double * low, double * high, int color = kGray + 2, int style = 1, int width = 2);
 
+    enum LineDirection
+    {
+        Left = 0,
+        Right,
+        Unknown
+    };
+
+    void DrawCutLine(double xpos, DrawingTools::LineDirection dir = DrawingTools::Unknown, double arrowpos = 0.5,
+        int color = kBlack, int style = 1, int width = 2);
+    void DrawCutArrow(double xmin, double ymin, double xmax, double ymax, int color = kBlack, int style = 1, int width = 2);
+
 private:
     //File and directory info:
     std::string m_filename;

@@ -3,6 +3,7 @@
 #include "assert.h"
 //ROOT Includes:
 #include "TString.h"
+#include "TArrow.h"
 
 //Forward declarations;
 #include "TFile.h"
@@ -527,3 +528,26 @@ TObject * DrawingTools::GetObjectFromCanvas(TCanvas * can, std::string name)
     return 0x0;
 }
 
+void DrawingTools::DrawCutLine(double xpos, DrawingTools::LineDirection dir, double arrowpos, int color, int style, int width)
+{
+    DrawCutLine(xpos, (double)gPad->PadtoY(gPad->GetUymin()), xpos, (double)gPad->PadtoY(gPad->GetUymax()), color, style, width);
+
+    if (dir != DrawingTools::Unknown) {
+        double deltax = xval-gPad->PadtoX( gPad->XtoPad(xval)-(gPad->GetUxmax()-gPad->GetUxmin())/20.);
+        if (dir == DrawingTools::Left) deltax *= -1;
+
+            // It needs this to work in LogY scale
+        double yarr = gPad->PadtoY((gPad->GetUymax()-gPad->GetUymin())*arrowpos+gPad->GetUymin());
+        double xarrmax = xval + deltax;
+        DrawCutArrow(xval, yarr, xarrmax, yarr, color, style, width);
+    }
+}
+
+void DrawingTools::DrawCutArrow(double xmin, double ymin, double xmax, double ymax, int color, int style, int width)
+{
+    TArrow* arr = new TArrow(xmin, ymin, xmax, ymax, 0.02, "|>");
+    arr->SetLineColor(color);
+    arr->SetFillColor(color);
+    arr->SetLineWidth(width);
+    arr->Draw();
+}

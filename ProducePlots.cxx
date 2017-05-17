@@ -86,7 +86,7 @@ public:
         Theta, 
         Mom,
         NTracks,
-        All, //28
+        All, //29
         NotSet       
     };
 
@@ -993,11 +993,18 @@ void ProducePlots::MakePlots(){
                     pdg_list.push_back( PDGInfo(211,    "pion",     "#pi^{#pm}",    true) );
                     pdg_list.push_back( PDGInfo(11,     "electron", "e^{#pm}",      true) );
 
-                    for(int npid = 0; npid < 4; npid++){
-                        Variable pid = pid_scores[npid];
-                        pid.SetSName(pid.GetName());
-                        m_runbd->PID(pid, party->pdg.GetName(), basecuts[br], pdg_list)->Write();
-                        //Variable var, std::string pdgvar, std::string cuts, std::vector<PDGInfo> pdglist
+                    for(int cutline = 0; cutline < 2; cutline++){
+                        for(int npid = 0; npid < 4; npid++){
+                            Variable pid = pid_scores[npid];
+                            pid.SetSName(pid.GetName() + (cutline == 0 ? "" : "_wCutLine"));
+                            TCanvas * pid_can = m_runbd->PID(pid, party->pdg.GetName(), basecuts[br], pdg_list);
+                            if(npid > 0){
+                                pid_can->cd();
+                                m_runbd->DrawCutLine(0.05, DrawingTools::Right);
+                            }
+                            delete pid_can;
+                            //Variable var, std::string pdgvar, std::string cuts, std::vector<PDGInfo> pdglist
+                        }
                     }
                     pdg_list.clear();
                         //**************************************** PID Score END ************************************//
