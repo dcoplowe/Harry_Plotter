@@ -179,8 +179,7 @@ public:
     std::string GetPosCuts(Variable pos, int dim1cut, int dim2cut, std::string cuts);
 
     void RunWithCuts(){ m_cut_onoff_high = 2; }
-    void RunWithCutsOnly(){  m_cut_onoff_low = 2; m_cut_onoff_high = 2; }
-
+    void RunWithCutsOnly(){  m_cut_onoff_low = 1; m_cut_onoff_high = 2; }
 
 private:
     std::string m_infilename;
@@ -2258,8 +2257,14 @@ int main(int argc, char *argv[])
     plots->Verbose(verbose);
     plots->SetBranchToPlot(accum_level, branch_no);//Make this function better.
 
-    if(cuts_on == 1) plots->RunWithCuts();
-    else if(cuts_on == 2) plots->RunWithCutsOnly();
+    if(cuts_on == 1){ 
+        cout << "Running with cuts on. " << endl;
+        plots->RunWithCuts(); 
+    }
+    else if(cuts_on == 2){
+        cout << "Running with cuts only " << endl;
+        plots->RunWithCutsOnly();
+    }
 
     // if(!savename.empty()) plots->SetSaveName(savename);
     
