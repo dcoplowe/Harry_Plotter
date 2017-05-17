@@ -1448,6 +1448,8 @@ void ProducePlots::MakePlots(){
                     tmp_sname += "_PIDcut";
                 }
 
+                cout << "tmp_sname = " << tmp_sname << endl;
+
                 ProduceGroup(dpTT, 39, -300, 300, basecuts[br]);
 
                 TCanvas * dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
@@ -1472,7 +1474,7 @@ void ProducePlots::MakePlots(){
                 dpTT.SetSName(tmp_sname + "_nb25");
                 ProduceGroup(dpTT, 25, -300, 300, tmp_cuts);
 
-                dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
+                dpTT_pur = new TCanvas( (tmp_sname + "_pur").c_str(), "", 400, 400);
                 dpTT_pur->cd();
                 m_runep->PurVSVar(m_recovars->dpTT, 25, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), 
                     tmp_cuts, dpTT.GetAxisTitle())->Draw("HIST");
@@ -1483,7 +1485,7 @@ void ProducePlots::MakePlots(){
                 dpTT.SetSName(tmp_sname + "_nb19");
                 ProduceGroup(dpTT, 19, -300, 300, tmp_cuts);
 
-                dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
+                dpTT_pur = new TCanvas( (tmp_sname + "_pur").c_str(), "", 400, 400);
                 dpTT_pur->cd();
                 m_runep->PurVSVar(m_recovars->dpTT, 19, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), 
                     tmp_cuts, dpTT.GetAxisTitle())->Draw("HIST");
