@@ -896,12 +896,14 @@ void ProducePlots::MakePlots(){
                     MakeDir("Mom" + branchnames[br] + "/" + party->GetName() );
                     string tmp_cuts = basecuts[br];
                     if(cut_onoff == 1){ 
+                        cout << "DAVID 1 " << endl;
                         tmp_cuts += " && 0.05 < ";
                         tmp_cuts += party->MyPID.GetName();
                         party->P.SetSName( party->P.GetSName() + "_PIDcut" );
                         MakeDir("Mom" + branchnames[br] + "/" + party->GetName() + "/PIDcut");
                     }
                     else if(cut_onoff == 2){ 
+                        cout << "DAVID 2 " << endl;
                         tmp_cuts += " && ";
                         tmp_cuts += m_experiment->GetTruePScuts();
                         party->P.SetSName( party->P.GetSName() + "_PScut" );
