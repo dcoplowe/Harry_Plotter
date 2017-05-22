@@ -120,7 +120,7 @@ Experiment::Experiment(Name exp) : m_type(exp), m_name( ToString(m_type) )
         m_true_pscuts += " && ";
         m_true_pscuts += "truepi_truemom > 250. && truepi_costheta > 0.";
         m_true_pscuts += " && ";
-        m_true_pscuts += "truepr_truemom > 450. && truepr_costheta > 0.";
+        m_true_pscuts += "truep_truemom > 450. && truep_costheta > 0.";
 
         m_reco_pscuts = "";
     }
