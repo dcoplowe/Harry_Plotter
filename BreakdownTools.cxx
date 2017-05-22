@@ -304,7 +304,10 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         
         Topology topology = m_toplist[i];
 
-        if(print_level::quiet) cout << "Topology = " << topology.GetName() << endl;
+        if(print_level::quiet){ 
+            cout << "Topology = " << topology.GetName() << endl;
+            cout << "           " << topology.GetSignal() << endl;
+        }
 
         // if(topology.GetType() == Topology::Other){
         //     cout << "Signal = " << topology.GetSignal() << endl;
