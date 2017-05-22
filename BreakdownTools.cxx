@@ -352,11 +352,17 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
     TLegend * ratio_leg = Legend(0.25, 0.4, 0.551, 0.362);
     
     //The signal bit:
+    cout << "Signal Topology" << endl;
+
     std::string hsignal = tmp_cuts_1;// + " && ";
     Topology sig_top = m_topologies->GetTopology(m_signal);
     hsignal += sig_top.GetSignal();//    cout << "hsignal: " << hsignal << endl;
+    cout << "               " << sig_top.GetSignal() << endl;
+
     DrawingTools::KinMap signal_kinmap = KinArray(var.GetName(), nbins, bins, var.GetSymbol(), hsignal);
     SetColors(signal_kinmap, sig_top.GetFillColor(), sig_top.GetLineColor(), sig_top.GetFillStyle(), sig_top.GetLineStyle());
+    cout << "Map Made for Signal Topology" << endl;
+
 //    signal_kinmap.recon->SetLineColor(1);
 //    signal_kinmap.truth->SetLineColor(1);
 //    signal_kinmap.recon->SetLineStyle(2);
