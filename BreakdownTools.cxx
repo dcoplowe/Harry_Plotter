@@ -329,7 +329,8 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         tmp_cuts += topology.GetSignal();
         
         DrawingTools::KinMap tmp_kinmap = KinArray(var.GetName(), nbins, bins, var.GetSymbol(), tmp_cuts);
-        
+        cout << "Map Made for Topology = " << topology.GetName() << endl;
+
         SetColors(tmp_kinmap, topology.GetFillColor(), topology.GetLineColor(), topology.GetFillStyle(), topology.GetLineStyle());
         
         kinmap_list.push_back(tmp_kinmap);
