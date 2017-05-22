@@ -70,7 +70,7 @@ public:
     void SetTargetVarName(std::string var = "mc_targetZ"){ m_target = var; }
     void SetnFSPartVarName(std::string var = "mc_nFSPart"){ m_nFSParts = var; }
 
-    void SetSignal(Topology::Name name = Topology::HCC1P1PiPlus){ m_signal = name; }
+    void SetSignal(Topology::Name name = Topology::HCC1P1PiPlusPS){ m_signal = name; }
 
     //    void TopVar();
     //void MisPIDVar();
