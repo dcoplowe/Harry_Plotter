@@ -283,7 +283,7 @@ m_realdata(realdata), m_accum_level(-999), m_branch(-999), m_savename(outfilenam
     }
 
     cout << "Saving file as " << m_savename << endl;
-    GetSignal
+
     cout << " = m_experiment->GGetSignal()" << m_experiment->GetSignal() << endl;
 
     m_runbd = new BreakdownTools( m_infilename, m_experiment->GetRecoName(), m_experiment->GetTopologies(), m_experiment->GetTarVarName() );
