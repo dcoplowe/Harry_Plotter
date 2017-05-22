@@ -126,7 +126,7 @@ Experiment::Experiment(Name exp) : m_type(exp), m_name( ToString(m_type) )
     }
 
     if(m_true_pscuts.empty()){ m_topologies = new Topologies(); cout << "Old signal" << endl; }
-    else m_topologies = new Topologies(Topology::HCC1P1PiPlusPS);
+    else{ m_topologies = new Topologies(Topology::HCC1P1PiPlusPS); cout << "New signal" << endl; }
 
     if(!m_topologies){
         cout << __FILE__ << ":" << __LINE__ << " : ERROR : Could not initialise topologies" << endl;
