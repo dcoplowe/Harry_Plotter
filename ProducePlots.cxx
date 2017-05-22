@@ -895,6 +895,9 @@ void ProducePlots::MakePlots(){
                 for(int cut_onoff = m_cut_onoff_low; cut_onoff < m_cut_onoff_high; cut_onoff++){
                     MakeDir("Mom" + branchnames[br] + "/" + party->GetName() );
                     string tmp_cuts = basecuts[br];
+                    cout << "DAVID 1 " << endl;
+                    cout << " tmp_cuts ======= " << tmp_cuts << endl;
+
                     if(cut_onoff == 1){ 
                         cout << "DAVID 1 " << endl;
                         tmp_cuts += " && 0.05 < ";
