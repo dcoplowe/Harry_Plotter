@@ -136,7 +136,7 @@ Experiment::Experiment(Name exp) : m_type(exp), m_name( ToString(m_type) )
     SetTopologies(exp, m_true_pscuts);
     m_signal  = m_topologies->GetTopology(m_topologies->GetSignal());
 
-    cout << "Experiment(Name exp) ToString(m_signal) = " << Topology::ToString(m_signal) << endl;
+    // cout << "Experiment(Name exp) ToString(m_signal) = " << Topology::ToString(m_signal) << endl;
 
     SetIntModes(exp);
     SetCutNames(exp);
