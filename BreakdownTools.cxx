@@ -46,6 +46,8 @@ m_printPOT(false), m_fullbreakdown(true) {
 
     m_statcounter = -1;
 
+    m_signal = m_topologies->GetSignal();
+
     cout << "DAVE Topology::ToString(m_signal) = " << Topology::ToString(m_signal) << endl;
 
 }
