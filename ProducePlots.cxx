@@ -178,8 +178,8 @@ public:
 
     std::string GetPosCuts(Variable pos, int dim1cut, int dim2cut, std::string cuts);
 
-    void RunWithCuts(){ m_cut_onoff_high = 2; }
-    void RunWithCutsOnly(){  m_cut_onoff_low = 1; m_cut_onoff_high = 2; }
+    void RunWithCuts(){ m_cut_onoff_high = 3; }
+    void RunWithCutsOnly(int cut){  m_cut_onoff_low = cut; m_cut_onoff_high = cut + 1; }
 
 private:
     std::string m_infilename;
@@ -218,6 +218,8 @@ private:
     BreakdownTools  * m_runbd;
     BreakdownTools  * m_runtruthbd;
     EffPurTools     * m_runep;
+
+    std::string m_old_signal;
 
     std::string m_NameXYZ[3];
 
@@ -2526,7 +2528,7 @@ int main(int argc, char *argv[])
             case 'a': accum_level = atoi(optarg); break;    //Set the accum_level to plot from
             case 'b': branch_no = atoi(optarg); break;      //Choose which branch you want to plot
             case 'e': run_opt = (ProducePlots::RunOpts)atoi(optarg); break; //Produce only plot of type in RunOpts
-            case 'c': cuts_on = atoi(optarg); break; //cuts_on : 0 - off, 1 - on, 2 - only cut with cuts on
+            case 'c': cuts_on = atoi(optarg); break; //cuts_on : 0 - off, 1 - on all cut types, 2 - PID cut, 3 - PS cuts, 4 - PID + PS cuts
             default: return 1;
         }
     }
@@ -2553,9 +2555,9 @@ int main(int argc, char *argv[])
         cout << "Running with cuts on. " << endl;
         plots->RunWithCuts(); 
     }
-    else if(cuts_on == 2){
+    else if(cuts_on > 1){
         cout << "Running with cuts only " << endl;
-        plots->RunWithCutsOnly();
+        plots->RunWithCutsOnly(cuts_on - 1);
     }
 
     // if(!savename.empty()) plots->SetSaveName(savename);
