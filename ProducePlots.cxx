@@ -283,8 +283,8 @@ m_realdata(realdata), m_accum_level(-999), m_branch(-999), m_savename(outfilenam
     }
 
     cout << "Saving file as " << m_savename << endl;
-    
-    cout << " = m_experiment->GGetSignal()" << Topology::ToString(m_experiment->GetSignal()) << endl;
+    GetSignal
+    cout << " = m_experiment->GGetSignal()" << m_experiment->GetSignal() << endl;
 
     m_runbd = new BreakdownTools( m_infilename, m_experiment->GetRecoName(), m_experiment->GetTopologies(), m_experiment->GetTarVarName() );
     if(!m_realdata) m_runtruthbd = new BreakdownTools(m_infilename, m_experiment->GetTrueName(), m_experiment->GetTopologies(), m_experiment->GetTarVarName());
