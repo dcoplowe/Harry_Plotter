@@ -264,10 +264,18 @@ void Experiment::SetTopologies(Experiment::Name exp, string ps_cuts)
             m_topologies->AddTopology(        Topology::HCC1P1PiPlusPS,  m_topologies->GetTopology(Topology::CC1P1PiPlus).GetSignal() );
             m_topologies->AddSignalToTopology(Topology::HCC1P1PiPlusPS, "target == 1");
 
+            cout <<  Topology::ToString(Topology::HCC1P1PiPlusPS) << " = " << m_topologies->GetTopology(Topology::CC1P1PiPlus).GetSignal() << endl;
+
             m_topologies->AddTopology(        Topology::HCC1P1PiPlusOOPS,  m_topologies->GetTopology(Topology::HCC1P1PiPlusPS).GetSignal() );
             m_topologies->AddSignalToTopology(Topology::HCC1P1PiPlusOOPS, "!(" + ps_cuts + ")" );
 
-            m_topologies->AddSignalToTopology(Topology::HCC1P1PiPlusOOPS, "(" + ps_cuts + ")" );
+            cout <<  Topology::ToString(Topology::HCC1P1PiPlusOOPS) << " = " << m_topologies->GetTopology(Topology::CC1P1PiPlusOOPS).GetSignal() << endl;
+
+
+            m_topologies->AddSignalToTopology(Topology::HCC1P1PiPlusPS, "(" + ps_cuts + ")" );
+
+            cout <<  Topology::ToString(Topology::HCC1P1PiPlusPS) << " = " << m_topologies->GetTopology(Topology::CC1P1PiPlusPS).GetSignal() << endl;
+
         }
         // if(print_level::quiet) cout << " Adding Topology = " << Topology::ToString(Topology::HCC1P1PiPlusOOPS) << endl;
         // m_topologies->AddTopology(        Topology::HCC1P1PiPlusOOPS,  m_topologies->GetTopology(Topology::HCC1P1PiPlusOOPS).GetSignal() );
