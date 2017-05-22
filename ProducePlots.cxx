@@ -920,6 +920,7 @@ void ProducePlots::MakePlots(){
                         party->P.SetSName( party->P.GetSName() + "_PIDPScut" );
                         MakeDir("Mom" + branchnames[br] + "/" + party->GetName() + "/PIDPScut");
                     }
+                    cout << " tmp_cuts  a   ======= " << tmp_cuts << endl;
                     MakeMomPlots(party, party->P.GetNBins(), party->P.GetBinning(),tmp_cuts);
                 }
             }
