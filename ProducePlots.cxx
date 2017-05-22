@@ -906,17 +906,17 @@ void ProducePlots::MakePlots(){
                     MakeDir("Mom" + branchnames[br] + "/" + party->GetName() );
                     string tmp_cuts = basecuts[br];
                     cout << "DAVID 1 " << endl;
-                    cout << " tmp_cuts ======= " << tmp_cuts << endl;
+                    // cout << " tmp_cuts ======= " << tmp_cuts << endl;
 
                     if(cut_onoff == 1){ 
-                        cout << "DAVID 1 " << endl;
+                        // cout << "DAVID 1 " << endl;
                         tmp_cuts += " && 0.05 < ";
                         tmp_cuts += party->MyPID.GetName();
                         party->P.SetSName( party->P.GetSName() + "_PIDcut" );
                         MakeDir("Mom" + branchnames[br] + "/" + party->GetName() + "/PIDcut");
                     }
                     else if(cut_onoff == 2){ 
-                        cout << "DAVID 2 " << endl;
+                        // cout << "DAVID 2 " << endl;
                         tmp_cuts += " && ";
                         tmp_cuts += m_experiment->GetTruePScuts();
                         party->P.SetSName( party->P.GetSName() + "_PScut" );
@@ -930,7 +930,7 @@ void ProducePlots::MakePlots(){
                         party->P.SetSName( party->P.GetSName() + "_PIDPScut" );
                         MakeDir("Mom" + branchnames[br] + "/" + party->GetName() + "/PIDPScut");
                     }
-                    cout << " tmp_cuts  a   ======= " << tmp_cuts << endl;
+                    // cout << " tmp_cuts  a   ======= " << tmp_cuts << endl;
                     MakeMomPlots(party, party->P.GetNBins(), party->P.GetBinning(),tmp_cuts);
                 }
             }
