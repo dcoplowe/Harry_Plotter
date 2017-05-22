@@ -45,6 +45,9 @@ m_printPOT(false), m_fullbreakdown(true) {
     ResetTOPBDlist();
 
     m_statcounter = -1;
+
+    cout << "Topology::ToString(m_signal) = " << Topology::ToString(m_signal) << endl;
+
 }
 
 BreakdownTools::~BreakdownTools(){
