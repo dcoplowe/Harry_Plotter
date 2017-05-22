@@ -78,15 +78,8 @@ namespace t2kgeometry {
 
 Experiment::Experiment(Name exp) : m_type(exp), m_name( ToString(m_type) )
 {
-    m_topologies = new Topologies();
     m_intmodes.clear();
     m_cuts.clear();
-
-    SetTopologies(exp);
-    m_signal  = m_topologies->GetTopology(m_topologies->GetSignal());
-
-    SetIntModes(exp);
-    SetCutNames(exp);
 
     if(exp == Experiment::MIN){
 
@@ -122,7 +115,32 @@ Experiment::Experiment(Name exp) : m_type(exp), m_name( ToString(m_type) )
         m_tarvarname = "target";
 
         m_weight = "1";
+    
+        m_true_pscuts = "truemu_truemom > 250. && truemu_costheta > 0.";
+        m_true_pscuts = " && ";
+        m_true_pscuts += "truepi_truemom > 250. && truepi_costheta > 0.";
+        m_true_pscuts = " && ";
+        m_true_pscuts += "truepr_truemom > 450. && truepr_costheta > 0.";
+
+        m_reco_pscuts = "";
     }
+
+    if(m_true_pscuts.empty) m_topologies = new Topologies();
+    else m_topologies = new Topologies(Topology::HCC1P1PiPlusPS);
+
+    if(!m_topologies){
+        cout << __FILE__ << ":" << __LINE__ << " : ERROR : Could not initialise topologies" << endl;
+        exit(0); 
+    }
+
+    SetTopologies(exp, m_true_pscuts);
+    m_signal  = m_topologies->GetTopology(m_topologies->GetSignal());
+
+
+
+    SetIntModes(exp);
+    SetCutNames(exp);
+
 }
 
 Experiment::~Experiment()
@@ -132,7 +150,7 @@ Experiment::~Experiment()
     m_cuts.clear();
 }
 
-void Experiment::SetTopologies(Experiment::Name exp)
+void Experiment::SetTopologies(Experiment::Name exp, string ps_cuts)
 {
     if(exp == Experiment::MIN){
 
@@ -232,15 +250,25 @@ void Experiment::SetTopologies(Experiment::Name exp)
         if(print_level::quiet) cout << " Adding Topology = " << Topology::ToString(Topology::CC1P1PiPlus) << endl;
         m_topologies->AddTopology(        Topology::CC1P1PiPlus, "true_ntracks == 3 && truemu_ntracks == 1 && truep_ntracks == 1 && truepi_ntracks == 1");
 
-        if(print_level::quiet) cout << " Adding Topology = " << Topology::ToString(Topology::HCC1P1PiPlus) << endl;
-
-
         if(print_level::quiet) cout << " Adding Topology = " << Topology::ToString(Topology::CC1P1PiPlusInc) << endl;
         m_topologies->AddTopology(        Topology::CC1P1PiPlusInc, "true_ntracks > 3 && truemu_ntracks == 1 && truep_ntracks >= 1 && truepi_ntracks >= 1");
 
-        m_topologies->AddTopology(        Topology::HCC1P1PiPlus,  m_topologies->GetTopology(Topology::CC1P1PiPlus).GetSignal() );
-        m_topologies->AddSignalToTopology(Topology::HCC1P1PiPlus, "target == 1");// && selmu_mom > 250 && selp_mom > 450 && selpi_mom > 250");
+        if(ps_cuts.empty()){
+            if(print_level::quiet) cout << " Adding Topology = " << Topology::ToString(Topology::HCC1P1PiPlus) << endl;
+            m_topologies->AddTopology(        Topology::HCC1P1PiPlus,  m_topologies->GetTopology(Topology::CC1P1PiPlus).GetSignal() );
+            m_topologies->AddSignalToTopology(Topology::HCC1P1PiPlus, "target == 1");
+                // && selmu_mom > 250 && selp_mom > 450 && selpi_mom > 250");
+        }
+        else{
+            if(print_level::quiet) cout << " Adding Topology = " << Topology::ToString(Topology::HCC1P1PiPlusPS) << endl;
+            m_topologies->AddTopology(        Topology::HCC1P1PiPlusPS,  m_topologies->GetTopology(Topology::CC1P1PiPlus).GetSignal() );
+            m_topologies->AddSignalToTopology(Topology::HCC1P1PiPlusPS, "target == 1");
 
+            m_topologies->AddTopology(        Topology::HCC1P1PiPlusOOPS,  m_topologies->GetTopology(Topology::HCC1P1PiPlusPS).GetSignal() );
+            m_topologies->AddSignalToTopology(Topology::HCC1P1PiPlusOOPS, "!(" + ps_cuts + ")" );
+
+            m_topologies->AddSignalToTopology(Topology::HCC1P1PiPlusOOPS, "(" + ps_cuts + ")" );
+        }
         // if(print_level::quiet) cout << " Adding Topology = " << Topology::ToString(Topology::HCC1P1PiPlusOOPS) << endl;
         // m_topologies->AddTopology(        Topology::HCC1P1PiPlusOOPS,  m_topologies->GetTopology(Topology::HCC1P1PiPlusOOPS).GetSignal() );
         // m_topologies->AddSignalToTopology(Topology::HCC1P1PiPlusOOPS, "target == 1 && (selmu_mom < 250 || selp_mom < 450 || selpi_mom < 250)");
@@ -741,6 +769,14 @@ m_symbol(ToString(m_type ,1)), m_fill_colour(0), m_fill_style(1001), m_line_colo
 		m_line_colour = 1;
 		m_fill_style = 0;
 	}
+    else if(m_type == HCC1P1PiPlusPS){
+        m_line_style = 2;
+        m_line_colour = 1;
+        m_fill_style = 0;
+    }
+    else if(m_type == HCC1P1PiPlusOOPS){
+        m_fill_colour = (Int_t)DrawingStyle::OOPS;
+    }
     else if(m_type == CC1P1PiPlus) m_fill_colour = (Int_t)DrawingStyle::T1P1PiP;//Proton
     else if(m_type == CC1P1PiPlusInc){
         m_fill_colour = (Int_t)DrawingStyle::T1P1PiP;

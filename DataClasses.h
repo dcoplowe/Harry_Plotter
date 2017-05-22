@@ -71,6 +71,7 @@ public:
     
     enum Name{
         HCC1P1PiPlus = 0,
+        HCC1P1PiPlusPS,
         HCC1P1PiPlusOOPS,
         CC1P1PiPlus,
         CCNPNPiMinus,
@@ -114,6 +115,8 @@ public:
     static inline std::string ToString(Name name, int form = 0){
         std::string sname = "Unknown";
         if(name == HCC1P1PiPlus)            sname = (form == 0) ? "HCC1P1PiPlus"        : "CC1p1#pi^{+} on H";
+        else if(name == HCC1P1PiPlusPS)     sname = (form == 0) ? "HCC1P1PiPlusPS"      : "CC1p1#pi^{+} on H (PS)";
+        else if(name == HCC1P1PiPlusOOPS)   sname = (form == 0) ? "HCC1P1PiPlusOOPS"    : "CC1p1#pi^{+} on H (OOPS)";
         else if(name == CC1P1PiPlus)        sname = (form == 0) ? "CC1P1PiPlus"         : "CC1p1#pi^{+}";
         else if(name == CC1P1PiPlusInc)     sname = (form == 0) ? "CC1P1PiPlusInc"      : "Inclusive CC1p1#pi^{+}";
         else if(name == CCNPNPiMinus)       sname = (form == 0) ? "CCNPNPiMinus"        : "CCNpN#pi^{-}";
@@ -151,7 +154,7 @@ private:
 
 class Topologies {
 public:
-    Topologies(Topology::Name signal = Topology::HCC1P1PiPlus);//Contains all the topologies signal defs.
+    Topologies(Topology::Name signal = Topology::HCC1P1PiPlusPS);//Contains all the topologies signal defs.
     ~Topologies();
 
     Topologies(Topologies * topologies);
@@ -291,6 +294,10 @@ public:
 
     std::string GetWgt(){ return m_weight; }
 
+    std::string GetTruePScuts(){ return m_true_pscuts; }
+    std::string GetRecoPScuts(){ return m_reco_pscuts; }
+
+
 private: 
 
     Name m_type;
@@ -313,7 +320,10 @@ private:
 
     std::string m_weight;
 
-    void SetTopologies(Name exp);
+    std::string m_true_pscuts;
+    std::string m_reco_pscuts;
+
+    void SetTopologies(Name exp, string ps_cuts = "");
     void SetIntModes(Name exp);
     void SetCutNames(Name exp);
 };
