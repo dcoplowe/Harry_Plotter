@@ -108,6 +108,8 @@ TH2D * DrawingTools::GetHisto(std::string var_yx, Int_t x_nbins, Double_t * x_bi
         selection += cuts;
         selection += ")";
     }
+
+    cout << __FILE__ << " : " << selection << endl;
     
     m_tree->Project(host_name.Data(), var_yx.c_str(), selection.c_str());    
     return hist;
