@@ -291,7 +291,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t low, Double_t hig
 }
 
 BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::string cuts){
-    
+    cout << "BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::string cuts)" << endl;
     std::vector<DrawingTools::KinMap> kinmap_list;
     std::vector<Int_t> top2draw;
     
@@ -311,7 +311,7 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
         // }
 
         if(topology.GetType() == m_signal){ 
-            if(print_level::quiet)cout << " (Is signal) -- Skipping." << endl;
+            if(print_level::quiet) cout << " (Is signal) -- Skipping." << endl;
             continue;
         }
 
