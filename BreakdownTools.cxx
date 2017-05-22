@@ -298,6 +298,8 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
     std::string tmp_cuts_1 = cuts;
     if(!cuts.empty()) tmp_cuts_1 += " && ";
     
+    cout << Topology::ToString(m_signal) << endl;
+
     for(int i = 0; i < (int)m_toplist.size(); i++){
         
 //        cout << i << ":" << (int)m_toplist.size() << endl;

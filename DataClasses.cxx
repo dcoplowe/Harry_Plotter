@@ -272,7 +272,7 @@ void Experiment::SetTopologies(Experiment::Name exp, string ps_cuts)
             cout <<  Topology::ToString(Topology::HCC1P1PiPlusOOPS) << " = " << m_topologies->GetTopology(Topology::HCC1P1PiPlusOOPS).GetSignal() << endl;
 
 
-            m_topologies->AddSignalToTopology(Topology::HCC1P1PiPlusPS, "(" + ps_cuts + ")" );
+            m_topologies->AddSignalToTopology(Topology::HCC1P1PiPlusPS, ps_cuts);
 
             cout <<  Topology::ToString(Topology::HCC1P1PiPlusPS) << " = " << m_topologies->GetTopology(Topology::HCC1P1PiPlusPS).GetSignal() << endl;
 
