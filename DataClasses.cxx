@@ -125,7 +125,7 @@ Experiment::Experiment(Name exp) : m_type(exp), m_name( ToString(m_type) )
         m_reco_pscuts = "";
     }
 
-    if(m_true_pscuts.empty()) m_topologies = new Topologies();
+    if(m_true_pscuts.empty()){ m_topologies = new Topologies(); cout << "Old signal" << endl; }
     else m_topologies = new Topologies(Topology::HCC1P1PiPlusPS);
 
     if(!m_topologies){
