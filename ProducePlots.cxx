@@ -290,8 +290,10 @@ m_realdata(realdata), m_accum_level(-999), m_branch(-999), m_savename(outfilenam
     cout << "m_runbd " <<endl;
     if(!m_realdata){
         m_runtruthbd = new BreakdownTools(m_infilename, m_experiment->GetTrueName(), m_experiment->GetTopologies(), m_experiment->GetTarVarName());
-        cout << " m_runtruthbd " <<endl;
+        cout << "m_runtruthbd " <<endl;
     }
+
+    m_old_signal = "true_ntracks == 3 && truemu_ntracks == 1 && truep_ntracks == 1 && truepi_ntracks == 1 && target == 1";
     
     // std::vector<std::string> selection_cuts;
     // selection_cuts.push_back("Vertex");
@@ -693,7 +695,7 @@ void ProducePlots::PurPart(Variable var, std::string cuts){
         
         TCanvas * purdists = new TCanvas( (var.GetName() + "_pur").c_str(), "", 900,800);
         purdists->cd();
-        TH1D * H_pur = m_runep->PurVSVar(var.GetName().c_str(), var.GetNBins(), var.GetBinning(), m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), cuts, var.GetSymbol() + (var.GetUnits().empty() ? "" : " (" + var.GetUnits() + ")"));
+        TH1D * H_pur = m_runep->PurVSVar(var.GetName().c_str(), var.GetNBins(), var.GetBinning(), m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSignal(), cuts, var.GetSymbol() + (var.GetUnits().empty() ? "" : " (" + var.GetUnits() + ")"));
         H_pur->SetLineColor(DrawingStyle::HYDROGEN);
 
         TH1D * CH_pur = m_runep->PurVSVar(var.GetName().c_str(), var.GetNBins(), var.GetBinning(), m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), cuts, var.GetSymbol() + (var.GetUnits().empty() ? "" : " (" + var.GetUnits() + ")"));
@@ -703,7 +705,7 @@ void ProducePlots::PurPart(Variable var, std::string cuts){
         CH_pur->Draw("SAME");
 
         TLegend * pur_leg = m_runbd->Legend(0.15, 0.1);
-        pur_leg->AddEntry(H_pur, m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol().c_str(), "l" );
+        pur_leg->AddEntry(H_pur, m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSymbol().c_str(), "l" );
         pur_leg->AddEntry(CH_pur, m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol().c_str(), "l" );
         pur_leg->Draw();
         
@@ -1356,7 +1358,7 @@ void ProducePlots::MakePlots(){
 
                             TH1D * start_pos_H_pur = m_runep->PurVSVar(party->startpos.GetName()  + "[" + dimss.str() + "]", dimnbins[dim],
                                 t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim],
-                                m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), tmp_cuts,
+                                m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSignal(), tmp_cuts,
                                 start_pos.GetSymbol() + " (" + start_pos.GetUnits() + ")");
 
                             TH1D * start_pos_CH_pur = m_runep->PurVSVar(party->startpos.GetName()  + "[" + dimss.str() + "]", dimnbins[dim], 
@@ -1374,7 +1376,7 @@ void ProducePlots::MakePlots(){
                             start_pos_CH_pur->Draw("SAME");
 
                             TLegend * start_pos_pur_leg = m_runbd->Legend(0.15, 0.1);
-                            start_pos_pur_leg->AddEntry(start_pos_H_pur, m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol().c_str(), "l" );
+                            start_pos_pur_leg->AddEntry(start_pos_H_pur, m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSymbol().c_str(), "l" );
                             start_pos_pur_leg->AddEntry(start_pos_CH_pur, m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol().c_str(), "l" );
                             start_pos_pur_leg->Draw();
 
@@ -1551,7 +1553,7 @@ void ProducePlots::MakePlots(){
                                 TH2D * start_pos2D_pur_h = m_runep->PurVSVar(start_pos2D.GetName(), dimnbins[dim], 
                                     t2kgeometry::fgd1tpcmin_offset[dim], t2kgeometry::fgd1tpcmax_offset[dim], 
                                     dimnbins[dim2], t2kgeometry::fgd1tpcmin_offset[dim2], t2kgeometry::fgd1tpcmax_offset[dim2],
-                                    m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(),
+                                    m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSignal(),
                                     tmp_cuts, "Start Position " + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] + " (mm)");
 
                                 TCanvas * start_pos2D_pur_c = new TCanvas( (start_pos2D.GetSName() + tmp_sname + "_pur").c_str(), "", 400, 400);
@@ -1606,7 +1608,7 @@ void ProducePlots::MakePlots(){
 
                                 TH2D * start_pos2D_eff_h = m_runep->EffVSVar(truestart_pos2D.GetName(), dimnbins[dim], t2kgeometry::fgd1tpcmin_offset[dim], 
                                     t2kgeometry::fgd1tpcmax_offset[dim], dimnbins[dim2], t2kgeometry::fgd1tpcmin_offset[dim2], t2kgeometry::fgd1tpcmax_offset[dim2],
-                                    m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(),
+                                    m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSignal(),
                                     truth_start_pos_cuts, "Start Position " + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] +" (mm)");
 
                                 TCanvas * start_pos2D_eff_c = new TCanvas( (start_pos2D.GetSName() + tmp_sname + "_eff").c_str(), "", 400, 400);
@@ -1691,7 +1693,7 @@ void ProducePlots::MakePlots(){
 
                 TCanvas * dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
                 dpTT_pur->cd();
-                m_runep->PurVSVar(m_recovars->dpTT, 39, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(),
+                m_runep->PurVSVar(m_recovars->dpTT, 39, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSignal(),
                     tmp_cuts, dpTT.GetAxisTitle())->Draw("HIST");
                 dpTT_pur->Write();
                 delete dpTT_pur;
@@ -1704,7 +1706,7 @@ void ProducePlots::MakePlots(){
 
                 dpTT_pur = new TCanvas( (dpTT.GetSName() + "_pur").c_str(), "", 400, 400);
                 dpTT_pur->cd();
-                m_runep->PurVSVar(m_recovars->dpTT, 29, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), 
+                m_runep->PurVSVar(m_recovars->dpTT, 29, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSignal(), 
                     tmp_cuts, dpTT.GetAxisTitle())->Draw("HIST");
                 dpTT_pur->Write();
                 delete dpTT_pur;
@@ -1715,7 +1717,7 @@ void ProducePlots::MakePlots(){
 
                 dpTT_pur = new TCanvas( (tmp_sname + "_pur").c_str(), "", 400, 400);
                 dpTT_pur->cd();
-                m_runep->PurVSVar(m_recovars->dpTT, 25, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), 
+                m_runep->PurVSVar(m_recovars->dpTT, 25, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSignal(), 
                     tmp_cuts, dpTT.GetAxisTitle())->Draw("HIST");
                 dpTT_pur->Write();
                 delete dpTT_pur;
@@ -1728,7 +1730,7 @@ void ProducePlots::MakePlots(){
 
                 dpTT_pur = new TCanvas( (tmp_sname + "_pur").c_str(), "", 400, 400);
                 dpTT_pur->cd();
-                m_runep->PurVSVar(m_recovars->dpTT, 19, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), 
+                m_runep->PurVSVar(m_recovars->dpTT, 19, -300., 300., m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSignal(), 
                     tmp_cuts, dpTT.GetAxisTitle())->Draw("HIST");
                 dpTT_pur->Write();
                 delete dpTT_pur;
@@ -2006,7 +2008,7 @@ void ProducePlots::MakePlots(){
                 if(DrawPlot(ProducePlots::VtxPosition1DPur, ProducePlots::VtxPosition)){
                 //**************************************** 1D Purity START ************************************//
                     TH1D * vtx_pos_H_pur = m_runep->PurVSVar(m_recovars->vtx_pos.GetName() + "[" + dimss.str() + "]", dimnbins[dim], t2kgeometry::fgd1min_offset[dim], t2kgeometry::fgd1max_offset[dim],
-                        m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), vtx_pos_cuts,
+                        m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSignal(), vtx_pos_cuts,
                         m_recovars->vtx_pos.GetSymbol() + " " + m_NameXYZ[dim] + " (" + m_recovars->vtx_pos.GetUnits() + ")");
 
                     TH1D * vtx_pos_CH_pur = m_runep->PurVSVar(m_recovars->vtx_pos.GetName() + "[" + dimss.str() + "]", dimnbins[dim], t2kgeometry::fgd1min_offset[dim], t2kgeometry::fgd1max_offset[dim],
@@ -2023,7 +2025,7 @@ void ProducePlots::MakePlots(){
                     vtx_pos_CH_pur->Draw("SAME");
 
                     TLegend * vtx_pos_pur_leg = m_runbd->Legend(0.15, 0.1);
-                    vtx_pos_pur_leg->AddEntry(vtx_pos_H_pur, m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol().c_str(), "l" );
+                    vtx_pos_pur_leg->AddEntry(vtx_pos_H_pur, m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSymbol().c_str(), "l" );
                     vtx_pos_pur_leg->AddEntry(vtx_pos_CH_pur, m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol().c_str(), "l" );
                     vtx_pos_pur_leg->Draw();
 
@@ -2104,7 +2106,7 @@ void ProducePlots::MakePlots(){
                         //**************************************** 2D Purity START ************************************//
                         TH2D * vtx_pos2D_pur_h = m_runep->PurVSVar(vtx_pos2D, dimnbins[dim], t2kgeometry::fgd1min_offset[dim], 
                             t2kgeometry::fgd1max_offset[dim], dimnbins[dim2], t2kgeometry::fgd1min_offset[dim2], 
-                            t2kgeometry::fgd1max_offset[dim2], m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(),
+                            t2kgeometry::fgd1max_offset[dim2], m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSignal(),
                             vtx_pos_cuts ,"Start Position " + m_NameXYZ[dim] + " (mm);Start Position " + m_NameXYZ[dim2] + " (mm)");
 
                         TCanvas * vtx_pos2D_pur_c = new TCanvas((vtx_pos.GetSName() + m_NameXYZ[dim2] + "_pur").c_str(), "", 400, 400);
@@ -2150,8 +2152,8 @@ void ProducePlots::MakePlots(){
 
                 TCanvas * eff_pur_cuts = new TCanvas("eff_pur_cuts","", 600, 800);
                 eff_pur_cuts->cd();
-                TH1D * eff_new = m_runep->EffVSCuts( m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), br);
-                TH1D * pur_new = m_runep->PurVSCuts( m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), br);
+                TH1D * eff_new = m_runep->EffVSCuts( m_old_signal, br);
+                TH1D * pur_new = m_runep->PurVSCuts( m_old_signal, br);
 
                 TH1D * eff_CC1P1Pi = m_runep->EffVSCuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), br);
                 TH1D * pur_CC1P1Pi = m_runep->PurVSCuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), br);
@@ -2197,8 +2199,8 @@ void ProducePlots::MakePlots(){
                 pur_new_PS->Draw("HISTSAME");
 
                 TLegend * eff_pur_cuts_leg = m_runbd->Legend(0.2,0.1);
-                eff_pur_cuts_leg->AddEntry(eff_new, ("Efficiency (" + m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol() + ")").c_str(), "l");
-                eff_pur_cuts_leg->AddEntry(pur_new, ("Purity ("     + m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol() + ")").c_str(), "l");
+                eff_pur_cuts_leg->AddEntry(eff_new, ("Efficiency (" + Topology::ToString(Topology::HCC1P1PiPlusPS, 1) + ")").c_str(), "l");
+                eff_pur_cuts_leg->AddEntry(pur_new, ("Purity ("     + Topology::ToString(Topology::HCC1P1PiPlusPS, 1) + ")").c_str(), "l");
 
                 eff_pur_cuts_leg->AddEntry(eff_new_PS, ("Efficiency (" + m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSymbol() + ")").c_str(), "l");
                 eff_pur_cuts_leg->AddEntry(pur_new_PS, ("Purity ("     + m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSymbol() + ")").c_str(), "l");
@@ -2252,8 +2254,8 @@ void ProducePlots::MakePlots(){
             if(m_experiment->GetType() == Experiment::T2K && DrawPlot(ProducePlots::EffVSN1Cuts)){
                 MakeDir("Efficiency/N1Cuts" + branchnames[br]);
 
-                TH1D * effN1_new = m_runep->EffVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), br);
-                TH1D * purN1_new = m_runep->PurVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSignal(), br);
+                TH1D * effN1_new = m_runep->EffVSN1Cuts( m_old_signal, br);
+                TH1D * purN1_new = m_runep->PurVSN1Cuts( m_old_signal, br);
 
                 effN1_new->SetLineColor(DrawingStyle::Yellow);
                 purN1_new->SetLineColor(DrawingStyle::Yellow);
@@ -2276,8 +2278,8 @@ void ProducePlots::MakePlots(){
                 
 
                 TLegend * eff_pur_N1cuts_leg = m_runbd->Legend(0.2,0.1);
-                eff_pur_N1cuts_leg->AddEntry(effN1_new, ("Efficiency (" + m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol() + ")").c_str(), "l");
-                eff_pur_N1cuts_leg->AddEntry(purN1_new, ("Purity ("     + m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlus).GetSymbol() + ")").c_str(), "l");
+                eff_pur_N1cuts_leg->AddEntry(effN1_new, ("Efficiency (" + Topology::ToString(Topology::HCC1P1PiPlusPS, 1) + ")").c_str(), "l");
+                eff_pur_N1cuts_leg->AddEntry(purN1_new, ("Purity ("     + Topology::ToString(Topology::HCC1P1PiPlusPS, 1) + ")").c_str(), "l");
 
                 eff_pur_N1cuts_leg->AddEntry(effN1_new_PS, ("Efficiency (" + m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSymbol() + ")").c_str(), "l");
                 eff_pur_N1cuts_leg->AddEntry(purN1_new_PS, ("Purity ("     + m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSymbol() + ")").c_str(), "l");
