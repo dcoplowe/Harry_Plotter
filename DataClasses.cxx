@@ -12,7 +12,7 @@ using std::endl;
 
 namespace print_level {
     bool debug = true;// = true;// = true;
-    bool quiet = false;
+    bool quiet = true;
     bool effpurtools = false;
     bool drawingtools = false;
 }
