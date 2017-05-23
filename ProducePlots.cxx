@@ -179,7 +179,7 @@ public:
     std::string GetPosCuts(Variable pos, int dim1cut, int dim2cut, std::string cuts);
 
     void RunWithCuts(){ m_cut_onoff_high = 3; }
-    void RunWithCutsOnly(int cut){  m_cut_onoff_low = cut; m_cut_onoff_high = cut + 1; }
+    void RunWithCutsOnly(int cut);
 
 private:
     std::string m_infilename;
@@ -307,8 +307,6 @@ m_realdata(realdata), m_accum_level(-999), m_branch(-999), m_savename(outfilenam
     
     if(!m_realdata) m_runep = new EffPurTools(m_infilename, m_experiment->GetCutNames(), m_experiment->GetRecoName(), m_experiment->GetTrueName() );
     
-    m_outfile = new TFile(m_savename.c_str(), "RECREATE");
-
     m_verbose = false;
 
     m_NameXYZ[0] = "X";
@@ -350,6 +348,23 @@ void ProducePlots::SetBranchToPlot(int accum_level, int branch)
     }
     // if(m_accum_level != -999 && m_experiment->GetType() == Experiment::T2K){
     // }
+}
+
+void ProducePlots::RunWithCutsOnly(int cut)
+{  
+    m_cut_onoff_low = cut; 
+    m_cut_onoff_high = cut + 1;
+        //Find .root, append ToString(ProducePlots::XXX) + ".root"
+    size_t ff = m_savename.find(".root");
+    if(ff != std::string::npos){
+        m_savename = m_savename.substr(0,ff);
+        m_savename += "_cut";
+        stringstream ss;
+        ss << cut;
+        m_savename += cut.str();
+        m_savename += ".root";
+            // cout << "m_savename = " << m_savename << endl; 
+    }        
 }
 
 bool ProducePlots::DrawPlot(ProducePlots::RunOpts var1, ProducePlots::RunOpts var2)
@@ -852,6 +867,7 @@ void ProducePlots::MakePlots(){
     // MIN has 2
 
     //Configure Start
+    m_outfile = new TFile(m_savename.c_str(), "RECREATE");
 
     string * basecuts;
     string * branchnames;
@@ -2201,8 +2217,8 @@ void ProducePlots::MakePlots(){
                 pur_new_PS->Draw("HISTSAME");
 
                 TLegend * eff_pur_cuts_leg = m_runbd->Legend(0.2,0.1);
-                eff_pur_cuts_leg->AddEntry(eff_new, ("Efficiency (" + Topology::ToString(Topology::HCC1P1PiPlusPS, 1) + ")").c_str(), "l");
-                eff_pur_cuts_leg->AddEntry(pur_new, ("Purity ("     + Topology::ToString(Topology::HCC1P1PiPlusPS, 1) + ")").c_str(), "l");
+                eff_pur_cuts_leg->AddEntry(eff_new, ("Efficiency (" + Topology::ToString(Topology::HCC1P1PiPlus, 1) + ")").c_str(), "l");
+                eff_pur_cuts_leg->AddEntry(pur_new, ("Purity ("     + Topology::ToString(Topology::HCC1P1PiPlus, 1) + ")").c_str(), "l");
 
                 eff_pur_cuts_leg->AddEntry(eff_new_PS, ("Efficiency (" + m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSymbol() + ")").c_str(), "l");
                 eff_pur_cuts_leg->AddEntry(pur_new_PS, ("Purity ("     + m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSymbol() + ")").c_str(), "l");
@@ -2280,8 +2296,8 @@ void ProducePlots::MakePlots(){
                 
 
                 TLegend * eff_pur_N1cuts_leg = m_runbd->Legend(0.2,0.1);
-                eff_pur_N1cuts_leg->AddEntry(effN1_new, ("Efficiency (" + Topology::ToString(Topology::HCC1P1PiPlusPS, 1) + ")").c_str(), "l");
-                eff_pur_N1cuts_leg->AddEntry(purN1_new, ("Purity ("     + Topology::ToString(Topology::HCC1P1PiPlusPS, 1) + ")").c_str(), "l");
+                eff_pur_N1cuts_leg->AddEntry(effN1_new, ("Efficiency (" + Topology::ToString(Topology::HCC1P1PiPlus, 1) + ")").c_str(), "l");
+                eff_pur_N1cuts_leg->AddEntry(purN1_new, ("Purity ("     + Topology::ToString(Topology::HCC1P1PiPlus, 1) + ")").c_str(), "l");
 
                 eff_pur_N1cuts_leg->AddEntry(effN1_new_PS, ("Efficiency (" + m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSymbol() + ")").c_str(), "l");
                 eff_pur_N1cuts_leg->AddEntry(purN1_new_PS, ("Purity ("     + m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSymbol() + ")").c_str(), "l");
@@ -2314,13 +2330,9 @@ void ProducePlots::MakePlots(){
                 delete purN1_CC1P1PiInc;
                 delete eff_pur_N1cuts_leg;
                 delete eff_pur_N1cuts;
-
             }
-
             //******************************** Efficiency/Purity N - 1 Cuts END ********************************//
-
         }
-
         list.clear();
     }
 
