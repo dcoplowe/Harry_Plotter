@@ -361,7 +361,7 @@ void ProducePlots::RunWithCutsOnly(int cut)
         m_savename += "_cut";
         stringstream ss;
         ss << cut;
-        m_savename += cut.str();
+        m_savename += ss.str();
         m_savename += ".root";
             // cout << "m_savename = " << m_savename << endl; 
     }        
