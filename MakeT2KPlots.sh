@@ -28,5 +28,5 @@ cd ${dir}
 pwd
 
 echo "Starting to produce plots."
-ProducePlots -t -i ${infile} -v -o ${dir}/${savename} ${opt} ${cutson}
+ProducePlots -t -i ${infile} -v -o ${dir}/${savename} ${opt} ${cutson} -b 1
 echo "Finished making plots."
