@@ -122,7 +122,7 @@ private:
     double m_POT;
     bool m_linewarning;
 
-    static KinMap empty_kinmap;
+    KinMap empty_kinmap;
     
 };
 
