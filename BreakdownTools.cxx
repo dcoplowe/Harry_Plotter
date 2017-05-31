@@ -393,16 +393,16 @@ BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::s
     SetColors(other_kinmap, DrawingStyle::Other);
 
     //The signal bit:
-    DrawingTools::KinMap GetSignalMap(Variable var, Int_t nbins, Double_t * bins, std::string cuts){
-        std::string hsignal = tmp_cuts_1;
-        Topology sig_top = m_topologies->GetTopology(m_signal);
-        hsignal += sig_top.GetSignal();
-        DrawingTools::KinMap signal_kinmap = KinArray(var.GetName(), nbins, bins, var.GetSymbol(), hsignal);
-        SetColors(signal_kinmap, sig_top.GetFillColor(), sig_top.GetLineColor(), sig_top.GetFillStyle(), sig_top.GetLineStyle());
-        signal_kinmap.recon->SetLineWidth(2);
-        signal_kinmap.truth->SetLineWidth(2);
-        signal_kinmap.ratio->SetLineWidth(2);
-    }
+    // DrawingTools::KinMap GetSignalMap(Variable var, Int_t nbins, Double_t * bins, std::string cuts){
+    std::string hsignal = tmp_cuts_1;
+    Topology sig_top = m_topologies->GetTopology(m_signal);
+    hsignal += sig_top.GetSignal();
+    DrawingTools::KinMap signal_kinmap = KinArray(var.GetName(), nbins, bins, var.GetSymbol(), hsignal);
+    SetColors(signal_kinmap, sig_top.GetFillColor(), sig_top.GetLineColor(), sig_top.GetFillStyle(), sig_top.GetLineStyle());
+    signal_kinmap.recon->SetLineWidth(2);
+    signal_kinmap.truth->SetLineWidth(2);
+    signal_kinmap.ratio->SetLineWidth(2);
+    // }
 
     std::vector<KinMap> kinmap_list;
     kinmap_list.push_back( other_kinmap );
