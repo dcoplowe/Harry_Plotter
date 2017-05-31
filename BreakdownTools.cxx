@@ -872,7 +872,7 @@ DrawingTools::KinMap GetSignalMap(Variable var, Int_t nbins, Double_t * bins, st
     return signal_kinmap;
 }
 
-std::vector<double> BreakdownTools::GetPerentages(std::vector<Breakdown> list, int type)
+std::vector<double> BreakdownTools::GetPercentages(std::vector<Breakdown> list, int type)
 {
     std::vector<TH1D*> histos;
     for(unsigned int i = 0; i < list.size(); i++){
