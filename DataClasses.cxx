@@ -842,7 +842,7 @@ m_symbol(ToString(m_type ,1)), m_fill_colour(kGray), m_fill_style(1001), m_line_
     // cout << "Post : " << "FC = " << m_fill_colour << " LC = " << m_line_colour << " FS = " << m_fill_style << " LS = " << m_line_style << endl;
 }
 
-std::string Topology::ToString(Name name, int form = 0){
+std::string Topology::ToString(Name name, int form){
         std::string sname = "Unknown";
         if(name == Topology::HCC1P1PiPlus)            sname = (form == 0) ? "HCC1P1PiPlus"        : "CC1p1#pi^{+} on H";
         else if(name == Topology::HCC1P1PiPlusPS)     sname = (form == 0) ? "HCC1P1PiPlusPS"      : "CC1p1#pi^{+} on H (PS)";
