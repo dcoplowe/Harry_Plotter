@@ -133,7 +133,7 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
     Breakdown other("Other", other_cut, DrawingStyle::Other);
     list.push_back(other);
 
-    return BaseBreakdown(var, nbins, bins, list, basename, cuts, check);
+    return BaseBreakdown(var, nbins, bins, list, "PID", cuts, check);
 }
 
 BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t low, Double_t high, std::string pdgvar, std::string cuts, bool check){
@@ -712,8 +712,7 @@ void BreakdownTools::DrawZeroPointLine(THStack * histo){
     TH1D * hfirst = (TH1D*)rlist->First()->Clone( (string(rlist->First()->GetName()) + "_clone").c_str() );
     DrawZeroPointLine(hfirst);
 }
-
-                                        
+           
 BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins, std::vector<Breakdown> list, 
     std::string basename, std::string cuts, bool check)
 {
