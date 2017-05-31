@@ -113,30 +113,7 @@ public:
     Int_t GetLineColor(){ return m_line_colour; }
     Int_t GetLineStyle(){ return m_line_style; }
 
-    inline static std::string ToString(Name name, int form = 0){
-        std::string sname = "Unknown";
-        if(name == HCC1P1PiPlus)            sname = (form == 0) ? "HCC1P1PiPlus"        : "CC1p1#pi^{+} on H";
-        else if(name == HCC1P1PiPlusPS)     sname = (form == 0) ? "HCC1P1PiPlusPS"      : "CC1p1#pi^{+} on H (PS)";
-        else if(name == HCC1P1PiPlusOOPS)   sname = (form == 0) ? "HCC1P1PiPlusOOPS"    : "CC1p1#pi^{+} on H (OOPS)";
-        else if(name == OCC1P1PiPlus)       sname = (form == 0) ? "OCC1P1PiPlus"        : "CC1p1#pi^{+} on Other";
-        else if(name == CC1P1PiPlus)        sname = (form == 0) ? "CC1P1PiPlus"         : "CC1p1#pi^{+}";
-        else if(name == CC1P1PiPlusInc)     sname = (form == 0) ? "CC1P1PiPlusInc"      : "Inclusive CC1p1#pi^{+}";
-        else if(name == CCNPNPiMinus)       sname = (form == 0) ? "CCNPNPiMinus"        : "CCNpN#pi^{-}";
-        else if(name == CCNP)               sname = (form == 0) ? "CCNP"                : "CCNp";
-        else if(name == CCNPInc)            sname = (form == 0) ? "CCNPInc"             : "Inclusive CCNp";
-        else if(name == CCNPiPlus)          sname = (form == 0) ? "CCNPiPlus"           : "CCN#pi^{+}";
-        else if(name == CCNPiPlusInc)       sname = (form == 0) ? "CCNPiPlusInc"        : "Inclusive CCN#pi^{+}";
-        else if(name == CCNPNPiZero)        sname = (form == 0) ? "CCNPNPiZero"         : "CCNPN#pi^{0}";
-        else if(name == CCNPiZeroNPiPlus)   sname = (form == 0) ? "CCNPiZeroNPiPlus"    : "CCN#pi^{0}N#pi^{+}";
-        else if(name == CCKaonsOth)         sname = (form == 0) ? "CCKaonsOth"          : "CC Kaons Inc.";
-        else if(name == CCNN)               sname = (form == 0) ? "CCNN"                : "CCNn";
-        else if(name == CCNPNN)             sname = (form == 0) ? "CCNPNN"              : "CCNpNn";
-        else if(name == CCNPiNN)            sname = (form == 0) ? "CCNPiNN"             : "CCN#piNn";
-        else if(name == CCNPiNPNN)          sname = (form == 0) ? "CCNPiPNNN"           : "CCN#piNpNn";
-        else if(name == Other)              sname = "Other";
-        
-        return sname;
-    }
+    static std::string ToString(Name name, int form = 0);
 
 private:
     Name m_type;

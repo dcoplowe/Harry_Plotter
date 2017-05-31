@@ -842,6 +842,31 @@ m_symbol(ToString(m_type ,1)), m_fill_colour(kGray), m_fill_style(1001), m_line_
     // cout << "Post : " << "FC = " << m_fill_colour << " LC = " << m_line_colour << " FS = " << m_fill_style << " LS = " << m_line_style << endl;
 }
 
+std::string Topology::ToString(Name name, int form = 0){
+        std::string sname = "Unknown";
+        if(name == Topology::HCC1P1PiPlus)            sname = (form == 0) ? "HCC1P1PiPlus"        : "CC1p1#pi^{+} on H";
+        else if(name == Topology::HCC1P1PiPlusPS)     sname = (form == 0) ? "HCC1P1PiPlusPS"      : "CC1p1#pi^{+} on H (PS)";
+        else if(name == Topology::HCC1P1PiPlusOOPS)   sname = (form == 0) ? "HCC1P1PiPlusOOPS"    : "CC1p1#pi^{+} on H (OOPS)";
+        else if(name == Topology::OCC1P1PiPlus)       sname = (form == 0) ? "OCC1P1PiPlus"        : "CC1p1#pi^{+} on Other";
+        else if(name == Topology::CC1P1PiPlus)        sname = (form == 0) ? "CC1P1PiPlus"         : "CC1p1#pi^{+}";
+        else if(name == Topology::CC1P1PiPlusInc)     sname = (form == 0) ? "CC1P1PiPlusInc"      : "Inclusive CC1p1#pi^{+}";
+        else if(name == Topology::CCNPNPiMinus)       sname = (form == 0) ? "CCNPNPiMinus"        : "CCNpN#pi^{-}";
+        else if(name == Topology::CCNP)               sname = (form == 0) ? "CCNP"                : "CCNp";
+        else if(name == Topology::CCNPInc)            sname = (form == 0) ? "CCNPInc"             : "Inclusive CCNp";
+        else if(name == Topology::CCNPiPlus)          sname = (form == 0) ? "CCNPiPlus"           : "CCN#pi^{+}";
+        else if(name == Topology::CCNPiPlusInc)       sname = (form == 0) ? "CCNPiPlusInc"        : "Inclusive CCN#pi^{+}";
+        else if(name == Topology::CCNPNPiZero)        sname = (form == 0) ? "CCNPNPiZero"         : "CCNPN#pi^{0}";
+        else if(name == Topology::CCNPiZeroNPiPlus)   sname = (form == 0) ? "CCNPiZeroNPiPlus"    : "CCN#pi^{0}N#pi^{+}";
+        else if(name == Topology::CCKaonsOth)         sname = (form == 0) ? "CCKaonsOth"          : "CC Kaons Inc.";
+        else if(name == Topology::CCNN)               sname = (form == 0) ? "CCNN"                : "CCNn";
+        else if(name == Topology::CCNPNN)             sname = (form == 0) ? "CCNPNN"              : "CCNpNn";
+        else if(name == Topology::CCNPiNN)            sname = (form == 0) ? "CCNPiNN"             : "CCN#piNn";
+        else if(name == Topology::CCNPiNPNN)          sname = (form == 0) ? "CCNPiPNNN"           : "CCN#piNpNn";
+        else if(name == Topology::Other)              sname = "Other";
+        
+        return sname;
+    }
+
 void Topology::AddToSignal(std::string add2def, bool reset)
 {
 	if(reset) m_signal = add2def;
