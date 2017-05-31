@@ -68,12 +68,12 @@ public:
     TLegend * GetPOT(Double_t x_pos, Double_t y_pos);
     void SetPOT();
     
-    void SetColors(TH1D *&h1,   Int_t fill_color, Int_t line_color = kBlack, Int_t fill_style = 1001, Int_t line_style = 1);
-    void SetColors(KinMap &map, Int_t fill_color, Int_t line_color = kBlack, Int_t fill_style = 1001, Int_t line_style = 1);
+    static void SetColors(TH1D *&h1,   Int_t fill_color, Int_t line_color = kBlack, Int_t fill_style = 1001, Int_t line_style = 1);
+    static void SetColors(KinMap &map, Int_t fill_color, Int_t line_color = kBlack, Int_t fill_style = 1001, Int_t line_style = 1);
 
-    std::vector<double> GetPercentage(std::vector<TH1D*> histos);
-    std::vector<double> GetPercentage(std::vector<DrawingTools::KinMap> histos, Int_t type);
-    std::vector<double> GetPercentage(std::vector<DrawingTools::KinMap> histos, Int_t type, KinMap other);
+    static std::vector<double> GetPercentage(std::vector<TH1D*> histos);
+    static std::vector<double> GetPercentage(std::vector<DrawingTools::KinMap> histos, Int_t type);
+    static std::vector<double> GetPercentage(std::vector<DrawingTools::KinMap> histos, Int_t type, KinMap other);
     
     TH1D * ToPDF(TH1D * hraw, TString hn = "");
     TH2D * NormalHist(TH2D * hraw, Double_t thres = 0, bool kmax=false);

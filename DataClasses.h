@@ -73,6 +73,7 @@ public:
         HCC1P1PiPlus = 0,
         HCC1P1PiPlusPS,
         HCC1P1PiPlusOOPS,
+        CCC1P1PiPlus,
         CC1P1PiPlus,
         CCNPNPiMinus,
         CCNP,
@@ -117,6 +118,7 @@ public:
         if(name == HCC1P1PiPlus)            sname = (form == 0) ? "HCC1P1PiPlus"        : "CC1p1#pi^{+} on H";
         else if(name == HCC1P1PiPlusPS)     sname = (form == 0) ? "HCC1P1PiPlusPS"      : "CC1p1#pi^{+} on H (PS)";
         else if(name == HCC1P1PiPlusOOPS)   sname = (form == 0) ? "HCC1P1PiPlusOOPS"    : "CC1p1#pi^{+} on H (OOPS)";
+        else if(name == OCC1P1PiPlus)       sname = (form == 0) ? "OCC1P1PiPlus"        : "CC1p1#pi^{+} on Other";
         else if(name == CC1P1PiPlus)        sname = (form == 0) ? "CC1P1PiPlus"         : "CC1p1#pi^{+}";
         else if(name == CC1P1PiPlusInc)     sname = (form == 0) ? "CC1P1PiPlusInc"      : "Inclusive CC1p1#pi^{+}";
         else if(name == CCNPNPiMinus)       sname = (form == 0) ? "CCNPNPiMinus"        : "CCNpN#pi^{-}";

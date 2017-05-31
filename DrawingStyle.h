@@ -49,8 +49,8 @@ public:
 
         TastyPalette();
 
-        gROOT->ForceStyle();
-        // gROOT->cd(0);
+        // gROOT->ForceStyle();
+        gROOT->cd(0);
     }
     
     ~DrawingStyle(){;}

@@ -15,8 +15,8 @@
 #include "TF1.h"
 #include <TLine.h>
 
-BreakdownTools::BreakdownTools(std::string filename, std::string treename, Topologies * topologies, std::string target_name) : DrawingTools(filename, treename, ("BD" + treename).c_str()),
-m_printPOT(false), m_fullbreakdown(true) {
+BreakdownTools::BreakdownTools(std::string filename, std::string treename, Topologies * topologies, std::string target_name) : 
+    DrawingTools(filename, treename, ("BD" + treename).c_str()), m_printPOT(false), m_fullbreakdown(true) {
 
 //    PDGInfo proton;
     m_pdglist.push_back( PDGInfo(2212, "proton",        "p"));
@@ -47,9 +47,7 @@ m_printPOT(false), m_fullbreakdown(true) {
     m_statcounter = -1;
 
     m_signal = m_topologies->GetSignal();
-
-    // cout << "DAVE Topology::ToString(m_signal) = " << Topology::ToString(m_signal) << endl;
-
+    m_sig_top = m_topologies->GetTopology(m_signal);
 }
 
 BreakdownTools::~BreakdownTools(){
@@ -82,10 +80,11 @@ void BreakdownTools::ResetTOPBDlist(){
     SetMinTOPBDlist( Topology::Other              );
 }
 
-BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::string pdgvar, std::string cuts){
+BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::string pdgvar, std::string cuts, bool check){
 
-    std::vector<DrawingTools::KinMap> kinmap_list;
-    
+    std::vector<Breakdown> list;
+    list.clear();
+
     std::string other_cut = cuts;
     
     std::string tmp_cuts_1 = cuts;
@@ -94,13 +93,16 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
         other_cut += " && (";
     }
     
+    tmp_cuts_1 += pdgvar;
+    tmp_cuts_1 += " != -999 ";
+    tmp_cuts_1 += " && ";
+
     other_cut += pdgvar;
     other_cut += " != -999";
-    
+
     for(int i = 0; i < (int)m_pdglist.size(); i++){
-    
         PDGInfo particle = m_pdglist[i];
-        
+
         std::string tmp_cuts = tmp_cuts_1;
         if(particle.IsBoth()) tmp_cuts += "TMath::Abs(";
         tmp_cuts += pdgvar;
@@ -123,179 +125,22 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
             other_cut += " != ";
             other_cut += particle.GetPDGStr();
         }
-            
-        DrawingTools::KinMap tmp_kinmap = KinArray(var.GetName(), nbins, bins, var.GetSymbol(), tmp_cuts);
-        
-        SetColors(tmp_kinmap, particle.GetColor());
-        
-        kinmap_list.push_back(tmp_kinmap);
-    }
-    
-    if(!cuts.empty()) other_cut += ")";
-    
-//    cout << "other_cut: " << other_cut << endl;
-    
-    DrawingTools::KinMap other_kinmap = KinArray(var.GetName(), nbins, bins, var.GetSymbol(), other_cut);
-    SetColors(other_kinmap, DrawingStyle::Other);
 
-    //Make outputs:
-    
-    THStack * recon_tot = new THStack( (var.GetSName() + "_PID_recon").c_str(), Form(";%s (%s);%s", kinmap_list[0].recon->GetXaxis()->GetTitle(), var.GetUnits().c_str(),
-                                                                                kinmap_list[0].recon->GetYaxis()->GetTitle() ) );
-    
-    THStack * truth_tot = new THStack( (var.GetSName() + "_PID_truth").c_str(), Form(";%s (%s);%s", kinmap_list[0].truth->GetXaxis()->GetTitle(), var.GetUnits().c_str(),
-                                                                               kinmap_list[0].truth->GetYaxis()->GetTitle() ) );
-    
-    THStack * ratio_tot = new THStack( (var.GetSName() + "_PID_ratio").c_str(), Form(";%s (%s);%s", kinmap_list[0].ratio->GetXaxis()->GetTitle(), var.GetUnits().c_str(),
-                                                                               kinmap_list[0].ratio->GetYaxis()->GetTitle() ) );
-    
-    TH2D * smear_tot = (TH2D*)kinmap_list[0].smear->Clone( (var.GetSName() + "_PID_smear").c_str() );//Just add all of these histos.
-    
-    TLegend * recon_leg = Legend(0.25, 0.4, 0.551, 0.362);
-    TLegend * truth_leg = Legend(0.25, 0.4, 0.551, 0.362);
-    TLegend * ratio_leg = Legend(0.25, 0.4, 0.551, 0.362);
-    
-    std::vector<double> recon_percent = GetPercentage(kinmap_list, 0, other_kinmap);
-    std::vector<double> truth_percent = GetPercentage(kinmap_list, 1, other_kinmap);
-    std::vector<double> ratio_percent = GetPercentage(kinmap_list, 2, other_kinmap);
-    
-    if(m_fullbreakdown){
-        
-//        std::vector<double> recon_percent = GetPercentage(kinmap_list, 0, other_kinmap);
-//        std::vector<double> truth_percent = GetPercentage(kinmap_list, 1, other_kinmap);
-//        std::vector<double> ratio_percent = GetPercentage(kinmap_list, 2, other_kinmap);
-//        
-        recon_tot->Add(other_kinmap.recon);
-        truth_tot->Add(other_kinmap.truth);
-        ratio_tot->Add(other_kinmap.ratio);
-        smear_tot->Add(other_kinmap.smear);
-        
-        for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
-//            cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
-            
-            recon_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].recon);
-            recon_leg->AddEntry(kinmap_list[ (i - 1) ].recon, Form("%s (%.2f%%)", m_pdglist[(i - 1)].GetSymbol().c_str(), recon_percent[ i - 1 ]), "f");
-            
-            truth_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].truth);
-            truth_leg->AddEntry(kinmap_list[ (i - 1) ].truth, Form("%s (%.2f%%)", m_pdglist[(i - 1)].GetSymbol().c_str(), truth_percent[ i - 1 ]), "f");
-            
-            ratio_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].ratio);
-            ratio_leg->AddEntry(kinmap_list[ (i - 1) ].ratio, Form("%s (%.2f%%)", m_pdglist[(i - 1)].GetSymbol().c_str(), ratio_percent[ i - 1 ]), "f");
-            
-            if(i < (int)kinmap_list.size()) smear_tot->Add(kinmap_list[ i ].smear);
-        }
-               
-        recon_leg->AddEntry(other_kinmap.recon, Form("Other (%.2f%%)", recon_percent.back()), "f");
-        truth_leg->AddEntry(other_kinmap.truth, Form("Other (%.2f%%)", truth_percent.back()), "f");
-        ratio_leg->AddEntry(other_kinmap.ratio, Form("Other (%.2f%%)", ratio_percent.back()), "f");
+        Breakdown tmp(particle.GetSymbol(), tmp_cuts, particle.GetColor());
+        list.push_back(tmp);
     }
-    else{
-        double recon_other_percent = 0.;
-        double truth_other_percent = 0.;
-        double ratio_other_percent = 0.;
-        
-        std::vector<int> plot_by_self;
 
-        for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
-//            cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
-            
-            bool in_other = true;
-            for(int j = 0; j < (int)m_pdglist_minBD.size(); j++){
-                if(m_pdglist_minBD[j] == m_pdglist[(i - 1)].GetPDGNo()){
-                    in_other = false;
-                    plot_by_self.push_back((i - 1));
-                    break;
-                }
-            }
-            
-            if(in_other){
-                recon_other_percent += recon_percent[ i - 1 ];
-                truth_other_percent += truth_percent[ i - 1 ];
-                ratio_other_percent += ratio_percent[ i - 1 ];
-                
-                other_kinmap.recon->Add(kinmap_list[ (i - 1) ].recon);
-                other_kinmap.truth->Add(kinmap_list[ (i - 1) ].truth);
-                other_kinmap.ratio->Add(kinmap_list[ (i - 1) ].ratio);
-//                other_kinmap.smear->Add();
-            }
-            
-            //This is common to both:
-            if(i < (int)kinmap_list.size()) smear_tot->Add(kinmap_list[ i ].smear);
-        }
-        
-        recon_tot->Add(other_kinmap.recon);
-        truth_tot->Add(other_kinmap.truth);
-        ratio_tot->Add(other_kinmap.ratio);
-        smear_tot->Add(other_kinmap.smear);
-        
-        for(int i = 0; i < (int)plot_by_self.size(); i++){
-                recon_tot->Add(kinmap_list[ plot_by_self[i] ].recon);
-                recon_leg->AddEntry(kinmap_list[ plot_by_self[i] ].recon, Form("%s (%.2f%%)", m_pdglist[ plot_by_self[i] ].GetSymbol().c_str(), recon_percent[ plot_by_self[i] ]), "f");
-                
-                truth_tot->Add(kinmap_list[ plot_by_self[i] ].truth);
-                truth_leg->AddEntry(kinmap_list[ plot_by_self[i] ].truth, Form("%s (%.2f%%)", m_pdglist[ plot_by_self[i] ].GetSymbol().c_str(), truth_percent[ plot_by_self[i] ]), "f");
-                
-                ratio_tot->Add(kinmap_list[ plot_by_self[i] ].ratio);
-                ratio_leg->AddEntry(kinmap_list[ plot_by_self[i] ].ratio, Form("%s (%.2f%%)", m_pdglist[ plot_by_self[i] ].GetSymbol().c_str(), ratio_percent[ plot_by_self[i] ]), "f");
-        }
-        
-        recon_leg->AddEntry(other_kinmap.recon, Form("Other (%.2f%%)", recon_other_percent), "f");
-        truth_leg->AddEntry(other_kinmap.truth, Form("Other (%.2f%%)", truth_other_percent), "f");
-        ratio_leg->AddEntry(other_kinmap.ratio, Form("Other (%.2f%%)", ratio_other_percent), "f");
-    }
-    
-    TLegend * ratio_stats = RatioStats(ratio_tot);
-    // cout << "TLegend * ratio_stats = RatioStats(ratio_tot)" << endl;
+    Breakdown other("Other", other_cut, DrawingStyle::Other);
+    list.push_back(other);
 
-    BDCans cans;
-    
-    cans.recon = new TCanvas( recon_tot->GetName(), "", 500, 500);
-    cans.recon->cd();
-    recon_tot->Draw();
-    recon_leg->Draw();
-    TLegend * recon_pot = GetPOT(0.1,0.1);
-    recon_pot->Draw();
-//    mom_recon_pot->Draw();
-    
-    cans.truth = new TCanvas( truth_tot->GetName(), "", 500, 500);
-    cans.truth->cd();
-    truth_tot->Draw();
-    truth_leg->Draw();
-    TLegend * truth_pot = GetPOT(0.1,0.1);
-    truth_pot->Draw();
-    
-    cans.ratio = new TCanvas( ratio_tot->GetName(), "", 500, 500);
-    cans.ratio->cd();
-    ratio_tot->Draw();
-    TLine * z_line = new TLine(0.0, ratio_tot->GetYaxis()->GetXmin(), 0.0, ratio_tot->GetYaxis()->GetXmax());
-    z_line->Draw(); 
-    ratio_leg->Draw();
-    // cout << "Drawing ratio stats" << endl;
-    ratio_stats->Draw();
-    TLegend * ratio_pot = GetPOT(0.1,0.1);
-    ratio_pot->Draw();
-    
-    cans.smear = new TCanvas( smear_tot->GetName(), "", 500, 500);
-    cans.smear->cd();
-    smear_tot->Draw("COLZ");
-    TLegend * smear_pot = GetPOT(0.1,0.1);
-    smear_pot->Draw();
-    
-    TH2D * smear_totSN = NormalHist(smear_tot, 0., true);
-    cans.smearSN = new TCanvas( (std::string(smear_tot->GetName()) + "SN").c_str(), "", 500, 500);
-    cans.smearSN->cd();
-    smear_totSN->Draw("COLZ");
-    TLegend * smearSN_pot = GetPOT(0.1,0.1);
-    smearSN_pot->Draw();
-    
-    return cans;
+    return BaseBreakdown(var, nbins, bins, list, basename, cuts, check);
 }
 
-BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t low, Double_t high, std::string pdgvar, std::string cuts){
-    return PID(var, nbins, SetBinning(nbins, low, high), pdgvar, cuts);
+BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t low, Double_t high, std::string pdgvar, std::string cuts, bool check){
+    return PID(var, nbins, SetBinning(nbins, low, high), pdgvar, cuts, check);
 }
 
-BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::string cuts){
+BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::string cuts, bool check){
     // cout << "BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::string cuts)" << endl;
     std::vector<DrawingTools::KinMap> kinmap_list;
     std::vector<Int_t> top2draw;
@@ -304,6 +149,15 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
     if(!cuts.empty()) tmp_cuts_1 += " && ";
     
     // cout << Topology::ToString(m_signal) << endl;
+
+    bool total_CC1p1pi = true;
+
+    for(int i = 0; i < (int)m_toplist.size(); i++){
+        if(m_toplist[i].GetType() == Topology::OCC1P1PiPlus){
+           total_CC1p1pi = false;
+           continue;
+       }
+    }
 
     for(int i = 0; i < (int)m_toplist.size(); i++){
         
@@ -322,6 +176,11 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
 
         if(topology.GetType() == m_signal){ 
             if(print_level::quiet) cout << " (Is signal) -- Skipping." << endl;
+            continue;
+        }
+
+        if( (!total_CC1p1pi) && topology.GetType() == Topology::CC1P1PiPlus){
+            cout << "Found Topology::CC1P1PiPlus -- Skipping" << endl;
             continue;
         }
 
@@ -389,8 +248,7 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
     if(m_fullbreakdown){
         
         for(int i = 1; i < (int)(kinmap_list.size() + 1); i++){
-            //            cout << i << ":" << (int)kinmap_list.size() << " : " << (int)(kinmap_list.size() - i) << endl;
-            
+
             recon_tot->Add(kinmap_list[ (int)(kinmap_list.size() - i) ].recon);
             recon_leg->AddEntry(kinmap_list[ (i - 1) ].recon, Form("%s (%.2f%%)", m_toplist[ top2draw[(i - 1)] ].GetSymbol().c_str(), recon_percent[ i - 1 ]), "f");
             
@@ -416,6 +274,7 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
             bool in_other = true;
             for(int j = 0; j < (int)m_pdglist_minBD.size(); j++){
                 if(m_toplist_minBD[j] == m_toplist[ top2draw[(i - 1)] ].GetType()){
+                    if((!total_CC1p1pi) && m_toplist[ top2draw[(i - 1)] ].GetType() == Topology::CC1P1PiPlus) continue;
                     in_other = false;
                     plot_by_self.push_back((i - 1));
                     break;
@@ -507,11 +366,11 @@ BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::str
     return cans;
 }
 
-BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts){
-    return TOPO(var, nbins, SetBinning(nbins, low, high), cuts);
+BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts, bool check){
+    return TOPO(var, nbins, SetBinning(nbins, low, high), cuts, check);
 }
 
-BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::string cuts){
+BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::string cuts, bool check){
 
     std::string tmp_cuts_1 = cuts;
     if(!cuts.empty()){
@@ -534,14 +393,16 @@ BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::s
     SetColors(other_kinmap, DrawingStyle::Other);
 
     //The signal bit:
-    std::string hsignal = tmp_cuts_1;
-    Topology sig_top = m_topologies->GetTopology(m_signal);
-    hsignal += sig_top.GetSignal();
-    DrawingTools::KinMap signal_kinmap = KinArray(var.GetName(), nbins, bins, var.GetSymbol(), hsignal);
-    SetColors(signal_kinmap, sig_top.GetFillColor(), sig_top.GetLineColor(), sig_top.GetFillStyle(), sig_top.GetLineStyle());
-    signal_kinmap.recon->SetLineWidth(2);
-    signal_kinmap.truth->SetLineWidth(2);
-    signal_kinmap.ratio->SetLineWidth(2);
+    DrawingTools::KinMap GetSignalMap(Variable var, Int_t nbins, Double_t * bins, std::string cuts){
+        std::string hsignal = tmp_cuts_1;
+        Topology sig_top = m_topologies->GetTopology(m_signal);
+        hsignal += sig_top.GetSignal();
+        DrawingTools::KinMap signal_kinmap = KinArray(var.GetName(), nbins, bins, var.GetSymbol(), hsignal);
+        SetColors(signal_kinmap, sig_top.GetFillColor(), sig_top.GetLineColor(), sig_top.GetFillStyle(), sig_top.GetLineStyle());
+        signal_kinmap.recon->SetLineWidth(2);
+        signal_kinmap.truth->SetLineWidth(2);
+        signal_kinmap.ratio->SetLineWidth(2);
+    }
 
     std::vector<KinMap> kinmap_list;
     kinmap_list.push_back( other_kinmap );
@@ -644,8 +505,8 @@ BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::s
     return cans;
 }
 
-BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts){
-    return TARGET(var, nbins, SetBinning(nbins, low, high), cuts);
+BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts, bool check){
+    return TARGET(var, nbins, SetBinning(nbins, low, high), cuts, check);
 }
 
 TCanvas * BreakdownTools::TARGETSingle(Variable var, Int_t nbins, Double_t * bins, std::string cuts){
@@ -851,3 +712,203 @@ void BreakdownTools::DrawZeroPointLine(THStack * histo){
     TH1D * hfirst = (TH1D*)rlist->First()->Clone( (string(rlist->First()->GetName()) + "_clone").c_str() );
     DrawZeroPointLine(hfirst);
 }
+
+                                        
+BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins, std::vector<Breakdown> list, 
+    std::string basename, std::string cuts, bool check)
+{
+    //Make outputs:
+    if(list.empty()){ 
+        BDCans bad;
+        cout << __FILE__ << ":" << __LINE__ << " : List is empty, not building breakdown plot for " << basename << endl;
+        return bad;
+    }
+
+    for(unsigned int i = 0; i < list.size(); i++){
+        Breakdown tmp = list[i];
+        tmp.SetMap( KinArray(var.GetName(), nbins, bins, var.GetSymbol(), tmp.GetSignal()) );
+    }
+
+    string units = "";
+    if(!var.GetUnits().empty()){
+        units += "(";
+        units += var.GetUnits();
+        units += ")";
+    }
+
+    THStack * recon_tot = new THStack( (var.GetSName() + "_" + basename + "_recon").c_str(), (var.GetSymbol() + units + ";Count").c_str());
+    
+    THStack * truth_tot = new THStack( (var.GetSName() + "_" + basename + "_truth").c_str(), (var.GetSymbol() + units + ";Count").c_str());
+    
+    THStack * ratio_tot = new THStack( (var.GetSName() + "_" + basename + "_ratio").c_str(), 
+        Form(";%s;%s", list[0].GetMap().ratio->GetXaxis()->GetTitle(), list[0].GetMap().ratio->GetYaxis()->GetTitle() ) );
+    
+    TH2D * smear_tot = (TH2D*)list[0].GetMap().smear->Clone( (var.GetSName() + "_PID_smear").c_str() );//Just add all of these histos.
+    
+    TLegend * recon_leg = Legend(0.25, 0.4, 0.551, 0.362);
+    TLegend * truth_leg = Legend(0.25, 0.4, 0.551, 0.362);
+    TLegend * ratio_leg = Legend(0.25, 0.4, 0.551, 0.362);
+    
+    std::vector<double> recon_percent = GetPercentage(list, 0);
+    std::vector<double> truth_percent = GetPercentage(list, 1);
+    std::vector<double> ratio_percent = GetPercentage(list, 2);
+    
+    DrawingTools::KinMap signal_kinmap = GetSignalMap(var, nbins, bins, cuts);
+
+    DrawingTools::KinMap tmp_check;
+    if(check){
+        tmp_check = KinArray(var.GetName(), nbins, bins, var.GetSymbol(), cuts);
+        SetColors(tmp_check, 0, kPink-9, 0, 4);
+        // TODO: Check first 0 - Fill color. 
+    }
+
+    BDCans cans;
+
+    for(int type = 0; type < 3; type++){
+        THStack * tmp_stack;
+        TLegend * tmp_leg;
+        TH1D * tmp_sig;
+        std::vector<double> percent;
+        switch(type){
+            case 0: 
+                cans.recon = new TCanvas( recon_tot->GetName(), "", 500, 500); 
+                cans.recon->cd();
+                tmp_sig = signal_kinmap.recon;
+                tmp_stack = recon_tot; 
+                tmp_leg = recon_leg; 
+                percent = recon_percent;
+                break;
+            case 1: 
+                cans.truth = new TCanvas( truth_tot->GetName(), "", 500, 500); 
+                cans.truth->cd();
+                tmp_sig = signal_kinmap.truth;
+                tmp_stack = truth_tot; 
+                tmp_leg = truth_leg; 
+                percent = truth_percent;
+                break;
+            case 2: 
+                cans.ratio = new TCanvas( ratio_tot->GetName(), "", 500, 500); 
+                cans.ratio->cd();
+                tmp_sig = signal_kinmap.ratio;
+                tmp_stack = ratio_tot; 
+                tmp_leg = ratio_leg; 
+                percent = ratio_percent;
+                break;
+        }
+
+        for(unsigned int i = 1; i < list.size() + 1; i++){
+            Breakdown tmp = list[ list.size() - i ];
+            TH1D * tmp_hist;
+            switch(type){
+                case 0: tmp_hist = tmp.GetMap().recon; break;
+                case 1: tmp_hist = tmp.GetMap().truth; break;
+                case 2: tmp_hist = tmp.GetMap().ratio; break;
+            }
+            tmp_stack->Add( tmp_hist );
+        }
+
+        tmp_leg->AddEntry(tmp_sig, m_sig_top.GetSymbol().c_str(), "l");
+
+        for(unsigned int i = 0; i < list.size(); i++){
+            Breakdown tmp = list[ i ];
+            TH1D * tmp_hist;
+            switch(type){
+                case 0: tmp_hist = tmp.GetMap().recon; break;
+                case 1: tmp_hist = tmp.GetMap().truth; break;
+                case 2: tmp_hist = tmp.GetMap().ratio; break;
+            }
+            tmp_leg->AddEntry( tmp_hist, (tmp.GetName() + string(Form(" (%.2f)", recon_percent[ i ] )) ).c_str(), tmp.GetLegOpt() );
+        }
+
+        tmp_stack->Draw();
+        tmp_sig->Draw("SAME");
+        tmp_leg->Draw();
+        GetPOT(0.1,0.1)->Draw();
+        percent.clear();
+
+        if(check){
+            TH1D * check_hist;
+            switch(type){
+                case 0: check_hist = tmp_check.recon; break;
+                case 1: check_hist = tmp_check.truth; break;
+                case 2: check_hist = tmp_check.ratio; break;
+            }
+            check_hist->Draw("SAME");
+            cout << "Checking if integral is the same:";
+            double difference = GetHistFromStack(tmp_stack)->Integral() - check_hist->Integral();
+            if(difference == 0.) cout << " Integrals consistent between stack and hist.";
+            else cout << " Inconsistent integrals between stack and hist (Diff. = " << difference << ")";
+            cout << endl;
+        }
+    }
+
+    for(unsigned int i = 1; i < list.size(); i++) smear_tot->Add(list[i].GetMap().smear);
+
+    cans.smear = new TCanvas( smear_tot->GetName(), "", 500, 500);
+    cans.smear->cd();
+    smear_tot->Draw("COLZ");
+    GetPOT(0.1,0.1)->Draw();
+    
+    TH2D * smear_totSN = NormalHist(smear_tot, 0., true);
+    cans.smearSN = new TCanvas( (std::string(smear_tot->GetName()) + "SN").c_str(), "", 500, 500);
+    cans.smearSN->cd();
+    smear_totSN->Draw("COLZ");
+    GetPOT(0.1,0.1)->Draw();
+    
+    return cans;
+}
+
+DrawingTools::KinMap GetSignalMap(Variable var, Int_t nbins, Double_t * bins, std::string cuts){
+    std::string hsignal = cuts;
+    if(!hsignal.empty()){
+        hsignal += " && ";
+    }
+    Topology sig_top = m_topologies->GetTopology(m_signal);
+    hsignal += sig_top.GetSignal();
+    DrawingTools::KinMap signal_kinmap = KinArray(var.GetName(), nbins, bins, var.GetSymbol(), hsignal);
+    SetColors(signal_kinmap, sig_top.GetFillColor(), sig_top.GetLineColor(), sig_top.GetFillStyle(), sig_top.GetLineStyle());
+    signal_kinmap.recon->SetLineWidth(2);
+    signal_kinmap.truth->SetLineWidth(2);
+    signal_kinmap.ratio->SetLineWidth(2);
+    return signal_kinmap;
+}
+
+std::vector<double> BreakdownTools::GetPerentages(std::vector<Breakdown> list, int type)
+{
+    std::vector<TH1D*> histos;
+    for(unsigned int i = 0; i < list.size(); i++){
+        switch(type) {
+            case 0 : histos.push_back( list[i].GetMap().recon ); break;
+            case 1 : histos.push_back( list[i].GetMap().truth ); break;
+            case 2 : histos.push_back( list[i].GetMap().ratio ); break;
+            default: cout << __FILE__ << ":" << __LINE__ << ": Warning could not determine type" << endl; break;
+        }
+    }
+    return DrawingTools::GetPercentage(histos);
+}
+
+// BreakdownTools::SetPerentages(std::vector<Breakdown> list, int type)
+// {
+//     std::vector<double> pers = DrawingTools::GetPercentage(histos, type);
+
+//     for(unsigned int i = 0; i < list.size(); i++){
+//         switch(type) {
+//             case 0 : list[i].GetMap().recon ); break;
+//             case 1 : list[i].GetMap().truth ); break;
+//             case 2 : list[i].GetMap().ratio ); break;
+//             default: cout << __FILE__ << ":" << __LINE__ << ": Warning could not determine type" << endl; break;
+//         }
+//     }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
