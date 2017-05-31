@@ -272,10 +272,8 @@ std::vector<double> DrawingTools::GetPercentage(std::vector<TH1D*> histos){
         // if(m_verbose) cout << "Histogram: " << histos[i]->GetName() << " Integtral = " << integral << endl;
         norm += integral;
         pers.push_back( integral );
-    }
-    
-    if(m_verbose) cout << "Norm = " << norm << endl;
-    
+    }    
+    // if(m_verbose) cout << "Norm = " << norm << endl;
     for(int i = 0; i < (int)pers.size(); i++) pers[i] *= 100/norm;
     
     return pers;
