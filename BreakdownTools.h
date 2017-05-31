@@ -31,7 +31,7 @@ class Breakdown
 public:   
     Breakdown(std::string name, std::string signal, int fill_color = kBlack, int fill_style = 1001, int line_color = kBlack, int line_style = 1, double line_width = 2.5) : 
         m_name(name), m_signal(signal), m_fill_color(fill_color), m_fill_style(fill_style), m_line_color(line_color),
-        m_line_style(line_style), m_line_width(line_width) m_leg_opt("f") {;}
+        m_line_style(line_style), m_line_width(line_width), m_leg_opt("f") {;}
     
     ~Breakdown(){;}
 
