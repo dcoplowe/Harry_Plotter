@@ -857,7 +857,7 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
     return cans;
 }
 
-DrawingTools::KinMap GetSignalMap(Variable var, Int_t nbins, Double_t * bins, std::string cuts){
+DrawingTools::KinMap BreakdownTools::GetSignalMap(Variable var, Int_t nbins, Double_t * bins, std::string cuts){
     std::string hsignal = cuts;
     if(!hsignal.empty()){
         hsignal += " && ";
