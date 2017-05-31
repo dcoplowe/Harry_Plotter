@@ -748,9 +748,9 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
     TLegend * truth_leg = Legend(0.25, 0.4, 0.551, 0.362);
     TLegend * ratio_leg = Legend(0.25, 0.4, 0.551, 0.362);
     
-    std::vector<double> recon_percent = GetPercentage(list, 0);
-    std::vector<double> truth_percent = GetPercentage(list, 1);
-    std::vector<double> ratio_percent = GetPercentage(list, 2);
+    std::vector<double> recon_percent = GetPercentages(list, 0);
+    std::vector<double> truth_percent = GetPercentages(list, 1);
+    std::vector<double> ratio_percent = GetPercentages(list, 2);
     
     DrawingTools::KinMap signal_kinmap = GetSignalMap(var, nbins, bins, cuts);
 
