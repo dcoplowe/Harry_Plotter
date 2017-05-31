@@ -113,7 +113,7 @@ public:
     Int_t GetLineColor(){ return m_line_colour; }
     Int_t GetLineStyle(){ return m_line_style; }
 
-    static inline std::string ToString(Name name, int form = 0){
+    inline static std::string ToString(Name name, int form = 0){
         std::string sname = "Unknown";
         if(name == HCC1P1PiPlus)            sname = (form == 0) ? "HCC1P1PiPlus"        : "CC1p1#pi^{+} on H";
         else if(name == HCC1P1PiPlusPS)     sname = (form == 0) ? "HCC1P1PiPlusPS"      : "CC1p1#pi^{+} on H (PS)";
