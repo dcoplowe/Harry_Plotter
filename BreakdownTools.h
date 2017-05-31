@@ -86,7 +86,7 @@ public:
 	//Wrong PID
     BDCans PID(Variable var, Int_t nbins, Double_t * bins, std::string pdgvar, std::string cuts = "", bool check = false);
     BDCans PID(Variable var, Int_t nbins, Double_t low, Double_t high, std::string pdgvar, std::string cuts = "", bool check = false);
-    TCanvas * PID(Variable var, std::string pdgvar, std::string cuts, std::vector<PDGInfo> pdglist, bool check = false);
+    TCanvas * PID(Variable var, std::string pdgvar, std::string cuts, std::vector<PDGInfo> pdglist);
 
     BDCans TOPO(Variable var, Int_t nbins, Double_t * bins, std::string cuts = "", bool check = false);
     BDCans TOPO(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts = "", bool check = false);
