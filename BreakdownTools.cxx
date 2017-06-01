@@ -744,14 +744,14 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
     cout << "BreakdownTools::BaseBreakdown : Making Kin Array" << endl;    
 
     for(unsigned int i = 0; i < list.size(); i++){
-        Breakdown tmp = list[i];
-        tmp.SetMap( &KinArray(var.GetName(), nbins, bins, var.GetSymbol(), tmp.GetSignal()) );
+        // Breakdown tmp = list[i];
+        list[i].SetMap( KinArray(var.GetName(), nbins, bins, var.GetSymbol(), tmp.GetSignal()) );
         // tmp.GetMap() = KinArray(var.GetName(), nbins, bins, var.GetSymbol(), tmp.GetSignal());
 
-        if(tmp.GetMap().recon) cout << "Recon Exists: " << tmp.GetMap().recon->GetName() << endl;      
-        if(tmp.GetMap().truth) cout << "truth Exists: " << tmp.GetMap().truth->GetName() << endl;
-        if(tmp.GetMap().ratio) cout << "Ratio Exists: " << tmp.GetMap().ratio->GetName() << endl;
-        if(tmp.GetMap().smear) cout << "smear Exists: " << tmp.GetMap().smear->GetName() << endl;
+        if(list[i].GetMap().recon) cout << "Recon Exists: " << list[i].GetMap().recon->GetName() << endl;      
+        if(list[i].GetMap().truth) cout << "truth Exists: " << list[i].GetMap().truth->GetName() << endl;
+        if(list[i].GetMap().ratio) cout << "Ratio Exists: " << list[i].GetMap().ratio->GetName() << endl;
+        if(list[i].GetMap().smear) cout << "smear Exists: " << list[i].GetMap().smear->GetName() << endl;
 
     }
 
