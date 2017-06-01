@@ -932,6 +932,15 @@ std::vector<double> BreakdownTools::GetPercentages(std::vector<Breakdown> list, 
 //     }
 // }
 
+void BreakdownTools::SetMap(DrawingTools::KinMap map){
+    this->m_map = map; 
+    DrawingTools::SetColors(m_map, m_fill_color, m_line_color, m_fill_style, m_line_style); 
+    cout << "Breakdown::SetMap : Recon : " << m_map.recon->GetName() << endl;
+    cout << "Breakdown::SetMap : truth : " << m_map.truth->GetName() << endl;
+    cout << "Breakdown::SetMap : Ratio : " << m_map.ratio->GetName() << endl;
+    cout << "Breakdown::SetMap : smear : " << m_map.smear->GetName() << endl;
+}
+
 
 
 
