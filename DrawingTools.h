@@ -30,10 +30,10 @@ public:
 
         KinMap& operator =(const KinMap& mp)
         {
-            recon = &mp.recon;
-            truth = &mp.truth;
-            ratio = &mp.ratio;
-            smear = &mp.smear;
+            recon = mp.recon;
+            truth = mp.truth;
+            ratio = mp.ratio;
+            smear = mp.smear;
             return *this;
         }
     };
