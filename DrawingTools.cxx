@@ -281,7 +281,20 @@ std::vector<double> DrawingTools::GetPercentage(std::vector<TH1D*> histos){
 
 std::vector<double> DrawingTools::GetPercentage(std::vector<DrawingTools::KinMap> histos, Int_t type){
 //    DrawingTools::KinMap empty_kinmap;
-    return GetPercentage(histos, type, empty_kinmap);
+     std::vector<TH1D*> list;
+    if(type == 0){//Reco;
+        for (int i = 0; i < (int)histos.size(); i++) list.push_back( histos[i].recon );
+    }
+    else if(type == 1){//Truth;
+        for (int i = 0; i < (int)histos.size(); i++) list.push_back( histos[i].truth );
+    }
+    else if(type == 2){//ratio;
+        for (int i = 0; i < (int)histos.size(); i++) list.push_back( histos[i].ratio );
+    }
+    
+    std::vector<double> out_list = GetPercentage(list);
+    list.clear();
+    return out_list;
 }
 
 std::vector<double> DrawingTools::GetPercentage(std::vector<DrawingTools::KinMap> histos, Int_t type, KinMap other){
