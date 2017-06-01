@@ -740,10 +740,10 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
     cout << "BreakdownTools::BaseBreakdown : Checking maps" << endl;
     for(unsigned int i = 0; i < list.size(); i++){
         Breakdown tmp = list[i];
-        if(tmp.GetMap().recon) cout << "Recon Exists" << endl;      
-        if(tmp.GetMap().truth) cout << "truth Exists" << endl;
-        if(tmp.GetMap().ratio) cout << "Ratio Exists" << endl;
-        if(tmp.GetMap().smear) cout << "smear Exists" << endl;
+        if(tmp.GetMap().recon) cout << "Recon Exists: " << tmp.GetMap().recon->GetName() << endl;      
+        if(tmp.GetMap().truth) cout << "truth Exists" << tmp.GetMap().truth->GetName() << endl;
+        if(tmp.GetMap().ratio) cout << "Ratio Exists" << tmp.GetMap().ratio->GetName() << endl;
+        if(tmp.GetMap().smear) cout << "smear Exists" << tmp.GetMap().smear->GetName() << endl;
     }
 
 
