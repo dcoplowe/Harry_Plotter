@@ -35,8 +35,8 @@ public:
     
     ~Breakdown(){;}
 
-    void SetMap(DrawingTools::KinMap map){
-        m_map = &map; 
+    void SetMap(DrawingTools::KinMap *& map){
+        m_map = map; 
         DrawingTools::SetColors(m_map, m_fill_color, m_line_color, m_fill_style, m_line_style); 
     }
 
