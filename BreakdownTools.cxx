@@ -15,6 +15,24 @@
 #include "TF1.h"
 #include <TLine.h>
 
+#ifndef __BREAKDOWN__CXX__
+#define __BREAKDOWN__CXX__
+
+void Breakdown::SetMap(DrawingTools::KinMap map)
+{
+    this->m_map = map; 
+    DrawingTools::SetColors(m_map, m_fill_color, m_line_color, m_fill_style, m_line_style); 
+    cout << "Breakdown::SetMap : Recon : " << m_map.recon->GetName() << endl;
+    cout << "Breakdown::SetMap : truth : " << m_map.truth->GetName() << endl;
+    cout << "Breakdown::SetMap : Ratio : " << m_map.ratio->GetName() << endl;
+    cout << "Breakdown::SetMap : smear : " << m_map.smear->GetName() << endl;
+}
+
+#endif
+
+#ifndef __BREAKDOWNTOOLS__CXX__
+#define __BREAKDOWNTOOLS__CXX__
+
 BreakdownTools::BreakdownTools(std::string filename, std::string treename, Topologies * topologies, std::string target_name) : 
     DrawingTools(filename, treename, ("BD" + treename).c_str()), m_printPOT(false), m_fullbreakdown(true) {
 
@@ -932,18 +950,7 @@ std::vector<double> BreakdownTools::GetPercentages(std::vector<Breakdown> list, 
 //     }
 // }
 
-void BreakdownTools::SetMap(DrawingTools::KinMap map){
-    this->m_map = map; 
-    DrawingTools::SetColors(m_map, m_fill_color, m_line_color, m_fill_style, m_line_style); 
-    cout << "Breakdown::SetMap : Recon : " << m_map.recon->GetName() << endl;
-    cout << "Breakdown::SetMap : truth : " << m_map.truth->GetName() << endl;
-    cout << "Breakdown::SetMap : Ratio : " << m_map.ratio->GetName() << endl;
-    cout << "Breakdown::SetMap : smear : " << m_map.smear->GetName() << endl;
-}
-
-
-
-
+#endif
 
 
 
