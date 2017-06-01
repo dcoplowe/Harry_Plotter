@@ -735,6 +735,8 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
         units += ")";
     }
 
+    if(!list[0].GetMap().recon) cout << __FILE__ << ":" << __LINE__ << " : No Recon hist." << endl;
+
     THStack * recon_tot = new THStack( (var.GetSName() + "_" + basename + "_recon").c_str(), (var.GetSymbol() + units + ";Count").c_str());
     
     THStack * truth_tot = new THStack( (var.GetSName() + "_" + basename + "_truth").c_str(), (var.GetSymbol() + units + ";Count").c_str());
