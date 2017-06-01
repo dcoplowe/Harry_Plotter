@@ -22,10 +22,6 @@ void Breakdown::SetMap(DrawingTools::KinMap map)
 {
     this->m_map = map; 
     DrawingTools::SetColors(m_map, m_fill_color, m_line_color, m_fill_style, m_line_style); 
-    cout << "Breakdown::SetMap : Recon : " << m_map.recon->GetName() << endl;
-    cout << "Breakdown::SetMap : truth : " << m_map.truth->GetName() << endl;
-    cout << "Breakdown::SetMap : Ratio : " << m_map.ratio->GetName() << endl;
-    cout << "Breakdown::SetMap : smear : " << m_map.smear->GetName() << endl;
 }
 
 #endif
@@ -753,8 +749,7 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
         units += ")";
     }
 
-
-    if(!list[0].GetMap().recon) cout << __FILE__ << ":" << __LINE__ << " : No Recon hist." << endl;
+    // if(!list[0].GetMap().recon) cout << __FILE__ << ":" << __LINE__ << " : No Recon hist." << endl;
 
     // cout << "BreakdownTools::BaseBreakdown : Making Stacks" << endl;
 
