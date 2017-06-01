@@ -745,7 +745,8 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
 
     for(unsigned int i = 0; i < list.size(); i++){
         Breakdown tmp = list[i];
-        tmp.SetMap( KinArray(var.GetName(), nbins, bins, var.GetSymbol(), tmp.GetSignal()) );
+        // tmp.SetMap( KinArray(var.GetName(), nbins, bins, var.GetSymbol(), tmp.GetSignal()) );
+        tmp.GetMap() = KinArray(var.GetName(), nbins, bins, var.GetSymbol(), tmp.GetSignal());
 
         if(tmp.GetMap().recon) cout << "Recon Exists: " << tmp.GetMap().recon->GetName() << endl;      
         if(tmp.GetMap().truth) cout << "truth Exists: " << tmp.GetMap().truth->GetName() << endl;
