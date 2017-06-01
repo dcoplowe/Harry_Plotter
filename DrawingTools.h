@@ -27,6 +27,15 @@ public:
         TH1D * truth;
         TH2D * smear;
         TH1D * ratio;
+
+        KinMap& operator =(const KinMap& mp)
+        {
+            recon = mp.recon;
+            truth = mp.truth;
+            ratio = mp.ratio;
+            smear = mp.smear;
+            return *this;
+        }
     };
 
 //    KinMap KM;
