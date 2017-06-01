@@ -741,7 +741,7 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
         return bad;
     }
 
-    cout << "BreakdownTools::BaseBreakdown : Making Kin Array" << endl;    
+    // cout << "BreakdownTools::BaseBreakdown : Making Kin Array" << endl;    
 
     for(unsigned int i = 0; i < list.size(); i++)
         list[i].SetMap( KinArray(var.GetName(), nbins, bins, var.GetSymbol(), list[i].GetSignal()) );
@@ -753,19 +753,10 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
         units += ")";
     }
 
-    cout << "BreakdownTools::BaseBreakdown : Checking maps" << endl;
-    for(unsigned int i = 0; i < list.size(); i++){
-        Breakdown tmp = list[i];
-        if(tmp.GetMap().recon) cout << "Recon Exists: " << tmp.GetMap().recon->GetXaxis()->GetTitle() << endl;      
-        if(tmp.GetMap().truth) cout << "truth Exists: " << tmp.GetMap().truth->GetXaxis()->GetTitle() << endl;
-        if(tmp.GetMap().ratio) cout << "Ratio Exists: " << tmp.GetMap().ratio->GetXaxis()->GetTitle() << endl;
-        if(tmp.GetMap().smear) cout << "smear Exists: " << tmp.GetMap().smear->GetXaxis()->GetTitle() << endl;
-    }
-
 
     if(!list[0].GetMap().recon) cout << __FILE__ << ":" << __LINE__ << " : No Recon hist." << endl;
 
-    cout << "BreakdownTools::BaseBreakdown : Making Stacks" << endl;
+    // cout << "BreakdownTools::BaseBreakdown : Making Stacks" << endl;
 
     THStack * recon_tot = new THStack( (var.GetSName() + "_" + basename + "_recon").c_str(), (var.GetSymbol() + units + ";Count").c_str());
     
@@ -776,19 +767,19 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
     
     TH2D * smear_tot = (TH2D*)list[0].GetMap().smear->Clone( (var.GetSName() + "_PID_smear").c_str() );//Just add all of these histos.
     
-    cout << "BreakdownTools::BaseBreakdown : Making Legends" << endl;
+    // cout << "BreakdownTools::BaseBreakdown : Making Legends" << endl;
 
     TLegend * recon_leg = Legend(0.25, 0.4, 0.551, 0.362);
     TLegend * truth_leg = Legend(0.25, 0.4, 0.551, 0.362);
     TLegend * ratio_leg = Legend(0.25, 0.4, 0.551, 0.362);
     
-    cout << "BreakdownTools::BaseBreakdown : Making Percentages" << endl;
+    // cout << "BreakdownTools::BaseBreakdown : Making Percentages" << endl;
 
     std::vector<double> recon_percent = GetPercentages(list, 0);
     std::vector<double> truth_percent = GetPercentages(list, 1);
     std::vector<double> ratio_percent = GetPercentages(list, 2);
     
-    cout << "BreakdownTools::BaseBreakdown : Getting signal dists." << endl;
+    // cout << "BreakdownTools::BaseBreakdown : Getting signal dists." << endl;
 
     DrawingTools::KinMap signal_kinmap = GetSignalMap(var, nbins, bins, cuts);
 
@@ -801,7 +792,7 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
 
     BDCans cans;
 
-    cout << "BreakdownTools::BaseBreakdown : Drawing Plots" << endl;
+    // cout << "BreakdownTools::BaseBreakdown : Drawing Plots" << endl;
 
     for(int type = 0; type < 3; type++){
         THStack * tmp_stack;
@@ -864,6 +855,11 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
         tmp_leg->Draw();
         GetPOT(0.1,0.1)->Draw();
         percent.clear();
+
+        if(type == 2){
+            RatioStats(tmp_stack)->Draw();
+            DrawZeroPointLine(tmp_stack);
+        }
 
         if(check){
             TH1D * check_hist;
