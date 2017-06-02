@@ -75,6 +75,8 @@ private:
 //     std::string pdg;
 // };
 
+static const bool do_check = true;
+
 class BreakdownTools : public DrawingTools {
 public:
 	
@@ -84,18 +86,18 @@ public:
 	//Topology breakdown
 	//Particle breakdown
 	//Wrong PID
-    BDCans PID(Variable var, Int_t nbins, Double_t * bins, std::string pdgvar, std::string cuts = "", bool check = false);
-    BDCans PID(Variable var, Int_t nbins, Double_t low, Double_t high, std::string pdgvar, std::string cuts = "", bool check = false);
-    TCanvas * PID(Variable var, std::string pdgvar, std::string cuts, std::vector<PDGInfo> pdglist, bool check = false);
+    BDCans PID(Variable var, Int_t nbins, Double_t * bins, std::string pdgvar, std::string cuts = "", bool check = do_check);
+    BDCans PID(Variable var, Int_t nbins, Double_t low, Double_t high, std::string pdgvar, std::string cuts = "", bool check = do_check);
+    TCanvas * PID(Variable var, std::string pdgvar, std::string cuts, std::vector<PDGInfo> pdglist, bool check = do_check);
 
-    BDCans TOPO(Variable var, Int_t nbins, Double_t * bins, std::string cuts = "", bool check = false);
-    BDCans TOPO(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts = "", bool check = false);
+    BDCans TOPO(Variable var, Int_t nbins, Double_t * bins, std::string cuts = "", bool check = do_check);
+    BDCans TOPO(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts = "", bool check = do_check);
     
-    BDCans TARGET(Variable var, Int_t nbins, Double_t * bins, std::string cuts = "", bool check = false);
-    BDCans TARGET(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts = "", bool check = false);
+    BDCans TARGET(Variable var, Int_t nbins, Double_t * bins, std::string cuts = "", bool check = do_check);
+    BDCans TARGET(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts = "", bool check = do_check);
     
-    TCanvas * TARGETSingle(Variable var, Int_t nbins, Double_t * bins, std::string cuts = "", bool check = false);
-    TCanvas * TARGETSingle(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts = "", bool check = false);
+    TCanvas * TARGETSingle(Variable var, Int_t nbins, Double_t * bins, std::string cuts = "", bool check = do_check);
+    TCanvas * TARGETSingle(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts = "", bool check = do_check);
 
     void PrintPOT(){ m_printPOT = true; }
     
