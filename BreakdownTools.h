@@ -29,15 +29,17 @@ struct BDCans {
 class Breakdown
 {
 public:   
-    Breakdown(std::string name, std::string signal, int fill_color = kBlack, int fill_style = 1001, int line_color = kBlack, int line_style = 1, double line_width = 2.5) : 
-        m_name(name), m_signal(signal), m_fill_color(fill_color), m_fill_style(fill_style), m_line_color(line_color),
-        m_line_style(line_style), m_line_width(line_width), m_leg_opt("f") {;}
+    Breakdown(std::string name, std::string signal, int fill_color = kBlack, int fill_style = 1001, int line_color = kBlack,
+        int line_style = 1, double line_width = 2.5) : m_name(name), m_signal(signal), m_fill_color(fill_color), 
+        m_fill_style(fill_style), m_line_color(line_color), m_line_style(line_style), m_line_width(line_width), m_leg_opt("f") {;}
     
     ~Breakdown(){;}
 
     void SetMap(DrawingTools::KinMap map);
+    void SetHist(TH1D * hist);
 
     DrawingTools::KinMap GetMap(){ return m_map; }
+    TH1D * GetHist(){ return m_hist; } 
 
     void SetLegOpt(std::string opt){ m_leg_opt = opt;}
 
@@ -62,6 +64,7 @@ private:
     std::string m_leg_opt;
 
     DrawingTools::KinMap m_map;
+    TH1D * m_hist;
 };
 
 // struct Variable {
@@ -138,6 +141,7 @@ private:
 
     DrawingTools::KinMap GetSignalMap(Variable var, Int_t nbins, Double_t * bins, std::string cuts);
     BDCans BaseBreakdown(Variable var, Int_t nbins, Double_t * bins, std::vector<Breakdown> list, std::string basename, std::string cuts, bool check);
+    TCanvas * SingleBase(Variable var, Int_t nbins, Double_t * bins, std::vector<Breakdown> list, std::string basename, std::string cuts, bool check);
 
     std::vector<double> GetPercentages(std::vector<Breakdown> list, int type);
 };
