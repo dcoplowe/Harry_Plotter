@@ -526,7 +526,7 @@ TCanvas * BreakdownTools::SingleBase(Variable var, Int_t nbins, Double_t * bins,
     
     TLegend * hist_leg = Legend(0.25, 0.4, 0.551, 0.362);
     
-    std::vector<double> hist_percent = GetPercentages(list, 0);
+    std::vector<double> hist_percent = GetPercentages(list);
     
     TH1D * signal_hist = GetSignalHist(var, nbins, bins, cuts);
 
