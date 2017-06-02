@@ -513,6 +513,7 @@ TH1D * DrawingTools::GetHistFromStack(THStack * stack)
     TH1D * sum = new TH1D(Form("%s_sum%.3d", hfirst->GetName(), m_1Dcounter), "", hfirst->GetXaxis()->GetNbins(), hfirst->GetXaxis()->GetXbins()->GetArray());
     TH1D * shist_tmp;
     while ( (shist_tmp = (TH1D*)next()) ) {
+        cout << "DrawingTools::GetHistFromStack : Adding Hist" << endl;
         sum->Add(shist_tmp);
     }
     delete hfirst;
