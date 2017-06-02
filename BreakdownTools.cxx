@@ -304,11 +304,11 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
     //Make outputs:
     if(list.empty()){ 
         BDCans bad;
-        bad.recon;
-        bad.truth;
-        bad.smear;
-        bad.smearSN;
-        bad.ratio;
+        bad.recon = 0x0;
+        bad.truth = 0x0;
+        bad.smear = 0x0;
+        bad.smearSN = 0x0;
+        bad.ratio = 0x0;
         cout << __FILE__ << ":" << __LINE__ << " : List is empty, not building breakdown plot for " << basename << endl;
         return bad;
     }
