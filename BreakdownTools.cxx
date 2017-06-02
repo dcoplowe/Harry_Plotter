@@ -447,6 +447,7 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
             cout << "Ratio Stack line" << endl;
             RatioStats(tmp_stack)->Draw();
             DrawZeroPointLine(tmp_stack);
+            cout << "Ratio Stack line done." << endl;
         }
 
         if(check){
