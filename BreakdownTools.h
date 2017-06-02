@@ -140,6 +140,8 @@ private:
     void DrawZeroPointLine(THStack * histo); 
 
     DrawingTools::KinMap GetSignalMap(Variable var, Int_t nbins, Double_t * bins, std::string cuts);
+    TH1D * GetSignalHist(Variable var, Int_t nbins, Double_t * bins, std::string cuts);
+    
     BDCans BaseBreakdown(Variable var, Int_t nbins, Double_t * bins, std::vector<Breakdown> list, std::string basename, std::string cuts, bool check);
     TCanvas * SingleBase(Variable var, Int_t nbins, Double_t * bins, std::vector<Breakdown> list, std::string basename, std::string cuts, bool check);
 

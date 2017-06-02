@@ -481,7 +481,7 @@ TCanvas * BreakdownTools::SingleBase(Variable var, Int_t nbins, Double_t * bins,
 {
 //Make outputs:
     if(list.empty()){ 
-        BDCans bad;
+        TCanvas * bad;
         cout << __FILE__ << ":" << __LINE__ << " : List is empty, not building breakdown plot for " << basename << endl;
         return bad;
     }
