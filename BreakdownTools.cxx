@@ -476,7 +476,7 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
     smear_totSN->Draw("COLZ");
     GetPOT(0.1,0.1)->Draw();
     
-    // cout << "BreakdownTools::BaseBreakdown : Finished." << endl;
+    cout << "BreakdownTools::BaseBreakdown : Finished." << endl;
 
     return cans;
 }
