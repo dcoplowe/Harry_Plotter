@@ -505,14 +505,10 @@ void DrawingTools::DrawBox(double * low, double * high, int color, int style, in
 
 TH1D * DrawingTools::GetHistFromStack(THStack * stack)
 {
+    // TODO: Fix problem with rebinning hists -3 - 3 -> 0 - 1
     TH1D * hfirst = GetFirstHistFromStack(stack);
-    cout << "hfirst hfirst hfirst: Bins = " << hfirst->GetXaxis()->GetNbins() << " Low " <<
+    // cout << "hfirst hfirst hfirst: Bins = " << hfirst->GetXaxis()->GetNbins() << " Low " <<
         hfirst->GetXaxis()->GetXmin() << " High " << hfirst->GetXaxis()->GetXmax() << endl;
-
-    const Double_t * array = hfirst->GetXaxis()->GetXbins()->GetArray();
-    for(int i = 0; i < hfirst->GetXaxis()->GetNbins() + 1; i++){
-        cout << "Bin " << i+1 << ":" << hfirst->GetXaxis()->GetNbins() + 1 << " = " << (array[i] ? array[i] : "") << endl;
-    }
 
     TList * slist = stack->GetHists();
     TIter next(slist);
@@ -520,7 +516,7 @@ TH1D * DrawingTools::GetHistFromStack(THStack * stack)
     TH1D * sum = new TH1D(Form("%s_sum%.3d", hfirst->GetName(), m_1Dcounter), "", 
         hfirst->GetXaxis()->GetNbins(), hfirst->GetXaxis()->GetXbins()->GetArray());
 
-    cout << "sum sum sum: Bins = " << sum->GetXaxis()->GetNbins() << " Low " << sum->GetXaxis()->GetXmin() << " High " << sum->GetXaxis()->GetXmax() << endl;
+    // cout << "sum sum sum: Bins = " << sum->GetXaxis()->GetNbins() << " Low " << sum->GetXaxis()->GetXmin() << " High " << sum->GetXaxis()->GetXmax() << endl;
 
     TH1D * shist_tmp;
     while ( (shist_tmp = (TH1D*)next()) ) {
