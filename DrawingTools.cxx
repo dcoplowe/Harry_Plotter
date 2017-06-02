@@ -506,12 +506,14 @@ void DrawingTools::DrawBox(double * low, double * high, int color, int style, in
 TH1D * DrawingTools::GetHistFromStack(THStack * stack)
 {
     TH1D * hfirst = GetFirstHistFromStack(stack);
-    cout << "hfirst hfirst hfirst: Low " << hfirst->GetXaxis()->GetXmin() << " High " << hfirst->GetXaxis()->GetXmax() << endl;
+    cout << "hfirst hfirst hfirst: Bins = " << hfirst->GetXaxis()->GetNbins() << " Low " << hfirst->GetXaxis()->GetXmin() << " High " << hfirst->GetXaxis()->GetXmax() << endl;
 
     TList * slist = stack->GetHists();
     TIter next(slist);
     m_1Dcounter++;
-    TH1D * sum = new TH1D(Form("%s_sum%.3d", hfirst->GetName(), m_1Dcounter), "", hfirst->GetXaxis()->GetNbins(), hfirst->GetXaxis()->GetXbins()->GetArray());
+    TH1D * sum = new TH1D(Form("%s_sum%.3d", hfirst->GetName(), m_1Dcounter), "", 
+        hfirst->GetXaxis()->GetNbins(), hfirst->GetXaxis()->GetXbins()->GetArray());
+
     cout << "sum sum sum: Low " << sum->GetXaxis()->GetXmin() << " High " << sum->GetXaxis()->GetXmax() << endl;
 
     TH1D * shist_tmp;
