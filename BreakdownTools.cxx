@@ -596,10 +596,11 @@ TH1D * BreakdownTools::GetSignalHist(Variable var, Int_t nbins, Double_t * bins,
 std::vector<double> BreakdownTools::GetPercentages(std::vector<Breakdown> list, int type)
 {
     std::vector<TH1D*> histos;
-    bool is_hist = false;
-    if(list[0].GetHist()) is_hist = true;;
+
+    cout<< (type == -999 ? "Running in single hist mode" : "") << endl;
+
     for(unsigned int i = 0; i < list.size(); i++){
-        if(is_hist) histos.push_back( list[i].GetHist() );
+        if(type == -999) histos.push_back( list[i].GetHist() );
         else{
             switch(type) {
                 case 0 : histos.push_back( list[i].GetMap().recon ); break;
