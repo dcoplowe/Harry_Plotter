@@ -378,7 +378,7 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
 
     BDCans cans;
 
-    // cout << "BreakdownTools::BaseBreakdown : Drawing Plots" << endl;
+    cout << "BreakdownTools::BaseBreakdown : Drawing Plots" << endl;
 
     for(int type = 0; type < 3; type++){
         THStack * tmp_stack;
