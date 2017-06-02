@@ -511,7 +511,7 @@ TH1D * DrawingTools::GetHistFromStack(THStack * stack)
 
     const Double_t * array = hfirst->GetXaxis()->GetXbins()->GetArray();
     for(int i = 0; i < hfirst->GetXaxis()->GetNbins() + 1; i++){
-        cout << "Bin " << i+1 << ":" << hfirst->GetXaxis()->GetNbins() + 1 << " = " << array[i] << endl;
+        cout << "Bin " << i+1 << ":" << hfirst->GetXaxis()->GetNbins() + 1 << " = " << (array[i] ? array[i] : "") << endl;
     }
 
     TList * slist = stack->GetHists();
