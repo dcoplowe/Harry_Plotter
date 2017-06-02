@@ -301,6 +301,7 @@ void BreakdownTools::DrawZeroPointLine(THStack * histo){
 BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins, std::vector<Breakdown> list, 
     std::string basename, std::string cuts, bool check)
 {
+    cout << "BreakdownTools::BaseBreakdown" << endl;    
     //Make outputs:
     if(list.empty()){ 
         BDCans bad;
@@ -325,7 +326,6 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
     }
     Breakdown other("Other", other_cuts, DrawingStyle::Other);
     list.push_back(other);
-    // cout << "BreakdownTools::BaseBreakdown : Making Kin Array" << endl;    
 
     string base_cuts = cuts;
     if(!base_cuts.empty()) base_cuts += " && ";
@@ -565,7 +565,7 @@ TCanvas * BreakdownTools::SingleBase(Variable var, Int_t nbins, Double_t * bins,
         cout << endl;
     }
 
-    cout << "BreakdownTools::BaseBreakdown : Finished." << endl;
+    // cout << "BreakdownTools::BaseBreakdown : Finished." << endl;
 
     return cans;
 }
