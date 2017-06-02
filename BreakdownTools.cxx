@@ -549,7 +549,7 @@ TCanvas * BreakdownTools::SingleBase(Variable var, Int_t nbins, Double_t * bins,
     signal_hist->Draw("SAME");
     hist_leg->Draw();
     GetPOT(0.1,0.1)->Draw();
-    percent.clear();
+    hist_percent.clear();
 
     if(check){
         tmp_check->Draw("SAME");
