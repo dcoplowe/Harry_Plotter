@@ -420,7 +420,7 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
                 case 1: tmp_hist = tmp.GetMap().truth; break;
                 case 2: tmp_hist = tmp.GetMap().ratio; break;
             }
-            cout << "Adding to tmp_stack" << endl;
+            // cout << "Adding to tmp_stack" << endl;
             tmp_stack->Add( tmp_hist );
         }
 
@@ -444,10 +444,10 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
         percent.clear();
 
         if(type == 2){
-            cout << "Ratio Stack line" << endl;
+            // cout << "Ratio Stack line" << endl;
             RatioStats(tmp_stack)->Draw();
             DrawZeroPointLine(tmp_stack);
-            cout << "Ratio Stack line done." << endl;
+            // cout << "Ratio Stack line done." << endl;
         }
 
         if(check){

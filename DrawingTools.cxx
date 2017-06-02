@@ -520,8 +520,8 @@ TH1D * DrawingTools::GetHistFromStack(THStack * stack)
 
     TH1D * shist_tmp;
     while ( (shist_tmp = (TH1D*)next()) ) {
-        cout << "DrawingTools::GetHistFromStack : Adding Hist" << endl;
-        cout << "shist_tmp: Low " << shist_tmp->GetXaxis()->GetXmin() << " High " << shist_tmp->GetXaxis()->GetXmax() << endl;
+        // cout << "DrawingTools::GetHistFromStack : Adding Hist" << endl;
+        // cout << "shist_tmp: Low " << shist_tmp->GetXaxis()->GetXmin() << " High " << shist_tmp->GetXaxis()->GetXmax() << endl;
         sum->Add(shist_tmp);
     }
     delete hfirst;
