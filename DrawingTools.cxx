@@ -512,8 +512,7 @@ TH1D * DrawingTools::GetHistFromStack(THStack * stack)
     TIter next(slist);
     m_1Dcounter++;
     TH1D * sum = new TH1D(Form("%s_sum%.3d", hfirst->GetName(), m_1Dcounter), "", hfirst->GetXaxis()->GetNbins(), hfirst->GetXaxis()->GetXbins()->GetArray());
-    cout << "hfirst hfirst hfirst: Low " << sum->GetXaxis()->GetXmin() << " High " << sum->GetXaxis()->GetXmax() << endl;
-
+    cout << "sum sum sum: Low " << sum->GetXaxis()->GetXmin() << " High " << sum->GetXaxis()->GetXmax() << endl;
 
     TH1D * shist_tmp;
     while ( (shist_tmp = (TH1D*)next()) ) {
