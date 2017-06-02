@@ -217,6 +217,7 @@ TCanvas * BreakdownTools::TARGETSingle(Variable var, Int_t nbins, Double_t low, 
 TLegend * BreakdownTools::RatioStats(const THStack * ratio_tot)
 {
 //Get the ratio histograms, make them into one histogram and determine the rms and mean:
+    cout << "BreakdownTools::RatioStats" << endl;
     TList * rlist = ratio_tot->GetHists();
     TH1D * hfirst = (TH1D*)rlist->First()->Clone( (string(rlist->First()->GetName()) + "_clone").c_str() );
     // cout << "FOund hfirst" << endl;
@@ -226,8 +227,7 @@ TLegend * BreakdownTools::RatioStats(const THStack * ratio_tot)
     // cout << "Range : Bins = " << ratio_nbins << " low = " << ratio_low << " high = " << ratio_high << endl;
     
     TIter next(rlist);
-    m_statcounter++;
-    TH1D ratio_sum( Form("%s_ratio_sum%.3d", hfirst->GetName(), m_statcounter), "", ratio_nbins, ratio_low, ratio_high);
+    TH1D ratio_sum( Form("%s_ratio_sum%.3d", hfirst->GetName(), m_statcounter++), "", ratio_nbins, ratio_low, ratio_high);
     TH1D * rhist_tmp;
     while ( (rhist_tmp = (TH1D*)next()) ) {
         ratio_sum.Add(rhist_tmp);
