@@ -194,7 +194,10 @@ BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t low, Double_t 
     return TARGET(var, nbins, SetBinning(nbins, low, high), cuts, check);
 }
 
-TCanvas * BreakdownTools::TARGETSingle(Variable var, Int_t nbins, Double_t * bins, std::string cuts){
+TCanvas * BreakdownTools::TARGETSingle(Variable var, Int_t nbins, Double_t * bins, std::string cuts, bool check){
+    std::vector<Breakdown> list;
+    list.clear();
+
     Breakdown hyd("Hydrogen", m_target + " == 1", DrawingStyle::HYDROGEN);
     list.push_back(hyd);
     
@@ -203,11 +206,12 @@ TCanvas * BreakdownTools::TARGETSingle(Variable var, Int_t nbins, Double_t * bin
 
     Breakdown oxy("Oxygen", m_target + " == 8", DrawingStyle::OXYGEN);
     list.push_back(oxy);
+
     return SingleBase(var, nbins, bins, list, "TARONE", cuts, check);
 }
 
-TCanvas * BreakdownTools::TARGETSingle(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts){
-    return TARGETSingle(var, nbins, SetBinning(nbins, low, high), cuts);
+TCanvas * BreakdownTools::TARGETSingle(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts, bool check){
+    return TARGETSingle(var, nbins, SetBinning(nbins, low, high), cuts, check);
 }
 
 TLegend * BreakdownTools::RatioStats(const THStack * ratio_tot)
@@ -252,7 +256,7 @@ TLegend * BreakdownTools::RatioStats(const THStack * ratio_tot)
     return ratio_stats;
 }
 
-TCanvas * BreakdownTools::PID(Variable var, std::string pdgvar, std::string cuts, std::vector<PDGInfo> pdglist)
+TCanvas * BreakdownTools::PID(Variable var, std::string pdgvar, std::string cuts, std::vector<PDGInfo> pdglist, bool check)
 {
     std::vector<Breakdown> list;
     list.clear();
