@@ -508,7 +508,7 @@ TH1D * DrawingTools::GetHistFromStack(THStack * stack)
     // TODO: Fix problem with rebinning hists -3 - 3 -> 0 - 1
     TH1D * hfirst = GetFirstHistFromStack(stack);
     // cout << "hfirst hfirst hfirst: Bins = " << hfirst->GetXaxis()->GetNbins() << " Low " <<
-        hfirst->GetXaxis()->GetXmin() << " High " << hfirst->GetXaxis()->GetXmax() << endl;
+        // hfirst->GetXaxis()->GetXmin() << " High " << hfirst->GetXaxis()->GetXmax() << endl;
 
     TList * slist = stack->GetHists();
     TIter next(slist);
