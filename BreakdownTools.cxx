@@ -304,6 +304,11 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
     //Make outputs:
     if(list.empty()){ 
         BDCans bad;
+        bad.recon;
+        bad.truth;
+        bad.smear;
+        bad.smearSN;
+        bad.ratio;
         cout << __FILE__ << ":" << __LINE__ << " : List is empty, not building breakdown plot for " << basename << endl;
         return bad;
     }
@@ -346,7 +351,7 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
     THStack * ratio_tot = new THStack( (var.GetSName() + "_" + basename + "_ratio").c_str(), 
         Form(";%s;%s", list[0].GetMap().ratio->GetXaxis()->GetTitle(), list[0].GetMap().ratio->GetYaxis()->GetTitle() ) );
     
-    TH2D * smear_tot = (TH2D*)list[0].GetMap().smear->Clone( (var.GetSName() + "_PID_smear").c_str() );//Just add all of these histos.
+    TH2D * smear_tot = (TH2D*)list[0].GetMap().smear->Clone( (var.GetSName() + "_" + basename + "_smear").c_str() );//Just add all of these histos.
     
     // cout << "BreakdownTools::BaseBreakdown : Making Legends" << endl;
 
@@ -471,7 +476,7 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
     smear_totSN->Draw("COLZ");
     GetPOT(0.1,0.1)->Draw();
     
-    cout << "BreakdownTools::BaseBreakdown : Finished." << endl;
+    // cout << "BreakdownTools::BaseBreakdown : Finished." << endl;
 
     return cans;
 }
@@ -481,7 +486,7 @@ TCanvas * BreakdownTools::SingleBase(Variable var, Int_t nbins, Double_t * bins,
 {
 //Make outputs:
     if(list.empty()){ 
-        TCanvas * bad;
+        TCanvas * bad = 0x0;
         cout << __FILE__ << ":" << __LINE__ << " : List is empty, not building breakdown plot for " << basename << endl;
         return bad;
     }
