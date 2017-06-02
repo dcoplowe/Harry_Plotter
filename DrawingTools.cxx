@@ -506,6 +506,7 @@ void DrawingTools::DrawBox(double * low, double * high, int color, int style, in
 TH1D * DrawingTools::GetHistFromStack(THStack * stack)
 {
     TH1D * hfirst = GetFirstHistFromStack(stack);
+    cout << "hfirst hfirst hfirst: Low " << hfirst->GetXaxis()->GetXmin() << " High " << hfirst->GetXaxis()->GetXmax() << endl;
 
     TList * slist = stack->GetHists();
     TIter next(slist);
