@@ -420,6 +420,7 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
                 case 1: tmp_hist = tmp.GetMap().truth; break;
                 case 2: tmp_hist = tmp.GetMap().ratio; break;
             }
+            cout << "Adding to tmp_stack" << endl;
             tmp_stack->Add( tmp_hist );
         }
 
