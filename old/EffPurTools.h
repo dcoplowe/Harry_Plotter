@@ -11,6 +11,7 @@
 class TFile;
 class TTree;
 class TH1D;
+class TH2D;
 
 //using namespace PlotUtils;
 using namespace std;
@@ -25,84 +26,73 @@ public:
     
     //For now have assume a file is read in.
     
-    EffPurTools(TString filename, std::vector<TString> cut_names, bool debug = false, TString reconame = "sel", TString truename = "Truth");
-    EffPurTools(TString filename, bool debug = false, TString reconame = "sel", TString truename = "Truth");
-    EffPurTools();
+    EffPurTools(std::string filename, std::vector<std::string> cut_names, std::string reconame = "sel", std::string truename = "Truth");
+    EffPurTools(std::string filename, std::string reconame = "sel", std::string truename = "Truth");
     
-    EffPurTools(const char* filename, std::vector<std::string> cut_names, bool debug = false, std::string reconame = "sel", std::string truename = "Truth");
-    EffPurTools(const char* filename, bool debug = false, std::string reconame = "sel", std::string truename = "Truth");
+    ~EffPurTools();
+  
+    TH1D * EffVSCuts(std::string signal, int branch = 0, std::string cuts = "");
+    TH1D * PurVSCuts(std::string signal, int branch = 0, std::string cuts = "");
     
-    ~EffPurTools(){};
-    
-    void SetFileName(TString var){ _filename = var; }
-    void SetRecoBranch(TString var){ _reconame = var; }
-    void SetTrueBranch(TString var){ _truename = var; }
-    void SetFile();
-    
-    void SetGlobalSignal(std::string var){ _glob_signal = TString(var); }
-    void SetGlobalSignal(TString var){ _glob_signal = var; }
-    
-    //These may not be void functions:
-    TH1D * EffVSCuts(const TString signal, int branch = 0, const TString cuts = "");
     //Be careful here, given the efficiency is how many of the selected events are signal. The signal for eff. vs. var is common to both the numerator and denominator whereas the cut is made on the numerator only.
-    TH1D * EffVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString cuts, const TString x_title = "");
-    TH1D * EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString cuts, const TString x_title = "");
+    TH1D * EffVSVar(std::string var, int nbins, Double_t * xbins, std::string signal, std::string cuts, std::string x_title = "");
+    TH1D * EffVSVar(std::string var, int nbins, Double_t x_low, Double_t x_high, std::string signal, std::string cuts, std::string x_title = "");
     
-    TH1D * PurVSCuts(const TString signal, int branch = 0, const TString cuts = "");
-    TH1D * PurVSVar(const TString var, int nbins, const Double_t * xbins, const TString signal, const TString cuts = "", const TString x_title = "");
-    TH1D * PurVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString cuts = "", const TString x_title = "");
+    TH2D * EffVSVar(std::string var_yx, int x_nbins, Double_t * x_bins, int y_nbins, Double_t * y_bins, std::string signal, std::string cuts, std::string xy_title = "");
+    TH2D * EffVSVar(std::string var_yx, int x_nbins, Double_t x_low, Double_t x_high, int y_nbins, Double_t y_low, Double_t y_high, std::string signal, std::string cuts, std::string xy_title = "");
+    
+    TH1D * PurVSVar(std::string var, int nbins, Double_t * xbins, std::string signal, std::string cuts, std::string x_title = "");
+    TH1D * PurVSVar(std::string var, int nbins, Double_t x_low, Double_t x_high, std::string signal, std::string cuts, std::string x_title = "");
+  
+    TH2D * PurVSVar(std::string var_yx, int x_nbins, Double_t * x_bins, int y_nbins, Double_t * y_bins, std::string signal, std::string cuts, std::string xy_title = "");
+    TH2D * PurVSVar(std::string var_yx, int x_nbins, Double_t x_low, Double_t x_high, int y_nbins, Double_t y_low, Double_t y_high, std::string signal,
+     std::string cuts, std::string xy_title = "");
+    
+    TH1D * EffVSN1Cuts(std::string signal, int branch = 0, std::string cuts = "");
+    TH1D * PurVSN1Cuts(std::string signal, int branch = 0, std::string cuts = "");
 
-    TH1D * EffVSCuts(const char* signal, int branch = 0, const char* cuts = "");
-    TH1D * EffVSVar(const char* var, int nbins, const Double_t * xbins, const char* signal, const char* cuts, const char* x_title = "");
-    TH1D * EffVSVar(const char* var, int nbins, const Double_t x_low, const Double_t x_high, const char* signal, const char* cuts, const char* x_title = "");
-    
-    TH1D * PurVSCuts(const char* signal, int branch = 0, const char* cuts = "");
-    TH1D * PurVSVar(const char* var, int nbins, const Double_t * xbins, const char* signal, const char* cuts, const char* x_title = "");
-    TH1D * PurVSVar(const char* var, int nbins, const Double_t x_low, const Double_t x_high, const char* signal, const char* cuts, const char* x_title = "");
-    
-    void SetCutNames(std::vector<TString> var);
-    void SetCutName(TString var);//This must be written in order;
+    void Debug(){ if(m_debug) m_debug = false; else m_debug = true; }
+    void SetCutNames(std::vector<std::string> var);
+    void SetCutName(std::string var);//This must be written in order;
     void ResetCutNames();
+    void SetNCuts(int ncuts){ m_ncuts = ncuts;}
     
 private:
     //File and directory info:
-    TString _filename;
-    TString _truename;
-    TString _reconame;
+//    std::string m_filename;
+//    std::string m_truename;
+//    std::string m_reconame;
+    bool m_debug;
     
-    TFile * _file;
+    TFile * m_file;
+    TTree * m_truth;
+    TTree * m_recon;
     
-    TTree * _truthtree;
-    TTree * _recontree;
+    std::vector<std::string> m_cutnames;
     
-    //Global signal information
-    TString _glob_signal;
-    std::vector<TString> _cutnames;
+    TH1D * EventsVSCuts(TTree * intree, std::string cuts, int branch, int ncuts, std::string name = "h_evntcuts");
+    TH1D * DrawRatioVSCuts(TH1D * num, TH1D * den, std::string y_title = "", std::string h_name = "h_ratio");
     
-    TH1D * EventsVSCuts(TTree * intree, const TString cuts, int branch, const int ncuts, TString name = "h_evntcuts");
-    TH1D * DrawRatioVSCuts(TH1D * num, TH1D * den, TString y_title = "", TString h_name = "h_ratio");
+    TH1D * RatioVSVar(TTree * intree, std::string var, int nbins, Double_t * xbins, std::string common_cut, std::string num_only_cut, std::string x_title);
+    TH2D * RatioVSVar(TTree * intree, std::string var_yx, int x_nbins, Double_t * x_bins, int y_nbins, Double_t * y_bins, std::string common_cut, std::string num_only_cut, std::string xy_title);
     
-//    TH1D * RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString signal, const TString x_title, const TString cuts);
-//    TH1D * RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString x_title, const TString cuts);
+    TH1D * GetHisto(TTree * intree, std::string var, int nbins, Double_t * xbins, std::string cuts);
+    TH2D * GetHisto(TTree * intree, std::string var_yx, int x_nbins, Double_t * xbins, int y_nbins, Double_t * ybins, std::string cuts);
     
-    TH1D * RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString common_cut, const TString num_only_cut, const TString x_title);
-    TH1D * RatioVSVar(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString common_cut, const TString num_only_cut, const TString x_title);
-    
-    
-    TH1D * GetHisto(TTree * intree, const TString var, int nbins, const Double_t * xbins, const TString cuts);
-    TH1D * GetHisto(TTree * intree, const TString var, int nbins, const double x_low, const double x_high, const TString cuts);
-    
-    int _effhcounter;
-    int _purhcounter;
-    int _ghcounter;
-    int _effvarcounter;
-    int _purvarcounter;
+    int GetNCuts();
+    int MaxCutsToDraw();
 
-    bool _DEBUG_;
-    
-    Double_t * EvenArray(int nbins, Double_t x_low, Double_t x_high);
+    double GetCutEntries(int ignore, std::string cuts, int branch);
 
+    int m_purhcounter;
+    int m_effhcounter;
+    int m_ghcounter1D;
+    int m_ghcounter2D;
+    int m_effvarcounter;
+    int m_purvarcounter;
+    
+    int m_ncuts;
+    // Double_t * EvenArray(int nbins, Double_t x_low, Double_t x_high);
 };
 
 #endif
-
