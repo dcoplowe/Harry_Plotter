@@ -299,7 +299,7 @@ std::string ReadParam::GetParameterS(std::string name, std::string infile, std::
     return param;
 }
 
-std::string ReadParam::GetParameterN(std::string name, std::string infile, std::string left_arrow = left_brace, std::string right_arrow = right_brace)
+std::string ReadParam::GetParameterN(std::string name, std::string infile, std::string left_arrow, std::string right_arrow)
 {
     string param = GetParameterS(name, infile, left_arrow, right_arrow);
     param.erase(std::remove(param.begin(),param.end(),' '),param.end());
