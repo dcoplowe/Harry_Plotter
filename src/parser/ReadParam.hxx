@@ -23,7 +23,7 @@ public:
     bool good;
     // std::string opts;
 
-    inline Print(){
+    inline void Print(){
         cout << "Par: " << var << " : Title: " << title << " (" << (units.empty() ? "NONE" : units) << ")";
         cout << "NBins: " << nbins << " :";
         if(bins){
