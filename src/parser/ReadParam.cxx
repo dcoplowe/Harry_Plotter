@@ -149,13 +149,8 @@ ReadParam::ReadParam(const std::string instring, Type type, string left_arrow, s
     }
     else if(type == kPlot){
         // Required form: var symbol units nbins bins : var symbol units nbins bins (include : for 2D)
-        int  new_set = 0;
-        // int  new_set = 0;
 
         // Split all sets:
-
-        cout << "READING : " << m_instring << endl;
-
         std::vector<string> nsets;
         string tmp_instring = m_instring;
         size_t tmp_place = tmp_instring.find(":");
@@ -166,55 +161,78 @@ ReadParam::ReadParam(const std::string instring, Type type, string left_arrow, s
             int numss =0;
             while( tmp_place != string::npos ){
                 string set = tmp_instring.substr(0, tmp_place);
-                cout << numss++ << " set = " << set <<endl;
                 nsets.push_back( set );
-
                 tmp_instring = tmp_instring.substr(tmp_place + 1, tmp_instring.length());  
                 tmp_place = tmp_instring.find(":");
             }
-
-
-            if(!tmp_instring.empty()){
-                cout << "Post while : tmp_instring " << tmp_instring << endl;
-                nsets.push_back( tmp_instring );
-            }
-            else cout << "tmp_instring.empty() :) " << endl;
+            if(!tmp_instring.empty()) nsets.push_back( tmp_instring );
         }
+
+        std::vector<BinPar> nparams;
 
         for(size_t i = 0; i < nsets.size(); i++){
             cout << "nsets[" << i << "] = " << nsets[i] << endl;
+
+            string word;
+            std::stringstream iss(m_instring);
+            BinPar par;
+            while( iss >> word )     
+            {
+                if(!IsNumber(word)){
+                    if(par.var.empty()) par.var = word;
+                    else if(par.var.empty()) par.var = word;
+                    else if(par.title.empty()) par.title = word;
+                    else if(par.units.empty()) par.units = word;
+                    else{
+                        extra += " ";
+                        extra += word;
+                        // cout << __FILE__ << ":" << __LINE__ << ": ERROR : Too many words... Check" << endl;
+                        // exit(0);
+                    }
+                }
+                else{
+                    if(par.nbins == -999) par.nbins = atoi( word.c_str() );
+                    else par.bvals.push_back( atof(word.c_str()) );
+                }
+            }
+            // Now check that we have the minimum info:
+            bool fail = false;
+            if(par.var.empty()) fail = true;
+            if(par.nbins != -999) fail = true;
+            if(par.bvals.size() < 2) fail = true;
+
+            if(!fail){
+                par.good = true;
+                // Check that title has been filled and set to var if not:
+                if(par.title.empty()) par.title = par.var;
+                par.DetermineBins();
+                nparams.push_back( par );
+            }
+            else{
+                if(!par.var.empty()){
+                    cout << "Found Option(s)" << endl;
+                    m_options = par.var;
+                    if(!par.title.empty()){
+                        m_options += " ";
+                        m_options += par.title;
+                        if(!par.units.empty()){
+                            m_options += " ";
+                            m_options += par.units;
+                            if(!par.extra.empty()){
+                                m_options += " ";
+                                m_options += par.extra;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
-        //     m_instring
-
-
-        // string word;
-        // std::stringstream iss(m_instring);
-
-
-        // std::vector<BinPar> nparams;
-
-        // while( iss >> word )     
-        // {
-        //     if(word.find(":") != string::npos){ 
-        //         new_set++;
-        //         continue;
-        //     }
-        //     else if(!IsNumber(word)){
-        //         if(new_set){ 
-        //             BinPar tmp;
-        //             tmp.var = word;
-        //             nparams.push_back( tmp );
-        //         }
-
-        //     }
-        // }    
-
+        for(size_t i = 0; i < nparams.size(); i++){
+            nparams.Print();
+        }
 
     }
-
-
-
 
 }
 

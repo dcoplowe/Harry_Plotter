@@ -2,4 +2,4 @@
 <| truemu_mom #it{p}_{#mu} GeV/#it{c} 4 0 10 45 75 99 |>
 <| truemu_mom #it{p}_{#mu} GeV/#it{c} 4 0 10 45 75 99 : dpTT #deltap_{TT} MeV/#it{c} 4 0 10 45 75 99 |>
 <| truemu_cTheta #it{p}_{#mu} 5 -1 1 : truemu_mom 4 0 10 45 75 99 |>
-<| truemu_cTheta #it{p}_{#mu} 5 -1 1 : truemu_mom 4 0 10 45 75 99 : SHIST SAGGY BUM jess |>
+<| truemu_cTheta #it{p}_{#mu} 5 -1 1 : truemu_mom 4 0 10 45 75 99 : EP, cut = sda && fff && ss |>

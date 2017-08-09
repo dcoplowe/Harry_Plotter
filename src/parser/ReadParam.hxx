@@ -12,16 +12,18 @@ using std::endl;
 class BinPar
 {
 public:
-    BinPar() : var(""), title(""), units(""), nbins(-999), good(false) { bvals.clear(); bins = 0x0; }
+    BinPar() : var(""), title(""), units(""), extra(""), nbins(-999), good(false) { bvals.clear(); bins = 0x0; }
     ~BinPar(){ bvals.clear(); if(bins) delete [] bins; }
 
     std::string var;
     std::string title;
     std::string units;
+    std::string extra;
     int nbins;
     std::vector<double> bvals;
     double * bins;
     bool good;
+    bool is_opt;
     // std::string opts;
 
     inline void Print(){
