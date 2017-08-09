@@ -257,7 +257,6 @@ void ReadParam::RemoveArrows(std::string &word, std::string left_arrow, std::str
         size_t r_length = right_arrow.size();
         size_t length = rarrow - larrow - r_length;
         word = word.substr(larrow + l_length, length);
-        cout << "word = " << word << " r_length = " << r_length << endl;
     }
     else{
         cout << __FILE__ << ":" << __LINE__ << ": ERROR : Could not find left or right arrow(s)." << endl;
@@ -290,7 +289,7 @@ std::string ReadParam::GetParameterS(std::string name, std::string infile, std::
 
     size_t place = param.find("=");
     if(place != string::npos){
-        param = param.erase(0, place);
+        param = param.erase(0, place + 1);
     }
     else{
         cout << __FILE__ << ":" << __LINE__ << ": ERROR : Parameter not in correct form (missing =), we have: " << param << endl;
