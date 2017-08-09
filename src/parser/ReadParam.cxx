@@ -207,6 +207,7 @@ ReadParam::ReadParam(const std::string instring, Type type, string left_arrow, s
                 // Check that title has been filled and set to var if not:
                 if(par.title.empty()) par.title = par.var;
                 par.DetermineBins();
+                cout << " nparams.push_back( par ); " << endl;
                 nparams.push_back( par );
             }
             else{
