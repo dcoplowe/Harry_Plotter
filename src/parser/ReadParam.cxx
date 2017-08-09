@@ -163,10 +163,11 @@ ReadParam::ReadParam(const std::string instring, Type type, string left_arrow, s
         else{
             int numss =0;
             while( tmp_place != string::npos ){
-                string set = tmp_instring.substr(0, tmp_place + 1);  
+                string set = tmp_instring.substr(0, tmp_place);
                 cout << numss << " set = " << set <<endl;
                 nsets.push_back( set );
 
+                tmp_instring = tmp_instring.substr(tmp_place + 1, tmp_place.length());  
                 tmp_place = tmp_instring.find(":");
             }
         }
