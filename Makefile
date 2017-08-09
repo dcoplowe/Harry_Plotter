@@ -4,9 +4,10 @@ ROOTFLAGS = `root-config --cflags --glibs`
 
 SRCS =	$(wildcard app/App.cxx) \
 		$(wildcard src/*.cxx) \
-		$(wildcard src/base/*.cxx) \
-		$(wildcard src/parser/*.cxx) \
-		$(wildcard src/breakdown/*.cxx) \
+		$(wildcard src/parser/*.cxx)
+	
+		# $(wildcard src/base/*.cxx) \
+		# $(wildcard src/breakdown/*.cxx) \
 		$(wildcard src/effpur/*.cxx)  
 
 OBJS = $(SRCS:.c=.o)
