@@ -172,7 +172,7 @@ ReadParam::ReadParam(const std::string instring, Type type, string left_arrow, s
         std::vector<BinPar> nparams;
 
         for(size_t i = 0; i < nsets.size(); i++){
-            cout << "nsets[" << i << "] = " << nsets[i] << endl;
+            // cout << "nsets[" << i << "] = " << nsets[i] << endl;
 
             string word;
             std::stringstream iss(m_instring);
@@ -211,7 +211,7 @@ ReadParam::ReadParam(const std::string instring, Type type, string left_arrow, s
             }
             else{
                 if(!par.var.empty()){
-                    cout << "Found Option(s)" << endl;
+                    // cout << "Found Option(s)" << endl;
                     m_options = par.var;
                     if(!par.title.empty()){
                         m_options += " ";
