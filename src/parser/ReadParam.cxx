@@ -198,7 +198,7 @@ std::vector<std::string> ReadParam::ReadFile(std::string infile)
     string tmp_line = "";
     bool complete = false;
 
-    ifstream fin( infile.c_str() );
+    std::ifstream fin( infile.c_str() );
     assert(fin.is_open());
     string line;
 
