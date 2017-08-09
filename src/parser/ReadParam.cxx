@@ -121,21 +121,6 @@ ReadParam::~ReadParam()
     // delete [] m_varTwo.bins;
 }
 
-double * ReadParam::SetBinning(int nbins, double low, double high){
-    // cout << "ReadParam::SetBinning(" << nbins << ", " << low << ", " << high <<")" << endl;
-
-    double * bins = new double[ nbins + 1 ];
-    
-    double range = high - low;
-    double binwidth = range/(double)nbins;
-    
-    for (int i=0; i < nbins + 1; i++) {
-        bins[i] = low + binwidth*i;
-        // if(m_verbose) cout << "Array Element: " << i << " : " << bins[i] << endl;
-    }
-    return bins;
-}
-
 bool ReadParam::IsNumber(std::string in)
 {
     bool yes = false;
@@ -189,21 +174,6 @@ std::vector<std::string> ReadParam::ReadFile(std::string infile)
     fin.close();
 
     return list;
-}
-
-double * ReadParam::DetermineBins(int nbins, std::vector<double> binning)
-{
-    double * p_binning = 0x0;
-    if(binning.size() == 2) p_binning = SetBinning(nbins, binning[0], binning[1]);
-    else if( (int)binning.size() == nbins + 1){
-        p_binning = new double [ nbins + 1 ];
-        for(int i = 0; i < nbins + 1; i++) p_binning[i] = binning[i]; 
-    }
-    else{
-        cout << __FILE__ << ":" << __LINE__ << " : ERROR : Could not make array: nbins = " << nbins << ", array size = " << binning.size() << endl;
-        exit(0);       
-    }
-    return p_binning;
 }
 
 void ReadParam::RemoveArrows(std::string &word, std::string left_arrow, std::string right_arrow)
