@@ -252,7 +252,7 @@ void ReadParam::RemoveArrows(std::string word, std::string left_arrow, std::stri
     // Add | to both arrows as we may/will have instances where the comparison symbols (</>) are used. 
     size_t larrow = word.find(left_arrow);
     size_t rarrow = word.find(right_arrow);
-    if(larrow != -1 && rarrow != -1){
+    if(larrow != string::npos && rarrow != string::npos){
         size_t l_length = left_arrow.size();
         size_t r_length = right_arrow.size();
         size_t length = rarrow - larrow - r_length;

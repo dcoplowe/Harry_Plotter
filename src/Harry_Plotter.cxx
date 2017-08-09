@@ -16,9 +16,9 @@ Harry_Plotter::Harry_Plotter()
 	string opts_file = string( getenv("HP_ROOT") );
     opts_file += "/parameters/run_options.txt";
 
-    int dcool = ReadParam::GetParamterI("david is cool", opts_file);
-    string cuts = ReadParam::GetParamterS("cuts", opts_file);
-    double numbers = ReadParam::GetParamterD("numbers", opts_file);
+    int dcool = ReadParam::GetParameterI("david is cool", opts_file);
+    string cuts = ReadParam::GetParameterS("cuts", opts_file);
+    double numbers = ReadParam::GetParameterD("numbers", opts_file);
 
     cout << "david is cool = " << dcool << endl;
     cout << "cuts = " << cuts << endl;

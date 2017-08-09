@@ -106,9 +106,7 @@ public:
     std::string GetVar2RWTitle(){ return (m_var2rw.title + (m_var2rw.units.empty() ? "" : " (" + m_var2rw.units + ")") ); }
     int GetVar2RWNBins(){ return m_var2rw.nbins; }
     double * GetVar2RWBins(){ return m_var2rw.bins; }
-
-    
-
+   
     static std::vector<std::string> ReadFile(std::string infile);
 
     static std::string GetParameterS(std::string name, std::string infile, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
