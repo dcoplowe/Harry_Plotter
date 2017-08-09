@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <fstream> //ifstream header
 #include <cassert>
-#include <alogrithm>
+#include <algorithm>
 
 using std::string;
 // using std::cout;
@@ -302,10 +302,7 @@ std::string ReadParam::GetParameterS(std::string name, std::string infile, std::
 std::string ReadParam::GetParameterN(std::string name, std::string infile, std::string left_arrow = left_brace, std::string right_arrow = right_brace)
 {
     string param = GetParameterS(name, infile, left_arrow, right_arrow);
-    for (size_t i = 0; i < param.length(); i++){
-       if(param[i] == ' ') param.erase(i, 1);
-    }
-
+    param.erase(std::remove(param.begin(),param.end(),' '),param.end());
     if(!IsNumber(param)){
         cout << __FILE__ << ":" << __LINE__ << ": ERROR : Parameter is not a number, we have: " << param << endl;
         exit(0);
@@ -321,14 +318,6 @@ int ReadParam::GetParameterI(std::string name, std::string infile, std::string l
 double ReadParam::GetParameterD(std::string name, std::string infile, std::string left_arrow, std::string right_arrow)
 {
     return atof(GetParameterN(name, infile, left_arrow, right_arrow).c_str());
-}
-
-void ClearSpaces(std::string input)
-{
-  for (size_t i = 0; i < input.length(); i++) {
-     if(input[i] == ' ')
-        input.erase(i, 1);
-  }
 }
 
 #endif
