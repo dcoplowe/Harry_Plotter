@@ -257,7 +257,7 @@ void ReadParam::RemoveArrows(std::string word, std::string left_arrow, std::stri
         size_t r_length = right_arrow.size();
         size_t length = rarrow - larrow - r_length;
         word = word.substr(larrow + l_length, length);
-        cout << "word = " << word << " r_length = " << length << endl;
+        cout << "word = " << word << " r_length = " << r_length << endl;
     }
     else{
         cout << __FILE__ << ":" << __LINE__ << ": ERROR : Could not find left or right arrow(s)." << endl;
