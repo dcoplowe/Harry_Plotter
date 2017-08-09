@@ -147,10 +147,6 @@ ReadParam::ReadParam(const std::string instring, Type type, string left_arrow, s
             cout << "-----------------------------------" << endl;
         }
     }
-    else if(type == kParam){
-        // Required form: Internal param name = 
-
-    }
     else if(type == kPlot){
         // Required form: var symbol units nbins bins : var symbol units nbins bins (include : for 2D)
     }
