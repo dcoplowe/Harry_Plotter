@@ -154,6 +154,8 @@ ReadParam::ReadParam(const std::string instring, Type type, string left_arrow, s
 
         // Split all sets:
 
+        cout << "READING : " << m_instring << endl;
+
         std::vector<string> nsets;
         string tmp_instring = m_instring;
         size_t tmp_place = tmp_instring.find(":");
