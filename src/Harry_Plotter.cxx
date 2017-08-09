@@ -34,7 +34,7 @@ Harry_Plotter::Harry_Plotter()
     std::vector<ReadParam*> list;
 
     for(size_t i = 0; i < plot_list.size(); i++){
-    	list.push_back( new ReadParam(list[i], ReadParam::kPlot) );
+    	list.push_back( new ReadParam(plot_list[i], ReadParam::kPlot) );
     }
 
 }
