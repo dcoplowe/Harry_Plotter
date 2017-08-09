@@ -199,10 +199,10 @@ ReadParam::ReadParam(const std::string instring, Type type, string left_arrow, s
             // Now check that we have the minimum info:
             bool pass = true;
             if(par.var.empty()) pass = false;
-            if(par.nbins != -999) pass = false;
+            if(par.nbins == -999) pass = false;
             if(par.bvals.size() < 2) pass = false;
 
-            if(!pass){
+            if(pass){
                 par.good = true;
                 // Check that title has been filled and set to var if not:
                 if(par.title.empty()) par.title = par.var;
