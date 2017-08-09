@@ -107,10 +107,8 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
 
     for(size_t i = 0; i < entries; i++){
         loop[i] = nparams[i];
-    }
-
-
-    
+        loop[i].Print();
+    }    
 
 }
 
