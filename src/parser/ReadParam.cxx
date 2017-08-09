@@ -172,6 +172,8 @@ ReadParam::ReadParam(const std::string instring, Type type, string left_arrow, s
                 tmp_instring = tmp_instring.substr(tmp_place + 1, tmp_instring.length());  
                 tmp_place = tmp_instring.find(":");
             }
+
+            cout << "Post while : tmp_instring " << tmp_instring << endl;
         }
 
         for(size_t i = 0; i < nsets.size(); i++){
