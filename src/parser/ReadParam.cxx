@@ -19,7 +19,7 @@ ReadParam::ReadParam(const std::string instring, Type type, string left_arrow, s
     RemoveArrows(m_instring, left_arrow, right_arrow);
 
     m_Is_TwoD = false;
-    if(type < kParam){
+    if(type < kPlot){
         bool good_var2rw_done = false;
         bool good_rwvar1_done = false;
     // bool good_rwvar2_done = false;
