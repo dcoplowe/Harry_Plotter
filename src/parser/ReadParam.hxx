@@ -122,7 +122,7 @@ private:
 
     bool m_Is_TwoD;
 
-    static void RemoveArrows(std::string word, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
+    static void RemoveArrows(std::string * word, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
     static bool IsNumber(std::string);
 
     double * DetermineBins(int nbins, std::vector<double> binning);
