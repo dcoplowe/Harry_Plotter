@@ -81,7 +81,7 @@ public:
     enum Type { kBinning = 0, kReweight, kPlot, kUnknown };
 
     // Fix this to include axis titles in parser.
-    ReadParam(const std::string instring, Type type, string left_arrow = left_brace, string right_arrow = right_brace);
+    ReadParam(const std::string instring, Type type, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
     ~ReadParam();
 
     std::string GetInString(){ return m_instring; }
