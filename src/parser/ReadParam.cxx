@@ -261,7 +261,7 @@ BinPar::BinPar() : var(""), title(""), units(""), extra(""), nbins(-999), good(f
     
 BinPar::~BinPar(){ 
     bvals.clear(); 
-    if(bins) delete bins; 
+    if(bins) delete [] bins; 
 }
 
 inline void BinPar::Print()
