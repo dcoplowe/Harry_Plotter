@@ -92,7 +92,7 @@ ReadParam::ReadParam(const std::string instring, Type type, string left_arrow, s
                 m_varTwo.units = m_varOne.units;
                 m_varTwo.nbins = m_varOne.nbins;
 
-                m_varTwo.bins = new Double_t [ m_varTwo.nbins + 1 ];
+                m_varTwo.bins = new double [ m_varTwo.nbins + 1 ];
                 for(int i = 0; i < m_varTwo.nbins + 1; i++) m_varTwo.bins[i] = m_varOne.bins[i];
 
                     m_varTwo.good = true;
@@ -110,14 +110,14 @@ ReadParam::ReadParam(const std::string instring, Type type, string left_arrow, s
                 m_varOne.units = m_var2rw.units;
                 m_varOne.nbins = m_var2rw.nbins;
 
-                m_varOne.bins = new Double_t [ m_varOne.nbins + 1 ];
+                m_varOne.bins = new double [ m_varOne.nbins + 1 ];
 
                 for(int i = 0; i < m_varOne.nbins + 1; i++) m_varOne.bins[i] = m_var2rw.bins[i];
 
                     m_varOne.good = true;
                 m_var2rw.good = false;
 
-                m_var2rw = "";
+                m_var2rw.var = "";
                 m_var2rw.nbins = -999;
                 delete [] m_var2rw.bins;
             }
