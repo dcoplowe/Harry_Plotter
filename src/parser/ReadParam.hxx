@@ -71,6 +71,9 @@ public:
 // Read in parameter for plotting w/ symbol, units, binning etc. + options
 // Read in general parameters file for things like signal 
 
+const std::string left_brace = "<|";
+const std::string right_brace = "|>";
+
 class ReadParam
 {
 public:
@@ -78,7 +81,7 @@ public:
     enum Type { kBinning = 0, kReweight, kPlot, kUnknown };
 
     // Fix this to include axis titles in parser.
-    ReadParam(const std::string instring, Type type);
+    ReadParam(const std::string instring, Type type, string left_arrow = left_brace, string right_arrow = right_brace);
     ~ReadParam();
 
     std::string GetInString(){ return m_instring; }
@@ -104,13 +107,13 @@ public:
     int GetVar2RWNBins(){ return m_var2rw.nbins; }
     double * GetVar2RWBins(){ return m_var2rw.bins; }
 
-    // const std::string
+    
 
     static std::vector<std::string> ReadFile(std::string infile);
 
-    static std::string GetParameterS(std::string name, std::string infile, std::string left_arrow = "<|", std::string right_arrow = "|>");
-    static int GetParameterI(std::string name, std::string infile, std::string left_arrow = "<|", std::string right_arrow = "|>");
-    static double GetParameterD(std::string name, std::string infile, std::string left_arrow = "<|", std::string right_arrow = "|>");
+    static std::string GetParameterS(std::string name, std::string infile, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
+    static int GetParameterI(std::string name, std::string infile, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
+    static double GetParameterD(std::string name, std::string infile, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
 
 private:
     std::string m_instring;
@@ -121,7 +124,7 @@ private:
 
     bool m_Is_TwoD;
 
-    static void RemoveArrows(std::string word, std::string left_arrow = "<|", std::string right_arrow = "|>");
+    static void RemoveArrows(std::string word, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
     static bool IsNumber(std::string);
 
     double * DetermineBins(int nbins, std::vector<double> binning);
