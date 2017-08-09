@@ -3,15 +3,14 @@
 
 #include <ReadParam.hxx>
 #include <sstream>
-#include <iostream> 
 #include <cctype>
 #include <stdlib.h>
 #include <fstream> //ifstream header
 #include <cassert>
 
 using std::string;
-using std::cout;
-using std::endl;
+// using std::cout;
+// using std::endl;
 
 ReadParam::ReadParam(const std::string instring, Type type, string left_arrow, string right_arrow)
 {
