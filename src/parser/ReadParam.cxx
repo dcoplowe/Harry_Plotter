@@ -276,7 +276,7 @@ std::string ReadParam::GetParameterS(std::string name, std::string infile, std::
             store = i;
             called = true;
         }
-        else if(tmp.find(name) != string::npos) continue;
+        else if(tmp.find(name) == string::npos) continue;
         else if(called){
             cout << __FILE__ << ":" << __LINE__ << " : ERROR : Multiple instances of param name " << name << " in parameters file (" << infile << ")" << endl;
         }
