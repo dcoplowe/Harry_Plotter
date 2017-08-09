@@ -167,7 +167,7 @@ ReadParam::ReadParam(const std::string instring, Type type, string left_arrow, s
                 cout << numss << " set = " << set <<endl;
                 nsets.push_back( set );
 
-                tmp_instring = tmp_instring.substr(tmp_place + 1, tmp_place.length());  
+                tmp_instring = tmp_instring.substr(tmp_place + 1, tmp_instring.length());  
                 tmp_place = tmp_instring.find(":");
             }
         }
