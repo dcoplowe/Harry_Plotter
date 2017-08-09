@@ -247,7 +247,7 @@ double * ReadParam::DetermineBins(int nbins, std::vector<double> binning)
     return p_binning;
 }
 
-void ReadParam::RemoveArrows(std::string * word, std::string left_arrow, std::string right_arrow)
+void ReadParam::RemoveArrows(std::string &word, std::string left_arrow, std::string right_arrow)
 {
     // Add | to both arrows as we may/will have instances where the comparison symbols (</>) are used. 
     size_t larrow = word.find(left_arrow);
