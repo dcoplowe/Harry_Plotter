@@ -149,6 +149,57 @@ ReadParam::ReadParam(const std::string instring, Type type, string left_arrow, s
     }
     else if(type == kPlot){
         // Required form: var symbol units nbins bins : var symbol units nbins bins (include : for 2D)
+        int  new_set = 0;
+        // int  new_set = 0;
+
+        // Split all sets:
+
+        std::vector<string> nsets;
+        string tmp_instring = m_instring;
+        size_t tmp_place = tmp_instring.find(":");
+        if(tmp_place == string::npos){
+            nsets.push_back( tmp_instring );
+        }
+        else{
+            while( tmp_place != string::npos ){
+                string set = tmp_instring.substr(0, tmp_place + 1);  
+
+                nsets.push_back( set );
+
+                tmp_place = tmp_instring.find(":");
+            }
+        }
+
+        for(size_t i = 0; i < nsets.size(); i++){
+            cout << "nsets[" << i << "] = " << nsets[i] << endl;
+        }
+
+        //     m_instring
+
+
+        // string word;
+        // std::stringstream iss(m_instring);
+
+
+        // std::vector<BinPar> nparams;
+
+        // while( iss >> word )     
+        // {
+        //     if(word.find(":") != string::npos){ 
+        //         new_set++;
+        //         continue;
+        //     }
+        //     else if(!IsNumber(word)){
+        //         if(new_set){ 
+        //             BinPar tmp;
+        //             tmp.var = word;
+        //             nparams.push_back( tmp );
+        //         }
+
+        //     }
+        // }    
+
+
     }
 
 

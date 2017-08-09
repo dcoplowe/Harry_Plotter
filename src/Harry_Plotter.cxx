@@ -25,9 +25,17 @@ Harry_Plotter::Harry_Plotter()
     cout << "cuts = " << cuts << endl;
     cout << "numbers = " << numbers << endl;
 
-// 	<| david is cool = 10 |>
-// <| cuts = dyx < 20. && dz == 1900.23 |>
-// <| numbers = 1.0102203 |>
+	string plots_file = string( getenv("HP_ROOT") );
+    plots_file += "/parameters/plot_list.txt";
+
+    cout << "plots_file = " << plots_file <<endl;
+    std::vector<string> plot_list = ReadParam::ReadFile(plots_file);
+
+    std::vector<ReadParam*> list;
+
+    for(size_t i = 0; i < plot_list.size(); i++){
+    	list.push_back( new ReadParam(list[i], ReadParam::kPlot) );
+    }
 
 }
 
