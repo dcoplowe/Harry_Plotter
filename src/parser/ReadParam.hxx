@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <vector> 
+#include <cstdlib> //exit(X)
 
 using std::cout;
 using std::endl;
@@ -124,7 +125,7 @@ private:
     static bool IsNumber(std::string);
 
     double * DetermineBins(int nbins, std::vector<double> binning);
-    double * SetBinning(int nbins, Double_t low, Double_t high);
+    double * SetBinning(int nbins, double low, double high);
 
 };
 
