@@ -1,4 +1,4 @@
-#include <Harrry_Plotter.hxx>
+#include <Harry_Plotter.hxx>
 
 #include <string>     // std::string, std::stoi
 #include <cctype> // no idea.
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
         }
     }
 
-	Harrry_Plotter * run = new Harrry_Plotter();
+	Harry_Plotter * run = new Harry_Plotter();
 
     return 1;
 }
