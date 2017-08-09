@@ -16,6 +16,7 @@ using std::string;
 ReadParam::ReadParam(const std::string instring, Type type, string left_arrow, string right_arrow)
 {
     m_instring = instring;
+    m_options = "";
     RemoveArrows(m_instring, left_arrow, right_arrow);
 
     m_Is_TwoD = false;
@@ -229,7 +230,7 @@ ReadParam::ReadParam(const std::string instring, Type type, string left_arrow, s
         }
 
         for(size_t i = 0; i < nparams.size(); i++){
-            nparams.Print();
+            nparams[i].Print();
         }
 
     }

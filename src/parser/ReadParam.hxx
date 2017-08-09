@@ -117,7 +117,8 @@ public:
 
 private:
     std::string m_instring;
-
+    std::string m_options;
+    
     BinPar m_var2rw;
     BinPar m_varOne;
     BinPar m_varTwo;
