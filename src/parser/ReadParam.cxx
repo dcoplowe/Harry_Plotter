@@ -185,8 +185,8 @@ ReadParam::ReadParam(const std::string instring, Type type, string left_arrow, s
                     else if(par.title.empty()) par.title = word;
                     else if(par.units.empty()) par.units = word;
                     else{
-                        extra += " ";
-                        extra += word;
+                        par.extra += " ";
+                        par.extra += word;
                         // cout << __FILE__ << ":" << __LINE__ << ": ERROR : Too many words... Check" << endl;
                         // exit(0);
                     }
