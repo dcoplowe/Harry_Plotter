@@ -102,6 +102,8 @@ public:
     int GetVar2RWNBins(){ return m_var2rw.nbins; }
     double * GetVar2RWBins(){ return m_var2rw.bins; }
 
+    // const std::string
+
     static std::vector<std::string> ReadFile(std::string infile);
 
     static std::string GetParameterS(std::string name, std::string infile, std::string left_arrow = "<|", std::string right_arrow = "|>");

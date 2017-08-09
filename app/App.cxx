@@ -1,4 +1,4 @@
-#include <CompareMC.hxx>
+#include <Harrry_Plotter.hxx>
 
 #include <string>     // std::string, std::stoi
 #include <cctype> // no idea.
@@ -7,13 +7,6 @@
 
 // const string testing("nuwro_carbon_p14_1GeV_noFSI_rawformat.txt");
 const std::string testing("lists/neut_carbon_p14_1GeV_RES_noFSI.txt");
-
-// class GeneratorInfo;
-int ReWeight::OneDCounter = 0;
-int ReWeight::TwoDCounter = 0;
-
-Int_t DrawingTools::s_1Dcounter = 0;
-Int_t DrawingTools::s_2Dcounter = 0;
 
 int main(int argc, char *argv[])
 {   
@@ -43,38 +36,7 @@ int main(int argc, char *argv[])
         }
     }
 
-	CompareMC * run = new CompareMC(ifile);
-
-	if(make_flattree) run->BuildAnalysisTrees();
-	
-	if(analyse_mc) run->AnalyseMCs();
-
-	if(make_plots){
-		if(!plot_range.empty()){
-			
-			std::string first_s = plot_range.substr(0, 1);
-			if(plot_range.find("-") != std::string::npos){
-				
-				std::string last_s = plot_range.substr(2, 1);
-				first = std::atoi(first_s.c_str());
-				last = std::atoi(last_s.c_str());
-			}
-			else{
-				first = std::atoi(first_s.c_str());
-				last = first;
-			}
-		}
-
-		if(first > last){
-			cout << "Plot range is not correct: (first < last) we have " << first << " > " << last << endl;
-			exit(0);
-		}
-		run->RunComparisons(first, last);
-	}
-	
-	if(run_reweight) run->RunReweight();
-	
-	delete run;
+	Harrry_Plotter * run = new Harrry_Plotter();
 
     return 1;
 }
