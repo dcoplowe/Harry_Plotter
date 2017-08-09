@@ -5,7 +5,6 @@
 #include <stdlib.h> //std::atoi ?
 #include <fstream> //ifstream header
 
-// const string testing("nuwro_carbon_p14_1GeV_noFSI_rawformat.txt");
 const std::string testing("lists/neut_carbon_p14_1GeV_RES_noFSI.txt");
 
 int main(int argc, char *argv[])
