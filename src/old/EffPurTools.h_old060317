@@ -1,0 +1,48 @@
+#ifndef EFFPURTOOLS_H
+#define EFFPURTOOLS_H
+
+//#include "DrawingTools.h"
+
+#include "TString.h"
+
+#include <sstream>
+//Forward declarations here:
+class DrawingTools;
+class TFile;
+class TTree;
+class TH1D;
+class TH2D;
+
+//using namespace PlotUtils;
+using namespace std;
+
+class EffPurTools {
+public:
+    
+    EffPurTools(std::string filename, std::vector<std::string> cut_names, std::string treename = "Truth");
+    ~EffPurTools();
+    
+    TH1D * EffVSCuts(std::string signal, int branch, std::string cuts);
+    //Given that all eff. is based on truth info. and pur.
+    //on the reco. these branch names will always remain
+    //the same. We can therefore load the file into the tool
+    //and run everything within the class.
+    
+private:
+    
+    std::vector<std::string> m_cut_names;
+  
+    TFile * m_file;
+    TTree * m_truth;
+    TTree * m_recon;
+    
+    Int_t m_ecounter;
+    Int_t m_pcounter;
+    
+    TH1D * EventsVSCuts(std::string cuts, int branch, int ncuts, int type);
+    TH1D * DrawRatioVSCuts(TH1D * num, TH1D * den, std::string y_title, std::string h_name);
+    
+};
+
+#endif
+

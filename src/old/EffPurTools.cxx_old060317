@@ -1,0 +1,237 @@
+#include "EffPurTools.h"
+
+//ROOT Includes:
+
+//Forward declarations;
+#include "TFile.h"
+#include "TH1I.h"
+#include "TH1D.h"
+#include "TH2D.h"
+#include "TTree.h"
+
+EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_names, std::string true_name, std::string reco_name){
+    
+    m_file = new TFile(filename.c_str(), "READ");
+    
+    if(m_file->IsOpen()){
+        m_truth = static_cast<TTree*>(m_file->Get(true_name.str()));
+        m_recon = static_cast<TTree*>(m_file->Get(reco_name.str()));
+    }
+    else{
+        cout << "EffPurTools::EffPurTools() : ERROR : Could not open file." << endl;
+        exit(0);
+    }
+    
+    for(int i = 0; i < (int)cut_names.size(); i++) m_cut_names.push_back(cut_names[i]);
+
+    m_ecounter = -1;
+    m_pcounter = -1;
+}
+
+EffPurTools::~EffPurTools(){
+    m_cut_names.clear();
+    
+    if(m_file){
+        if(m_file->IsOpen()) m_file->Close();
+        delete m_file;
+    }
+    if(m_truth) delete m_truth;
+    if(m_reco) delete m_recon;
+}
+
+TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
+    
+    if(signal.empty()){
+        cout << "No signal defined -- Need for efficiency calculations" << endl;
+        return 0x0;
+    }
+//    else if(_DEBUG_) cout << "    Signal: " << signal << endl;
+
+    m_ecounter++;
+    
+    std::string full_signal = signal;
+    if(!cuts.empty()){
+        full_signal += " && ";
+        full_signal += cuts;
+    }
+    
+    //Should really use the leaf to get the number of cuts...
+    TH1D * h_ncuts = m_truth->GetHisto("truth_ncuts", 10, 0, 10, "", "truth_ncuts != -999");
+    
+    int ncuts = (int)h_ncuts->GetBinCenter(h_ncuts->GetMaximumBin());
+    
+    cout << "Number of cuts found to be " << ncuts << endl;
+    
+    TH1D * num = EventsVSCuts(full_signal, branch, ncuts, 0);
+    TH1D * den = new TH1D("den", "", num->GetNbinsX(), 0., (double)num->GetNbinsX());
+    
+    for(int i = 0; i < num->GetNbinsX() + 1; i++){//Do we need the plus one?
+        den->SetBinContent(i+1,num->GetBinContent(1));
+        den->SetBinError(i+1,num->GetBinError(1));
+        cout << "num->GetBinContent(1) = " << num->GetBinContent(1) << " +/- " << num->GetBinError(1) << endl;
+        cout << "den->GetBinContent("<< i+1 <<") = " << den->GetBinContent(i+1) << " +/- " << den->GetBinError(i+1) << endl;
+    }
+    
+    TH1D * effcuts = DrawRatioVSCuts(num, den, "Efficiency", Form("h_effic%.3d", m_ecounter));
+    effcuts->SetLineColor(Blue);
+    
+    delete num;
+    delete den;
+    delete h_ncuts;
+    
+    return effcuts;
+}
+
+TH1D * EffPurTools::PurVSCuts(const TString signal, int branch, const TString cuts){
+    if(_DEBUG_) cout << "EffPurTools::PurVSCuts(TString, TString)" << endl;
+    
+    if(!_recontree){
+        cout << "EffPurTools::EffVSCuts : Warning : recon tree name not set." << endl;
+        return 0x0;
+    }
+    
+    if(signal.EqualTo("",TString::kExact)){
+        cout << "No signal defined -- Need for purity calculations" << endl;
+        return 0x0;
+    }
+    else if(_DEBUG_) cout << "    Signal: " << signal.Data() << endl;
+    
+    TString full_signal = signal;
+    
+    if(!cuts.EqualTo("",TString::kExact)){
+        full_signal.Append(" && ");
+        full_signal.Append(cuts);
+        if(_DEBUG_) cout << "    Cut(s): " << cuts.Data() << endl;
+    }
+    else if(_DEBUG_) cout << "    Cut(s): None" << endl;
+    
+    if(_DEBUG_) cout << "Starting to read tree " << endl;
+    
+    //TTree * intree = (TTree*)_file->Get(_reconame.Data());
+    
+    if(_DEBUG_) cout << "Opened Tree " << endl;
+    
+    //if(!intree) return 0x0;
+    
+    if(_DEBUG_) cout << "Read tree " << _recontree->GetName() << endl;
+    
+    TH1I * h_ncuts = new TH1I("h_ncuts", "",10, 0, 10);
+    _recontree->Project("h_ncuts","ncuts"); //->Draw("ncuts>> h_ncuts");
+    int ncuts = (int)h_ncuts->GetBinCenter(h_ncuts->GetMaximumBin());
+    
+    if(_DEBUG_) cout << "Number of cuts found to be " << ncuts << endl;
+    
+    TH1D * num = EventsVSCuts(_recontree, full_signal, branch, ncuts, "pur_num");
+    TH1D * den = EventsVSCuts(_recontree, cuts, branch, ncuts, "pur_den");
+    
+    if(_DEBUG_){
+        for(int i = 0; i < num->GetNbinsX(); i++ ){
+            cout << "num->GetBinContent("<<i+1<<") = " << num->GetBinContent(i+1) << " +/- " << num->GetBinError(i+1) << endl;
+            cout << "den->GetBinContent("<<i+1<<") = " << den->GetBinContent(i+1) << " +/- " << den->GetBinError(i+1) << endl;
+        }
+    }
+    
+    _purhcounter++;
+    TH1D * purcuts = DrawRatioVSCuts(num, den, "Purity", Form("h_purity%.3d", _purhcounter));
+    
+    delete num;
+    delete den;
+    
+    return purcuts;
+}
+
+TH1D * EffPurTools::EventsVSCuts(std::string cuts, int branch, int ncuts, int type){
+    
+    cout << "EffPurTools::EventsVSCuts" << endl;
+    
+    std::stringstream sbranch;
+    sbranch << branch;
+    
+    std::string tmp_cuts;// = "accum_level[" + sbranch.str() + "] > ";
+    
+    if(!cuts.empty()){
+        tmp_cuts += cuts;
+        tmp_cuts += " && ";
+    }
+
+    TTree * intree;
+    
+    if(type == 0){
+        tmp_cuts += "truth_";
+        intree = m_truth;
+    }
+    else intree = m_recon;
+    
+    tmp_cuts += "accum_level[" + sbranch.str() + "] > ";//Don't need to check != -999 as was start at -1;
+
+    cout << "Cut set as: " << tmp_cuts << endl;
+    
+    //This will complain: delete outside of function.
+
+    TH1D * h_evntcuts = new TH1D( (type == 1 ? Form("Eff%.3d", m_ecounter) : Form("Pur%.3d", m_pcounter)),"",
+                                 (ncuts + 1), 0., (double)(ncuts + 1));
+    
+    for(int i = 0; i < ncuts + 1; i++){
+        TH1D * h_tmp = new TH1D("h_tmp","", 1, 0., 1.);
+        std::string loop_cuts = Form("%s %d", tmp_cuts.c_str(), (i-1));
+        cout << "Loop cut: " << loop_cuts << endl;
+        intree->Project("h_tmp","0.5",loop_cuts);
+        double integral = (double)h_tmp->Integral(1, h_tmp->GetNbinsX());
+        h_evntcuts->SetBinContent(i+1, integral);
+        cout << "Cut " << i << ": Events after cut " << integral  << " Entries = " >> h_tmp->GetEntries()<< endl;
+        delete h_tmp;
+    }
+    
+    return h_evntcuts;
+}
+
+
+TH1D * EffPurTools::DrawRatioVSCuts(TH1D * num, TH1D * den, std::string y_title, std::string h_name){
+    cout << "EffPurTools::DrawRatioVSCuts" << endl;
+    
+    TH1D * ratio = new TH1D( h_name.c_str(), (";;" + y_title).c_str(), den->GetNbinsX(),
+                            den->GetXaxis()->GetXmin(),den->GetXaxis()->GetXmax());
+    
+    ratio->Divide(num, den);
+    ratio->GetYaxis()->SetRangeUser(0,1.1);
+    
+    for(int i = 0; i < ratio->GetNbinsX() + 1; i++){
+        cout << "ratio->GetBinContent("<< i + 1 <<") = " << ratio->GetBinContent(i+1) << " +/- " << ratio->GetBinError(i+1) << endl;
+    }
+    
+    if(!((int)m_cut_names.size() > 0)){
+        for(int i = 0; i < ratio->GetNbinsX() + 1; i++){
+            ratio->GetXaxis()->SetBinLabel(i+1, Form("%d.",(i+1)));
+        }
+        ratio->GetXaxis()->SetTitle("Cuts");
+        return ratio;
+    }
+    
+    int max_bins = ratio->GetNbinsX();
+    //Stop trying to run over array size:
+    if(max_bins > (int)(m_cut_names.size() + 1)){
+        max_bins = (int)m_cut_names.size();
+        cout << "Not all cuts have names. Running up to " << max_bins << endl;
+    }
+    else cout << "Writing label names" << endl;
+    
+    //cout << "Size of _cutnames array " << _cutnames.size() << endl;
+    
+    for(int i = 0; i < ratio->GetNbinsX(); i++){
+        std::string tmp_label;
+        
+        if(i == 0){
+            tmp_label = "No Cuts";
+        }
+        else{
+            if(max_bins > i ) tmp_label = Form("%d) %s", i, m_cut_names[i-1].c_str());
+            else tmp_label = Form("%d)", i);
+        }
+        
+        if(_DEBUG_) cout << tmp_label << endl;
+        ratio->GetXaxis()->SetBinLabel(i+1, tmp_label.c_str());
+    }
+    return ratio;
+}
+
+

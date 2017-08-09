@@ -2,19 +2,26 @@ CXX = g++
 CXXFLAGS = -g -Wall -fPIC
 ROOTFLAGS = `root-config --cflags --glibs`
 
-#DC Added:
-#SRC_DIR = src
-SRCS = ProducePlots.cxx EffPurTools.cxx BreakdownTools.cxx DrawingTools.cxx DataClasses.cxx
+SRCS =	$(wildcard app/App.cxx) \
+		$(wildcard src/*.cxx) \
+		$(wildcard src/base/*.cxx) \
+		$(wildcard src/parser/*.cxx) \
+		$(wildcard src/breakdown/*.cxx) \
+		$(wildcard src/effpur/*.cxx) \ 
+
 OBJS = $(SRCS:.c=.o)
+
+INCS =	-Isrc/ -Isrc/base -Isrc/parser -Isrc/breakdown -Isrc/effpur
 
 MAIN = ProducePlots
 
 all:    $(MAIN)
 	@echo  ProducePlots has compiled successfully.
 
-#New main without minerva specific build:
 $(MAIN): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(ROOTFLAGS) -o $(MAIN) $(OBJS)
+	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^ $(ROOTFLAGS)
 
+.PHONY: clean
 clean:
 	$(RM) *.o *~ $(MAIN)
+
