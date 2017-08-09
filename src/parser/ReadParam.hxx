@@ -24,7 +24,6 @@ public:
     double * bins;
     bool good;
     bool is_opt;
-    // std::string opts;
 
     inline void Print(){
         cout << "Par: " << var << " : Title: " << title << " (" << (units.empty() ? "NONE" : units) << ")";
@@ -62,6 +61,20 @@ public:
         }
     }
 
+    BinPar& operator =(const BinPar& mp)
+    {
+        var = mp.var;
+        title = mp.title;
+        units = mp.units;
+        extra = mp.extra;
+        nbins = mp.nbins;
+        bvals = mp.bvals;
+        bins = mp.bins;
+        good = mp.good;
+        is_opt = mp.is_opt;
+        return *this;
+    }
+
 };
 
 #endif
@@ -79,11 +92,10 @@ const std::string right_brace = "|>";
 class ReadParam
 {
 public:
-
-    enum Type { kBinning = 0, kReweight, kPlot, kUnknown };
+    enum Dim { kZero = 0, kOne, kTwo, kThree };
 
     // Fix this to include axis titles in parser.
-    ReadParam(const std::string instring, Type type = kBinning, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
+    ReadParam(const std::string instring, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
     ~ReadParam();
 
     std::string GetInString(){ return m_instring; }
@@ -101,13 +113,14 @@ public:
     int GetVar2NBins(){ return m_varTwo.nbins; }
     double * GetVar2Bins(){ return m_varTwo.bins; }
 
-    bool Run2D(){ return m_Is_TwoD; }
+    int GetDim(){ return static_cast<int>(m_Dim); }
+    Dim GetDimEnum(){ return m_Dim; }
 
-    // RW:
-    std::string GetVar2RW(){ return m_var2rw.var; }
-    std::string GetVar2RWTitle(){ return (m_var2rw.title + (m_var2rw.units.empty() ? "" : " (" + m_var2rw.units + ")") ); }
-    int GetVar2RWNBins(){ return m_var2rw.nbins; }
-    double * GetVar2RWBins(){ return m_var2rw.bins; }
+    // 3D:
+    std::string GetVar3(){ return m_varThree.var; }
+    std::string GetVar3Title(){ return (m_varThree.title + (m_varThree.units.empty() ? "" : " (" + m_varThree.units + ")") ); }
+    int GetVar3NBins(){ return m_varThree.nbins; }
+    double * GetVar3Bins(){ return m_varThree.bins; }
    
     static std::vector<std::string> ReadFile(std::string infile);
 
@@ -118,19 +131,19 @@ public:
 private:
     std::string m_instring;
     std::string m_options;
-    
-    BinPar m_var2rw;
+
     BinPar m_varOne;
     BinPar m_varTwo;
+    BinPar m_varThree;
 
-    bool m_Is_TwoD;
+    Dim m_Dim;
 
     static void RemoveArrows(std::string &word, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
     static bool IsNumber(std::string);
     static std::string GetParameterN(std::string name, std::string infile, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
 
-    double * DetermineBins(int nbins, std::vector<double> binning);
-    double * SetBinning(int nbins, double low, double high);
+    // double * DetermineBins(int nbins, std::vector<double> binning);
+    // double * SetBinning(int nbins, double low, double high);
 
 };
 

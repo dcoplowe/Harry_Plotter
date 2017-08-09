@@ -13,236 +13,112 @@ using std::string;
 // using std::cout;
 // using std::endl;
 
-ReadParam::ReadParam(const std::string instring, Type type, string left_arrow, string right_arrow)
+ReadParam::ReadParam(const std::string instring, string left_arrow, string right_arrow) : m_instring(instring), m_options(""), m_Dim(kZero)
 {
-    m_instring = instring;
-    m_options = "";
     RemoveArrows(m_instring, left_arrow, right_arrow);
 
-    m_Is_TwoD = false;
-    if(type < kPlot){
-        bool good_var2rw_done = false;
-        bool good_rwvar1_done = false;
-    // bool good_rwvar2_done = false;
+    // Split all sets:
+    std::vector<string> nsets;
+    string tmp_instring = m_instring;
+    size_t tmp_place = tmp_instring.find(":");
+    if(tmp_place == string::npos){
+        nsets.push_back( tmp_instring );
+    }
+    else{
+        while( tmp_place != string::npos ){
+            string set = tmp_instring.substr(0, tmp_place);
+            nsets.push_back( set );
+            tmp_instring = tmp_instring.substr(tmp_place + 1, tmp_instring.length());  
+            tmp_place = tmp_instring.find(":");
+        }
+        if(!tmp_instring.empty()) nsets.push_back( tmp_instring );
+    }
 
-        int  counter = 0;
+    std::vector<BinPar> nparams;
 
-    // std::vector<std::string> list;
+    for(size_t i = 0; i < nsets.size(); i++){
+            // cout << "nsets[" << i << "] = " << nsets[i] << endl;
+
         string word;
         std::stringstream iss(m_instring);
+        BinPar par;
         while( iss >> word )     
         {
             if(!IsNumber(word)){
-                if(!m_var2rw.good){
-                    m_var2rw.good = true;
-                    m_var2rw.var = word;
-                // counter++;
-                }
-                else if(!m_varOne.good) {
-                    m_varOne.good = true;
-                    m_varOne.var = word;
-                    counter = 0;
-                    good_var2rw_done = true;
-                }
-                else if(!m_varTwo.good) {
-                    m_varTwo.good = true;
-                    m_varTwo.var = word;
-                    counter = 0;
-                    good_rwvar1_done = true;
+                if(par.var.empty()) par.var = word;
+                else if(par.var.empty()) par.var = word;
+                else if(par.title.empty()) par.title = word;
+                else if(par.units.empty()) par.units = word;
+                else{
+                    par.extra += " ";
+                    par.extra += word;
                 }
             }
             else{
-                if(m_var2rw.good && !good_var2rw_done){
-                    if(counter == 1) m_var2rw.nbins = atoi(word.c_str());
-                    else m_var2rw.bvals.push_back( atof( word.c_str() ) );
-                }
-                else if(m_varOne.good && !good_rwvar1_done){
-                    if(counter == 1) m_varOne.nbins = atoi(word.c_str());
-                    else m_varOne.bvals.push_back( atof( word.c_str() ) );
-                }
-                else if(m_varTwo.good){
-                    if(counter == 1) m_varTwo.nbins = atoi(word.c_str());
-                    else m_varTwo.bvals.push_back( atof( word.c_str() ) );
-                }
-            }
-            counter++;
-        }    
-
-        if(m_var2rw.good){
-            m_var2rw.bins = DetermineBins(m_var2rw.nbins, m_var2rw.bvals);
-        }
-
-        if(m_varOne.good){
-            m_varOne.bins = DetermineBins(m_varOne.nbins, m_varOne.bvals);
-        }
-
-        if(m_varTwo.good){
-            m_Is_TwoD = true;
-            m_varTwo.bins = DetermineBins(m_varTwo.nbins, m_varTwo.bvals);
-        }
-
-        if(type == kReweight){
-            if(m_varTwo.good){
-                cout << __FILE__ << ":" << __LINE__ << " : ERROR : Could not interpret params! Too many parameters..." << endl;
-                exit(0);
-            }
-
-            if(m_varOne.good){
-                m_varTwo.var = m_varOne.var;
-                m_varTwo.title = m_varOne.title;
-                m_varTwo.units = m_varOne.units;
-                m_varTwo.nbins = m_varOne.nbins;
-
-                m_varTwo.bins = new double [ m_varTwo.nbins + 1 ];
-                for(int i = 0; i < m_varTwo.nbins + 1; i++) m_varTwo.bins[i] = m_varOne.bins[i];
-
-                    m_varTwo.good = true;
-                m_Is_TwoD = true;
-
-                m_varOne.var = "";
-                m_varOne.nbins = -999;
-                delete [] m_varOne.bins;
-            }
-            else m_Is_TwoD = false;
-
-            if(m_var2rw.good){
-                m_varOne.var = m_var2rw.var;
-                m_varOne.title = m_var2rw.title;
-                m_varOne.units = m_var2rw.units;
-                m_varOne.nbins = m_var2rw.nbins;
-
-                m_varOne.bins = new double [ m_varOne.nbins + 1 ];
-
-                for(int i = 0; i < m_varOne.nbins + 1; i++) m_varOne.bins[i] = m_var2rw.bins[i];
-
-                    m_varOne.good = true;
-                m_var2rw.good = false;
-
-                m_var2rw.var = "";
-                m_var2rw.nbins = -999;
-                delete [] m_var2rw.bins;
+                if(par.nbins == -999) par.nbins = atoi( word.c_str() );
+                else par.bvals.push_back( atof(word.c_str()) );
             }
         }
+            // Now check that we have the minimum info:
+        bool pass = true;
+        if(par.var.empty()) pass = false;
+        if(par.nbins == -999) pass = false;
+        if(par.bvals.size() < 2) pass = false;
 
-        bool lprint = false;
-
-        if(lprint){
-            cout << "------------- SUMMARY -------------" << endl;
-            if(type == kReweight){
-                cout << "RW Var: ";
-                m_var2rw.Print();
-            }
-
-            string rw_string = "";
-            if(type == kReweight) rw_string = "RW";
-
-            if(m_varOne.good){
-                cout << "Var " << rw_string << "1: ";
-                m_varOne.Print();
-            }
-
-            if(m_varTwo.good){
-                cout << "Var " << rw_string << "2: ";
-                m_varTwo.Print();
-            }    
-            cout << "-----------------------------------" << endl;
-        }
-    }
-    else if(type == kPlot){
-        // Required form: var symbol units nbins bins : var symbol units nbins bins (include : for 2D)
-
-        // Split all sets:
-        std::vector<string> nsets;
-        string tmp_instring = m_instring;
-        size_t tmp_place = tmp_instring.find(":");
-        if(tmp_place == string::npos){
-            nsets.push_back( tmp_instring );
+        if(pass){
+            par.good = true;
+                // Check that title has been filled and set to var if not:
+            if(par.title.empty()) par.title = par.var;
+            par.DetermineBins();
+            cout << " nparams.push_back( par ); " << endl;
+            nparams.push_back( par );
         }
         else{
-            int numss =0;
-            while( tmp_place != string::npos ){
-                string set = tmp_instring.substr(0, tmp_place);
-                nsets.push_back( set );
-                tmp_instring = tmp_instring.substr(tmp_place + 1, tmp_instring.length());  
-                tmp_place = tmp_instring.find(":");
-            }
-            if(!tmp_instring.empty()) nsets.push_back( tmp_instring );
-        }
-
-        std::vector<BinPar> nparams;
-
-        for(size_t i = 0; i < nsets.size(); i++){
-            // cout << "nsets[" << i << "] = " << nsets[i] << endl;
-
-            string word;
-            std::stringstream iss(m_instring);
-            BinPar par;
-            while( iss >> word )     
-            {
-                if(!IsNumber(word)){
-                    if(par.var.empty()) par.var = word;
-                    else if(par.var.empty()) par.var = word;
-                    else if(par.title.empty()) par.title = word;
-                    else if(par.units.empty()) par.units = word;
-                    else{
-                        par.extra += " ";
-                        par.extra += word;
-                        // cout << __FILE__ << ":" << __LINE__ << ": ERROR : Too many words... Check" << endl;
-                        // exit(0);
-                    }
-                }
-                else{
-                    if(par.nbins == -999) par.nbins = atoi( word.c_str() );
-                    else par.bvals.push_back( atof(word.c_str()) );
-                }
-            }
-            // Now check that we have the minimum info:
-            bool pass = true;
-            if(par.var.empty()) pass = false;
-            if(par.nbins == -999) pass = false;
-            if(par.bvals.size() < 2) pass = false;
-
-            if(pass){
-                par.good = true;
-                // Check that title has been filled and set to var if not:
-                if(par.title.empty()) par.title = par.var;
-                par.DetermineBins();
-                cout << " nparams.push_back( par ); " << endl;
-                nparams.push_back( par );
-            }
-            else{
-                if(!par.var.empty()){
+            if(!par.var.empty()){
                     // cout << "Found Option(s)" << endl;
-                    m_options = par.var;
-                    if(!par.title.empty()){
+                m_options = par.var;
+                if(!par.title.empty()){
+                    m_options += " ";
+                    m_options += par.title;
+                    if(!par.units.empty()){
                         m_options += " ";
-                        m_options += par.title;
-                        if(!par.units.empty()){
+                        m_options += par.units;
+                        if(!par.extra.empty()){
                             m_options += " ";
-                            m_options += par.units;
-                            if(!par.extra.empty()){
-                                m_options += " ";
-                                m_options += par.extra;
-                            }
+                            m_options += par.extra;
                         }
                     }
                 }
             }
         }
-
-        for(size_t i = 0; i < nparams.size(); i++){
-            nparams[i].Print();
-        }
-
     }
+
+    size_t entries = nparams.size();
+
+    if(entries == 1) m_Dim = kOne;
+    else if(entries == 2) m_Dim = kTwo;
+    else if(entries == 3) m_Dim = kThree;
+    else{
+        cout << __FILE__ << ":" << __LINE__ << " : ERROR : More than 3 dimensions (count " << entries << ")" << endl;
+            exit(0); 
+    }
+
+    BinPar loop[3] = { m_varOne, m_varTwo, m_varThree };
+
+    for(size_t i = 0; i < entries; i++){
+        loop[i] = nparams[i];
+    }
+
+
+    
 
 }
 
 ReadParam::~ReadParam()
 {
-    delete [] m_var2rw.bins;
-    delete [] m_varOne.bins;
-    delete [] m_varTwo.bins;
+    // delete [] m_varThree.bins;
+    // delete [] m_varOne.bins;
+    // delete [] m_varTwo.bins;
 }
 
 double * ReadParam::SetBinning(int nbins, double low, double high){
