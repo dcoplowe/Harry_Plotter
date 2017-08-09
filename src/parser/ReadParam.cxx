@@ -40,7 +40,7 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
             // cout << "nsets[" << i << "] = " << nsets[i] << endl;
 
         string word;
-        std::stringstream iss(m_instring);
+        std::stringstream iss(nsets[i]);
         BinPar par;
         while( iss >> word )     
         {
