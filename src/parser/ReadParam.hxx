@@ -38,7 +38,6 @@ public:
         bvals = mp.bvals;
         bins = mp.bins;
         good = mp.good;
-        is_opt = mp.is_opt;
         return *this;
     }
 
