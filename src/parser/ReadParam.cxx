@@ -249,3 +249,57 @@ double ReadParam::GetParameterD(std::string name, std::string infile, std::strin
 }
 
 #endif
+
+#ifndef __BINPAR__CXX__
+#define __BINPAR__CXX__
+
+BinPar::BinPar() : var(""), title(""), units(""), extra(""), nbins(-999), good(false)
+{ 
+    bvals.clear(); 
+    bins = 0x0; 
+}
+    
+BinPar::~BinPar(){ 
+    bvals.clear(); 
+    if(bins) delete bins; 
+}
+
+inline void BinPar::Print()
+{
+    cout << "Par: " << var << " : Title: " << title << " (" << (units.empty() ? "NONE" : units) << ")";
+    cout << "NBins: " << nbins << " :";
+    if(bins){
+        for(int i = 0; i < nbins + 1; i++){
+            cout << " " << bins[i];
+        } 
+        cout << endl;
+    }
+    else cout << "Problem Bins not set!!! " << endl;
+}
+
+inline double * BinPar::SetBinning(int tmp_nbins, double low, double high)
+{
+    double * tmp_bins = new double[ tmp_nbins + 1 ];
+    double range = high - low;
+    double binwidth = range/(double)tmp_nbins;
+
+    for (int i=0; i < tmp_nbins + 1; i++) {
+        tmp_bins[i] = low + binwidth*i;
+        // if(m_verbose) cout << "Array Element: " << i << " : " << tmp_bins[i] << endl;
+    }
+    return tmp_bins;
+}
+
+inline void BinPar::DetermineBins(){
+    if(bvals.size() == 2) bins = SetBinning(nbins, bvals[0], bvals[1]);
+    else if( (int)bvals.size() == nbins + 1){
+        bins = new double [ nbins + 1 ];
+        for(int i = 0; i < nbins + 1; i++) bins[i] = bvals[i]; 
+    }
+    else{
+        cout << __FILE__ << ":" << __LINE__ << " : ERROR : Could not make array: nbins = " << nbins << ", array size = " << bvals.size() << endl;
+        exit(0);       
+    }
+}
+
+#endif
