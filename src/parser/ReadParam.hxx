@@ -100,7 +100,7 @@ public:
 
 private:
     std::string m_instring;
-    std::map<Opts, std::string> m_options;
+    std::map<ReadParam::Opts, std::string> m_options;
 
     BinPar m_varOne;
     BinPar m_varTwo;
