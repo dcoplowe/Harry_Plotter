@@ -2,12 +2,11 @@
 #define __HARRY_PLOTTER__HXX
 
 #include <string>
+#include <vector>
 
 class Harry_Plotter
 {
 public:
-
-	
 
 	Harry_Plotter();
 	~Harry_Plotter();
@@ -15,7 +14,6 @@ public:
 private: 
 	std::vector<ReadParam*> m_plots;
 };
-
 #endif
 
 // <| dpTT #deltap_{TT} MeV/#it{c} 49 -300 300 |>
