@@ -246,9 +246,9 @@ std::string ReadParam::GetParameterS(std::string name, std::string infile, std::
         }
     }
 
-    cout << "WOROKING " <<endl;
+    string param = "";
     if(store != -999){
-        string param = list[store];
+        param = list[store];
         if(!param.empty()){
             RemoveArrows(param, left_arrow, right_arrow);
 
@@ -262,10 +262,6 @@ std::string ReadParam::GetParameterS(std::string name, std::string infile, std::
             }
         }
     }
-    else param = "";
-
-    cout << "WOROKING 1" <<endl;
-
     return param;
 }
 
