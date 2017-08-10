@@ -259,6 +259,9 @@ std::string ReadParam::GetParameterS(std::string name, std::string infile, std::
         cout << __FILE__ << ":" << __LINE__ << ": ERROR : Parameter not in correct form (missing =), we have: " << param << endl;
         exit(0);
     }
+
+    cout << "WOROKING 1" <<endl;
+
     return param;
 }
 
