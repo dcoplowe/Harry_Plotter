@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
     }
 
 	Harry_Plotter * run = new Harry_Plotter(ifile);
-	run->MakePlots();
+	run->Run();
 	delete run;
 
     return 1;
