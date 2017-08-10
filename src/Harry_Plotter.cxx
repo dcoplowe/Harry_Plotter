@@ -51,8 +51,8 @@ void Harry_Plotter::InterpretOptions()
 
 
 
-enum Type { kStandard = 0, kEff, kPur, kEP };
-	enum Style { kLC = 0, kLS, kLW, kFC, kFS };
-	GetOpt(Opts option);
+// enum Type { kStandard = 0, kEff, kPur, kEP };
+// 	enum Style { kLC = 0, kLS, kLW, kFC, kFS };
+// 	GetOpt(Opts option);
 
 #endif
