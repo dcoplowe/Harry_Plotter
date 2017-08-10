@@ -63,7 +63,7 @@ void Harry_Plotter::Run()
                     hist1D = Get1D(par);
                 }
                 else if(par->GetDim() == 2){
-                    hist1D = Get2D(par)
+                    hist2D = Get2D(par)
                 }
 
                 break;
@@ -170,9 +170,9 @@ std::string Harry_Plotter::CheckCuts(ReadParam * par, bool is_recon)
          else{
             if(!cuts.empty()){
                 cuts += " && ";
-                cuts += par->GetOpt(kCuts);
+                cuts += par->GetOpt(ReadParam::kCuts);
             }
-            else cuts = par->GetOpt(kCuts);
+            else cuts = par->GetOpt(ReadParam::kCuts);
          }
     }
     return cuts;
