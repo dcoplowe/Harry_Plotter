@@ -71,29 +71,29 @@ void Harry_Plotter::Run()
                 break;
             case Type::kEff: 
                 if(par->GetDim() == 1){
-                    hist1D = EffVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(),
+                    hist1D = m_effpur->EffVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(),
                         m_signal, CheckCuts(par, false), par->GetVar1Title());
                 }
                 else if(par->GetDim() == 2){
-                    hist2D = EffVSVar(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), 
+                    hist2D = m_effpur->EffVSVar(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), 
                         par->GetVar2NBins(), par->GetVar2Bins(), m_signal, CheckCuts(par, false), par->GetVar1Title() + ";" + par->GetVar2Title());
                 }
                 break;
             case Type::kPur: 
                 if(par->GetDim() == 1){
-                    hist1D = PurVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(),
+                    hist1D = m_effpur->PurVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(),
                         m_signal, CheckCuts(par, false), par->GetVar1Title());
                 }
                 else if(par->GetDim() == 2){
-                    hist2D = PurVSVar(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), 
+                    hist2D = m_effpur->PurVSVar(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), 
                         par->GetVar2NBins(), par->GetVar2Bins(), m_signal, CheckCuts(par, false), par->GetVar1Title() + ";" + par->GetVar2Title());
                 }
                 break;
             case Type::kEP: 
                 if(par->GetDim() == 1){
-                    hist1D = EffVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(),
+                    hist1D = m_effpur->EffVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(),
                         m_signal, CheckCuts(par, false), par->GetVar1Title());
-                    hist1Da = PurVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(),
+                    hist1Da = m_effpur->PurVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(),
                         m_signal, CheckCuts(par, false), par->GetVar1Title());
                 }
                 else{ 
