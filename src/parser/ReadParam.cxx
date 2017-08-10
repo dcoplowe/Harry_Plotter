@@ -267,8 +267,9 @@ void ReadParam::ExtractOptions()
         // kType:
 
         // kCut:
-        if(tmp_options.find("cut =") != string::npos){
-            string tmp = tmp_options.substr(tmp_options + 5, tmp_options.length());
+        size_t finder = tmp_options.find("cut =");
+        if(finder != string::npos){
+            string tmp = tmp_options.substr(finder + 5, tmp_options.length());
             cout << "CUT : " << tmp << endl;
         }
 
