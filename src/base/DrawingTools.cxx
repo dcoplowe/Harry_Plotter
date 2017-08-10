@@ -222,7 +222,7 @@ TH1D * DrawingTools::GetRTRatio(std::string vars_tr, std::string x_title, std::s
     //cout << var.Data() << endl;
     //cout << cuts.Data() << endl;
     
-    m_tree->Project(host_name.Data(), var.Data(), (m_weight + "*(" + cuts + ")").c_str());//(m_weight + "*(" + cuts + ")").c_str() <-- Don't know if this is needed.
+    m_tree->Project(host_name.Data(), var.Data(), (m_weight + "*(" + cuts + ")").c_str(), "", MaxEntries);//(m_weight + "*(" + cuts + ")").c_str() <-- Don't know if this is needed.
     
     if(m_verbose) cout << "RTRatio : Integral = " << ratio->Integral() << endl;
     
