@@ -54,6 +54,8 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
     string opts_file = string( getenv("HP_ROOT") );
     opts_file += "/effpur/parameters.txt";
 
+
+    cout << "opts_file = " << opts_file << endl; 
     std::vector<std::string> tmp_cuts;  
     string line = ReadParam::GetParameterS( "cut 1", opts_file);
     int runner = 1;
