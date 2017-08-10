@@ -275,9 +275,9 @@ void ReadParam::ExtractOptions()
 
         if(OptSet(kType)){
             string tmp = GetOpt(kType);
-            if(tmp.find("EP") != string::npos) m_type = kEP;
-            else if(tmp.find("EP") != string::npos) m_type = kEff;
-            else if(tmp.find("P") != string::npos) m_type = kPur;
+            if(tmp.find("EP") != string::npos) m_type = Type::kEP;
+            else if(tmp.find("EP") != string::npos) m_type = Type::kEff;
+            else if(tmp.find("P") != string::npos) m_type = Type::kPur;
         }
 
         if(OptSet(kStyle)){
@@ -290,7 +290,7 @@ void ReadParam::ExtractOptions()
                 cout << "WORD: Pre " << word << " Post ";
                 word = word.substr(2, word.length());
                 cout << word << endl;
-                
+
                 // if(!IsNumber(word)){
                 //     if(par.var.empty()) par.var = word;
                 //     else if(par.var.empty()) par.var = word;
