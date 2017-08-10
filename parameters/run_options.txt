@@ -2,3 +2,4 @@
 <| Tcuts = 1==1  |>
 <| Rcuts = 1==1  |>
 <| numbers = 1.0102203 |>
+<| effpur cut = david coplowe |>
