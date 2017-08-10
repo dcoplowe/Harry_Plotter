@@ -13,7 +13,7 @@ using std::string;
 // using std::cout;
 // using std::endl;
 
-ReadParam::ReadParam(const std::string instring, string left_arrow, string right_arrow) : m_instring(instring), m_options(""), m_Dim(kZero)
+ReadParam::ReadParam(const std::string instring, string left_arrow, string right_arrow) : m_instring(instring), m_Dim(kZero)
 {
     RemoveArrows(m_instring, left_arrow, right_arrow);
 
