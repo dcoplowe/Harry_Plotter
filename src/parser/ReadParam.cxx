@@ -270,6 +270,11 @@ void ReadParam::ExtractOptions()
         size_t finder = tmp_options.find("cut =");
         if(finder != string::npos){
             string tmp = tmp_options.substr(finder + 5, tmp_options.length());
+            size_t tmp_find = tmp.find(",");
+            while(tmp_find != string::npos){
+                tmp = tmp.substr(0, tmp_find);
+                tmp_find = tmp.find(",");
+            }
             cout << "CUT : " << tmp << endl;
         }
 

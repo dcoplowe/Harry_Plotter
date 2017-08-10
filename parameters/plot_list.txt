@@ -1,1 +1,1 @@
-<| truemu_cTheta #it{p}_{#mu} 5 -1 1 : truemu_mom 4 0 10 45 75 99 : EP, cut = sda && fff && ss |>
+<| truemu_cTheta #it{p}_{#mu} 5 -1 1 : truemu_mom 4 0 10 45 75 99 : type = EP, cut = sda && fff && ss, style = ls1001 lc2 fs10 fc2 lw2 |>
