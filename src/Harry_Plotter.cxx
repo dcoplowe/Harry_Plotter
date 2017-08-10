@@ -81,7 +81,7 @@ void Harry_Plotter::Run()
                 break;
             case Type::kPur: 
                 if(par->GetDim() == 1){
-                    hist1D = m_effpur->PurVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(),
+                    hist1D = m_effpur->PurVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
                         m_signal, CheckCuts(par, false), par->GetVar1Title());
                 }
                 else if(par->GetDim() == 2){
@@ -91,9 +91,9 @@ void Harry_Plotter::Run()
                 break;
             case Type::kEP: 
                 if(par->GetDim() == 1){
-                    hist1D = m_effpur->EffVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(),
+                    hist1D = m_effpur->EffVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
                         m_signal, CheckCuts(par, false), par->GetVar1Title());
-                    hist1Da = m_effpur->PurVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(),
+                    hist1Da = m_effpur->PurVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
                         m_signal, CheckCuts(par, false), par->GetVar1Title());
                 }
                 else{ 
