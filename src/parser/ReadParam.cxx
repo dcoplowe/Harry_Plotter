@@ -300,7 +300,39 @@ void ReadParam::ExtractOptions()
             }
         }
 
+        if(OptSet(kCuts)){
+            string tmp = GetOpt(kCuts);
+            string reset = "reset";
+            size_t pos = tmp.find(reset);
+            if(pos != string::npos){
+                m_reset_cuts = true;
+                tmp = tmp.substr(pos + reset.length(), tmp.length());
+                m_options[ kCuts ] = tmp;
+            }
+        }
+
     }
+
+    std::map<ReadParam::Opts, string> optlist;
+    optlist[ kCuts ] = "kCuts";
+    optlist[ kStyle ] = "kStyle";
+    optlist[ kType ] = "kType";
+
+    std::map<ReadParam::Opts, std::string>::iterator it = m_options.begin();
+    while(it != m_options.end())
+    {
+        std::map<ReadParam::Opts, std::string>::iterator it2 = optlist.begin();
+       while(it2 != m_options.end())
+       {
+            if(it->first == it2->first){ 
+                cout << it2->second << " : " << it->second << endl;
+                break;
+            }
+            it2++;
+       }   
+        it++;
+    }
+
 
 }
 
@@ -314,7 +346,7 @@ std::string ReadParam::FindOpt(std::string name, std::string in){
             tmp = tmp.substr(0, tmp_find);
             tmp_find = tmp.find(",");
         }
-        cout << name << " : " << tmp << endl;
+        // cout << name << " : " << tmp << endl;
         option = tmp;
     }
     return option;
