@@ -36,8 +36,8 @@ Harry_Plotter::Harry_Plotter(std::string infile) : m_filename(infile), m_recontr
     }
     plot_list.clear();
 
-    DrawingTools * m_recon = new DrawingTools(m_filename, m_recontree);
-    DrawingTools * m_truth = new DrawingTools(m_filename, m_truthtree);
+    m_recon = new DrawingTools(m_filename, m_recontree);
+    m_truth = new DrawingTools(m_filename, m_truthtree);
 }
 
 Harry_Plotter::~Harry_Plotter()
