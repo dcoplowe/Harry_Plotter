@@ -45,6 +45,19 @@ public:
 
 #endif
 
+#ifndef __TYPE_STYLE__NS
+#define __TYPE_STYLE__NS
+
+namespace Type {
+    enum Type { kStandard = 0, kEff, kPur, kEP };
+}
+
+namespace Style {
+    enum Style { kLC = 0, kLS, kLW, kFC, kFS };
+}
+
+#endif
+
 #ifndef __READPARAM__HXX__
 #define __READPARAM__HXX__
 
@@ -61,7 +74,6 @@ class ReadParam
 {
 public:
     enum Dim { kZero = 0, kOne, kTwo, kThree };
-
     enum Opts { kType = 0, kCuts, kStyle, kInput };
 
     // Fix this to include axis titles in parser.
@@ -98,9 +110,24 @@ public:
     static int GetParameterI(std::string name, std::string infile, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
     static double GetParameterD(std::string name, std::string infile, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
 
+    std::string GetOpt(Opts option);
+    bool OptSet(Opts option);
+
+    Type::Type GetType(){ return m_type; } 
+    int GetStyle(Style::Style st){ return m_type; } 
+
+    // enum Type { kStandard = 0, kEff, kPur, kEP };
+    // enum Style { kLC = 0, kLS, kLW, kFC, kFS };
+
+
+
 private:
     std::string m_instring;
+
     std::map<ReadParam::Opts, std::string> m_options;
+    Type::Type m_type;
+    std::map<Style::Style, int> m_style;
+
     bool m_NoOptions;
 
     BinPar m_varOne;
@@ -112,7 +139,7 @@ private:
     static void RemoveArrows(std::string &word, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
     static bool IsNumber(std::string);
     static std::string GetParameterN(std::string name, std::string infile, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
-    std::string InterpretOpt(std::string name, std::string in);
+    std::string FindOpt(std::string name, std::string in);
 
     void ExtractOptions();
 

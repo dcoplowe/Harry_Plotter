@@ -31,17 +31,28 @@ Harry_Plotter::Harry_Plotter()
     cout << "plots_file = " << plots_file <<endl;
     std::vector<string> plot_list = ReadParam::ReadFile(plots_file);
 
-    std::vector<ReadParam*> list;
-
     for(size_t i = 0; i < plot_list.size(); i++){
-    	list.push_back( new ReadParam(plot_list[i]) );
+    	m_plots.push_back( new ReadParam(plot_list[i]) );
     }
+    plot_list.clear();
 
+    
 }
 
 Harry_Plotter::~Harry_Plotter()
 {
+	m_plots.clear();
+}
+
+void Harry_Plotter::InterpretOptions()
+{
 
 }
+
+
+
+enum Type { kStandard = 0, kEff, kPur, kEP };
+	enum Style { kLC = 0, kLS, kLW, kFC, kFS };
+	GetOpt(Opts option);
 
 #endif

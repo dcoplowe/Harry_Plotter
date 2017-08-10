@@ -262,19 +262,65 @@ void ReadParam::ExtractOptions()
         string tmp_options = "";
         if(it != m_options.end()) tmp_options = it->second;
         // kType:
-        string type = InterpretOpt("type = ", tmp_options);
+        string type = FindOpt("type = ", tmp_options);
         if(!type.empty()) m_options[ kType ] = type;
         // kCut:
-        string cut = InterpretOpt("cut = ", tmp_options);
+        string cut = FindOpt("cut = ", tmp_options);
         if(!cut.empty()) m_options[ kCuts ] = cut;
         // kStyle:
-        string style = InterpretOpt("style = ", tmp_options);
+        string style = FindOpt("style = ", tmp_options);
         if(!style.empty()) m_options[ kStyle ] = style;
+
+        // Set the style and types:
+
+        if(OptSet(kType)){
+            string tmp = GetOpt(kType);
+            if(tmp.find("EP") != string::npos) m_type = kEP;
+            else if(tmp.find("EP") != string::npos) m_type = kEff;
+            else if(tmp.find("P") != string::npos) m_type = kPur;
+        }
+
+        if(OptSet(kStyle)){
+            string tmp = GetOpt(kStyle);
+            string word;
+            std::stringstream iss(tmp);           
+            while( iss >> word )     
+            {
+        // std::map<Style::Style, int> m_style;
+                cout << "WORD: Pre " << word << " Post ";
+                word = word.substr(2, word.length());
+                cout << word << endl;
+                
+                // if(!IsNumber(word)){
+                //     if(par.var.empty()) par.var = word;
+                //     else if(par.var.empty()) par.var = word;
+                //     else if(par.title.empty()) par.title = word;
+                //     else if(par.units.empty()) par.units = word;
+                //     else{
+                //         par.extra += " ";
+                //         par.extra += word;
+                //     }
+                // }
+                // else{
+                //     if(par.nbins == -999) par.nbins = atoi( word.c_str() );
+                //     else par.bvals.push_back( atof(word.c_str()) );
+                // }
+            }
+
+
+
+
+            // if(tmp.find("EP") != string::npos) m_style = kEP;
+            // else if(tmp.find("EP") != string::npos) m_style = kEff;
+            // else if(tmp.find("P") != string::npos) m_style = kPur;
+
+        }
+
     }
 
 }
 
-std::string ReadParam::InterpretOpt(std::string name, std::string in){
+std::string ReadParam::FindOpt(std::string name, std::string in){
     string option = "";
     size_t finder = in.find(name);
     if(finder != string::npos){
@@ -288,6 +334,22 @@ std::string ReadParam::InterpretOpt(std::string name, std::string in){
         option = tmp;
     }
     return option;
+}
+
+std::string ReadParam::GetOpt(Opts option)
+{
+    string found = "";
+    std::map<ReadParam::Opts, std::string>::iterator it = m_options.find( option );
+    if(it != m_options.end()) found = it->second;
+    return found;
+}
+
+bool ReadParam::OptSet(Opts option)
+{
+    bool found = false;
+    std::map<ReadParam::Opts, std::string>::iterator it = m_options.find( option );
+    if(it != m_options.end()) found = true;
+    return found;
 }
 
 

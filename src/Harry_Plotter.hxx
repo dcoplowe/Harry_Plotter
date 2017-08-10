@@ -6,9 +6,14 @@
 class Harry_Plotter
 {
 public:
+
+	
+
 	Harry_Plotter();
 	~Harry_Plotter();
 	
+private: 
+	std::vector<ReadParam*> m_plots;
 };
 
 #endif
