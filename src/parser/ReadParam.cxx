@@ -47,10 +47,10 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
     // m_ep_list[ kTop ] = "Top";
     // m_ep_list[ kTarS ] = "TarS";
     // m_ep_list[ kTar ] = "Tar";
-    ep_list[ kEffVSCuts ] = "EffVSCuts";
-    ep_list[ kPurVSCuts ] = "PurVSCuts";
-    ep_list[ kEffPurVSCuts ] = "EffPurVSCuts";
-    ep_list[ kNCutsMinusOne ] = "NCutsMinusOne";
+    ep_list[ Type::kEffVSCuts ] = "EffVSCuts";
+    ep_list[ Type::kPurVSCuts ] = "PurVSCuts";
+    ep_list[ Type::kEffPurVSCuts ] = "EffPurVSCuts";
+    ep_list[ Type::kNCutsMinusOne ] = "NCutsMinusOne";
 
     for(size_t i = 0; i < nsets.size(); i++){
             // cout << "nsets[" << i << "] = " << nsets[i] << endl;
