@@ -8,6 +8,7 @@
 #include <fstream> //ifstream header
 #include <cassert>
 #include <algorithm>
+#include <iterator>
 
 using std::string;
 // using std::cout;
@@ -72,7 +73,7 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
                 // Check that title has been filled and set to var if not:
             if(par.title.empty()) par.title = par.var;
             par.DetermineBins();
-            cout << " nparams.push_back( par ); " << endl;
+            // cout << " nparams.push_back( par ); " << endl;
             nparams.push_back( par );
         }
         else{
@@ -254,7 +255,12 @@ double ReadParam::GetParameterD(std::string name, std::string infile, std::strin
 
 void ReadParam::ExtractOptions()
 {
-
+    std::map<ReadParam::Opts, std::string>::iterator it = m_options.begin();
+    while(it != m_options.end())
+    {
+        std::cout<<" :: "<<it->second<<std::endl;
+        it++;
+    }
 }
 
 
