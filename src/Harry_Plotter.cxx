@@ -6,6 +6,7 @@
 #include <ReadParam.hxx>
 #include <iostream>
 #include <DrawingTools.hxx>
+#include <EffPurTools.hxx>
 
 using std::string;
 using std::endl;
@@ -32,6 +33,7 @@ Harry_Plotter::Harry_Plotter(std::string infile) : m_filename(infile), m_recontr
 
     m_recon = new DrawingTools(m_filename, m_recontree);
     m_truth = new DrawingTools(m_filename, m_truthtree);
+    m_effpur = new EffPurTools()
 }
 
 Harry_Plotter::~Harry_Plotter()

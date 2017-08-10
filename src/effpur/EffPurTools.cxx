@@ -5,8 +5,9 @@
 //ROOT Includes:
 #include "TLeaf.h"
 
-#include "DataClasses.h"
-#include "DrawingTools.h"
+// #include "DataClasses.h"
+#include "DrawingTools.hxx"
+#include <ReadParam.hxx>
 
 //Forward declarations;
 #include "TFile.h"
@@ -46,9 +47,20 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
         cout << "Could not access truth/recon tree(s)." << endl;
         exit(0);
     }
-    
-//    m_truth->Print();
 
+    string opts_file = string( getenv("HP_ROOT") );
+    opts_file += "/effpur/parameters.txt";
+
+    std::vector<std::string> tmp_cuts;  
+    string line = ReadParam::GetParameterS( "cut 1", opts_file);
+    int runner = 1;
+    while( !line.empty() ){
+        tmp_cuts.push_back( line );
+        runner++;
+        line = ReadParam::GetParameterS( string(Form("cut %d", runner)), opts_file);
+    }
+
+    SetCutNames(tmp_cuts);
 }
 
 EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_names, std::string reconame, std::string truename) : m_debug(false) {
@@ -372,7 +384,6 @@ void EffPurTools::ResetCutNames(){
 void EffPurTools::SetCutNames(std::vector<std::string> var){
     ResetCutNames();
     for(int i=0; i < (int)var.size(); i++){
-        TString tmp_string = var[i];
         SetCutName(var[i]);
     }
 }

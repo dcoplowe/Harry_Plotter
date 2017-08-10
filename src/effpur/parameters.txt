@@ -1,0 +1,13 @@
+<| cut 1 = Event Quality |> 
+<| cut 2 = > 0 Tracks |> 
+<| cut 3 = Quality and Fiducial |> 
+<| cut 4 = Veto |> 
+<| cut 5 = 3 TPC Tracks (+2, -1) |> 
+<| cut 6 = Common Vertex |> 
+
+cut_list.push_back("Event Quality");
+            cut_list.push_back("> 0 Tracks");
+            cut_list.push_back("Quality and Fiducial");
+            cut_list.push_back("Veto");
+            cut_list.push_back("3 TPC Tracks (+2, -1)");
+            cut_list.push_back("Common Vertex");

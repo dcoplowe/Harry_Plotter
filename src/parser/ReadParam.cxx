@@ -249,8 +249,6 @@ std::string ReadParam::GetParameterS(std::string name, std::string infile, std::
     string param = list[store];
     RemoveArrows(param, left_arrow, right_arrow);
 
-    cout << "FFFF = " << param <<endl;
-
     size_t place = param.find("=");
     if(place != string::npos){
         param = param.erase(0, place + 1);
