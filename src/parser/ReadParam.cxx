@@ -413,7 +413,7 @@ bool ReadParam::OptSet(Opts option)
     return found;
 }
 
-int GetStyle(Style::Style st) const;
+int ReadParam::GetStyle(Style::Style st)
 { 
     int found = -999;
     std::map<Style::Style, int>::iterator it = m_style.find( st );
