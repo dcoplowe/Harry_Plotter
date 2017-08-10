@@ -95,7 +95,7 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
         }
     }
 
-    m_options.[ kInput ] = tmp_options;
+    m_options[ kInput ] = tmp_options;
 
     size_t entries = nparams.size();
 
