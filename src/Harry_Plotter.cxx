@@ -63,7 +63,7 @@ void Harry_Plotter::Run()
                     hist1D = Get1D(par);
                 }
                 else if(par->GetDim() == 2){
-                    hist2D = Get2D(par)
+                    hist2D = Get2D(par);
                 }
 
                 break;
