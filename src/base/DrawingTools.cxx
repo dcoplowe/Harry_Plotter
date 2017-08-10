@@ -38,8 +38,10 @@ DrawingTools::DrawingTools(std::string filename, std::string treename, std::stri
 
     assert(m_tree);
     
-    s_1Dcounter = -1;
-    s_2Dcounter = -1;
+    if(MaxEntries == 80085) MaxEntries = TTree::kMaxEntries;
+
+    // s_1Dcounter = -1;
+    // s_2Dcounter = -1;
     
     m_ratiorange = 3;
     m_ratiobins = 59;
@@ -91,7 +93,7 @@ TH1D * DrawingTools::GetHisto(std::string var, Int_t nbins, Double_t * bins, std
         selection += ")";
     }
 
-    m_tree->Project(host_name.Data(), var.c_str(), selection.c_str());
+    m_tree->Project(host_name.Data(), var.c_str(), selection.c_str(), "", MaxEntries);
     
     return hist;
 }

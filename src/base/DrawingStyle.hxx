@@ -23,7 +23,16 @@ public:
     
     enum DSColors {//Add nice colors here and ones for ints/particle types
         //Colors:
-        Yellow = kOrange-2,
+        // kOrange (Yellow) = 800,
+        // kAzure (Blue) = 860,
+        // kRed = 632,
+        // kGray = 920,
+        // kGreen = 416,
+        // kBlue = 600,
+        // kMagenta = 616,
+        // kWhite = 0,
+        // kCyan = 431
+        Yellow = kOrange-2, 
         Blue = kAzure+2,
         Red = kRed+1,
         Gray = kGray,

@@ -5,7 +5,11 @@
 #include <stdlib.h> //std::atoi ?
 #include <fstream> //ifstream header
 
-const std::string testing("lists/neut_carbon_p14_1GeV_RES_noFSI.txt");
+const std::string testing("/data/t2k/coplowe/numuCC1P1PiOutput/march17/neutP6BWA/FGD1/nall_data_FGD1_type2_wome_fboff_minaclev0_270717/allTree.root");
+
+Int_t DrawingTools::s_1Dcounter = -1;
+Int_t DrawingTools::s_2Dcounter = -1;
+Long64_t DrawingTools::MaxEntries = 100;
 
 int main(int argc, char *argv[])
 {   
@@ -35,7 +39,9 @@ int main(int argc, char *argv[])
         }
     }
 
-	Harry_Plotter * run = new Harry_Plotter();
+	Harry_Plotter * run = new Harry_Plotter(ifile);
+	run->MakePlots();
+	delete run;
 
     return 1;
 }

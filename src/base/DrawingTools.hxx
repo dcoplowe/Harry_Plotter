@@ -25,6 +25,8 @@ public:
     static Int_t s_1Dcounter;
     static Int_t s_2Dcounter;
 
+    static Long64_t MaxEntries;
+
     struct KinMap {
         TH1D * recon;
         TH1D * truth;

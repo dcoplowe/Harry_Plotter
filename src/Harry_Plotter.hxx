@@ -5,16 +5,33 @@
 #include <vector>
 
 class ReadParam;
+class TH1D;
+class TH2D;
+class DrawingTools;
 
 class Harry_Plotter
 {
 public:
 
-	Harry_Plotter();
+	Harry_Plotter(std::string infile);
 	~Harry_Plotter();
 	
+	void Run();
+
 private: 
 	std::vector<ReadParam*> m_plots;
+
+	std::string m_filename;
+	std::string m_recontree; 
+	std::string m_truthtree;
+
+	std::string CheckCuts(ReadParam * par, bool is_recon = true);
+
+	DrawingTools * m_recon;
+	DrawingTools * m_truth;
+
+	TH1D * Get1D(ReadParam * par);
+	TH2D * Get2D(ReadParam * par);
 };
 #endif
 

@@ -49,7 +49,8 @@ public:
 #define __TYPE_STYLE__NS
 
 namespace Type {
-    enum Type { kStandard = 0, kEff, kPur, kEP, kPID, kTop, kTarS, kTar, kEffVSCuts, kPurVSCuts, kEffPurVSCuts, kNCutsMinusOne };
+    enum Type { kStandard = 0, kEff, kPur, kEP, kPID, kTop, kTarS, kTar,
+        kEffVSCuts, kPurVSCuts, kEffPurVSCuts, kNCutsMinusOne };
 }
 
 namespace Style {
@@ -74,7 +75,7 @@ class ReadParam
 {
 public:
     enum Dim { kZero = 0, kOne, kTwo, kThree };
-    enum Opts { kType = 0, kCuts, kStyle, kInput };
+    enum Opts { kType = 0, kCuts, kStyle, kInput, kOption };
 
     // Fix this to include axis titles in parser.
     ReadParam(const std::string instring, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
@@ -113,13 +114,11 @@ public:
     std::string GetOpt(Opts option);
     bool OptSet(Opts option);
 
-    Type::Type GetType(){ return m_type; } 
-    int GetStyle(Style::Style st){ return m_type; } 
+    Type::Type GetType() const { return m_type; } 
+    int GetStyle(Style::Style st) const;
 
-    // enum Type { kStandard = 0, kEff, kPur, kEP };
-    // enum Style { kLC = 0, kLS, kLW, kFC, kFS };
-
-
+    bool Truth() const { return m_truthtree; }
+    bool ResetCuts() const { return m_reset_cuts; }
 
 private:
     std::string m_instring;
@@ -127,6 +126,7 @@ private:
     std::map<ReadParam::Opts, std::string> m_options;
     Type::Type m_type;
     std::map<Style::Style, int> m_style;
+    bool m_truthtree;
 
     bool m_NoOptions;
     bool m_reset_cuts;

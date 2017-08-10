@@ -14,7 +14,8 @@ using std::string;
 // using std::cout;
 // using std::endl;
 
-ReadParam::ReadParam(const std::string instring, string left_arrow, string right_arrow) : m_instring(instring), m_NoOptions(true), m_reset_cuts(false), m_Dim(kZero)
+ReadParam::ReadParam(const std::string instring, string left_arrow, string right_arrow) : m_instring(instring), m_type(Type::kStandard),
+    m_truthtree(false), m_NoOptions(true), m_reset_cuts(false), m_Dim(kZero)
 {
     RemoveArrows(m_instring, left_arrow, right_arrow);
 
@@ -96,7 +97,7 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
                 while(it != ep_list.end())
                 {
                     if(it->second == par.var){ 
-                        cout << par.var << " == " << it->second << endl;
+                        // cout << par.var << " == " << it->second << endl;
                         m_type = it->first;
                         par.nbins = 1;
                         par.bvals.push_back( -999. );
@@ -107,7 +108,6 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
                     }
                     it++;
                 }
-
                     // cout << "Found Option(s)" << endl;
                 tmp_options = par.var;
                 if(!par.title.empty()){
@@ -140,14 +140,10 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
 
     for(size_t i = 0; i < entries; i++){
         loop[i] = nparams[i];
-        loop[i].Print();
+        // loop[i].Print();
     }    
 
-    if(!tmp_options.empty()){ 
-
-
-        m_options[ kInput ] = tmp_options;
-    }
+    if(!tmp_options.empty()) m_options[ kInput ] = tmp_options;
 
     ExtractOptions();
 
@@ -304,6 +300,9 @@ void ReadParam::ExtractOptions()
         // kStyle:
         string style = FindOpt("style = ", tmp_options);
         if(!style.empty()) m_options[ kStyle ] = style;
+        // kOption:
+        string option = FindOpt("option = ", tmp_options);
+        if(!style.empty()) m_options[ kOption ] = option;
 
         // Set the style and types:
 
@@ -347,6 +346,13 @@ void ReadParam::ExtractOptions()
                 tmp = tmp.substr(pos + reset.length(), tmp.length());
                 m_options[ kCuts ] = tmp;
             }
+        }
+
+        if(OptSet(kOption)){
+            string tmp = GetOpt(kOption);
+            if(tmp.find("T") != string::npos) m_truthtree = true;
+            // else if(tmp.find("N") != string::npos) m_truthtree = true;
+            // else if(tmp.find("SN") != string::npos) m_truthtree = true;
         }
     }
 
@@ -406,6 +412,14 @@ bool ReadParam::OptSet(Opts option)
     if(it != m_options.end()) found = true;
     return found;
 }
+
+int GetStyle(Style::Style st) const;
+{ 
+    int found = -999;
+    std::map<Style::Style, int>::iterator it = m_style.find( st );
+    if(it != m_style.end()) found = it->second;
+    return found; 
+} 
 
 
 #endif

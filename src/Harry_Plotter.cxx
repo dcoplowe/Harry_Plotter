@@ -5,14 +5,14 @@
 
 #include <ReadParam.hxx>
 #include <iostream>
+#include <DrawingTools.hxx>
 
 using std::string;
 using std::endl;
 using std::cout;
 
-Harry_Plotter::Harry_Plotter()
+Harry_Plotter::Harry_Plotter(std::string infile) : m_filename(infile), m_recontree("default"), m_truthtree("truth")
 {
-
 	// string opts_file = string( getenv("HP_ROOT") );
  //    opts_file += "/parameters/run_options.txt";
 
@@ -35,6 +35,9 @@ Harry_Plotter::Harry_Plotter()
     	m_plots.push_back( new ReadParam(plot_list[i]) );
     }
     plot_list.clear();
+
+    DrawingTools * m_recon = new DrawingTools(m_filename, m_recontree);
+    DrawingTools * m_truth = new DrawingTools(m_filename, m_truthtree);
 }
 
 Harry_Plotter::~Harry_Plotter()
@@ -42,9 +45,158 @@ Harry_Plotter::~Harry_Plotter()
 	m_plots.clear();
 }
 
+void Harry_Plotter::Run()
+{
+    // Initialise relevent classes:
+    // EffPurTools * builder = new EffPurTools(m_filename, m_reco, m_truth);
 
-// enum Type { kStandard = 0, kEff, kPur, kEP };
-// 	enum Style { kLC = 0, kLS, kLW, kFC, kFS };
-// 	GetOpt(Opts option);
+    for(size_t p = 0; p < m_plots.size(); p++){
+
+        ReadParam * par = m_plots[p];
+
+        TH1D * hist1D;
+        TH2D * hist2D;
+
+        switch ( par->GetType() ){
+            case Type::kStandard:
+                if(par->GetDim() == 1){
+                    hist1D = Get1D(par);
+                }
+                else if(par->GetDim() == 2){
+                    hist1D = recon->GetHisto(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(), CheckCuts(par));
+                }
+
+                break;
+            case Type::kEff: 
+                if(par->GetDim() == 1){
+
+                }
+                else if(par->GetDim() == 2){
+                    
+                }
+                break;
+            case Type::kPur: 
+                if(par->GetDim() == 1){
+
+                }
+                else if(par->GetDim() == 2){
+                    
+                }
+                break;
+            case Type::kEP: 
+                if(par->GetDim() == 1){
+
+                }
+                else if(par->GetDim() == 2){
+                    
+                }
+                break;
+            case Type::kPID: 
+                if(par->GetDim() == 1){
+
+                }
+                else if(par->GetDim() == 2){
+                    
+                }
+                break;
+            case Type::kTop: 
+                if(par->GetDim() == 1){
+
+                }
+                else if(par->GetDim() == 2){
+                    
+                }
+                break;
+            case Type::kTarS: 
+                if(par->GetDim() == 1){
+
+                }
+                else if(par->GetDim() == 2){
+                    
+                }
+                break;
+            case Type::kTar: 
+                if(par->GetDim() == 1){
+
+                }
+                else if(par->GetDim() == 2){
+                    
+                }
+                break;
+            case Type::kEffVSCuts: 
+            if(par->GetDim() == 1){
+
+                }
+                else if(par->GetDim() == 2){
+                    
+                }
+                break;
+            case Type::kPurVSCuts: 
+                if(par->GetDim() == 1){
+
+                }
+                else if(par->GetDim() == 2){
+                    
+                }
+                break;
+            case Type::kEffPurVSCuts: 
+                if(par->GetDim() == 1){
+
+                }
+                else if(par->GetDim() == 2){
+                    
+                }
+                break;
+            case Type::kNCutsMinusOne: 
+                if(par->GetDim() == 1){
+
+                }
+                else if(par->GetDim() == 2){
+                    
+                }
+                break; 
+            default: break;       
+        }
+
+    }
+
+}
+
+std::string Harry_Plotter::CheckCuts(ReadParam * par, bool is_recon)
+{
+    string cuts = (is_recon ? m_Rcuts : m_Tcuts);
+    if(!par->GetOpt(kCuts).empty()){
+         if(par->ResetCuts()) cuts = par->GetOpt(kCuts);
+         else{
+            if(!cuts.empty()){
+                cuts += " && ";
+                cuts += par->GetOpt(kCuts);
+            }
+            else cuts = par->GetOpt(kCuts);
+         }
+    }
+    return cuts;
+}
+
+TH1D * Harry_Plotter::Get1D(ReadParam * par)
+{
+    TH1D * hist; 
+    if(par->Truth()) truth->GetHisto(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(), CheckCuts(par, false));
+    else hist = recon->GetHisto(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(), CheckCuts(par));
+
+    // Other things like normalisation, STYLE:
+    return hist;
+}
+
+TH2D * Harry_Plotter::Get2D(ReadParam * par)
+{
+    TH2D * hist; 
+    if(par->Truth()) truth->GetHisto(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
+        par->GetVar2NBins(), par->GetVar2Bins(), par->GetVar1Title() + ";" + par->GetVar2Title(), CheckCuts(par, false));
+    else hist = recon->GetHisto(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
+        par->GetVar2NBins(), par->GetVar2Bins(), par->GetVar1Title() + ";" + par->GetVar2Title(), CheckCuts(par));
+    // Other things like normalisation, STYLE:
+    return hist;
+}
 
 #endif
