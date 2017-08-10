@@ -38,7 +38,7 @@ DrawingTools::DrawingTools(std::string filename, std::string treename, std::stri
 
     assert(m_tree);
     
-    if(MaxEntries == 80085) MaxEntries = kMaxEntries;
+    if(MaxEntries == 80085) MaxEntries = TVirtualTreePlayer::kMaxEntries;
 
     // s_1Dcounter = -1;
     // s_2Dcounter = -1;
