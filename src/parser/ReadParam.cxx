@@ -98,7 +98,10 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
                     if(it->second == par.var){ 
                         cout << par.var << " == " << it->second << endl;
                         m_type = it->first;
-                        par.nbins = 0;
+                        par.nbins = 1;
+                        par.bvals.push_back( -999. );
+                        par.bvals.push_back( -998. );
+                        par.DetermineBins();
                         nparams.push_back( par );
                         break;
                     }
