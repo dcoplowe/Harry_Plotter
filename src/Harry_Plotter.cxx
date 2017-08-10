@@ -8,6 +8,7 @@
 #include <DrawingTools.hxx>
 #include <EffPurTools.hxx>
 #include <TCanvas.h>
+#include <TDatime.h>
 
 using std::string;
 using std::endl;
@@ -38,6 +39,15 @@ Harry_Plotter::Harry_Plotter(std::string infile) : m_filename(infile), m_recontr
     m_recon = new DrawingTools(m_filename, m_recontree);
     m_truth = new DrawingTools(m_filename, m_truthtree);
     m_effpur = new EffPurTools(m_filename, m_recontree, m_truthtree);
+
+
+    TDatime time;
+    Int_t year = time.GetYear() - 2000;
+    Int_t month = time.GetMonth();
+    Int_t day = time.GetDay();
+    
+    m_ofilename = Form("Compare_MC_OutFile_%.2d%.2d%.2d.root", day, month, year);
+    m_outfile = new TFile(m_ofilename, "RECREATE");
 }
 
 Harry_Plotter::~Harry_Plotter()
@@ -98,7 +108,7 @@ void Harry_Plotter::Run()
                 }
                 else{ 
                     cout << __FILE__ << ":" << __LINE__ << " : Didn't draw " << par->GetVar1() << " vs. ";
-                    cout << par->GetVar2() << " Eff. Pur. - Cannot overlay 2D histograms"; 
+                    cout << par->GetVar2() << " Eff. Pur. - Cannot overlay 2D histograms" << endl; 
                     }
                 break;
             case Type::kPID: 

@@ -31,6 +31,8 @@ private:
 	std::string m_Tcuts;
 	std::string	m_epcut;
 
+	TFile * m_outfile;
+
 	std::string CheckCuts(ReadParam * par, bool is_recon = true);
 
 	DrawingTools * m_recon;
