@@ -52,7 +52,7 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
     }
 
     string opts_file = string( getenv("HP_ROOT") );
-    opts_file += "/effpur/parameters.txt";
+    opts_file += "/src/effpur/parameters.txt";
 
 
     cout << "opts_file = " << opts_file << endl; 
