@@ -54,20 +54,15 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
     string opts_file = string( getenv("HP_ROOT") );
     opts_file += "/src/effpur/parameters.txt";
 
-
     cout << "opts_file = " << opts_file << endl; 
     std::vector<std::string> tmp_cuts;  
     string line = ReadParam::GetParameterS( "cut 1", opts_file);
     cout << "line = ReadParam::GetParameterS( \"cut 1\", opts_file) = " << line << endl;
     int runner = 1;
     while( !line.empty() ){
-        cout << "DDDDD " <<endl;
         tmp_cuts.push_back( line );
-        cout << "cut " << runner << " : " << line << endl;
         line = ReadParam::GetParameterS( string(Form("cut %d", runner++)), opts_file);
-        cout << "FFFFFF " <<endl;
     }
-
     SetCutNames(tmp_cuts);
 }
 

@@ -7,18 +7,22 @@
 #include <iostream>
 #include <DrawingTools.hxx>
 #include <EffPurTools.hxx>
+#include <TCanvas.h>
 
 using std::string;
 using std::endl;
 using std::cout;
 
-Harry_Plotter::Harry_Plotter(std::string infile) : m_filename(infile), m_recontree("default"), m_truthtree("truth"), m_Rcuts(""), m_Tcuts("")
+Harry_Plotter::Harry_Plotter(std::string infile) : m_filename(infile), m_recontree("default"), m_truthtree("truth"),
+    m_signal(""), m_Rcuts(""), m_Tcuts(""), m_epcut("");
 {
 	string opts_file = string( getenv("HP_ROOT") );
     opts_file += "/parameters/run_options.txt";
 
+    m_signal = ReadParam::GetParameterS("signal", opts_file);
     m_Rcuts = ReadParam::GetParameterS("Rcuts", opts_file);
     m_Tcuts = ReadParam::GetParameterS("Tcuts", opts_file);
+    m_epcut = ReadParam::GetParameterS("effpur cut", opts_file);
 
 	string plots_file = string( getenv("HP_ROOT") );
     plots_file += "/parameters/plot_list.txt";
@@ -50,8 +54,10 @@ void Harry_Plotter::Run()
 
         ReadParam * par = m_plots[p];
 
-        TH1D * hist1D;
-        TH2D * hist2D;
+        TCanvas * can = 0x0;
+        TH1D * hist1D = 0x0;
+        TH2D * hist2D = 0x0;
+        TH1D * hist1Da = 0x0;
 
         switch ( par->GetType() ){
             case Type::kStandard:
@@ -65,27 +71,35 @@ void Harry_Plotter::Run()
                 break;
             case Type::kEff: 
                 if(par->GetDim() == 1){
-
+                    hist1D = EffVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(),
+                        m_signal, CheckCuts(par, false), par->GetVar1Title());
                 }
                 else if(par->GetDim() == 2){
-                    
+                    hist2D = EffVSVar(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), 
+                        par->GetVar2NBins(), par->GetVar2Bins(), m_signal, CheckCuts(par, false), par->GetVar1Title() + ";" + par->GetVar2Title());
                 }
                 break;
             case Type::kPur: 
                 if(par->GetDim() == 1){
-
+                    hist1D = PurVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(),
+                        m_signal, CheckCuts(par, false), par->GetVar1Title());
                 }
                 else if(par->GetDim() == 2){
-                    
+                    hist2D = PurVSVar(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), 
+                        par->GetVar2NBins(), par->GetVar2Bins(), m_signal, CheckCuts(par, false), par->GetVar1Title() + ";" + par->GetVar2Title());
                 }
                 break;
             case Type::kEP: 
                 if(par->GetDim() == 1){
-
+                    hist1D = EffVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(),
+                        m_signal, CheckCuts(par, false), par->GetVar1Title());
+                    hist1Da = PurVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(),
+                        m_signal, CheckCuts(par, false), par->GetVar1Title());
                 }
-                else if(par->GetDim() == 2){
-                    
-                }
+                else{ 
+                    cout << __FILE__ << ":" << __LINE__ << " : Didn't draw " << par->GetVar1() << " vs. ";
+                    cout << par->GetVar2() << " Eff. Pur. - Cannot overlay 2D histograms"; 
+                    }
                 break;
             case Type::kPID: 
                 if(par->GetDim() == 1){
@@ -194,5 +208,10 @@ TH2D * Harry_Plotter::Get2D(ReadParam * par)
     // Other things like normalisation, STYLE:
     return hist;
 }
+
+// TH1D * Harry_Plotter::GetEffPur1D(ReadParam * par)
+// {
+    
+// }
 
 #endif
