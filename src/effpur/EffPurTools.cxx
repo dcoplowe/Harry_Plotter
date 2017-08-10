@@ -1,4 +1,7 @@
-#include "EffPurTools.h"
+#ifndef __EFFPURTOOLS__CXX
+#define __EFFPURTOOLS__CXX
+
+#include "EffPurTools.hxx"
 
 #include <cassert>
 
@@ -601,3 +604,4 @@ int EffPurTools::MaxCutsToDraw(){
     return max_bins;
 }
 
+#endif
