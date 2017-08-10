@@ -5,6 +5,7 @@
 #include <stdlib.h> //std::atoi ?
 #include <fstream> //ifstream header
 #include <TROOT.h>
+#include <DrawingTools.hxx>
 
 const std::string testing("/data/t2k/coplowe/numuCC1P1PiOutput/march17/neutP6BWA/FGD1/nall_data_FGD1_type2_wome_fboff_minaclev0_270717/allTree.root");
 
