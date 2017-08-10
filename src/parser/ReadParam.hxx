@@ -48,6 +48,8 @@ public:
 #ifndef __READPARAM__HXX__
 #define __READPARAM__HXX__
 
+#include <map>
+
 // Want this class to read in parameters files for the following:
 // Read in parameter for plotting w/ symbol, units, binning etc. + options
 // Read in general parameters file for things like signal 
@@ -59,6 +61,8 @@ class ReadParam
 {
 public:
     enum Dim { kZero = 0, kOne, kTwo, kThree };
+
+    enum Opts { kType = 0, kCuts, kStyle, kInput };
 
     // Fix this to include axis titles in parser.
     ReadParam(const std::string instring, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
@@ -96,7 +100,7 @@ public:
 
 private:
     std::string m_instring;
-    std::string m_options;
+    std::map<Opts, std::string> m_options;
 
     BinPar m_varOne;
     BinPar m_varTwo;

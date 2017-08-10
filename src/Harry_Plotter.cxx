@@ -13,17 +13,17 @@ using std::cout;
 Harry_Plotter::Harry_Plotter()
 {
 
-	string opts_file = string( getenv("HP_ROOT") );
-    opts_file += "/parameters/run_options.txt";
+	// string opts_file = string( getenv("HP_ROOT") );
+ //    opts_file += "/parameters/run_options.txt";
 
-    cout << "opts_file = " << opts_file <<endl;
-    int dcool = ReadParam::GetParameterI("david is cool", opts_file);
-    string cuts = ReadParam::GetParameterS("cuts", opts_file);
-    double numbers = ReadParam::GetParameterD("numbers", opts_file);
+ //    cout << "opts_file = " << opts_file <<endl;
+ //    int dcool = ReadParam::GetParameterI("david is cool", opts_file);
+ //    string cuts = ReadParam::GetParameterS("cuts", opts_file);
+ //    double numbers = ReadParam::GetParameterD("numbers", opts_file);
 
-    cout << "david is cool = " << dcool << endl;
-    cout << "cuts = " << cuts << endl;
-    cout << "numbers = " << numbers << endl;
+ //    cout << "david is cool = " << dcool << endl;
+ //    cout << "cuts = " << cuts << endl;
+ //    cout << "numbers = " << numbers << endl;
 
 	string plots_file = string( getenv("HP_ROOT") );
     plots_file += "/parameters/plot_list.txt";

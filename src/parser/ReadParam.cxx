@@ -36,6 +36,8 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
 
     std::vector<BinPar> nparams;
 
+    string tmp_options = "";
+
     for(size_t i = 0; i < nsets.size(); i++){
             // cout << "nsets[" << i << "] = " << nsets[i] << endl;
 
@@ -76,22 +78,24 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
         else{
             if(!par.var.empty()){
                     // cout << "Found Option(s)" << endl;
-                m_options = par.var;
+                tmp_options = par.var;
                 if(!par.title.empty()){
-                    m_options += " ";
-                    m_options += par.title;
+                    tmp_options += " ";
+                    tmp_options += par.title;
                     if(!par.units.empty()){
-                        m_options += " ";
-                        m_options += par.units;
+                        tmp_options += " ";
+                        tmp_options += par.units;
                         if(!par.extra.empty()){
-                            m_options += " ";
-                            m_options += par.extra;
+                            tmp_options += " ";
+                            tmp_options += par.extra;
                         }
                     }
                 }
             }
         }
     }
+
+    m_options.[ kInput ] = tmp_options;
 
     size_t entries = nparams.size();
 
@@ -109,6 +113,8 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
         loop[i] = nparams[i];
         loop[i].Print();
     }    
+
+    ExtractOptions();
 
 }
 
@@ -246,6 +252,12 @@ double ReadParam::GetParameterD(std::string name, std::string infile, std::strin
     return atof(GetParameterN(name, infile, left_arrow, right_arrow).c_str());
 }
 
+void ReadParam::ExtractOptions()
+{
+
+}
+
+
 #endif
 
 #ifndef __BINPAR__CXX__
@@ -259,12 +271,11 @@ BinPar::BinPar() : var(""), title(""), units(""), extra(""), nbins(-999), good(f
     
 BinPar::~BinPar(){ 
     bvals.clear(); 
-    // if(bins) delete [] bins; 
 }
 
 inline void BinPar::Print()
 {
-    cout << "Par: " << var << " : Title: " << title << " (" << (units.empty() ? "NONE" : units) << ")";
+    cout << "Par: " << var << " : Title: " << title << " (" << (units.empty() ? "NONE" : units) << ") ";
     cout << "NBins: " << nbins << " :";
     if(bins){
         for(int i = 0; i < nbins + 1; i++){
