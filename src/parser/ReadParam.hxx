@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector> 
 #include <cstdlib> //exit(X)
+#include <map>
 
 using std::cout;
 using std::endl;
@@ -47,8 +48,6 @@ public:
 
 #ifndef __READPARAM__HXX__
 #define __READPARAM__HXX__
-
-#include <map>
 
 // Want this class to read in parameters files for the following:
 // Read in parameter for plotting w/ symbol, units, binning etc. + options
