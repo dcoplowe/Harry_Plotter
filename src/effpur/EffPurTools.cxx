@@ -58,6 +58,7 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
     cout << "opts_file = " << opts_file << endl; 
     std::vector<std::string> tmp_cuts;  
     string line = ReadParam::GetParameterS( "cut 1", opts_file);
+    cout << "line = ReadParam::GetParameterS( "cut 1", opts_file) = " << line << endl;
     int runner = 1;
     while( !line.empty() ){
         tmp_cuts.push_back( line );
