@@ -166,7 +166,7 @@ std::string Harry_Plotter::CheckCuts(ReadParam * par, bool is_recon)
 {
     string cuts = (is_recon ? m_Rcuts : m_Tcuts);
     if(!par->GetOpt(kCuts).empty()){
-         if(par->ResetCuts()) cuts = par->GetOpt(kCuts);
+         if(par->ResetCuts()) cuts = par->GetOpt(ReadParam::kCuts);
          else{
             if(!cuts.empty()){
                 cuts += " && ";
@@ -181,8 +181,8 @@ std::string Harry_Plotter::CheckCuts(ReadParam * par, bool is_recon)
 TH1D * Harry_Plotter::Get1D(ReadParam * par)
 {
     TH1D * hist; 
-    if(par->Truth()) truth->GetHisto(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(), CheckCuts(par, false));
-    else hist = recon->GetHisto(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(), CheckCuts(par));
+    if(par->Truth()) hist = m_truth->GetHisto(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(), CheckCuts(par, false));
+    else hist = m_recon->GetHisto(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(), CheckCuts(par));
 
     // Other things like normalisation, STYLE:
     return hist;
@@ -191,9 +191,9 @@ TH1D * Harry_Plotter::Get1D(ReadParam * par)
 TH2D * Harry_Plotter::Get2D(ReadParam * par)
 {
     TH2D * hist; 
-    if(par->Truth()) truth->GetHisto(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
+    if(par->Truth()) hist = m_truth->GetHisto(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
         par->GetVar2NBins(), par->GetVar2Bins(), par->GetVar1Title() + ";" + par->GetVar2Title(), CheckCuts(par, false));
-    else hist = recon->GetHisto(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
+    else hist = m_recon->GetHisto(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
         par->GetVar2NBins(), par->GetVar2Bins(), par->GetVar1Title() + ";" + par->GetVar2Title(), CheckCuts(par));
     // Other things like normalisation, STYLE:
     return hist;
