@@ -36,19 +36,13 @@ Harry_Plotter::Harry_Plotter()
     }
     plot_list.clear();
 
-    
+
 }
 
 Harry_Plotter::~Harry_Plotter()
 {
 	m_plots.clear();
 }
-
-void Harry_Plotter::InterpretOptions()
-{
-
-}
-
 
 
 // enum Type { kStandard = 0, kEff, kPur, kEP };
