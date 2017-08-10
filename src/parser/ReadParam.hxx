@@ -115,7 +115,7 @@ public:
     bool OptSet(Opts option);
 
     Type::Type GetType() const { return m_type; } 
-    int GetStyle(Style::Style st) const;
+    int GetStyle(Style::Style st);
 
     bool Truth() const { return m_truthtree; }
     bool ResetCuts() const { return m_reset_cuts; }
