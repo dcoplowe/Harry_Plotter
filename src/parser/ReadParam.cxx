@@ -246,6 +246,8 @@ std::string ReadParam::GetParameterS(std::string name, std::string infile, std::
         }
     }
 
+    cout << "WOROKING " <<endl;
+
     string param = list[store];
     RemoveArrows(param, left_arrow, right_arrow);
 
