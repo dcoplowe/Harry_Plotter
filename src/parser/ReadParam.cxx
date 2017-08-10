@@ -91,15 +91,20 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
         }
         else{
             if(!par.var.empty()){        
+                // Look for special plots:
                 std::map<Type::Type, std::string>::iterator it = ep_list.begin();
                 while(it != ep_list.end())
                 {
                     if(it->second == par.var){ 
                         cout << par.var << " == " << it->second << endl;
+                        m_type = it->first;
+                        par.var.nbins = 0;
+                        nparams.push_back( par );
                         break;
                     }
                     it++;
                 }
+
                     // cout << "Found Option(s)" << endl;
                 tmp_options = par.var;
                 if(!par.title.empty()){
