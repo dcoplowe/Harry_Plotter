@@ -65,6 +65,7 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
         tmp_cuts.push_back( line );
         cout << "cut " << runner << " : " << line << endl;
         line = ReadParam::GetParameterS( string(Form("cut %d", runner++)), opts_file);
+        cout << "FFFFFF " <<endl;
     }
 
     SetCutNames(tmp_cuts);
