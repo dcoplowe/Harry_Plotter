@@ -265,24 +265,32 @@ void ReadParam::ExtractOptions()
         // enum Opts { kType = 0, kCuts, kStyle, kInput };
 
         // kType:
-
+        string type = InterpretOpt("type =", tmp_options);
+        if(!type.empty()) m_options[ kType ] = type;
         // kCut:
-        size_t finder = tmp_options.find("cut =");
-        if(finder != string::npos){
-            string tmp = tmp_options.substr(finder + 5, tmp_options.length());
-            size_t tmp_find = tmp.find(",");
-            while(tmp_find != string::npos){
-                tmp = tmp.substr(0, tmp_find);
-                tmp_find = tmp.find(",");
-            }
-            cout << "CUT : " << tmp << endl;
-        }
-
+        string cut = InterpretOpt("cut =", tmp_options);
+        if(!cut.empty()) m_options[ kCuts ] = cut;
         // kStyke:
 
         // Find Eff/Pur
     }
 
+}
+
+std::string ReadParam::InterpretOpt(std::string name, std::string in){
+    string option = "";
+    size_t finder = in.find(name);
+    if(finder != string::npos){
+        string tmp = in.substr(finder + name.length(), in.length());
+        size_t tmp_find = tmp.find(",");
+        while(tmp_find != string::npos){
+            tmp = tmp.substr(0, tmp_find);
+            tmp_find = tmp.find(",");
+        }
+        cout << name << " : " << tmp << endl;
+        option = tmp;
+    }
+    return option;
 }
 
 
