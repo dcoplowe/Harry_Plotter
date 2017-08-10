@@ -14,7 +14,7 @@ using std::endl;
 using std::cout;
 
 Harry_Plotter::Harry_Plotter(std::string infile) : m_filename(infile), m_recontree("default"), m_truthtree("truth"),
-    m_signal(""), m_Rcuts(""), m_Tcuts(""), m_epcut("");
+    m_signal(""), m_Rcuts(""), m_Tcuts(""), m_epcut("")
 {
 	string opts_file = string( getenv("HP_ROOT") );
     opts_file += "/parameters/run_options.txt";
