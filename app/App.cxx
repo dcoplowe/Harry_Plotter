@@ -6,12 +6,14 @@
 #include <fstream> //ifstream header
 #include <TROOT.h>
 #include <DrawingTools.hxx>
+#include <EffPurTools.hxx>
 
 const std::string testing("/data/t2k/coplowe/numuCC1P1PiOutput/march17/neutP6BWA/FGD1/nall_data_FGD1_type2_wome_fboff_minaclev0_270717/allTree.root");
 
 Int_t DrawingTools::s_1Dcounter = -1;
 Int_t DrawingTools::s_2Dcounter = -1;
-Long64_t DrawingTools::MaxEntries = 100;
+Long64_t DrawingTools::MaxEntries = 100;// Change to 80085
+Int_t EffPurTools::Counter = -1;
 
 int main(int argc, char *argv[])
 {   

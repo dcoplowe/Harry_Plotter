@@ -2,9 +2,7 @@
 #define EFFPURTOOLS_H
 
 #include "DrawingStyle.h"
-
 #include "TString.h"
-//#include "PlotUtils/MnvH1D.h"
 
 #include <sstream>
 //Forward declarations here:
@@ -19,6 +17,7 @@ using namespace std;
 class EffPurTools : public DrawingStyle {
 public:
     
+    static Int_t Counter;
     //Given that all eff. is based on truth info. and pur.
     //on the reco. these branch names will always remain
     //the same. We can therefore load the file into the tool

@@ -14,7 +14,7 @@
 #include "TH2D.h"
 #include "TTree.h"
 
-EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string truename) : m_debug(print_level::effpurtools) {
+EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string truename) : m_debug(false) {
     
     if(m_debug){
         cout << "    Filename: " << filename << endl;
@@ -22,12 +22,7 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
         cout << "Recon branch: " << reconame << endl;
     }
     //Include counter to make sure hists have unique names:
-    m_purhcounter = -1;
-    m_effhcounter = -1;
-    m_ghcounter1D = -1;
-    m_ghcounter2D = -1;
-    m_effvarcounter = -1;
-    m_purvarcounter = -1;
+    // Counter = -1;
 
     m_ncuts = -999;
     
@@ -56,7 +51,7 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
 
 }
 
-EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_names, std::string reconame, std::string truename) : m_debug(print_level::effpurtools) {
+EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_names, std::string reconame, std::string truename) : m_debug(false) {
     
     if(m_debug){
         cout << "    Filename: " << filename << endl;
@@ -65,12 +60,6 @@ EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_name
     }
     
     //Include counter to make sure hists have unique names:
-    m_purhcounter = -1;
-    m_effhcounter = -1;
-    m_ghcounter1D = -1;
-    m_ghcounter2D = -1;
-    m_effvarcounter = -1;
-    m_purvarcounter = -1;
 
     m_ncuts = -999;
     
@@ -142,8 +131,8 @@ TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
         }
     }
 
-    m_effhcounter++;
-    TH1D * effcuts = DrawRatioVSCuts(num, den, "Efficiency (%)", Form("h_effic%.3d", m_effhcounter));
+    Counter++;
+    TH1D * effcuts = DrawRatioVSCuts(num, den, "Efficiency (%)", Form("h_effic%.6d", Counter));
     effcuts->SetLineColor(Blue);
     
     delete num;
@@ -188,8 +177,8 @@ TH1D * EffPurTools::PurVSCuts(std::string signal, int branch, std::string cuts){
         }
     }
     
-    m_purhcounter++;
-    TH1D * purcuts = DrawRatioVSCuts(num, den, "Purity (%)", Form("h_purity%.3d", m_purhcounter));
+    Counter++;
+    TH1D * purcuts = DrawRatioVSCuts(num, den, "Purity (%)", Form("h_purity%.6d", Counter));
     purcuts->SetLineColor(Yellow);
     
     delete num;
@@ -202,8 +191,8 @@ TH1D * EffPurTools::EffVSVar(std::string var, int nbins, Double_t * xbins, std::
     if(m_debug) cout << "EffPurTools::EffVSVar()" << endl;
     
     TH1D * effvar = RatioVSVar(m_truth, var, nbins, xbins, signal, cuts, x_title);
-    m_effvarcounter++;
-    effvar->SetName(Form("effvar%.3d", m_effvarcounter));
+    Counter++;
+    effvar->SetName(Form("effvar%.6d", Counter));
     effvar->GetYaxis()->SetTitle("Efficiency (%)");
     return effvar;
 }
@@ -217,8 +206,8 @@ TH2D * EffPurTools::EffVSVar(std::string var_yx, int x_nbins, Double_t * x_bins,
     if(m_debug) cout << "EffPurTools::EffVSVar()" << endl;
     
     TH2D * effvar = RatioVSVar(m_truth, var_yx, x_nbins, x_bins, y_nbins, y_bins, signal, cuts, xy_title);
-    m_effvarcounter++;
-    effvar->SetName(Form("effvar%.3d", m_effvarcounter));
+    Counter++;
+    effvar->SetName(Form("effvar%.6d", Counter));
     //effvar->Set
     return effvar;
 }
@@ -231,8 +220,8 @@ TH1D * EffPurTools::PurVSVar(std::string var, int nbins, Double_t * xbins, std::
     if(m_debug) cout << "EffPurTools::PurVSVar()" << endl;
     
     TH1D * purvar = RatioVSVar(m_recon, var, nbins, xbins, cuts, signal, x_title);
-    m_purvarcounter++;
-    purvar->SetName(Form("purvar%.3d", m_purvarcounter));
+    Counter++;
+    purvar->SetName(Form("purvar%.6d", Counter));
     purvar->GetYaxis()->SetTitle("Purity (%)");
     return purvar;
 }
@@ -246,8 +235,8 @@ TH2D * EffPurTools::PurVSVar(std::string var_yx, int x_nbins, Double_t * x_bins,
     if(m_debug) cout << "EffPurTools::PurVSVar()" << endl;
     
     TH2D * purvar = RatioVSVar(m_recon, var_yx, x_nbins, x_bins, y_nbins, y_bins, cuts, signal, xy_title);
-    m_purvarcounter++;
-    purvar->SetName(Form("purvar%.3d", m_purvarcounter));
+    Counter++;
+    purvar->SetName(Form("purvar%.6d", Counter));
 //    purvar->GetYaxis()->SetTitle("Purity");
     return purvar;
 }
@@ -345,9 +334,9 @@ TH1D * EffPurTools::DrawRatioVSCuts(TH1D * num, TH1D * den, std::string y_title,
 }
 
 TH1D * EffPurTools::GetHisto(TTree * intree, std::string var, int nbins, Double_t * xbins, std::string cuts){
-    m_ghcounter1D++;
+    Counter++;
     
-    std::string host_name = Form("1Dvar%.3d", m_ghcounter1D);
+    std::string host_name = Form("1Dvar%.6d", Counter);
     
     TH1D * hist = new TH1D(host_name.c_str(), "", nbins, xbins);
     
@@ -359,8 +348,8 @@ TH1D * EffPurTools::GetHisto(TTree * intree, std::string var, int nbins, Double_
 }
 
 TH2D * EffPurTools::GetHisto(TTree * intree, std::string var_yx, int x_nbins, Double_t * xbins, int y_nbins, Double_t * ybins, std::string cuts){
-    m_ghcounter2D++;
-    std::string host_name = Form("2Dvar%.3d", m_ghcounter2D);
+    Counter++;
+    std::string host_name = Form("2Dvar%.6d", Counter);
     
     TH2D * hist = new TH2D(host_name.c_str(), "", x_nbins, xbins, y_nbins, ybins);
     
@@ -409,8 +398,8 @@ TH1D * EffPurTools::RatioVSVar(TTree * intree, std::string var, int nbins, Doubl
     TH1D * num = GetHisto(intree, var, nbins, xbins, num_cut);
     TH1D * den = GetHisto(intree, var, nbins, xbins, common_cut);
 
-    m_ghcounter1D++;
-    TH1D * ratio = new TH1D(Form("ratio_1D_%.3d", m_ghcounter1D), (";" + x_title + ";Ratio").c_str(), nbins, xbins);
+    Counter++;
+    TH1D * ratio = new TH1D(Form("ratio_1D_%.6d", Counter), (";" + x_title + ";Ratio").c_str(), nbins, xbins);
     ratio->GetYaxis()->SetRangeUser(0., 110.);
     ratio->Divide(num, den);
     
@@ -452,8 +441,8 @@ TH2D * EffPurTools::RatioVSVar(TTree * intree, std::string var_yx, int x_nbins, 
     TH2D * den = GetHisto(intree, var_yx, x_nbins, x_bins, y_nbins, y_bins, common_cut);
     
     if(m_debug) cout << "Dividing histograms" << endl;
-    m_ghcounter2D++;
-    TH2D * ratio = new TH2D(Form("ratio_2D_%.3d", m_ghcounter2D), (";" + xy_title).c_str(), x_nbins, x_bins, y_nbins, y_bins);
+    Counter++;
+    TH2D * ratio = new TH2D(Form("ratio_2D_%.6d", Counter), (";" + xy_title).c_str(), x_nbins, x_bins, y_nbins, y_bins);
     ratio->Divide(num, den);
     if(m_debug) cout << "Finished making ratio vs variable" << endl;
     
@@ -498,7 +487,7 @@ TH1D * EffPurTools::EffVSN1Cuts(std::string signal, int branch, std::string cuts
     if(!joint_cut.empty() && !cuts.empty()) joint_cut += " && ";
     joint_cut += cuts;
 
-    TH1D * histo = new TH1D(Form("effN1cuts%.3d", m_effhcounter++), "", GetNCuts() + 1, 0, GetNCuts() + 1);
+    TH1D * histo = new TH1D(Form("effN1cuts%.6d", Counter++), "", GetNCuts() + 1, 0, GetNCuts() + 1);
 
     int max_bins = MaxCutsToDraw();
 
@@ -545,7 +534,7 @@ TH1D * EffPurTools::PurVSN1Cuts(std::string signal, int branch, std::string cuts
     if(!numer_cut.empty() && !cuts.empty()) numer_cut += " && ";
     numer_cut += cuts;
 
-    TH1D * histo = new TH1D(Form("purN1cuts%.3d", m_purhcounter++), "", GetNCuts() + 1, 0, GetNCuts() + 1);
+    TH1D * histo = new TH1D(Form("purN1cuts%.6d", Counter++), "", GetNCuts() + 1, 0, GetNCuts() + 1);
 
     int max_bins = MaxCutsToDraw();
 
