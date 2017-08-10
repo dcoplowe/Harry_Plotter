@@ -53,7 +53,7 @@ namespace Type {
 }
 
 namespace Style {
-    enum Style { kLC = 0, kLS, kLW, kFC, kFS };
+    enum Style { kLC = 0, kLS, kLW, kFC, kFS, kNotSet };
 }
 
 #endif

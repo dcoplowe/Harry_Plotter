@@ -285,35 +285,19 @@ void ReadParam::ExtractOptions()
             string word;
             std::stringstream iss(tmp);           
             while( iss >> word )     
-            {
-        // std::map<Style::Style, int> m_style;
-                cout << "WORD: Pre " << word << " Post ";
-                word = word.substr(2, word.length());
-                cout << word << endl;
+            {                
+                Style::Style fstyle = Style::kNotSet;
+                if(word.find("ls") != string::npos ) fstyle = Style::kLS; 
+                else if(word.find("lc") != string::npos ) fstyle = Style::kLC; 
+                else if(word.find("lw") != string::npos ) fstyle = Style::kLW; 
+                else if(word.find("fc") != string::npos ) fstyle = Style::kFC; 
+                else if(word.find("fs") != string::npos ) fstyle = Style::kFS; 
 
-                // if(!IsNumber(word)){
-                //     if(par.var.empty()) par.var = word;
-                //     else if(par.var.empty()) par.var = word;
-                //     else if(par.title.empty()) par.title = word;
-                //     else if(par.units.empty()) par.units = word;
-                //     else{
-                //         par.extra += " ";
-                //         par.extra += word;
-                //     }
-                // }
-                // else{
-                //     if(par.nbins == -999) par.nbins = atoi( word.c_str() );
-                //     else par.bvals.push_back( atof(word.c_str()) );
-                // }
+                if(fstyle != Style::kNotSet){
+                    word = word.substr(2, word.length());                    
+                    if(IsNumber(word)) m_style[ fstyle ] = atoi(word.c_str());
+                }
             }
-
-
-
-
-            // if(tmp.find("EP") != string::npos) m_style = kEP;
-            // else if(tmp.find("EP") != string::npos) m_style = kEff;
-            // else if(tmp.find("P") != string::npos) m_style = kPur;
-
         }
 
     }
