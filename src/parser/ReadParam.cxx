@@ -275,6 +275,7 @@ void ReadParam::ExtractOptions()
         // kStyke:
 
         // Find Eff/Pur
+    }
 
 }
 
