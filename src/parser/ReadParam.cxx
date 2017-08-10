@@ -261,18 +261,15 @@ void ReadParam::ExtractOptions()
         std::map<ReadParam::Opts, std::string>::iterator it = m_options.find( kInput );
         string tmp_options = "";
         if(it != m_options.end()) tmp_options = it->second;
-
-        // enum Opts { kType = 0, kCuts, kStyle, kInput };
-
         // kType:
-        string type = InterpretOpt("type =", tmp_options);
+        string type = InterpretOpt("type = ", tmp_options);
         if(!type.empty()) m_options[ kType ] = type;
         // kCut:
-        string cut = InterpretOpt("cut =", tmp_options);
+        string cut = InterpretOpt("cut = ", tmp_options);
         if(!cut.empty()) m_options[ kCuts ] = cut;
-        // kStyke:
-
-        // Find Eff/Pur
+        // kStyle:
+        string style = InterpretOpt("style = ", tmp_options);
+        if(!style.empty()) m_options[ kStyle ] = style;
     }
 
 }
