@@ -13,7 +13,7 @@ const std::string testing("/data/t2k/coplowe/numuCC1P1PiOutput/march17/neutP6BWA
 Int_t DrawingTools::s_1Dcounter = -1;
 Int_t DrawingTools::s_2Dcounter = -1;
 Long64_t DrawingTools::MaxEntries = 100;// Change to 80085
-Int_t EffPurTools::Counter = -1;
+int EffPurTools::Counter = -1;
 
 int main(int argc, char *argv[])
 {   

@@ -202,7 +202,7 @@ TH1D * EffPurTools::PurVSCuts(std::string signal, int branch, std::string cuts){
     return purcuts;
 }
 
-TH1D * EffPurTools::EffVSVar(std::string var, int nbins, Double_t * xbins, std::string signal, std::string cuts, std::string x_title){
+TH1D * EffPurTools::EffVSVar(std::string var, int nbins, double * xbins, std::string signal, std::string cuts, std::string x_title){
     if(m_debug) cout << "EffPurTools::EffVSVar()" << endl;
     
     TH1D * effvar = RatioVSVar(m_truth, var, nbins, xbins, signal, cuts, x_title);
@@ -212,12 +212,12 @@ TH1D * EffPurTools::EffVSVar(std::string var, int nbins, Double_t * xbins, std::
     return effvar;
 }
 
-TH1D * EffPurTools::EffVSVar(std::string var, int nbins, Double_t x_low, Double_t x_high, std::string signal, std::string cuts, std::string x_title){
-    if(m_debug) cout << "EffPurTools::EffVSVar(const TString var, int nbins, const Double_t x_low, const Double_t x_high, const TString signal, const TString cuts, const TString x_title)" << endl;
+TH1D * EffPurTools::EffVSVar(std::string var, int nbins, double x_low, double x_high, std::string signal, std::string cuts, std::string x_title){
+    if(m_debug) cout << "EffPurTools::EffVSVar(const TString var, int nbins, const double x_low, const double x_high, const TString signal, const TString cuts, const TString x_title)" << endl;
     return EffVSVar(var, nbins, DrawingTools::SetBinning(nbins, x_low, x_high), signal, cuts, x_title);
 }
 
-TH2D * EffPurTools::EffVSVar(std::string var_yx, int x_nbins, Double_t * x_bins, int y_nbins, Double_t * y_bins, std::string signal, std::string cuts, std::string xy_title){
+TH2D * EffPurTools::EffVSVar(std::string var_yx, int x_nbins, double * x_bins, int y_nbins, double * y_bins, std::string signal, std::string cuts, std::string xy_title){
     if(m_debug) cout << "EffPurTools::EffVSVar()" << endl;
     
     TH2D * effvar = RatioVSVar(m_truth, var_yx, x_nbins, x_bins, y_nbins, y_bins, signal, cuts, xy_title);
@@ -227,11 +227,11 @@ TH2D * EffPurTools::EffVSVar(std::string var_yx, int x_nbins, Double_t * x_bins,
     return effvar;
 }
 
-TH2D * EffPurTools::EffVSVar(std::string var_yx, int x_nbins, Double_t x_low, Double_t x_high, int y_nbins, Double_t y_low, Double_t y_high, std::string signal, std::string cuts, std::string xy_title){
+TH2D * EffPurTools::EffVSVar(std::string var_yx, int x_nbins, double x_low, double x_high, int y_nbins, double y_low, double y_high, std::string signal, std::string cuts, std::string xy_title){
     return EffVSVar(var_yx, x_nbins, DrawingTools::SetBinning(x_nbins, x_low, x_high), y_nbins, DrawingTools::SetBinning(y_nbins, y_low, y_high), signal, cuts, xy_title);
 }
 
-TH1D * EffPurTools::PurVSVar(std::string var, int nbins, Double_t * xbins, std::string signal, std::string cuts, std::string x_title){
+TH1D * EffPurTools::PurVSVar(std::string var, int nbins, double * xbins, std::string signal, std::string cuts, std::string x_title){
     if(m_debug) cout << "EffPurTools::PurVSVar()" << endl;
     
     TH1D * purvar = RatioVSVar(m_recon, var, nbins, xbins, cuts, signal, x_title);
@@ -241,12 +241,12 @@ TH1D * EffPurTools::PurVSVar(std::string var, int nbins, Double_t * xbins, std::
     return purvar;
 }
 
-TH1D * EffPurTools::PurVSVar(std::string var, int nbins, Double_t x_low, Double_t x_high, std::string signal, std::string cuts, std::string x_title){
+TH1D * EffPurTools::PurVSVar(std::string var, int nbins, double x_low, double x_high, std::string signal, std::string cuts, std::string x_title){
     if(m_debug) cout << "EffPurTools::PurVSVar()" << endl;
     return PurVSVar(var, nbins, DrawingTools::SetBinning(nbins, x_low, x_high), signal, cuts, x_title);
 }
 
-TH2D * EffPurTools::PurVSVar(std::string var_yx, int x_nbins, Double_t * x_bins, int y_nbins, Double_t * y_bins, std::string signal, std::string cuts, std::string  xy_title){
+TH2D * EffPurTools::PurVSVar(std::string var_yx, int x_nbins, double * x_bins, int y_nbins, double * y_bins, std::string signal, std::string cuts, std::string  xy_title){
     if(m_debug) cout << "EffPurTools::PurVSVar()" << endl;
     
     TH2D * purvar = RatioVSVar(m_recon, var_yx, x_nbins, x_bins, y_nbins, y_bins, cuts, signal, xy_title);
@@ -256,7 +256,7 @@ TH2D * EffPurTools::PurVSVar(std::string var_yx, int x_nbins, Double_t * x_bins,
     return purvar;
 }
 
-TH2D * EffPurTools::PurVSVar(std::string var_yx, int x_nbins, Double_t x_low, Double_t x_high, int y_nbins, Double_t y_low, Double_t y_high, std::string signal, std::string cuts, std::string  xy_title){
+TH2D * EffPurTools::PurVSVar(std::string var_yx, int x_nbins, double x_low, double x_high, int y_nbins, double y_low, double y_high, std::string signal, std::string cuts, std::string  xy_title){
     if(m_debug) cout << "EffPurTools::PurVSVar()" << endl;
     return PurVSVar(var_yx, x_nbins, DrawingTools::SetBinning(x_nbins, x_low, x_high), y_nbins, DrawingTools::SetBinning(y_nbins, y_low, y_high), signal, cuts, xy_title);
 }
@@ -348,7 +348,7 @@ TH1D * EffPurTools::DrawRatioVSCuts(TH1D * num, TH1D * den, std::string y_title,
     return ratio;
 }
 
-TH1D * EffPurTools::GetHisto(TTree * intree, std::string var, int nbins, Double_t * xbins, std::string cuts){
+TH1D * EffPurTools::GetHisto(TTree * intree, std::string var, int nbins, double * xbins, std::string cuts){
     Counter++;
     
     std::string host_name = Form("1Dvar%.6d", Counter);
@@ -362,7 +362,7 @@ TH1D * EffPurTools::GetHisto(TTree * intree, std::string var, int nbins, Double_
     return hist;
 }
 
-TH2D * EffPurTools::GetHisto(TTree * intree, std::string var_yx, int x_nbins, Double_t * xbins, int y_nbins, Double_t * ybins, std::string cuts){
+TH2D * EffPurTools::GetHisto(TTree * intree, std::string var_yx, int x_nbins, double * xbins, int y_nbins, double * ybins, std::string cuts){
     Counter++;
     std::string host_name = Form("2Dvar%.6d", Counter);
     
@@ -392,7 +392,7 @@ void EffPurTools::SetCutNames(std::vector<std::string> var){
 }
 //------------------------------------------------------//
 
-TH1D * EffPurTools::RatioVSVar(TTree * intree, std::string var, int nbins, Double_t * xbins, std::string common_cut, std::string num_only_cut, std::string x_title){
+TH1D * EffPurTools::RatioVSVar(TTree * intree, std::string var, int nbins, double * xbins, std::string common_cut, std::string num_only_cut, std::string x_title){
     
     if(m_debug){
         cout << "          Common Cut: " << common_cut << endl;
@@ -434,7 +434,7 @@ TH1D * EffPurTools::RatioVSVar(TTree * intree, std::string var, int nbins, Doubl
     return ratio;
 }
 
-TH2D * EffPurTools::RatioVSVar(TTree * intree, std::string var_yx, int x_nbins, Double_t * x_bins, int y_nbins, Double_t * y_bins, std::string common_cut, std::string num_only_cut, std::string xy_title){
+TH2D * EffPurTools::RatioVSVar(TTree * intree, std::string var_yx, int x_nbins, double * x_bins, int y_nbins, double * y_bins, std::string common_cut, std::string num_only_cut, std::string xy_title){
     
     if(m_debug){
         cout << "          Common Cut: " << common_cut << endl;
