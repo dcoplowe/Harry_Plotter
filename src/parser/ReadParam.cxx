@@ -331,7 +331,9 @@ void ReadParam::ExtractOptions()
                 break;
             }
             it2++;
-        }   
+        }
+        cout << "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF" << endl;
+
         it++;
     }
 
