@@ -14,7 +14,7 @@ using std::string;
 // using std::cout;
 // using std::endl;
 
-ReadParam::ReadParam(const std::string instring, string left_arrow, string right_arrow) : m_instring(instring), m_NoOptions(true), m_Dim(kZero)
+ReadParam::ReadParam(const std::string instring, string left_arrow, string right_arrow) : m_instring(instring), m_NoOptions(true), m_reset_cuts(false), m_Dim(kZero)
 {
     RemoveArrows(m_instring, left_arrow, right_arrow);
 

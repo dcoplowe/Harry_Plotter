@@ -129,6 +129,7 @@ private:
     std::map<Style::Style, int> m_style;
 
     bool m_NoOptions;
+    bool m_reset_cuts;
 
     BinPar m_varOne;
     BinPar m_varTwo;
