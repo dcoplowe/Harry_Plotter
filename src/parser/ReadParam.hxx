@@ -112,6 +112,8 @@ private:
     static bool IsNumber(std::string);
     static std::string GetParameterN(std::string name, std::string infile, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
 
+    void ExtractOptions();
+
     // double * DetermineBins(int nbins, std::vector<double> binning);
     // double * SetBinning(int nbins, double low, double high);
 
