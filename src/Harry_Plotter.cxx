@@ -63,7 +63,7 @@ void Harry_Plotter::Run()
                     hist1D = Get1D(par);
                 }
                 else if(par->GetDim() == 2){
-                    hist1D = recon->GetHisto(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(), CheckCuts(par));
+                    hist1D = Get2D(par)
                 }
 
                 break;
@@ -165,7 +165,7 @@ void Harry_Plotter::Run()
 std::string Harry_Plotter::CheckCuts(ReadParam * par, bool is_recon)
 {
     string cuts = (is_recon ? m_Rcuts : m_Tcuts);
-    if(!par->GetOpt(kCuts).empty()){
+    if(!par->GetOpt(ReadParam::kCuts).empty()){
          if(par->ResetCuts()) cuts = par->GetOpt(ReadParam::kCuts);
          else{
             if(!cuts.empty()){
