@@ -1,7 +1,7 @@
 #ifndef EFFPURTOOLS_H
 #define EFFPURTOOLS_H
 
-#include "DrawingStyle.h"
+#include "DrawingStyle.hxx"
 #include "TString.h"
 
 #include <sstream>

@@ -33,7 +33,7 @@ Harry_Plotter::Harry_Plotter(std::string infile) : m_filename(infile), m_recontr
 
     m_recon = new DrawingTools(m_filename, m_recontree);
     m_truth = new DrawingTools(m_filename, m_truthtree);
-    m_effpur = new EffPurTools()
+    m_effpur = new EffPurTools(m_filename, m_recontree, m_truthtree);
 }
 
 Harry_Plotter::~Harry_Plotter()

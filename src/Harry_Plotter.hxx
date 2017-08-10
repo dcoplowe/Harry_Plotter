@@ -8,6 +8,7 @@ class ReadParam;
 class TH1D;
 class TH2D;
 class DrawingTools;
+class EffPurTools;
 
 class Harry_Plotter
 {
@@ -32,6 +33,7 @@ private:
 
 	DrawingTools * m_recon;
 	DrawingTools * m_truth;
+	EffPurTools * m_effpur;
 
 	TH1D * Get1D(ReadParam * par);
 	TH2D * Get2D(ReadParam * par);
