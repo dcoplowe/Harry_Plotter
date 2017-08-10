@@ -101,6 +101,7 @@ public:
 private:
     std::string m_instring;
     std::map<ReadParam::Opts, std::string> m_options;
+    bool m_NoOptions;
 
     BinPar m_varOne;
     BinPar m_varTwo;

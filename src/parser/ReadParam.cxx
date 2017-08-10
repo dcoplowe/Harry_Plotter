@@ -14,7 +14,7 @@ using std::string;
 // using std::cout;
 // using std::endl;
 
-ReadParam::ReadParam(const std::string instring, string left_arrow, string right_arrow) : m_instring(instring), m_Dim(kZero)
+ReadParam::ReadParam(const std::string instring, string left_arrow, string right_arrow) : m_instring(instring), m_NoOptions(true), m_Dim(kZero)
 {
     RemoveArrows(m_instring, left_arrow, right_arrow);
 
@@ -96,8 +96,6 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
         }
     }
 
-    m_options[ kInput ] = tmp_options;
-
     size_t entries = nparams.size();
 
     if(entries == 1) m_Dim = kOne;
@@ -114,6 +112,8 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
         loop[i] = nparams[i];
         loop[i].Print();
     }    
+
+    if(!tmp_options.empty()) m_options[ kInput ] = tmp_options;
 
     ExtractOptions();
 
@@ -255,12 +255,27 @@ double ReadParam::GetParameterD(std::string name, std::string infile, std::strin
 
 void ReadParam::ExtractOptions()
 {
-    std::map<ReadParam::Opts, std::string>::iterator it = m_options.begin();
-    while(it != m_options.end())
-    {
-        std::cout<<" :: "<<it->second<<std::endl;
-        it++;
-    }
+    if(!m_options.empty()){
+        m_NoOptions = false;
+
+        std::map<ReadParam::Opts, std::string>::iterator it = m_options.find( kInput );
+        string tmp_options = "";
+        if(it != m_options.end()) tmp_options = it->second;
+
+        // enum Opts { kType = 0, kCuts, kStyle, kInput };
+
+        // kType:
+
+        // kCut:
+        if(tmp_options.find("cut =") != string::npos){
+            string tmp = tmp_options.substr(tmp_options + 5, tmp_options.length());
+            cout << "CUT : " << tmp << endl;
+        }
+
+        // kStyke:
+
+        // Find Eff/Pur
+
 }
 
 
