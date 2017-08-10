@@ -39,6 +39,19 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
 
     string tmp_options = "";
 
+    std::map<Type::Type, std::string> ep_list;
+    // m_ep_list[ kEff ] = "Eff";
+    // m_ep_list[ kPur ] = "Pur";
+    // m_ep_list[ kEP ] = "EP";
+    // m_ep_list[ kPID ] = "PID";
+    // m_ep_list[ kTop ] = "Top";
+    // m_ep_list[ kTarS ] = "TarS";
+    // m_ep_list[ kTar ] = "Tar";
+    ep_list[ kEffVSCuts ] = "EffVSCuts";
+    ep_list[ kPurVSCuts ] = "PurVSCuts";
+    ep_list[ kEffPurVSCuts ] = "EffPurVSCuts";
+    ep_list[ kNCutsMinusOne ] = "NCutsMinusOne";
+
     for(size_t i = 0; i < nsets.size(); i++){
             // cout << "nsets[" << i << "] = " << nsets[i] << endl;
 
@@ -77,7 +90,16 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
             nparams.push_back( par );
         }
         else{
-            if(!par.var.empty()){
+            if(!par.var.empty()){        
+                std::map<Type::Type, std::string>::iterator it = ep_list.begin();
+                while(it != ep_list.end())
+                {
+                    if(it->second == par.var){ 
+                        cout << par.var << " == " << it->second << endl;
+                        break;
+                    }
+                    it++;
+                }
                     // cout << "Found Option(s)" << endl;
                 tmp_options = par.var;
                 if(!par.title.empty()){
@@ -113,7 +135,11 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
         loop[i].Print();
     }    
 
-    if(!tmp_options.empty()) m_options[ kInput ] = tmp_options;
+    if(!tmp_options.empty()){ 
+
+
+        m_options[ kInput ] = tmp_options;
+    }
 
     ExtractOptions();
 
@@ -276,7 +302,11 @@ void ReadParam::ExtractOptions()
         if(OptSet(kType)){
             string tmp = GetOpt(kType);
             if(tmp.find("EP") != string::npos) m_type = Type::kEP;
-            else if(tmp.find("EP") != string::npos) m_type = Type::kEff;
+            else if(tmp.find("PID") != string::npos) m_type = Type::kPID;
+            else if(tmp.find("TOP") != string::npos) m_type = Type::kTop;
+            else if(tmp.find("TARS") != string::npos) m_type = Type::kTarS;
+            else if(tmp.find("TAR") != string::npos) m_type = Type::kTar;
+            else if(tmp.find("E") != string::npos) m_type = Type::kEff;
             else if(tmp.find("P") != string::npos) m_type = Type::kPur;
         }
 
@@ -310,39 +340,31 @@ void ReadParam::ExtractOptions()
                 m_options[ kCuts ] = tmp;
             }
         }
-
     }
 
-    std::map<ReadParam::Opts, string> optlist;
-    optlist[ kCuts ] = "kCuts";
-    optlist[ kStyle ] = "kStyle";
-    optlist[ kType ] = "kType";
+    bool print_shit = false;
+    if(print_shit){
 
-    std::map<ReadParam::Opts, std::string>::iterator it = m_options.begin();
-    while(it != m_options.end())
-    {
-        std::map<ReadParam::Opts, std::string>::iterator it2 = optlist.begin();
-        while(it2 != optlist.end())
+        std::map<ReadParam::Opts, string> optlist;
+        optlist[ kCuts ] = "kCuts";
+        optlist[ kStyle ] = "kStyle";
+        optlist[ kType ] = "kType";
+
+        std::map<ReadParam::Opts, std::string>::iterator it = m_options.begin();
+        while(it != m_options.end())
         {
-                cout << "DDdDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD " << endl;
-
-            if(it->first == it2->first){ 
-                cout << it2->second << " : " << it->second << endl;
-                break;
+            std::map<ReadParam::Opts, std::string>::iterator it2 = optlist.begin();
+            while(it2 != optlist.end())
+            {
+                if(it->first == it2->first){ 
+                    cout << it2->second << " : " << it->second << endl;
+                    break;
+                }
+                it2++;
             }
-            it2++;
+            it++;
         }
-        cout << "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF" << endl;
-
-        it++;
     }
-
-    cout << "JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ" << endl;
-
-
-    cout << "RRR " << endl;
-
-
 }
 
 std::string ReadParam::FindOpt(std::string name, std::string in){

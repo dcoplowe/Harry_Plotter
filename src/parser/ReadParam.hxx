@@ -49,7 +49,7 @@ public:
 #define __TYPE_STYLE__NS
 
 namespace Type {
-    enum Type { kStandard = 0, kEff, kPur, kEP };
+    enum Type { kStandard = 0, kEff, kPur, kEP, kPID, kTop, kTarS, kTar, kEffVSCuts, kPurVSCuts, kEffPurVSCuts, kNCutsMinusOne };
 }
 
 namespace Style {

@@ -35,8 +35,6 @@ Harry_Plotter::Harry_Plotter()
     	m_plots.push_back( new ReadParam(plot_list[i]) );
     }
     plot_list.clear();
-
-
 }
 
 Harry_Plotter::~Harry_Plotter()
