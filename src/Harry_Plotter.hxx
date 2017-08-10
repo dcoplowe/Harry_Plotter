@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+class ReadParam;
+
 class Harry_Plotter
 {
 public:
