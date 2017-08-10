@@ -324,6 +324,8 @@ void ReadParam::ExtractOptions()
         std::map<ReadParam::Opts, std::string>::iterator it2 = optlist.begin();
         while(it2 != m_options.end())
         {
+                cout << "DDdDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD " << endl;
+
             if(it->first == it2->first){ 
                 cout << it2->second << " : " << it->second << endl;
                 break;
