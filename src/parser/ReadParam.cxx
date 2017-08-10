@@ -246,21 +246,20 @@ std::string ReadParam::GetParameterS(std::string name, std::string infile, std::
         }
     }
 
-    cout << "WOROKING " <<endl;
-
     string param = list[store];
-    RemoveArrows(param, left_arrow, right_arrow);
+    if(!param.empty()){
+        RemoveArrows(param, left_arrow, right_arrow);
 
-    size_t place = param.find("=");
-    if(place != string::npos){
-        param = param.erase(0, place + 1);
+        size_t place = param.find("=");
+        if(place != string::npos){
+            param = param.erase(0, place + 1);
+        }
+        else{
+            cout << __FILE__ << ":" << __LINE__ << ": ERROR : Parameter not in correct form (missing =), we have: " << param << endl;
+            exit(0);
+        }
     }
-    else{
-        cout << __FILE__ << ":" << __LINE__ << ": ERROR : Parameter not in correct form (missing =), we have: " << param << endl;
-        exit(0);
-    }
-
-    cout << "WOROKING 1" <<endl;
+    else param = "";
 
     return param;
 }
