@@ -107,6 +107,7 @@ void Harry_Plotter::Run()
         switch ( par->GetType() ){
             case Type::kStandard:
                 if(par->GetDim() == 1){
+                    cout << "Makeing Standard 1D" << endl;
                     hist1D = Get1D(par);
                     hist1D->SetName( (par->GetVar1() + (option.empty() ? "" : "_" + option) ).c_str() );
                 }
