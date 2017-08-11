@@ -9,6 +9,7 @@ class TH1D;
 class TH2D;
 class DrawingTools;
 class EffPurTools;
+class TFile;
 
 class Harry_Plotter
 {
@@ -31,6 +32,7 @@ private:
 	std::string m_Tcuts;
 	std::string	m_epcut;
 
+	std::string m_ofilename;
 	TFile * m_outfile;
 
 	std::string CheckCuts(ReadParam * par, bool is_recon = true);

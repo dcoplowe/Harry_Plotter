@@ -9,13 +9,14 @@
 #include <EffPurTools.hxx>
 #include <TCanvas.h>
 #include <TDatime.h>
+#include <TFile.h>
 
 using std::string;
 using std::endl;
 using std::cout;
 
-Harry_Plotter::Harry_Plotter(std::string infile) : m_filename(infile), m_recontree("default"), m_truthtree("truth"),
-    m_signal(""), m_Rcuts(""), m_Tcuts(""), m_epcut("")
+Harry_Plotter::Harry_Plotter(std::string infile, std::string ofile) : m_filename(infile), m_recontree("default"), m_truthtree("truth"),
+    m_signal(""), m_Rcuts(""), m_Tcuts(""), m_epcut(""), m_ofilename(ofile)
 {
 	string opts_file = string( getenv("HP_ROOT") );
     opts_file += "/parameters/run_options.txt";
@@ -45,8 +46,16 @@ Harry_Plotter::Harry_Plotter(std::string infile) : m_filename(infile), m_recontr
     Int_t year = time.GetYear() - 2000;
     Int_t month = time.GetMonth();
     Int_t day = time.GetDay();
-    
-    m_ofilename = Form("Compare_MC_OutFile_%.2d%.2d%.2d.root", day, month, year);
+
+    if(m_ofilename.empty()) m_ofilename = Form("Harry_Plotter_OutFile_%.2d%.2d%.2d.root", day, month, year);
+    else{
+        string root_t = ".root";
+        size_t root_s = m_ofilename.find(root_t);
+        if(root_s != string::npos) m_ofilename = m_ofilename.substr(0, root_s);
+
+        m_ofilename = Form("%s_%.2d%.2d%.2d.root", m_ofilename.c_str(), day, month, year);        
+    }
+
     m_outfile = new TFile(m_ofilename, "RECREATE");
 }
 
@@ -57,8 +66,7 @@ Harry_Plotter::~Harry_Plotter()
 
 void Harry_Plotter::Run()
 {
-    // Initialise relevent classes:
-    // EffPurTools * builder = new EffPurTools(m_filename, m_reco, m_truth);
+    m_outfile->cd();
 
     for(size_t p = 0; p < m_plots.size(); p++){
 
