@@ -33,6 +33,18 @@ Harry_Plotter::Harry_Plotter(std::string infile, std::string ofile) : m_filename
     if(m_branch == -999) m_branch = 0;
     cout << "m_branch = " << m_branch << endl;
 
+    // Add default colours for particle 
+    string particle = ReadParam::GetParameterS("particle", opts_file);
+    string part_word;
+    std::stringstream iss(particle);
+    while( iss >> part_word ){
+        cout << "word = " << part_word << endl;
+    }  
+
+
+        // DrawingSyle::GetParticleCol(int pdg);
+
+
 	string plots_file = string( getenv("HP_ROOT") );
     plots_file += "/parameters/plot_list.txt";
 
@@ -167,18 +179,18 @@ void Harry_Plotter::Run()
                 }
                 break;
             case Type::kEffVSCuts: 
-                hist1D = m_effpur->EffVSCuts(m_signal, m_branch, CheckCuts(par, 1) );
+                hist1D = m_effpur->EffVSCuts(m_signal, m_branch, CheckCuts(par, 2) );
                 break;
             case Type::kPurVSCuts: 
-                hist1D = m_effpur->PurVSCuts(m_signal, m_branch, CheckCuts(par, 1) );
+                hist1D = m_effpur->PurVSCuts(m_signal, m_branch, CheckCuts(par, 2) );
                 break;
             case Type::kEffPurVSCuts: 
-                hist1D = m_effpur->EffVSCuts(m_signal, m_branch, CheckCuts(par, 1) );
-                hist1Da = m_effpur->PurVSCuts(m_signal, m_branch, CheckCuts(par, 1) );
+                hist1D = m_effpur->EffVSCuts(m_signal, m_branch, CheckCuts(par, 2) );
+                hist1Da = m_effpur->PurVSCuts(m_signal, m_branch, CheckCuts(par, 2) );
                 break;
             case Type::kNCutsMinusOne: 
-                hist1D = m_effpur->EffVSN1Cuts(m_signal, m_branch, CheckCuts(par, 1) );
-                hist1Da = m_effpur->PurVSN1Cuts(m_signal, m_branch, CheckCuts(par, 1) );                
+                hist1D = m_effpur->EffVSN1Cuts(m_signal, m_branch, CheckCuts(par, 2) );
+                hist1Da = m_effpur->PurVSN1Cuts(m_signal, m_branch, CheckCuts(par, 2) );                
                 break; 
             default: break;       
         }

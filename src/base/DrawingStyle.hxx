@@ -89,6 +89,8 @@ public:
         OneGeVFlux = kAzure+2,
         UNKNOWN = kPink-9
     };
+
+    static int GetParticleCol(int pdg);
 };
 
 #endif

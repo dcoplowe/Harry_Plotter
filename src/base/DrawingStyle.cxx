@@ -11,6 +11,7 @@
 #include <TStyle.h>
 #include <TGaxis.h>
 #include <TColor.h>
+#include <TMath.h>
 
 DrawingStyle::DrawingStyle()
 {
@@ -53,6 +54,24 @@ void DrawingStyle::TastyPalette(Float_t alpha){
     Double_t blue[Number]  = { 0.5293, 0.8684, 0.8385, 0.7914, 0.6425, 0.4662, 0.3499, 0.1968, 0.0539};
     TColor::CreateGradientColorTable(Number, stops, red, green, blue, nconts, alpha);
     gStyle->SetNumberContours(nconts);
+}
+
+int DrawingStyle::GetParticleCol(int pdg)
+{
+        int colour = static_cast<int>(UNKNOWN);
+        if(pdg == 2212) colour = static_cast<int>(Proton);
+        else if(pdg == 2112) colour = static_cast<int>(Neutron);
+        else if(TMath::Abs(pdg) == 211) colour = static_cast<int>(Pion);
+        else if(pdg == 211) colour = static_cast<int>(PionP);
+        else if(pdg == -211) colour = static_cast<int>(PionM);
+        else if(TMath::Abs(pdg) == 13) colour = static_cast<int>(Muon);
+        else if(pdg == 13) colour = static_cast<int>(MuonM);
+        else if(pdg == -13) colour = static_cast<int>(MuonP);
+        else if(pdg == 111) colour = static_cast<int>(Pi0);
+        else if(TMath::Abs(pdg) == 321) colour = static_cast<int>(Kaon);
+        else if(pdg == 311) colour = static_cast<int>(Ka0);
+        else if(pdg == 11) colour = static_cast<int>(Electron);
+        return colour;
 }
 
 #endif

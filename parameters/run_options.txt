@@ -3,4 +3,6 @@
 <| Rcuts = 1==1  |>
 <| numbers = 1.0102203 |>
 <| effpur cut = david coplowe |>
-<| particle = p = p, pi = #pi^{+}, mu = #mu^{-} |>
+<| particle = p=2212 pi=211 mu=13 |>
+This is a test to see if this line is read in.
+<| branch = 0 |> 
