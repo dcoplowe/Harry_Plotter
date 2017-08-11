@@ -54,24 +54,15 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
     ep_list[ Type::kNCutsMinusOne ] = "NCutsMinusOne";
 
     for(size_t i = 0; i < nsets.size(); i++){
-            cout << "nsets[" << i << "] = " << nsets[i] << endl;
-
         string word;
         std::stringstream iss(nsets[i]);
         BinPar par;
-        cout << "par.var = "<< par.var << endl;
-        cout << "par.nbins = " << par.nbins << endl;
-        // cout << par.var << par.var << endl;
-        // cout << par.var << par.var << endl;
-
         while( iss >> word )     
         {
-            cout << "word = " << word << endl;
             if(!IsNumber(word)){
-                cout << "found string" << endl;
-                if(par.var.empty()){ cout << "found var" << endl; par.var = word;}
-                else if(par.title.empty()){ cout << "found title" << endl; par.title = word;}
-                else if(par.units.empty()){ cout << "found units" << endl; par.units = word;}
+                if(par.var.empty()) par.var = word;
+                else if(par.title.empty()) par.title = word;
+                else if(par.units.empty()) par.units = word;
                 else{
                     cout << "found extra" << endl;
                     par.extra += " ";
@@ -79,7 +70,7 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
                 }
             }
             else{
-                cout << "found number" << endl;
+                // cout << "found number" << endl;
                 if(par.nbins == -999) par.nbins = atoi( word.c_str() );
                 else par.bvals.push_back( atof(word.c_str()) );
             }
@@ -91,7 +82,7 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
         if(par.bvals.size() < 2) pass = false;
 
         if(pass){
-            cout << "FOund good vars" << endl;
+            // cout << "FOund good vars" << endl;
             par.good = true;
 
                 // Check that title has been filled and set to var if not:
@@ -149,10 +140,9 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
 
     BinPar loop[3] = { m_varOne, m_varTwo, m_varThree };
 
-    for(size_t i = 0; i < entries; i++){
-        loop[i] = &nparams[i];
-        loop[i].Print();
-    }    
+    if(entries > 0) m_varOne = nparams[0];
+    if(entries > 1) m_varTwo = nparams[1];
+    if(entries > 2) m_varThree = nparams[2];
 
     if(!tmp_options.empty()) m_options[ kInput ] = tmp_options;
 
