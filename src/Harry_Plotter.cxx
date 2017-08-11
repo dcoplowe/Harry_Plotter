@@ -163,18 +163,18 @@ void Harry_Plotter::Run()
                 }
                 break;
             case Type::kEffVSCuts: 
-                hist1D = EffVSCuts(m_signal, m_branch, CheckCuts(par, 1) );
+                hist1D = m_effpur->EffVSCuts(m_signal, m_branch, CheckCuts(par, 1) );
                 break;
             case Type::kPurVSCuts: 
-                hist1D = PurVSCuts(m_signal, m_branch, CheckCuts(par, 1) );
+                hist1D = m_effpur->PurVSCuts(m_signal, m_branch, CheckCuts(par, 1) );
                 break;
             case Type::kEffPurVSCuts: 
-                hist1D = EffVSCuts(m_signal, m_branch, CheckCuts(par, 1) );
-                hist1Da = PurVSCuts(m_signal, m_branch, CheckCuts(par, 1) );
+                hist1D = m_effpur->EffVSCuts(m_signal, m_branch, CheckCuts(par, 1) );
+                hist1Da = m_effpur->PurVSCuts(m_signal, m_branch, CheckCuts(par, 1) );
                 break;
             case Type::kNCutsMinusOne: 
-                hist1D = EffVSN1Cuts(m_signal, m_branch, CheckCuts(par, 1) );
-                hist1Da = PurVSN1Cuts(m_signal, m_branch, CheckCuts(par, 1) );                
+                hist1D = m_effpur->EffVSN1Cuts(m_signal, m_branch, CheckCuts(par, 1) );
+                hist1Da = m_effpur->PurVSN1Cuts(m_signal, m_branch, CheckCuts(par, 1) );                
                 break; 
             default: break;       
         }
