@@ -224,6 +224,7 @@ std::string Harry_Plotter::CheckCuts(ReadParam * par, int type)
 
     cout << "cuts = " << cuts << endl;
     cout << "m_epcut = " << m_epcut << endl;
+    if(cuts.empty()) cout << "cuts is empty|" << endl;
 
     if(!par->GetOpt(ReadParam::kCuts).empty()){
          if(par->ResetCuts()) cuts = par->GetOpt(ReadParam::kCuts);
