@@ -268,7 +268,7 @@ std::string ReadParam::GetParameterS(std::string name, std::string infile, std::
 std::string ReadParam::GetParameterN(std::string name, std::string infile, std::string left_arrow, std::string right_arrow)
 {
     string param = GetParameterS(name, infile, left_arrow, right_arrow);
-    cout << " GetParameterN = psram = " << param << endl;
+    // cout << " GetParameterN = psram = " << param << endl;
     if(!param.empty()){
         param.erase(std::remove(param.begin(),param.end(),' '),param.end());
         if(!IsNumber(param)){
