@@ -436,7 +436,7 @@ inline int ReadParam::GetInt(std::string val)
 
 inline double ReadParam::GetDouble(std::string val)
 {
-    double num = -999;
+    double num = -999.;
     if(IsNumber(val)) num = atof( val.c_str() );
     return num;
 }
