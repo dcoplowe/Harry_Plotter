@@ -39,7 +39,6 @@ Harry_Plotter::Harry_Plotter(std::string infile, std::string ofile) : m_filename
     std::stringstream iss(particle);
 
     while( iss >> part_word ){
-        cout << "part_word = " << part_word << endl;
         size_t equals = part_word.find("=");
         if(equals != string::npos){
             string part = part_word.substr(0, equals);
@@ -53,11 +52,10 @@ Harry_Plotter::Harry_Plotter(std::string infile, std::string ofile) : m_filename
 	string plots_file = string( getenv("HP_ROOT") );
     plots_file += "/parameters/plot_list.txt";
 
-    cout << "plots_file = " << plots_file <<endl;
+    // cout << "plots_file = " << plots_file <<endl;
     std::vector<string> plot_list = ReadParam::ReadFile(plots_file);
 
     for(size_t i = 0; i < plot_list.size(); i++){
-        cout << plot_list[i] << endl;
     	m_plots.push_back( new ReadParam(plot_list[i]) );
         // m_plots.back()->Print();
     }
