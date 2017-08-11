@@ -73,11 +73,13 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
                 else if(par.title.empty()){ cout << "found title" << endl; par.title = word;}
                 else if(par.units.empty()){ cout << "found units" << endl; par.units = word;}
                 else{
+                    cout << "found extra" << endl;
                     par.extra += " ";
                     par.extra += word;
                 }
             }
             else{
+                cout << "found number" << endl;
                 if(par.nbins == -999) par.nbins = atoi( word.c_str() );
                 else par.bvals.push_back( atof(word.c_str()) );
             }
