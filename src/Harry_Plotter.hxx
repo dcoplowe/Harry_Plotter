@@ -15,7 +15,7 @@ class Harry_Plotter
 {
 public:
 
-	Harry_Plotter(std::string infile);
+	Harry_Plotter(std::string infile, std::string ofile);
 	~Harry_Plotter();
 	
 	void Run();

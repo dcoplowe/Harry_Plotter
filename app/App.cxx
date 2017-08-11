@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
         }
     }
 
-	Harry_Plotter * run = new Harry_Plotter(ifile);
+	Harry_Plotter * run = new Harry_Plotter(ifile, ofile);
 	run->Run();
 	delete run;
 
