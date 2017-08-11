@@ -99,8 +99,8 @@ void Harry_Plotter::Run()
 
         TCanvas * can = 0x0;
         TH1D * hist1D = 0x0;
-        TH2D * hist2D = 0x0;
         TH1D * hist1Da = 0x0;
+        TH2D * hist2D = 0x0;
 
         string option = par->GetOpt(ReadParam::kOption);
 
@@ -117,35 +117,35 @@ void Harry_Plotter::Run()
                 break;
             case Type::kEff: 
                 if(par->GetDim() == 1){
-                    hist1D = m_effpur->EffVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
-                        m_signal, CheckCuts(par, 1), par->GetVar1Title());
-                    hist1D->SetName( (par->GetVar1() + "_Eff" + (option.empty() ? "" : "_" + option) ).c_str() );
+                    // hist1D = m_effpur->EffVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
+                    //     m_signal, CheckCuts(par, 1), par->GetVar1Title());
+                    // hist1D->SetName( (par->GetVar1() + "_Eff" + (option.empty() ? "" : "_" + option) ).c_str() );
                 }
                 else if(par->GetDim() == 2){
-                    hist2D = m_effpur->EffVSVar(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), 
-                        par->GetVar2NBins(), par->GetVar2Bins(), m_signal, CheckCuts(par, 1), par->GetVar1Title() + ";" + par->GetVar2Title());
-                    hist2D->SetName( (par->GetVar1() + "_vs_" + par->GetVar2() + "_Eff" + (option.empty() ? "" : "_" + option) ).c_str() );
+                    // hist2D = m_effpur->EffVSVar(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), 
+                    //     par->GetVar2NBins(), par->GetVar2Bins(), m_signal, CheckCuts(par, 1), par->GetVar1Title() + ";" + par->GetVar2Title());
+                    // hist2D->SetName( (par->GetVar1() + "_vs_" + par->GetVar2() + "_Eff" + (option.empty() ? "" : "_" + option) ).c_str() );
                 }
                 break;
             case Type::kPur: 
                 if(par->GetDim() == 1){
-                    hist1D = m_effpur->PurVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
-                        m_signal, CheckCuts(par, 1), par->GetVar1Title());
-                    hist1D->SetName( (par->GetVar1() + "_Pur" + (option.empty() ? "" : "_" + option) ).c_str() );
+                    // hist1D = m_effpur->PurVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
+                    //     m_signal, CheckCuts(par, 1), par->GetVar1Title());
+                    // hist1D->SetName( (par->GetVar1() + "_Pur" + (option.empty() ? "" : "_" + option) ).c_str() );
                 }
                 else if(par->GetDim() == 2){
-                    hist2D = m_effpur->PurVSVar(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), 
-                        par->GetVar2NBins(), par->GetVar2Bins(), m_signal, CheckCuts(par, 1), par->GetVar1Title() + ";" + par->GetVar2Title());
-                    hist2D->SetName( (par->GetVar1() + "_vs_" + par->GetVar2() + "_Pur" + (option.empty() ? "" : "_" + option) ).c_str() );
+                    // hist2D = m_effpur->PurVSVar(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), 
+                    //     par->GetVar2NBins(), par->GetVar2Bins(), m_signal, CheckCuts(par, 1), par->GetVar1Title() + ";" + par->GetVar2Title());
+                    // hist2D->SetName( (par->GetVar1() + "_vs_" + par->GetVar2() + "_Pur" + (option.empty() ? "" : "_" + option) ).c_str() );
                 }
                 break;
             case Type::kEP: 
                 if(par->GetDim() == 1){
-                    hist1D = m_effpur->EffVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
-                        m_signal, CheckCuts(par, 1), par->GetVar1Title());
-                    hist1D->SetName( (par->GetVar1() + "_EffPur" + (option.empty() ? "" : "_" + option) ).c_str() );
-                    hist1Da = m_effpur->PurVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
-                        m_signal, CheckCuts(par, 1), par->GetVar1Title());
+                    // hist1D = m_effpur->EffVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
+                    //     m_signal, CheckCuts(par, 1), par->GetVar1Title());
+                    // hist1D->SetName( (par->GetVar1() + "_EffPur" + (option.empty() ? "" : "_" + option) ).c_str() );
+                    // hist1Da = m_effpur->PurVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
+                    //     m_signal, CheckCuts(par, 1), par->GetVar1Title());
                 }
                 else{ 
                     cout << __FILE__ << ":" << __LINE__ << " : Didn't draw " << par->GetVar1() << " vs. ";
