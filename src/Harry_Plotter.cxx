@@ -48,6 +48,10 @@ Harry_Plotter::Harry_Plotter(std::string infile, std::string ofile) : m_filename
         }
     }  
 
+    std::map<std::string, int>::iterator it = m_particles.start();
+    for(; it != m_particles.end(); it++){
+        cout << it->first << "  " << it->second << endl;
+    }
 
         // DrawingSyle::GetParticleCol(int pdg);
 

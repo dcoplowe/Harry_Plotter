@@ -3,6 +3,6 @@
 <| Rcuts = 1==1  |>
 <| numbers = 1.0102203 |>
 <| effpur cut = |>
-<| particle = p=2212 pi=211 mu=13 |>
+<| particle = pi=211 p=2212 mu=13 |>
 This is a test to see if this line is read in.
 <| branch = 0 |> 
