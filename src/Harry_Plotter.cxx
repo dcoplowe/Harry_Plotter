@@ -205,8 +205,18 @@ void Harry_Plotter::Run()
         else if(hist2D) can = new TCanvas(hist2D->GetName(), "", 600, 400);
 
         if(hist1D) hist1D->SetBit(kCanDelete);
-        if(hist2D) hist2D->SetBit(kCanDelete);
         if(hist1Da) hist1D->SetBit(kCanDelete);
+        if(hist2D) hist2D->SetBit(kCanDelete);
+
+        if(hist1D){
+            can->cd();
+            // Check out the opts:
+            SetColors(hist1D,   par->GetStyle(Style::kFC), par->GetStyle(Style::kLC), 
+                par->GetStyle(Style::kFS), par->GetStyle(Style::kLS), par->GetStyle(Style::kLW));
+
+            hist1D->Draw();
+
+        }
 
         if(can) can->Write();
 
@@ -220,11 +230,7 @@ std::string Harry_Plotter::CheckCuts(ReadParam * par, int type)
     string cuts = "";
     if(type == 0) cuts = m_Rcuts;
     else if(type == 1) cuts = m_Tcuts;
-    else if(type == 2){ cuts = m_epcut; cout << "TYPE 2" << endl; }
-
-    cout << "cuts = " << cuts << "size = " << cuts.length() <<endl;
-    cout << "m_epcut = " << m_epcut << endl;
-    if(cuts.empty()) cout << "cuts is empty|" << endl;
+    else if(type == 2) cuts = m_epcut;
 
     if(!par->GetOpt(ReadParam::kCuts).empty()){
          if(par->ResetCuts()) cuts = par->GetOpt(ReadParam::kCuts);

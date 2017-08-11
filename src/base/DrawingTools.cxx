@@ -62,7 +62,7 @@ DrawingTools::~DrawingTools(){
     if(m_file) delete m_file;
 }
 
-TH1D * DrawingTools::GetHisto(std::string var, Int_t nbins, Double_t * bins, std::string xy_title, std::string cuts){
+TH1D * DrawingTools::GetHisto(std::string var, int nbins, double * bins, std::string xy_title, std::string cuts){
     
     s_1Dcounter++;
     TString host_name = Form("h1Dvar%s%.5d", m_uniquename.c_str(), s_1Dcounter);
@@ -99,11 +99,11 @@ TH1D * DrawingTools::GetHisto(std::string var, Int_t nbins, Double_t * bins, std
     return hist;
 }
 
-TH1D * DrawingTools::GetHisto(std::string var, Int_t nbins, Double_t low, Double_t high, std::string xy_title, std::string cuts){
+TH1D * DrawingTools::GetHisto(std::string var, int nbins, double low, double high, std::string xy_title, std::string cuts){
     return GetHisto(var, nbins, SetBinning(nbins, low, high), xy_title, cuts);
 }
 
-TH2D * DrawingTools::GetHisto(std::string var_yx, Int_t x_nbins, Double_t * x_bins, Int_t y_nbins, Double_t * y_bins, std::string xy_title, std::string cuts){
+TH2D * DrawingTools::GetHisto(std::string var_yx, int x_nbins, double * x_bins, int y_nbins, double * y_bins, std::string xy_title, std::string cuts){
     
     s_2Dcounter++;
     TString host_name = Form("h2Dvar%s%.5d", m_uniquename.c_str(), s_2Dcounter);
@@ -123,11 +123,11 @@ TH2D * DrawingTools::GetHisto(std::string var_yx, Int_t x_nbins, Double_t * x_bi
     return hist;
 }
 
-TH2D * DrawingTools::GetHisto(std::string var_yx, Int_t x_nbins, Double_t x_low, Double_t x_high, Int_t y_nbins, Double_t y_low, Double_t y_high, std::string xy_title, std::string cuts){
+TH2D * DrawingTools::GetHisto(std::string var_yx, int x_nbins, double x_low, double x_high, int y_nbins, double y_low, double y_high, std::string xy_title, std::string cuts){
     return GetHisto(var_yx, x_nbins, SetBinning(x_nbins, x_low, x_high), y_nbins, SetBinning(y_nbins, y_low, y_high), xy_title, cuts);
 }
 
-TH2D * DrawingTools::SmearMatrix(std::string vars_yx, Int_t nbins, Double_t * bins, std::string xy_title, std::string cuts){
+TH2D * DrawingTools::SmearMatrix(std::string vars_yx, int nbins, double * bins, std::string xy_title, std::string cuts){
 //    cout << "Pre: xy_title = " << xy_title << endl;
     if(xy_title.find(";") == std::string::npos){
         xy_title = Form("%s Reco.;%s Truth", xy_title.c_str(), xy_title.c_str());
@@ -136,11 +136,11 @@ TH2D * DrawingTools::SmearMatrix(std::string vars_yx, Int_t nbins, Double_t * bi
     return GetHisto(vars_yx, nbins, bins, nbins, bins, xy_title, cuts);
 }
 
-TH2D * DrawingTools::SmearMatrix(std::string vars_yx, Int_t nbins, Double_t low, Double_t high, std::string xy_title, std::string cuts){
+TH2D * DrawingTools::SmearMatrix(std::string vars_yx, int nbins, double low, double high, std::string xy_title, std::string cuts){
     return GetHisto(vars_yx, nbins, SetBinning(nbins, low, high), nbins, SetBinning(nbins, low, high), xy_title, cuts);
 }
 
-DrawingTools::KinMap DrawingTools::KinArray(std::string vars_tr, Int_t nbins, Double_t * bins, std::string rt_title, std::string cuts){
+DrawingTools::KinMap DrawingTools::KinArray(std::string vars_tr, int nbins, double * bins, std::string rt_title, std::string cuts){
     //In this map we can to keep all the entries preserved from one plot to another, i.e. all integrals are the same. Therefore want a common cut for all plots.
     
     KinMap map;
@@ -191,7 +191,7 @@ DrawingTools::KinMap DrawingTools::KinArray(std::string vars_tr, Int_t nbins, Do
     return map;
 }
 
-DrawingTools::KinMap DrawingTools::KinArray(std::string vars_tr, Int_t nbins, Double_t low, Double_t high, std::string rt_title, std::string cuts){
+DrawingTools::KinMap DrawingTools::KinArray(std::string vars_tr, int nbins, double low, double high, std::string rt_title, std::string cuts){
     return KinArray(vars_tr, nbins, SetBinning(nbins, low, high), rt_title, cuts);
 }
 
@@ -231,12 +231,12 @@ TH1D * DrawingTools::GetRTRatio(std::string vars_tr, std::string x_title, std::s
 }
 
 //Private functions:
-Double_t * DrawingTools::SetBinning(int nbins, Double_t low, Double_t high){
+double * DrawingTools::SetBinning(int nbins, double low, double high){
 
-    Double_t * bins = new Double_t[ nbins + 1 ];
+    double * bins = new double[ nbins + 1 ];
     
-    Double_t range = high - low;
-    Double_t binwidth = range/(Double_t)nbins;
+    double range = high - low;
+    double binwidth = range/(double)nbins;
     
     for (int i=0; i < nbins + 1; i++) {
         bins[i] = low + binwidth*i;
@@ -246,29 +246,26 @@ Double_t * DrawingTools::SetBinning(int nbins, Double_t low, Double_t high){
     return bins;
 }
 
-TLegend * DrawingTools::Legend(Double_t x_size, Double_t y_size, Double_t x_start, Double_t y_start){
+TLegend * DrawingTools::Legend(double x_size, double y_size, double x_start, double y_start){
     TLegend * leg = new TLegend(x_start, y_start, x_start + x_size, y_start + y_size);
     leg->SetFillStyle(0);
     //leg->SetTextSize(0.042);
     return leg;
 }
 
-void DrawingTools::SetColors(TH1D *&h1, Int_t fill_color, Int_t line_color, Int_t fill_style, Int_t line_style){
-    
-//    cout << "FillColor = " << fill_color << " FillSyle = " << fill_style << " LineColor = " << line_color << " LineStyle = " << line_style << endl;
-//    cout << "H1 = FillColor = " << h1->GetFillColor() << " FillSyle = " << h1->GetFillStyle() << " LineColor = " << h1->GetLineColor() << " LineStyle = " << h1->GetLineStyle() << endl;
-    
-    h1->SetFillColor(fill_color);
-    h1->SetLineColor(line_color);
-    
+void DrawingTools::SetColors(TH1D *&h1, int fill_color, int line_color, int fill_style, int line_style, int line_width)
+{
+    if(fill_color != -999) h1->SetFillColor(fill_color);
+    if(line_color != -999) h1->SetLineColor(line_color);
     if(fill_style != -999) h1->SetFillStyle(fill_style);
     if(line_style != -999) h1->SetLineStyle(line_style);
+    if(line_width != -999) h1->SetLineWidth(line_width);
 }
 
-void DrawingTools::SetColors(KinMap &map, Int_t fill_color, Int_t line_color, Int_t fill_style, Int_t line_style){
-    SetColors(map.recon, fill_color, line_color, fill_style, line_style);
-    SetColors(map.truth, fill_color, line_color, fill_style, line_style);
-    SetColors(map.ratio, fill_color, line_color, fill_style, line_style);
+void DrawingTools::SetColors(KinMap &map, int fill_color, int line_color, int fill_style, int line_style, int line_width){
+    SetColors(map.recon, fill_color, line_color, fill_style, line_style, line_width);
+    SetColors(map.truth, fill_color, line_color, fill_style, line_style, line_width);
+    SetColors(map.ratio, fill_color, line_color, fill_style, line_style, line_width);
 }
 
 std::vector<double> DrawingTools::GetPercentage(std::vector<TH1D*> histos){
@@ -287,7 +284,7 @@ std::vector<double> DrawingTools::GetPercentage(std::vector<TH1D*> histos){
     return pers;
 }
 
-std::vector<double> DrawingTools::GetPercentage(std::vector<DrawingTools::KinMap> histos, Int_t type){
+std::vector<double> DrawingTools::GetPercentage(std::vector<DrawingTools::KinMap> histos, int type){
 //    DrawingTools::KinMap empty_kinmap;
      std::vector<TH1D*> list;
     if(type == 0){//Reco;
@@ -305,7 +302,7 @@ std::vector<double> DrawingTools::GetPercentage(std::vector<DrawingTools::KinMap
     return out_list;
 }
 
-std::vector<double> DrawingTools::GetPercentage(std::vector<DrawingTools::KinMap> histos, Int_t type, KinMap other){
+std::vector<double> DrawingTools::GetPercentage(std::vector<DrawingTools::KinMap> histos, int type, KinMap other){
     
     std::vector<TH1D*> list;
     if(type == 0){//Reco;
@@ -330,24 +327,24 @@ std::vector<double> DrawingTools::GetPercentage(std::vector<DrawingTools::KinMap
 }
 
 TH1D * DrawingTools::ToPDF(TH1D *hraw, TString hn){
-    const Int_t x0 = 0;
-    const Int_t x1 = hraw->GetNbinsX()+1;
-    const Double_t tmpnt = hraw->Integral(x0, x1);
+    const int x0 = 0;
+    const int x1 = hraw->GetNbinsX()+1;
+    const double tmpnt = hraw->Integral(x0, x1);
     
     TH1D * hist = (TH1D*) hraw->Clone((hn+hraw->GetName())+"pdf");
     hist->Scale(0);
     
-    for(Int_t ib=x0; ib<=x1; ib++){
-        const Double_t bw = hraw->GetBinWidth(ib);
-        const Double_t cont = hraw->GetBinContent(ib);
+    for(int ib=x0; ib<=x1; ib++){
+        const double bw = hraw->GetBinWidth(ib);
+        const double cont = hraw->GetBinContent(ib);
         if(cont<1e-12)
             continue;
         
         //in case of finit number of bins (i.e. eff not always small), Binomial error is more accurate than Poisson error
-        const Double_t eff = cont/tmpnt;
-        const Double_t pdf = eff/bw;
+        const double eff = cont/tmpnt;
+        const double pdf = eff/bw;
         
-        const Double_t dpdf = TMath::Sqrt(eff*(1-eff)/tmpnt) / bw;
+        const double dpdf = TMath::Sqrt(eff*(1-eff)/tmpnt) / bw;
         hist->SetBinContent(ib, pdf);
         hist->SetBinError(ib, dpdf);
     }
@@ -358,31 +355,31 @@ TH1D * DrawingTools::ToPDF(TH1D *hraw, TString hn){
 }
 
 
-TH2D * DrawingTools::NormalHist(TH2D *hraw, Double_t thres, bool kmax){
+TH2D * DrawingTools::NormalHist(TH2D *hraw, double thres, bool kmax){
     TH2D *hh=(TH2D*)hraw->Clone(Form("%sSN",hraw->GetName()));
     hh->Scale(0);
     
-    const Int_t x0 = hh->GetXaxis()->GetFirst();
-    const Int_t x1 = hh->GetXaxis()->GetLast();
-    const Int_t y0 = hh->GetYaxis()->GetFirst();
-    const Int_t y1 = hh->GetYaxis()->GetLast();
+    const int x0 = hh->GetXaxis()->GetFirst();
+    const int x1 = hh->GetXaxis()->GetLast();
+    const int y0 = hh->GetYaxis()->GetFirst();
+    const int y1 = hh->GetYaxis()->GetLast();
     
-    Double_t hmax = -1e10;
-    Double_t hmin = 1e10;
-    Double_t nent = 0;
-    for(Int_t ix=x0; ix<=x1; ix++){
+    double hmax = -1e10;
+    double hmin = 1e10;
+    double nent = 0;
+    for(int ix=x0; ix<=x1; ix++){
         
         //if option "e" is specified, the errors are computed. if option "o" original axis range of the taget axes will be kept, but only bins inside the selected range will be filled.
         
         TH1D * sliceh = hraw->ProjectionY(Form("tmpnormalhist%sx%d", hh->GetName(), ix), ix, ix, "oe");
-        const Double_t tot = sliceh->GetEntries();
+        const double tot = sliceh->GetEntries();
         
         TH1D * pdfh=0x0;
         
         if(tot>1e-12){
             nent += tot;
             
-            Double_t imax = -999;
+            double imax = -999;
             
             if(!kmax){
                 pdfh = ToPDF(sliceh,"tmp");
@@ -391,9 +388,9 @@ TH2D * DrawingTools::NormalHist(TH2D *hraw, Double_t thres, bool kmax){
                 imax = sliceh->GetBinContent(sliceh->GetMaximumBin());
             }
             
-            for(Int_t iy=y0; iy<=y1; iy++){
-                const Double_t cont = kmax ? sliceh->GetBinContent(iy)/imax : pdfh->GetBinContent(iy);
-                const Double_t ierr = kmax ? sliceh->GetBinError(iy)/imax   : pdfh->GetBinError(iy);
+            for(int iy=y0; iy<=y1; iy++){
+                const double cont = kmax ? sliceh->GetBinContent(iy)/imax : pdfh->GetBinContent(iy);
+                const double ierr = kmax ? sliceh->GetBinError(iy)/imax   : pdfh->GetBinError(iy);
                 if(tot>thres && cont>0){
                     hh->SetBinContent(ix, iy, cont);
                     hh->SetBinError(ix,iy, ierr);

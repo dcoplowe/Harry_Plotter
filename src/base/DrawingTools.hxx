@@ -22,8 +22,8 @@ class TObject;
 class DrawingTools : public DrawingStyle {
 public:
     
-    static Int_t s_1Dcounter;
-    static Int_t s_2Dcounter;
+    static int s_1Dcounter;
+    static int s_2Dcounter;
 
     static Long64_t MaxEntries;
 
@@ -50,20 +50,20 @@ public:
     ~DrawingTools();
     //This method takes in file, user sets truth and reco. tree names.
     
-    TH1D * GetHisto(std::string var, Int_t nbins, Double_t * bins, std::string xy_title = "", std::string cuts = "");
-    TH1D * GetHisto(std::string var, Int_t nbins, Double_t low, Double_t high, std::string xy_title = "", std::string cuts = "");
+    TH1D * GetHisto(std::string var, int nbins, double * bins, std::string xy_title = "", std::string cuts = "");
+    TH1D * GetHisto(std::string var, int nbins, double low, double high, std::string xy_title = "", std::string cuts = "");
     
-    TH2D * GetHisto(std::string var_yx, Int_t x_nbins, Double_t * x_bins, Int_t y_nbins, Double_t * y_bins,
+    TH2D * GetHisto(std::string var_yx, int x_nbins, double * x_bins, int y_nbins, double * y_bins,
                     std::string xy_title = "", std::string cuts = "");
     
-    TH2D * GetHisto(std::string var_yx, Int_t x_nbins, Double_t x_low, Double_t x_high, Int_t y_nbins, Double_t y_low, Double_t y_high,
+    TH2D * GetHisto(std::string var_yx, int x_nbins, double x_low, double x_high, int y_nbins, double y_low, double y_high,
                     std::string xy_title = "", std::string cuts = "");
     
-    TH2D * SmearMatrix(std::string vars_yx, Int_t nbins, Double_t * bins, std::string xy_title = "", std::string cuts = "");
-    TH2D * SmearMatrix(std::string vars_yx, Int_t nbins, Double_t low, Double_t high, std::string xy_title = "", std::string cuts = "");
+    TH2D * SmearMatrix(std::string vars_yx, int nbins, double * bins, std::string xy_title = "", std::string cuts = "");
+    TH2D * SmearMatrix(std::string vars_yx, int nbins, double low, double high, std::string xy_title = "", std::string cuts = "");
     
-    KinMap KinArray(std::string vars_tr, Int_t nbins, Double_t * bins, std::string rt_title = "", std::string cuts = "");
-    KinMap KinArray(std::string vars_tr, Int_t nbins, Double_t low, Double_t high, std::string rt_title = "", std::string cuts = "");
+    KinMap KinArray(std::string vars_tr, int nbins, double * bins, std::string rt_title = "", std::string cuts = "");
+    KinMap KinArray(std::string vars_tr, int nbins, double low, double high, std::string rt_title = "", std::string cuts = "");
     
     TH1D * GetRTRatio(std::string vars_tr, std::string x_title, std::string cuts);
     
@@ -73,24 +73,24 @@ public:
     TObject * GetObjectFromCanvas(TCanvas * can, std::string name);
 
     void Verbose(){ m_verbose = true; }
-    void SetRatioInfo(Int_t nbins, Double_t range){ m_ratiobins = nbins; m_ratiorange = range; }
+    void SetRatioInfo(int nbins, double range){ m_ratiobins = nbins; m_ratiorange = range; }
     
-    static Double_t * SetBinning(int nbins, Double_t low, Double_t high);
+    static double * SetBinning(int nbins, double low, double high);
     
-    static TLegend * Legend(Double_t x_size, Double_t y_size, Double_t x_start = 0.1, Double_t y_start = 0.1);
+    static TLegend * Legend(double x_size, double y_size, double x_start = 0.1, double y_start = 0.1);
     
-    TLegend * GetPOT(Double_t x_pos, Double_t y_pos);
+    TLegend * GetPOT(double x_pos, double y_pos);
     void SetPOT();
     
-    static void SetColors(TH1D *&h1,   Int_t fill_color, Int_t line_color = kBlack, Int_t fill_style = 1001, Int_t line_style = 1);
-    static void SetColors(KinMap &map, Int_t fill_color, Int_t line_color = kBlack, Int_t fill_style = 1001, Int_t line_style = 1);
+    static void SetColors(TH1D *&h1,   int fill_color, int line_color = kBlack, int fill_style = 1001, int line_style = 1, int line_width = 2);
+    static void SetColors(KinMap &map, int fill_color, int line_color = kBlack, int fill_style = 1001, int line_style = 1, int line_width = 2);
 
     static std::vector<double> GetPercentage(std::vector<TH1D*> histos);
-    static std::vector<double> GetPercentage(std::vector<DrawingTools::KinMap> histos, Int_t type);
-    static std::vector<double> GetPercentage(std::vector<DrawingTools::KinMap> histos, Int_t type, KinMap other);
+    static std::vector<double> GetPercentage(std::vector<DrawingTools::KinMap> histos, int type);
+    static std::vector<double> GetPercentage(std::vector<DrawingTools::KinMap> histos, int type, KinMap other);
     
     TH1D * ToPDF(TH1D * hraw, TString hn = "");
-    TH2D * NormalHist(TH2D * hraw, Double_t thres = 0, bool kmax=false);
+    TH2D * NormalHist(TH2D * hraw, double thres = 0, bool kmax=false);
         
     static void Normalise(TH1D *& hist);
     static void Normalise(TH2D *& hist);
@@ -126,8 +126,8 @@ private:
     TFile * m_file;
     TTree * m_tree;
         
-    Double_t m_ratiorange;
-    Int_t m_ratiobins;
+    double m_ratiorange;
+    int m_ratiobins;
     
     bool m_verbose;
     bool m_checkPOT;
