@@ -28,10 +28,10 @@ Harry_Plotter::Harry_Plotter(std::string infile, std::string ofile) : m_filename
     m_Tcuts = ReadParam::GetParameterS("Tcuts", opts_file);
     m_epcut = ReadParam::GetParameterS("effpur cut", opts_file);
 
-    cout << "m_branch = " << m_branch << endl;
+    // cout << "m_branch = " << m_branch << endl;
     m_branch = ReadParam::GetParameterI("branch", opts_file);
     if(m_branch == -999) m_branch = 0;
-    cout << "m_branch = " << m_branch << endl;
+    // cout << "m_branch = " << m_branch << endl;
 
     // Add default colours for particle 
     string particle = ReadParam::GetParameterS("particle", opts_file);
@@ -39,6 +39,12 @@ Harry_Plotter::Harry_Plotter(std::string infile, std::string ofile) : m_filename
     std::stringstream iss(particle);
     while( iss >> part_word ){
         cout << "word = " << part_word << endl;
+        size_t equals = word.find("=");
+        if(equals != string::npos){
+            string part = word.substr(0, equals);
+            string pdgs = word.substr(equals, word.length());
+            cout << "part = " << part << " pdgs = " << pdgs << endl;
+        }
     }  
 
 
