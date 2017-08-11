@@ -211,7 +211,7 @@ void Harry_Plotter::Run()
         if(hist1D){
             can->cd();
             // Check out the opts:
-            SetColors(hist1D,   par->GetStyle(Style::kFC), par->GetStyle(Style::kLC), 
+            DrawingTools::SetColors(hist1D,   par->GetStyle(Style::kFC), par->GetStyle(Style::kLC), 
                 par->GetStyle(Style::kFS), par->GetStyle(Style::kLS), par->GetStyle(Style::kLW));
 
             hist1D->Draw();
