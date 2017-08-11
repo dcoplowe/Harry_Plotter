@@ -262,9 +262,8 @@ std::string ReadParam::GetParameterS(std::string name, std::string infile, std::
             }
         }
     }
-
-    if(param.empty()) param = "";
-    cout << name << " : param size = " << param.length() << endl;
+    // This is to get rid of white space quickly:
+    if(param.length() < 2) param = "";
 
     return param;
 }
