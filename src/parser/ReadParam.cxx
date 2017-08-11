@@ -64,7 +64,7 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
                 else if(par.title.empty()) par.title = word;
                 else if(par.units.empty()) par.units = word;
                 else{
-                    cout << "found extra" << endl;
+                    // cout << "found extra" << endl;
                     par.extra += " ";
                     par.extra += word;
                 }
