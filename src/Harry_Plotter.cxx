@@ -29,7 +29,7 @@ Harry_Plotter::Harry_Plotter(std::string infile, std::string ofile) : m_filename
     m_epcut = ReadParam::GetParameterS("effpur cut", opts_file);
 
     cout << "m_branch = " << m_branch << endl;
-    m_branch = ReadParam::GetParameterI("min branch", opts_file);
+    m_branch = ReadParam::GetParameterI("branch", opts_file);
     if(m_branch == -999) m_branch = 0;
     cout << "m_branch = " << m_branch << endl;
 
