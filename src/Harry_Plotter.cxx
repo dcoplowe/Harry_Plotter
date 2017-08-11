@@ -10,6 +10,8 @@
 #include <TCanvas.h>
 #include <TDatime.h>
 #include <TFile.h>
+#include <TH1D.h>
+#include <TH2D.h>
 
 using std::string;
 using std::endl;
