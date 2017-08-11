@@ -38,11 +38,11 @@ Harry_Plotter::Harry_Plotter(std::string infile, std::string ofile) : m_filename
     string part_word;
     std::stringstream iss(particle);
     while( iss >> part_word ){
-        cout << "word = " << part_word << endl;
-        size_t equals = word.find("=");
+        cout << "part_word = " << part_word << endl;
+        size_t equals = part_word.find("=");
         if(equals != string::npos){
-            string part = word.substr(0, equals);
-            string pdgs = word.substr(equals, word.length());
+            string part = part_word.substr(0, equals);
+            string pdgs = part_word.substr(equals, part_word.length());
             cout << "part = " << part << " pdgs = " << pdgs << endl;
         }
     }  
