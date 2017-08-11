@@ -35,6 +35,7 @@ private:
 	int m_branch;
 
 	std::map<std::string,int> m_particles;
+	int GetParticleColor(std::string var);
 
 	std::string m_ofilename;
 	TFile * m_outfile;

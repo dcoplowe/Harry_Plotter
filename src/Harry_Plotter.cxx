@@ -47,12 +47,6 @@ Harry_Plotter::Harry_Plotter(std::string infile, std::string ofile) : m_filename
             m_particles[ part ] = ReadParam::GetInt(pdgs);
         }
     }  
-
-    std::map<std::string,int>::iterator it = m_particles.begin();
-    for(; it != m_particles.end(); it++){
-        cout << it->first << "  " << it->second << endl;
-    }
-
         // DrawingSyle::GetParticleCol(int pdg);
 
 
@@ -92,6 +86,7 @@ Harry_Plotter::Harry_Plotter(std::string infile, std::string ofile) : m_filename
 Harry_Plotter::~Harry_Plotter()
 {
 	m_plots.clear();
+    delete m_outfile;
 }
 
 void Harry_Plotter::Run()
@@ -206,8 +201,18 @@ void Harry_Plotter::Run()
             default: break;       
         }
 
+        if(hist1D) can = new TCanvas(hist1D->GetName(), "", 600, 400);
+        else if(hist2D) can = new TCanvas(hist2D->GetName(), "", 600, 400);
+
+        if(hist1D) hist1D->SetBit(kCanDelete);
+        if(hist2D) hist2D->SetBit(kCanDelete);
+        if(hist1Da) hist1D->SetBit(kCanDelete);
+
+        if(can) can->Write();
+
     }
 
+    m_outfile->Close();
 }
 
 std::string Harry_Plotter::CheckCuts(ReadParam * par, int type)
@@ -251,9 +256,17 @@ TH2D * Harry_Plotter::Get2D(ReadParam * par)
     return hist;
 }
 
-// TH1D * Harry_Plotter::GetEffPur1D(ReadParam * par)
-// {
-    
-// }
+int Harry_Plotter::GetParticleColor(std::string var)
+{
+    int colour = -999;
+    std::map<std::string,int>::iterator it = m_particles.begin();
+    for(; it != m_particles.end(); it++){
+        if(var.find(it->first) != string::npos){
+            colour = it->second;
+            break;
+        }
+    }
+    return colour;
+}
 
 #endif
