@@ -56,7 +56,7 @@ Harry_Plotter::Harry_Plotter(std::string infile, std::string ofile) : m_filename
         m_ofilename = Form("%s_%.2d%.2d%.2d.root", m_ofilename.c_str(), day, month, year);        
     }
 
-    m_outfile = new TFile(m_ofilename, "RECREATE");
+    m_outfile = new TFile(m_ofilename.c_str(), "RECREATE");
 }
 
 Harry_Plotter::~Harry_Plotter()
