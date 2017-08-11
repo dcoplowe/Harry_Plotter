@@ -28,8 +28,10 @@ Harry_Plotter::Harry_Plotter(std::string infile, std::string ofile) : m_filename
     m_Tcuts = ReadParam::GetParameterS("Tcuts", opts_file);
     m_epcut = ReadParam::GetParameterS("effpur cut", opts_file);
 
+    cout << "m_branch = " << m_branch << endl;
     m_branch = ReadParam::GetParameterI("min branch", opts_file);
     if(m_branch == -999) m_branch = 0;
+    cout << "m_branch = " << m_branch << endl;
 
 	string plots_file = string( getenv("HP_ROOT") );
     plots_file += "/parameters/plot_list.txt";
