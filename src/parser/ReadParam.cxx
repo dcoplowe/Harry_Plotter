@@ -443,6 +443,13 @@ double ReadParam::GetDouble(std::string val)
     return num;
 }
 
+void ReadParam::Print()
+{
+    if(m_Dim >= kOne) m_varOne.Print();
+    if(m_Dim >= kTwo) m_varTwo.Print();
+    if(m_Dim == kThree) m_varThree.Print();
+}
+
 #endif
 
 #ifndef __BINPAR__CXX__

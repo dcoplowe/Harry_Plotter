@@ -145,6 +145,8 @@ public:
     static int GetInt(std::string val);
     static double GetDouble(std::string val);
 
+    void Print();
+
 private:
     std::string m_instring;
 

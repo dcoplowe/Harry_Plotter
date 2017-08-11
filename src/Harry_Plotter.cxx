@@ -58,6 +58,7 @@ Harry_Plotter::Harry_Plotter(std::string infile, std::string ofile) : m_filename
 
     for(size_t i = 0; i < plot_list.size(); i++){
     	m_plots.push_back( new ReadParam(plot_list[i]) );
+        m_plots.back()->Print();
     }
     plot_list.clear();
 
