@@ -61,7 +61,9 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
         BinPar par;
         while( iss >> word )     
         {
+            cout << "word = " << word << endl;
             if(!IsNumber(word)){
+                cout << "found string" << endl;
                 if(par.var.empty()) par.var = word;
                 else if(par.var.empty()) par.var = word;
                 else if(par.title.empty()) par.title = word;
