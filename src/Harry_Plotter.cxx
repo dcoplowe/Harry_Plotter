@@ -57,6 +57,7 @@ Harry_Plotter::Harry_Plotter(std::string infile, std::string ofile) : m_filename
     std::vector<string> plot_list = ReadParam::ReadFile(plots_file);
 
     for(size_t i = 0; i < plot_list.size(); i++){
+        cout << plot_list[i] << endl;
     	m_plots.push_back( new ReadParam(plot_list[i]) );
         m_plots.back()->Print();
     }
