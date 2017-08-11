@@ -93,9 +93,11 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
         if(pass){
             cout << "FOund good vars" << endl;
             par.good = true;
+
                 // Check that title has been filled and set to var if not:
             if(par.title.empty()) par.title = par.var;
             par.DetermineBins();
+            par.Print();
             // cout << " nparams.push_back( par ); " << endl;
             nparams.push_back( par );
         }
