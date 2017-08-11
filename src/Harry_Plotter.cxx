@@ -185,18 +185,18 @@ void Harry_Plotter::Run()
                 }
                 break;
             case Type::kEffVSCuts: 
-                hist1D = m_effpur->EffVSCuts(m_signal, m_branch, CheckCuts(par, 2) );
+                // hist1D = m_effpur->EffVSCuts(m_signal, m_branch, CheckCuts(par, 2) );
                 break;
             case Type::kPurVSCuts: 
-                hist1D = m_effpur->PurVSCuts(m_signal, m_branch, CheckCuts(par, 2) );
+                // hist1D = m_effpur->PurVSCuts(m_signal, m_branch, CheckCuts(par, 2) );
                 break;
             case Type::kEffPurVSCuts: 
-                hist1D = m_effpur->EffVSCuts(m_signal, m_branch, CheckCuts(par, 2) );
-                hist1Da = m_effpur->PurVSCuts(m_signal, m_branch, CheckCuts(par, 2) );
+                // hist1D = m_effpur->EffVSCuts(m_signal, m_branch, CheckCuts(par, 2) );
+                // hist1Da = m_effpur->PurVSCuts(m_signal, m_branch, CheckCuts(par, 2) );
                 break;
             case Type::kNCutsMinusOne: 
-                hist1D = m_effpur->EffVSN1Cuts(m_signal, m_branch, CheckCuts(par, 2) );
-                hist1Da = m_effpur->PurVSN1Cuts(m_signal, m_branch, CheckCuts(par, 2) );                
+                // hist1D = m_effpur->EffVSN1Cuts(m_signal, m_branch, CheckCuts(par, 2) );
+                // hist1Da = m_effpur->PurVSN1Cuts(m_signal, m_branch, CheckCuts(par, 2) );                
                 break; 
             default: break;       
         }
@@ -213,9 +213,13 @@ void Harry_Plotter::Run()
             // Check out the opts:
             DrawingTools::SetColors(hist1D,   par->GetStyle(Style::kFC), par->GetStyle(Style::kLC), 
                 par->GetStyle(Style::kFS), par->GetStyle(Style::kLS), par->GetStyle(Style::kLW));
-
             hist1D->Draw();
+            if(hist1Da) hist1D->Draw("SAME");
+        }
 
+        if(hist2D){
+            can->cd();
+            hist2D->Draw("COLZ");
         }
 
         if(can) can->Write();
