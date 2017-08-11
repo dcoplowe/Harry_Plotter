@@ -3,3 +3,4 @@
 <| Rcuts = 1==1  |>
 <| numbers = 1.0102203 |>
 <| effpur cut = david coplowe |>
+<| particle = p = p, pi = #pi^{+}, mu = #mu^{-} |>

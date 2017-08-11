@@ -48,9 +48,31 @@ public:
 #ifndef __TYPE_STYLE__NS
 #define __TYPE_STYLE__NS
 
+#include <map>
+
 namespace Type {
     enum Type { kStandard = 0, kEff, kPur, kEP, kPID, kTop, kTarS, kTar,
         kEffVSCuts, kPurVSCuts, kEffPurVSCuts, kNCutsMinusOne };
+
+        static std::string ToString(Type::Type tt){
+            std::map<Type::Type, std::string> names;
+            names[ kStandard ] = "";
+            names[ kEff ] = "kEff";
+            names[ kPur ] = "Pur";
+            names[ kEP ] = "EP";
+            names[ kPID ] = "PID";
+            names[ kTop ] = "Top";
+            names[ kTarS ] = "TarS";
+            names[ kTar ] = "Tar";
+            names[ kEffVSCuts ] = "EffVSCuts";
+            names[ kPurVSCuts ] = "PurVSCuts";
+            names[ kEffPurVSCuts ] = "EffPurVSCuts";
+            names[ kNCutsMinusOne ] = "NCutsMinusOne";
+
+            std::map<Type::Type, std::string>::iterator found = names.find(tt);
+            if(found != name.end()) return found->second; 
+            else return "Unknown";
+        }
 }
 
 namespace Style {

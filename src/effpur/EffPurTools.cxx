@@ -42,10 +42,7 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
 
    assert(m_truth);
    assert(m_recon);
-
-    // m_truth = (TTree*)m_file->Get(truename.c_str());
-    // m_recon = (TTree*)m_file->Get(reconame.c_str());
-    
+   
     if(!m_truth || !m_recon){
         cout << "Could not access truth/recon tree(s)." << endl;
         exit(0);
@@ -54,10 +51,8 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
     string opts_file = string( getenv("HP_ROOT") );
     opts_file += "/src/effpur/parameters.txt";
 
-    cout << "opts_file = " << opts_file << endl; 
     std::vector<std::string> tmp_cuts;  
     string line = ReadParam::GetParameterS( "cut 1", opts_file);
-    cout << "line = ReadParam::GetParameterS( \"cut 1\", opts_file) = " << line << endl;
     int runner = 1;
     while( !line.empty() ){
         tmp_cuts.push_back( line );

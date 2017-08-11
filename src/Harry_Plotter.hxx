@@ -31,11 +31,12 @@ private:
 	std::string m_Rcuts;
 	std::string m_Tcuts;
 	std::string	m_epcut;
+	int m_branch;
 
 	std::string m_ofilename;
 	TFile * m_outfile;
 
-	std::string CheckCuts(ReadParam * par, bool is_recon = true);
+	std::string CheckCuts(ReadParam * par, int type = 0);
 
 	DrawingTools * m_recon;
 	DrawingTools * m_truth;
