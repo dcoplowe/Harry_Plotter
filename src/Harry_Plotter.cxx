@@ -37,13 +37,14 @@ Harry_Plotter::Harry_Plotter(std::string infile, std::string ofile) : m_filename
     string particle = ReadParam::GetParameterS("particle", opts_file);
     string part_word;
     std::stringstream iss(particle);
+
     while( iss >> part_word ){
         cout << "part_word = " << part_word << endl;
         size_t equals = part_word.find("=");
         if(equals != string::npos){
             string part = part_word.substr(0, equals);
-            string pdgs = part_word.substr(equals + 1, part_word.length());
-            cout << "part = " << part << " pdgs = " << pdgs << endl;
+            // string pdgs = part_word.substr(equals + 1, part_word.length());
+            m_particles[ part ] = ReadParam::GetInt(part_word.substr(equals + 1, part_word.length()));
         }
     }  
 

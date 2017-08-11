@@ -142,6 +142,9 @@ public:
     bool Truth() const { return m_truthtree; }
     bool ResetCuts() const { return m_reset_cuts; }
 
+    static int GetInt(std::string val);
+    static double GetDouble(std::string val);
+
 private:
     std::string m_instring;
 

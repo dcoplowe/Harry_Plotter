@@ -33,6 +33,8 @@ private:
 	std::string	m_epcut;
 	int m_branch;
 
+	std::map<std::string,int> m_particles;
+
 	std::string m_ofilename;
 	TFile * m_outfile;
 
