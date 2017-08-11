@@ -252,8 +252,9 @@ std::string Harry_Plotter::CheckCuts(ReadParam * par, int type)
 
 TH1D * Harry_Plotter::Get1D(ReadParam * par)
 {
+    double tmp * = par->GetVar1Bins();
     cout << "Building histo for " << par->GetVar1() << "par->GetVar1NBins() = " << par->GetVar1NBins() << " :";
-    for(int i = 0; i < par->GetVar1NBins() + 1; i++) cout << " " << par->GetVar1Bins()[i] << endl;
+    for(int i = 0; i < par->GetVar1NBins() + 1; i++) cout << " " << tmp[i] << endl;
     TH1D * hist; 
     if(par->Truth()) hist = m_truth->GetHisto(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(), CheckCuts(par, false));
     else hist = m_recon->GetHisto(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(), CheckCuts(par));
