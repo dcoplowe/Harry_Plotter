@@ -59,8 +59,8 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
         string word;
         std::stringstream iss(nsets[i]);
         BinPar par;
-        cout << par.var << par.var << endl;
-        cout << par.nbins << par.nbins << endl;
+        cout << "par.var = "<< par.var << endl;
+        cout << "par.nbins = " << par.nbins << endl;
         // cout << par.var << par.var << endl;
         // cout << par.var << par.var << endl;
 
@@ -70,7 +70,6 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
             if(!IsNumber(word)){
                 cout << "found string" << endl;
                 if(par.var.empty()) par.var = word;
-                else if(par.var.empty()) par.var = word;
                 else if(par.title.empty()) par.title = word;
                 else if(par.units.empty()) par.units = word;
                 else{
