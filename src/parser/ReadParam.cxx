@@ -268,11 +268,14 @@ std::string ReadParam::GetParameterS(std::string name, std::string infile, std::
 std::string ReadParam::GetParameterN(std::string name, std::string infile, std::string left_arrow, std::string right_arrow)
 {
     string param = GetParameterS(name, infile, left_arrow, right_arrow);
-    param.erase(std::remove(param.begin(),param.end(),' '),param.end());
-    if(!IsNumber(param)){
-        cout << __FILE__ << ":" << __LINE__ << ": ERROR : Parameter is not a number, we have: " << param << endl;
-        exit(0);
+    if(!param.empty()){
+        param.erase(std::remove(param.begin(),param.end(),' '),param.end());
+        if(!IsNumber(param)){
+            cout << __FILE__ << ":" << __LINE__ << ": ERROR : Parameter is not a number, we have: " << param << endl;
+            exit(0);
+        }
     }
+    else param = "-999";
     return param;
 }   
 
