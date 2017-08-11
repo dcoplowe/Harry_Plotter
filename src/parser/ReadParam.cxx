@@ -264,7 +264,7 @@ std::string ReadParam::GetParameterS(std::string name, std::string infile, std::
     }
 
     if(param.empty()) param = "";
-    cout << "param size = " << param.length();
+    cout << "param size = " << param.length() << endl;
 
     return param;
 }
