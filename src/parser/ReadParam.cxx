@@ -54,7 +54,7 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
     ep_list[ Type::kNCutsMinusOne ] = "NCutsMinusOne";
 
     for(size_t i = 0; i < nsets.size(); i++){
-            // cout << "nsets[" << i << "] = " << nsets[i] << endl;
+            cout << "nsets[" << i << "] = " << nsets[i] << endl;
 
         string word;
         std::stringstream iss(nsets[i]);
