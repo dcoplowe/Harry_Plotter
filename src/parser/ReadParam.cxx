@@ -150,8 +150,8 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
     BinPar loop[3] = { m_varOne, m_varTwo, m_varThree };
 
     for(size_t i = 0; i < entries; i++){
-        loop[i] = nparams[i];
-        // loop[i].Print();
+        loop[i] = &nparams[i];
+        loop[i].Print();
     }    
 
     if(!tmp_options.empty()) m_options[ kInput ] = tmp_options;
