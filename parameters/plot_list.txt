@@ -1,2 +1,2 @@
-<| truedpTT #deltap_{TT} 29 -300. 300. : cut = target==1, style = ls1001 lc2 fs10 fc2 lw2, option = TN|>
+<| truedpTT #deltap_{TT} 29 -300. 300. : cut = target==1, style = ls1001 lc2 fs10 fc2 lw2 |>
 <| EffPurVSCuts : cut = target==1 |>
