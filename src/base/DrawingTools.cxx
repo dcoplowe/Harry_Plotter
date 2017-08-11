@@ -41,9 +41,6 @@ DrawingTools::DrawingTools(std::string filename, std::string treename, std::stri
     // From root static constexpr Long64_t   TVirtualTreePlayer::kMaxEntries:
     if(MaxEntries == 80085) MaxEntries = std::numeric_limits<Long64_t>::max();
 
-    // s_1Dcounter = -1;
-    // s_2Dcounter = -1;
-    
     m_ratiorange = 3;
     m_ratiobins = 59;
     
@@ -63,9 +60,7 @@ DrawingTools::~DrawingTools(){
 }
 
 TH1D * DrawingTools::GetHisto(std::string var, int nbins, double * bins, std::string xy_title, std::string cuts){
-    
-    s_1Dcounter++;
-    TString host_name = Form("h1Dvar%s%.5d", m_uniquename.c_str(), s_1Dcounter);
+    TString host_name = Form("h1Dvar%s%.5d", m_uniquename.c_str(), s_1Dcounter++);
     
     TString title;
     TString tmp_title(xy_title.c_str());
@@ -207,8 +202,7 @@ TH1D * DrawingTools::GetRTRatio(std::string vars_tr, std::string x_title, std::s
     TString truth_var( tr_vars(0, tr_vars.First(":")) );
     TString recon_var( tr_vars(tr_vars.First(":") + 1, tr_vars.Length()) );
     
-    s_1Dcounter++;
-    TString host_name = Form("h1Dvar%s%.5d", m_uniquename.c_str(), s_1Dcounter);
+    TString host_name = Form("h1Dvar%s%.5d", m_uniquename.c_str(), s_1Dcounter++);
     
     TString tmp_title = "1 - reco/true";
     
@@ -517,8 +511,7 @@ TH1D * DrawingTools::GetHistFromStack(THStack * stack)
 
     TList * slist = stack->GetHists();
     TIter next(slist);
-    s_1Dcounter++;
-    TH1D * sum = new TH1D(Form("%s_sum%.3d", hfirst->GetName(), s_1Dcounter), "", 
+    TH1D * sum = new TH1D(Form("%s_sum%.3d", hfirst->GetName(), s_1Dcounter++), "", 
         hfirst->GetXaxis()->GetNbins(), hfirst->GetXaxis()->GetXbins()->GetArray());
 
     // cout << "sum sum sum: Bins = " << sum->GetXaxis()->GetNbins() << " Low " << sum->GetXaxis()->GetXmin() << " High " << sum->GetXaxis()->GetXmax() << endl;
