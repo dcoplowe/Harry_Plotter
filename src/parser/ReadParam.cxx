@@ -69,9 +69,9 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
             cout << "word = " << word << endl;
             if(!IsNumber(word)){
                 cout << "found string" << endl;
-                if(par.var.empty()) par.var = word;
-                else if(par.title.empty()) par.title = word;
-                else if(par.units.empty()) par.units = word;
+                if(par.var.empty()){ cout << "found var" << endl; par.var = word;}
+                else if(par.title.empty()){ cout << "found title" << endl; par.title = word;}
+                else if(par.units.empty()){ cout << "found units" << endl; par.units = word;}
                 else{
                     par.extra += " ";
                     par.extra += word;
