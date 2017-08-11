@@ -48,7 +48,6 @@ Harry_Plotter::Harry_Plotter(std::string infile, std::string ofile) : m_filename
     }  
         // DrawingSyle::GetParticleCol(int pdg);
 
-
 	string plots_file = string( getenv("HP_ROOT") );
     plots_file += "/parameters/plot_list.txt";
 
