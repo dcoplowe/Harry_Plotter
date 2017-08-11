@@ -70,7 +70,7 @@ namespace Type {
             names[ kNCutsMinusOne ] = "NCutsMinusOne";
 
             std::map<Type::Type, std::string>::iterator found = names.find(tt);
-            if(found != name.end()) return found->second; 
+            if(found != names.end()) return found->second; 
             else return "Unknown";
         }
 }
