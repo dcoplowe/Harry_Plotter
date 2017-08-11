@@ -185,6 +185,7 @@ void Harry_Plotter::Run()
 
 std::string Harry_Plotter::CheckCuts(ReadParam * par, int type)
 {
+    string cuts = "";
     if(type == 0) cuts = m_Rcuts;
     else if(type == 1) cuts = m_Tcuts;
     else if(type == 2) cuts = m_epcut;
