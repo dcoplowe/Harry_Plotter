@@ -59,6 +59,11 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
         string word;
         std::stringstream iss(nsets[i]);
         BinPar par;
+        cout << par.var << par.var << endl;
+        cout << par.nbins << par.nbins << endl;
+        // cout << par.var << par.var << endl;
+        // cout << par.var << par.var << endl;
+
         while( iss >> word )     
         {
             cout << "word = " << word << endl;
