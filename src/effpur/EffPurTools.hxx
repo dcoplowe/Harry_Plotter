@@ -18,6 +18,7 @@ class EffPurTools : public DrawingStyle {
 public:
     
     static int Counter;
+    static Long64_t MaxEntries;
     //Given that all eff. is based on truth info. and pur.
     //on the reco. these branch names will always remain
     //the same. We can therefore load the file into the tool

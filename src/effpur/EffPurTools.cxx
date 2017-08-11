@@ -59,6 +59,9 @@ EffPurTools::EffPurTools(std::string filename, std::string reconame, std::string
         line = ReadParam::GetParameterS( string(Form("cut %d", runner++)), opts_file);
     }
     SetCutNames(tmp_cuts);
+
+    if(MaxEntries == 80085) MaxEntries = std::numeric_limits<Long64_t>::max();
+
 }
 
 EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_names, std::string reconame, std::string truename) : m_debug(false) {
@@ -92,6 +95,8 @@ EffPurTools::EffPurTools(std::string filename, std::vector<std::string> cut_name
     }
     
     SetCutNames(cut_names);
+
+    if(MaxEntries == 80085) MaxEntries = std::numeric_limits<Long64_t>::max();
 }
 
 EffPurTools::~EffPurTools(){
@@ -285,7 +290,7 @@ TH1D * EffPurTools::EventsVSCuts(TTree * intree, std::string cuts, int branch, i
         TH1D * h_tmp = new TH1D("h_tmp","", 1, 0., 1.);
         std::string loop_cuts = Form("%s %d", tmp_cuts.c_str(), (i-1));
         if(m_debug) cout << "Loop cut: " << loop_cuts << endl;
-        intree->Project("h_tmp","0.5", loop_cuts.c_str());
+        intree->Project("h_tmp","0.5", loop_cuts.c_str(), "", MaxEntries);
         double intergal = (double)h_tmp->Integral();
         h_evntcuts->SetBinContent(i+1, intergal);
         if(m_debug) cout << "Cut " << i << ": Events after cut " << intergal << endl;
@@ -350,7 +355,7 @@ TH1D * EffPurTools::GetHisto(TTree * intree, std::string var, int nbins, double 
     
     TH1D * hist = new TH1D(host_name.c_str(), "", nbins, xbins);
     
-    intree->Project(host_name.c_str(), var.c_str(), cuts.c_str());
+    intree->Project(host_name.c_str(), var.c_str(), cuts.c_str(), "", MaxEntries);
     
     if(m_debug) cout << "Histo: " << hist->GetName() << " : Entries = " << hist->Integral() << endl;
     
@@ -363,7 +368,7 @@ TH2D * EffPurTools::GetHisto(TTree * intree, std::string var_yx, int x_nbins, do
     
     TH2D * hist = new TH2D(host_name.c_str(), "", x_nbins, xbins, y_nbins, ybins);
     
-    intree->Project(host_name.c_str(), var_yx.c_str(), cuts.c_str());
+    intree->Project(host_name.c_str(), var_yx.c_str(), cuts.c_str(), "", MaxEntries);
     
     if(m_debug) cout << "Histo: " << hist->GetName() << " : Entries = " << hist->Integral() << endl;
     
@@ -502,7 +507,7 @@ TH1D * EffPurTools::EffVSN1Cuts(std::string signal, int branch, std::string cuts
 
     TH1D * denom_h = new TH1D("denom_h","", 1, 0., 1.);
 
-    m_truth->Project("denom_h", "0.5", joint_cut.c_str());
+    m_truth->Project("denom_h", "0.5", joint_cut.c_str(), "", MaxEntries);
 
     double denom = (double)denom_h->Integral();
     delete denom_h;
@@ -582,7 +587,7 @@ double EffPurTools::GetCutEntries(int ignore, std::string cuts, int branch)
     // cout << __FILE__ << " : " << __LINE__ << endl;//<--- This is a sweet means of getting the file name and line number.
     if(m_debug) cout << " cut" << ignore << " Cut = " << tmp_cuts << endl;
     TH1D * histo = new TH1D(Form("cut%dh", ignore), "", 1, 0, 1);
-    m_recon->Project( Form("cut%dh", ignore), "0.5", tmp_cuts.c_str() );
+    m_recon->Project( Form("cut%dh", ignore), "0.5", tmp_cuts.c_str(), "", MaxEntries );
     double integral = (double)histo->Integral();
     delete histo;
     return integral;
