@@ -80,7 +80,7 @@ void Harry_Plotter::Run()
         TH2D * hist2D = 0x0;
         TH1D * hist1Da = 0x0;
 
-        string option = par->GetOpt(kOption);
+        string option = par->GetOpt(ReadParam::kOption);
 
         switch ( par->GetType() ){
             case Type::kStandard:
