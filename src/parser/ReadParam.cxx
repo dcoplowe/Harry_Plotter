@@ -138,8 +138,6 @@ ReadParam::ReadParam(const std::string instring, string left_arrow, string right
             exit(0); 
     }
 
-    BinPar loop[3] = { m_varOne, m_varTwo, m_varThree };
-
     if(entries > 0) m_varOne = nparams[0];
     if(entries > 1) m_varTwo = nparams[1];
     if(entries > 2) m_varThree = nparams[2];

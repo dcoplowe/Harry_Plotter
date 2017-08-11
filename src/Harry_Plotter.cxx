@@ -59,7 +59,7 @@ Harry_Plotter::Harry_Plotter(std::string infile, std::string ofile) : m_filename
     for(size_t i = 0; i < plot_list.size(); i++){
         cout << plot_list[i] << endl;
     	m_plots.push_back( new ReadParam(plot_list[i]) );
-        m_plots.back()->Print();
+        // m_plots.back()->Print();
     }
     plot_list.clear();
 
@@ -109,7 +109,7 @@ void Harry_Plotter::Run()
         switch ( par->GetType() ){
             case Type::kStandard:
                 if(par->GetDim() == 1){
-                    cout << "Makeing Standard 1D" << endl;
+                    // cout << "Makeing Standard 1D" << endl;
                     hist1D = Get1D(par);
                     hist1D->SetName( (par->GetVar1() + (option.empty() ? "" : "_" + option) ).c_str() );
                 }
@@ -254,13 +254,9 @@ std::string Harry_Plotter::CheckCuts(ReadParam * par, int type)
 
 TH1D * Harry_Plotter::Get1D(ReadParam * par)
 {
-    double * tmp = par->GetVar1Bins();
-    cout << "Building histo for " << par->GetVar1() << "par->GetVar1NBins() = " << par->GetVar1NBins() << " :";
-    for(int i = 0; i < par->GetVar1NBins() + 1; i++) cout << " " << tmp[i] << endl;
     TH1D * hist; 
     if(par->Truth()) hist = m_truth->GetHisto(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(), CheckCuts(par, false));
     else hist = m_recon->GetHisto(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(), CheckCuts(par));
-
     // Other things like normalisation, STYLE:
     return hist;
 }
