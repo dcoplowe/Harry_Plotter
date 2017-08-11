@@ -222,6 +222,9 @@ std::string Harry_Plotter::CheckCuts(ReadParam * par, int type)
     else if(type == 1) cuts = m_Tcuts;
     else if(type == 2) cuts = m_epcut;
 
+    cout << "cuts = " << cuts << endl;
+    cout << "m_epcut = " << m_epcut << endl;
+
     if(!par->GetOpt(ReadParam::kCuts).empty()){
          if(par->ResetCuts()) cuts = par->GetOpt(ReadParam::kCuts);
          else{
