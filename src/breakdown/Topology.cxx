@@ -26,7 +26,7 @@ m_symbol(ToString(m_type ,1)), m_fill_colour(kGray), m_fill_style(1001), m_line_
         m_fill_style = 0;
     }
     else if(m_type == HCC1P1PiPlusOOPS){
-        m_fill_colour = (int)DrawingStyle::OOPS;
+        m_fill_colour = (int)DrawingStyle::TOOPS;
     }
     else if(m_type == CC1P1PiPlus)  m_fill_colour = (int)DrawingStyle::T1P1PiP;//Proton
     else if(m_type == OCC1P1PiPlus) m_fill_colour = (int)DrawingStyle::T1P1PiP;//Proton

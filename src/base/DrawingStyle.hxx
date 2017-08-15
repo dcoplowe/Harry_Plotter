@@ -58,6 +58,7 @@ public:
         T2PiP = kRed+1,
         T1P1Pi0 = kCyan+2,
         T1Pi1Pi0 = kOrange+7,
+        TOOPS = kAzure+8,
         Other = kGray,
         //Initial States:
         LFG = kOrange-2,
