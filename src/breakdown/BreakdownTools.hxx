@@ -100,8 +100,8 @@ private:
     std::vector<Topology> m_toplist;
     std::vector<Breakdown> m_tarlist;
 
-    Topology::Name m_signal;
-    Topology m_sig_top;
+    // Topology::Name m_signal;
+    Topology m_signal;
 
     std::vector<Breakdown> GetPIDs(std::string pdgvar, std::string cuts, std::string &final_cuts);
     std::vector<Breakdown> GetTOPs();

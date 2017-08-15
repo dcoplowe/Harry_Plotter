@@ -291,7 +291,7 @@ double ReadParam::GetParameterD(std::string name, std::string infile, std::strin
     return atof(GetParameterN(name, infile, left_arrow, right_arrow).c_str());
 }
 
-bool ReadParam::GetParameterB(std::string name, std::string infile, std::string left_arrow = left_brace, std::string right_arrow = right_brace)
+bool ReadParam::GetParameterB(std::string name, std::string infile, std::string left_arrow, std::string right_arrow)
 {
     return static_cast<bool>( GetParameterI(name, infile, left_arrow, right_arrow) );
 }
