@@ -25,45 +25,45 @@ m_symbol(ToString(m_type ,1)), m_fill_colour(kGray), m_fill_style(1001), m_line_
         m_fill_style = 0;
     }
     else if(m_type == HCC1P1PiPlusOOPS){
-        m_fill_colour = (Int_t)DrawingStyle::OOPS;
+        m_fill_colour = (int)DrawingStyle::OOPS;
     }
-    else if(m_type == CC1P1PiPlus)  m_fill_colour = (Int_t)DrawingStyle::T1P1PiP;//Proton
-    else if(m_type == OCC1P1PiPlus) m_fill_colour = (Int_t)DrawingStyle::T1P1PiP;//Proton
+    else if(m_type == CC1P1PiPlus)  m_fill_colour = (int)DrawingStyle::T1P1PiP;//Proton
+    else if(m_type == OCC1P1PiPlus) m_fill_colour = (int)DrawingStyle::T1P1PiP;//Proton
     else if(m_type == CC1P1PiPlusInc){
-        m_fill_colour = (Int_t)DrawingStyle::T1P1PiP;
+        m_fill_colour = (int)DrawingStyle::T1P1PiP;
         m_fill_style = inclusive;
     }
-    else if(m_type == CCNPNPiMinus) m_fill_colour = (Int_t)DrawingStyle::T1P1PiM;
-	else if(m_type == CCNP) m_fill_colour = (Int_t)DrawingStyle::T2Pr;
+    else if(m_type == CCNPNPiMinus) m_fill_colour = (int)DrawingStyle::T1P1PiM;
+	else if(m_type == CCNP) m_fill_colour = (int)DrawingStyle::T2Pr;
     else if(m_type == CCNPInc){
-        m_fill_colour = (Int_t)DrawingStyle::T2Pr;
+        m_fill_colour = (int)DrawingStyle::T2Pr;
         m_fill_style = inclusive;
     }
-    else if(m_type == CCNPiPlus) m_fill_colour = (Int_t)DrawingStyle::T2PiP;
+    else if(m_type == CCNPiPlus) m_fill_colour = (int)DrawingStyle::T2PiP;
     else if(m_type == CCNPiPlusInc){ 
-        m_fill_colour = (Int_t)DrawingStyle::T2PiP;
+        m_fill_colour = (int)DrawingStyle::T2PiP;
         m_fill_style = inclusive;
     }
-    else if(m_type == CCNPNPiZero) m_fill_colour = (Int_t)DrawingStyle::T1P1Pi0;
-    else if(m_type == CCNPiZeroNPiPlus) m_fill_colour = (Int_t)DrawingStyle::T1Pi1Pi0;
+    else if(m_type == CCNPNPiZero) m_fill_colour = (int)DrawingStyle::T1P1Pi0;
+    else if(m_type == CCNPiZeroNPiPlus) m_fill_colour = (int)DrawingStyle::T1Pi1Pi0;
     else if(m_type == CCKaonsOth){
-    	m_fill_colour = (Int_t)DrawingStyle::T1P1PiM;
+    	m_fill_colour = (int)DrawingStyle::T1P1PiM;
     	m_fill_style = 3008;
     }
     else if(m_type == CCNN){
     	m_fill_style = 3009;
-    	m_fill_colour = (Int_t)DrawingStyle::T2Pr;
+    	m_fill_colour = (int)DrawingStyle::T2Pr;
     }
     else if(m_type == CCNPNN){
-    	m_fill_colour = (Int_t)DrawingStyle::T2PiP;
+    	m_fill_colour = (int)DrawingStyle::T2PiP;
     	m_fill_style = 3019;
     }
     else if(m_type == CCNPiNN){
-    	m_fill_colour = (Int_t)DrawingStyle::T1P1Pi0;
+    	m_fill_colour = (int)DrawingStyle::T1P1Pi0;
     	m_fill_style = 3025;
     }
     else if(m_type == CCNPiNPNN){
-    	m_fill_colour = (Int_t)DrawingStyle::T1Pi1Pi0;
+    	m_fill_colour = (int)DrawingStyle::T1Pi1Pi0;
     	m_fill_style = 3024;
     }
     // cout << "Post : " << "FC = " << m_fill_colour << " LC = " << m_line_colour << " FS = " << m_fill_style << " LS = " << m_line_style << endl;

@@ -43,10 +43,10 @@ public:
     std::string GetName(){ return m_name; }
     std::string GetSymbol(){ return m_symbol; }
     std::string GetSignal(){ return m_signal; }
-    Int_t GetFillColor(){ return m_fill_colour; }
-    Int_t GetFillStyle(){ return m_fill_style; }
-    Int_t GetLineColor(){ return m_line_colour; }
-    Int_t GetLineStyle(){ return m_line_style; }
+    int GetFillColor(){ return m_fill_colour; }
+    int GetFillStyle(){ return m_fill_style; }
+    int GetLineColor(){ return m_line_colour; }
+    int GetLineStyle(){ return m_line_style; }
 
     static std::string ToString(Name name, int form = 0);
     static Name GetEnum(std::string name);
@@ -56,10 +56,10 @@ private:
     std::string m_name;
     std::string m_symbol;
     std::string m_signal;
-    Int_t  m_fill_colour;
-    Int_t  m_fill_style;
-    Int_t  m_line_colour;
-    Int_t  m_line_style;
+    int  m_fill_colour;
+    int  m_fill_style;
+    int  m_line_colour;
+    int  m_line_style;
 };
 
 #endif
