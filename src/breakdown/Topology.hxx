@@ -1,6 +1,8 @@
 #ifndef __TOPOLOGY__HXX
 #define __TOPOLOGY__HXX
 
+#include <string>
+
 class Topology {
 public:
     
