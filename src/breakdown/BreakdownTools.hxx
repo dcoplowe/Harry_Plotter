@@ -1,6 +1,3 @@
-#ifndef _BREAKDOWNTOOL_
-#define _BREAKDOWNTOOL_
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
@@ -15,6 +12,8 @@ class TCanvas;
 class TLegend;
 class THStack;
 class Variable;
+class PDFInfo;
+class Topology;
 
 struct BDCans {
     TCanvas * recon;
@@ -23,6 +22,9 @@ struct BDCans {
     TCanvas * smearSN;
     TCanvas * ratio;
 };
+
+#ifndef __BREAKDOWN__HXX__
+#define __BREAKDOWN__HXX__
 
 class Breakdown
 {
@@ -66,15 +68,10 @@ private:
     TH1D * m_hist;
 };
 
-// struct Variable {
-//     std::string name;
-//     std::string symbol;
-//     std::string units;
-//     std::string savename;
-//     std::string pdg;
-// };
+#endif
 
-// const bool do_check = true;
+#ifndef __BREAKDOWNTOOLS__HXX__
+#define __BREAKDOWNTOOLS__HXX__
 
 class BreakdownTools : public DrawingTools {
 public:
@@ -123,4 +120,5 @@ private:
 
     std::vector<double> GetPercentages(std::vector<Breakdown> list, int type = -999);
 };
+
 #endif
