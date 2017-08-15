@@ -3,6 +3,7 @@
 
 #include <PDGInfo.hxx>
 #include <TMath.h>
+#include <DrawingStyle.hxx>
 
 PDGInfo::PDGInfo(int part_pdg, bool is_p_ap) : m_pdg(part_pdg), 
     m_particle_antiparticle(is_p_ap), m_line_colour(1), m_line_style(1) 

@@ -2,6 +2,7 @@
 #define _TOPOLOGY_CXX
 
 #include <Topology.hxx>
+#include <DrawingStyle.hxx>
 
 Topology::Topology() : m_type(Unknown), m_name(ToString(m_type ,0)), m_symbol(ToString(m_type ,1)), 
 m_fill_style(1001), m_line_colour(1), m_line_style(1)
