@@ -57,7 +57,7 @@ BreakdownTools::BreakdownTools(std::string filename, std::string treename, bool 
     in_pars.push_back( "Check" ); 
     // params
     string tmp_sig = ReadParam::GetParameterS(in_pars[0], opts_file);
-    m_signal = Topology(Topology::GetEnum(tmp_sig), "");
+    m_signal = new Topology(Topology::GetEnum(tmp_sig), "");
 
     m_target = ReadParam::GetParameterS(in_pars[1], opts_file);
 
@@ -136,7 +136,10 @@ BreakdownTools::BreakdownTools(std::string filename, std::string treename, bool 
                 }
                 else if(counter == 2){
                     m_toplist.push_back( Topology(top_name, word) );
-                    if(top_name == m_signal.GetType()) m_signal = Topology(top_name, word);
+                    if(top_name == m_signal->GetType()){ 
+                        delete m_signal;
+                        m_signal = new Topology(top_name, word);
+                    }
                 }
             }
             else if(is_pdg){
@@ -268,7 +271,7 @@ std::vector<Breakdown> BreakdownTools::GetTOPs()
 
     for(int i = 0; i < (int)m_toplist.size(); i++){
         Topology topology = m_toplist[i];        
-        if(topology.GetType() == m_signal.GetType()) continue;
+        if(topology.GetType() == m_signal->GetType()) continue;
 
         Breakdown tmp(topology.GetSymbol(), topology.GetSignal(), topology.GetFillColor(), topology.GetFillStyle(),
             topology.GetLineColor(), topology.GetLineStyle());
@@ -422,7 +425,7 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, std::vector<Breakdown> list, 
             tmp_stack->Add( tmp_hist );
         }
 
-        tmp_leg->AddEntry(tmp_sig, m_signal.GetSymbol().c_str(), "l");
+        tmp_leg->AddEntry(tmp_sig, m_signal->GetSymbol().c_str(), "l");
 
         for(unsigned int i = 0; i < list.size(); i++){
             Breakdown tmp = list[ i ];
@@ -537,7 +540,7 @@ TCanvas * BreakdownTools::SingleBase(Variable var, std::vector<Breakdown> list, 
 
     for(unsigned int i = 1; i < list.size() + 1; i++) hist_tot->Add( list[ list.size() - i ].GetHist() );
 
-    hist_leg->AddEntry(signal_hist, m_signal.GetSymbol().c_str(), "l");
+    hist_leg->AddEntry(signal_hist, m_signal->GetSymbol().c_str(), "l");
 
     for(unsigned int i = 0; i < list.size(); i++){
         Breakdown tmp = list[ i ];
@@ -571,9 +574,9 @@ DrawingTools::KinMap BreakdownTools::GetSignalMap(Variable var, std::string cuts
     if(!hsignal.empty()){
         hsignal += " && ";
     }
-    hsignal += m_signal.GetSignal();
+    hsignal += m_signal->GetSignal();
     DrawingTools::KinMap signal_kinmap = KinArray(var.GetName(), var.GetNBins(), var.GetBinning(), var.GetSymbol(), hsignal);
-    SetColors(signal_kinmap, m_signal.GetFillColor(), m_signal.GetLineColor(), m_signal.GetFillStyle(), m_signal.GetLineStyle());
+    SetColors(signal_kinmap, m_signal->GetFillColor(), m_signal->GetLineColor(), m_signal->GetFillStyle(), m_signal->GetLineStyle());
     signal_kinmap.recon->SetLineWidth(2);
     signal_kinmap.truth->SetLineWidth(2);
     signal_kinmap.ratio->SetLineWidth(2);
@@ -586,9 +589,9 @@ TH1D * BreakdownTools::GetSignalHist(Variable var, std::string cuts)
     if(!hsignal.empty()){
         hsignal += " && ";
     }
-    hsignal += m_signal.GetSignal();
+    hsignal += m_signal->GetSignal();
     TH1D * signal_hist = GetHisto(var.GetName(), var.GetNBins(), var.GetBinning(), var.GetSymbol(), hsignal);
-    SetColors(signal_hist, m_signal.GetFillColor(), m_signal.GetLineColor(), m_signal.GetFillStyle(), m_signal.GetLineStyle());
+    SetColors(signal_hist, m_signal->GetFillColor(), m_signal->GetLineColor(), m_signal->GetFillStyle(), m_signal->GetLineStyle());
     signal_hist->SetLineWidth(2);
     return signal_hist;
 }
