@@ -4,7 +4,6 @@
 
 #include <PDGInfo.hxx>
 #include <Topology.hxx>
-#include <Variable.hxx>
 
 #include <string>
 #include <iostream>

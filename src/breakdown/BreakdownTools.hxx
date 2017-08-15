@@ -70,7 +70,8 @@ private:
 #ifndef __BREAKDOWNTOOLS__HXX__
 #define __BREAKDOWNTOOLS__HXX__
 
-class Variable;
+#include <Variable.hxx>
+
 class PDGInfo;
 class Topology;
 
