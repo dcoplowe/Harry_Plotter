@@ -11,9 +11,6 @@ class TH2D;
 class TCanvas;
 class TLegend;
 class THStack;
-class Variable;
-class PDGInfo;
-class Topology;
 
 struct BDCans {
     TCanvas * recon;
@@ -73,6 +70,10 @@ private:
 #ifndef __BREAKDOWNTOOLS__HXX__
 #define __BREAKDOWNTOOLS__HXX__
 
+class Variable;
+class PDGInfo;
+class Topology;
+
 class BreakdownTools : public DrawingTools {
 public:
 
@@ -100,7 +101,6 @@ private:
     std::vector<Topology> m_toplist;
     std::vector<Breakdown> m_tarlist;
 
-    // Topology::Name m_signal;
     Topology m_signal;
 
     std::vector<Breakdown> GetPIDs(std::string pdgvar, std::string cuts, std::string &final_cuts);
