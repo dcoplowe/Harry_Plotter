@@ -115,7 +115,7 @@ Topology::Name Topology::GetEnum(std::string name)
     else if(name.find("CCNN") != string::npos)               sname = CCNN;
     else if(name.find("CCNPNN") != string::npos)             sname = CCNPNN;
     else if(name.find("CCNPiNN") != string::npos)            sname = CCNPiNN;
-    else if(name.find("CCNPiNPNN") != string::npos)          sname = CCNPiPNNN;
+    else if(name.find("CCNPiNPNN") != string::npos)          sname = CCNPiNPNN;
     else if(name.find("Other") != string::npos)              sname = Other;
     return sname;
 }
