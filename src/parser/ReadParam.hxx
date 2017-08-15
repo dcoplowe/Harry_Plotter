@@ -92,6 +92,7 @@ namespace Style {
 
 const std::string left_brace = "<|";
 const std::string right_brace = "|>";
+const std::string ignore_sign = "//";
 
 class ReadParam
 {
@@ -127,11 +128,15 @@ public:
     int GetVar3NBins(){ return m_varThree.nbins; }
     double * GetVar3Bins(){ return m_varThree.bins; }
    
-    static std::vector<std::string> ReadFile(std::string infile);
+    void Print();
+
+    static std::vector<std::string> ReadFile(std::string infile, std::string left_arrow = left_brace, std::string right_arrow = right_brace,
+        std::string ignore = ignore_sign);
 
     static std::string GetParameterS(std::string name, std::string infile, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
     static int GetParameterI(std::string name, std::string infile, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
     static double GetParameterD(std::string name, std::string infile, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
+    static bool GetParameterB(std::string name, std::string infile, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
 
     std::string GetOpt(Opts option);
     bool OptSet(Opts option);
@@ -145,7 +150,8 @@ public:
     static int GetInt(std::string val);
     static double GetDouble(std::string val);
 
-    void Print();
+    static void RemoveArrows(std::string &word, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
+    static bool IsNumber(std::string);
 
 private:
     std::string m_instring;
@@ -164,8 +170,6 @@ private:
 
     Dim m_Dim;
 
-    static void RemoveArrows(std::string &word, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
-    static bool IsNumber(std::string);
     static std::string GetParameterN(std::string name, std::string infile, std::string left_arrow = left_brace, std::string right_arrow = right_brace);
     std::string FindOpt(std::string name, std::string in);
 

@@ -5,7 +5,8 @@
 
 #include <ReadParam.hxx>
 #include <iostream>
-#include <DrawingTools.hxx>
+// #include <DrawingTools.hxx>
+#include <BreakdownTools.hxx>
 #include <EffPurTools.hxx>
 #include <TCanvas.h>
 #include <TDatime.h>
@@ -60,10 +61,9 @@ Harry_Plotter::Harry_Plotter(std::string infile, std::string ofile) : m_filename
     }
     plot_list.clear();
 
-    m_recon = new DrawingTools(m_filename, m_recontree);
-    m_truth = new DrawingTools(m_filename, m_truthtree);
+    m_recon = new BreakdownTools(m_filename, m_recontree);
+    m_truth = new BreakdownTools(m_filename, m_truthtree);
     m_effpur = new EffPurTools(m_filename, m_recontree, m_truthtree);
-
 
     TDatime time;
     Int_t year = time.GetYear() - 2000;

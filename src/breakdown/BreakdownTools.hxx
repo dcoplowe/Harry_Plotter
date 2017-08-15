@@ -78,12 +78,12 @@ private:
 
 class BreakdownTools : public DrawingTools {
 public:
-	
-    BreakdownTools(std::string filename, std::string treename, std::string target_vname = "target");
+
+    BreakdownTools(std::string filename, std::string treename, bool check_pot = false);
 	~BreakdownTools();
 
-    BDCans PIDBD(const Variable var, std::string pdgvar, std::string cuts = "");
-    TCanvas * PIDC(const Variable var, std::string pdgvar, std::string cuts = "");
+    BDCans PIDBD(Variable var, std::string pdgvar, std::string cuts = "");
+    TCanvas * PIDC(Variable var, std::string pdgvar, std::string cuts = "");
 
     BDCans TOPOBD(Variable var, std::string cuts = "");
     TCanvas * TOPOC(Variable var, std::string cuts = "");

@@ -38,8 +38,8 @@ void Breakdown::SetHist(TH1D * hist)
 #ifndef __BREAKDOWNTOOLS__CXX__
 #define __BREAKDOWNTOOLS__CXX__
 
-BreakdownTools::BreakdownTools(std::string filename, std::string treename, std::string target_name) : 
-    DrawingTools(filename, treename, ("BD" + treename).c_str()), m_check(false), m_printPOT(false), m_target("")
+BreakdownTools::BreakdownTools(std::string filename, std::string treename) : 
+    DrawingTools(filename, treename, (treename + "BD").c_str(), check_pot), m_check(false), m_target("")
 {
     string opts_file = string( getenv("HP_ROOT") );
     opts_file += "/src/breakdown/BreakdownInputs.txt";
@@ -186,14 +186,14 @@ BreakdownTools::~BreakdownTools(){
     m_toplist.clear();
 }
 
-BDCans BreakdownTools::PIDBD(const Variable var, std::string pdgvar, std::string cuts, bool check)
+BDCans BreakdownTools::PIDBD(Variable var, std::string pdgvar, std::string cuts, bool check)
 {
     std::string base_cuts = "";
     std::vector<Breakdown> list = GetPIDs(pdgvar, cuts, base_cuts);
     return BaseBreakdown(var, list, "PIDBD", base_cuts, check);
 }
 
-TCanvas * BreakdownTools::PIDC(const Variable var, std::string pdgvar, std::string cuts, bool check)
+TCanvas * BreakdownTools::PIDC(Variable var, std::string pdgvar, std::string cuts, bool check)
 {
     std::string base_cuts = "";
     std::vector<Breakdown> list = GetPIDs(pdgvar, cuts, base_cuts);

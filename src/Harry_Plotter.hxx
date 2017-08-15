@@ -8,8 +8,9 @@
 class ReadParam;
 class TH1D;
 class TH2D;
-class DrawingTools;
+// class DrawingTools;
 class EffPurTools;
+class BreakdownTools;
 class TFile;
 
 class Harry_Plotter
@@ -42,16 +43,11 @@ private:
 
 	std::string CheckCuts(ReadParam * par, int type = 0);
 
-	DrawingTools * m_recon;
-	DrawingTools * m_truth;
+	BreakdownTools * m_recon;
+	BreakdownTools * m_truth;
 	EffPurTools * m_effpur;
 
 	TH1D * Get1D(ReadParam * par);
 	TH2D * Get2D(ReadParam * par);
 };
 #endif
-
-// <| dpTT #deltap_{TT} MeV/#it{c} 49 -300 300 |>
-// <| truemu_mom #it{p}_{#mu} GeV/#it{c} 4 0 10 45 75 99 |>
-// <| truemu_mom #it{p}_{#mu} GeV/#it{c} 4 0. 10. 45. 75. 99. : dpTT #deltap_{TT} MeV/#it{c} 4 0. .10 4.5 .75 993. |>
-// <| truemu_cTheta #it{p}_{#mu} 5 -1 1 : truemu_mom 4 0 10 45 75 99 |>

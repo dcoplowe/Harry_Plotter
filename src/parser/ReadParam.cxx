@@ -170,7 +170,7 @@ bool ReadParam::IsNumber(std::string in)
     return yes;
 }
 
-std::vector<std::string> ReadParam::ReadFile(std::string infile)
+std::vector<std::string> ReadParam::ReadFile(std::string infile, std::string left_arrow, std::string right_arrow, std::string ignore)
 {
     string tmp_line = "";
     bool complete = false;
@@ -185,12 +185,13 @@ std::vector<std::string> ReadParam::ReadFile(std::string infile)
     while (getline(fin, line))
     {
         // cout << "Line: " << line << endl;
-        if(line.find("<|") != std::string::npos){
+        if(line.find(ignore) != string::npos) continue;
+        if(line.find(left_arrow) != std::string::npos){
             // cout << "Starting to read in RW" << endl;
             tmp_line = line;
-            if(line.find("|>") != std::string::npos) complete = true;
+            if(line.find(right_arrow) != std::string::npos) complete = true;
         }
-        else if(line.find("|>") != std::string::npos){
+        else if(line.find(right_arrow) != std::string::npos){
             tmp_line += line;
             complete = true;
         }
@@ -288,6 +289,11 @@ int ReadParam::GetParameterI(std::string name, std::string infile, std::string l
 double ReadParam::GetParameterD(std::string name, std::string infile, std::string left_arrow, std::string right_arrow)
 {
     return atof(GetParameterN(name, infile, left_arrow, right_arrow).c_str());
+}
+
+bool ReadParam::GetParameterB(std::string name, std::string infile, std::string left_arrow = left_brace, std::string right_arrow = right_brace)
+{
+    return static_cast<bool>( GetParameterI(name, infile, left_arrow, right_arrow) );
 }
 
 void ReadParam::ExtractOptions()
