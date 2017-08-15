@@ -115,8 +115,8 @@ private:
     DrawingTools::KinMap GetSignalMap(Variable var, std::string cuts);
     TH1D * GetSignalHist(Variable var, std::string cuts);
 
-    BDCans BaseBreakdown(Variable var, std::vector<Breakdown> list, std::string basename, std::string cuts, bool check);
-    TCanvas * SingleBase(Variable var, std::vector<Breakdown> list, std::string basename, std::string cuts, bool check);
+    BDCans BaseBreakdown(Variable var, std::vector<Breakdown> list, std::string basename, std::string cuts);
+    TCanvas * SingleBase(Variable var, std::vector<Breakdown> list, std::string basename, std::string cuts);
 
     std::vector<double> GetPercentages(std::vector<Breakdown> list, int type = -999);
 };

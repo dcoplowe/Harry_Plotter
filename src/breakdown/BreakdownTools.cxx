@@ -189,42 +189,42 @@ BreakdownTools::~BreakdownTools(){
     m_toplist.clear();
 }
 
-BDCans BreakdownTools::PIDBD(Variable var, std::string pdgvar, std::string cuts, bool check)
+BDCans BreakdownTools::PIDBD(Variable var, std::string pdgvar, std::string cuts)
 {
     std::string base_cuts = "";
     std::vector<Breakdown> list = GetPIDs(pdgvar, cuts, base_cuts);
-    return BaseBreakdown(var, list, "PIDBD", base_cuts, check);
+    return BaseBreakdown(var, list, "PIDBD", base_cuts);
 }
 
-TCanvas * BreakdownTools::PIDC(Variable var, std::string pdgvar, std::string cuts, bool check)
+TCanvas * BreakdownTools::PIDC(Variable var, std::string pdgvar, std::string cuts)
 {
     std::string base_cuts = "";
     std::vector<Breakdown> list = GetPIDs(pdgvar, cuts, base_cuts);
-    return SingleBase(var, list, "PIDC", base_cuts, check);
+    return SingleBase(var, list, "PIDC", base_cuts);
 }
 
-BDCans BreakdownTools::TOPOBD(Variable var, std::string cuts, bool check)
+BDCans BreakdownTools::TOPOBD(Variable var, std::string cuts)
 {
     std::vector<Breakdown> list = GetTOPs();
-    return BaseBreakdown(var, list, "TOPBD", cuts, check);
+    return BaseBreakdown(var, list, "TOPBD", cuts);
 }
 
-TCanvas * BreakdownTools::TOPOC(Variable var, std::string cuts, bool check)
+TCanvas * BreakdownTools::TOPOC(Variable var, std::string cuts)
 {
     std::vector<Breakdown> list = GetTOPs();
-    return SingleBase(var, list, "TOPC", cuts, check);
+    return SingleBase(var, list, "TOPC", cuts);
 }
 
-BDCans BreakdownTools::TAROBD(Variable var, std::string cuts, bool check)
+BDCans BreakdownTools::TAROBD(Variable var, std::string cuts)
 {
     std::vector<Breakdown> list = GetTARs();
-    return BaseBreakdown(var, list, "TARBD", cuts, check);
+    return BaseBreakdown(var, list, "TARBD", cuts);
 }
 
-TCanvas * BreakdownTools::TAROC(Variable var, std::string cuts, bool check)
+TCanvas * BreakdownTools::TAROC(Variable var, std::string cuts)
 {
     std::vector<Breakdown> list = GetTARs();
-    return SingleBase(var, list, "TARC", cuts, check);
+    return SingleBase(var, list, "TARC", cuts);
 }
 
 std::vector<Breakdown> BreakdownTools::GetPIDs(std::string pdgvar, std::string cuts, std::string &final_cuts)
@@ -301,7 +301,7 @@ void BreakdownTools::DrawZeroPointLine(THStack * histo){
     DrawZeroPointLine(hfirst);
 }
            
-BDCans BreakdownTools::BaseBreakdown(Variable var, std::vector<Breakdown> list, std::string basename, std::string cuts, bool check)
+BDCans BreakdownTools::BaseBreakdown(Variable var, std::vector<Breakdown> list, std::string basename, std::string cuts)
 {   
     //Make outputs:
     if(list.empty()){ 
@@ -483,7 +483,7 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, std::vector<Breakdown> list, 
     return cans;
 }
 
-TCanvas * BreakdownTools::SingleBase(Variable var, std::vector<Breakdown> list, std::string basename, std::string cuts, bool check)
+TCanvas * BreakdownTools::SingleBase(Variable var, std::vector<Breakdown> list, std::string basename, std::string cuts)
 {
 //Make outputs:
     if(list.empty()){ 
