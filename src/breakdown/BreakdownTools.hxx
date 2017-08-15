@@ -12,7 +12,7 @@ class TCanvas;
 class TLegend;
 class THStack;
 class Variable;
-class PDFInfo;
+class PDGInfo;
 class Topology;
 
 struct BDCans {
