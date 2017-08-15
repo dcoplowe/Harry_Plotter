@@ -6,9 +6,7 @@
 #include <string>
 #include <sstream>
 
-#include "DrawingTools.h"
-#include "DataClasses.h"
-
+#include "DrawingTools.hxx"
 //Forward declarations:
 class TH1;
 class TH1D;
@@ -43,6 +41,7 @@ public:
 
     void SetLegOpt(std::string opt){ m_leg_opt = opt;}
 
+// Make consts?
     std::string GetSignal(){ return m_signal; }
     std::string GetName(){ return m_name; }
     int GetFillColor(){ return m_fill_color; }
@@ -75,77 +74,52 @@ private:
 //     std::string pdg;
 // };
 
-static const bool do_check = true;
+// const bool do_check = true;
 
 class BreakdownTools : public DrawingTools {
 public:
 	
-    BreakdownTools(std::string filename, std::string treename, Topologies * topologies, std::string target_vname = "mc_targetZ"); //;
+    BreakdownTools(std::string filename, std::string treename, std::string target_vname = "target");
 	~BreakdownTools();
 
-	//Topology breakdown
-	//Particle breakdown
-	//Wrong PID
-    BDCans PID(Variable var, Int_t nbins, Double_t * bins, std::string pdgvar, std::string cuts = "", bool check = do_check);
-    BDCans PID(Variable var, Int_t nbins, Double_t low, Double_t high, std::string pdgvar, std::string cuts = "", bool check = do_check);
-    TCanvas * PID(Variable var, std::string pdgvar, std::string cuts, std::vector<PDGInfo> pdglist, bool check = do_check);
+    BDCans PIDBD(const Variable var, std::string pdgvar, std::string cuts = "");
+    TCanvas * PIDC(const Variable var, std::string pdgvar, std::string cuts = "");
 
-    BDCans TOPO(Variable var, Int_t nbins, Double_t * bins, std::string cuts = "", bool check = do_check);
-    BDCans TOPO(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts = "", bool check = do_check);
-    
-    BDCans TARGET(Variable var, Int_t nbins, Double_t * bins, std::string cuts = "", bool check = do_check);
-    BDCans TARGET(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts = "", bool check = do_check);
-    
-    TCanvas * TARGETSingle(Variable var, Int_t nbins, Double_t * bins, std::string cuts = "", bool check = do_check);
-    TCanvas * TARGETSingle(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts = "", bool check = do_check);
+    BDCans TOPOBD(Variable var, std::string cuts = "");
+    TCanvas * TOPOC(Variable var, std::string cuts = "");
+
+    BDCans TAROBD(Variable var, std::string cuts = "");
+    TCanvas * TAROC(Variable var, std::string cuts = "");
 
     void PrintPOT(){ m_printPOT = true; }
-    
-    void FullBreakDown(){ if(!m_fullbreakdown) m_fullbreakdown = true; else m_fullbreakdown = false;}//Switch on/off breakdown level.
-    void SetMinPDGBDlist(Int_t pdg){ m_pdglist_minBD.push_back(pdg); }
-    void ClearPDGBDlist(){ m_pdglist_minBD.clear(); }
-    void ResetPDGBDlist();
-    
-    void SetMinTOPBDlist(Topology::Name top){ m_toplist_minBD.push_back(top); }
-    void ClearTOPBDlist(){ m_toplist_minBD.clear(); }
-    void ResetTOPBDlist();
-    
-    void SetTargetVarName(std::string var = "mc_targetZ"){ m_target = var; }
-    void SetnFSPartVarName(std::string var = "mc_nFSPart"){ m_nFSParts = var; }
-
-    void SetSignal(Topology::Name name = Topology::HCC1P1PiPlusPS){ m_signal = name; }
-
-    //    void TopVar();
-    //void MisPIDVar();
-    
+        
 private:
     bool m_printPOT;
-    bool m_fullbreakdown;
-    
-    Topologies * m_topologies;
+    bool m_check;
 
     std::string m_target;
-    std::string m_nFSParts;
 
     std::vector<PDGInfo> m_pdglist;
-    std::vector<Int_t> m_pdglist_minBD;
-
     std::vector<Topology> m_toplist;
-    std::vector<Topology::Name> m_toplist_minBD;
+    std::vector<Breakdown> m_tarlist;
 
     Topology::Name m_signal;
     Topology m_sig_top;
 
-    Int_t m_statcounter;
+    std::vector<Breakdown> GetPIDs(std::string pdgvar, std::string cuts, std::string &final_cuts);
+    std::vector<Breakdown> GetTOPs();
+    std::vector<Breakdown> GetTARs();
+
+    int m_statcounter;
     TLegend * RatioStats(const THStack * ratio_tot);   
     void DrawZeroPointLine(TH1 * histo){ DrawLine(histo, 0.); } 
     void DrawZeroPointLine(THStack * histo); 
 
-    DrawingTools::KinMap GetSignalMap(Variable var, Int_t nbins, Double_t * bins, std::string cuts);
-    TH1D * GetSignalHist(Variable var, Int_t nbins, Double_t * bins, std::string cuts);
+    DrawingTools::KinMap GetSignalMap(Variable var, std::string cuts);
+    TH1D * GetSignalHist(Variable var, std::string cuts);
 
-    BDCans BaseBreakdown(Variable var, Int_t nbins, Double_t * bins, std::vector<Breakdown> list, std::string basename, std::string cuts, bool check);
-    TCanvas * SingleBase(Variable var, Int_t nbins, Double_t * bins, std::vector<Breakdown> list, std::string basename, std::string cuts, bool check);
+    BDCans BaseBreakdown(Variable var, std::vector<Breakdown> list, std::string basename, std::string cuts, bool check);
+    TCanvas * SingleBase(Variable var, std::vector<Breakdown> list, std::string basename, std::string cuts, bool check);
 
     std::vector<double> GetPercentages(std::vector<Breakdown> list, int type = -999);
 };

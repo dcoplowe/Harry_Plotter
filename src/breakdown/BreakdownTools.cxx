@@ -1,18 +1,21 @@
-#include "BreakdownTools.h"
-#include "DrawingStyle.h"
-#include "DataClasses.h"
+#include <BreakdownTools.hxx>
+#include <DrawingStyle.hxx>
+#include <ReadParam.hxx>
+
+#include <PDGInfo.hxx>
+#include <Topology.hxx>
 
 #include <string>
 #include <iostream>
 
-#include "TH1.h"
-#include "TH1D.h"
-#include "TH2D.h"
-#include "TLegend.h"
-#include "THStack.h"
-#include "TCanvas.h"
-#include "TList.h"
-#include "TF1.h"
+#include <TH1.h>
+#include <TH1D.h>
+#include <TH2D.h>
+#include <TLegend.h>
+#include <THStack.h>
+#include <TCanvas.h>
+#include <TList.h>
+#include <TF1.h>
 #include <TLine.h>
 
 #ifndef __BREAKDOWN__CXX__
@@ -35,76 +38,202 @@ void Breakdown::SetHist(TH1D * hist)
 #ifndef __BREAKDOWNTOOLS__CXX__
 #define __BREAKDOWNTOOLS__CXX__
 
-BreakdownTools::BreakdownTools(std::string filename, std::string treename, Topologies * topologies, std::string target_name) : 
-    DrawingTools(filename, treename, ("BD" + treename).c_str()), m_printPOT(false), m_fullbreakdown(true) {
+BreakdownTools::BreakdownTools(std::string filename, std::string treename, std::string target_name) : 
+    DrawingTools(filename, treename, ("BD" + treename).c_str()), m_check(false), m_printPOT(false), m_target("")
+{
+    string opts_file = string( getenv("HP_ROOT") );
+    opts_file += "/src/breakdown/BreakdownInputs.txt";
 
-//    PDGInfo proton;
-    m_pdglist.push_back( PDGInfo(2212, "proton",        "p"));
-    m_pdglist.push_back( PDGInfo(211,  "piplus",        "#pi^{+}") );
-    m_pdglist.push_back( PDGInfo(-211, "piminus",       "#pi^{-}") );
-    m_pdglist.push_back( PDGInfo(2112, "neutron",       "n") );
-    m_pdglist.push_back( PDGInfo(11,   "electronpm",    "e^{#pm}", true) );
-    m_pdglist.push_back( PDGInfo(13,   "muon",          "#mu^{-}") );
-    m_pdglist.push_back( PDGInfo(-13,  "amuon",         "#mu^{+}") );
-    m_pdglist.push_back( PDGInfo(111,  "pizero",        "#pi^{0}") );
-    m_pdglist.push_back( PDGInfo(321,  "kapm",          "K^{#pm}", true) );
-    m_pdglist.push_back( PDGInfo(311,  "kazero",        "K^{0}") );
-    //Miminum particles to define in breakdown:
-    ResetPDGBDlist();
+    std::vector<std::string> params = ReadParam::ReadFile(sopts_file);
 
-    m_topologies = new Topologies( topologies );
-
-    if(!m_topologies->GetList2Draw().empty()){
-        ClearTOPBDlist();
-        m_toplist_minBD = m_topologies->GetList2Draw();
+    if(params.empty()){
+        cout << __FILE__ << ":" << __LINE__ << " : ERROR : Params needed in params file: " << opts_file << endl;
+        exit(0);
     }
 
-    m_target = target_name;
-    
-    m_toplist = m_topologies->GetList();
-    ResetTOPBDlist();
+    std::vector<std::string> in_pars;
+    in_pars.push_back( "Signal" ); 
+    in_pars.push_back( "Target" );
+    in_pars.push_back( "Check" ); 
+    // params
+    string tmp_sig = ReadParam::GetParameterS(in_pars[0], opts_file);
+    m_signal = Topology::GetEnum(tmp_sig);
+
+    m_target = ReadParam::GetParameterS(in_pars[1], opts_file);
+
+    m_check = ReadParam::GetParameterB(in_pars[2], opts_file);
+
+    m_toplist.clear();
+    m_pdglist.clear();
+    m_tarlist.clear();
+
+    cout << "Pre list: " << endl;
+    for(size_t i = 0; i < params.size(); i++)
+        cout << params[i] << endl;
+
+    for(size_t i = 0; i < params.size(); i++){
+        for(size_t ip = 0; ip < in_pars.size(); ip++){
+            if(params[i].find(in_pars[ip]) != string::npos){
+                params.erase(params.begin() + i);
+            }
+        }
+    }
+
+    cout << "Post list: " << endl;
+    for(size_t i = 0; i < params.size(); i++)
+        cout << params[i] << endl;
+
+    for(size_t i = 0; i < params.size(); i++){
+        string param = params[i];
+        ReadParam::RemoveArrows(param);
+        bool is_top = false;
+        bool is_pdg = false;
+        bool is_tar = false;
+        if(param.find("TOP") != string::npos) is_top = true;
+        else if(param.find("PDG") != string::npos) is_pdg = true;
+        else if(param.find("TAR") != string::npos) is_tar = true;
+
+        bool ch_list[3] = {is_top, is_pdg, is_tar};
+
+        for(int ch1 = 0; ch1 < 3; ch1++){
+            for(int ch2 = ch1; ch2 < 3; ch2++){
+                if(ch1 == ch2) continue;
+                else if(ch_list[ch1] == ch_list[ch2] && ch_list[ch1]){
+                    cout << __FILE__ << ":" << __LINE__ << " : WARNING : Ill defined param: " << param << endl;
+                    continue;
+                }
+            }
+        }
+        // if(is_top && is_pdg && is_tar){
+        //     cout << __FILE__ << ":" << __LINE__ << " : WARNING : Ill defined param: " << param << endl;
+        //     continue;
+        // }
+
+        // if( !is_top && !is_pdg){
+        //     cout << __FILE__ << ":" << __LINE__ << " : WARNING : Ill defined param: " << param << endl;
+        //     continue;
+        // }
+
+        Topology::Name top_name = Topology::Unknown;
+
+        std::stringstream iss(param);
+        string word;
+        int counter = 0;
+        while( iss >> word ){
+            if(counter == 0){ 
+                counter++; 
+                continue;
+            }
+            else if(word.find(":") != string::npos) continue; 
+            else if(is_top){
+                if(counter == 1){ 
+                    top_name = Topology::GetEnum(word);
+                    if(top_name == Topology::Unknown){
+                        cout << __FILE__ << ":" << __LINE__ << " : WARNING : Could not determine topology: " << word << endl;
+                        break;
+                    }
+                    counter++;
+                }
+                else if(counter == 2){
+                    m_toplist.push_back( Topology(top_name, word) );
+                    if(top_name == m_signal) m_sig_top = Topology(top_name, word);
+                }
+            }
+            else if(is_pdg){
+                string pdg_pm = "pm";
+                if(ReadParam::IsNumber(word)) m_pdglist.push_back( PDGInfo( atoi(word.c_str()) ) );
+                else if(word.find(pdg_pm) != string::npos){
+                    word = word.erase(word.find(pdg_pm), pdg_pm.length());
+                    if(ReadParam::IsNumber(word)) m_pdglist.push_back( PDGInfo( atoi(word.c_str()), true) );
+                    else cout << __FILE__ << ":" << __LINE__ << " : WARNING : PDG code still not a number: " << word << endl;
+                }
+                else cout << __FILE__ << ":" << __LINE__ << " : WARNING : Could not interpret PDG code: " << word << endl;
+            }
+            else if(is_pdg){
+                if(atoi(word.c_str()) == 1){
+                    Breakdown hyd("Hydrogen", m_target + " == 1", DrawingStyle::HYDROGEN);
+                    m_tarlist.push_back(hyd);
+                }
+                if(atoi(word.c_str()) == 6){
+                    Breakdown car("Carbon", m_target + " == 6", DrawingStyle::CARBON);
+                    m_tarlist.push_back(car);
+                }
+                if(atoi(word.c_str()) == 8){
+                    Breakdown oxy("Oxygen", m_target + " == 8", DrawingStyle::OXYGEN);
+                    m_tarlist.push_back(oxy);    
+                }
+                if(atoi(word.c_str()) == 18){
+                    Breakdown arg("Oxygen", m_target + " == 18", DrawingStyle::ARGON);
+                    m_tarlist.push_back(arg);
+                }
+            }
+        }
+    }
+
+    if(m_toplist.empty() && m_pdglist.empty()){
+        cout << __FILE__ << ":" << __LINE__ << " : ERROR : No topologies or particles defined " << endl;
+        exit(0);
+    }
+
+    if(m_toplist.empty()) cout << __FILE__ << ":" << __LINE__ << " : WARNING : No topologies set." << endl;
+    if(m_pdglist.empty()) cout << __FILE__ << ":" << __LINE__ << " : WARNING : No particles set." << endl;
 
     m_statcounter = -1;
-
-    m_signal = m_topologies->GetSignal();
-    m_sig_top = m_topologies->GetTopology(m_signal);
 }
 
 BreakdownTools::~BreakdownTools(){
     m_pdglist.clear();
     m_toplist.clear();
-
-    ClearPDGBDlist();
-    ClearTOPBDlist();
-
-    delete m_topologies;
 }
 
-void BreakdownTools::ResetPDGBDlist(){
-    ClearPDGBDlist();
-    SetMinPDGBDlist(2212);
-    SetMinPDGBDlist(2112);
-    SetMinPDGBDlist(211);
-    SetMinPDGBDlist(-211);
-    SetMinPDGBDlist(13);
-}
-
-void BreakdownTools::ResetTOPBDlist(){
-    ClearTOPBDlist();
-    SetMinTOPBDlist( Topology::CC1P1PiPlus        );
-    SetMinTOPBDlist( Topology::CCNPNPiMinus       );
-    SetMinTOPBDlist( Topology::CCNP               );
-    SetMinTOPBDlist( Topology::CCNPiPlus          );
-    SetMinTOPBDlist( Topology::CCNPNPiZero        );
-    SetMinTOPBDlist( Topology::CCNPiZeroNPiPlus   );
-    SetMinTOPBDlist( Topology::Other              );
-}
-
-BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::string pdgvar, std::string cuts, bool check)
+BDCans BreakdownTools::PIDBD(const Variable var, std::string pdgvar, std::string cuts, bool check)
 {
+    std::string base_cuts = "";
+    std::vector<Breakdown> list = GetPIDs(pdgvar, cuts, base_cuts);
+    return BaseBreakdown(var, list, "PIDBD", base_cuts, check);
+}
+
+TCanvas * BreakdownTools::PIDC(const Variable var, std::string pdgvar, std::string cuts, bool check)
+{
+    std::string base_cuts = "";
+    std::vector<Breakdown> list = GetPIDs(pdgvar, cuts, base_cuts);
+    return SingleBase(var, list, "PIDC", base_cuts, check);
+}
+
+BDCans BreakdownTools::TOPOBD(Variable var, std::string cuts, bool check)
+{
+    std::vector<Breakdown> list = GetTOPs();
+    return BaseBreakdown(var, list, "TOPBD", cuts, check);
+}
+
+TCanvas * BreakdownTools::TOPOC(Variable var, std::string cuts, bool check)
+{
+    std::vector<Breakdown> list = GetTOPs();
+    return SingleBase(var, list, "TOPC", cuts, check);
+}
+
+BDCans BreakdownTools::TAROBD(Variable var, std::string cuts, bool check)
+{
+    std::vector<Breakdown> list = GetTARs();
+    return BaseBreakdown(var, list, "TARBD", cuts, check);
+}
+
+TCanvas * BreakdownTools::TAROC(Variable var, std::string cuts, bool check)
+{
+    std::vector<Breakdown> list = GetTARs();
+    return SingleBase(var, list, "TARC", cuts, check);
+}
+
+std::vector<Breakdown> BreakdownTools::GetPIDs(std::string pdgvar, std::string cuts, std::string &final_cuts)
+{
+    if(m_pdglist.empty()){
+        cout << __FILE__ << ":" << __LINE__ << " : ERROR : Called PID but no particles set" << endl; 
+        exit(0);
+    }
+
     std::vector<Breakdown> list;
     list.clear();
-    
+
     for(int i = 0; i < (int)m_pdglist.size(); i++){
         PDGInfo particle = m_pdglist[i];
         std::string tmp_cuts;
@@ -116,180 +245,51 @@ BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t * bins, std::stri
         Breakdown tmp(particle.GetSymbol(), tmp_cuts, particle.GetColor());
         list.push_back(tmp);
     }
-
-    std::string base_cuts = cuts;
+    
+    std::string final_cuts = cuts;
     if(!cuts.empty()){
-        base_cuts += " && ";
+        final_cuts += " && ";
     }
-    base_cuts += pdgvar;
-    base_cuts += " != -999 ";
+    final_cuts += pdgvar;
+    final_cuts += " != -999 ";
 
-    return BaseBreakdown(var, nbins, bins, list, "PID", base_cuts, check);
+    return list;
 }
 
-BDCans BreakdownTools::PID(Variable var, Int_t nbins, Double_t low, Double_t high, std::string pdgvar, std::string cuts, bool check){
-    return PID(var, nbins, SetBinning(nbins, low, high), pdgvar, cuts, check);
-}
+std::vector<Breakdown> BreakdownTools::GetTOPs()
+{
+    if(m_toplist.empty()){
+        cout << __FILE__ << ":" << __LINE__ << " : ERROR : Called TOPO but no topologies set" << endl; 
+        exit(0);
+    }
 
-BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::string cuts, bool check){
-    // cout << "BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t * bins, std::string cuts)" << endl;
     std::vector<Breakdown> list;
     list.clear();
 
-    bool total_CC1p1pi = true;
     for(int i = 0; i < (int)m_toplist.size(); i++){
-        if(m_toplist[i].GetType() == Topology::OCC1P1PiPlus){
-           total_CC1p1pi = false;
-           continue;
-       }
-    }
-
-    for(int i = 0; i < (int)m_toplist.size(); i++){
-        Topology topology = m_toplist[i];
-        if(print_level::quiet){ 
-            cout << "Topology = " << topology.GetName() << endl;
-            cout << "           " << topology.GetSignal() << endl;
-        }
-
-        if(topology.GetType() == m_signal){ 
-            if(print_level::quiet) cout << " (Is signal) -- Skipping." << endl;
-            continue;
-        }
-
-        // if( (!total_CC1p1pi) && topology.GetType() == Topology::CC1P1PiPlus){
-        //     cout << "Found Topology::CC1P1PiPlus -- Skipping" << endl;
-        //     continue;
-        // }
+        Topology topology = m_toplist[i];        
+        if(topology.GetType() == m_signal) continue;
 
         Breakdown tmp(topology.GetSymbol(), topology.GetSignal(), topology.GetFillColor(), topology.GetFillStyle(),
             topology.GetLineColor(), topology.GetLineStyle());
         list.push_back(tmp);
     }
-    
-    return BaseBreakdown(var, nbins, bins, list, "TOP", cuts, check);
+    return list;
 }
 
-BDCans BreakdownTools::TOPO(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts, bool check){
-    return TOPO(var, nbins, SetBinning(nbins, low, high), cuts, check);
-}
-
-BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t * bins, std::string cuts, bool check)
+std::vector<Breakdown> BreakdownTools::GetTARs(std::string pdgvar, std::string cuts, std::string &final_cuts)
 {
-    std::vector<Breakdown> list;
-    list.clear();
-
-    Breakdown hyd("Hydrogen", m_target + " == 1", DrawingStyle::HYDROGEN);
-    list.push_back(hyd);
-    
-    Breakdown car("Carbon", m_target + " == 6", DrawingStyle::CARBON);
-    list.push_back(car);
-
-    Breakdown oxy("Oxygen", m_target + " == 8", DrawingStyle::OXYGEN);
-    list.push_back(oxy);
-  
-    return BaseBreakdown(var, nbins, bins, list, "TAR", cuts, check);
-}
-
-BDCans BreakdownTools::TARGET(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts, bool check){
-    return TARGET(var, nbins, SetBinning(nbins, low, high), cuts, check);
-}
-
-TCanvas * BreakdownTools::TARGETSingle(Variable var, Int_t nbins, Double_t * bins, std::string cuts, bool check){
-    std::vector<Breakdown> list;
-    list.clear();
-
-    Breakdown hyd("Hydrogen", m_target + " == 1", DrawingStyle::HYDROGEN);
-    list.push_back(hyd);
-    
-    Breakdown car("Carbon", m_target + " == 6", DrawingStyle::CARBON);
-    list.push_back(car);
-
-    Breakdown oxy("Oxygen", m_target + " == 8", DrawingStyle::OXYGEN);
-    list.push_back(oxy);
-
-    return SingleBase(var, nbins, bins, list, "TARONE", cuts, check);
-}
-
-TCanvas * BreakdownTools::TARGETSingle(Variable var, Int_t nbins, Double_t low, Double_t high, std::string cuts, bool check){
-    return TARGETSingle(var, nbins, SetBinning(nbins, low, high), cuts, check);
-}
-
-TLegend * BreakdownTools::RatioStats(const THStack * ratio_tot)
-{
-//Get the ratio histograms, make them into one histogram and determine the rms and mean:
-    // cout << "BreakdownTools::RatioStats" << endl;
-    TList * rlist = ratio_tot->GetHists();
-    TH1D * hfirst = (TH1D*)rlist->First()->Clone( (string(rlist->First()->GetName()) + "_clone").c_str() );
-    // cout << "FOund hfirst" << endl;
-    Int_t ratio_nbins = hfirst->GetNbinsX();
-    Double_t ratio_low = hfirst->GetXaxis()->GetXmin();
-    Double_t ratio_high = hfirst->GetXaxis()->GetXmax();
-    // cout << "Range : Bins = " << ratio_nbins << " low = " << ratio_low << " high = " << ratio_high << endl;
-    
-    TIter next(rlist);
-    TH1D ratio_sum( Form("%s_ratio_sum%.3d", hfirst->GetName(), m_statcounter++), "", ratio_nbins, ratio_low, ratio_high);
-    TH1D * rhist_tmp;
-    while ( (rhist_tmp = (TH1D*)next()) ) {
-        ratio_sum.Add(rhist_tmp);
-    }
-    
-    TLegend * ratio_stats = Legend(0.25, 0.8, 0.05, 0.1);
-    ratio_stats->AddEntry((TObject*)0, Form("Mean = %.3f", (double)ratio_sum.GetMean()), "");
-    ratio_stats->AddEntry((TObject*)0, Form(" RMS = %.3f", (double)ratio_sum.GetRMS() ), "");
-
-    TF1 * cauchy = new TF1("cauchy","([2]*[1])/(TMath::Pi()*([1]*[1] + (x-[0])*(x-[0]) ) )", ratio_low, ratio_high);
-    delete hfirst;
-
-    cauchy->SetParameter(0, (double)ratio_sum.GetXaxis()->GetBinCenter(ratio_sum.GetMaximumBin() ) );
-    cauchy->SetParameter(1, (double)ratio_sum.GetRMS()  );
-    cauchy->SetParameter(2, (double)ratio_sum.Integral());
-    TFitResultPtr r = ratio_sum.Fit(cauchy,"RLNQ");
-    Int_t fitStatus = r;
-    // cout << "(double)cauchy->GetParameter(0) = " << (double)cauchy->GetParameter(0) << endl;
-    // cout << "(double)cauchy->GetParameter(1) = " << (double)cauchy->GetParameter(1) << endl;
-
-    if(fitStatus == 0){//Fit status successful add the parameters:
-        ratio_stats->AddEntry((TObject*)0, Form("Cauchy Mean = %.3f", (double)cauchy->GetParameter(0)), "");
-        ratio_stats->AddEntry((TObject*)0, Form("Cauchy #sigma = %.3f", (double)cauchy->GetParameter(1)), "");
+    if(m_target.empty()){
+        cout << __FILE__ << ":" << __LINE__ << " : ERROR : Called TARGET but no target name set" << endl; 
+        exit(0);
     }
 
-    return ratio_stats;
-}
-
-TCanvas * BreakdownTools::PID(Variable var, std::string pdgvar, std::string cuts, std::vector<PDGInfo> pdglist, bool check)
-{
-    std::vector<Breakdown> list;
-    list.clear();
-    
-    for(int i = 0; i < (int)m_pdglist.size(); i++){
-        PDGInfo particle = m_pdglist[i];
-        std::string tmp_cuts;
-        if(particle.IsBoth()) tmp_cuts += "TMath::Abs(";
-        tmp_cuts += pdgvar;
-        if(particle.IsBoth()) tmp_cuts += ")";
-        tmp_cuts += " == ";
-        tmp_cuts += particle.GetPDGStr();
-        Breakdown tmp(particle.GetSymbol(), tmp_cuts, particle.GetColor());
-        list.push_back(tmp);
+    if(m_tarlist.empty()){
+        cout << __FILE__ << ":" << __LINE__ << " : ERROR : Called TARGET but no targets set" << endl; 
+        exit(0);
     }
-
-    std::string base_cuts = cuts;
-    if(!cuts.empty()){
-        base_cuts += " && ";
-    }
-    base_cuts += pdgvar;
-    base_cuts += " != -999 ";
-
-    return SingleBase(var, var.GetNBins(), var.GetBinning(), list, "PIDONE", base_cuts, check);
+    return m_tarlist;
 }
-
-// void BreakdownTools::DrawZeroPointLine(TH1 * histo){
-
-//     TLine * z_line = new TLine(0.0, histo->GetMinimum(), 0.0, histo->GetMaximum());
-//     z_line->SetLineColor(1);
-//     z_line->SetLineStyle(2);
-//     z_line->Draw(); 
-// }
 
 void BreakdownTools::DrawZeroPointLine(THStack * histo){
 
@@ -298,10 +298,8 @@ void BreakdownTools::DrawZeroPointLine(THStack * histo){
     DrawZeroPointLine(hfirst);
 }
            
-BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins, std::vector<Breakdown> list, 
-    std::string basename, std::string cuts, bool check)
-{
-    // cout << "BreakdownTools::BaseBreakdown" << endl;    
+BDCans BreakdownTools::BaseBreakdown(Variable var, std::vector<Breakdown> list, std::string basename, std::string cuts, bool check)
+{   
     //Make outputs:
     if(list.empty()){ 
         BDCans bad;
@@ -333,7 +331,7 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
     for(unsigned int i = 0; i < list.size(); i++){
         string tmp_cuts = base_cuts;
         tmp_cuts += list[i].GetSignal();
-        list[i].SetMap( KinArray(var.GetName(), nbins, bins, var.GetSymbol(), tmp_cuts) );
+        list[i].SetMap( KinArray(var.GetName(), var.GetNBins(), var.GetBinning(), var.GetSymbol(), tmp_cuts) );
     }
 
     string units = "";
@@ -367,11 +365,11 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
     
     // cout << "BreakdownTools::BaseBreakdown : Getting signal dists." << endl;
 
-    DrawingTools::KinMap signal_kinmap = GetSignalMap(var, nbins, bins, cuts);
+    DrawingTools::KinMap signal_kinmap = GetSignalMap(var, cuts);
 
     DrawingTools::KinMap tmp_check;
     if(check){
-        tmp_check = KinArray(var.GetName(), nbins, bins, var.GetSymbol(), cuts);
+        tmp_check = KinArray(var.GetName(), var.GetSymbol(), cuts);
         SetColors(tmp_check, 0, kPink-9, 0, 4);
         // TODO: Check first 0 - Fill color. 
     }
@@ -482,8 +480,7 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
     return cans;
 }
 
-TCanvas * BreakdownTools::SingleBase(Variable var, Int_t nbins, Double_t * bins, std::vector<Breakdown> list, std::string basename, 
-    std::string cuts, bool check)
+TCanvas * BreakdownTools::SingleBase(Variable var, std::vector<Breakdown> list, std::string basename, std::string cuts, bool check)
 {
 //Make outputs:
     if(list.empty()){ 
@@ -502,9 +499,9 @@ TCanvas * BreakdownTools::SingleBase(Variable var, Int_t nbins, Double_t * bins,
             other_cuts += ")";
         }
     }
+
     Breakdown other("Other", other_cuts, DrawingStyle::Other);
     list.push_back(other);
-    // cout << "BreakdownTools::BaseBreakdown : Making Kin Array" << endl;    
 
     string base_cuts = cuts;
     if(!base_cuts.empty()) base_cuts += " && ";
@@ -512,7 +509,7 @@ TCanvas * BreakdownTools::SingleBase(Variable var, Int_t nbins, Double_t * bins,
     for(unsigned int i = 0; i < list.size(); i++){
         string tmp_cuts = base_cuts;
         tmp_cuts += list[i].GetSignal();
-        list[i].SetHist( GetHisto(var.GetName(), nbins, bins, var.GetAxisTitle(), tmp_cuts) );
+        list[i].SetHist( GetHisto(var.GetName(), var.GetNBins(), var.GetBinning(), var.GetAxisTitle(), tmp_cuts) );
     }
 
     string units = "";
@@ -529,11 +526,11 @@ TCanvas * BreakdownTools::SingleBase(Variable var, Int_t nbins, Double_t * bins,
     
     std::vector<double> hist_percent = GetPercentages(list);
     
-    TH1D * signal_hist = GetSignalHist(var, nbins, bins, cuts);
+    TH1D * signal_hist = GetSignalHist(var, cuts);
 
     TH1D * tmp_check;
     if(check){
-        tmp_check = GetHisto(var.GetName(), nbins, bins, var.GetSymbol(), cuts);
+        tmp_check = GetHisto(var.GetName(), var.GetNBins(), var.GetBinning(), var.GetSymbol(), cuts);
         SetColors(tmp_check, 0, kPink-9, 0, 4);
         // TODO: Check first 0 - Fill color. 
     }
@@ -565,20 +562,17 @@ TCanvas * BreakdownTools::SingleBase(Variable var, Int_t nbins, Double_t * bins,
         else cout << " Inconsistent integrals between stack and hist (Diff. = " << difference << ")";
         cout << endl;
     }
-
-    // cout << "BreakdownTools::BaseBreakdown : Finished." << endl;
-
     return cans;
 }
 
 
-DrawingTools::KinMap BreakdownTools::GetSignalMap(Variable var, Int_t nbins, Double_t * bins, std::string cuts){
+DrawingTools::KinMap BreakdownTools::GetSignalMap(Variable var, std::string cuts){
     std::string hsignal = cuts;
     if(!hsignal.empty()){
         hsignal += " && ";
     }
     hsignal += m_sig_top.GetSignal();
-    DrawingTools::KinMap signal_kinmap = KinArray(var.GetName(), nbins, bins, var.GetSymbol(), hsignal);
+    DrawingTools::KinMap signal_kinmap = KinArray(var.GetName(), var.GetNBins(), var.GetBinning(), var.GetSymbol(), hsignal);
     SetColors(signal_kinmap, m_sig_top.GetFillColor(), m_sig_top.GetLineColor(), m_sig_top.GetFillStyle(), m_sig_top.GetLineStyle());
     signal_kinmap.recon->SetLineWidth(2);
     signal_kinmap.truth->SetLineWidth(2);
@@ -586,14 +580,14 @@ DrawingTools::KinMap BreakdownTools::GetSignalMap(Variable var, Int_t nbins, Dou
     return signal_kinmap;
 }
 
-TH1D * BreakdownTools::GetSignalHist(Variable var, Int_t nbins, Double_t * bins, std::string cuts)
+TH1D * BreakdownTools::GetSignalHist(Variable var, std::string cuts)
 {
     std::string hsignal = cuts;
     if(!hsignal.empty()){
         hsignal += " && ";
     }
     hsignal += m_sig_top.GetSignal();
-    TH1D * signal_hist = GetHisto(var.GetName(), nbins, bins, var.GetSymbol(), hsignal);
+    TH1D * signal_hist = GetHisto(var.GetName(), var.GetNBins(), var.GetBinning(), var.GetSymbol(), hsignal);
     SetColors(signal_hist, m_sig_top.GetFillColor(), m_sig_top.GetLineColor(), m_sig_top.GetFillStyle(), m_sig_top.GetLineStyle());
     signal_hist->SetLineWidth(2);
     return signal_hist;
@@ -617,26 +611,4 @@ std::vector<double> BreakdownTools::GetPercentages(std::vector<Breakdown> list, 
     return DrawingTools::GetPercentage(histos);
 }
 
-// BreakdownTools::SetPerentages(std::vector<Breakdown> list, int type)
-// {
-//     std::vector<double> pers = DrawingTools::GetPercentage(histos, type);
-
-//     for(unsigned int i = 0; i < list.size(); i++){
-//         switch(type) {
-//             case 0 : list[i].GetMap().recon ); break;
-//             case 1 : list[i].GetMap().truth ); break;
-//             case 2 : list[i].GetMap().ratio ); break;
-//             default: cout << __FILE__ << ":" << __LINE__ << ": Warning could not determine type" << endl; break;
-//         }
-//     }
-// }
-
 #endif
-
-
-
-
-
-
-
-
