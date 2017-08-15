@@ -1,6 +1,8 @@
 #ifndef _PARTPDGInfo_
 #define _PARTPDGInfo_
 
+#include <string>
+
 class PDGInfo {
 public:
 
