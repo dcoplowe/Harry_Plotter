@@ -22,6 +22,7 @@ public:
 
     PDGInfo() : m_pdg(-999), m_name("unknown"), m_symbol(m_name), m_pdg_s(m_name), m_particle_antiparticle(false), m_colour(1), m_line_colour(1), m_line_style(1) {;}
     PDGInfo(int part_pdg, std::string part_name, std::string part_symbol, bool is_p_ap = false);
+    PDGInfo(int part_pdg, bool is_p_ap = false);
     ~PDGInfo(){};
 
     int GetPDGNo(){ return m_pdg; }
