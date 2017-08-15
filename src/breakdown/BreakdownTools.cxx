@@ -38,7 +38,7 @@ void Breakdown::SetHist(TH1D * hist)
 #ifndef __BREAKDOWNTOOLS__CXX__
 #define __BREAKDOWNTOOLS__CXX__
 
-BreakdownTools::BreakdownTools(std::string filename, std::string treename) : 
+BreakdownTools::BreakdownTools(std::string filename, std::string treename, bool check_pot) : 
     DrawingTools(filename, treename, (treename + "BD").c_str(), check_pot), m_check(false), m_target("")
 {
     string opts_file = string( getenv("HP_ROOT") );
