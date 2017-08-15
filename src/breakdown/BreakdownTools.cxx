@@ -280,7 +280,7 @@ std::vector<Breakdown> BreakdownTools::GetTOPs()
     return list;
 }
 
-std::vector<Breakdown> BreakdownTools::GetTARs(std::string pdgvar, std::string cuts, std::string &final_cuts)
+std::vector<Breakdown> BreakdownTools::GetTARs()
 {
     if(m_target.empty()){
         cout << __FILE__ << ":" << __LINE__ << " : ERROR : Called TARGET but no target name set" << endl; 
