@@ -354,28 +354,20 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, std::vector<Breakdown> list, 
     
     TH2D * smear_tot = (TH2D*)list[0].GetMap().smear->Clone( (var.GetSName() + "_" + basename + "_smear").c_str() );//Just add all of these histos.
     
-    // cout << "BreakdownTools::BaseBreakdown : Making Legends" << endl;
-
     TLegend * recon_leg = Legend(0.25, 0.4, 0.551, 0.362);
     TLegend * truth_leg = Legend(0.25, 0.4, 0.551, 0.362);
     TLegend * ratio_leg = Legend(0.25, 0.4, 0.551, 0.362);
     
-    // cout << "BreakdownTools::BaseBreakdown : Making Percentages" << endl;
-
     std::vector<double> recon_percent = GetPercentages(list, 0);
     std::vector<double> truth_percent = GetPercentages(list, 1);
     std::vector<double> ratio_percent = GetPercentages(list, 2);
     
-    // cout << "BreakdownTools::BaseBreakdown : Getting signal dists." << endl;
-
     DrawingTools::KinMap signal_kinmap = GetSignalMap(var, cuts);
 
     DrawingTools::KinMap tmp_check;
     if(m_check){
-        // std::string vars_tr, int nbins, double * bins, std::string rt_title = "", std::string cuts = ""
         tmp_check = KinArray(var.GetName(), var.GetNBins(), var.GetBinning(), var.GetAxisTitle(), cuts);
         SetColors(tmp_check, 0, kPink-9, 0, 4);
-        // TODO: Check first 0 - Fill color. 
     }
 
     BDCans cans;
@@ -613,6 +605,48 @@ std::vector<double> BreakdownTools::GetPercentages(std::vector<Breakdown> list, 
         }
     }
     return DrawingTools::GetPercentage(histos);
+}
+
+TLegend * BreakdownTools::RatioStats(const THStack * ratio_tot)
+{
+//Get the ratio histograms, make them into one histogram and determine the rms and mean:
+    // cout << "BreakdownTools::RatioStats" << endl;
+    TList * rlist = ratio_tot->GetHists();
+    TH1D * hfirst = (TH1D*)rlist->First()->Clone( (string(rlist->First()->GetName()) + "_clone").c_str() );
+    // cout << "FOund hfirst" << endl;
+    Int_t ratio_nbins = hfirst->GetNbinsX();
+    Double_t ratio_low = hfirst->GetXaxis()->GetXmin();
+    Double_t ratio_high = hfirst->GetXaxis()->GetXmax();
+    // cout << "Range : Bins = " << ratio_nbins << " low = " << ratio_low << " high = " << ratio_high << endl;
+    
+    TIter next(rlist);
+    TH1D ratio_sum( Form("%s_ratio_sum%.3d", hfirst->GetName(), m_statcounter++), "", ratio_nbins, ratio_low, ratio_high);
+    TH1D * rhist_tmp;
+    while ( (rhist_tmp = (TH1D*)next()) ) {
+        ratio_sum.Add(rhist_tmp);
+    }
+    
+    TLegend * ratio_stats = Legend(0.25, 0.8, 0.05, 0.1);
+    ratio_stats->AddEntry((TObject*)0, Form("Mean = %.3f", (double)ratio_sum.GetMean()), "");
+    ratio_stats->AddEntry((TObject*)0, Form(" RMS = %.3f", (double)ratio_sum.GetRMS() ), "");
+
+    TF1 * cauchy = new TF1("cauchy","([2]*[1])/(TMath::Pi()*([1]*[1] + (x-[0])*(x-[0]) ) )", ratio_low, ratio_high);
+    delete hfirst;
+
+    cauchy->SetParameter(0, (double)ratio_sum.GetXaxis()->GetBinCenter(ratio_sum.GetMaximumBin() ) );
+    cauchy->SetParameter(1, (double)ratio_sum.GetRMS()  );
+    cauchy->SetParameter(2, (double)ratio_sum.Integral());
+    TFitResultPtr r = ratio_sum.Fit(cauchy,"RLNQ");
+    Int_t fitStatus = r;
+    // cout << "(double)cauchy->GetParameter(0) = " << (double)cauchy->GetParameter(0) << endl;
+    // cout << "(double)cauchy->GetParameter(1) = " << (double)cauchy->GetParameter(1) << endl;
+
+    if(fitStatus == 0){//Fit status successful add the parameters:
+        ratio_stats->AddEntry((TObject*)0, Form("Cauchy Mean = %.3f", (double)cauchy->GetParameter(0)), "");
+        ratio_stats->AddEntry((TObject*)0, Form("Cauchy #sigma = %.3f", (double)cauchy->GetParameter(1)), "");
+    }
+
+    return ratio_stats;
 }
 
 #endif
