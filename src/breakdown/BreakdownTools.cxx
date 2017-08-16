@@ -182,6 +182,12 @@ BreakdownTools::BreakdownTools(std::string filename, std::string treename, bool 
     if(m_pdglist.empty()) cout << __FILE__ << ":" << __LINE__ << " : WARNING : No particles set." << endl;
 
     m_statcounter = -1;
+
+    for(size_t i = 0; i < m_toplist.size(); I++) 
+        m_toplist[i].Print();
+
+    for(size_t i = 0; i < m_pdglist.size(); I++) 
+        m_pdglist[i].Print();
 }
 
 BreakdownTools::~BreakdownTools(){

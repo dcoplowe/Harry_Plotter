@@ -34,6 +34,8 @@ public:
     int  GetLineStyle(){ return m_line_style; }
     bool IsBoth(){ return m_particle_antiparticle; }
 
+    void Print();
+
 private:    
     int m_pdg;
     std::string m_name;

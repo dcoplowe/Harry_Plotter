@@ -53,6 +53,8 @@ public:
     static std::string ToString(Name name, int form = 0);
     static Name GetEnum(std::string name);
 
+    void Print();
+
 private:
     Name m_type;
     std::string m_name;

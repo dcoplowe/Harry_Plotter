@@ -5,7 +5,10 @@
 #include <TMath.h>
 #include <DrawingStyle.hxx>
 #include <sstream>
+// #include <>
 
+using std::cout;
+using std::endl;
 
 PDGInfo::PDGInfo(int part_pdg, bool is_p_ap) : m_pdg(part_pdg), 
     m_particle_antiparticle(is_p_ap), m_line_colour(1), m_line_style(1) 
@@ -59,7 +62,6 @@ PDGInfo::PDGInfo(int part_pdg, bool is_p_ap) : m_pdg(part_pdg),
 PDGInfo::PDGInfo(int part_pdg, std::string part_name, std::string part_symbol, bool is_p_ap) : m_pdg(part_pdg), m_name(part_name), m_symbol(part_symbol), 
     m_particle_antiparticle(is_p_ap), m_line_colour(1), m_line_style(1) 
 {
-
     stringstream ss;
     ss << m_pdg;
     m_pdg_s = ss.str();
@@ -78,4 +80,14 @@ PDGInfo::PDGInfo(int part_pdg, std::string part_name, std::string part_symbol, b
     else m_colour = (int)DrawingStyle::Other; 
 
 }
+
+void PDGInfo::Print()
+{
+    cout << "___________PDG Info___________" << endl;
+    cout << "    PDG Code: " << m_pdg << endl;
+    cout << "        Name: " << m_name << endl;
+    cout << "      Symbol: " << m_symbol << endl;
+    cout << "___________________________________" << endl;
+}
+
 #endif
