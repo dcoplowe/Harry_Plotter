@@ -372,7 +372,8 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, std::vector<Breakdown> list, 
 
     DrawingTools::KinMap tmp_check;
     if(m_check){
-        tmp_check = KinArray(var.GetName(), var.GetSymbol(), cuts);
+        // std::string vars_tr, int nbins, double * bins, std::string rt_title = "", std::string cuts = ""
+        tmp_check = KinArray(var.GetName(), var.GetNBins(), var.GetBinning(), var.GetAxisTitle(), cuts);
         SetColors(tmp_check, 0, kPink-9, 0, 4);
         // TODO: Check first 0 - Fill color. 
     }
