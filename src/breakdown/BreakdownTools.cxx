@@ -36,7 +36,6 @@ void Breakdown::SetHist(TH1D * hist)
 void Breakdown::Print()
 {
     cout << "___________Breakdown Info___________" << endl;
-    cout << "    PDG Code: " << m_pdg << endl;
     cout << "        Name: " << m_name << endl;
     cout << "      Symbol: " << m_symbol << endl;
     cout << "____________________________________" << endl;
