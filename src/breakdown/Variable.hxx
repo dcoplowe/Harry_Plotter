@@ -25,25 +25,23 @@ public:
         m_binning = input.GetBinning();
     }
     
-    ~Variable(){;}//delete m_binning;}
+    ~Variable(){ delete m_binning; }
 
     void SetName(std::string var) { m_name = var; }
     void SetSymbol(std::string var) { m_symbol = var; }
     void SetUnits(std::string var) { m_units = var; }
     void SetPDG(std::string var) { m_pdg = var; }
     void SetSName(std::string var) { m_savename = var; }
-    
+    void SetNBins(int var){ m_nbins = var;}
+    void SetBinning(int nbins, double * binning){ m_nbins = nbins; m_binning = binning; }
+    void SetBinning(int nbins, double low, double high){ m_nbins = nbins; m_binning = DrawingTools::SetBinning(m_nbins, low, high); }
+
     std::string GetName() const { return m_name; }
     std::string GetSymbol() const { return m_symbol; }
     std::string GetUnits() const { return m_units; }
     std::string GetSName() const { return m_savename; }
     std::string GetPDG() const { return m_pdg; }
     std::string GetAxisTitle() const { return m_symbol + (m_units.empty() ? "" : " (" + m_units + ")"); }
-
-    void SetNBins(int var){ m_nbins = var;}
-    void SetBinning(int nbins, double * binning){ m_nbins = nbins; m_binning = binning; }
-
-    void SetBinning(int nbins, double low, double high){ m_nbins = nbins; m_binning = DrawingTools::SetBinning(m_nbins, low, high); }
     int GetNBins() const { return m_nbins; }
     double * GetBinning() const { return m_binning; }
 

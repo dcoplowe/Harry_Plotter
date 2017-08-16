@@ -53,6 +53,7 @@ public:
 private:
     std::string m_name; 
     std::string m_signal;
+    bool m_check;
 
     int m_fill_color;
     int m_fill_style;

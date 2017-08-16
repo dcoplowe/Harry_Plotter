@@ -249,7 +249,7 @@ std::vector<Breakdown> BreakdownTools::GetPIDs(std::string pdgvar, std::string c
         list.push_back(tmp);
     }
     
-    std::string final_cuts = cuts;
+    final_cuts = cuts;
     if(!cuts.empty()){
         final_cuts += " && ";
     }
@@ -371,7 +371,7 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, std::vector<Breakdown> list, 
     DrawingTools::KinMap signal_kinmap = GetSignalMap(var, cuts);
 
     DrawingTools::KinMap tmp_check;
-    if(check){
+    if(m_check){
         tmp_check = KinArray(var.GetName(), var.GetSymbol(), cuts);
         SetColors(tmp_check, 0, kPink-9, 0, 4);
         // TODO: Check first 0 - Fill color. 
@@ -451,7 +451,7 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, std::vector<Breakdown> list, 
             // cout << "Ratio Stack line done." << endl;
         }
 
-        if(check){
+        if(m_check){
             TH1D * check_hist;
             switch(type){
                 case 0: check_hist = tmp_check.recon; break;
@@ -532,7 +532,7 @@ TCanvas * BreakdownTools::SingleBase(Variable var, std::vector<Breakdown> list, 
     TH1D * signal_hist = GetSignalHist(var, cuts);
 
     TH1D * tmp_check;
-    if(check){
+    if(m_check){
         tmp_check = GetHisto(var.GetName(), var.GetNBins(), var.GetBinning(), var.GetSymbol(), cuts);
         SetColors(tmp_check, 0, kPink-9, 0, 4);
         // TODO: Check first 0 - Fill color. 
@@ -557,7 +557,7 @@ TCanvas * BreakdownTools::SingleBase(Variable var, std::vector<Breakdown> list, 
     GetPOT(0.1,0.1)->Draw();
     hist_percent.clear();
 
-    if(check){
+    if(m_check){
         tmp_check->Draw("SAME");
         cout << "Checking if integral is the same:";
         double difference = GetHistFromStack(hist_tot)->Integral() - tmp_check->Integral();
