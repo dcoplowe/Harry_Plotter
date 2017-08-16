@@ -44,8 +44,8 @@ public:
     void SetBinning(int nbins, double * binning){ m_nbins = nbins; m_binning = binning; }
 
     void SetBinning(int nbins, double low, double high){ m_nbins = nbins; m_binning = DrawingTools::SetBinning(m_nbins, low, high); }
-    int GetNBins(){ return m_nbins; }
-    double * GetBinning(){ return m_binning; }
+    int GetNBins() const { return m_nbins; }
+    double * GetBinning() const { return m_binning; }
 
 private:
     std::string m_name;
