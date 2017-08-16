@@ -135,7 +135,7 @@ void Topology::Reset()
 	m_signal = "";
 }
 
-void PDGInfo::Print()
+void Topology::Print()
 {
     cout << "___________Topology Info___________" << endl;
     cout << "        Name: " << m_name << endl;
