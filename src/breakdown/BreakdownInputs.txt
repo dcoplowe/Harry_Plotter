@@ -1,10 +1,10 @@
 <| Signal = HCC1P1PiPlus |>
 <| Target = target |>
 <| Check = 1 |>
-<| Top : CC1P1PiPlus : signal1 |>
-<| Top : CCNN : signal2 |>
-<| Top : CCNPiPlusInc : signal3 |>
-<| Top : HCC1P1PiPlus : signal4 |>
+<| TOP : CC1P1PiPlus : signal1 |>
+<| TOP : CCNN : signal2 |>
+<| TOP : CCNPiPlusInc : signal3 |>
+<| TOP : HCC1P1PiPlus : signal4 |>
 
 <| PDG : 2212 |>
 <| PDG : 211 |>
