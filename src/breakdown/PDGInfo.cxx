@@ -34,7 +34,7 @@ PDGInfo::PDGInfo(int part_pdg, bool is_p_ap) : m_pdg(part_pdg),
 
     switch(TMath::Abs(m_pdg)){
         case 2212: m_name = "proton";   m_symbol = "p"; break;
-        case 211:  m_name =  "piplus";  m_symbol = "#pi"; break;
+        case 211:  m_name =  "pi";  m_symbol = "#pi"; break;
         // case -211: m_name = "piminus";  m_symbol = "#pi^{-}"; break;
         case 2112: m_name = "neutron";  m_symbol = "n"; break;
         case 11:   m_name = "electron"; m_symbol = "e"; break;
@@ -49,10 +49,22 @@ PDGInfo::PDGInfo(int part_pdg, bool is_p_ap) : m_pdg(part_pdg),
     // Determine particle/antiparticle:
     if(m_particle_antiparticle) m_symbol += "^{#pm}";
     else if(m_pdg == 111 || m_pdg == 321) m_symbol += "^{0}";
-    else if(10 < m_pdg && m_pdg < 20 && m_pdg % 2 != 0) m_symbol += "^{-}";
-    else if(-10 > m_pdg && m_pdg > -20 && m_pdg % 2 != 0) m_symbol += "^{+}";
-    else if( 100 < m_pdg) m_symbol += "^{+}";
-    else if(-100 > m_pdg) m_symbol += "^{-}";
+    else if(10 < m_pdg && m_pdg < 20 && m_pdg % 2 != 0){ 
+        m_symbol += "^{-}";
+        m_name += "minus";
+    }
+    else if(-10 > m_pdg && m_pdg > -20 && m_pdg % 2 != 0){ 
+        m_symbol += "^{+}";
+        m_name += "plus";
+    }
+    else if( 100 < m_pdg && m_pdg < 1000){ 
+        m_symbol += "^{+}";
+        m_name += "plus";
+    }
+    else if(-100 > m_pdg && m_pdg > -1000){ 
+        m_symbol += "^{-}";
+        m_name += "minus";
+    }
 
     if(m_particle_antiparticle){
         m_name += "pm";

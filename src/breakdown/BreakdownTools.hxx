@@ -50,6 +50,8 @@ public:
     double GetLineWidth(){ return m_line_width; }
     const char * GetLegOpt(){ return m_leg_opt.c_str(); }
 
+    void Print();
+
 private:
     std::string m_name; 
     std::string m_signal;

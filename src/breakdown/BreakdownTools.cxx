@@ -33,6 +33,15 @@ void Breakdown::SetHist(TH1D * hist)
     if(m_hist) DrawingTools::SetColors(m_hist, m_fill_color, m_line_color, m_fill_style, m_line_style); 
 }
 
+void Breakdown::Print()
+{
+    cout << "___________Breakdown Info___________" << endl;
+    cout << "    PDG Code: " << m_pdg << endl;
+    cout << "        Name: " << m_name << endl;
+    cout << "      Symbol: " << m_symbol << endl;
+    cout << "____________________________________" << endl;
+}
+
 #endif
 
 #ifndef __BREAKDOWNTOOLS__CXX__
@@ -188,6 +197,9 @@ BreakdownTools::BreakdownTools(std::string filename, std::string treename, bool 
 
     for(size_t i = 0; i < m_pdglist.size(); i++) 
         m_pdglist[i].Print();
+
+    for(size_t i = 0; i < m_tarlist.size(); i++) 
+        m_tarlist[i].Print();
 }
 
 BreakdownTools::~BreakdownTools(){
