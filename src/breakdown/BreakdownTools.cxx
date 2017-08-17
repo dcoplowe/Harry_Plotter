@@ -181,13 +181,14 @@ BreakdownTools::BreakdownTools(std::string filename, std::string treename, bool 
         }
     }
 
-    if(m_toplist.empty() && m_pdglist.empty()){
-        cout << __FILE__ << ":" << __LINE__ << " : ERROR : No topologies or particles defined " << endl;
+    if(m_toplist.empty() && m_pdglist.empty() && m_tarlist.empty()){
+        cout << __FILE__ << ":" << __LINE__ << " : ERROR : No topologies, targets or particles defined " << endl;
         exit(0);
     }
 
     if(m_toplist.empty()) cout << __FILE__ << ":" << __LINE__ << " : WARNING : No topologies set." << endl;
     if(m_pdglist.empty()) cout << __FILE__ << ":" << __LINE__ << " : WARNING : No particles set." << endl;
+    if(m_tarlist.empty()) cout << __FILE__ << ":" << __LINE__ << " : WARNING : No targets set." << endl;
 
     m_statcounter = -1;
 
@@ -199,6 +200,7 @@ BreakdownTools::BreakdownTools(std::string filename, std::string treename, bool 
 
     for(size_t i = 0; i < m_tarlist.size(); i++) 
         m_tarlist[i].Print();
+
 }
 
 BreakdownTools::~BreakdownTools(){
