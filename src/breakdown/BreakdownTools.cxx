@@ -160,7 +160,8 @@ BreakdownTools::BreakdownTools(std::string filename, std::string treename, bool 
                 }
                 else cout << __FILE__ << ":" << __LINE__ << " : WARNING : Could not interpret PDG code: " << word << endl;
             }
-            else if(is_pdg){
+            else if(is_tar){
+                // cout << "FOUND TARGET"
                 if(atoi(word.c_str()) == 1){
                     Breakdown hyd("Hydrogen", m_target + " == 1", DrawingStyle::HYDROGEN);
                     m_tarlist.push_back(hyd);
