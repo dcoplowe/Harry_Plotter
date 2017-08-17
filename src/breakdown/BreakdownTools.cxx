@@ -37,7 +37,7 @@ void Breakdown::Print()
 {
     cout << "___________Breakdown Info___________" << endl;
     cout << "        Name: " << m_name << endl;
-    cout << "      Symbol: " << m_symbol << endl;
+    cout << "      Signal: " << m_signal << endl;
     cout << "____________________________________" << endl;
 }
 
