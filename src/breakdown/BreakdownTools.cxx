@@ -255,7 +255,7 @@ BDCans BreakdownTools::INTBD(Variable var, std::string cuts)
 
 TCanvas * BreakdownTools::INTC(Variable var, std::string cuts)
 {
-    std::vector<Breakdown> list = GetINT();
+    std::vector<Breakdown> list = GetINTs();
     return SingleBase(var, list, "INTC", cuts);
 }
 

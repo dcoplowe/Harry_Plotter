@@ -18,4 +18,5 @@
 <| PDG : 321pm |>
 <| PDG : 311 |>
 
-<| TAR : 1 6 8 |>
+<| INT : 1 CCQE |>
+<| INT : 1 CC-Res |>
