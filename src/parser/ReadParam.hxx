@@ -45,42 +45,53 @@ public:
 
 #endif
 
-#ifndef __TYPE_STYLE__NS
-#define __TYPE_STYLE__NS
+#ifndef __TYPE_STYLE__NS_HXX
+#define __TYPE_STYLE__NS_HXX
 
 #include <map>
 
 namespace Type {
-    enum Type { kStandard = 0, kEff, kPur, kEP, kPID, kTop, kTar,
-        kEffVSCuts, kPurVSCuts, kEffPurVSCuts, kNCutsMinusOne, kRes, kSmear, kSmearSN, kUnkown };
+    enum Type { kStandard = 0, kEff, kPur, kEP, kPID, kTop, kTar, 
+        kEffVSCuts, kPurVSCuts, kEffPurVSCuts, kNCutsMinusOne, kRes, kSmear, kSmearSN };
+    
+    static const std::map<Type::Type, std::string> Names;
+    static std::map<Type::Type, std::string> create_Names()
+    {
+        std::map<Type::Type, std::string> m;
+        m[ kStandard ] = "";
+        m[ kEff ] = "kEff";
+        m[ kPur ] = "Pur";
+        m[ kEP ] = "EP";
+        m[ kPID ] = "PID";
+        m[ kTop ] = "Top";
+        m[ kTar ] = "Tar";
+        m[ kEffVSCuts ] = "EffVSCuts";
+        m[ kPurVSCuts ] = "PurVSCuts";
+        m[ kEffPurVSCuts ] = "EffPurVSCuts";
+        m[ kNCutsMinusOne ] = "NCutsMinusOne";
+        m[ kRes ] = "Residual";
+        m[ kSmear ] = "Smear";
+        m[ kSmearSN ] = "SmearSN";
+        return m;
+    }
 
-        std::map<Type::Type, std::string> Names;
-        Names[ kStandard ] = "";
-        Names[ kEff ] = "kEff";
-        Names[ kPur ] = "Pur";
-        Names[ kEP ] = "EP";
-        Names[ kPID ] = "PID";
-        Names[ kTop ] = "Top";
-        Names[ kTar ] = "Tar";
-        Names[ kEffVSCuts ] = "EffVSCuts";
-        Names[ kPurVSCuts ] = "PurVSCuts";
-        Names[ kEffPurVSCuts ] = "EffPurVSCuts";
-        Names[ kNCutsMinusOne ] = "NCutsMinusOne";
-        Names[ kRes ] = "Residual";
-        Names[ kSmear ] = "Smear";
-        Names[ kSmearSN ] = "SmearSN";
+    static const std::map<Type::Type, std::string> EffPur;
+    static std::map<Type::Type, std::string> create_EffPur()
+    {
+        std::map<Type::Type, std::string> m;
+        m[ Type::kEffVSCuts ] = "EffVSCuts";
+        m[ Type::kPurVSCuts ] = "PurVSCuts";
+        m[ Type::kEffPurVSCuts ] = "EffPurVSCuts";
+        m[ Type::kNCutsMinusOne ] = "NCutsMinusOne";
+        return m;
+    }
 
-        std::map<Type::Type, std::string> EffPur;
-        EffPur[ Type::kEffVSCuts ] = "EffVSCuts";
-        EffPur[ Type::kPurVSCuts ] = "PurVSCuts";
-        EffPur[ Type::kEffPurVSCuts ] = "EffPurVSCuts";
-        EffPur[ Type::kNCutsMinusOne ] = "NCutsMinusOne";
-
-        static std::string ToString(Type::Type tt){
-            std::map<Type::Type, std::string>::iterator found = Names.find(tt);
-            if(found != Names.end()) return found->second; 
-            else return "Unknown";
-        }
+    static std::string ToString(Type::Type tt)
+    {
+        std::map<Type::Type, std::string>::iterator found = Names.find(tt);
+        if(found != Names.end()) return found->second; 
+        else return "Unknown";
+    }
 }
 
 namespace Style {
