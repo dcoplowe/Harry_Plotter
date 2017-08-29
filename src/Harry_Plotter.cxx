@@ -266,7 +266,7 @@ TCanvas * Harry_Plotter::GetBreakdown(ReadParam * par)
                 else can = m_recon->TARC(var, CheckCuts(par));
                 break;
             case Type::kTar: 
-                if(par->Truth()) can = m_truth-TARC(var, CheckCuts(par, 1));
+                if(par->Truth()) can = m_truth->TARC(var, CheckCuts(par, 1));
                 else can = m_recon->TARC(var, CheckCuts(par));
                 break;
             default: break;
@@ -278,13 +278,15 @@ TCanvas * Harry_Plotter::GetBreakdown(ReadParam * par)
         Variable var(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(), "", par->GetVar1());
         switch(par->GetType()){
             case Type::kRes:
-                hist1D = m_recon->GetRTRatio(std::string vars_tr, par->GetVar1Title(), CheckCuts(par));
+                hist1D = m_recon->GetRTRatio(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1Title(), CheckCuts(par));
                 break;
-            case Type::kSmear: 
-                hist2D = m_recon->GetSmear(var, CheckCuts(par));
+            case Type::kSmear: //std::string, int, double*, std::string, std::string
+                hist2D = m_recon->GetSmear(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
+                    par->GetVar1Title() CheckCuts(par));
                 break;
             case Type::kSmearSN: 
-                hist2D = m_recon->GetSmearSN(var, CheckCuts(par));
+                hist2D = m_recon->GetSmearSN(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
+                    par->GetVar1Title() CheckCuts(par));
                 break;
             default: break;
         }
