@@ -282,11 +282,11 @@ TCanvas * Harry_Plotter::GetBreakdown(ReadParam * par)
                 break;
             case Type::kSmear: //std::string, int, double*, std::string, std::string
                 hist2D = m_recon->GetSmear(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
-                    par->GetVar1Title() CheckCuts(par));
+                    par->GetVar1Title(), CheckCuts(par));
                 break;
             case Type::kSmearSN: 
                 hist2D = m_recon->GetSmearSN(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
-                    par->GetVar1Title() CheckCuts(par));
+                    par->GetVar1Title(), CheckCuts(par));
                 break;
             default: break;
         }
