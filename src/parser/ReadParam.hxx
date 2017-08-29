@@ -51,7 +51,7 @@ public:
 #include <map>
 
 namespace Type {
-    enum Type { kStandard = 0, kEff, kPur, kEP, kPID, kTop, kTarS, kTar,
+    enum Type { kStandard = 0, kEff, kPur, kEP, kPID, kTop, kTar,
         kEffVSCuts, kPurVSCuts, kEffPurVSCuts, kNCutsMinusOne };
 
         static std::string ToString(Type::Type tt){

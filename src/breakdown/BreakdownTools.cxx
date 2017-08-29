@@ -235,16 +235,28 @@ TCanvas * BreakdownTools::TOPOC(Variable var, std::string cuts)
     return SingleBase(var, list, "TOPC", cuts);
 }
 
-BDCans BreakdownTools::TAROBD(Variable var, std::string cuts)
+BDCans BreakdownTools::TARBD(Variable var, std::string cuts)
 {
     std::vector<Breakdown> list = GetTARs();
     return BaseBreakdown(var, list, "TARBD", cuts);
 }
 
-TCanvas * BreakdownTools::TAROC(Variable var, std::string cuts)
+TCanvas * BreakdownTools::TARC(Variable var, std::string cuts)
 {
     std::vector<Breakdown> list = GetTARs();
     return SingleBase(var, list, "TARC", cuts);
+}
+
+BDCans BreakdownTools::INTBD(Variable var, std::string cuts)
+{
+    std::vector<Breakdown> list = GetINTs();
+    return BaseBreakdown(var, list, "INTBD", cuts);
+}
+
+TCanvas * BreakdownTools::INTC(Variable var, std::string cuts)
+{
+    std::vector<Breakdown> list = GetINT();
+    return SingleBase(var, list, "INTC", cuts);
 }
 
 std::vector<Breakdown> BreakdownTools::GetPIDs(std::string pdgvar, std::string cuts, std::string &final_cuts)
@@ -312,6 +324,13 @@ std::vector<Breakdown> BreakdownTools::GetTARs()
         exit(0);
     }
     return m_tarlist;
+}
+
+std::vector<Breakdown> BreakdownTools::GetINTs()
+{
+    cout << __FILE__ << ":" << __LINE__ << " This needs writing!" << endl;
+    std::vector<Breakdown> list;
+    return list;
 }
 
 void BreakdownTools::DrawZeroPointLine(THStack * histo){

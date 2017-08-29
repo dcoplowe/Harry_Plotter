@@ -1,2 +1,2 @@
-<| dpTT #deltap_{TT} 29 -300. 300. |>
+<| dpTT #deltap_{TT} 29 -300. 300. : |>
 <| EffPurVSCuts : cut = target==1 |>

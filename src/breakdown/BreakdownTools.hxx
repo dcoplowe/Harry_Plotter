@@ -90,8 +90,11 @@ public:
     BDCans TOPOBD(Variable var, std::string cuts = "");
     TCanvas * TOPOC(Variable var, std::string cuts = "");
 
-    BDCans TAROBD(Variable var, std::string cuts = "");
-    TCanvas * TAROC(Variable var, std::string cuts = "");
+    BDCans TARBD(Variable var, std::string cuts = "");
+    TCanvas * TARC(Variable var, std::string cuts = "");
+
+    BDCans INTBD(Variable var, std::string cuts = "");
+    TCanvas * INTC(Variable var, std::string cuts = "");
 
     void PrintPOT(){ m_printPOT = true; }
         
@@ -110,6 +113,7 @@ private:
     std::vector<Breakdown> GetPIDs(std::string pdgvar, std::string cuts, std::string &final_cuts);
     std::vector<Breakdown> GetTOPs();
     std::vector<Breakdown> GetTARs();
+    std::vector<Breakdown> GetINTs();
 
     int m_statcounter;
     TLegend * RatioStats(const THStack * ratio_tot);   

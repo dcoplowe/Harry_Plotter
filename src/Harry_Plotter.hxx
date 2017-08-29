@@ -49,5 +49,8 @@ private:
 
 	TH1D * Get1D(ReadParam * par);
 	TH2D * Get2D(ReadParam * par);
+
+	TH1D * GetBD1D(ReadParam * par);
+	TH2D * GetBD2D(ReadParam * par);
 };
 #endif

@@ -153,29 +153,7 @@ void Harry_Plotter::Run()
                     }
                 break;
             case Type::kPID: 
-                if(par->GetDim() == 1){
-
-                }
-                else if(par->GetDim() == 2){
-                    
-                }
-                break;
             case Type::kTop: 
-                if(par->GetDim() == 1){
-
-                }
-                else if(par->GetDim() == 2){
-                    
-                }
-                break;
-            case Type::kTarS: 
-                if(par->GetDim() == 1){
-
-                }
-                else if(par->GetDim() == 2){
-                    
-                }
-                break;
             case Type::kTar: 
                 if(par->GetDim() == 1){
 
@@ -252,7 +230,7 @@ std::string Harry_Plotter::CheckCuts(ReadParam * par, int type)
 TH1D * Harry_Plotter::Get1D(ReadParam * par)
 {
     TH1D * hist; 
-    if(par->Truth()) hist = m_truth->GetHisto(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(), CheckCuts(par, false));
+    if(par->Truth()) hist = m_truth->GetHisto(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(), CheckCuts(par, 1));
     else hist = m_recon->GetHisto(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(), CheckCuts(par));
     // Other things like normalisation, STYLE:
     int colour = GetParticleColor(par->GetVar1());
@@ -262,14 +240,69 @@ TH1D * Harry_Plotter::Get1D(ReadParam * par)
 
 TH2D * Harry_Plotter::Get2D(ReadParam * par)
 {
-    TH2D * hist; 
+    TH2D * hist = 0x0; 
     if(par->Truth()) hist = m_truth->GetHisto(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
-        par->GetVar2NBins(), par->GetVar2Bins(), par->GetVar1Title() + ";" + par->GetVar2Title(), CheckCuts(par, false));
+        par->GetVar2NBins(), par->GetVar2Bins(), par->GetVar1Title() + ";" + par->GetVar2Title(), CheckCuts(par, 1));
     else hist = m_recon->GetHisto(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
         par->GetVar2NBins(), par->GetVar2Bins(), par->GetVar1Title() + ";" + par->GetVar2Title(), CheckCuts(par));
     // Other things like normalisation, STYLE:
     return hist;
 }
+
+TCanvas * Harry_Plotter::GetBD1D(ReadParam * par)
+{
+    TCanvas * can = 0x0; 
+
+    Variable var;
+
+    switch(par->GetType()){
+        case Type::kPID:
+            string pdgvar = "";
+            if(par->Truth()){
+                if(par->GetDim() == 1) can = m_truth->PIDC(var, pdgvar, CheckCuts(par, false));
+                else if(par->GetDim() == 2) m_truth->PIDBD(var, pdgvar, CheckCuts(par));
+            }
+            else{
+
+            }
+
+            break;
+        case Type::kTop: 
+            break;
+        case Type::kTar: 
+            break;
+        default: break;
+    }
+
+
+    // BDCans TOPOBD(Variable var, std::string cuts = "");
+    // TCanvas * TOPOC(Variable var, std::string cuts = "");
+
+    // BDCans TARBD(Variable var, std::string cuts = "");
+    // TCanvas * TARC(Variable var, std::string cuts = "");
+
+    // BDCans INTBD(Variable var, std::string cuts = "");
+    // TCanvas * INTC(Variable var, std::string cuts = "");
+
+    
+    if(par->Truth()) hist = m_truth->GetHisto(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(), CheckCuts(par, false));
+    else hist = m_recon->GetHisto(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(), CheckCuts(par));
+    // Other things like normalisation, STYLE:
+    int colour = GetParticleColor(par->GetVar1());
+    if(colour != -999) hist->SetFillColor(colour);
+    return hist;
+}
+
+// TH2D * Harry_Plotter::GetBD2D(ReadParam * par)
+// {
+//     TH2D * hist = 0x0; 
+//     if(par->Truth()) hist = m_truth->GetHisto(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
+//         par->GetVar2NBins(), par->GetVar2Bins(), par->GetVar1Title() + ";" + par->GetVar2Title(), CheckCuts(par, false));
+//     else hist = m_recon->GetHisto(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
+//         par->GetVar2NBins(), par->GetVar2Bins(), par->GetVar1Title() + ";" + par->GetVar2Title(), CheckCuts(par));
+//     // Other things like normalisation, STYLE:
+//     return hist;
+// }
 
 int Harry_Plotter::GetParticleColor(std::string var)
 {
