@@ -122,18 +122,28 @@ TH2D * DrawingTools::GetHisto(std::string var_yx, int x_nbins, double x_low, dou
     return GetHisto(var_yx, x_nbins, SetBinning(x_nbins, x_low, x_high), y_nbins, SetBinning(y_nbins, y_low, y_high), xy_title, cuts);
 }
 
-TH2D * DrawingTools::SmearMatrix(std::string vars_yx, int nbins, double * bins, std::string xy_title, std::string cuts){
+TH2D * DrawingTools::GetSmear(std::string vars_yx, int nbins, double * bins, std::string xy_title, std::string cuts){
 //    cout << "Pre: xy_title = " << xy_title << endl;
     if(xy_title.find(";") == std::string::npos){
-        xy_title = Form("%s Reco.;%s Truth", xy_title.c_str(), xy_title.c_str());
+        xy_title = Form("Recon %s;Truth %s", xy_title.c_str(), xy_title.c_str());
     }
 //    cout << "Post: xy_title = " << xy_title << endl;
     return GetHisto(vars_yx, nbins, bins, nbins, bins, xy_title, cuts);
 }
 
-TH2D * DrawingTools::SmearMatrix(std::string vars_yx, int nbins, double low, double high, std::string xy_title, std::string cuts){
-    return GetHisto(vars_yx, nbins, SetBinning(nbins, low, high), nbins, SetBinning(nbins, low, high), xy_title, cuts);
+TH2D * DrawingTools::GetSmear(std::string vars_yx, int nbins, double low, double high, std::string xy_title, std::string cuts){
+    return GetSmear(vars_yx, nbins, SetBinning(nbins, low, high), xy_title, cuts);
 }
+
+TH2D * DrawingTools::GetSmearSN(std::string vars_yx, int nbins, double * bins, std::string xy_title, std::string cuts, double thres, bool kmax){
+    TH2D * smear = GetSmear(vars_yx, nbins, bins, xy_title, cuts);
+    return NormalHist(smear, thres, kmax);
+}
+
+TH2D * DrawingTools::GetSmearSN(std::string vars_yx, int nbins, double low, double high, std::string xy_title, std::string cuts, double thres, bool kmax){
+    return GetSmearSN(vars_yx, nbins, SetBinning(nbins, low, high), xy_title, cuts, thres, kmax);
+}
+
 
 DrawingTools::KinMap DrawingTools::KinArray(std::string vars_tr, int nbins, double * bins, std::string rt_title, std::string cuts){
     //In this map we can to keep all the entries preserved from one plot to another, i.e. all integrals are the same. Therefore want a common cut for all plots.
@@ -146,8 +156,9 @@ DrawingTools::KinMap DrawingTools::KinArray(std::string vars_tr, int nbins, doub
         return map;
     }
     
-    map.smear = SmearMatrix(vars_tr, nbins, bins, rt_title, cuts);//the xy projections with preserve the entries are required.
-    
+    map.smear = GetSmear(vars_tr, nbins, bins, rt_title, cuts);//the xy projections with preserve the entries are required.
+    map.smearSN = NormalHist(map.smear);
+
     TString tmp_title(rt_title.c_str());
     TString true_title;
     TString reco_title;

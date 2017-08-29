@@ -44,7 +44,7 @@ Harry_Plotter::Harry_Plotter(std::string infile, std::string ofile) : m_filename
         if(equals != string::npos){
             string part = part_word.substr(0, equals);
             string pdgs = part_word.substr(equals + 1, part_word.length());
-            m_particles[ part ] = ReadParam::GetInt(pdgs);
+            m_particles[ part ] = BreakdownTools::GetParticleCol(ReadParam::GetInt(pdgs));
         }
     }  
         // DrawingSyle::GetParticleCol(int pdg);
@@ -117,35 +117,35 @@ void Harry_Plotter::Run()
                 break;
             case Type::kEff: 
                 if(par->GetDim() == 1){
-                    // hist1D = m_effpur->EffVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
-                    //     m_signal, CheckCuts(par, 1), par->GetVar1Title());
-                    // hist1D->SetName( (par->GetVar1() + "_Eff" + (option.empty() ? "" : "_" + option) ).c_str() );
+                    hist1D = m_effpur->EffVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
+                        m_signal, CheckCuts(par, 1), par->GetVar1Title());
+                    hist1D->SetName( (par->GetVar1() + "_Eff" + (option.empty() ? "" : "_" + option) ).c_str() );
                 }
                 else if(par->GetDim() == 2){
-                    // hist2D = m_effpur->EffVSVar(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), 
-                    //     par->GetVar2NBins(), par->GetVar2Bins(), m_signal, CheckCuts(par, 1), par->GetVar1Title() + ";" + par->GetVar2Title());
-                    // hist2D->SetName( (par->GetVar1() + "_vs_" + par->GetVar2() + "_Eff" + (option.empty() ? "" : "_" + option) ).c_str() );
+                    hist2D = m_effpur->EffVSVar(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), 
+                        par->GetVar2NBins(), par->GetVar2Bins(), m_signal, CheckCuts(par, 1), par->GetVar1Title() + ";" + par->GetVar2Title());
+                    hist2D->SetName( (par->GetVar1() + "_vs_" + par->GetVar2() + "_Eff" + (option.empty() ? "" : "_" + option) ).c_str() );
                 }
                 break;
             case Type::kPur: 
                 if(par->GetDim() == 1){
-                    // hist1D = m_effpur->PurVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
-                    //     m_signal, CheckCuts(par, 1), par->GetVar1Title());
-                    // hist1D->SetName( (par->GetVar1() + "_Pur" + (option.empty() ? "" : "_" + option) ).c_str() );
+                    hist1D = m_effpur->PurVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
+                        m_signal, CheckCuts(par, 1), par->GetVar1Title());
+                    hist1D->SetName( (par->GetVar1() + "_Pur" + (option.empty() ? "" : "_" + option) ).c_str() );
                 }
                 else if(par->GetDim() == 2){
-                    // hist2D = m_effpur->PurVSVar(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), 
-                    //     par->GetVar2NBins(), par->GetVar2Bins(), m_signal, CheckCuts(par, 1), par->GetVar1Title() + ";" + par->GetVar2Title());
-                    // hist2D->SetName( (par->GetVar1() + "_vs_" + par->GetVar2() + "_Pur" + (option.empty() ? "" : "_" + option) ).c_str() );
+                    hist2D = m_effpur->PurVSVar(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), 
+                        par->GetVar2NBins(), par->GetVar2Bins(), m_signal, CheckCuts(par, 1), par->GetVar1Title() + ";" + par->GetVar2Title());
+                    hist2D->SetName( (par->GetVar1() + "_vs_" + par->GetVar2() + "_Pur" + (option.empty() ? "" : "_" + option) ).c_str() );
                 }
                 break;
             case Type::kEP: 
                 if(par->GetDim() == 1){
-                    // hist1D = m_effpur->EffVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
-                    //     m_signal, CheckCuts(par, 1), par->GetVar1Title());
-                    // hist1D->SetName( (par->GetVar1() + "_EffPur" + (option.empty() ? "" : "_" + option) ).c_str() );
-                    // hist1Da = m_effpur->PurVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
-                    //     m_signal, CheckCuts(par, 1), par->GetVar1Title());
+                    hist1D = m_effpur->EffVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
+                        m_signal, CheckCuts(par, 1), par->GetVar1Title());
+                    hist1D->SetName( (par->GetVar1() + "_EffPur" + (option.empty() ? "" : "_" + option) ).c_str() );
+                    hist1Da = m_effpur->PurVSVar(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
+                        m_signal, CheckCuts(par, 1), par->GetVar1Title());
                 }
                 else{ 
                     cout << __FILE__ << ":" << __LINE__ << " : Didn't draw " << par->GetVar1() << " vs. ";
@@ -154,27 +154,25 @@ void Harry_Plotter::Run()
                 break;
             case Type::kPID: 
             case Type::kTop: 
-            case Type::kTar: 
-                if(par->GetDim() == 1){
-
-                }
-                else if(par->GetDim() == 2){
-                    
-                }
+            case Type::kTar:
+            case Type::kRes: 
+            case Type::kSmear:
+            case Type::kSmearSN:
+                can = GetBreakdown(par);
                 break;
             case Type::kEffVSCuts: 
-                // hist1D = m_effpur->EffVSCuts(m_signal, m_branch, CheckCuts(par, 2) );
+                hist1D = m_effpur->EffVSCuts(m_signal, m_branch, CheckCuts(par, 2) );
                 break;
             case Type::kPurVSCuts: 
-                // hist1D = m_effpur->PurVSCuts(m_signal, m_branch, CheckCuts(par, 2) );
+                hist1D = m_effpur->PurVSCuts(m_signal, m_branch, CheckCuts(par, 2) );
                 break;
             case Type::kEffPurVSCuts: 
-                // hist1D = m_effpur->EffVSCuts(m_signal, m_branch, CheckCuts(par, 2) );
-                // hist1Da = m_effpur->PurVSCuts(m_signal, m_branch, CheckCuts(par, 2) );
+                hist1D = m_effpur->EffVSCuts(m_signal, m_branch, CheckCuts(par, 2) );
+                hist1Da = m_effpur->PurVSCuts(m_signal, m_branch, CheckCuts(par, 2) );
                 break;
             case Type::kNCutsMinusOne: 
-                // hist1D = m_effpur->EffVSN1Cuts(m_signal, m_branch, CheckCuts(par, 2) );
-                // hist1Da = m_effpur->PurVSN1Cuts(m_signal, m_branch, CheckCuts(par, 2) );                
+                hist1D = m_effpur->EffVSN1Cuts(m_signal, m_branch, CheckCuts(par, 2) );
+                hist1Da = m_effpur->PurVSN1Cuts(m_signal, m_branch, CheckCuts(par, 2) );                
                 break; 
             default: break;       
         }
@@ -194,16 +192,12 @@ void Harry_Plotter::Run()
             hist1D->Draw();
             if(hist1Da) hist1D->Draw("SAME");
         }
-
         if(hist2D){
             can->cd();
             hist2D->Draw("COLZ");
         }
-
         if(can) can->Write();
-
     }
-
     m_outfile->Close();
 }
 
@@ -249,60 +243,65 @@ TH2D * Harry_Plotter::Get2D(ReadParam * par)
     return hist;
 }
 
-TCanvas * Harry_Plotter::GetBD1D(ReadParam * par)
+TCanvas * Harry_Plotter::GetBreakdown(ReadParam * par)
 {
     TCanvas * can = 0x0; 
-
-    Variable var;
-
-    switch(par->GetType()){
-        case Type::kPID:
-            string pdgvar = "";
-            if(par->Truth()){
-                if(par->GetDim() == 1) can = m_truth->PIDC(var, pdgvar, CheckCuts(par, false));
-                else if(par->GetDim() == 2) m_truth->PIDBD(var, pdgvar, CheckCuts(par));
-            }
-            else{
-
-            }
-
-            break;
-        case Type::kTop: 
-            break;
-        case Type::kTar: 
-            break;
-        default: break;
+    if(par->GetDim() == 1){
+        Variable var(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(), "", par->GetVar1());
+        switch(par->GetType()){
+            case Type::kPID:
+                if(par->Truth()){
+                    cout << __FILE__ << ":" << __LINE__ << " : Warning : PID Truth will always be 100% pure." << endl;
+                }
+                else{
+                    string tmp_var = GetParticle(par->GetVar1());
+                    if(!tmp_var.empty()){
+                        string pdgvar = "sel" + tmp_var + "pdg"; 
+                        can = m_recon->PIDC(var, pdgvar, CheckCuts(par));
+                    }
+                }
+                break;
+            case Type::kTop: 
+                if(par->Truth()) can = m_truth->TARC(var, CheckCuts(par, 1));
+                else can = m_recon->TARC(var, CheckCuts(par));
+                break;
+            case Type::kTar: 
+                if(par->Truth()) can = m_truth-TARC(var, CheckCuts(par, 1));
+                else can = m_recon->TARC(var, CheckCuts(par));
+                break;
+            default: break;
+        }
     }
+    else if(par->GetDim() == 2 && !par->Truth()){
+        TH1D * hist1D = 0x0;
+        TH2D * hist2D = 0x0;
+        Variable var(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(), "", par->GetVar1());
+        switch(par->GetType()){
+            case Type::kRes:
+                hist1D = m_recon->GetRTRatio(std::string vars_tr, par->GetVar1Title(), CheckCuts(par));
+                break;
+            case Type::kSmear: 
+                hist2D = m_recon->GetSmear(var, CheckCuts(par));
+                break;
+            case Type::kSmearSN: 
+                hist2D = m_recon->GetSmearSN(var, CheckCuts(par));
+                break;
+            default: break;
+        }
 
-
-    // BDCans TOPOBD(Variable var, std::string cuts = "");
-    // TCanvas * TOPOC(Variable var, std::string cuts = "");
-
-    // BDCans TARBD(Variable var, std::string cuts = "");
-    // TCanvas * TARC(Variable var, std::string cuts = "");
-
-    // BDCans INTBD(Variable var, std::string cuts = "");
-    // TCanvas * INTC(Variable var, std::string cuts = "");
-
-    
-    if(par->Truth()) hist = m_truth->GetHisto(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(), CheckCuts(par, false));
-    else hist = m_recon->GetHisto(par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(), par->GetVar1Title(), CheckCuts(par));
-    // Other things like normalisation, STYLE:
-    int colour = GetParticleColor(par->GetVar1());
-    if(colour != -999) hist->SetFillColor(colour);
-    return hist;
+        if(hist1D){ 
+            can = new TCanvas(hist1D->GetName(), "", 600, 400);
+            can->cd();
+            hist1D->Draw();
+        }
+        else if(hist2D){ 
+            can = new TCanvas(hist2D->GetName(), "", 600, 600);
+            can->cd();
+            hist2D->Draw("COLZ");
+        }
+    }
+    return can;
 }
-
-// TH2D * Harry_Plotter::GetBD2D(ReadParam * par)
-// {
-//     TH2D * hist = 0x0; 
-//     if(par->Truth()) hist = m_truth->GetHisto(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
-//         par->GetVar2NBins(), par->GetVar2Bins(), par->GetVar1Title() + ";" + par->GetVar2Title(), CheckCuts(par, false));
-//     else hist = m_recon->GetHisto(par->GetVar2() + ":" + par->GetVar1(), par->GetVar1NBins(), par->GetVar1Bins(),
-//         par->GetVar2NBins(), par->GetVar2Bins(), par->GetVar1Title() + ";" + par->GetVar2Title(), CheckCuts(par));
-//     // Other things like normalisation, STYLE:
-//     return hist;
-// }
 
 int Harry_Plotter::GetParticleColor(std::string var)
 {
@@ -315,6 +314,12 @@ int Harry_Plotter::GetParticleColor(std::string var)
         }
     }
     return colour;
+}
+
+std::string Harry_Plotter::GetParticle(std::string var)
+{
+    string part = m_particles.find(var)->first;
+    return part;
 }
 
 #endif

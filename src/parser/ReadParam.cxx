@@ -318,16 +318,23 @@ void ReadParam::ExtractOptions()
         if(!style.empty()) m_options[ kOption ] = option;
 
         // Set the style and types:
-
         if(OptSet(kType)){
             string tmp = GetOpt(kType);
             if(tmp.find("EP") != string::npos) m_type = Type::kEP;
             else if(tmp.find("PID") != string::npos) m_type = Type::kPID;
             else if(tmp.find("TOP") != string::npos) m_type = Type::kTop;
-            else if(tmp.find("TARS") != string::npos) m_type = Type::kTarS;
             else if(tmp.find("TAR") != string::npos) m_type = Type::kTar;
             else if(tmp.find("E") != string::npos) m_type = Type::kEff;
             else if(tmp.find("P") != string::npos) m_type = Type::kPur;
+
+            else if(tmp.find("EffVSCuts") != string::npos) m_type = Type::kEffVSCuts;
+            else if(tmp.find("PurVSCuts") != string::npos) m_type = Type::kPurVSCuts;
+            else if(tmp.find("EffPurVSCuts") != string::npos) m_type = Type::kEffPurVSCuts;
+            else if(tmp.find("NCutsMinusOne") != string::npos) m_type = Type::kNCutsMinusOne;
+            else if(tmp.find("NCutsMinusOne") != string::npos) m_type = Type::kNCutsMinusOne;
+            else if(tmp.find("Res") != string::npos) m_type = Type::kRes;
+            else if(tmp.find("SmearSN") != string::npos) m_type = Type::kSmearSN;
+            else if(tmp.find("Smear") != string::npos) m_type = Type::kSmear;
         }
 
         if(OptSet(kStyle)){

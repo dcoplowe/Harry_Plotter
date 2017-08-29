@@ -12,6 +12,7 @@ class TH2D;
 class EffPurTools;
 class BreakdownTools;
 class TFile;
+class TCanvas;
 
 class Harry_Plotter
 {
@@ -37,6 +38,7 @@ private:
 
 	std::map<std::string,int> m_particles;
 	int GetParticleColor(std::string var);
+	std::string GetParticle(std::string var);
 
 	std::string m_ofilename;
 	TFile * m_outfile;
@@ -50,7 +52,7 @@ private:
 	TH1D * Get1D(ReadParam * par);
 	TH2D * Get2D(ReadParam * par);
 
-	TH1D * GetBD1D(ReadParam * par);
-	TH2D * GetBD2D(ReadParam * par);
+	TCanvas * GetBreakdown(ReadParam * par);
+	// TH2D * GetBD2D(ReadParam * par);
 };
 #endif

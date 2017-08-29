@@ -31,6 +31,7 @@ public:
         TH1D * recon;
         TH1D * truth;
         TH2D * smear;
+        TH2D * smearSN;
         TH1D * ratio;
 
         KinMap& operator =(const KinMap& mp)
@@ -39,6 +40,7 @@ public:
             truth = mp.truth;
             ratio = mp.ratio;
             smear = mp.smear;
+            smearSN = mp.smearSN;
             return *this;
         }
     };
@@ -59,9 +61,14 @@ public:
     TH2D * GetHisto(std::string var_yx, int x_nbins, double x_low, double x_high, int y_nbins, double y_low, double y_high,
                     std::string xy_title = "", std::string cuts = "");
     
-    TH2D * SmearMatrix(std::string vars_yx, int nbins, double * bins, std::string xy_title = "", std::string cuts = "");
-    TH2D * SmearMatrix(std::string vars_yx, int nbins, double low, double high, std::string xy_title = "", std::string cuts = "");
+    TH2D * GetSmear(std::string vars_yx, int nbins, double * bins, std::string xy_title = "", std::string cuts = "");
+    TH2D * GetSmear(std::string vars_yx, int nbins, double low, double high, std::string xy_title = "", std::string cuts = "");
     
+    TH2D * GetSmearSN(std::string vars_yx, int nbins, double * bins, std::string xy_title = "", std::string cuts = "",
+        double thres = 0, bool kmax = true);
+    TH2D * GetSmearSN(std::string vars_yx, int nbins, double low, double high, std::string xy_title = "", std::string cuts = "",
+        double thres = 0, bool kmax = true);
+
     KinMap KinArray(std::string vars_tr, int nbins, double * bins, std::string rt_title = "", std::string cuts = "");
     KinMap KinArray(std::string vars_tr, int nbins, double low, double high, std::string rt_title = "", std::string cuts = "");
     
@@ -90,7 +97,7 @@ public:
     static std::vector<double> GetPercentage(std::vector<DrawingTools::KinMap> histos, int type, KinMap other);
     
     TH1D * ToPDF(TH1D * hraw, TString hn = "");
-    TH2D * NormalHist(TH2D * hraw, double thres = 0, bool kmax=false);
+    TH2D * NormalHist(TH2D * hraw, double thres = 0., bool kmax = true);
         
     static void Normalise(TH1D *& hist);
     static void Normalise(TH2D *& hist);

@@ -52,25 +52,33 @@ public:
 
 namespace Type {
     enum Type { kStandard = 0, kEff, kPur, kEP, kPID, kTop, kTar,
-        kEffVSCuts, kPurVSCuts, kEffPurVSCuts, kNCutsMinusOne };
+        kEffVSCuts, kPurVSCuts, kEffPurVSCuts, kNCutsMinusOne, kRes, kSmear, kSmearSN, kUnkown };
+
+        std::map<Type::Type, std::string> Names;
+        Names[ kStandard ] = "";
+        Names[ kEff ] = "kEff";
+        Names[ kPur ] = "Pur";
+        Names[ kEP ] = "EP";
+        Names[ kPID ] = "PID";
+        Names[ kTop ] = "Top";
+        Names[ kTar ] = "Tar";
+        Names[ kEffVSCuts ] = "EffVSCuts";
+        Names[ kPurVSCuts ] = "PurVSCuts";
+        Names[ kEffPurVSCuts ] = "EffPurVSCuts";
+        Names[ kNCutsMinusOne ] = "NCutsMinusOne";
+        Names[ kRes ] = "Residual";
+        Names[ kSmear ] = "Smear";
+        Names[ kSmearSN ] = "SmearSN";
+
+        std::map<Type::Type, std::string> EffPur;
+        EffPur[ Type::kEffVSCuts ] = "EffVSCuts";
+        EffPur[ Type::kPurVSCuts ] = "PurVSCuts";
+        EffPur[ Type::kEffPurVSCuts ] = "EffPurVSCuts";
+        EffPur[ Type::kNCutsMinusOne ] = "NCutsMinusOne";
 
         static std::string ToString(Type::Type tt){
-            std::map<Type::Type, std::string> names;
-            names[ kStandard ] = "";
-            names[ kEff ] = "kEff";
-            names[ kPur ] = "Pur";
-            names[ kEP ] = "EP";
-            names[ kPID ] = "PID";
-            names[ kTop ] = "Top";
-            names[ kTarS ] = "TarS";
-            names[ kTar ] = "Tar";
-            names[ kEffVSCuts ] = "EffVSCuts";
-            names[ kPurVSCuts ] = "PurVSCuts";
-            names[ kEffPurVSCuts ] = "EffPurVSCuts";
-            names[ kNCutsMinusOne ] = "NCutsMinusOne";
-
-            std::map<Type::Type, std::string>::iterator found = names.find(tt);
-            if(found != names.end()) return found->second; 
+            std::map<Type::Type, std::string>::iterator found = Names.find(tt);
+            if(found != Names.end()) return found->second; 
             else return "Unknown";
         }
 }
@@ -107,11 +115,11 @@ public:
     std::string GetInString(){ return m_instring; }
 
     // Binning:
-    // 1D:
-    std::string GetVar1(){ return m_varOne.var; }
-    std::string GetVar1Title(){ return (m_varOne.title + (m_varOne.units.empty() ? "" : " (" + m_varOne.units + ")") ); }
-    int GetVar1NBins(){ return m_varOne.nbins; }
-    double * GetVar1Bins(){ return m_varOne.bins; }
+    // 1D:  
+    std::string GetVar1() const { return m_varOne.var; }
+    std::string GetVar1Title() const { return (m_varOne.title + (m_varOne.units.empty() ? "" : " (" + m_varOne.units + ")") ); }
+    int GetVar1NBins() const { return m_varOne.nbins; }
+    double * GetVar1Bins() const { return m_varOne.bins; }
 
     // 2D:
     std::string GetVar2(){ return m_varTwo.var; }

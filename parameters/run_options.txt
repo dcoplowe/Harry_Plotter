@@ -2,7 +2,7 @@
 <| Tcuts = 1==1  |>
 <| Rcuts = 1==1  |>
 <| numbers = 1.0102203 |>
-<| effpur cut = |>
+<| effpur cut = 1==1 |>
 <| particle = mu_=13 pi_=211 p_=2212 |>
 This is a test to see if this line is read in.
 <| branch = 0 |> 

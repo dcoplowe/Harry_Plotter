@@ -330,6 +330,8 @@ std::vector<Breakdown> BreakdownTools::GetINTs()
 {
     cout << __FILE__ << ":" << __LINE__ << " This needs writing!" << endl;
     std::vector<Breakdown> list;
+    Breakdown tmp;
+    list.push_back(tmp);
     return list;
 }
 
