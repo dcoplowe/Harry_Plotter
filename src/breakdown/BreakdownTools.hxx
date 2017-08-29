@@ -33,8 +33,8 @@ const std::string bd_legend_opt = "f";
 class Breakdown
 {
 public:   
-    Breakdown() : m_name("Unknown"), m_signal(m_name), m_fill_color(fill_color), m_fill_style(fill_style), m_line_color(line_color),
-        m_line_style(line_style), m_line_width(line_width), m_leg_opt(bd_legend_opt) {;}
+    Breakdown() : m_name("Unknown"), m_signal(m_name), m_fill_color(bd_fill_color), m_fill_style(bd_fill_style), m_line_color(bd_line_color),
+        m_line_style(bd_line_style), m_line_width(bd_line_width), m_leg_opt(bd_legend_opt) {;}
 
     Breakdown(std::string name, std::string signal, int fill_color = bd_fill_color, int fill_style = bd_fill_style, int line_color = bd_line_color,
         int line_style = bd_line_style, double line_width = bd_line_width) : m_name(name), m_signal(signal), m_fill_color(fill_color), 
