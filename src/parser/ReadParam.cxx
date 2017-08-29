@@ -1,12 +1,12 @@
 #include <ReadParam.hxx>
 
-#ifndef __TYPE_STYLE__NS_CXX
-#define __TYPE_STYLE__NS_CXX
+// #ifndef __TYPE_STYLE__NS_CXX
+// #define __TYPE_STYLE__NS_CXX
 
-const std::map<Type::Type, std::string> Type::Names = Type::create_Names();
-const std::map<Type::Type, std::string> Type::EffPur = Type::create_EffPur();
+// const std::map<Type::Type, std::string> Type::Names = Type::create_Names();
+// const std::map<Type::Type, std::string> Type::EffPur = Type::create_EffPur();
 
-#endif
+// #endif
 
 #ifndef __READPARAM__CXX__
 #define __READPARAM__CXX__
