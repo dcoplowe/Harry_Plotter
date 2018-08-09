@@ -1,4 +1,4 @@
-#include <Harry_Plotter.hxx>
+#include <ProducePlots.hxx>
 
 #include <string>     // std::string, std::stoi
 #include <cctype> // no idea.
@@ -45,8 +45,9 @@ int main(int argc, char *argv[])
         }
     }
 
-	Harry_Plotter * run = new Harry_Plotter(ifile, ofile);
-	run->Run();
+    ProducePlots * run = new ProducePlots(Experiment::T2K, ifile, ofile, false, false, RunOpts::VtxPosition2D)
+	// Harry_Plotter * run = new Harry_Plotter(ifile, ofile);
+	run->MakePlots();
 	delete run;
 
     return 1;
