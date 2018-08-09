@@ -3,7 +3,7 @@
 
 //#include "TDirectory.h"
 //#include "TROOT.h"
-#include "<TClass.h>"
+#include <TClass.h>
 #include <TCanvas.h>
 
 #include <string>
