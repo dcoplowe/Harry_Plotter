@@ -3,7 +3,7 @@
 
 //#include "TDirectory.h"
 //#include "TROOT.h"
-#include "TClass.h"
+#include <TClass.h>
 #include <TCanvas.h>
 
 #include <string>
@@ -17,10 +17,10 @@
 
 #include <stdio.h>
 
-#include <EffPurTools.h>
-#include <DrawingTools.h>
-#include <BreakdownTools.h>
-#include <DataClasses.h>
+#include <EffPurTools.hxx>
+#include <DrawingTools.hxx>
+#include <BreakdownTools.hxx>
+#include <DataClasses.hxx>
 // #include "PartKinMaps.h"
 
 #include <TH1D.h>
