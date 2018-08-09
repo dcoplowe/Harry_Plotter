@@ -1,7 +1,7 @@
 #ifndef __EFFPURTOOLS__CXX
 #define __EFFPURTOOLS__CXX
 
-#include "EffPurTools.hxx"
+#include <EffPurTools.hxx>
 
 #include <cassert>
 

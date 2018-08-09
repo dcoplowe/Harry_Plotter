@@ -1,7 +1,7 @@
 #ifndef __DRAWINGTOOLS__HXX
 #define __DRAWINGTOOLS__HXX
 
-#include "DrawingStyle.hxx"
+#include <DrawingStyle.hxx>
 
 //#include "std::string.h"
 #include <string>

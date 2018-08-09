@@ -12,7 +12,7 @@ SRCS =	$(wildcard src/ProducePlots.cxx) \
 
 OBJS = $(SRCS:.c=.o)
 
-INCS =	-Isrc/ -Isrc/base -Isrc/parser -Isrc/breakdown -Isrc/effpur
+INCS = -Isrc -Isrc/base -Isrc/parser -Isrc/breakdown -Isrc/effpur
 
 MAIN = ProducePlots
 
