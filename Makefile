@@ -2,7 +2,7 @@ CXX = g++
 CXXFLAGS = -g -Wall -fPIC
 ROOTFLAGS = `root-config --cflags --glibs`
 
-SRCS =	$(wildcard app/App.cxx) \
+SRCS =	$(wildcard src/ProducePlots.cxx) \
 		$(wildcard src/*.cxx) \
 		$(wildcard src/parser/*.cxx) \
 		$(wildcard src/base/*.cxx) \
