@@ -121,6 +121,18 @@ public:
         int color = kBlack, int style = 1, int width = 3);
     
     void DrawCutArrow(double xmin, double ymin, double xmax, double ymax, int color = kBlack, int style = 1, int width = 3);
+    
+    // If -999 is the presision use error as stat error.
+    double * GetOptBinning(const std::string &var_name, const int x_nbins, const double x_min, const double x_max,
+    const std::string &cuts = "", const double precision = -999.);
+
+    int GetEntriesInRange(const std::string &var_name, const double x_min, const double x_max,  const std::string &cuts);
+
+    // If -999 is the presision use error as stat error.
+    static double * GetOptBinning(TTree * intree, const std::string &var_name, const int x_nbins, const double x_min, const double x_max,
+    const std::string &cuts = "", const double precision = -999.);
+
+    static int GetEntriesInRange(TTree * tree, const std::string &var_name, const double x_min, const double x_max,  const std::string &cuts);
 
 private:
     //File and directory info:

@@ -593,4 +593,86 @@ void DrawingTools::Normalise(TH2D *& hist)
     hist->Scale( (1./(double)hist->Integral(1, hist->GetNbinsX(), 1, hist->GetNbinsY() ) ) ); 
 }
 
+// If -999 is the presision use error as stat error.
+double * DrawingTools::GetOptBinning(const std::string &var_name, const int x_nbins, const double x_min, const double x_max,
+    const std::string &cuts = "", const double precision = -999.)
+{
+    return GetOptBinning(m_tree, var_name, x_nbins, x_min, x_max, cuts, precision);
+}
+
+int DrawingTools::GetEntriesInRange(const std::string &var_name, const double x_min, const double x_max,  const std::string &cuts)
+{
+    return GetEntriesInRange(m_tree, cvar_name, x_min, x_max, cuts);
+}
+
+double * DrawingTools::GetOptBinning(TTree * intree, const std::string &var_name, const int x_nbins, const double x_min, const double x_max,
+    const string &cuts, const double precision)
+{
+    // Default presision should be within sqrt( N(x_high - x_low)/nbins )
+
+    double * binning = new double [ x_nbins + 1 ];
+    binning[ 0 ] = x_min;
+    binning[ x_nbins ] = x_max;
+
+    int integral = GetEntriesInRange(intree, var_name, x_min, x_max, cuts);
+    int dentry = (int)integral/x_nbins;
+    double ave_bin = (double)(x_max - x_min)/x_nbins;
+
+    double in_precision = precision;
+    if(precision == -999.) in_precision = TMath::Sqrt((double)dentry)/(double)dentry;
+
+    double * tot_bin = new double [ x_nbins ];
+
+    for(int i = 1; i < x_nbins; i++){
+        // first using starting point:
+        double start = x_min + i*ave_bin;
+        // cout << "Finding element " << i << ": Using " << start << " as initial value." << endl;
+        double low = binning[ (i - 1) ];
+
+        int entries = GetEntriesInRange(intree, var_name, low, start, cuts);
+        double delta = (double)(1. - (double)entries/(double)dentry);
+        // cout << "entries/dentry = " << entries << "/" << dentry << " Starting delta = " << delta << endl;
+        double value = start;
+        double sign = (delta < 0.) ? -1. : 1.;
+        if(TMath::Abs(delta) > in_precision){
+            // This could/should be made more efficient.
+            for(int m = 0; m < 999; m++){
+                        // This is good up to in stats of 1e6.
+                value = start*(1. + sign*m*0.001);
+                entries = GetEntriesInRange(intree, var_name, low, value, cuts);
+                double delta = (double)(1. - (double)entries/(double)dentry);
+                // cout << "For " << low << " <= " << var_name << " <= " << value << " : " << entries << " (" << dentry << ") Delta = " << delta << endl;
+                // Add a factor of two for the fact that we
+                if(TMath::Abs(delta) < (in_precision/2.) ) break;
+            }
+        }
+        // cout << "Best bin value found: " << value << endl;
+        binning[i] = value;
+        tot_bin[(i -1)] = entries;
+    }
+
+    tot_bin[ (x_nbins - 1 ) ] = GetEntriesInRange(intree, var_name, binning[ x_nbins - 1 ], x_max, cuts); 
+
+    cout << "********* Finished Binning *********" << endl;
+    cout << "   For " << x_nbins << "bins : Ave. Binning = " << dentry << " p/m " << (int)(dentry*in_precision) << endl;
+
+    for(int i = 0; i < x_nbins + 1; i++){
+        cout << var_name << "[" << i << "] = " << binning[i] << " ";
+        if(i < x_nbins) cout << tot_bin[i];
+        cout << endl;
+    }
+    cout << "************************" << endl;
+
+    return binning;
+}
+
+int DrawingTools::GetEntriesInRange(TTree * tree, const std::string &var_name, const double x_min, const double x_max, const std::string &cuts)
+{
+    string basecuts = cuts; 
+    if(!cuts.empty()) basecuts += " && ";
+    else basecuts = "";
+    string sel = Form("%s%f <= %s && %s <= %f", basecuts.c_str(), x_min, var_name.c_str(), var_name.c_str(), x_max);
+    return (int)tree->Draw(var_name.c_str(), sel.c_str() , "goff");
+}
+
 #endif

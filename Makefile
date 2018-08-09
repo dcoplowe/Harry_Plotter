@@ -6,8 +6,9 @@ SRCS =	$(wildcard app/App.cxx) \
 		$(wildcard src/*.cxx) \
 		$(wildcard src/parser/*.cxx) \
 		$(wildcard src/base/*.cxx) \
-		$(wildcard src/effpur/*.cxx) \
-		$(wildcard src/breakdown/*.cxx)
+		$(wildcard src/effpur/*.cxx)  
+
+		# $(wildcard src/breakdown/*.cxx) \
 
 OBJS = $(SRCS:.c=.o)
 
