@@ -969,11 +969,9 @@ Topology Topologies::GetTopology(Topology::Name name)
 #ifndef _PARTPDGInfo_CXX
 #define _PARTPDGInfo_CXX
 
-PDGInfo::PDGInfo(Int_t part_pdg, bool is_p_ap) : m_pdg(part_pdg), 
-    m_particle_antiparticle(is_p_ap), m_line_colour(1), m_line_style(1) 
+PDGInfo::PDGInfo(Int_t part_pdg, std::string part_name, std::string part_symbol, bool is_p_ap) : m_pdg(part_pdg),
+   m_name(part_name), m_symbol(part_symbol), m_particle_antiparticle(is_p_ap), m_line_colour(1), m_line_style(1) 
 {
-
-    m_name(part_name), m_symbol(part_symbol);
 
     stringstream ss;
     ss << m_pdg;
