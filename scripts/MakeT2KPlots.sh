@@ -5,6 +5,9 @@ plotter=/data/t2k/coplowe/software/Harry_Plotter/
 
 PATH=${PATH}:${plotter}
 
+fgd1=/data/t2k/coplowe/numuCC1P1PiOutput/march17/neutP6BWA/FGD1/nall_data_FGD1_type1_wome_fboff_minaclev0_310517/allTree.root
+fgd2=/data/t2k/coplowe/numuCC1P1PiOutput/march17/neutP6BWA/FGD2/nall_data_FGD2_type1_wome_fboff_minaclev0_090818/allTree.root
+
 infile=$1
 opt=$2
 cutson=$3

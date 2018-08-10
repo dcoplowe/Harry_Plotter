@@ -38,12 +38,12 @@ namespace t2kgeometry {
     double fgd2min[3] = {-932.17, -877.17, fgd2zmin};
     double fgd2max[3] = { 932.17,  877.17, fgd2zmax};
 
+    // Offsets for plotting purposes:
     double fgd1min_offset[3] = {fgd1min[0] - offset, fgd1min[1] - offset, fgd1min[2] - offset};
     double fgd1max_offset[3] = {fgd1max[0] + offset, fgd1max[1] + offset, fgd1max[2] + offset};
 
     double fgd2min_offset[3] = {fgd2min[0] - offset, fgd2min[1] - offset, fgd2min[2] - offset};
     double fgd2max_offset[3] = {fgd2max[0] + offset, fgd2max[1] + offset, fgd2max[2] + offset};
-
 
     double fgd1FV[3] = {0., 0., 0.};
     double fgd2FV[3] = {0., 0., 0.};
@@ -679,7 +679,8 @@ KinematicVars::KinematicVars(Experiment::Name exp){
         vtx_pos = Variable("selvtx_pos", "Vertex Pos.", "(mm)");
         truevtx_pos = Variable("selvtx_truepos", " True Vertex Pos.", "(mm)");
 
-        ntracks = Variable("track_multiplicity", "N Tracks", "");   
+        ntracks = Variable("nfgdtracks + ntpctracks", "N Tracks", "");   
+        ntpctracks = Variable("ntpctracks", "N TPC Tracks", "");   
         // W_mass("");
     }
     else if(exp == Experiment::MIN){

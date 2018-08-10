@@ -261,8 +261,8 @@ TCanvas * BreakdownTools::PID(Variable var, std::string pdgvar, std::string cuts
     std::vector<Breakdown> list;
     list.clear();
     
-    for(int i = 0; i < (int)m_pdglist.size(); i++){
-        PDGInfo particle = m_pdglist[i];
+    for(size_t i = 0; i < pdglist.size(); i++){
+        PDGInfo particle = pdglist[i];
         std::string tmp_cuts;
         if(particle.IsBoth()) tmp_cuts += "TMath::Abs(";
         tmp_cuts += pdgvar;

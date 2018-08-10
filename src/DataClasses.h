@@ -518,6 +518,7 @@ public:
     // Variable W_mass;
 
     Variable ntracks;
+    Variable ntpctracks;
 
 };
 
