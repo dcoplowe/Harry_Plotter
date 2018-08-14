@@ -11,7 +11,7 @@ for opt in 0 1 4 6 13 28; do
 MakeT2KPlots.sh $fgd $opt
 EOF
 		chmod +x $jobfile
-		qsub -l -cput=02:00:00 -N $jobfile ./$jobfile
+		qsub -l cput=02:00:00 -N $jobfile ./$jobfile
 		qsubresult=$?
 		while ! [ $qsubresult  -eq 0 ];do
 			sleep 4
