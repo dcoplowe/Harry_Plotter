@@ -1895,13 +1895,15 @@ void ProducePlots::MakePlots(){
 
                 string tBkg1 = "true_ntracks > 3 && truemu_ntracks == 1 && truep_ntracks > 0 && truepi_ntracks == 1";
                 string tBkg2 = "true_ntracks > 3 && truemu_ntracks == 1 && truep_ntracks == 1 && truepi_ntracks > 0";
-                string tBkg3 = "!(" + tSig + ") && " + "!(" + tBkg1 + ") && " + "!(" + tBkg2 + ")";
+                string tBkg3 = "true_ntracks > 3 && truemu_ntracks == 1 && truep_ntracks > 0 && truepi_ntracks > 0";
+                string tBkg4 = "!(" + tSig + ") && " + "!(" + tBkg1 + ") && " + "!(" + tBkg2 + ") && !(" + tBkg3 + ")";                
+                tBkg3 = "(" + tBkg3 + ") && !(" + tSig + ") && !(" + tBkg1 + ") && !(" + tBkg2 + ")";
 
                 if(m_verbose) cout << "Producing NTPC Tracks" << endl;
                 MakeDir("NTracks");
                 // GetHisto(std::string var, Int_t nbins, Double_t low, Double_t high, std::string xy_title, std::string cuts)
-                TH1D * ntracks_h = m_runbd->GetHisto(m_recovars->ntracks.GetName(), 21,0,21, m_recovars->ntracks.GetAxisTitle());
-                ntracks_h->SetLineColor(DrawingStyle::Blue);
+                // TH1D * ntracks_h = m_runbd->GetHisto(m_recovars->ntracks.GetName(), 21,0,21, m_recovars->ntracks.GetAxisTitle());
+                // ntracks_h->SetLineColor(DrawingStyle::Blue);
                 //TH1D * GetHisto(std::string var, Int_t nbins, Double_t low, Double_t high, std::string xy_title = "", std::string cuts = "");
                 // std::string tmp_ntrack = m_recovars->ntracks.GetName(); 
                 // TH1D * ntracks_h2 = m_runbd->GetHisto( "(" + tmp_ntrack + " > 20 ? 21 : " + tmp_ntrack + ")", 21,0,21, 
@@ -1924,9 +1926,14 @@ void ProducePlots::MakePlots(){
                 ntrks_bkg2->SetLineWidth(2);
 
                 TH1D * ntrks_bkg3 = m_runbd->GetHisto(m_recovars->ntracks.GetName(), 21,0,21, m_recovars->ntracks.GetAxisTitle(),   (tBkg3 + " && " + alev_s1 + " > 3"));
-                ntrks_bkg3->SetFillColor(DrawingStyle::Other);
+                ntrks_bkg3->SetFillColor(DrawingStyle::Blue);
                 ntrks_bkg3->SetLineColor(kBlack);
                 ntrks_bkg3->SetLineWidth(2);
+
+                TH1D * ntrks_bkg4 = m_runbd->GetHisto(m_recovars->ntracks.GetName(), 21,0,21, m_recovars->ntracks.GetAxisTitle(),   (tBkg4 + " && " + alev_s1 + " > 3"));
+                ntrks_bkg4->SetFillColor(DrawingStyle::Other);
+                ntrks_bkg4->SetLineColor(kBlack);
+                ntrks_bkg4->SetLineWidth(2);
 
                 TH1D * ntrks_check = m_runbd->GetHisto(m_recovars->ntracks.GetName(), 21,0,21, m_recovars->ntracks.GetAxisTitle(),  (alev_s1 + " > 3"));
                 // ntrks_bkg3->SetFillColor(DrawingStyle::Other);
@@ -1940,6 +1947,7 @@ void ProducePlots::MakePlots(){
                 // no_tracks_h2->SetLineColor(DrawingStyle::Yellow);
 
                 THStack * ntks = new THStack("NTracks", (";" + m_recovars->ntracks.GetAxisTitle()).c_str());
+                ntks->Add(ntrks_bkg4);
                 ntks->Add(ntrks_bkg3);
                 ntks->Add(ntrks_bkg2);
                 ntks->Add(ntrks_bkg1);
@@ -1949,7 +1957,8 @@ void ProducePlots::MakePlots(){
                 ntks_leg->AddEntry(ntrks_sig, "CC1p1#pi^{+}", "f");
                 ntks_leg->AddEntry(ntrks_bkg1, "CCNp1#pi^{+} (N > 0)", "f");
                 ntks_leg->AddEntry(ntrks_bkg2, "CC1pM#pi^{+} (M > 0)", "f");
-                ntks_leg->AddEntry(ntrks_bkg3, "Other", "f");
+                ntks_leg->AddEntry(ntrks_bkg3, "CCNpM#pi^{+} (N,M > 0)", "f");
+                ntks_leg->AddEntry(ntrks_bkg4, "Other", "f");
 
                 TCanvas * ntracks_can = new TCanvas("NTracks","", 400, 400);
                 ntracks_can->cd();
@@ -1957,6 +1966,7 @@ void ProducePlots::MakePlots(){
                 ntrks_check->Draw("SAME");
                 ntks_leg->Draw();
                 PrintLogo(ntracks_can);
+                ntracks_can->Write();
 
                 // ----------------------------------------------------------------------------------------------------------------------------
                 // ----------------------------------------------------------------------------------------------------------------------------
