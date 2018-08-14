@@ -8,7 +8,7 @@ for opt in 0 1 4 6 13 28; do
 		jno=$(expr $jno + 1)
 		jobfile=job${jno}.sh
 		cat > $jobfile <<EOF
-./MakeT2KPlots.sh $fgd $opt
+/bin/sh /data/t2k/coplowe/software/Harry_Plotter/scripts/MakeT2KPlots.sh $fgd $opt
 EOF
 		chmod +x $jobfile
 		qsub -l cput=02:00:00 -N $jobfile ./$jobfile
