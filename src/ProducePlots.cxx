@@ -1964,6 +1964,7 @@ void ProducePlots::MakePlots(){
                 ntks_leg->Draw();
                 PrintLogo(ntracks_can);
 
+                ntracks_can->Write();
                 // ----------------------------------------------------------------------------------------------------------------------------
                 // ----------------------------------------------------------------------------------------------------------------------------
                 // ----------------------------------------------------------------------------------------------------------------------------
@@ -1986,7 +1987,8 @@ void ProducePlots::MakePlots(){
                 // tpctrks_bkg2->SetLineWidth(2);
 
                 TH1D * tpctrks_bkg3 = m_runbd->GetHisto(m_recovars->ntpctracks.GetName(), 21,0,21, m_recovars->ntpctracks.GetAxisTitle(),   (tBkg3 + " && " + alev_s1 + " > 0"));
-                tpctrks_bkg3->SetFillColor(DrawingStyle::Other);
+                // tpctrks_bkg3->SetFillColor(DrawingStyle::Other);
+                tpctrks_bkg3->SetFillColor(DrawingStyle::Blue);
                 tpctrks_bkg3->SetLineColor(kBlack);
                 tpctrks_bkg3->SetLineWidth(2);
 
@@ -2012,7 +2014,8 @@ void ProducePlots::MakePlots(){
                 tpctks_leg->AddEntry(tpctrks_sig, "Signal (CC1p1#pi^{+})", "f");
                 // tpctks_leg->AddEntry(tpctrks_bkg1, "CCNp1#pi^{+} (N > 0)", "f");
                 // tpctks_leg->AddEntry(tpctrks_bkg2, "CC1pM#pi^{+} (M > 0)", "f");
-                tpctks_leg->AddEntry(tpctrks_bkg3, "Other", "f");
+                tpctks_leg->AddEntry(tpctrks_bkg3, "Background", "f");
+                // tpctks_leg->AddEntry(tpctrks_bkg3, "Other", "f");
 
                 TCanvas * ntpctracks_can = new TCanvas("NTPCTracks","", 400, 400);
                 ntpctracks_can->cd();
