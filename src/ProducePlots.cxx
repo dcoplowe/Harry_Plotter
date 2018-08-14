@@ -2007,8 +2007,8 @@ void ProducePlots::MakePlots(){
                 tpctks_leg->AddEntry(tpctrks_bkg2, "CC1pM#pi^{+} (M > 0)", "f");
                 tpctks_leg->AddEntry(tpctrks_bkg3, "Other", "f");
 
-                TCanvas * ntracks_can = new TCanvas("NTPCTracks","", 400, 400);
-                ntracks_can->cd();
+                TCanvas * ntpctracks_can = new TCanvas("NTPCTracks","", 400, 400);
+                ntpctracks_can->cd();
                 tpctks->Draw();
                 tpctrks_check->Draw("SAME");
                 tpctks_leg->Draw();
@@ -2709,7 +2709,7 @@ void ProducePlots::MakePlots(){
                 N1_2TPC_name->Draw();
                 N1_2TPC_leg->Draw();
 
-                N1_2TPCH->Write();
+                N1_2TPC->Write();
 
                 TCanvas * N1_2TPCH = new TCanvas("EffPurN1_2TPCH", "", 800, 300);
 
