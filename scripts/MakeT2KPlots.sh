@@ -24,11 +24,11 @@ dir=$(dirname ${infile})
 savename="${dir##*/}"_plots_${TODAY}.root
 
 echo Outfile: $savename
-# cd ${dir}
+cd ${plotter}/plots
 pwd
 
 echo "Starting to produce plots."
-ProducePlots -t -i ${infile} -o ${savename} ${opt} ${cutson}
+ProducePlots -t -i ${infile} -o ${plotter}/plots/${savename} ${opt} ${cutson}
 # ProducePlots -t -i ${infile} -o ${dir}/${savename} ${opt} ${cutson}
 # -b 1
 echo "Finished making plots."
