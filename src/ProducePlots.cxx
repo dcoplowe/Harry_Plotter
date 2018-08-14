@@ -313,6 +313,8 @@ m_realdata(realdata), m_accum_level(-999), m_branch(-999), m_savename(outfilenam
     m_NameXYZ[0] = "X";
     m_NameXYZ[1] = "Y";
     m_NameXYZ[2] = "Z";
+
+    m_outfile = 0x0;
 }
 
 ProducePlots::~ProducePlots(){
