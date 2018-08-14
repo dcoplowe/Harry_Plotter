@@ -1,9 +1,9 @@
-source ~/.bashrc
+source $(readlink -f ~/.bashrc)
 
-module load root
+# module load root
 plotter=/data/t2k/coplowe/software/Harry_Plotter
-
-PATH=${PATH}:${plotter}
+source $(readlink -f $plotter/setup.sh)
+# PATH=${PATH}:${plotter}
 
 infile=$1
 opt=$2
