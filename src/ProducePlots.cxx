@@ -1916,22 +1916,22 @@ void ProducePlots::MakePlots(){
                 TH1D * ntrks_bkg1 = m_runbd->GetHisto(m_recovars->ntracks.GetName(), 21,0,21, m_recovars->ntracks.GetAxisTitle(),   (tBkg1 + " && " + alev_s1 + " > 3"));
                 ntrks_bkg1->SetFillColor(DrawingStyle::Red);
                 ntrks_bkg1->SetLineColor(kBlack);
-                ntrks_bkg1->SetLinWidth(2);
+                ntrks_bkg1->SetLineWidth(2);
 
                 TH1D * ntrks_bkg2 = m_runbd->GetHisto(m_recovars->ntracks.GetName(), 21,0,21, m_recovars->ntracks.GetAxisTitle(),   (tBkg2 + " && " + alev_s1 + " > 3"));
                 ntrks_bkg2->SetFillColor(DrawingStyle::Green);
                 ntrks_bkg2->SetLineColor(kBlack);
-                ntrks_bkg2->SetLinWidth(2);
+                ntrks_bkg2->SetLineWidth(2);
 
                 TH1D * ntrks_bkg3 = m_runbd->GetHisto(m_recovars->ntracks.GetName(), 21,0,21, m_recovars->ntracks.GetAxisTitle(),   (tBkg3 + " && " + alev_s1 + " > 3"));
                 ntrks_bkg3->SetFillColor(DrawingStyle::Other);
                 ntrks_bkg3->SetLineColor(kBlack);
-                ntrks_bkg3->SetLinWidth(2);
+                ntrks_bkg3->SetLineWidth(2);
 
                 TH1D * ntrks_check = m_runbd->GetHisto(m_recovars->ntracks.GetName(), 21,0,21, m_recovars->ntracks.GetAxisTitle(),  (alev_s1 + " > 3"));
                 // ntrks_bkg3->SetFillColor(DrawingStyle::Other);
                 ntrks_check->SetLineColor(kRed);
-                ntrks_check->SetLinWidth(2);
+                ntrks_check->SetLineWidth(2);
 
                 //TH1D * GetHisto(std::string var, Int_t nbins, Double_t low, Double_t high, std::string xy_title = "", std::string cuts = "");
                 // std::string tmp_ntrack = m_recovars->ntracks.GetName(); 
@@ -1972,22 +1972,22 @@ void ProducePlots::MakePlots(){
                 TH1D * tpctrks_bkg1 = m_runbd->GetHisto(m_recovars->ntpctracks.GetName(), 21,0,21, m_recovars->ntpctracks.GetAxisTitle(),   (tBkg1 + " && " + alev_s1 + " > 0"));
                 tpctrks_bkg1->SetFillColor(DrawingStyle::Red);
                 tpctrks_bkg1->SetLineColor(kBlack);
-                tpctrks_bkg1->SetLinWidth(2);
+                tpctrks_bkg1->SetLineWidth(2);
 
                 TH1D * tpctrks_bkg2 = m_runbd->GetHisto(m_recovars->ntpctracks.GetName(), 21,0,21, m_recovars->ntpctracks.GetAxisTitle(),   (tBkg2 + " && " + alev_s1 + " > 0"));
                 tpctrks_bkg2->SetFillColor(DrawingStyle::Green);
                 tpctrks_bkg2->SetLineColor(kBlack);
-                tpctrks_bkg2->SetLinWidth(2);
+                tpctrks_bkg2->SetLineWidth(2);
 
                 TH1D * tpctrks_bkg3 = m_runbd->GetHisto(m_recovars->ntpctracks.GetName(), 21,0,21, m_recovars->ntpctracks.GetAxisTitle(),   (tBkg3 + " && " + alev_s1 + " > 0"));
                 tpctrks_bkg3->SetFillColor(DrawingStyle::Other);
                 tpctrks_bkg3->SetLineColor(kBlack);
-                tpctrks_bkg3->SetLinWidth(2);
+                tpctrks_bkg3->SetLineWidth(2);
 
                 TH1D * tpctrks_check = m_runbd->GetHisto(m_recovars->ntpctracks.GetName(), 21,0,21, m_recovars->ntpctracks.GetAxisTitle(),  (alev_s1 + " > 0"));
                 // tpctrks_bkg3->SetFillColor(DrawingStyle::Other);
                 tpctrks_check->SetLineColor(kRed);
-                tpctrks_check->SetLinWidth(2);
+                tpctrks_check->SetLineWidth(2);
 
                 //TH1D * GetHisto(std::string var, Int_t nbins, Double_t low, Double_t high, std::string xy_title = "", std::string cuts = "");
                 // std::string tmp_ntrack = m_recovars->ntpctracks.GetName(); 
