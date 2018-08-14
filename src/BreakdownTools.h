@@ -75,7 +75,7 @@ private:
 //     std::string pdg;
 // };
 
-static const bool do_check = true;
+static const bool do_check = false;
 
 class BreakdownTools : public DrawingTools {
 public:

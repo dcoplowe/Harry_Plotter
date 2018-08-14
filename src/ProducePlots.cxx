@@ -1904,8 +1904,8 @@ void ProducePlots::MakePlots(){
                 if(m_verbose) cout << "Producing NTPC Tracks" << endl;
                 MakeDir("NTracks");
                 // GetHisto(std::string var, Int_t nbins, Double_t low, Double_t high, std::string xy_title, std::string cuts)
-                TH1D * ntracks_h = m_runbd->GetHisto(m_recovars->ntracks.GetName(), 21,0,21, m_recovars->ntracks.GetAxisTitle());
-                ntracks_h->SetLineColor(DrawingStyle::Blue);
+                // TH1D * ntracks_h = m_runbd->GetHisto(m_recovars->ntracks.GetName(), 21,0,21, m_recovars->ntracks.GetAxisTitle());
+                // ntracks_h->SetLineColor(DrawingStyle::Blue);
                 //TH1D * GetHisto(std::string var, Int_t nbins, Double_t low, Double_t high, std::string xy_title = "", std::string cuts = "");
                 // std::string tmp_ntrack = m_recovars->ntracks.GetName(); 
                 // TH1D * ntracks_h2 = m_runbd->GetHisto( "(" + tmp_ntrack + " > 20 ? 21 : " + tmp_ntrack + ")", 21,0,21, 
@@ -1928,7 +1928,8 @@ void ProducePlots::MakePlots(){
                 // ntrks_bkg2->SetLineWidth(2);
 
                 TH1D * ntrks_bkg3 = m_runbd->GetHisto(m_recovars->ntracks.GetName(), 21,0,21, m_recovars->ntracks.GetAxisTitle(),   (tBkg3 + " && " + alev_s1 + " > 3"));
-                ntrks_bkg3->SetFillColor(DrawingStyle::Other);
+                // ntrks_bkg3->SetFillColor(DrawingStyle::Other);
+                ntrks_bkg3->SetFillColor(DrawingStyle::Blue);
                 ntrks_bkg3->SetLineColor(kBlack);
                 ntrks_bkg3->SetLineWidth(2);
 
@@ -1960,7 +1961,7 @@ void ProducePlots::MakePlots(){
                 TCanvas * ntracks_can = new TCanvas("NTracks","", 400, 400);
                 ntracks_can->cd();
                 ntks->Draw();
-                ntrks_check->Draw("SAME");
+                // ntrks_check->Draw("SAME");
                 ntks_leg->Draw();
                 PrintLogo(ntracks_can);
 
@@ -2020,7 +2021,7 @@ void ProducePlots::MakePlots(){
                 TCanvas * ntpctracks_can = new TCanvas("NTPCTracks","", 400, 400);
                 ntpctracks_can->cd();
                 tpctks->Draw();
-                tpctrks_check->Draw("SAME");
+                // tpctrks_check->Draw("SAME");
                 tpctks_leg->Draw();
                 PrintLogo(ntpctracks_can);
                 // no_tracks_h2->Draw("SAME");
