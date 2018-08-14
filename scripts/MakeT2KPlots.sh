@@ -24,7 +24,7 @@ dir=$(dirname ${infile})
 savename="${dir##*/}"_plots_${TODAY}.root
 
 echo Outfile: $savename
-cd ${dir}
+# cd ${dir}
 pwd
 
 echo "Starting to produce plots."
