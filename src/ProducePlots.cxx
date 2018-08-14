@@ -2001,7 +2001,7 @@ void ProducePlots::MakePlots(){
                 tpctks->Add(tpctrks_bkg1);
                 tpctks->Add(tpctrks_sig);
 
-                TLegend * tpctks_leg = Legend(0.15,0.1);
+                TLegend * tpctks_leg = m_runbd->Legend(0.15,0.1);
                 tpctks_leg->AddEntry(tpctrks_sig, "CC1p1#pi^{+}", "f");
                 tpctks_leg->AddEntry(tpctrks_bkg1, "CCNp1#pi^{+} (N > 0)", "f");
                 tpctks_leg->AddEntry(tpctrks_bkg2, "CC1pM#pi^{+} (M > 0)", "f");
