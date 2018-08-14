@@ -31,8 +31,8 @@ public:
     
     ~EffPurTools();
   
-    TH1D * EffVSCuts(std::string signal, int branch = 0, std::string cuts = "");
-    TH1D * PurVSCuts(std::string signal, int branch = 0, std::string cuts = "");
+    TH1D * EffVSCuts(std::string signal, int branch = 0, std::string cuts = "", const int max_cut = -999);
+    TH1D * PurVSCuts(std::string signal, int branch = 0, std::string cuts = "", const int max_cut = -999);
     
     //Be careful here, given the efficiency is how many of the selected events are signal. The signal for eff. vs. var is common to both the numerator and denominator whereas the cut is made on the numerator only.
     TH1D * EffVSVar(std::string var, int nbins, Double_t * xbins, std::string signal, std::string cuts, std::string x_title = "");
@@ -48,8 +48,8 @@ public:
     TH2D * PurVSVar(std::string var_yx, int x_nbins, Double_t x_low, Double_t x_high, int y_nbins, Double_t y_low, Double_t y_high, std::string signal,
      std::string cuts, std::string xy_title = "");
     
-    TH1D * EffVSN1Cuts(std::string signal, int branch = 0, std::string cuts = "");
-    TH1D * PurVSN1Cuts(std::string signal, int branch = 0, std::string cuts = "");
+    TH1D * EffVSN1Cuts(std::string signal, int branch = 0, std::string cuts = "", const int max_cut = -999);
+    TH1D * PurVSN1Cuts(std::string signal, int branch = 0, std::string cuts = "", const int max_cut = -999);
 
     void Debug(){ if(m_debug) m_debug = false; else m_debug = true; }
     void SetCutNames(std::vector<std::string> var);

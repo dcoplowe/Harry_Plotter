@@ -1,7 +1,7 @@
 #include "EffPurTools.h"
 
 #include <cassert>
-
+#include <iomanip> //This allows you to format your on screen output.
 //ROOT Includes:
 #include "TLeaf.h"
 
@@ -103,7 +103,7 @@ EffPurTools::~EffPurTools(){
 }
 
 //These may not be void functions:
-TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
+TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts, const int max_cut){
     
     if(m_debug) cout << "EffPurTools::EffVSCuts()" << endl;
     
@@ -125,6 +125,7 @@ TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
     if(m_debug) cout << "Read tree " << m_truth->GetName() << endl;
 
     int ncuts = GetNCuts();
+    if(max_cut != -999 && max_cut < ncuts) ncuts = max_cut;
 
     if(m_debug) cout << "Found and Filled ncuts histogram " << endl;
 
@@ -146,13 +147,21 @@ TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts){
     TH1D * effcuts = DrawRatioVSCuts(num, den, "Efficiency (%)", Form("h_effic%.3d", m_effhcounter));
     effcuts->SetLineColor(Blue);
     
+    // Print a summary of the efficiency vs. cuts:
+    cout << "Efficiency vs. Cuts Summary" << endl;
+    cout << setw(5) << left << "Cut: " << "No." << setw(10) << left << "Name" << setw(10) << left << "Events" << setw(10) << left << "Efficiency (%)" << endl;
+    for(int i = 1; i < effcuts->GetNbinsX() + 1; i++){
+        cout << setw(5) << left << "" << i << setw(10) << left << effcuts->GetXaxis()->GetBinLabel(i) << setw(10) << left << num->GetBinContent(i) << setw(10) << left << effcuts->GetBinContent(i) << endl;
+    }
+    cout << "---------------------------" << endl;
+
     delete num;
     delete den;
     
     return effcuts;
 }
 
-TH1D * EffPurTools::PurVSCuts(std::string signal, int branch, std::string cuts){
+TH1D * EffPurTools::PurVSCuts(std::string signal, int branch, std::string cuts, const int max_cut){
     if(m_debug) cout << "EffPurTools::PurVSCuts(TString, TString)" << endl;
     
     
@@ -175,6 +184,7 @@ TH1D * EffPurTools::PurVSCuts(std::string signal, int branch, std::string cuts){
     if(m_debug) cout << "Read tree " << m_recon->GetName() << endl;
     
     int ncuts = GetNCuts();
+    if(max_cut != -999 && max_cut < ncuts) ncuts = max_cut;
     
     if(m_debug) cout << "Number of cuts found to be " << ncuts << endl;
     
@@ -182,7 +192,7 @@ TH1D * EffPurTools::PurVSCuts(std::string signal, int branch, std::string cuts){
     TH1D * den = EventsVSCuts(m_recon, cuts, branch, ncuts, "pur_den");
     
     if(m_debug){
-        for(int i = 0; i < num->GetNbinsX(); i++ ){
+        for(int i = 0; i < num->GetNbinsX(); i++){
             cout << "num->GetBinContent("<<i+1<<") = " << num->GetBinContent(i+1) << " +/- " << num->GetBinError(i+1) << endl;
             cout << "den->GetBinContent("<<i+1<<") = " << den->GetBinContent(i+1) << " +/- " << den->GetBinError(i+1) << endl;
         }
@@ -192,6 +202,14 @@ TH1D * EffPurTools::PurVSCuts(std::string signal, int branch, std::string cuts){
     TH1D * purcuts = DrawRatioVSCuts(num, den, "Purity (%)", Form("h_purity%.3d", m_purhcounter));
     purcuts->SetLineColor(Yellow);
     
+    // Print a summary of the purity vs. cuts:
+    cout << "Purity vs. Cuts Summary" << endl;
+    cout << setw(5) << left << "Cut: " << "No." << setw(10) << left << "Name" << setw(10) << left << "Events" << setw(10) << left << "Efficiency (%)" << endl;
+    for(int i = 1; i < purcuts->GetNbinsX() + 1; i++){
+        cout << setw(5) << left << "" << i << setw(10) << left << purcuts->GetXaxis()->GetBinLabel(i) << setw(10) << left << num->GetBinContent(i) << setw(10) << left << purcuts->GetBinContent(i) << endl;
+    }
+    cout << "---------------------------" << endl;
+
     delete num;
     delete den;
     
@@ -490,7 +508,7 @@ int EffPurTools::GetNCuts()
 }
 
 
-TH1D * EffPurTools::EffVSN1Cuts(std::string signal, int branch, std::string cuts)
+TH1D * EffPurTools::EffVSN1Cuts(std::string signal, int branch, std::string cuts, const int max_cut)
 {
 // Want to do ncuts - 1: 
     // For each cut turn all other cuts on
@@ -498,7 +516,10 @@ TH1D * EffPurTools::EffVSN1Cuts(std::string signal, int branch, std::string cuts
     if(!joint_cut.empty() && !cuts.empty()) joint_cut += " && ";
     joint_cut += cuts;
 
-    TH1D * histo = new TH1D(Form("effN1cuts%.3d", m_effhcounter++), "", GetNCuts() + 1, 0, GetNCuts() + 1);
+    int ncuts = GetNCuts();
+    if(max_cut != -999 && max_cut < ncuts) ncuts = max_cut;
+
+    TH1D * histo = new TH1D(Form("effN1cuts%.3d", m_effhcounter++), "", ncuts + 1, 0, ncuts + 1);
 
     int max_bins = MaxCutsToDraw();
 
@@ -511,7 +532,7 @@ TH1D * EffPurTools::EffVSN1Cuts(std::string signal, int branch, std::string cuts
 
     if(m_debug) cout << " denom = " << denom << endl;
 
-    for(int ignore = 0; ignore < GetNCuts() + 1; ignore++){
+    for(int ignore = 0; ignore < ncuts + 1; ignore++){
 
         if(ignore < max_bins){
             histo->GetXaxis()->SetBinLabel(ignore + 1, m_cutnames[ignore].c_str());
@@ -519,7 +540,7 @@ TH1D * EffPurTools::EffVSN1Cuts(std::string signal, int branch, std::string cuts
         else histo->GetXaxis()->SetBinLabel(ignore + 1, Form("Cut %d", ignore));
 
         double ratio = 0.;
-        if(ignore == GetNCuts()){
+        if(ignore == ncuts){
             histo->GetXaxis()->SetBinLabel(ignore + 1, "All Cuts Passed");   
             ratio = GetCutEntries(-1, joint_cut, branch);
         }
@@ -533,11 +554,12 @@ TH1D * EffPurTools::EffVSN1Cuts(std::string signal, int branch, std::string cuts
     histo->Scale(100.00);
     histo->GetYaxis()->SetRangeUser(0,110.);
     histo->SetLineColor(Blue);
+    histo->SetLinewidth(2);
     histo->GetYaxis()->SetTitle("Efficiency");
     return histo;
 }
 
-TH1D * EffPurTools::PurVSN1Cuts(std::string signal, int branch, std::string cuts)
+TH1D * EffPurTools::PurVSN1Cuts(std::string signal, int branch, std::string cuts, const int max_cut)
 {
     // Want to do ncuts - 1: 
     // For each cut turn all other cuts on
@@ -545,11 +567,14 @@ TH1D * EffPurTools::PurVSN1Cuts(std::string signal, int branch, std::string cuts
     if(!numer_cut.empty() && !cuts.empty()) numer_cut += " && ";
     numer_cut += cuts;
 
-    TH1D * histo = new TH1D(Form("purN1cuts%.3d", m_purhcounter++), "", GetNCuts() + 1, 0, GetNCuts() + 1);
+    int ncuts = GetNCuts();
+    if(max_cut != -999 && max_cut < ncuts) ncuts = max_cut;
+
+    TH1D * histo = new TH1D(Form("purN1cuts%.3d", m_purhcounter++), "", ncuts + 1, 0, ncuts + 1);
 
     int max_bins = MaxCutsToDraw();
 
-    for(int ignore = 0; ignore < GetNCuts() + 1; ignore++){
+    for(int ignore = 0; ignore < ncuts + 1; ignore++){
 
         if(ignore < max_bins){
             histo->GetXaxis()->SetBinLabel(ignore + 1, m_cutnames[ignore].c_str());
@@ -557,7 +582,7 @@ TH1D * EffPurTools::PurVSN1Cuts(std::string signal, int branch, std::string cuts
         else histo->GetXaxis()->SetBinLabel(ignore + 1, Form("Cut %d", ignore));
 
         double ratio = 0.;
-        if(ignore == GetNCuts()){
+        if(ignore == ncuts){
             histo->GetXaxis()->SetBinLabel(ignore + 1, "All Cuts Passed");   
             ratio = GetCutEntries(-1, numer_cut, branch)/GetCutEntries(-1, cuts, branch);
         }
@@ -568,6 +593,7 @@ TH1D * EffPurTools::PurVSN1Cuts(std::string signal, int branch, std::string cuts
     histo->Scale(100.00);
     histo->GetYaxis()->SetRangeUser(0,110.);
     histo->SetLineColor(Yellow);
+    histo->SetLinewidth(2);
     histo->GetYaxis()->SetTitle("Purity");
     return histo;
 }
@@ -579,7 +605,7 @@ double EffPurTools::GetCutEntries(int ignore, std::string cuts, int branch)
     for(int i = 0; i < GetNCuts(); i++){
         if(i == ignore) continue;
         if(!tmp_cuts.empty()) tmp_cuts += " && ";
-        tmp_cuts += Form("cut%d[%d] == 1", i, branch);
+        tmp_cuts += Form("cut%d[0][%d] == 1", i, branch);
     }
     // cout << __FILE__ << " : " << __LINE__ << endl;//<--- This is a sweet means of getting the file name and line number.
     if(m_debug) cout << " cut" << ignore << " Cut = " << tmp_cuts << endl;

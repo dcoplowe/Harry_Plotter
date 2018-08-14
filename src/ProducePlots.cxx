@@ -2430,67 +2430,105 @@ void ProducePlots::MakePlots(){
 
             if(m_verbose) cout << "Producing truth plots" << endl;
 
+            // Three TPC Tracks:                
+            std::vector<string> cnames3TPC; //= { "Event Quality", "Contains Tracks", "3 Tracks", "N TPC Tracks", "FGD Contained", "Track Charges" };//, "Common Vertex" }; 
+            cnames3TPC.push_back("Event Quality");
+            cnames3TPC.push_back("Contains Tracks");
+            cnames3TPC.push_back("3 Tracks");
+            cnames3TPC.push_back("N TPC Tracks");
+            cnames3TPC.push_back("Track Charges");
+
+            // Two TPC Tracks
+            std::vector<string> cnames2TPC; //= { "Event Quality", "Contains Tracks", "3 Tracks", "N TPC Tracks", "FGD Contained", "Track Charges" };//, "Common Vertex" }; 
+            cnames2TPC.push_back("Event Quality");
+            cnames2TPC.push_back("Contains Tracks");
+            cnames2TPC.push_back("3 Tracks");
+            cnames2TPC.push_back("N TPC Tracks");
+            cnames2TPC.push_back("FGD Contained");
+            cnames2TPC.push_back("Track Charges");
+
+            // Plot the PS signal:
+            string tSig = "true_ntracks == 3 && truemu_ntracks == 1 && truep_ntracks == 1 && truepi_ntracks == 1";
+            tSig += "&& truemu_truemom > 250. && truepi_truemom > 250. && truep_truemom > 450.";
+
+            string tSigH = tSig + " && target == 1";
+
             if(DrawPlot(ProducePlots::EffVSCuts)){
                 MakeDir("Efficiency/Cuts" + branchnames[br]);
 
-                // Plot the PS signal:
-                string tSig = "true_ntracks == 3 && truemu_ntracks == 1 && truep_ntracks == 1 && truepi_ntracks == 1";
-                tSig += "&& truemu_truemom > 250. && truepi_truemom > 250. && truep_truemom > 450.";
-                
-                string tSigH = tSig + " && target == 1";
+                m_runep->SetCutNames(cnames3TPC);
 
-                TH1D * eff3 = m_runep->EffVSCuts( tSig, 1);
-                TH1D * pur3 = m_runep->PurVSCuts( tSig, 1);
+                TH1D * eff3 = m_runep->EffVSCuts( tSig, 1, "", 5);
+                TH1D * pur3 = m_runep->PurVSCuts( tSig, 1, "", 5);
 
                 eff3->SetLineColor(DrawingStyle::Blue);
                 pur3->SetLineColor(DrawingStyle::Blue);
                 pur3->SetLineStyle(7);
 
-                TH1D * eff3H = m_runep->EffVSCuts( tSigH, 1);
-                TH1D * pur3H = m_runep->PurVSCuts( tSigH, 1);
+                TH1D * eff3H = m_runep->EffVSCuts( tSigH, 1, "", 5);
+                TH1D * pur3H = m_runep->PurVSCuts( tSigH, 1, "", 5);
 
                 eff3H->SetLineColor(DrawingStyle::Yellow);
                 pur3H->SetLineColor(DrawingStyle::Yellow);
                 pur3H->SetLineStyle(7);
 
                 TLegend * eff_pur_3TPC_leg = m_runbd->Legend(0.2,0.1);
-                eff_pur_3TPC_leg->AddEntry(eff3, ("CC1p1#pi^{+} Efficiency").c_str(), "l");
-                eff_pur_3TPC_leg->AddEntry(pur3, ("CC1p1#pi^{+} Purity").c_str(), "l");
-
-                eff_pur_3TPC_leg->AddEntry(eff3H, ("H CC1p1#pi^{+} Efficiency").c_str(), "l");
-                eff_pur_3TPC_leg->AddEntry(pur3H, ("H CC1p1#pi^{+} Purity").c_str(), "l");
+                eff_pur_3TPC_leg->AddEntry((TObject*)0x0,   "CC1p1#pi^{+}", "");
+                eff_pur_3TPC_leg->AddEntry(eff3,            "Efficiency", "l");
+                eff_pur_3TPC_leg->AddEntry(pur3,            "Purity", "l");
+                eff_pur_3TPC_leg->AddEntry((TObject*)0x0,   "", "");
+                eff_pur_3TPC_leg->AddEntry((TObject*)0x0,   "CC1p1#pi^{+} on Hydrogen", "");
+                eff_pur_3TPC_leg->AddEntry(eff3H,           "Efficiency", "l");
+                eff_pur_3TPC_leg->AddEntry(pur3H,           "Purity", "l");
 
                 TCanvas * eff_pur_3TPC = new TCanvas("eff_pur_3TPC","", 600, 800);
+
                 eff_pur_3TPC->cd();
+                eff3->GetYaxis()->SetTitle("#varepsilon/Pur. (%)");
+                eff3->Draw();
+                pur3->Draw("SAME");
+                eff3H->Draw("SAME");
+                pur3H->Draw("SAME");
+                eff_pur_3TPC_leg->Draw();
 
-                string cnames3TPC[6] = { "Event Quality", "Contains Tracks", "3 Tracks", "N TPC Tracks", "FGD Contained", "Track Charges" };//, "Common Vertex" }; 
-                for(int i = 1; i < ratio->GetNbinsX() + 1; i++){
-                    ratio->GetXaxis()->SetBinLabel(i+1, cnames[i - 1].c_str());
-                }
+                eff_pur_3TPC->Write();
 
-                
-                TCanvas * eff_pur_3TPC = new TCanvas("eff_pur_2TPC","", 600, 800);
+                m_runep->SetCutNames(cnames2TPC);
 
-                TH1D * eff2 = m_runep->EffVSCuts( tSig, 3);
-                TH1D * pur2 = m_runep->PurVSCuts( tSig, 3);
+                TH1D * eff2 = m_runep->EffVSCuts( tSig, 3, "", 6);
+                TH1D * pur2 = m_runep->PurVSCuts( tSig, 3, "", 6);
 
                 eff2->SetLineColor(DrawingStyle::Blue);
                 pur2->SetLineColor(DrawingStyle::Blue);
                 pur2->SetLineStyle(7);
 
-                TH1D * eff2H = m_runep->EffVSCuts( tSigH, 3);
-                TH1D * pur2H = m_runep->PurVSCuts( tSigH, 3);
+                TH1D * eff2H = m_runep->EffVSCuts( tSigH, 3, "", 6);
+                TH1D * pur2H = m_runep->PurVSCuts( tSigH, 3, "", 6);
 
                 eff2H->SetLineColor(DrawingStyle::Yellow);
                 pur2H->SetLineColor(DrawingStyle::Yellow);
                 pur2H->SetLineStyle(7);
 
                 TLegend * eff_pur_2TPC_leg = m_runbd->Legend(0.2,0.1);
-                eff_pur_2TPC_leg->AddEntry(eff2, ("CC1p1#pi^{+} Efficiency").c_str(), "l");
-                eff_pur_2TPC_leg->AddEntry(pur2, ("CC1p1#pi^{+} Purity").c_str(), "l");
+                eff_pur_2TPC_leg->AddEntry((TObject*)0x0,   "CC1p1#pi^{+}", "");
+                eff_pur_2TPC_leg->AddEntry(eff2,            "Efficiency", "l");
+                eff_pur_2TPC_leg->AddEntry(pur2,            "Purity", "l");
+                eff_pur_2TPC_leg->AddEntry((TObject*)0x0,   "", "");
+                eff_pur_2TPC_leg->AddEntry((TObject*)0x0,   "CC1p1#pi^{+} on Hydrogen", "");
+                eff_pur_2TPC_leg->AddEntry(eff2H,           "Efficiency", "l");
+                eff_pur_2TPC_leg->AddEntry(pur2H,           "Purity", "l");
 
-                eff_pur_2TPC_leg->AddEntry(eff2H, ("H CC1p1#pi^{+} Efficiency").c_str(), "l");
-                eff_pur_2TPC_leg->AddEntry(pur2H, ("H CC1p1#pi^{+} Purity").c_str(), "l");
+                TCanvas * eff_pur_2TPC = new TCanvas("eff_pur_2TPC","", 600, 800);
+
+                eff_pur_2TPC->cd();
+                eff2->GetYaxis()->SetTitle("#varepsilon/Pur. (%)");
+                eff2->Draw();
+                pur2->Draw("SAME");
+                eff2H->Draw("SAME");
+                pur2H->Draw("SAME");
+                eff_pur_2TPC_leg->Draw();
+
+                eff_pur_2TPC->Write();
 
                 // Make the list of cut names:
 
@@ -2606,66 +2644,153 @@ void ProducePlots::MakePlots(){
             //******************************** Efficiency/Purity N - 1 Cuts START ********************************//
 
             if(m_experiment->GetType() == Experiment::T2K && DrawPlot(ProducePlots::EffVSN1Cuts)){
-                MakeDir("Efficiency/N1Cuts" + branchnames[br]);
+                MakeDir("Efficiency/N1Cuts");
 
-                TH1D * effN1_new = m_runep->EffVSN1Cuts( m_old_signal, br);
-                TH1D * purN1_new = m_runep->PurVSN1Cuts( m_old_signal, br);
+                m_runep->SetCutNames(cnames3TPC);
 
-                effN1_new->SetLineColor(DrawingStyle::Yellow);
-                purN1_new->SetLineColor(DrawingStyle::Yellow);
-                purN1_new->SetLineStyle(7);
-                // TH1D * effN1_CC1P1Pi = m_runep->EffVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), br);
-                // TH1D * purN1_CC1P1Pi = m_runep->PurVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), br);
+                TCanvas N1_3TPC = new TCanvas("EffPurN1_3TPC", "", 800, 300);
+                TH1D * effN1_3TPC = m_runep->EffVSN1Cuts( tSig, 1, "", 5);
+                TH1D * purN1_3TPC = m_runep->PurVSN1Cuts( tSig, 1, "", 5);
 
-                TH1D * effN1_CC1P1PiInc = m_runep->EffVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSignal(), br);
-                TH1D * purN1_CC1P1PiInc = m_runep->PurVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSignal(), br);
-                effN1_CC1P1PiInc->SetLineColor(DrawingStyle::Blue);
-                purN1_CC1P1PiInc->SetLineColor(DrawingStyle::Blue);
-                purN1_CC1P1PiInc->SetLineStyle(7);
+                TLegend * N1_3TPC_name = m_runbd->Legend(0.2,0.1);
+                N1_3TPC_name->AddEntry((TObject*)0x0, "CC1p1#pi^{+}", "");
 
-                TH1D * effN1_new_PS = m_runep->EffVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSignal(), br);
-                TH1D * purN1_new_PS = m_runep->PurVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSignal(), br);
+                TLegend * N1_3TPC_leg = m_runbd->Legend(0.2,0.1);
+                N1_3TPC_leg->AddEntry(effN1_3TPC, "Efficiency", "");
+                N1_3TPC_leg->AddEntry(purN1_3TPC, "Purity", "");
 
-                effN1_new_PS->SetLineColor(DrawingStyle::Green);
-                purN1_new_PS->SetLineColor(DrawingStyle::Green);
-                purN1_new_PS->SetLineStyle(7);
+                N1_3TPC->cd();
+                effN1_3TPC->GetYaxis()->SetTitle("#varepsilon/Pur. (%)");
+                effN1_3TPC->Draw();
+                purN1_3TPC->Draw("SAME");
+                N1_3TPC_name->Draw();
+                N1_3TPC_leg->Draw();
+
+                N1_3TPC->Write();
+
+                TCanvas N1_3TPCH = new TCanvas("EffPurN1_3TPCH", "", 800, 300);
+                TH1D * effN1_3TPCH = m_runep->EffVSN1Cuts( tSigH, 1, "", 5);
+                TH1D * purN1_3TPCH = m_runep->PurVSN1Cuts( tSigH, 1, "", 5);
+
+                TLegend * N1_3TPCH_name = m_runbd->Legend(0.2,0.1);
+                N1_3TPCH_name->AddEntry((TObject*)0x0, "CC1p1#pi^{+} on Hydrogen", "");
+
+                TLegend * N1_3TPCH_leg = m_runbd->Legend(0.2,0.1);
+                N1_3TPCH_leg->AddEntry(effN1_3TPCH, "Efficiency", "");
+                N1_3TPCH_leg->AddEntry(purN1_3TPCH, "Purity", "");
+
+                N1_3TPCH->cd();
+                effN1_3TPCH->GetYaxis()->SetTitle("#varepsilon/Pur. (%)");
+                effN1_3TPCH->Draw();
+                purN1_3TPCH->Draw("SAME");
+                N1_3TPCH_name->Draw();
+                N1_3TPCH_leg->Draw();
+
+                N1_3TPCH->Write();
+
+                m_runep->SetCutNames(cnames2TPC);
+
+                TCanvas N1_2TPC = new TCanvas("EffPurN1_2TPC", "", 800, 300);
+
+                TH1D * effN1_2TPC = m_runep->EffVSN1Cuts( tSig, 3, "", 6);
+                TH1D * purN1_2TPC = m_runep->PurVSN1Cuts( tSig, 3, "", 6);
+
+                TLegend * N1_2TPC_name = m_runbd->Legend(0.2,0.1);
+                N1_2TPC_name->AddEntry((TObject*)0x0, "CC1p1#pi^{+}", "");
+
+                TLegend * N1_2TPC_leg = m_runbd->Legend(0.2,0.1);
+                N1_2TPC_leg->AddEntry(effN1_2TPC, "Efficiency", "");
+                N1_2TPC_leg->AddEntry(purN1_2TPC, "Purity", "");
+
+                N1_2TPC->cd();
+                effN1_2TPC->GetYaxis()->SetTitle("#varepsilon/Pur. (%)");
+                effN1_2TPC->Draw();
+                purN1_2TPC->Draw("SAME");
+                N1_2TPC_name->Draw();
+                N1_2TPC_leg->Draw();
+
+                N1_2TPCH->Write();
+
+
+                TCanvas N1_2TPCH = new TCanvas("EffPurN1_2TPCH", "", 800, 300);
+
+                TH1D * effN1_2TPCH = m_runep->EffVSN1Cuts( tSigH, 3, "", 6);
+                TH1D * purN1_2TPCH = m_runep->PurVSN1Cuts( tSigH, 3, "", 6);
+
+                TLegend * N1_2TPCH_name = m_runbd->Legend(0.2,0.1);
+                N1_2TPCH_name->AddEntry((TObject*)0x0, "CC1p1#pi^{+} on Hydrogen", "");
+
+                TLegend * N1_2TPCH_leg = m_runbd->Legend(0.2,0.1);
+                N1_2TPCH_leg->AddEntry(effN1_2TPCH, "Efficiency", "");
+                N1_2TPCH_leg->AddEntry(purN1_2TPCH, "Purity", "");
+
+                N1_2TPCH->cd();
+                effN1_2TPCH->GetYaxis()->SetTitle("#varepsilon/Pur. (%)");
+                effN1_2TPCH->Draw();
+                purN1_2TPCH->Draw("SAME");
+                N1_2TPCH_name->Draw();
+                N1_2TPCH_leg->Draw();
+
+                N1_2TPCH->Write();
+
+                // TH1D * effN1_new = m_runep->EffVSN1Cuts( m_old_signal, br);
+                // TH1D * purN1_new = m_runep->PurVSN1Cuts( m_old_signal, br);
+
+                // effN1_new->SetLineColor(DrawingStyle::Yellow);
+                // purN1_new->SetLineColor(DrawingStyle::Yellow);
+                // purN1_new->SetLineStyle(7);
+                // // TH1D * effN1_CC1P1Pi = m_runep->EffVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), br);
+                // // TH1D * purN1_CC1P1Pi = m_runep->PurVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSignal(), br);
+
+                // TH1D * effN1_CC1P1PiInc = m_runep->EffVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSignal(), br);
+                // TH1D * purN1_CC1P1PiInc = m_runep->PurVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSignal(), br);
+                // effN1_CC1P1PiInc->SetLineColor(DrawingStyle::Blue);
+                // purN1_CC1P1PiInc->SetLineColor(DrawingStyle::Blue);
+                // purN1_CC1P1PiInc->SetLineStyle(7);
+
+                // TH1D * effN1_new_PS = m_runep->EffVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSignal(), br);
+                // TH1D * purN1_new_PS = m_runep->PurVSN1Cuts( m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSignal(), br);
+
+                // effN1_new_PS->SetLineColor(DrawingStyle::Green);
+                // purN1_new_PS->SetLineColor(DrawingStyle::Green);
+                // purN1_new_PS->SetLineStyle(7);
                 
 
-                TLegend * eff_pur_N1cuts_leg = m_runbd->Legend(0.2,0.1);
-                eff_pur_N1cuts_leg->AddEntry(effN1_new, ("Efficiency (" + Topology::ToString(Topology::HCC1P1PiPlus, 1) + ")").c_str(), "l");
-                eff_pur_N1cuts_leg->AddEntry(purN1_new, ("Purity ("     + Topology::ToString(Topology::HCC1P1PiPlus, 1) + ")").c_str(), "l");
+                // TLegend * eff_pur_N1cuts_leg = m_runbd->Legend(0.2,0.1);
+                // eff_pur_N1cuts_leg->AddEntry(effN1_new, ("Efficiency (" + Topology::ToString(Topology::HCC1P1PiPlus, 1) + ")").c_str(), "l");
+                // eff_pur_N1cuts_leg->AddEntry(purN1_new, ("Purity ("     + Topology::ToString(Topology::HCC1P1PiPlus, 1) + ")").c_str(), "l");
 
-                eff_pur_N1cuts_leg->AddEntry(effN1_new_PS, ("Efficiency (" + m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSymbol() + ")").c_str(), "l");
-                eff_pur_N1cuts_leg->AddEntry(purN1_new_PS, ("Purity ("     + m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSymbol() + ")").c_str(), "l");
+                // eff_pur_N1cuts_leg->AddEntry(effN1_new_PS, ("Efficiency (" + m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSymbol() + ")").c_str(), "l");
+                // eff_pur_N1cuts_leg->AddEntry(purN1_new_PS, ("Purity ("     + m_experiment->GetTopologies()->GetTopology(Topology::HCC1P1PiPlusPS).GetSymbol() + ")").c_str(), "l");
 
 
-                // eff_pur_N1cuts_leg->AddEntry(effN1_CC1P1Pi, ("Efficiency (" + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol() + ")").c_str(), "l");
-                // eff_pur_N1cuts_leg->AddEntry(purN1_CC1P1Pi, ("Purity ("     + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol() + ")").c_str(), "l");
+                // // eff_pur_N1cuts_leg->AddEntry(effN1_CC1P1Pi, ("Efficiency (" + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol() + ")").c_str(), "l");
+                // // eff_pur_N1cuts_leg->AddEntry(purN1_CC1P1Pi, ("Purity ("     + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlus).GetSymbol() + ")").c_str(), "l");
 
-                eff_pur_N1cuts_leg->AddEntry(effN1_CC1P1PiInc, ("Efficiency (" + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSymbol() + ")").c_str(), "l");
-                eff_pur_N1cuts_leg->AddEntry(purN1_CC1P1PiInc, ("Purity ("     + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSymbol() + ")").c_str(), "l");
+                // eff_pur_N1cuts_leg->AddEntry(effN1_CC1P1PiInc, ("Efficiency (" + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSymbol() + ")").c_str(), "l");
+                // eff_pur_N1cuts_leg->AddEntry(purN1_CC1P1PiInc, ("Purity ("     + m_experiment->GetTopologies()->GetTopology(Topology::CC1P1PiPlusInc).GetSymbol() + ")").c_str(), "l");
 
-                TCanvas * eff_pur_N1cuts = new TCanvas("eff_pur_N1cuts","", 600, 800);
-                eff_pur_N1cuts->cd();
-                effN1_new->GetYaxis()->SetTitle("Eff./Pur. (%)");
-                effN1_new->Draw("HIST");
-                purN1_new->Draw("HISTSAME");
-                effN1_new_PS->Draw("HISTSAME");
-                purN1_new_PS->Draw("HISTSAME");
-                effN1_CC1P1PiInc->Draw("HISTSAME");
-                purN1_CC1P1PiInc->Draw("HISTSAME");
-                eff_pur_N1cuts_leg->Draw();
+                // TCanvas * eff_pur_N1cuts = new TCanvas("eff_pur_N1cuts","", 600, 800);
+                // eff_pur_N1cuts->cd();
+                // effN1_new->GetYaxis()->SetTitle("Eff./Pur. (%)");
+                // effN1_new->Draw("HIST");
+                // purN1_new->Draw("HISTSAME");
+                // effN1_new_PS->Draw("HISTSAME");
+                // purN1_new_PS->Draw("HISTSAME");
+                // effN1_CC1P1PiInc->Draw("HISTSAME");
+                // purN1_CC1P1PiInc->Draw("HISTSAME");
+                // eff_pur_N1cuts_leg->Draw();
 
-                eff_pur_N1cuts->Write();
+                // eff_pur_N1cuts->Write();
 
-                delete effN1_new;
-                delete purN1_new;
-                delete effN1_new_PS;
-                delete purN1_new_PS;
-                delete effN1_CC1P1PiInc;
-                delete purN1_CC1P1PiInc;
-                delete eff_pur_N1cuts_leg;
-                delete eff_pur_N1cuts;
+                // delete effN1_new;
+                // delete purN1_new;
+                // delete effN1_new_PS;
+                // delete purN1_new_PS;
+                // delete effN1_CC1P1PiInc;
+                // delete purN1_CC1P1PiInc;
+                // delete eff_pur_N1cuts_leg;
+                // delete eff_pur_N1cuts;
             }
             //******************************** Efficiency/Purity N - 1 Cuts END ********************************//
         }
