@@ -1916,22 +1916,22 @@ void ProducePlots::MakePlots(){
                 TH1D * ntrks_bkg1 = m_runbd->GetHisto(m_recovars->ntracks.GetName(), 21,0,21, m_recovars->ntracks.GetAxisTitle(),   (tBkg1 + " && " + alev_s1 + " > 3"));
                 ntrks_bkg1->SetFillColor(DrawingStyle::Red);
                 ntrks_bkg1->SetLineColor(kBlack);
-                ntrks_bkg1->SetLinWidthr(2);
+                ntrks_bkg1->SetLinWidth(2);
 
                 TH1D * ntrks_bkg2 = m_runbd->GetHisto(m_recovars->ntracks.GetName(), 21,0,21, m_recovars->ntracks.GetAxisTitle(),   (tBkg2 + " && " + alev_s1 + " > 3"));
                 ntrks_bkg2->SetFillColor(DrawingStyle::Green);
                 ntrks_bkg2->SetLineColor(kBlack);
-                ntrks_bkg2->SetLinWidthr(2);
+                ntrks_bkg2->SetLinWidth(2);
 
                 TH1D * ntrks_bkg3 = m_runbd->GetHisto(m_recovars->ntracks.GetName(), 21,0,21, m_recovars->ntracks.GetAxisTitle(),   (tBkg3 + " && " + alev_s1 + " > 3"));
                 ntrks_bkg3->SetFillColor(DrawingStyle::Other);
                 ntrks_bkg3->SetLineColor(kBlack);
-                ntrks_bkg3->SetLinWidthr(2);
+                ntrks_bkg3->SetLinWidth(2);
 
                 TH1D * ntrks_check = m_runbd->GetHisto(m_recovars->ntracks.GetName(), 21,0,21, m_recovars->ntracks.GetAxisTitle(),  (alev_s1 + " > 3"));
                 // ntrks_bkg3->SetFillColor(DrawingStyle::Other);
                 ntrks_check->SetLineColor(kRed);
-                ntrks_check->SetLinWidthr(2);
+                ntrks_check->SetLinWidth(2);
 
                 //TH1D * GetHisto(std::string var, Int_t nbins, Double_t low, Double_t high, std::string xy_title = "", std::string cuts = "");
                 // std::string tmp_ntrack = m_recovars->ntracks.GetName(); 
@@ -1945,18 +1945,18 @@ void ProducePlots::MakePlots(){
                 ntks->Add(ntrks_bkg1);
                 ntks->Add(ntrks_sig);
 
-                TLegend * ntks_leg = Legend(0.15,0.1);
+                TLegend * ntks_leg = m_runbd->Legend(0.15,0.1);
                 ntks_leg->AddEntry(ntrks_sig, "CC1p1#pi^{+}", "f");
                 ntks_leg->AddEntry(ntrks_bkg1, "CCNp1#pi^{+} (N > 0)", "f");
                 ntks_leg->AddEntry(ntrks_bkg2, "CC1pM#pi^{+} (M > 0)", "f");
                 ntks_leg->AddEntry(ntrks_bkg3, "Other", "f");
 
-                TCanvas * ntpctracks_can = new TCanvas("NTPCTracks","", 400, 400);
-                ntpctracks_can->cd();
+                TCanvas * ntracks_can = new TCanvas("NTracks","", 400, 400);
+                ntracks_can->cd();
                 ntks->Draw();
                 ntrks_check->Draw("SAME");
                 ntks_leg->Draw();
-                PrintLogo(ntpctracks_can);
+                PrintLogo(ntracks_can);
 
                 // ----------------------------------------------------------------------------------------------------------------------------
                 // ----------------------------------------------------------------------------------------------------------------------------
@@ -1972,22 +1972,22 @@ void ProducePlots::MakePlots(){
                 TH1D * tpctrks_bkg1 = m_runbd->GetHisto(m_recovars->ntpctracks.GetName(), 21,0,21, m_recovars->ntpctracks.GetAxisTitle(),   (tBkg1 + " && " + alev_s1 + " > 0"));
                 tpctrks_bkg1->SetFillColor(DrawingStyle::Red);
                 tpctrks_bkg1->SetLineColor(kBlack);
-                tpctrks_bkg1->SetLinWidthr(2);
+                tpctrks_bkg1->SetLinWidth(2);
 
                 TH1D * tpctrks_bkg2 = m_runbd->GetHisto(m_recovars->ntpctracks.GetName(), 21,0,21, m_recovars->ntpctracks.GetAxisTitle(),   (tBkg2 + " && " + alev_s1 + " > 0"));
                 tpctrks_bkg2->SetFillColor(DrawingStyle::Green);
                 tpctrks_bkg2->SetLineColor(kBlack);
-                tpctrks_bkg2->SetLinWidthr(2);
+                tpctrks_bkg2->SetLinWidth(2);
 
                 TH1D * tpctrks_bkg3 = m_runbd->GetHisto(m_recovars->ntpctracks.GetName(), 21,0,21, m_recovars->ntpctracks.GetAxisTitle(),   (tBkg3 + " && " + alev_s1 + " > 0"));
                 tpctrks_bkg3->SetFillColor(DrawingStyle::Other);
                 tpctrks_bkg3->SetLineColor(kBlack);
-                tpctrks_bkg3->SetLinWidthr(2);
+                tpctrks_bkg3->SetLinWidth(2);
 
                 TH1D * tpctrks_check = m_runbd->GetHisto(m_recovars->ntpctracks.GetName(), 21,0,21, m_recovars->ntpctracks.GetAxisTitle(),  (alev_s1 + " > 0"));
                 // tpctrks_bkg3->SetFillColor(DrawingStyle::Other);
                 tpctrks_check->SetLineColor(kRed);
-                tpctrks_check->SetLinWidthr(2);
+                tpctrks_check->SetLinWidth(2);
 
                 //TH1D * GetHisto(std::string var, Int_t nbins, Double_t low, Double_t high, std::string xy_title = "", std::string cuts = "");
                 // std::string tmp_ntrack = m_recovars->ntpctracks.GetName(); 
@@ -2007,8 +2007,8 @@ void ProducePlots::MakePlots(){
                 tpctks_leg->AddEntry(tpctrks_bkg2, "CC1pM#pi^{+} (M > 0)", "f");
                 tpctks_leg->AddEntry(tpctrks_bkg3, "Other", "f");
 
-                TCanvas * ntpctracks_can = new TCanvas("NTPCTracks","", 400, 400);
-                ntpctracks_can->cd();
+                TCanvas * ntracks_can = new TCanvas("NTPCTracks","", 400, 400);
+                ntracks_can->cd();
                 tpctks->Draw();
                 tpctrks_check->Draw("SAME");
                 tpctks_leg->Draw();
@@ -2028,7 +2028,7 @@ void ProducePlots::MakePlots(){
                 const char * tpc3pos_name[4] = { "3 +ve", "2 +ve, 1 -ve", "1 +ve, 2 -ve", "3 -ve" };
 
                 for(int i = 0; i < 4; i++){
-                    string acut = alev_s1 + " > 2 && 3 == " + m_recovars->ntpctracks.GetName() " && ";
+                    string acut = alev_s1 + " > 2 && 3 == " + m_recovars->ntpctracks.GetName() + " && ";
                     acut += Form("ntpcposQualityFV == %i && ntpcnegQualityFV == %i", 3 - i, i);
                     // string acut_neg = Form("ntpcnegQualityFV == %i", i);
                     tpc3pos[i] = m_runbd->GetHisto("NTOYS", 1,0.,2., "", acut)->Integral();
@@ -2037,13 +2037,13 @@ void ProducePlots::MakePlots(){
                 double tpc2pos[3];
                 const char * tpc2pos_name[3] = { "2 +ve", "1 +ve, 1 -ve", "2 -ve" };
                 for(int i = 0; i < 3; i++){
-                    string acut = alev_s2 + " > 2 && 2 == " + m_recovars->ntpctracks.GetName() " && ";
+                    string acut = alev_s2 + " > 2 && 2 == " + m_recovars->ntpctracks.GetName() + " && ";
                     acut += Form("ntpcposQualityFV == %i && ntpcnegQualityFV == %i", 2 - i, i);
                     // string acut_neg = Form("ntpcnegQualityFV == %i", i);
                     tpc2pos[i] = m_runbd->GetHisto("NTOYS", 1,0.,2., "", acut)->Integral();
                 }
 
-                int colours[4] = { DrawingStyle::Blue, DrawingStyle::Yellow, DrawingStyle::Red, DrawingStyle::Grey };
+                int colours[4] = { DrawingStyle::Blue, DrawingStyle::Yellow, DrawingStyle::Red, DrawingStyle::Gray };
 
                 TPie * tpc3ch = new TPie("tpc3ch", "Three TPC Tracks", 4, tpc3pos, colours, tpc3pos_name);
                 TPie * tpc2ch = new TPie("tpc2ch", "FGD Contained", 3, tpc2pos, colours, tpc2pos_name);
@@ -2091,7 +2091,7 @@ void ProducePlots::MakePlots(){
 
                     // DrawLine(double x_low, double y_low, double x_high, double y_high, int color = kGray + 2, int style = 1, int width = 2);
 
-                        TCanvas * vtx_pos2D_c = new TCanvas((vtx_pos.GetSName() + "_" + m_NameXYZ[dim1] + m_NameXYZ[dim2]).c_str(), "", 400, 400);
+                        TCanvas * vtx_pos2D_c = new TCanvas((m_recovars->vtx_pos.GetSName() + "_" + m_NameXYZ[dim1] + m_NameXYZ[dim2]).c_str(), "", 400, 400);
                         vtx_pos2D_c->cd();
                         vtx_pos2D_h->Draw("COLZ");
                         double box_low[2] = { t2kgeometry::fgd1min[dim1], t2kgeometry::fgd1min[dim2] };
@@ -2648,7 +2648,7 @@ void ProducePlots::MakePlots(){
 
                 m_runep->SetCutNames(cnames3TPC);
 
-                TCanvas N1_3TPC = new TCanvas("EffPurN1_3TPC", "", 800, 300);
+                TCanvas * N1_3TPC = new TCanvas("EffPurN1_3TPC", "", 800, 300);
                 TH1D * effN1_3TPC = m_runep->EffVSN1Cuts( tSig, 1, "", 5);
                 TH1D * purN1_3TPC = m_runep->PurVSN1Cuts( tSig, 1, "", 5);
 
@@ -2668,7 +2668,7 @@ void ProducePlots::MakePlots(){
 
                 N1_3TPC->Write();
 
-                TCanvas N1_3TPCH = new TCanvas("EffPurN1_3TPCH", "", 800, 300);
+                TCanvas * N1_3TPCH = new TCanvas("EffPurN1_3TPCH", "", 800, 300);
                 TH1D * effN1_3TPCH = m_runep->EffVSN1Cuts( tSigH, 1, "", 5);
                 TH1D * purN1_3TPCH = m_runep->PurVSN1Cuts( tSigH, 1, "", 5);
 
@@ -2690,7 +2690,7 @@ void ProducePlots::MakePlots(){
 
                 m_runep->SetCutNames(cnames2TPC);
 
-                TCanvas N1_2TPC = new TCanvas("EffPurN1_2TPC", "", 800, 300);
+                TCanvas * N1_2TPC = new TCanvas("EffPurN1_2TPC", "", 800, 300);
 
                 TH1D * effN1_2TPC = m_runep->EffVSN1Cuts( tSig, 3, "", 6);
                 TH1D * purN1_2TPC = m_runep->PurVSN1Cuts( tSig, 3, "", 6);
@@ -2711,8 +2711,7 @@ void ProducePlots::MakePlots(){
 
                 N1_2TPCH->Write();
 
-
-                TCanvas N1_2TPCH = new TCanvas("EffPurN1_2TPCH", "", 800, 300);
+                TCanvas * N1_2TPCH = new TCanvas("EffPurN1_2TPCH", "", 800, 300);
 
                 TH1D * effN1_2TPCH = m_runep->EffVSN1Cuts( tSigH, 3, "", 6);
                 TH1D * purN1_2TPCH = m_runep->PurVSN1Cuts( tSigH, 3, "", 6);
