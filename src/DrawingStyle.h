@@ -66,6 +66,24 @@ public:
         gStyle->SetStatColor(0);
         gStyle->SetTitleFillColor(0);
 
+        gStyle->SetHistLineWidth(2.5);
+        gStyle->SetHistLineColor(Blue);
+        gStyle->SetMarkerStyle(20);
+        gStyle->SetPadTickX(1);
+        gStyle->SetPadTickY(1);
+        gStyle->SetLegendBorderSize(0);
+        gStyle->SetLegendFillColor(0);
+        gStyle->SetLegendFont(62);
+        
+        gStyle->SetPadTopMargin(0.10);
+        gStyle->SetPadRightMargin(0.10);
+        gStyle->SetPadBottomMargin(0.15);
+        gStyle->SetPadLeftMargin(0.15);
+
+        gStyle->SetFrameBorderMode(0);
+        gStyle->SetCanvasBorderMode(0);
+        gStyle->SetPadBorderMode(0);
+
     // Xianguo's style:
     // const Int_t nRGBs = 5;
     // const Int_t nCont = 100;

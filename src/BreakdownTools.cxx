@@ -344,9 +344,9 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
     }
     // if(!list[0].GetMap().recon) cout << __FILE__ << ":" << __LINE__ << " : No Recon hist." << endl;
     // cout << "BreakdownTools::BaseBreakdown : Making Stacks" << endl;
-    THStack * recon_tot = new THStack( (var.GetSName() + "_" + basename + "_recon").c_str(), (var.GetSymbol() + units + ";Count").c_str());
+    THStack * recon_tot = new THStack( (var.GetSName() + "_" + basename + "_recon").c_str(), (";" + var.GetSymbol() + units + ";Count").c_str());
     
-    THStack * truth_tot = new THStack( (var.GetSName() + "_" + basename + "_truth").c_str(), (var.GetSymbol() + units + ";Count").c_str());
+    THStack * truth_tot = new THStack( (var.GetSName() + "_" + basename + "_truth").c_str(), (";" + var.GetSymbol() + units + ";Count").c_str());
     
     THStack * ratio_tot = new THStack( (var.GetSName() + "_" + basename + "_ratio").c_str(), 
         Form(";%s;%s", list[0].GetMap().ratio->GetXaxis()->GetTitle(), list[0].GetMap().ratio->GetYaxis()->GetTitle() ) );
@@ -460,7 +460,7 @@ BDCans BreakdownTools::BaseBreakdown(Variable var, Int_t nbins, Double_t * bins,
             check_hist->Draw("SAME");
             cout << "Checking if integral is the same:";
             double difference = GetHistFromStack(tmp_stack)->Integral() - check_hist->Integral();
-            if(difference == 0.) cout << " Integrals consistent between stack and hist.";
+            if(TMath::Abs(difference) > 1e-12) cout << " Integrals consistent between stack and hist.";
             else cout << " Inconsistent integrals between stack and hist (Diff. = " << difference << ")";
             cout << endl;
         }
