@@ -2514,11 +2514,11 @@ void ProducePlots::MakePlots(){
                 TCanvas * eff_pur_3TPC = new TCanvas("eff_pur_3TPC","", 600, 800);
 
                 eff_pur_3TPC->cd();
-                eff3->GetYaxis()->SetTitle("#varepsilon/Pur. (%)");
-                eff3->Draw();
-                pur3->Draw("SAME");
-                eff3H->Draw("SAME");
-                pur3H->Draw("SAME");
+                eff3->GetYaxis()->SetTitle("Efficiency/Purity (%)");
+                eff3->Draw("HIST");
+                pur3->Draw("HISTSAME");
+                eff3H->Draw("HISTSAME");
+                pur3H->Draw("HISTSAME");
                 eff_pur_3TPC_leg->Draw();
 
                 eff_pur_3TPC->Write();
@@ -2553,11 +2553,11 @@ void ProducePlots::MakePlots(){
                 TCanvas * eff_pur_2TPC = new TCanvas("eff_pur_2TPC","", 600, 800);
 
                 eff_pur_2TPC->cd();
-                eff2->GetYaxis()->SetTitle("#varepsilon/Pur. (%)");
-                eff2->Draw();
-                pur2->Draw("SAME");
-                eff2H->Draw("SAME");
-                pur2H->Draw("SAME");
+                eff2->GetYaxis()->SetTitle("Efficiency/Purity (%)");
+                eff2->Draw("HIST");
+                pur2->Draw("HISTSAME");
+                eff2H->Draw("HISTSAME");
+                pur2H->Draw("HISTSAME");
                 eff_pur_2TPC_leg->Draw();
 
                 eff_pur_2TPC->Write();
@@ -2693,9 +2693,9 @@ void ProducePlots::MakePlots(){
                 N1_3TPC_leg->AddEntry(purN1_3TPC, "Purity", "");
 
                 N1_3TPC->cd();
-                effN1_3TPC->GetYaxis()->SetTitle("#varepsilon/Pur. (%)");
-                effN1_3TPC->Draw();
-                purN1_3TPC->Draw("SAME");
+                effN1_3TPC->GetYaxis()->SetTitle("Efficiency/Purity (%)");
+                effN1_3TPC->Draw("HIST");
+                purN1_3TPC->Draw("HISTSAME");
                 N1_3TPC_name->Draw();
                 N1_3TPC_leg->Draw();
 
@@ -2713,9 +2713,9 @@ void ProducePlots::MakePlots(){
                 N1_3TPCH_leg->AddEntry(purN1_3TPCH, "Purity", "");
 
                 N1_3TPCH->cd();
-                effN1_3TPCH->GetYaxis()->SetTitle("#varepsilon/Pur. (%)");
-                effN1_3TPCH->Draw();
-                purN1_3TPCH->Draw("SAME");
+                effN1_3TPCH->GetYaxis()->SetTitle("Efficiency/Purity (%)");
+                effN1_3TPCH->Draw("HIST");
+                purN1_3TPCH->Draw("HISTSAME");
                 N1_3TPCH_name->Draw();
                 N1_3TPCH_leg->Draw();
 
@@ -2736,9 +2736,9 @@ void ProducePlots::MakePlots(){
                 N1_2TPC_leg->AddEntry(purN1_2TPC, "Purity", "");
 
                 N1_2TPC->cd();
-                effN1_2TPC->GetYaxis()->SetTitle("#varepsilon/Pur. (%)");
-                effN1_2TPC->Draw();
-                purN1_2TPC->Draw("SAME");
+                effN1_2TPC->GetYaxis()->SetTitle("Efficiency/Purity (%)");
+                effN1_2TPC->Draw("HIST");
+                purN1_2TPC->Draw("HISTSAME");
                 N1_2TPC_name->Draw();
                 N1_2TPC_leg->Draw();
 
@@ -2757,9 +2757,9 @@ void ProducePlots::MakePlots(){
                 N1_2TPCH_leg->AddEntry(purN1_2TPCH, "Purity", "");
 
                 N1_2TPCH->cd();
-                effN1_2TPCH->GetYaxis()->SetTitle("#varepsilon/Pur. (%)");
-                effN1_2TPCH->Draw();
-                purN1_2TPCH->Draw("SAME");
+                effN1_2TPCH->GetYaxis()->SetTitle("Efficiency/Purity (%)");
+                effN1_2TPCH->Draw("HIST");
+                purN1_2TPCH->Draw("HISTSAME");
                 N1_2TPCH_name->Draw();
                 N1_2TPCH_leg->Draw();
 
@@ -2804,7 +2804,7 @@ void ProducePlots::MakePlots(){
 
                 // TCanvas * eff_pur_N1cuts = new TCanvas("eff_pur_N1cuts","", 600, 800);
                 // eff_pur_N1cuts->cd();
-                // effN1_new->GetYaxis()->SetTitle("Eff./Pur. (%)");
+                // effN1_new->GetYaxis()->SetTitle("Eff./Purity (%)");
                 // effN1_new->Draw("HIST");
                 // purN1_new->Draw("HISTSAME");
                 // effN1_new_PS->Draw("HISTSAME");

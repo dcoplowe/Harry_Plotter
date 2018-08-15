@@ -287,13 +287,19 @@ TH1D * EffPurTools::EventsVSCuts(TTree * intree, std::string cuts, int branch, i
     }
     
     std::string tree_name = std::string( intree->GetName() );
-    if(tree_name.find("Truth") != std::string::npos){
-        tmp_cuts += "truth_";
+    bool is_recon = true;
+    if(tree_name.find("Truth") != std::string::npos || tree_name.find("truth") != std::string::npos){
+        is_recon = false;
+        if(tree_name.find("Truth") != std::string::npos){
+            tmp_cuts += "truth_";        
+        }
     }
 
     std::stringstream sbranch;
     sbranch << branch;
-    tmp_cuts += "accum_level[0][" + sbranch.str() + "]>";
+    tmp_cuts += "accum_level";
+    if(is_recon) tmp_cuts += "[0]";
+    tmp_cuts += "[" + sbranch.str() + "]>";
     
     if(m_debug) cout << "Cut set as: " << tmp_cuts << endl;
     
