@@ -2451,15 +2451,25 @@ void ProducePlots::MakePlots(){
             std::vector<string> cnames3TPC; //= { "Event Quality", "Contains Tracks", "3 Tracks", "N TPC Tracks", "FGD Contained", "Track Charges" };//, "Common Vertex" }; 
             cnames3TPC.push_back("Event Quality");
             cnames3TPC.push_back("Contains Tracks");
-            cnames3TPC.push_back("3 Tracks");
+            cnames3TPC.push_back("Vertex Identification");
+            cnames3TPC.push_back("Three Tracks");
             cnames3TPC.push_back("N TPC Tracks");
             cnames3TPC.push_back("Track Charges");
+
+    //          No Cuts                &   -   &   7343    &                   &           \\
+    // Event Quality           &   -   &   7343    &                   &           \\
+    // Contains Tracks         &       &   7175    &                   &           \\
+    // Vertex Identification   &       &   5154    &                   &           \\
+    // Three Tracks            &       &   5023    &                   &           \\
+    // N TPC Tracks            &       &   5023        &                   &           \\
+    // Tracks Charges 
 
             // Two TPC Tracks
             std::vector<string> cnames2TPC; //= { "Event Quality", "Contains Tracks", "3 Tracks", "N TPC Tracks", "FGD Contained", "Track Charges" };//, "Common Vertex" }; 
             cnames2TPC.push_back("Event Quality");
             cnames2TPC.push_back("Contains Tracks");
-            cnames2TPC.push_back("3 Tracks");
+            cnames2TPC.push_back("Vertex Identification");
+            cnames2TPC.push_back("Three Tracks");
             cnames2TPC.push_back("N TPC Tracks");
             cnames2TPC.push_back("FGD Contained");
             cnames2TPC.push_back("Track Charges");
@@ -2476,15 +2486,17 @@ void ProducePlots::MakePlots(){
 
                 m_runep->SetCutNames(cnames3TPC);
 
-                TH1D * eff3 = m_runep->EffVSCuts( tSig, 1, "", 5);
-                TH1D * pur3 = m_runep->PurVSCuts( tSig, 1, "", 5);
+                cout << "3TPC Sig " << endl;
+                TH1D * eff3 = m_runep->EffVSCuts( tSig, 1, "", 6);
+                TH1D * pur3 = m_runep->PurVSCuts( tSig, 1, "", 6);
 
                 eff3->SetLineColor(DrawingStyle::Blue);
                 pur3->SetLineColor(DrawingStyle::Blue);
                 pur3->SetLineStyle(7);
 
-                TH1D * eff3H = m_runep->EffVSCuts( tSigH, 1, "", 5);
-                TH1D * pur3H = m_runep->PurVSCuts( tSigH, 1, "", 5);
+                cout << "3TPC Hydrogen Sig " << endl;
+                TH1D * eff3H = m_runep->EffVSCuts( tSigH, 1, "", 6);
+                TH1D * pur3H = m_runep->PurVSCuts( tSigH, 1, "", 6);
 
                 eff3H->SetLineColor(DrawingStyle::Yellow);
                 pur3H->SetLineColor(DrawingStyle::Yellow);
@@ -2513,15 +2525,17 @@ void ProducePlots::MakePlots(){
 
                 m_runep->SetCutNames(cnames2TPC);
 
-                TH1D * eff2 = m_runep->EffVSCuts( tSig, 3, "", 6);
-                TH1D * pur2 = m_runep->PurVSCuts( tSig, 3, "", 6);
+                cout << "2TPC Sig " << endl;
+                TH1D * eff2 = m_runep->EffVSCuts( tSig, 3, "", 7);
+                TH1D * pur2 = m_runep->PurVSCuts( tSig, 3, "", 7);
 
                 eff2->SetLineColor(DrawingStyle::Blue);
                 pur2->SetLineColor(DrawingStyle::Blue);
                 pur2->SetLineStyle(7);
 
-                TH1D * eff2H = m_runep->EffVSCuts( tSigH, 3, "", 6);
-                TH1D * pur2H = m_runep->PurVSCuts( tSigH, 3, "", 6);
+                cout << "2TPC Hydrogen Sig " << endl;
+                TH1D * eff2H = m_runep->EffVSCuts( tSigH, 3, "", 7);
+                TH1D * pur2H = m_runep->PurVSCuts( tSigH, 3, "", 7);
 
                 eff2H->SetLineColor(DrawingStyle::Yellow);
                 pur2H->SetLineColor(DrawingStyle::Yellow);
@@ -2668,8 +2682,8 @@ void ProducePlots::MakePlots(){
                 m_runep->SetCutNames(cnames3TPC);
 
                 TCanvas * N1_3TPC = new TCanvas("EffPurN1_3TPC", "", 800, 300);
-                TH1D * effN1_3TPC = m_runep->EffVSN1Cuts( tSig, 1, "", 5);
-                TH1D * purN1_3TPC = m_runep->PurVSN1Cuts( tSig, 1, "", 5);
+                TH1D * effN1_3TPC = m_runep->EffVSN1Cuts( tSig, 1, "", 6);
+                TH1D * purN1_3TPC = m_runep->PurVSN1Cuts( tSig, 1, "", 6);
 
                 TLegend * N1_3TPC_name = m_runbd->Legend(0.2,0.1);
                 N1_3TPC_name->AddEntry((TObject*)0x0, "CC1p1#pi^{+}", "");
@@ -2688,8 +2702,8 @@ void ProducePlots::MakePlots(){
                 N1_3TPC->Write();
 
                 TCanvas * N1_3TPCH = new TCanvas("EffPurN1_3TPCH", "", 800, 300);
-                TH1D * effN1_3TPCH = m_runep->EffVSN1Cuts( tSigH, 1, "", 5);
-                TH1D * purN1_3TPCH = m_runep->PurVSN1Cuts( tSigH, 1, "", 5);
+                TH1D * effN1_3TPCH = m_runep->EffVSN1Cuts( tSigH, 1, "", 6);
+                TH1D * purN1_3TPCH = m_runep->PurVSN1Cuts( tSigH, 1, "", 6);
 
                 TLegend * N1_3TPCH_name = m_runbd->Legend(0.2,0.1);
                 N1_3TPCH_name->AddEntry((TObject*)0x0, "CC1p1#pi^{+} on Hydrogen", "");
@@ -2711,8 +2725,8 @@ void ProducePlots::MakePlots(){
 
                 TCanvas * N1_2TPC = new TCanvas("EffPurN1_2TPC", "", 800, 300);
 
-                TH1D * effN1_2TPC = m_runep->EffVSN1Cuts( tSig, 3, "", 6);
-                TH1D * purN1_2TPC = m_runep->PurVSN1Cuts( tSig, 3, "", 6);
+                TH1D * effN1_2TPC = m_runep->EffVSN1Cuts( tSig, 3, "", 7);
+                TH1D * purN1_2TPC = m_runep->PurVSN1Cuts( tSig, 3, "", 7);
 
                 TLegend * N1_2TPC_name = m_runbd->Legend(0.2,0.1);
                 N1_2TPC_name->AddEntry((TObject*)0x0, "CC1p1#pi^{+}", "");
@@ -2732,8 +2746,8 @@ void ProducePlots::MakePlots(){
 
                 TCanvas * N1_2TPCH = new TCanvas("EffPurN1_2TPCH", "", 800, 300);
 
-                TH1D * effN1_2TPCH = m_runep->EffVSN1Cuts( tSigH, 3, "", 6);
-                TH1D * purN1_2TPCH = m_runep->PurVSN1Cuts( tSigH, 3, "", 6);
+                TH1D * effN1_2TPCH = m_runep->EffVSN1Cuts( tSigH, 3, "", 7);
+                TH1D * purN1_2TPCH = m_runep->PurVSN1Cuts( tSigH, 3, "", 7);
 
                 TLegend * N1_2TPCH_name = m_runbd->Legend(0.2,0.1);
                 N1_2TPCH_name->AddEntry((TObject*)0x0, "CC1p1#pi^{+} on Hydrogen", "");

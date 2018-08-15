@@ -149,9 +149,9 @@ TH1D * EffPurTools::EffVSCuts(std::string signal, int branch, std::string cuts, 
     
     // Print a summary of the efficiency vs. cuts:
     cout << "Efficiency vs. Cuts Summary" << endl;
-    cout << setw(5) << left << "Cut: " << "No." << setw(10) << left << "Name" << setw(10) << left << "Events" << setw(10) << left << "Efficiency (%)" << endl;
+    cout << setw(10) << left << "Cut: " << "No." << setw(20) << left << "Name" << setw(40) << left << "Signal (num)" << setw(20) << left << "Total (den)" << setw(20) << left << "Efficiency (%)" << endl;
     for(int i = 1; i < effcuts->GetNbinsX() + 1; i++){
-        cout << setw(5) << left << "" << i << setw(10) << left << effcuts->GetXaxis()->GetBinLabel(i) << setw(10) << left << num->GetBinContent(i) << setw(10) << left << effcuts->GetBinContent(i) << endl;
+        cout << setw(10) << left << "" << i << setw(20) << left << effcuts->GetXaxis()->GetBinLabel(i) << setw(40) << left << num->GetBinContent(i) << setw(20) << left << den->GetBinContent(i) << setw(20) << left << effcuts->GetBinContent(i) << endl;
     }
     cout << "---------------------------" << endl;
 
@@ -204,9 +204,9 @@ TH1D * EffPurTools::PurVSCuts(std::string signal, int branch, std::string cuts, 
     
     // Print a summary of the purity vs. cuts:
     cout << "Purity vs. Cuts Summary" << endl;
-    cout << setw(5) << left << "Cut: " << "No." << setw(10) << left << "Name" << setw(10) << left << "Events" << setw(10) << left << "Efficiency (%)" << endl;
+    cout << setw(10) << left << "Cut: " << "No." << setw(20) << left << "Name" << setw(40) << left << "Signal (num)" << setw(20) << left << "Total (den)" << setw(20) << left << "Purity (%)" << endl;
     for(int i = 1; i < purcuts->GetNbinsX() + 1; i++){
-        cout << setw(5) << left << "" << i << setw(10) << left << purcuts->GetXaxis()->GetBinLabel(i) << setw(10) << left << num->GetBinContent(i) << setw(10) << left << purcuts->GetBinContent(i) << endl;
+        cout << setw(10) << left << "" << i << setw(20) << left << purcuts->GetXaxis()->GetBinLabel(i) << setw(40) << left << num->GetBinContent(i) << setw(20) << left << den->GetBinContent(i) << setw(20) << left << purcuts->GetBinContent(i) << endl;
     }
     cout << "---------------------------" << endl;
 
