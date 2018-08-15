@@ -2151,7 +2151,7 @@ void ProducePlots::MakePlots(){
                     for(int npid = 0; npid < 3; npid++){
                         Variable pid = pid_scores[npid];
                         pid.SetSName(pid.GetName() + (cutline == 0 ? "" : "_wCutLine"));
-                        TCanvas * pid_can = m_runbd->PID(pid, m_pion->pdg.GetName(), alev_s1, pdg_list);
+                        TCanvas * pid_can = m_runbd->PID(pid, "selpi_pdg", alev_s1, pdg_list);
                         if(cutline > 0){
                             pid_can->cd();
                             m_runbd->DrawCutLine(0.05, DrawingTools::Right);
