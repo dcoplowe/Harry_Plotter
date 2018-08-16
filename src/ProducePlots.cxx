@@ -2145,7 +2145,7 @@ void ProducePlots::MakePlots(){
                 pdg_list.push_back( PDGInfo(13,     "muon",     "#mu^{#pm}",    true) );
                 pdg_list.push_back( PDGInfo(2212,   "proton",   "p",            true) );
                 pdg_list.push_back( PDGInfo(211,    "pion",     "#pi^{#pm}",    true) );
-                // pdg_list.push_back( PDGInfo(11,     "electron", "e^{#pm}",      true) );
+                pdg_list.push_back( PDGInfo(11,     "electron", "e^{#pm}",      true) );
 
                 for(int cutline = 0; cutline < 1; cutline++){
                     for(int npid = 0; npid < 3; npid++){
