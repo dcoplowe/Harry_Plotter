@@ -2133,7 +2133,7 @@ void ProducePlots::MakePlots(){
 
                 Variable pid_scores[3];
                 int pid_nbins = 30;
-                double pid_low = 15.;
+                double pid_low = -15.;
                 double pid_high = 15.;
 
                 // std::string name, int nbins, Double_t low, Double_t high, std::string symbol = "", std::string units = "", std::string savename = ""
