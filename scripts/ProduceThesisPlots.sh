@@ -3,7 +3,9 @@ fgd1="/data/t2k/coplowe/numuCC1P1PiOutput/march17/neutP6BWA/FGD1/nall_data_FGD1_
 fgd2="/data/t2k/coplowe/numuCC1P1PiOutput/march17/neutP6BWA/FGD2/nall_data_FGD2_type1_wome_fboff_minaclev0_090818/allTree.root"
 
 jno=0
-for opt in 0 1 6 13 29; do
+# list="0 1 6 13 29"
+list="13"
+for opt in ${list}; do
 	for fgd in $fgd1 $fgd2; do
 		jno=$(expr $jno + 1)
 		jobfile=job${jno}.sh
