@@ -523,7 +523,7 @@ TCanvas * BreakdownTools::SingleBase(Variable var, Int_t nbins, Double_t * bins,
     }
     // if(!list[0].GetMap().recon) cout << __FILE__ << ":" << __LINE__ << " : No Recon hist." << endl;
     // cout << "BreakdownTools::BaseBreakdown : Making Stacks" << endl;
-    THStack * hist_tot = new THStack( (var.GetSName() + "_" + basename).c_str(), (var.GetSymbol() + units + ";Counts").c_str());
+    THStack * hist_tot = new THStack( (var.GetSName() + "_" + basename).c_str(), (";" + var.GetSymbol() + units + ";Counts").c_str());
     
     TLegend * hist_leg = Legend(0.25, 0.4, 0.551, 0.362);
     

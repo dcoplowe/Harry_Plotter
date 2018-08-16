@@ -2127,13 +2127,13 @@ void ProducePlots::MakePlots(){
             }
 
             if(DrawPlot(ProducePlots::PIDScore)){
-                string alev_s1 = "accum_level[0][1] > 4";
+                string alev_s1 = "accum_level[0][3] > 4";
                                     //**************************************** PID Score START ************************************//
                 MakeDir("PullScores");
 
                 Variable pid_scores[3];
                 int pid_nbins = 30;
-                double pid_low = -15.;
+                double pid_low = 15.;
                 double pid_high = 15.;
 
                 // std::string name, int nbins, Double_t low, Double_t high, std::string symbol = "", std::string units = "", std::string savename = ""
@@ -2162,6 +2162,12 @@ void ProducePlots::MakePlots(){
                     }
                 }
                 pdg_list.clear();
+
+                // pid_scores[0] = Variable("TMath::Abs(selpi_fgd_pull_pi)", pid_nbins, pid_low, pid_high, "Pion Pull", "");
+                // pid_scores[1] = Variable("TMath::Abs(selpi_fgd_pull_pr)", pid_nbins, pid_low, pid_high, "Proton Pull", "");
+                // // TH1D * fgd_pi = m_runbd->GetHisto("TMath::Abs(selpi_fgd_pull_pi)", pid_nbins, pid_low, pid_high, "Pion Pull;Counts", alev_s1);
+
+
                                     //**************************************** PID Score END ************************************//
             }
 
@@ -2455,6 +2461,7 @@ void ProducePlots::MakePlots(){
             cnames3TPC.push_back("Three Tracks");
             cnames3TPC.push_back("N TPC Tracks");
             cnames3TPC.push_back("Track Charges");
+            cnames3TPC.push_back("Passed");
 
     //          No Cuts                &   -   &   7343    &                   &           \\
     // Event Quality           &   -   &   7343    &                   &           \\
@@ -2473,6 +2480,7 @@ void ProducePlots::MakePlots(){
             cnames2TPC.push_back("N TPC Tracks");
             cnames2TPC.push_back("FGD Contained");
             cnames2TPC.push_back("Track Charges");
+            cnames2TPC.push_back("Passed");
 
             // Plot the PS signal:
             string tSig = "true_ntracks == 3 && truemu_ntracks == 1 && truep_ntracks == 1 && truepi_ntracks == 1";
