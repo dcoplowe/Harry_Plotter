@@ -2065,6 +2065,18 @@ void ProducePlots::MakePlots(){
                 TPie * tpc3ch = new TPie("tpc3ch", "Three TPC Tracks", 4, tpc3pos, colours, tpc3pos_name);
                 TPie * tpc2ch = new TPie("tpc2ch", "FGD Contained", 3, tpc2pos, colours, tpc2pos_name);
 
+                cout << "Three : N3TPCTracksCharges: Entries: " << tpc3ch->GetEntries() << endl;
+                for(int i = 0; i < tpc3ch->GetEntries(); i++){
+                    cout << "Label: " << tpc3ch->GetEntryLabel(i) << " : " << tpc3ch->GetEntryVal(i) << endl;
+                }
+                cout << endl;
+
+                cout << "Two : N2TPCTracksCharges: Entries: " << tpc2ch->GetEntries() << endl;
+                for(int i = 0; i < tpc2ch->GetEntries(); i++){
+                    cout << "Label: " << tpc2ch->GetEntryLabel(i) << " : " << tpc2ch->GetEntryVal(i) << endl;
+                }
+                cout << endl;
+
                 TCanvas * tpc3chtracks_can = new TCanvas("N3TPCTracksCharges","", 400, 400);
                 // tpc3chtracks_can->Divide(2);
                 tpc3chtracks_can->cd();
